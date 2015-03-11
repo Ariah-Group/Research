@@ -83,7 +83,6 @@
         <ref bean="Award-awardAmountInfo.obligationExpirationDate" />
         <ref bean="Award-awardAmountInfo.amountObligatedToDate" />
         <ref bean="Award-sponsor.sponsorName" />
-        
       </list>
     </property>
         <property name="collections">
@@ -1056,6 +1055,7 @@
         <property name="shortLabel" value="Sponsor Name" />
         <property name="required" value="false" />    
     </bean>
+    
 	<!-- Business Object Inquiry Definition -->
 
   <bean id="Award-inquiryDefinition" parent="Award-inquiryDefinition-parentBean" />
@@ -1123,6 +1123,7 @@
 		<property name="resultFields" >
 		  <list>
 		    <bean p:attributeName="awardNumber" parent="FieldDefinition" />
+                <bean p:attributeName="sequenceNumber" parent="FieldDefinition" />
 		    <bean p:attributeName="sponsorAwardNumber" parent="FieldDefinition" />
 		    <bean p:attributeName="unitNumber" parent="FieldDefinition" />
 		    <bean p:attributeName="leadUnit.unitName" parent="FieldDefinition" />
