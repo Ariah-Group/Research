@@ -100,46 +100,47 @@ import edu.mit.coeus.xml.iacuc.UserRolesType;
 
 public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
 
-    
     private IacucProtocolActionService iacucProtocolActionService;
-    
+
     private BusinessObjectService businessObjectService;
     private IacucPrintXmlUtilService printXmlUtilService;
     private IacucScheduleXmlStream scheduleXmlStream;
     private IacucCommitteeXmlStream committeeXmlStream;
-    
-    
+
     protected static final String FLAG_YES = "Yes";
     protected static final String FLAG_NO = "No";
 
-
     /**
-     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.kra.bo.KraPersistableBusinessObjectBase, java.util.Map)
+     * @see
+     * org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.kra.bo.KraPersistableBusinessObjectBase,
+     * java.util.Map)
      */
     public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject,
             Map<String, Object> reportParameters) {
-        IacucProtocol protocol =  (IacucProtocol) printableBusinessObject;
+        IacucProtocol protocol = (IacucProtocol) printableBusinessObject;
         edu.mit.coeus.xml.iacuc.ProtocolDocument protocolDocument = edu.mit.coeus.xml.iacuc.ProtocolDocument.Factory.newInstance();
         protocolDocument.setProtocol(getProtocolSummary(protocol, reportParameters));
-        Map<String, XmlObject> map = new HashMap<String,XmlObject>();
+        Map<String, XmlObject> map = new HashMap<String, XmlObject>();
         map.put("PrtocolSummary", protocolDocument);
-        
-        return map; 
+
+        return map;
     }
-    
+
     private String getOptionString(boolean printOption) {
         return printOption ? "1" : "0";
     }
-    
+
     /**
-     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.kra.bo.KraPersistableBusinessObjectBase, java.util.Map)
+     * @see
+     * org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(org.kuali.kra.bo.KraPersistableBusinessObjectBase,
+     * java.util.Map)
      */
     public ProtocolType getProtocolSummary(KraPersistableBusinessObjectBase printableBusinessObject,
             Map<String, Object> htData) {
         IacucProtocol protocol = (IacucProtocol) printableBusinessObject;
         protocol.refreshNonUpdateableReferences();
         ProtocolType protocolType = ProtocolType.Factory.newInstance();
-        
+
         List<PrintRequirementType> printRequirementTypeList = new ArrayList<PrintRequirementType>();
         PrintRequirementType printRequirementType = PrintRequirementType.Factory.newInstance();
         if (htData != null) {
@@ -161,67 +162,67 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
             printRequirementType.setUserRolesRequired(getOptionString(summaryOptions.isRoles()));
             printRequirementType.setReferencesRequired(getOptionString(summaryOptions.isReferences()));
             printRequirementType.setPrinciplesRequired(getOptionString(summaryOptions.isPrinciples()));
-            printRequirementType.setProtocolDetailsRequired(getOptionString(summaryOptions.isProtocolDetails())); 
+            printRequirementType.setProtocolDetailsRequired(getOptionString(summaryOptions.isProtocolDetails()));
             printRequirementType.setAlternativeSearchesRequired(getOptionString(summaryOptions.isPrinciples()));
         }
         printRequirementTypeList.add(printRequirementType);
-        protocolType.setPrintRequirementArray(printRequirementTypeList.toArray(new PrintRequirementType[0]));        
+        protocolType.setPrintRequirementArray(printRequirementTypeList.toArray(new PrintRequirementType[0]));
         printRequirementType.setCurrentDate(getDateTimeService().getCurrentCalendar());
-        
-        setProtocolPersons(protocol,protocolType);
-        setProtocolLocations(protocol,protocolType);
-        setProtocolResearchAreas(protocol,protocolType);
-        setProtocolFundingResources(protocol,protocolType);
-        setProtocolActions(protocol,protocolType);
-        setProtocolSpecialReviewes(protocol,protocolType);
-        setProtocolNotes(protocol,protocolType);
-        setProtocolAmendmentRenewals(protocol,protocolType);
-        setProtocolOtherData(protocol,protocolType);
-        setProtocolReferences(protocol,protocolType);
-        setProtocolUserRoles(protocol,protocolType);
+
+        setProtocolPersons(protocol, protocolType);
+        setProtocolLocations(protocol, protocolType);
+        setProtocolResearchAreas(protocol, protocolType);
+        setProtocolFundingResources(protocol, protocolType);
+        setProtocolActions(protocol, protocolType);
+        setProtocolSpecialReviewes(protocol, protocolType);
+        setProtocolNotes(protocol, protocolType);
+        setProtocolAmendmentRenewals(protocol, protocolType);
+        setProtocolOtherData(protocol, protocolType);
+        setProtocolReferences(protocol, protocolType);
+        setProtocolUserRoles(protocol, protocolType);
         setProtocolMasterData(protocol, protocolType);
         setSpeciesGoups(protocol, protocolType);
         setProcedures(protocol, protocolType);
         setPrinciples(protocol, protocolType);
         setSubmissionDetails(protocol, protocolType);
-        
+
         return protocolType;
     }
 
     /**
      * Sets the protocolRoles.
-     * 
+     *
      * @param protocol
      * @param protocolType
-     * @return     
+     * @return
      */
-    private void setProtocolUserRoles(ProtocolBase protocol,ProtocolType protocolType) {
+    private void setProtocolUserRoles(ProtocolBase protocol, ProtocolType protocolType) {
         List<RolesType> rolesTypeList = new ArrayList<RolesType>();
         List<UserRolesType> userRolesTypeList = new ArrayList<UserRolesType>();
         for (ProtocolPersonBase protocolPerson : protocol.getProtocolPersons()) {
             UserRolesType userRolesType = UserRolesType.Factory.newInstance();
-            userRolesType.setRoleDesc(protocolPerson.getProtocolPersonRole().getDescription());            
+            userRolesType.setRoleDesc(protocolPerson.getProtocolPersonRole().getDescription());
             userRolesType.setUnitName(protocolPerson.getPerson().getUnit().getUnitName());
             userRolesType.setUnitNumber(protocolPerson.getPerson().getUnit().getUnitNumber());
             userRolesType.setUserName(protocolPerson.getUserName());
             userRolesType.setUserId(protocolPerson.getPersonId());
-            userRolesTypeList.add(userRolesType);     
+            userRolesTypeList.add(userRolesType);
         }
         RolesType rolesType = RolesType.Factory.newInstance();
         rolesType.setUserRolesArray(userRolesTypeList.toArray(new UserRolesType[0]));
         rolesTypeList.add(rolesType);
-            
+
         protocolType.setUserRolesArray(rolesTypeList.toArray(new RolesType[0]));
     }
-    
+
     private void setSubmissionDetails(IacucProtocol protocol, ProtocolType protocolType) {
-        addSubmissionDetails(protocol, protocolType, null,FLAG_NO);        
+        addSubmissionDetails(protocol, protocolType, null, FLAG_NO);
     }
-    
+
     private void addSubmissionDetails(IacucProtocol protocol, ProtocolType protocolType, Integer submissionNumber, String currentFlag) {
         IacucProtocolSubmission submissionInfoBean = null;
         submissionInfoBean = (IacucProtocolSubmission) (submissionNumber == null ? protocol.getProtocolSubmission()
-                                  : findProtocolSubmission(protocol,submissionNumber));
+                : findProtocolSubmission(protocol, submissionNumber));
         if (submissionInfoBean == null || submissionInfoBean.getSubmissionNumber() == null) {
             return;
         }
@@ -253,7 +254,7 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
                 getPrintXmlUtilService().setPersonXml(rolodex, personType);
 
             } else {
-                KcPerson kcPerson = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(protocolReviewer.getPersonId()); 
+                KcPerson kcPerson = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(protocolReviewer.getPersonId());
                 getPrintXmlUtilService().setPersonXml(kcPerson, personType);
             }
         }
@@ -273,8 +274,8 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
             submissionDetail.setSubmissionTypeDesc(submissionInfoBean.getProtocolSubmissionType().getDescription());
         }
         if (submissionInfoBean.getProtocolSubmissionQualifierType() != null) {
-            submissionDetail.setSubmissionTypeQualifierCode(submissionInfoBean.getSubmissionTypeQualifierCode() == null ?
-                    new BigInteger("0") : new BigInteger(String.valueOf(submissionInfoBean.getSubmissionTypeQualifierCode())));
+            submissionDetail.setSubmissionTypeQualifierCode(submissionInfoBean.getSubmissionTypeQualifierCode() == null
+                    ? new BigInteger("0") : new BigInteger(String.valueOf(submissionInfoBean.getSubmissionTypeQualifierCode())));
             submissionDetail.setSubmissionTypeQualifierDesc(submissionInfoBean.getProtocolSubmissionQualifierType()
                     .getDescription());
         }
@@ -287,7 +288,7 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
         submission.setCurrentSubmissionFlag(currentFlag);
         setMinutes(submissionInfoBean, submission);
         if (submissionInfoBean.getCommitteeId() != null) {
-            CommitteeBase committee = submissionInfoBean.getCommittee();            
+            CommitteeBase committee = submissionInfoBean.getCommittee();
             getCommitteeXmlStream().setCommitteeMasterData(committee, submission.addNewCommitteeMasterData());
             getCommitteeXmlStream().setCommitteeMembers(committee, submission);
         }
@@ -299,7 +300,7 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
             getScheduleXmlStream().setNextSchedule(committeeSchedule, nextSchedule.addNewScheduleMasterData());
         }
     }
-    
+
     private ProtocolSubmissionBase findProtocolSubmission(org.kuali.kra.protocol.ProtocolBase protocol, Integer submissionNumber) {
         List<ProtocolSubmissionBase> protocolSubmissions = protocol.getProtocolSubmissions();
         for (ProtocolSubmissionBase protocolSubmission : protocolSubmissions) {
@@ -309,9 +310,10 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
         }
         return null;
     }
-    
+
     /**
      * This method...
+     *
      * @param submissionInfoBean
      * @param submission
      * @return
@@ -323,17 +325,17 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
             getPrintXmlUtilService().setProtocolReviewMinutes(committeeSchedule, submissionInfoBean, submission);
         }
     }
-    
+
     /**
      * Sets the references.
-     * 
+     *
      * @param protocol
      * @param protocolType
      * @return
      */
-    private void setProtocolReferences(ProtocolBase protocol,ProtocolType protocolType) {
+    private void setProtocolReferences(ProtocolBase protocol, ProtocolType protocolType) {
         ReferencesType referencesType = ReferencesType.Factory.newInstance();
-        List<ReferencesType> referncestypeList = new ArrayList<ReferencesType>();        
+        List<ReferencesType> referncestypeList = new ArrayList<ReferencesType>();
         for (ProtocolReferenceBase protocolReference : protocol.getProtocolReferences()) {
             referencesType.setReferenceNumber(protocolReference.getProtocolReferenceNumber());
             if (protocolReference.getProtocolReferenceType() != null) {
@@ -349,15 +351,15 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
 
         protocolType.setReferencesArray(referncestypeList.toArray(new ReferencesType[0]));
     }
-    
+
     /**
      * Sets the otherData.
-     * 
+     *
      * @param protocol
      * @param protocolType
      * @return
      */
-    private void setProtocolOtherData(IacucProtocol protocol,ProtocolType protocolType) {
+    private void setProtocolOtherData(IacucProtocol protocol, ProtocolType protocolType) {
         List<OtherDataType> otherDataTypeList = new ArrayList<OtherDataType>();
         for (IacucProtocolCustomData iacucProtocolCustomData : protocol.getIacucProtocolCustomDataList()) {
             OtherDataType otherDataType = OtherDataType.Factory.newInstance();
@@ -365,27 +367,27 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
                 otherDataType.setColumnName(iacucProtocolCustomData.getCustomAttribute().getName());
                 otherDataType.setColumnValue(iacucProtocolCustomData.getCustomAttribute().getValue());
             }
-            otherDataTypeList.add(otherDataType);            
-        }        
+            otherDataTypeList.add(otherDataType);
+        }
         protocolType.setOthersDataArray(otherDataTypeList.toArray(new OtherDataType[0]));
     }
-    
+
     /**
      * Sets the amendRenewal.
-     * 
+     *
      * @param protocol
      * @param protocolType
      * @return
      */
-    private void setProtocolAmendmentRenewals(ProtocolBase protocol,ProtocolType protocolType) {
+    private void setProtocolAmendmentRenewals(ProtocolBase protocol, ProtocolType protocolType) {
         List<AmendRenewalType> amendRenewalTypeList = new ArrayList<AmendRenewalType>();
         for (ProtocolAmendRenewalBase protocolAmendRenewal : protocol.getProtocolAmendRenewals()) {
-            AmendRenewalType amendRenewalType = AmendRenewalType.Factory.newInstance();            
+            AmendRenewalType amendRenewalType = AmendRenewalType.Factory.newInstance();
             amendRenewalType.setVersion(protocolAmendRenewal.getVersionNumber().toString());
-            if (protocolAmendRenewal.getProtocol() != null 
+            if (protocolAmendRenewal.getProtocol() != null
                     && protocolAmendRenewal.getProtocol().getProtocolStatus() != null) {
                 amendRenewalType.setProtocolStatusDesc(protocolAmendRenewal.getProtocol().getProtocolStatus().getDescription());
-            }            
+            }
             amendRenewalType.setDateCreated(getDateTimeService().getCalendar(protocolAmendRenewal.getDateCreated()));
             amendRenewalType.setSummary(protocolAmendRenewal.getSummary());
             amendRenewalTypeList.add(amendRenewalType);
@@ -395,14 +397,14 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
 
     /**
      * Sets the notes.
-     * 
+     *
      * @param protocol
      * @param protocolType
      * @return
      */
-    private void setProtocolNotes(ProtocolBase protocol,ProtocolType protocolType) {
+    private void setProtocolNotes(ProtocolBase protocol, ProtocolType protocolType) {
         List<NotesType> notesTypelist = new ArrayList<NotesType>();
-        for (ProtocolNotepadBase protocolNotepad:protocol.getNotepads()) {
+        for (ProtocolNotepadBase protocolNotepad : protocol.getNotepads()) {
             NotesType notesType = NotesType.Factory.newInstance();
             notesType.setComments(protocolNotepad.getComments());
             notesType.setEntryNumber(protocolNotepad.getEntryNumber());
@@ -410,22 +412,22 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
                 notesType.setRestrictedView(FLAG_YES);
             } else {
                 notesType.setRestrictedView(FLAG_NO);
-            }            
+            }
             notesType.setUpdateUser(protocolNotepad.getUpdateUser());
             notesType.setUpdateTimestamp(getDateTimeService().getCalendar(protocolNotepad.getUpdateTimestamp()));
             notesTypelist.add(notesType);
-        }        
+        }
         protocolType.setNotesArray(notesTypelist.toArray(new NotesType[0]));
     }
 
     /**
      * Sets the specialReview.
-     * 
+     *
      * @param protocol
      * @param protocolType
      * @return
      */
-    private void setProtocolSpecialReviewes(ProtocolBase protocol,ProtocolType protocolType) {
+    private void setProtocolSpecialReviewes(ProtocolBase protocol, ProtocolType protocolType) {
         List<ProtocolSpecialReviewBase> vecSpecialReview = protocol.getSpecialReviews();
         for (ProtocolSpecialReviewBase specialReviewBean : vecSpecialReview) {
             specialReviewBean.refreshNonUpdateableReferences();
@@ -456,20 +458,20 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
             }
         }
     }
-    
+
     /**
      * Sets the actions.
-     * 
+     *
      * @param protocol
      * @param protocolType
-     * @return     
+     * @return
      */
-    private void setProtocolActions(ProtocolBase protocol,ProtocolType protocolType) {
+    private void setProtocolActions(ProtocolBase protocol, ProtocolType protocolType) {
         List<ProtocolActionsType> protocolActionsTypeList = new ArrayList<ProtocolActionsType>();
         for (ProtocolActionBase protocolAction : protocol.getProtocolActions()) {
             ProtocolActionsType protocolActionsType = ProtocolActionsType.Factory.newInstance();
             protocolActionsType.setActionId(protocolAction.getActionId());
-            if (protocolAction.getProtocolActionTypeCode() != null) { 
+            if (protocolAction.getProtocolActionTypeCode() != null) {
                 protocolActionsType.setActionTypeCode(Integer.parseInt(protocolAction.getProtocolActionTypeCode()));
                 protocolActionsType.setActionTypeDesc(protocolAction.getProtocolActionType().getDescription());
             }
@@ -481,19 +483,19 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
         }
         protocolType.setActionsArray(protocolActionsTypeList.toArray(new ProtocolActionsType[0]));
     }
-    
+
     /**
      * Sets the fundingSource.
-     * 
+     *
      * @param protocol
      * @param protocolType
      * @return
      */
-    private void setProtocolFundingResources(ProtocolBase protocol,ProtocolType protocolType) {
+    private void setProtocolFundingResources(ProtocolBase protocol, ProtocolType protocolType) {
         int fundingSourceTypeCode;
-        String fundingSourceName; 
+        String fundingSourceName;
         String fundingSourceCode;
-        List<ProtocolFundingSourceBase> vecFundingSource = protocol.getProtocolFundingSources();       
+        List<ProtocolFundingSourceBase> vecFundingSource = protocol.getProtocolFundingSources();
         for (ProtocolFundingSourceBase protocolFundingSourceBean : vecFundingSource) {
             FundingSourceType fundingSource = protocolType.addNewFundingSource();
             fundingSourceCode = protocolFundingSourceBean.getFundingSourceNumber();
@@ -501,14 +503,14 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
             fundingSourceName = getFundingSourceNameForType(fundingSourceTypeCode, fundingSourceCode);
             if (fundingSourceName != null) {
                 fundingSource.setFundingSourceName(fundingSourceName);
-            }            
+            }
             if (protocolFundingSourceBean.getFundingSourceType() != null) {
                 fundingSource.setTypeOfFundingSource(protocolFundingSourceBean.getFundingSourceType().getDescription());
             }
             fundingSource.setFundingSource(protocolFundingSourceBean.getFundingSourceNumber());
         }
     }
-    
+
     private String getFundingSourceNameForType(int sourceType, String sourceCode) {
         String name = null;
         if (sourceType == 1) {
@@ -529,33 +531,33 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
 
     /**
      * Sets the researchArea.
-     * 
+     *
      * @param protocol
      * @param protocolType
      * @return
      */
-    private void setProtocolResearchAreas(ProtocolBase protocol,ProtocolType protocolType) {
+    private void setProtocolResearchAreas(ProtocolBase protocol, ProtocolType protocolType) {
         List<ProtocolResearchAreaBase> researchAreas = protocol.getProtocolResearchAreas();
         for (ProtocolResearchAreaBase protocolReasearchAreasBean : researchAreas) {
             protocolReasearchAreasBean.refreshNonUpdateableReferences();
             ResearchAreaType researchArea = protocolType.addNewResearchArea();
             researchArea.setResearchAreaCode(protocolReasearchAreasBean.getResearchAreaCode());
             if (protocolReasearchAreasBean.getResearchAreas() != null) {
-                researchArea.setResearchAreaDescription(protocolReasearchAreasBean.getResearchAreas().getDescription()); 
-            }            
+                researchArea.setResearchAreaDescription(protocolReasearchAreasBean.getResearchAreas().getDescription());
+            }
         }
     }
-    
+
     /**
      * Sets the protocolLocations.
-     * 
+     *
      * @param protocol
      * @param protocolType
-     * @return     
+     * @return
      */
-    private void setProtocolLocations(ProtocolBase protocol,ProtocolType protocolType) {
+    private void setProtocolLocations(ProtocolBase protocol, ProtocolType protocolType) {
         List<LocationType> locationTypeList = new ArrayList<LocationType>();
-        for (ProtocolLocationBase protocolLocation  : protocol.getProtocolLocations()) {
+        for (ProtocolLocationBase protocolLocation : protocol.getProtocolLocations()) {
             LocationType locationType = LocationType.Factory.newInstance();
             if (protocolLocation.getProtocolOrganizationType() != null) {
                 locationType.setOrgTypeDesc(protocolLocation.getProtocolOrganizationType().getDescription());
@@ -564,15 +566,15 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
                 locationType.setOrgName(protocolLocation.getOrganization().getOrganizationName());
                 locationType.setAddress(protocolLocation.getOrganization().getAddress());
                 locationType.setAnimalWelfareAssurance(protocolLocation.getOrganization().getAnimalWelfareAssurance());
-            }            
+            }
             locationTypeList.add(locationType);
-        }  
+        }
         protocolType.setOrganizationArray(locationTypeList.toArray(new LocationType[0]));
     }
 
     /**
      * Sets the protocolPersons.
-     * 
+     *
      * @param protocol
      * @param protocolType
      * @return
@@ -587,26 +589,26 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
                 if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_PRINCIPAL_INVESTIGATOR)) {
                     investigator.setPIFlag(true);
                 }
-                if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_PRINCIPAL_INVESTIGATOR)||
-                        protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_CO_INVESTIGATOR) ) {                    
+                if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_PRINCIPAL_INVESTIGATOR)
+                        || protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_CO_INVESTIGATOR)) {
                     if (protocolPerson.isTrained()) {
                         investigator.setTrainingFlag(FLAG_YES);
                     } else {
-                        investigator.setTrainingFlag(FLAG_NO); 
-                    } 
+                        investigator.setTrainingFlag(FLAG_NO);
+                    }
                     if (protocolPerson.getAffiliationType() != null) {
                         investigator.setAffiliationDesc(protocolPerson.getAffiliationType().getDescription());
-                    } 
+                    }
                     List<edu.mit.coeus.xml.iacuc.InvestigatorType.Unit> unitList = new ArrayList<InvestigatorType.Unit>();
-                    for (ProtocolUnitBase protocolUnit :protocolPerson.getProtocolUnits()) {
+                    for (ProtocolUnitBase protocolUnit : protocolPerson.getProtocolUnits()) {
                         edu.mit.coeus.xml.iacuc.InvestigatorType.Unit unit = edu.mit.coeus.xml.iacuc.InvestigatorType.Unit.Factory.newInstance();
                         unit.setUnitName(protocolUnit.getUnitName());
                         unit.setUnitNumber(protocolUnit.getUnitNumber());
-                        unitList.add(unit);                        
-                    } 
+                        unitList.add(unit);
+                    }
                     investigator.setUnitArray((edu.mit.coeus.xml.iacuc.InvestigatorType.Unit[]) unitList.
                             toArray(new edu.mit.coeus.xml.iacuc.InvestigatorType.Unit[0]));
-                     
+
                 }
                 getPrintXmlUtilService().setPersonRolodexType(protocolPerson, investigator.addNewPerson());
             } else if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_STUDY_PERSONNEL)) {
@@ -623,11 +625,11 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
                 if (protocolPerson.isTrained()) {
                     keyStudyPerson.setTrainingFlag(FLAG_YES);
                 } else {
-                    keyStudyPerson.setTrainingFlag(FLAG_NO); 
-                } 
+                    keyStudyPerson.setTrainingFlag(FLAG_NO);
+                }
                 getPrintXmlUtilService().setPersonRolodexType(protocolPerson, keyStudyPerson.addNewPerson());
             } else if (protocolPerson.getProtocolPersonRoleId().equals(IacucProtocolPersonRole.ROLE_CORRESPONDENTS)
-                  || (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_CORRESPONDENT_ADMINISTRATOR))) {
+                    || (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_CORRESPONDENT_ADMINISTRATOR))) {
                 CorrespondentType correspondent = protocolType.addNewCorrespondent();
                 correspondent.setTypeOfCorrespondent(protocolPerson.getProtocolPersonRole().getDescription());
                 correspondent.setCorrespondentTypeDesc(protocolPerson.getProtocolPersonRole().getDescription());
@@ -639,7 +641,7 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
 
     /**
      * Sets the protocolMasterData.
-     * 
+     *
      * @param protocol
      * @param protocolType
      * @return
@@ -648,7 +650,7 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
         ProtocolMasterDataType protocolMaster = protocolType.addNewProtocolMasterData();
         if (protocol == null) {
             return;
-        }            
+        }
         protocol.refreshNonUpdateableReferences();
         protocolMaster.setProtocolNumber(protocol.getProtocolNumber());
         protocolMaster.setSequenceNumber(BigInteger.valueOf(protocol.getSequenceNumber()));
@@ -674,8 +676,8 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
             protocolMaster.setApprovalDate(getDateTimeService().getCalendar(protocol.getApprovalDate()));
         }
         if (protocol.getLastApprovalDate() != null) {
-            protocolMaster.setLastApprovalDate(getDateTimeService().getCalendar(protocol.getLastApprovalDate()));        
-        } 
+            protocolMaster.setLastApprovalDate(getDateTimeService().getCalendar(protocol.getLastApprovalDate()));
+        }
         if (protocol.getExpirationDate() != null) {
             protocolMaster.setExpirationDate(getDateTimeService().getCalendar(protocol.getExpirationDate()));
         }
@@ -694,25 +696,25 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
         if (protocol.getInvestigator() != null) {
             protocolMaster.setPrincipleInvestigatorName(protocol.getInvestigator());
         }
-        
+
         if (protocol.getOverviewTimeline() != null) {
             protocolMaster.setOverviewTimeline(protocol.getOverviewTimeline());
         }
-       
+
         if (protocol.getProtocolProjectType() != null) {
             protocolMaster.setProjectTypeCode(BigInteger.valueOf(Integer.parseInt(protocol.getProtocolProjectType().getProjectTypeCode())));
             protocolMaster.setProjectTypeDesc(protocol.getProtocolProjectType().getDescription());
         }
     }
-    
+
     /**
      * Sets the speciesGoups.
-     * 
+     *
      * @param protocol
      * @param protocolType
-     * @return     
+     * @return
      */
-    private void setSpeciesGoups(IacucProtocol protocol, ProtocolType protocolType) {       
+    private void setSpeciesGoups(IacucProtocol protocol, ProtocolType protocolType) {
         List<SpeciesType> speciesTypeList = new ArrayList<SpeciesType>();
         for (IacucProtocolSpecies iacucProtocolSpecies : protocol.getIacucProtocolSpeciesList()) {
             SpeciesType speciesType = SpeciesType.Factory.newInstance();
@@ -727,15 +729,15 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
                 speciesType.setIsUsdaCovered(FLAG_NO);
             }
             speciesType.setCountTypeCode(iacucProtocolSpecies.getSpeciesCountCode());
-            
-            if(iacucProtocolSpecies.getSpeciesCountCode() != null) {
+
+            if (iacucProtocolSpecies.getSpeciesCountCode() != null) {
                 Map params = new HashMap();
                 params.put("speciesCountCode", iacucProtocolSpecies.getSpeciesCountCode());
                 IacucSpeciesCountType iacucSpeciesCountType = this.getBusinessObjectService().findByPrimaryKey(IacucSpeciesCountType.class, params);
                 speciesType.setCountTypeDesc(iacucSpeciesCountType.getDescription());
-            }            
+            }
             speciesType.setSpeciesCount(iacucProtocolSpecies.getSpeciesCount());
-            setExceptions(protocol,speciesType);
+            setExceptions(protocol, speciesType);
             speciesTypeList.add(speciesType);
         }
         protocolType.setSpeciesArray(speciesTypeList.toArray(new SpeciesType[0]));
@@ -743,37 +745,37 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
 
     /**
      * Sets the exceptions.
-     * 
+     *
      * @param iacucProtocolExceptionList
      * @param speciesType
-     * @return     
+     * @return
      */
-    private void setExceptions(IacucProtocol protocol, SpeciesType speciesType) {       
+    private void setExceptions(IacucProtocol protocol, SpeciesType speciesType) {
         List<ExceptionType> exceptionTypeList = new ArrayList<ExceptionType>();
         for (IacucProtocolException iacucProtocolException : protocol.getIacucProtocolExceptions()) {
             ExceptionType exceptionType = ExceptionType.Factory.newInstance();
             String exceptionCategoryDescription = null;
-            
+
             if (iacucProtocolException.getExceptionCategoryCode() != null) {
                 Map params = new HashMap();
-                params.put("exceptionCategoryCode",iacucProtocolException.getExceptionCategoryCode());
-                exceptionCategoryDescription =getBusinessObjectService().findByPrimaryKey(IacucExceptionCategory.class, params).getExceptionCategoryDesc();
+                params.put("exceptionCategoryCode", iacucProtocolException.getExceptionCategoryCode());
+                exceptionCategoryDescription = getBusinessObjectService().findByPrimaryKey(IacucExceptionCategory.class, params).getExceptionCategoryDesc();
             }
             exceptionType.setExceptionCategoryDesc(exceptionCategoryDescription);
             exceptionType.setDescription(iacucProtocolException.getExceptionDescription());
-            exceptionTypeList.add(exceptionType); 
+            exceptionTypeList.add(exceptionType);
         }
-        speciesType.setExceptionArray(exceptionTypeList.toArray(new ExceptionType[0]));  
+        speciesType.setExceptionArray(exceptionTypeList.toArray(new ExceptionType[0]));
     }
-    
+
     /**
      * Sets the principles.
-     * 
+     *
      * @param protocol
      * @param protocolType
-     * @return     
+     * @return
      */
-    private void setPrinciples(IacucProtocol protocol, ProtocolType protocolType) {        
+    private void setPrinciples(IacucProtocol protocol, ProtocolType protocolType) {
         List<PrinciplesType> principleTypesList = new ArrayList<PrinciplesType>();
         for (IacucPrinciples iacucPrinciples : protocol.getIacucPrinciples()) {
             PrinciplesType principleTypes = PrinciplesType.Factory.newInstance();
@@ -782,54 +784,54 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
             principleTypes.setReplacementPrinciple(iacucPrinciples.getReplacement());
             principleTypesList.add(principleTypes);
         }
-        
-        if (protocol.getIacucPrinciples() != null && protocol.getIacucPrinciples().size() >0 && 
-                protocol.getIacucPrinciples().get(0).getSearchRequired()!= null && protocol.getIacucPrinciples().get(0).getSearchRequired().
-                equalsIgnoreCase(Constants.TRUE_FLAG)) { 
+
+        if (protocol.getIacucPrinciples() != null && protocol.getIacucPrinciples().size() > 0
+                && protocol.getIacucPrinciples().get(0).getSearchRequired() != null && protocol.getIacucPrinciples().get(0).getSearchRequired().
+                equalsIgnoreCase(Constants.TRUE_FLAG)) {
             List<AlternateDbSearchType> alternateDbSearchTypeList = new ArrayList<AlternateDbSearchType>();
-            for (IacucAlternateSearch iacucAlternateSearch :protocol.getIacucAlternateSearches()) {
+            for (IacucAlternateSearch iacucAlternateSearch : protocol.getIacucAlternateSearches()) {
                 AlternateDbSearchType alternateDbSearchType = AlternateDbSearchType.Factory.newInstance();
                 alternateDbSearchType.setSearchDate(DateUtils.toCalendar(iacucAlternateSearch.getSearchDate()));
                 alternateDbSearchType.setYearsSearched(iacucAlternateSearch.getYearsSearched());
-                if (iacucAlternateSearch.getDatabases()!= null && iacucAlternateSearch.getDatabases().size() >0) {
+                if (iacucAlternateSearch.getDatabases() != null && iacucAlternateSearch.getDatabases().size() > 0) {
                     alternateDbSearchType.setDatabasDesc(iacucAlternateSearch.getDatabases().get(0).getAlternateSearchDatabaseName());
-                }                
+                }
                 alternateDbSearchType.setKeywordsSearched(iacucAlternateSearch.getKeywords());
                 alternateDbSearchType.setComments(iacucAlternateSearch.getComments());
-                
+
                 alternateDbSearchTypeList.add(alternateDbSearchType);
             }
             protocolType.setAlternateDbSearchArray(alternateDbSearchTypeList.toArray(new AlternateDbSearchType[0]));
-        }       
+        }
         protocolType.setPrinciplesArray(principleTypesList.toArray(new PrinciplesType[0]));
     }
-    
+
     /**
      * Sets the procedures.
-     * 
+     *
      * @param protocol
      * @param protocolType
-     * @return     
+     * @return
      */
     private void setProcedures(IacucProtocol protocol, ProtocolType protocolType) {
 
         List<StudyGroupType> studyGroupTypeList = new ArrayList<StudyGroupType>();
         IacucProtocolStudyGroup iacucProtocolStudyGroups = null;
-        
+
         for (IacucProtocolStudyGroupBean iacucProtocolStudyGroup : protocol.getIacucProtocolStudyGroups()) {
             StudyGroupType studyGroupType = StudyGroupType.Factory.newInstance();
-            studyGroupType.setProcedureCategoryCode(iacucProtocolStudyGroup.getProcedureCategoryCode());            
-            
+            studyGroupType.setProcedureCategoryCode(iacucProtocolStudyGroup.getProcedureCategoryCode());
+
             Map params = new HashMap();
-            params.put("procedureCode", iacucProtocolStudyGroup.getProcedureCode());            
+            params.put("procedureCode", iacucProtocolStudyGroup.getProcedureCode());
             IacucProcedure iacucProcedure = this.getBusinessObjectService().findByPrimaryKey(IacucProcedure.class, params);
             studyGroupType.setProcedureCode(iacucProtocolStudyGroup.getProcedureCode());
             if (iacucProcedure != null) {
                 studyGroupType.setProcedureDesc(iacucProcedure.getProcedureDescription());
-            }            
-            
-            if (iacucProtocolStudyGroup.getIacucProtocolStudyGroups().size() >0){
-                iacucProtocolStudyGroups =iacucProtocolStudyGroup.getIacucProtocolStudyGroups().get(0); 
+            }
+
+            if (iacucProtocolStudyGroup.getIacucProtocolStudyGroups().size() > 0) {
+                iacucProtocolStudyGroups = iacucProtocolStudyGroup.getIacucProtocolStudyGroups().get(0);
             }
             if (iacucProtocolStudyGroup.getIacucProcedureCategory() != null) {
                 studyGroupType.setProcedureCategoryCode(iacucProtocolStudyGroup.getIacucProcedureCategory().getProcedureCategoryCode());
@@ -838,15 +840,15 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
             if (iacucProtocolStudyGroups.getIacucProtocolSpecies() != null) {
                 studyGroupType.setSpeciesGroup(iacucProtocolStudyGroups.getIacucProtocolSpecies().getSpeciesGroup());
             }
-            
+
             if (iacucProtocolStudyGroups.getIacucPainCategory() != null) {
                 studyGroupType.setPainCategoryDesc(iacucProtocolStudyGroups.getIacucPainCategory().getPainCategory());
-            }             
+            }
 
             studyGroupTypeList.add(studyGroupType);
         }
         protocolType.setStudyGroupArray(studyGroupTypeList.toArray(new StudyGroupType[0]));
-    }    
+    }
 
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
@@ -858,9 +860,10 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
     /**
      * Sets the scheduleXmlStream attribute value.
+     *
      * @param scheduleXmlStream The scheduleXmlStream to set.
      */
     public void setScheduleXmlStream(IacucScheduleXmlStream scheduleXmlStream) {
@@ -868,7 +871,8 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
     }
 
     /**
-     * Gets the scheduleXmlStream attribute. 
+     * Gets the scheduleXmlStream attribute.
+     *
      * @return Returns the scheduleXmlStream.
      */
     public IacucScheduleXmlStream getScheduleXmlStream() {
@@ -877,6 +881,7 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
 
     /**
      * Sets the committeeXmlStream attribute value.
+     *
      * @param committeeXmlStream The committeeXmlStream to set.
      */
     public void setCommitteeXmlStream(IacucCommitteeXmlStream comitteeXmlStream) {
@@ -884,16 +889,17 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
     }
 
     /**
-     * Gets the committeeXmlStream attribute. 
+     * Gets the committeeXmlStream attribute.
+     *
      * @return Returns the committeeXmlStream.
      */
     public IacucCommitteeXmlStream getCommitteeXmlStream() {
         return committeeXmlStream;
-    }    
-       
+    }
+
     /**
      * Sets the printXmlUtilService attribute value.
-     * 
+     *
      * @param printXmlUtilService The printXmlUtilService to set.
      */
     public void setPrintXmlUtilService(IacucPrintXmlUtilService printXmlUtilService) {
@@ -902,15 +908,13 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
 
     /**
      * Gets the printXmlUtilService attribute.
-     * 
+     *
      * @return Returns the printXmlUtilService.
      */
     public IacucPrintXmlUtilService getPrintXmlUtilService() {
         return printXmlUtilService;
     }
-    
-    
-    
+
     public IacucProtocolActionService getIacucProtocolActionService() {
         return iacucProtocolActionService;
     }
