@@ -33,7 +33,7 @@
 	</span>
 	</c:if>
 	<h3> 
-		<span class="subhead-left" style="display: inline;" >Medusa</span>
+		<span class="subhead-left" style="display: inline;" >Project</span>
 		<span class="subhead-right" style="display: inline;" id="treecontrol">
 		<a href="#" title="Collapse the entire tree below"><img src="static/images/jquery/minus.gif" /> Collapse All</a>
 		<a href="#" title="Expand the entire tree below"><img src="static/images/jquery/plus.gif" /> Expand All</a>

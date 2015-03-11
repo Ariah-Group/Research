@@ -103,7 +103,7 @@
 						  <td width="6%" valign="middle"> 
 						 <a
 						href="${ConfigProperties.application.url}/awardHome.do?methodToCall=medusa&command=displayDocSearchView&docId=${documentNumber}&medusaOpenedDoc=true"
-						target="_blank" class="medusaOpenLink"> medusa </a>
+						target="_blank" class="medusaOpenLink"> Project </a>
 						 
 						    </td>
 		                 <td width="9%" valign="middle">

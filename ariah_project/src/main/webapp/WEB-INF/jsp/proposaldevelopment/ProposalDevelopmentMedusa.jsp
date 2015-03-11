@@ -29,7 +29,7 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="medusa" >
   	
-<kul:tabTop tabTitle="Medusa" defaultOpen="true" tabErrorKey="">
+<kul:tabTop tabTitle="Project" defaultOpen="true" tabErrorKey="">
 <kra-m:medusa helpParameterNamespace="KC-PD" helpParameterDetailType="Document" helpParameterName="proposalDevelopmentMedusaHelpUrl" />
 </kul:tabTop>
 <kul:panelFooter />

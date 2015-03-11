@@ -85,7 +85,7 @@
           <property name="helpDefinition">
             <bean parent="HelpDefinition" p:parameterNamespace="KC-AWARD" p:parameterName="awardActionsHelp" p:parameterDetailType="Document"/>
           </property>
-          <property name="headerTabDisplayName" value="Medusa"/>
+          <property name="headerTabDisplayName" value="Project"/>
           <property name="headerTabNavigateTo" value="medusa"/>
         </bean>
       </list>  

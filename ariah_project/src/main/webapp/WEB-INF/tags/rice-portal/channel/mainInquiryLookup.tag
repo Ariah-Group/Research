@@ -24,7 +24,7 @@
   <li><portal:portalLink displayTitle="true" title="Sponsor" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.Sponsor&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
   <li>Sponsor Hierarchy</li>
   <li>Organization</li>
-  <li>Medusa</li>
+  <li>Project</li>
 </ul>
 
 <strong>Person and Workgroup</strong>

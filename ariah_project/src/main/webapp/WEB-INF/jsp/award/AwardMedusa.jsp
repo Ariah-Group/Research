@@ -28,7 +28,7 @@
   	headerTabActive="medusa"
   	extraTopButtons="${KualiForm.extraTopButtons}" >
 
-<kul:tabTop tabTitle="Medusa" defaultOpen="true" tabErrorKey="">
+<kul:tabTop tabTitle="Project" defaultOpen="true" tabErrorKey="">
 <kra-m:medusa helpParameterNamespace="KC-AWARD" helpParameterDetailType="Document" helpParameterName="awardMedusaHelpUrl" />
 </kul:tabTop>
 <kul:panelFooter />

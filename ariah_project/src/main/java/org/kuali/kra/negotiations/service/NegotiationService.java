@@ -63,7 +63,7 @@ public interface NegotiationService {
     
     /**
      * Get any negotiations associated with BO(ProposalLog, Inst Prop, Award, Subaward).
-     * User primarly by Medusa.
+     * Used primarily by Medusa.
      * @param bo
      * @return
      */

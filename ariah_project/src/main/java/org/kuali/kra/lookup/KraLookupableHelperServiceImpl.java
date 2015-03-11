@@ -34,8 +34,8 @@ import java.util.Map.Entry;
 public abstract class KraLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private static final String COLUMN = ":";
-    private static final String VIEW = "view";
-    protected static final String MEDUSA = "medusa";
+    private static final String VIEW = "View";
+    protected static final String MEDUSA = "Project";
     /**
      * create 'edit' link
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, java.util.List)

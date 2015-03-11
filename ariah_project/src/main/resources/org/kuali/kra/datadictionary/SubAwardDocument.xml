@@ -53,7 +53,7 @@
           <property name="helpDefinition">
             <bean parent="HelpDefinition" p:parameterNamespace="KC-SUBAWARD" p:parameterName="subAwardMedusaHelpUrl" p:parameterDetailType="Document"/>
           </property>
-          <property name="headerTabDisplayName" value="Medusa"/>
+          <property name="headerTabDisplayName" value="Project"/>
           <property name="headerTabNavigateTo" value="medusa"/>
         </bean>
       </list>  

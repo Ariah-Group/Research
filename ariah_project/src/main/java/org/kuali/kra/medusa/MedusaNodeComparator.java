@@ -36,7 +36,7 @@ public class MedusaNodeComparator implements Comparator<MedusaNode> {
         String nodeType = m.getType();  
         BusinessObject mBo = m.getBo();
         if(!StringUtils.isNotBlank(nodeType) || mBo == null){
-            return "medusa: unknown medusa node type";
+            return "project: unknown project node type";
         }
         else{
             if(StringUtils.equals(nodeType, "award")){
@@ -51,7 +51,7 @@ public class MedusaNodeComparator implements Comparator<MedusaNode> {
             } else if (StringUtils.equals(nodeType, "subaward")) {
                 return nodeType + ((SubAward)mBo).getSubAwardId();
             } else
-                return "medusa: unsupported medusa node type";
+                return "project: unsupported project node type";
         }
     }
 }
