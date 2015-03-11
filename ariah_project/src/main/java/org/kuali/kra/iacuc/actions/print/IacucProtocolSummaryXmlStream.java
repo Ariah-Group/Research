@@ -202,8 +202,33 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
         for (ProtocolPersonBase protocolPerson : protocol.getProtocolPersons()) {
             UserRolesType userRolesType = UserRolesType.Factory.newInstance();
             userRolesType.setRoleDesc(protocolPerson.getProtocolPersonRole().getDescription());
-            userRolesType.setUnitName(protocolPerson.getPerson().getUnit().getUnitName());
-            userRolesType.setUnitNumber(protocolPerson.getPerson().getUnit().getUnitNumber());
+
+            if (protocolPerson.getPerson() == null) {
+
+                if (protocolPerson.getRolodex() == null) {
+                    userRolesType.setUnitName("Not Set");
+                    userRolesType.setUnitNumber("Not Set");
+                } else {
+
+                    if (protocolPerson.getPerson().getUnit() == null) {
+                        userRolesType.setUnitName("Not Set");
+                        userRolesType.setUnitNumber("Not Set");
+                    } else {
+                        userRolesType.setUnitName(protocolPerson.getRolodex().getUnit().getUnitName());
+                        userRolesType.setUnitNumber(protocolPerson.getRolodex().getUnit().getUnitNumber());
+                    }
+                }
+
+            } else {
+                if (protocolPerson.getPerson().getUnit() == null) {
+                    userRolesType.setUnitName("Not Set");
+                    userRolesType.setUnitNumber("Not Set");
+                } else {
+                    userRolesType.setUnitName(protocolPerson.getPerson().getUnit().getUnitName());
+                    userRolesType.setUnitNumber(protocolPerson.getPerson().getUnit().getUnitNumber());
+                }
+            }
+
             userRolesType.setUserName(protocolPerson.getUserName());
             userRolesType.setUserId(protocolPerson.getPersonId());
             userRolesTypeList.add(userRolesType);
