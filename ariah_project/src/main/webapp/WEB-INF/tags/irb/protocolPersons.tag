@@ -12,9 +12,23 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
+  --------------------------------------------
+ Updates made after January 1, 2015 are :
+Copyright 2015 The Ariah Group, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
 <c:set var="protocolPersonAttributes" value="${DataDictionary.ProtocolPerson.attributes}" />
 <div id="workarea">
 <c:forEach items="${KualiForm.document.protocolList[0].protocolPersons}" var="person" varStatus="status">
@@ -24,13 +38,12 @@
     </c:if>
     <c:set var="personUnitRequired" value="${person.protocolPersonRole.unitDetailsRequired}" />
     <c:set var="transparent" value="false" />
-
     <c:if test="${status.first}">
       <c:set var="transparent" value="true" />
     </c:if> 
     	<c:set var="descri" value="${person.protocolPersonRole.description}" />
 	<c:set var="personIndex" value="${status.index}" />
-	<kul:tab tabTitle="${fn:substring(person.personName, 0, 22)}"
+	<kul:tab tabTitle="${fn:substring(person.personName, 0, 24)}"
 			 tabErrorKey="document.protocolList[0].protocolPersons[${personIndex}].*"
 			 auditCluster="personnelAuditErrors" 
 			 tabAuditKey="document.protocolList[0].protocolPersons[${personIndex}].*" 
@@ -58,9 +71,7 @@
 		 </div>
 	</kul:tab>
  </c:forEach>
-
 <c:if test="${fn:length(KualiForm.document.protocolList[0].protocolPersons) > 0}">
     <kul:panelFooter />
 </c:if>
-
 </div>
