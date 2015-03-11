@@ -639,7 +639,10 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
             } else if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CORRESPONDENT_CRC)
                     || (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CORRESPONDENT_ADMINISTRATOR))) {
                 ProtocolCorrespondentType protocolCorrespondentType = protocolSummary.addNewProtocolCorrespondents();
-                protocolCorrespondentType.setCorrespondentTypeCode(Integer.parseInt(protocolPerson.getProtocolPersonRoleId()));
+
+                // Commented out below as getProtocolPersonRoleId for CRC is NOT an Int and the CorrespondentTypeCode
+                // does not seem to be used in the printed document (just the description)
+                //protocolCorrespondentType.setCorrespondentTypeCode(Integer.parseInt(protocolPerson.getProtocolPersonRoleId()));
                 protocolCorrespondentType.setCorrespondentTypeDesc(protocolPerson.getProtocolPersonRole().getDescription());
                 protocolCorrespondentType.setComments(protocolPerson.getComments());
                 protocolCorrespondentType.setNonEmployeeFlag((protocolPerson.isNonEmployee() ? "Y" : "N"));
