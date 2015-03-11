@@ -218,7 +218,7 @@ public class AwardDetailsAndDatesRuleImpl extends ResearchDocumentRuleBase imple
                     return true;
                 }
                 if (award.getAccountNumber().equalsIgnoreCase(accountNumberStored)
-                    && chartStored.equalsIgnoreCase(award.getFinancialChartOfAccountsCode())) {
+                    && chartStored!=null && chartStored.equalsIgnoreCase(award.getFinancialChartOfAccountsCode())) {
                     isRequired &= false;
                 }
             }
