@@ -48,8 +48,7 @@ public class PersonTrainingLookupableHelperServiceImpl extends KualiLookupableHe
         htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
         List<HtmlData> returnHtmlDataList = new ArrayList<HtmlData>();
         for (HtmlData htmlData : htmlDataList) {
-            if(!(htmlData.getDisplayText().equals("copy") ||
-                    htmlData.getDisplayText().equals("edit"))) {
+            if(!(htmlData.getDisplayText().equals("copy"))) {
                 returnHtmlDataList.add(htmlData);
             }
         }
