@@ -16,8 +16,10 @@
 package org.kuali.kra.iacuc.protocol.location;
 
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationServiceImplBase;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 public class IacucProtocolLocationServiceImpl extends ProtocolLocationServiceImplBase implements IacucProtocolLocationService {
 
@@ -31,9 +33,18 @@ public class IacucProtocolLocationServiceImpl extends ProtocolLocationServiceImp
         return Constants.DEFAULT_PROTOCOL_ORGANIZATION_TYPE_CODE;
     }
 
+    /**
+     * Retrieve the Organization ID of the default Performing Organization that
+     * is set during creation of a Protocol.
+     *
+     * @return Default performing organization
+     */
     @Override
     protected String getDefaultProtocolOrganizationIdHook() {
-        return Constants.DEFAULT_PROTOCOL_ORGANIZATION_ID;
-    }
 
+        String defaultOrganizationId = KraServiceLocator.getService(ParameterService.class).getParameterValueAsString(Constants.MODULE_NAMESPACE_IACUC,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ARIAH_PARAM_IACUC_DEFAULT_PERFORMING_ORG_ID);
+
+        return defaultOrganizationId;
+    }
 }
