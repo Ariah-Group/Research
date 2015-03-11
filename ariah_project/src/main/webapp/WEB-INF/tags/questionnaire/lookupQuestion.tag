@@ -40,3 +40,4 @@ limitations under the License.
 ${kfunc:registerEditableProperty(KualiForm, prop)}
 <input type="text" class="Qanswer answer questionnaireAnswer" id="${prop}" name="${prop}" maxlength="${question.answerMaxLength}" size="${question.answerMaxLength}" value="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].answer}" readonly = "true"/>
 <kul:lookup boClassName="${question.lookupClass}" fieldConversions="${question.lookupReturn}:${prop}" />
+<img name="${prop}_resetbutton" src="static/images/tinybutton-reset1.gif" border="0" valign="middle" alt="Reset Lookup Answer" title="Reset Lookup Answer" onclick="document.getElementById('${prop}').value='';"/>
