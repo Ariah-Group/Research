@@ -1142,7 +1142,7 @@
 			
 		  </list>
 		</property>
-		<property name="resultSetLimit" value="50" />
+		<property name="resultSetLimit" value="200" />
 	</bean>
   
 </beans>
