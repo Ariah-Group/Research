@@ -110,6 +110,8 @@ function builduUi(info, awardNumber) {
         var txtImage = "<img src=\"static/images/award_inactive.gif\" alt=\"Closed\" title=\"Closed\" />";
     } else if (awardStatus == 6) {
         var txtImage = "<img src=\"static/images/award_holding.gif\" alt=\"Hold\" title=\"Hold\" />";
+    } else {
+        var txtImage = "<img src=\"static/images/award_active.gif\" alt=\"Other Status\" title=\"Other Status\" />";
     }
 
     var index = awardNumber.indexOf("-");
