@@ -36,7 +36,7 @@ public abstract class KcUnitTestBaseLifecycle implements KcUnitTestLifecycle {
     
     public static final String BROWSER_PROTOCOL = "http";
     public static final String BROWSER_ADDRESS = "127.0.0.1";
-    public static final String PORTAL_ADDRESS = "kc-dev";
+    public static final String PORTAL_ADDRESS = "research-dev";
     
     // non static Log to allow it to be named after the runtime class
     protected final Log LOG = LogFactory.getLog(this.getClass());

@@ -42,8 +42,8 @@
                 <filtering>true</filtering>
                 <directory>src/main/resources</directory>
                 <includes>
-                    <include>META-INF/kc-config-build.xml</include>
-                    <include>kc-bootstrap-springbeans.xml</include>
+                    <include>META-INF/ariah-config-build.xml</include>
+                    <include>ariah-bootstrap-springbeans.xml</include>
                 </includes>
             </resource>
             <resource>
@@ -63,7 +63,7 @@
                 <filtering>true</filtering>
                 <directory>src/test/resources</directory>
                 <includes>
-                    <include>META-INF/kc-test-config.xml</include>
+                    <include>META-INF/ariah-test-config.xml</include>
                 </includes>
             </testResource>
             <testResource>
@@ -431,8 +431,8 @@
                     </dependency>
                 </dependencies>
                 <configuration>
-                    <port>${kc.port}</port>
-                    <path>${kc.context.path}</path>
+                    <port>${ariah.port}</port>
+                    <path>${ariah.context.path}</path>
                 </configuration>
             </plugin>
             <plugin>
@@ -454,8 +454,8 @@
                     </dependency>
                 </dependencies>
                 <configuration>
-                    <port>${kc.port}</port>
-                    <path>${kc.context.path}</path>
+                    <port>${ariah.port}</port>
+                    <path>${ariah.context.path}</path>
                 </configuration>
             </plugin>
             <plugin>
@@ -501,12 +501,12 @@
                 </dependencies>
                 <configuration>
                     <webAppConfig>
-                        <contextPath>${kc.context.path}</contextPath>
+                        <contextPath>${ariah.context.path}</contextPath>
                         <descriptor>${project.build.directory}/web.xml</descriptor>
                     </webAppConfig>
                     <connectors>
                         <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-                            <port>${kc.port}</port>
+                            <port>${ariah.port}</port>
                             <maxIdleTime>60000</maxIdleTime>
                         </connector>
                     </connectors>
@@ -1598,7 +1598,7 @@ module of int tests -->
             structure this will no longer be needed.  we will do the following:
             1) have a new child module called kc-rice-standalone.  It will be an empty overlay of rice-standalone.
             2) configure all the jetty/tomcat stuff in a central place under pluginManagement
-            3) to run kc you go to the kc web module and invoke jetty or tomcat
+            3) to run ariah you go to the ariah web module and invoke jetty or tomcat
             4) to run rice you go to the kc-rice-standalone and invoke jetty or tomcat
          -->
         <profile>
@@ -2035,36 +2035,10 @@ module of int tests -->
         </pluginRepository>
     </pluginRepositories>
 
-    <scm>
-        <connection>scm:svn:https://svn.kuali.org/repos/kc/trunk
-        </connection>
-        <developerConnection>scm:svn:https://svn.kuali.org/repos/kc/trunk
-        </developerConnection>
-        <tag>HEAD</tag>
-        <url>https://fisheye.kuali.org/browse/kc</url>
-    </scm>
-
     <issueManagement>
         <system>Jira</system>
-        <url>https://jira.kuali.org</url>
+        <url>http://jira.ariahgroup.org</url>
     </issueManagement>
-
-    <ciManagement>
-        <system>Jenkins</system>
-        <url>https://db.kc.kuali.org</url>
-        <notifiers>
-            <notifier>
-                <type>mail</type>
-                <sendOnError>true</sendOnError>
-                <sendOnFailure>true</sendOnFailure>
-                <sendOnSuccess>true</sendOnSuccess>
-                <sendOnWarning>true</sendOnWarning>
-                <configuration>
-                    <address>jenkins@127.0.0.1</address>
-                </configuration>
-            </notifier>
-        </notifiers>
-    </ciManagement>
 
     <properties>
         <!--dependency versions-->
@@ -2188,8 +2162,8 @@ module of int tests -->
         <build.environment>dev</build.environment>
 
         <!-- jetty & tomcat properties -->
-        <kc.context.path>/kc-${build.environment}</kc.context.path>
-        <kc.port>8080</kc.port>
+        <ariah.context.path>/research-${build.environment}</ariah.context.path>
+        <ariah.port>8080</ariah.port>
         <jetty.context.file>${basedir}/src/main/webapp/WEB-INF/jetty-web.xml</jetty.context.file>
 
         <!-- WSDL config -->

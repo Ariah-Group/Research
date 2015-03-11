@@ -2,7 +2,7 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
     version="2.5"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee   http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-	<display-name>KCRA Application</display-name>
+	<display-name>Ariah Research</display-name>
 
 <!-- Rice content Start -->
     <context-param>
@@ -13,7 +13,7 @@
     <!-- Change this if you want to use a different Spring file -->
     <context-param>
       <param-name>web.bootstrap.spring.file</param-name>
-      <param-value>classpath:kc-bootstrap-springbeans.xml</param-value>
+      <param-value>classpath:ariah-bootstrap-springbeans.xml</param-value>
     </context-param>
     
     ${monitoring.filter}

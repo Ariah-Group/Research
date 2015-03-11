@@ -36,7 +36,7 @@ import java.util.List;
  */
 public class KcUnitTestMainLifecycle extends KcUnitTestBaseLifecycle {
     
-    private static final String TEST_CONFIG_XML = "classpath:META-INF/kc-test-config.xml";
+    private static final String TEST_CONFIG_XML = "classpath:META-INF/ariah-test-config.xml";
     private static final String TEST_CONFIG_DEFAULTS_XML = "classpath:META-INF/test-config-defaults.xml";
     private static final String DEFAULT_TEST_HARNESS_SPRING_BEANS = "classpath:TestHarnessSpringBeans.xml";
     private static final String RELATIVE_WEB_ROOT = "/src/main/webapp";

@@ -19,27 +19,27 @@ This config file should only contain config locations not actual config properti
 -->
 <config>
 	<!--
-		KC's project build properties
+		Ariah Research's project build properties
 		
 		Contains properties that are set by our build process
 	-->
-	<param name="config.location">classpath:META-INF/kc-config-build.xml</param>
+	<param name="config.location">classpath:META-INF/ariah-config-build.xml</param>
 
 	<!-- 
 		Rice's project defaults
 		
-		Contains properties that may not be set by KC's defaults.  This properties
+		Contains properties that may not be set by Ariah Research's defaults.  This properties
 		should never override.
 	-->
 	<param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
 
 	<!--
-		KC's project defaults
+		Ariah Research's project defaults
 		
 		Contains either properties that differ from the rice defaults or
 		KC specific properties
 	-->
-	<param name="config.location">classpath:META-INF/kc-config-defaults.xml</param>
+	<param name="config.location">classpath:META-INF/ariah-config-defaults.xml</param>
 	
 	<!-- 
 		Rice's standard config file locations
@@ -49,14 +49,14 @@ This config file should only contain config locations not actual config properti
 	<param name="config.location">classpath:META-INF/common-config-locations.xml</param>
 
 	<!-- 
-		KC's external config
+		Ariah Research's external config
 		
 		Config location for the IU environment
 	-->
-	<param name="config.location">/opt/sa_forms/java/${environment}/kra/kc-config.xml</param>
+	<param name="config.location">/opt/sa_forms/java/${environment}/kra/ariah-config.xml</param>
 	
 	<!--
-		KC's external config
+		Ariah Research's external config
 		 
 		Hook for external config
 	 -->
