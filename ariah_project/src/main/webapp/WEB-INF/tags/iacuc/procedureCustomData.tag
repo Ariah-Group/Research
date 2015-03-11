@@ -64,7 +64,7 @@
 									<c:choose>
 			                			<c:when test="${largeText}">
 											<textarea name="${customAttributeId}" tabindex="1" cols="150" rows="3" onkeyup="textLimit(this, ${textLength});" id="${customAttributeId}" style="" class="" title="${textTitle}">${customAttributeValue}</textarea>
-											<input type="image" name="methodToCall.updateTextArea.((`${customAttributeId}:iacucProtocolProcedures:${textTitle}:false:${textLength}`))" src="/kc-dev/kr/static/images/pencil_add.png" onclick="javascript: textAreaPop('${customAttributeId}','iacucProtocolProcedures','${textTitle}','88888888','false','${textLength}');return false" class="tinybutton" title="${textTitle}" alt="Expand Text Area">
+											<input type="image" name="methodToCall.updateTextArea.((`${customAttributeId}:iacucProtocolProcedures:${textTitle}:false:${textLength}`))" src="${ConfigProperties.kr.externalizable.images.url}pencil_add.png" onclick="javascript: textAreaPop('${customAttributeId}','iacucProtocolProcedures','${textTitle}','88888888','false','${textLength}');return false" class="tinybutton" title="${textTitle}" alt="Expand Text Area">
 			                			</c:when>
 			                			<c:otherwise>
 				                		    <input id="${customAttributeId}" type="text" name="${customAttributeId}" value='<c:out value="${customAttributeValue}" escapeXml="true" />' style="${customAttributeErrorStyle}" maxlength="${textLength}" size="${textSize}"/>
