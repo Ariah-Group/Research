@@ -1,24 +1,52 @@
-<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<%--
+ Copyright 2005-2014 The Kuali Foundation
 
-<%@ attribute name="protocolDocumentAttributes" required="true" type="java.util.Map" %>
-<%@ attribute name="protocolAttributes" required="true" type="java.util.Map" %>
-<%@ attribute name="action" required="true" %>
-<%@ attribute name="className" required="true" %>
-<%@ attribute name="displayLayStatementsRow" required="false" type="java.lang.Boolean" %>
-<%@ attribute name="showProjectType" required="false" type="java.lang.Boolean" %>
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
 
-<c:set var="textAreaFieldName" value="document.protocolList[0].title" />
-<c:set var="nonEmpFlag" value="false" />
-<c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyGeneralInfo}" />
+ http://www.osedu.org/licenses/ECL-2.0
 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-------------------------------------
 
-<kul:tab tabTitle="Required Fields for Saving Document" defaultOpen="true" tabErrorKey="document.protocolList[0].principalInvestigatorId,document.protocolList[0].protocolTypeCode,document.protocolList[0].title,document.protocolList[0].leadUnitNumber,document.protocolHelper.personId,document.protocolList[0].protocolTypeCode*,principalInvestigator*,protocolHelper.principalInvestigator*,document.protocolList[0].title*,protocolHelper.leadUnitNumber*,document.ProtocolTypeCode*,document.activityTypeCode*,document.title,document.protocolList[0].layStatement*" >
+Updates made after January 1, 2015 are :
+Copyright 2015 The Ariah Group, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+--%>
+<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"
+%><%@ attribute name="transparent" required="false"
+%><%@ attribute name="protocolDocumentAttributes" required="true" type="java.util.Map"
+%><%@ attribute name="protocolAttributes" required="true" type="java.util.Map"
+%><%@ attribute name="action" required="true"
+%><%@ attribute name="className" required="true"
+%><%@ attribute name="displayLayStatementsRow" required="false" type="java.lang.Boolean"
+%><%@ attribute name="showProjectType" required="false" type="java.lang.Boolean"
+%><c:set var="textAreaFieldName" value="document.protocolList[0].title"
+/><c:set var="nonEmpFlag" value="false"
+/><c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyGeneralInfo}" />
+<kul:tab tabTitle="Required Fields for Saving Document" defaultOpen="true" transparentBackground="${transparent}" tabErrorKey="document.protocolList[0].principalInvestigatorId,document.protocolList[0].protocolTypeCode,document.protocolList[0].title,document.protocolList[0].leadUnitNumber,document.protocolHelper.personId,document.protocolList[0].protocolTypeCode*,principalInvestigator*,protocolHelper.principalInvestigator*,document.protocolList[0].title*,protocolHelper.leadUnitNumber*,document.ProtocolTypeCode*,document.activityTypeCode*,document.title,document.protocolList[0].layStatement*" >
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Required Fields for Saving Document</span>
     		<span class="subhead-right"><kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="protocolRequiredFieldsHelpUrl" altText="help"/></span>
         </h3>
-		
 		<table cellpadding=4 cellspacing=0 summary="">
             <tr>
             	<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${protocolAttributes.protocolTypeCode}" /></div></th>
@@ -181,13 +209,10 @@
 							</c:choose>                        
                         </c:if>
 					</div>
-					
-                    
                     </td>
                     </tr>  
                     </tbody>
                     </table>
-                    
 				</td>				
             </tr>
             

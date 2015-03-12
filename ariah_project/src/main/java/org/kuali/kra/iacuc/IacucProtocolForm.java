@@ -313,7 +313,7 @@ public class IacucProtocolForm extends ProtocolFormBase {
         //List returned by DD is it's cached copy of the header navigation list.
         for (HeaderNavigation nav : navigation) {
 
-            // see if there are any Assigned CUstom Data USAGES to IACUC Protocol
+            // see if there are any Assigned Custom Data USAGES to IACUC Protocol
             if (StringUtils.equalsIgnoreCase(nav.getHeaderTabNavigateTo(), CUSTOM_DATA_NAV_TO)) {
                 boolean displayTab = this.getCustomDataHelper().getCustomAttributeDocuments().isEmpty();
                 // if no usages assigned, disable tab and do not display
@@ -410,4 +410,7 @@ public class IacucProtocolForm extends ProtocolFormBase {
         return retVal;
     }
 
+    public boolean isHideIacucDocDescriptionPanel() {
+        return getIacucProtocolDocument().isDefaultDocumentDescription();
+    }
 }
