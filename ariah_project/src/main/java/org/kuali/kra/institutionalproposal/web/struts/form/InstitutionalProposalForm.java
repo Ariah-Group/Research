@@ -47,27 +47,31 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.kuali.kra.bo.SpecialReviewUsage;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class...
  */
 public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase implements Auditable,
-                                                                        MultiLookupFormBase, ReportHelperBeanContainer,
-                                                                        CustomDataDocumentForm {
+        MultiLookupFormBase, ReportHelperBeanContainer,
+        CustomDataDocumentForm {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 4564236415580911082L;
     private static final String CUSTOM_DATA_NAV_TO = "customData";
+    private static final String SPECIALREVIEW_NAV_TO = "specialReview";
 
     private boolean auditActivated;
-    
+
     private String lookupResultsSequenceNumber;
     private String lookupResultsBOClassName;
-    
+
     private SpecialReviewHelper specialReviewHelper;
     private InstitutionalProposalCustomDataFormHelper institutionalProposalCustomDataFormHelper;
     private NotificationHelper<InstitutionalProposalNotificationContext> notificationHelper;
@@ -81,32 +85,34 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     private boolean cfdaLookupRequired;
     private MedusaBean medusaBean;
     private ReportHelperBean reportHelperBean;
-    
+
     /* Populated from Proposal Log lookup for Proposal creation */
     private String proposalNumber;
-    
+
     private transient String[] selectedAwardFundingProposals;
-    
+
     private boolean viewFundingSource;
     private boolean docOpenedFromIPSearch;
-    
+
     /**
-     * 
+     *
      * Constructs a AwardForm.
      */
     public InstitutionalProposalForm() {
         super();
         initialize();
     }
-    
-    /** {@inheritDoc} */
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected String getDefaultDocumentTypeName() {
         return "InstitutionalProposalDocument";
     }
-    
+
     /**
-     * 
+     *
      * This method initialize all form variables
      */
     public void initialize() {
@@ -116,7 +122,7 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
         institutionalProposalNotepadBean = new InstitutionalProposalNotepadBean(this);
         institutionalProposalCostShareBean = new InstitutionalProposalCostShareBean(this);
         institutionalProposalUnrecoveredFandABean = new InstitutionalProposalUnrecoveredFandABean(this);
-        
+
         projectPersonnelBean = new InstitutionalProposalProjectPersonnelBean(this);
         institutionalProposalCreditSplitBean = new InstitutionalProposalCreditSplitBean(this);
         medusaBean = new MedusaBean();
@@ -125,26 +131,29 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
         centralAdminContactsBean = new InstitutionalProposalCentralAdminContactsBean(this);
         docOpenedFromIPSearch = false;
     }
-    
+
     /**
-     * 
+     *
      * This method returns the AwardDocument object.
+     *
      * @return
      */
     public InstitutionalProposalDocument getInstitutionalProposalDocument() {
         return (InstitutionalProposalDocument) super.getDocument();
     }
-    
+
     /**
      * This method returns a string representation of the document type
+     *
      * @return
      */
     public String getDocumentTypeName() {
         return "InstitutionalProposalDocument";
     }
-    
+
     /**
      * Gets the Special Review Helper.
+     *
      * @return the Special Review Helper
      */
     public SpecialReviewHelper getSpecialReviewHelper() {
@@ -153,6 +162,7 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
 
     /**
      * Sets the Special Review Helper.
+     *
      * @param specialReviewHelper the Special Review Helper
      */
     public void setSpecialReviewHelper(SpecialReviewHelper specialReviewHelper) {
@@ -160,15 +170,17 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     }
 
     /**
-     * Gets the institutionalProposalCustomDataFormHelper attribute. 
+     * Gets the institutionalProposalCustomDataFormHelper attribute.
+     *
      * @return Returns the institutionalProposalCustomDataFormHelper.
      */
     public InstitutionalProposalCustomDataFormHelper getCustomDataHelper() {
         return institutionalProposalCustomDataFormHelper;
     }
-    
+
     /**
-     * Gets the institutionalProposalCustomDataFormHelper attribute. 
+     * Gets the institutionalProposalCustomDataFormHelper attribute.
+     *
      * @return Returns the institutionalProposalCustomDataFormHelper.
      */
     public InstitutionalProposalCustomDataFormHelper getInstitutionalProposalCustomDataFormHelper() {
@@ -177,15 +189,18 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
 
     /**
      * Sets the institutionalProposalCustomDataFormHelper attribute value.
-     * @param institutionalProposalCustomDataFormHelper The institutionalProposalCustomDataFormHelper to set.
+     *
+     * @param institutionalProposalCustomDataFormHelper The
+     * institutionalProposalCustomDataFormHelper to set.
      */
     public void setInstitutionalProposalCustomDataFormHelper(
             InstitutionalProposalCustomDataFormHelper institutionalProposalCustomDataFormHelper) {
         this.institutionalProposalCustomDataFormHelper = institutionalProposalCustomDataFormHelper;
     }
-    
+
     /**
-     * Gets the notificationHelper attribute. 
+     * Gets the notificationHelper attribute.
+     *
      * @return Returns the notificationHelper.
      */
     public NotificationHelper<InstitutionalProposalNotificationContext> getNotificationHelper() {
@@ -194,14 +209,16 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
 
     /**
      * Sets the notificationHelper attribute value.
+     *
      * @param notificationHelper The notificationHelper to set.
      */
     public void setNotificationHelper(NotificationHelper<InstitutionalProposalNotificationContext> notificationHelper) {
         this.notificationHelper = notificationHelper;
     }
-    
+
     /**
-     * Gets the institutionalProposalNotepadBean attribute. 
+     * Gets the institutionalProposalNotepadBean attribute.
+     *
      * @return Returns the institutionalProposalNotepadBean.
      */
     public InstitutionalProposalNotepadBean getInstitutionalProposalNotepadBean() {
@@ -210,17 +227,17 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
 
     /**
      * Sets the institutionalProposalNotepadBean attribute value.
-     * @param institutionalProposalNotepadBean The institutionalProposalNotepadBean to set.
+     *
+     * @param institutionalProposalNotepadBean The
+     * institutionalProposalNotepadBean to set.
      */
     public void setInstitutionalProposalNotepadBean(InstitutionalProposalNotepadBean institutionalProposalNotepadBean) {
         this.institutionalProposalNotepadBean = institutionalProposalNotepadBean;
     }
-    
-    
-
 
     /**
-     * Gets the projectPersonnelBean attribute. 
+     * Gets the projectPersonnelBean attribute.
+     *
      * @return Returns the projectPersonnelBean.
      */
     public InstitutionalProposalProjectPersonnelBean getProjectPersonnelBean() {
@@ -229,26 +246,27 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
 
     /**
      * Sets the projectPersonnelBean attribute value.
+     *
      * @param projectPersonnelBean The projectPersonnelBean to set.
      */
     public void setProjectPersonnelBean(InstitutionalProposalProjectPersonnelBean projectPersonnelBean) {
         this.projectPersonnelBean = projectPersonnelBean;
     }
-    
+
     public InstitutionalProposalUnitContactsBean getUnitContactsBean() {
         return unitContactsBean;
     }
-    
+
     /**
      * @return
      */
     public InstitutionalProposalCentralAdminContactsBean getCentralAdminContactsBean() {
         return centralAdminContactsBean;
     }
-    
 
     /**
-     * Gets the institutionalProposalCreditSplitBean attribute. 
+     * Gets the institutionalProposalCreditSplitBean attribute.
+     *
      * @return Returns the institutionalProposalCreditSplitBean.
      */
     public InstitutionalProposalCreditSplitBean getInstitutionalProposalCreditSplitBean() {
@@ -257,14 +275,17 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
 
     /**
      * Sets the institutionalProposalCreditSplitBean attribute value.
-     * @param institutionalProposalCreditSplitBean The institutionalProposalCreditSplitBean to set.
+     *
+     * @param institutionalProposalCreditSplitBean The
+     * institutionalProposalCreditSplitBean to set.
      */
     public void setInstitutionalProposalCreditSplitBean(InstitutionalProposalCreditSplitBean institutionalProposalCreditSplitBean) {
         this.institutionalProposalCreditSplitBean = institutionalProposalCreditSplitBean;
     }
 
     /**
-     * Gets the institutionalProposalCostShareBean attribute. 
+     * Gets the institutionalProposalCostShareBean attribute.
+     *
      * @return Returns the institutionalProposalCostShareBean.
      */
     public InstitutionalProposalCostShareBean getInstitutionalProposalCostShareBean() {
@@ -273,14 +294,17 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
 
     /**
      * Sets the institutionalProposalCostShareBean attribute value.
-     * @param institutionalProposalCostShareBean The institutionalProposalCostShareBean to set.
+     *
+     * @param institutionalProposalCostShareBean The
+     * institutionalProposalCostShareBean to set.
      */
     public void setInstitutionalProposalCostShareBean(InstitutionalProposalCostShareBean institutionalProposalCostShareBean) {
         this.institutionalProposalCostShareBean = institutionalProposalCostShareBean;
     }
 
     /**
-     * Gets the institutionalProposalUnrecoveredFandABean attribute. 
+     * Gets the institutionalProposalUnrecoveredFandABean attribute.
+     *
      * @return Returns the institutionalProposalUnrecoveredFandABean.
      */
     public InstitutionalProposalUnrecoveredFandABean getInstitutionalProposalUnrecoveredFandABean() {
@@ -289,7 +313,9 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
 
     /**
      * Sets the institutionalProposalUnrecoveredFandABean attribute value.
-     * @param institutionalProposalUnrecoveredFandABean The institutionalProposalUnrecoveredFandABean to set.
+     *
+     * @param institutionalProposalUnrecoveredFandABean The
+     * institutionalProposalUnrecoveredFandABean to set.
      */
     public void setInstitutionalProposalUnrecoveredFandABean(
             InstitutionalProposalUnrecoveredFandABean institutionalProposalUnrecoveredFandABean) {
@@ -300,23 +326,24 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     public String getActionName() {
         return "institutionalProposal";
     }
-    
+
     /**
      * @return The selected lead unit
      */
     public String getSelectedLeadUnit() {
         return projectPersonnelBean.getSelectedLeadUnit();
     }
-    
+
     /**
      * @param unitName
      */
     public void setSelectedLeadUnit(String unitName) {
         projectPersonnelBean.setSelectedLeadUnit(unitName);
     }
-    
+
     /**
-     * @see org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase#getLockRegion()
+     * @see
+     * org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase#getLockRegion()
      */
     @Override
     protected String getLockRegion() {
@@ -324,26 +351,32 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     }
 
     /**
-     * @see org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase#setSaveDocumentControl(java.util.Map)
+     * @see
+     * org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase#setSaveDocumentControl(java.util.Map)
      */
     @Override
     protected void setSaveDocumentControl(Map editMode) {
         getDocumentActions().put(KRADConstants.KUALI_ACTION_CAN_SAVE, KRADConstants.KUALI_DEFAULT_TRUE_VALUE);
 
     }
-    
-    /** {@inheritDoc} */
+
+    /**
+     * {@inheritDoc}
+     */
     public boolean isAuditActivated() {
         return this.auditActivated;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void setAuditActivated(boolean auditActivated) {
         this.auditActivated = auditActivated;
     }
 
     /**
-     * Gets the lookupResultsSequenceNumber attribute. 
+     * Gets the lookupResultsSequenceNumber attribute.
+     *
      * @return Returns the lookupResultsSequenceNumber.
      */
     public String getLookupResultsSequenceNumber() {
@@ -352,14 +385,17 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
 
     /**
      * Sets the lookupResultsSequenceNumber attribute value.
-     * @param lookupResultsSequenceNumber The lookupResultsSequenceNumber to set.
+     *
+     * @param lookupResultsSequenceNumber The lookupResultsSequenceNumber to
+     * set.
      */
     public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
         this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
     }
 
     /**
-     * Gets the lookupResultsBOClassName attribute. 
+     * Gets the lookupResultsBOClassName attribute.
+     *
      * @return Returns the lookupResultsBOClassName.
      */
     public String getLookupResultsBOClassName() {
@@ -368,6 +404,7 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
 
     /**
      * Sets the lookupResultsBOClassName attribute value.
+     *
      * @param lookupResultsBOClassName The lookupResultsBOClassName to set.
      */
     public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
@@ -383,7 +420,8 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     }
 
     /**
-     * Gets the medusaBean attribute. 
+     * Gets the medusaBean attribute.
+     *
      * @return Returns the medusaBean.
      */
     public MedusaBean getMedusaBean() {
@@ -392,20 +430,21 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
 
     /**
      * Sets the medusaBean attribute value.
+     *
      * @param medusaBean The medusaBean to set.
      */
     public void setMedusaBean(MedusaBean medusaBean) {
         this.medusaBean = medusaBean;
     }
-    
-    public String getValueFinderResultDoNotCache(){
+
+    public String getValueFinderResultDoNotCache() {
         if (this.getActionFormUtilMap() instanceof ActionFormUtilMap) {
             ((ActionFormUtilMap) this.getActionFormUtilMap()).setCacheValueFinderResults(false);
         }
         return "";
     }
-    
-    public String getValueFinderResultCache(){
+
+    public String getValueFinderResultCache() {
         if (this.getActionFormUtilMap() instanceof ActionFormUtilMap) {
             ((ActionFormUtilMap) this.getActionFormUtilMap()).setCacheValueFinderResults(true);
         }
@@ -427,34 +466,34 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     public void setSelectedAwardFundingProposals(String[] selectedAwardFundingProposals) {
         this.selectedAwardFundingProposals = selectedAwardFundingProposals;
     }
-    
+
     public boolean getDisplayEditButton() {
         boolean displayEditButton;
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) getDocument();
         if (isDocOpenedFromIPSearch()) {
             displayEditButton = true;
-        }else {
+        } else {
             displayEditButton = !isViewOnly();
         }
         displayEditButton &= getInstitutionalProposalDocument().getInstitutionalProposal().isActiveVersion();
         return displayEditButton;
-      }
-    
+    }
+
     public boolean isCfdaLookupRequired() {
-        String integration = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_AWARD, 
+        String integration = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_AWARD,
                 Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER);
         cfdaLookupRequired = StringUtils.equals(integration, Constants.FIN_SYSTEM_INTEGRATION_ON) ? true : false;
         return cfdaLookupRequired;
     }
 
     protected ParameterService getParameterService() {
-        return KraServiceLocator.getService(ParameterService.class);   
+        return KraServiceLocator.getService(ParameterService.class);
     }
-    
+
     public boolean getViewFundingSource() {
         return viewFundingSource;
     }
-    
+
     public void setViewFundingSource(boolean viewFundingSource) {
         this.viewFundingSource = viewFundingSource;
     }
@@ -462,44 +501,64 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     public boolean isDocOpenedFromIPSearch() {
         return docOpenedFromIPSearch;
     }
+
     public void setDocOpenedFromIPSearch(boolean docOpened) {
         docOpenedFromIPSearch = docOpened;
     }
-    
+
     @Override
     public HeaderNavigation[] getHeaderNavigationTabs() {
-        
+
         HeaderNavigation[] navigation = super.getHeaderNavigationTabs();
-        
+
         List<HeaderNavigation> resultList = new ArrayList<HeaderNavigation>();
-            //We have to copy the HeaderNavigation elements into a new collection as the 
-            //List returned by DD is it's cached copy of the header navigation list.
+
+        Map<String, String> specialReviewUsageParams = new HashMap<String, String>();
+        specialReviewUsageParams.put("moduleCode", Constants.MODULE_CODE_INSTITUTE_PROPOSAL);
+        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+
+        List<SpecialReviewUsage> usages = (List<SpecialReviewUsage>) businessObjectService.findMatching(SpecialReviewUsage.class, specialReviewUsageParams);
+
+        boolean includeSpecialReviews = true;
+
+        if (usages == null || usages.isEmpty()) {
+            includeSpecialReviews = false;
+        }
+
+        //We have to copy the HeaderNavigation elements into a new collection as the 
+        //List returned by DD is it's cached copy of the header navigation list.
         for (HeaderNavigation nav : navigation) {
-            if (StringUtils.equals(nav.getHeaderTabNavigateTo(),CUSTOM_DATA_NAV_TO)) {
-                boolean displayTab = !((InstitutionalProposalDocument)this.getDocument()).getCustomAttributeDocuments().isEmpty();
+            if (StringUtils.equals(nav.getHeaderTabNavigateTo(), CUSTOM_DATA_NAV_TO)) {
+                boolean displayTab = !((InstitutionalProposalDocument) this.getDocument()).getCustomAttributeDocuments().isEmpty();
                 nav.setDisabled(!displayTab);
                 if (displayTab) {
                     resultList.add(nav);
                 }
+            } else if (StringUtils.equalsIgnoreCase(nav.getHeaderTabNavigateTo(), SPECIALREVIEW_NAV_TO)) {
+
+                if (includeSpecialReviews) {
+                    resultList.add(nav);
+                }
+
             } else {
                 resultList.add(nav);
             }
         }
-        
+
         HeaderNavigation[] result = new HeaderNavigation[resultList.size()];
         resultList.toArray(result);
         return result;
     }
-    
+
     public List<ExtraButton> getExtraActionsButtons() {
         extraButtons.clear();
-        
+
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
         ConfigurationService configurationService = CoreApiServiceLocator.getKualiConfigurationService();
-        
+
         String sendNotificationImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_send_notification.gif";
         addExtraButton("methodToCall.sendNotification", sendNotificationImage, "Send Notification");
-        
+
         return extraButtons;
     }
 
