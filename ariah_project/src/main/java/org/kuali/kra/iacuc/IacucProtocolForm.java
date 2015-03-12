@@ -85,6 +85,9 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  */
 public class IacucProtocolForm extends ProtocolFormBase {
 
+    private static final String CUSTOM_DATA_NAV_TO = "customData";
+    private static final String SPECIALREVIEW_NAV_TO = "specialReview";
+
     private static final long serialVersionUID = -535557943052220820L;
     private IacucProtocolSpeciesHelper iacucProtocolSpeciesHelper;
     private IacucAlternateSearchHelper iacucAlternateSearchHelper;
@@ -92,7 +95,6 @@ public class IacucProtocolForm extends ProtocolFormBase {
     private IacucProtocolProceduresHelper iacucProtocolProceduresHelper;
     private boolean defaultOpenCopyTab = false;
     private boolean reinitializeModifySubmissionFields = true;
-    private static final String SPECIALREVIEW_NAV_TO = "specialReview";
 
     public IacucProtocolForm() throws Exception {
         super();
@@ -302,7 +304,7 @@ public class IacucProtocolForm extends ProtocolFormBase {
 
         List<SpecialReviewUsage> usages = (List<SpecialReviewUsage>) businessObjectService.findMatching(SpecialReviewUsage.class, specialReviewUsageParams);
         boolean includeSpecialReviews = true;
-        
+
         if (usages == null || usages.isEmpty()) {
             includeSpecialReviews = false;
         }
@@ -310,7 +312,16 @@ public class IacucProtocolForm extends ProtocolFormBase {
         //We have to copy the HeaderNavigation elements into a new collection as the 
         //List returned by DD is it's cached copy of the header navigation list.
         for (HeaderNavigation nav : navigation) {
-            if (StringUtils.equals(nav.getHeaderTabNavigateTo(), ONLINE_REVIEW_NAV_TO)) {
+
+            // see if there are any Assigned CUstom Data USAGES to IACUC Protocol
+            if (StringUtils.equalsIgnoreCase(nav.getHeaderTabNavigateTo(), CUSTOM_DATA_NAV_TO)) {
+                boolean displayTab = this.getCustomDataHelper().getCustomAttributeDocuments().isEmpty();
+                // if no usages assigned, disable tab and do not display
+                nav.setDisabled(displayTab);
+                if (!displayTab) {
+                    resultList.add(nav);
+                }
+            } else if (StringUtils.equalsIgnoreCase(nav.getHeaderTabNavigateTo(), ONLINE_REVIEW_NAV_TO)) {
                 nav.setDisabled(!onlineReviewTabEnabled);
                 if (onlineReviewTabEnabled || ((!onlineReviewTabEnabled) && (!HIDE_ONLINE_REVIEW_WHEN_DISABLED))) {
                     resultList.add(nav);
