@@ -484,6 +484,11 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.preSave(mapping, form, request, response);
         
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        if (protocolForm.isHideIacucDocDescriptionPanel()) {
+            protocolForm.getIacucProtocolDocument().defaultDocumentDescription();
+        }
+        
         preSaveProtocol(form);        
     }
 

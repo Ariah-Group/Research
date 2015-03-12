@@ -441,4 +441,15 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
         boolean val = KraServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean(IacucProtocolDocument.class, Constants.ARIAH_IACUC_HIDE_AND_DEFAULT_IACUC_PROTOCOL_DOC_DESC);
         return val;
     }
+
+    public void defaultDocumentDescription() {
+
+        IacucProtocol protocol = getIacucProtocol();
+        String desc = String.format("%s; Protocol Id: %s; PI: %s",
+                protocol.getTitle() != null ? protocol.getTitle().substring(0, Math.min(protocol.getTitle().length(), 50)) : "null",
+                protocol.getProtocolNumber(),
+                protocol.getPrincipalInvestigatorName() != null ? protocol.getPrincipalInvestigatorName().substring(0, Math.min(protocol.getPrincipalInvestigatorName().length(), 50)) : "null");
+
+        getDocumentHeader().setDocumentDescription(desc);
+    }
 }
