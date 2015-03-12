@@ -943,5 +943,26 @@ public interface Constants {
     public static final String ARIAH_PROPDEV_DEFAULT_ANTICIPATED_AWARD_TYPE = "ARIAH_PROPDEV_DEFAULT_ANTICIPATED_AWARD_TYPE";
     public static final String ARIAH_PROPDEV_DEFAULT_SPONSOR_DEADLINE_TYPE = "ARIAH_PROPDEV_DEFAULT_SPONSOR_DEADLINE_TYPE";
     public static final String ARIAH_PROPDEV_REQUIRE_SPONSOR_DEADLINE_TYPE = "ARIAH_PROPDEV_REQUIRE_SPONSOR_DEADLINE_TYPE";
+    
+    /**
+     * Module Code for "Award" records in as defined in COEUS_MODULE database table.
+     */
+    public static String MODULE_CODE_AWARD = "1";
+    /**
+     * Module Code for "Institutional Proposal" records in as defined in COEUS_MODULE database table.
+     */
+    public static String MODULE_CODE_INSTITUTE_PROPOSAL = "2";    
+    /**
+     * Module Code for "Proposal Development" records in as defined in COEUS_MODULE database table.
+     */
+    public static String MODULE_CODE_PROPOSAL = "3";
+    /**
+     * Module Code for "IRB" records in as defined in COEUS_MODULE database table.
+     */
+    public static String MODULE_CODE_IRB = "7";    
+    /**
+     * Module Code for "IACUC" records in as defined in COEUS_MODULE database table.
+     */
+    public static String MODULE_CODE_IACUC= "9";    
 }
 
