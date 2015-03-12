@@ -58,6 +58,7 @@ import org.kuali.kra.bo.CitizenshipType;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.SpecialReviewUsage;
 import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.core.Budget;
@@ -489,7 +490,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             cCriteria.setIncludeBudget(false);
         }
 
-       // following reset the tab stats and will load as default when it returns from lookup.
+        // following reset the tab stats and will load as default when it returns from lookup.
         // TODO : Do we really need this?
         // implemented headerTab in KraTransactionalDocumentActionBase
         //     this.setTabStates(new HashMap<String, String>());
@@ -1641,10 +1642,31 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             showProposalSummary = false;
         }
 
+        Map<String, String> specialReviewUsageParams = new HashMap<String, String>();
+        specialReviewUsageParams.put("moduleCode", Constants.MODULE_CODE_PROPOSAL);
+        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+
+        List<SpecialReviewUsage> usages = (List<SpecialReviewUsage>) businessObjectService.findMatching(SpecialReviewUsage.class, specialReviewUsageParams);
+
+        boolean includeSpecialReviews = true;
+
+        if (usages == null || usages.isEmpty()) {
+            includeSpecialReviews = false;
+        }
+       
         for (HeaderNavigation tab : tabs) {
             if (tab.getHeaderTabNavigateTo().equals("grantsGov")) {
                 tab.setDisabled(disableGrantsGov);
             }
+            
+            if (StringUtils.equalsIgnoreCase(tab.getHeaderTabNavigateTo(), "specialReview")) {
+                if (includeSpecialReviews) {
+                    newTabs.add(tab);
+                }
+
+                // skip all the crap below as it's not necessary
+                continue;
+            }            
 //            if (showHierarchy || !tab.getHeaderTabNavigateTo().equals("hierarchy")) {
 //                if (tab.getHeaderTabNavigateTo().equals("customData")) {
 //                    if (!this.getProposalDevelopmentDocument().getCustomAttributeDocuments().isEmpty()) {
