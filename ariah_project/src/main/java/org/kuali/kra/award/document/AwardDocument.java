@@ -726,7 +726,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     }
     
     public boolean isDefaultDocumentDescription() {
-        return getParameterService().getParameterValueAsBoolean(AwardDocument.class, Constants.ARIAH_PARAM_AWARD_HIDE_AND_DEFAULT_AWARD_DOC_DESC);
+        return getParameterService().getParameterValueAsBoolean(AwardDocument.class, Constants.ARIAH_AWARD_HIDE_AND_DEFAULT_AWARD_DOC_DESC);
     }
 
     public void defaultDocumentDescription() {
