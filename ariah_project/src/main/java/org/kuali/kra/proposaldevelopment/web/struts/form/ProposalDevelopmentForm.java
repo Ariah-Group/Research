@@ -1653,12 +1653,25 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         if (usages == null || usages.isEmpty()) {
             includeSpecialReviews = false;
         }
-       
+
+        boolean displayCustomAttrTab = !((ProposalDevelopmentDocument) this.getDocument()).getCustomAttributeDocuments().isEmpty();
+
         for (HeaderNavigation tab : tabs) {
             if (tab.getHeaderTabNavigateTo().equals("grantsGov")) {
                 tab.setDisabled(disableGrantsGov);
             }
-            
+
+            if (StringUtils.equalsIgnoreCase(tab.getHeaderTabNavigateTo(), "customData")) {
+
+                //  tab.setDisabled(!displayCustomAttrTab);
+                if (displayCustomAttrTab) {
+                    newTabs.add(tab);
+                }
+
+                // skip everything below
+                continue;
+            }
+
             if (StringUtils.equalsIgnoreCase(tab.getHeaderTabNavigateTo(), "specialReview")) {
                 if (includeSpecialReviews) {
                     newTabs.add(tab);
@@ -1666,7 +1679,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
                 // skip all the crap below as it's not necessary
                 continue;
-            }            
+            }
 //            if (showHierarchy || !tab.getHeaderTabNavigateTo().equals("hierarchy")) {
 //                if (tab.getHeaderTabNavigateTo().equals("customData")) {
 //                    if (!this.getProposalDevelopmentDocument().getCustomAttributeDocuments().isEmpty()) {
