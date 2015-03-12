@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.irb;
 
 import java.sql.Timestamp;
@@ -61,21 +60,20 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krms.api.engine.Facts.Builder;
 
-
 /**
- * 
- * This class represents the Protocol Document Object.
- * ProtocolDocument has a 1:1 relationship with Protocol Business Object.
- * We have declared a list of Protocol BOs in the ProtocolDocument at the same time to
- * get around the OJB anonymous keys issue of primary keys of different data types.
- * Also we have provided convenient getter and setter methods so that to the outside world;
+ *
+ * This class represents the Protocol Document Object. ProtocolDocument has a
+ * 1:1 relationship with Protocol Business Object. We have declared a list of
+ * Protocol BOs in the ProtocolDocument at the same time to get around the OJB
+ * anonymous keys issue of primary keys of different data types. Also we have
+ * provided convenient getter and setter methods so that to the outside world;
  * Protocol and ProtocolDocument can have a 1:1 relationship.
  */
 @SuppressWarnings("unchecked")
-@NAMESPACE(namespace=Constants.MODULE_NAMESPACE_PROTOCOL)
-@COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
-public class ProtocolDocument extends ProtocolDocumentBase { 
-    
+@NAMESPACE(namespace = Constants.MODULE_NAMESPACE_PROTOCOL)
+@COMPONENT(component = ParameterConstants.DOCUMENT_COMPONENT)
+public class ProtocolDocument extends ProtocolDocumentBase {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -83,54 +81,56 @@ public class ProtocolDocument extends ProtocolDocumentBase {
 
     private static final Log LOG = LogFactory.getLog(ProtocolDocument.class);
     public static final String DOCUMENT_TYPE_CODE = "PROT";
-    
+
     @SuppressWarnings("unused")
     private static final String APPROVED_COMMENT = "Approved";
     @SuppressWarnings("unused")
     private static final String DISAPPROVED_COMMENT = "Disapproved";
-    private static final String listOfStatiiEligibleForMerging = ProtocolStatus.SUBMITTED_TO_IRB + " " + ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED + " " + 
-                                                                 ProtocolStatus.DEFERRED + " " + ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED + " " +  
-                                                                 ProtocolStatus.AMENDMENT_IN_PROGRESS + " " + ProtocolStatus.RENEWAL_IN_PROGRESS + " " + 
-                                                                 ProtocolStatus.SUSPENDED_BY_PI + " " + ProtocolStatus.DELETED + " " + ProtocolStatus.WITHDRAWN;
+    private static final String listOfStatiiEligibleForMerging = ProtocolStatus.SUBMITTED_TO_IRB + " " + ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED + " "
+            + ProtocolStatus.DEFERRED + " " + ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED + " "
+            + ProtocolStatus.AMENDMENT_IN_PROGRESS + " " + ProtocolStatus.RENEWAL_IN_PROGRESS + " "
+            + ProtocolStatus.SUSPENDED_BY_PI + " " + ProtocolStatus.DELETED + " " + ProtocolStatus.WITHDRAWN;
 
     private static final String DISAPPROVED_CONTEXT_NAME = "Disapproved";
-    
+
     private List<CustomAttributeDocValue> customDataList;
-    
+
     public ProtocolDocument() {
         super();
         customDataList = new ArrayList<CustomAttributeDocValue>();
-    }    
+    }
 
     /**
-     * 
-     * This method is a convenience method for facilitating a 1:1 relationship between ProtocolDocument 
-     * and Protocol to the outside world - aka a single Protocol field associated with ProtocolDocument
+     *
+     * This method is a convenience method for facilitating a 1:1 relationship
+     * between ProtocolDocument and Protocol to the outside world - aka a single
+     * Protocol field associated with ProtocolDocument
+     *
      * @return
      */
     public Protocol getProtocol() {
-       return (Protocol)super.getProtocol();
+        return (Protocol) super.getProtocol();
     }
-    
+
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
     }
-    
-    
+
     @Override
     protected void mergeProtocolAmendment() {
         if (isAmendment()) {
             mergeAmendment(ProtocolStatus.AMENDMENT_MERGED, "Amendment");
-        }
-        else if (isRenewal()) {
+        } else if (isRenewal()) {
             mergeAmendment(ProtocolStatus.RENEWAL_MERGED, "Renewal");
         }
     }
 
     /**
-     * Merge the amendment into the original protocol.  Actually, we must first make a new
-     * version of the original and then merge the amendment into that new version.
-     * Also merge changes into any versions of the protocol that are being amended/renewed.
+     * Merge the amendment into the original protocol. Actually, we must first
+     * make a new version of the original and then merge the amendment into that
+     * new version. Also merge changes into any versions of the protocol that
+     * are being amended/renewed.
+     *
      * @param protocolStatusCode
      * @throws Exception
      */
@@ -141,13 +141,13 @@ public class ProtocolDocument extends ProtocolDocumentBase {
         final ProtocolDocument newProtocolDocument;
         try {
             // workflowdocument is null, so need to use documentservice to retrieve it
-            currentProtocol.setProtocolDocument((ProtocolDocument)getDocumentService().getByDocumentHeaderId(currentProtocol.getProtocolDocument().getDocumentNumber()));
+            currentProtocol.setProtocolDocument((ProtocolDocument) getDocumentService().getByDocumentHeaderId(currentProtocol.getProtocolDocument().getDocumentNumber()));
             currentProtocol.setMergeAmendment(true);
             newProtocolDocument = (ProtocolDocument) getProtocolVersionService().versionProtocolDocument(currentProtocol.getProtocolDocument());
         } catch (Exception e) {
             throw new ProtocolMergeException(e);
         }
-        
+
         newProtocolDocument.getProtocol().merge(getProtocol());
         getProtocol().setProtocolStatusCode(protocolStatusCode);
 
@@ -170,18 +170,18 @@ public class ProtocolDocument extends ProtocolDocumentBase {
         } catch (WorkflowException e) {
             throw new ProtocolMergeException(e);
         }
-        
+
         this.getProtocol().setActive(false);
-        
+
         // now that we've updated the approved protocol, we must find all others under modification and update them too.
-        for (ProtocolBase otherProtocol: getProtocolFinder().findProtocols(getOriginalProtocolNumber())) {
+        for (ProtocolBase otherProtocol : getProtocolFinder().findProtocols(getOriginalProtocolNumber())) {
             String status = otherProtocol.getProtocolStatus().getProtocolStatusCode();
             if (isEligibleForMerging(status, (Protocol) otherProtocol)) {
                 // then this protocol version is being amended so push changes to it
                 LOG.info("Merging amendment " + this.getProtocol().getProtocolNumber() + " into editable protocol " + otherProtocol.getProtocolNumber());
                 otherProtocol.merge(getProtocol(), false);
-                String protocolType = protocolStatusCode.equals(ProtocolStatus.AMENDMENT_MERGED) ? ProtocolActionType.AMENDMENT_CREATED 
-                                                                                                 : ProtocolActionType.RENEWAL_CREATED;
+                String protocolType = protocolStatusCode.equals(ProtocolStatus.AMENDMENT_MERGED) ? ProtocolActionType.AMENDMENT_CREATED
+                        : ProtocolActionType.RENEWAL_CREATED;
                 action = new ProtocolAction((Protocol) otherProtocol, null, protocolType);
                 action.setComments(type + "-" + getProtocolNumberIndex() + ": Merged");
                 otherProtocol.getProtocolActions().add(action);
@@ -189,14 +189,16 @@ public class ProtocolDocument extends ProtocolDocumentBase {
             }
         }
 
-        finalizeAttachmentProtocol((Protocol)this.getProtocol());
+        finalizeAttachmentProtocol((Protocol) this.getProtocol());
         getBusinessObjectService().save(this);
-        
+
         mergeProtocolCorrespondenceAndNotification(newProtocolDocument, getLastApprovalAction().getProtocolActionType().getProtocolActionTypeCode());
     }
-    
+
     /**
-     * This method is to verify whether a protocol expired and we are renewing that protocol
+     * This method is to verify whether a protocol expired and we are renewing
+     * that protocol
+     *
      * @param currentProtocol
      * @return
      */
@@ -205,26 +207,29 @@ public class ProtocolDocument extends ProtocolDocumentBase {
     }
 
     /**
-     * This method is to verify whether original protocol is suspended and currently we are on amendment/renewal/amendment with renewal
-     * to un-suspend a protocol.
+     * This method is to verify whether original protocol is suspended and
+     * currently we are on amendment/renewal/amendment with renewal to
+     * un-suspend a protocol.
+     *
      * @param currentProtocol
      * @return
      */
     private boolean isProtocolSuspendedAndForAmendmentOrRenewal(Protocol currentProtocol) {
         String currentProtocolStatus = currentProtocol.getProtocolStatusCode();
-        if((currentProtocolStatus.equals(ProtocolStatus.SUSPENDED_BY_DSMB) || currentProtocolStatus.equals(ProtocolStatus.SUSPENDED_BY_IRB) || 
-                currentProtocolStatus.equals(ProtocolStatus.SUSPENDED_BY_PI)) && (this.isRenewal() || this.isAmendment() || this.isRenewalWithAmendment())) {
+        if ((currentProtocolStatus.equals(ProtocolStatus.SUSPENDED_BY_DSMB) || currentProtocolStatus.equals(ProtocolStatus.SUSPENDED_BY_IRB)
+                || currentProtocolStatus.equals(ProtocolStatus.SUSPENDED_BY_PI)) && (this.isRenewal() || this.isAmendment() || this.isRenewalWithAmendment())) {
             return true;
         }
         return false;
     }
-    
+
     protected void mergeProtocolCorrespondenceAndNotification(ProtocolDocument newProtocolDocument, String protocolActionType) {
         /**
-         * This is a hack, but if there another way to do it?  Not that I can find.
-         * We need to find the last instance of a Protocol Action of type ProtocolActionType.APPROVED and copy that action's correspondence, and put it in the
-         * corresponding action on .  Per KCIRB-1830
-        */  
+         * This is a hack, but if there another way to do it? Not that I can
+         * find. We need to find the last instance of a Protocol Action of type
+         * ProtocolActionType.APPROVED and copy that action's correspondence,
+         * and put it in the corresponding action on . Per KCIRB-1830
+         */
         ProtocolAction getProtocolPaToUse = null;
         for (ProtocolActionBase pa : getProtocol().getProtocolActions()) {
             if (StringUtils.equals(protocolActionType, pa.getProtocolActionTypeCode())) {
@@ -276,18 +281,18 @@ public class ProtocolDocument extends ProtocolDocumentBase {
                 newNotification.persistOwningObject(newProtocolDocument.getProtocol());
             }
             getBusinessObjectService().save(newDocPaToUse);
-        }   
-    }
-    
-        private boolean isProtocolApproved(String protocolActionTypeCode) {
-            if (StringUtils.equals(ProtocolActionType.APPROVED, protocolActionTypeCode) || 
-                    StringUtils.equals(ProtocolActionType.EXPEDITE_APPROVAL, protocolActionTypeCode) ||
-                    StringUtils.equals(ProtocolActionType.RESPONSE_APPROVAL, protocolActionTypeCode)){
-                return true;
-            }
-            return false;
         }
-        
+    }
+
+    private boolean isProtocolApproved(String protocolActionTypeCode) {
+        if (StringUtils.equals(ProtocolActionType.APPROVED, protocolActionTypeCode)
+                || StringUtils.equals(ProtocolActionType.EXPEDITE_APPROVAL, protocolActionTypeCode)
+                || StringUtils.equals(ProtocolActionType.RESPONSE_APPROVAL, protocolActionTypeCode)) {
+            return true;
+        }
+        return false;
+    }
+
     private boolean isEligibleForMerging(String status, Protocol otherProtocol) {
         return listOfStatiiEligibleForMerging.contains(status) && !StringUtils.equals(this.getProtocol().getProtocolNumber(), otherProtocol.getProtocolNumber());
     }
@@ -304,7 +309,6 @@ public class ProtocolDocument extends ProtocolDocumentBase {
         }
     }
 
-
     private ProtocolVersionService getProtocolVersionService() {
         return KraServiceLocator.getService(ProtocolVersionService.class);
     }
@@ -315,10 +319,10 @@ public class ProtocolDocument extends ProtocolDocumentBase {
 
     private ProtocolActionBase getLastApprovalAction() {
         ProtocolActionBase result = null;
-        for (ProtocolActionBase action: getProtocol().getProtocolActions()) {
-            if (ProtocolActionType.APPROVED.equals(action.getProtocolActionTypeCode()) ||
-                ProtocolActionType.EXPEDITE_APPROVAL.equals(action.getProtocolActionTypeCode()) ||
-                ProtocolActionType.GRANT_EXEMPTION.equals(action.getProtocolActionTypeCode().equals(ProtocolActionType.APPROVED))) {
+        for (ProtocolActionBase action : getProtocol().getProtocolActions()) {
+            if (ProtocolActionType.APPROVED.equals(action.getProtocolActionTypeCode())
+                    || ProtocolActionType.EXPEDITE_APPROVAL.equals(action.getProtocolActionTypeCode())
+                    || ProtocolActionType.GRANT_EXEMPTION.equals(action.getProtocolActionTypeCode().equals(ProtocolActionType.APPROVED))) {
                 result = action;
             }
         }
@@ -326,45 +330,46 @@ public class ProtocolDocument extends ProtocolDocumentBase {
     }
 
     /**
-     * 
-     * This method is to check whether rice async routing is ok now.   
-     * Close to hack.  called by holdingpageaction
-     * Different document type may have different routing set up, so each document type
-     * can implement its own isProcessComplete
+     *
+     * This method is to check whether rice async routing is ok now. Close to
+     * hack. called by holdingpageaction Different document type may have
+     * different routing set up, so each document type can implement its own
+     * isProcessComplete
+     *
      * @return
-     * @throws WorkflowException 
+     * @throws WorkflowException
      */
     public boolean isProcessComplete() {
         boolean isComplete = true;
-        
+
         /*
          * This happens when you submit your protocol to IRB, the current route node is Initiated
          */
         if (this.getProtocol().getProtocolStatusCode().equals(ProtocolStatus.SUBMITTED_TO_IRB)) {
-            if (getWorkflowDocumentService().getCurrentRouteNodeNames(getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.PROTOCOL_INITIATED_ROUTE_NODE_NAME)) { 
+            if (getWorkflowDocumentService().getCurrentRouteNodeNames(getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.PROTOCOL_INITIATED_ROUTE_NODE_NAME)) {
                 isComplete = false;
-            }     
+            }
             // while submitting an amendment for IRB review, the amendment moves from node Initiated to node IRBReview, 
             //so need to check if protocolSubmissionStatus is "InAgenda" to avoid the processing page from not going away at all when 
             // an amendment is submitted for review
             // Added for KCIRB-1515 & KCIRB-1528
-            getProtocol().getProtocolSubmission().refreshReferenceObject("submissionStatus"); 
+            getProtocol().getProtocolSubmission().refreshReferenceObject("submissionStatus");
             String status = getProtocol().getProtocolSubmission().getSubmissionStatusCode();
             if (isAmendment() || isRenewal()) {
-                if (status.equals(ProtocolSubmissionStatus.APPROVED) 
-                    && getWorkflowDocumentService().getCurrentRouteNodeNames(getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME)) {
-                        isComplete = false;
-               }
+                if (status.equals(ProtocolSubmissionStatus.APPROVED)
+                        && getWorkflowDocumentService().getCurrentRouteNodeNames(getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME)) {
+                    isComplete = false;
+                }
             }
-               
+
         } else {
             /*
              * If amendment has been merged, need to redirect to the newly created active protocol
              * Wait for the new active protocol to be created before redirecting to it.
              */
-            if (getProtocol().getProtocolStatusCode().equals(ProtocolStatus.AMENDMENT_MERGED) || 
-                getProtocol().getProtocolStatusCode().equals(ProtocolStatus.RENEWAL_MERGED)) {
-                String protocolId = getNewProtocolDocId();               
+            if (getProtocol().getProtocolStatusCode().equals(ProtocolStatus.AMENDMENT_MERGED)
+                    || getProtocol().getProtocolStatusCode().equals(ProtocolStatus.RENEWAL_MERGED)) {
+                String protocolId = getNewProtocolDocId();
                 if (ObjectUtils.isNull(protocolId)) {
                     isComplete = false;
                 } else {
@@ -377,13 +382,12 @@ public class ProtocolDocument extends ProtocolDocumentBase {
                     String returnLocation = oldLocation.replaceFirst(oldDocNbr, protocolId);
                     GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_RETURN_LOCATION, (Object) returnLocation);
                 }
-            }         
+            }
             // approve/expedited approve/response approve
             if (!getDocumentHeader().getWorkflowDocument().isFinal()) {
                 isComplete = false;
-            } 
+            }
         }
-
 
         return isComplete;
     }
@@ -398,59 +402,49 @@ public class ProtocolDocument extends ProtocolDocumentBase {
         fbService.addFacts(factsBuilder, this);
     }
 
-
     @Override
     protected Protocol createNewProtocolInstanceHook() {
         return new Protocol();
     }
-
 
     @Override
     protected Class<? extends org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaService> getProtocolResearchAreaServiceClassHook() {
         return ProtocolResearchAreaService.class;
     }
 
-
     @Override
     protected Class<? extends ResearchAreaBase> getResearchAreaBoClassHook() {
         return ResearchArea.class;
     }
-
 
     @Override
     protected ProtocolActionBase getNewProtocolActionInstanceHook(ProtocolBase protocol, ProtocolSubmissionBase protocolSubmission, String actionTypeCode) {
         return new ProtocolAction((Protocol) protocol, (ProtocolSubmission) protocolSubmission, actionTypeCode);
     }
 
-
     @Override
     protected Class<? extends org.kuali.kra.protocol.actions.submit.ProtocolActionService> getProtocolActionServiceClassHook() {
         return ProtocolActionService.class;
     }
-
 
     @Override
     protected Class<? extends org.kuali.kra.protocol.protocol.location.ProtocolLocationService> getProtocolLocationServiceClassHook() {
         return ProtocolLocationService.class;
     }
 
-
     @Override
     protected Class<? extends ProtocolBase> getProtocolBOClassHook() {
         return Protocol.class;
     }
-
 
     @Override
     public List<? extends DocumentCustomData> getDocumentCustomData() {
         return getCustomDataList();
     }
 
-
     public List<CustomAttributeDocValue> getCustomDataList() {
         return customDataList;
     }
-
 
     public void setCustomDataList(List<CustomAttributeDocValue> customDataList) {
         this.customDataList = customDataList;
@@ -460,8 +454,6 @@ public class ProtocolDocument extends ProtocolDocumentBase {
     protected Class<? extends ProtocolGenericActionService> getProtocolGenericActionServiceClassHook() {
         return ProtocolGenericActionService.class;
     }
-   
-    
 
     @Override
     protected ProtocolNotification getNewProtocolNotificationInstanceHook() {
@@ -470,10 +462,10 @@ public class ProtocolDocument extends ProtocolDocumentBase {
 
     @Override
     protected ProtocolNotificationContextBase getDisapproveNotificationContextHook(ProtocolBase protocol) {
-        return new IRBNotificationContext( (Protocol) protocol, 
-                                            ProtocolActionType.DISAPPROVED, 
-                                            DISAPPROVED_CONTEXT_NAME, 
-                                            new ProtocolDisapprovedNotificationRenderer( (Protocol) protocol));
+        return new IRBNotificationContext((Protocol) protocol,
+                ProtocolActionType.DISAPPROVED,
+                DISAPPROVED_CONTEXT_NAME,
+                new ProtocolDisapprovedNotificationRenderer((Protocol) protocol));
     }
 
     @Override
