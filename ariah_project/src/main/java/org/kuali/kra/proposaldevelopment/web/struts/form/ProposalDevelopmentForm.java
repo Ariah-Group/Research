@@ -2233,6 +2233,9 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      */
     protected void initProposalDefaults(ProposalDevelopmentDocument proposalDevelopmentDocument) {
 
+        String proposalTypeCode = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.ARIAH_PROPDEV_DEFAULT_PROPOSAL_TYPE_CODE);
+        proposalDevelopmentDocument.getDevelopmentProposal().setProposalTypeCode(proposalTypeCode);        
+        
         String defaultSponsorDeadlineType = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.ARIAH_PROPDEV_DEFAULT_SPONSOR_DEADLINE_TYPE);
 
         if (defaultSponsorDeadlineType != null && !defaultSponsorDeadlineType.isEmpty()) {
