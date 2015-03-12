@@ -15,11 +15,10 @@
  */
 package org.kuali.kra.subaward;
 
+import java.util.ArrayList;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.printing.AwardPrintNotice;
 import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
@@ -49,20 +48,22 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.kns.datadictionary.HeaderNavigation;
+
 /**
  * This class represents the SubAward Form Struts class....
  */
 public class SubAwardForm extends KraTransactionalDocumentFormBase
-implements PermissionsForm, Auditable, CustomDataDocumentForm {
+        implements PermissionsForm, Auditable, CustomDataDocumentForm {
 
     private static final long serialVersionUID = -1452575757578523254L;
 
-
+    private static final String CUSTOM_DATA_NAV_TO = "customData";
     public static final String COLUMN = ":";
     private String lookupResultsSequenceNumber;
     private String lookupResultsBOClassName;
@@ -81,14 +82,10 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
     private SubAwardReports newSubAwardReport;
     private SubAwardPrintAgreement subAwardPrintAgreement;
     private SubAwardForms subAwardForms;
-    
-   
-    
-
-
 
     /**
-     * Gets the subAwardForms attribute. 
+     * Gets the subAwardForms attribute.
+     *
      * @return Returns the subAwardForms.
      */
     public SubAwardForms getSubAwardForms() {
@@ -97,6 +94,7 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
 
     /**
      * Sets the subAwardForms attribute value.
+     *
      * @param subAwardForms The subAwardForms to set.
      */
     public void setSubAwardForms(SubAwardForms subAwardForms) {
@@ -104,7 +102,8 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
     }
 
     /**
-     * Gets the subAwardPrintAgreement attribute. 
+     * Gets the subAwardPrintAgreement attribute.
+     *
      * @return Returns the subAwardPrintAgreement.
      */
     public SubAwardPrintAgreement getSubAwardPrintAgreement() {
@@ -113,6 +112,7 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
 
     /**
      * Sets the subAwardPrintAgreement attribute value.
+     *
      * @param subAwardPrintAgreement The subAwardPrintAgreement to set.
      */
     public void setSubAwardPrintAgreement(SubAwardPrintAgreement subAwardPrintAgreement) {
@@ -120,7 +120,8 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
     }
 
     /**
-     * Gets the newSubAwardReport attribute. 
+     * Gets the newSubAwardReport attribute.
+     *
      * @return Returns the newSubAwardReport.
      */
     public SubAwardReports getNewSubAwardReport() {
@@ -129,6 +130,7 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
 
     /**
      * Sets the newSubAwardReport attribute value.
+     *
      * @param newSubAwardReport The newSubAwardReport to set.
      */
     public void setNewSubAwardReport(SubAwardReports newSubAwardReport) {
@@ -143,107 +145,129 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
         this.subAwardAttachmentFormBean = subAwardAttachmentFormBean;
     }
 
-    /**.
-    * This is the Getter Method for newFile
-    * @return Returns the newFile.
-    */
-	public FormFile getNewFile() {
-		return newFile;
-	}
+    /**
+     * .
+     * This is the Getter Method for newFile
+     *
+     * @return Returns the newFile.
+     */
+    public FormFile getNewFile() {
+        return newFile;
+    }
 
-	/**.
-	 * This is the Setter Method for newFile
-	 * @param newFile The newFile to set.
-	 */
-	public void setNewFile(FormFile newFile) {
-		this.newFile = newFile;
-	}
+    /**
+     * .
+     * This is the Setter Method for newFile
+     *
+     * @param newFile The newFile to set.
+     */
+    public void setNewFile(FormFile newFile) {
+        this.newFile = newFile;
+    }
 
-	/**.
-	 * This is the Getter Method for auditActivated
-	 * @return Returns the auditActivated.
-	 */
-	public boolean isAuditActivated() {
-		return auditActivated;
-	}
+    /**
+     * .
+     * This is the Getter Method for auditActivated
+     *
+     * @return Returns the auditActivated.
+     */
+    public boolean isAuditActivated() {
+        return auditActivated;
+    }
 
-	/**.
-	 * This is the Setter Method for auditActivated
-	 * @param auditActivated The auditActivated to set.
-	 */
-	public void setAuditActivated(boolean auditActivated) {
-		this.auditActivated = auditActivated;
-	}
+    /**
+     * .
+     * This is the Setter Method for auditActivated
+     *
+     * @param auditActivated The auditActivated to set.
+     */
+    public void setAuditActivated(boolean auditActivated) {
+        this.auditActivated = auditActivated;
+    }
 
-	/**.
-	 * This is the Getter Method for newSubAwardFundingSource
-	 * @return Returns the newSubAwardFundingSource.
-	 */
-	public SubAwardFundingSource getNewSubAwardFundingSource() {
-		return newSubAwardFundingSource;
-	}
+    /**
+     * .
+     * This is the Getter Method for newSubAwardFundingSource
+     *
+     * @return Returns the newSubAwardFundingSource.
+     */
+    public SubAwardFundingSource getNewSubAwardFundingSource() {
+        return newSubAwardFundingSource;
+    }
 
-	/**.
-	 * This is the Setter Method for newSubAwardFundingSource
-	 * @param newSubAwardFundingSource The newSubAwardFundingSource to set.
-	 */
-	public void setNewSubAwardFundingSource(
-			SubAwardFundingSource newSubAwardFundingSource) {
-		this.newSubAwardFundingSource = newSubAwardFundingSource;
-	}
+    /**
+     * .
+     * This is the Setter Method for newSubAwardFundingSource
+     *
+     * @param newSubAwardFundingSource The newSubAwardFundingSource to set.
+     */
+    public void setNewSubAwardFundingSource(
+            SubAwardFundingSource newSubAwardFundingSource) {
+        this.newSubAwardFundingSource = newSubAwardFundingSource;
+    }
 
-	 /**.
-	 * This is the Getter Method for newSubAwardAmountInfo
-	 * @return Returns the newSubAwardAmountInfo.
-	 */
-	public SubAwardAmountInfo getNewSubAwardAmountInfo() {
-		return newSubAwardAmountInfo;
-	}
+    /**
+     * .
+     * This is the Getter Method for newSubAwardAmountInfo
+     *
+     * @return Returns the newSubAwardAmountInfo.
+     */
+    public SubAwardAmountInfo getNewSubAwardAmountInfo() {
+        return newSubAwardAmountInfo;
+    }
 
-	/**.
-	 * This is the Setter Method for newSubAwardAmountInfo
-	 * @param newSubAwardAmountInfo The newSubAwardAmountInfo to set.
-	 */
-	public void setNewSubAwardAmountInfo(SubAwardAmountInfo newSubAwardAmountInfo) {
-		this.newSubAwardAmountInfo = newSubAwardAmountInfo;
-	}
+    /**
+     * .
+     * This is the Setter Method for newSubAwardAmountInfo
+     *
+     * @param newSubAwardAmountInfo The newSubAwardAmountInfo to set.
+     */
+    public void setNewSubAwardAmountInfo(SubAwardAmountInfo newSubAwardAmountInfo) {
+        this.newSubAwardAmountInfo = newSubAwardAmountInfo;
+    }
 
-	/**.
-	 * This is the Getter Method for newSubAwardAmountReleased
-	 * @return Returns the newSubAwardAmountReleased.
-	 */
-	public SubAwardAmountReleased getNewSubAwardAmountReleased() {
-		return newSubAwardAmountReleased;
-	}
+    /**
+     * .
+     * This is the Getter Method for newSubAwardAmountReleased
+     *
+     * @return Returns the newSubAwardAmountReleased.
+     */
+    public SubAwardAmountReleased getNewSubAwardAmountReleased() {
+        return newSubAwardAmountReleased;
+    }
 
-	/**.
-	 * This is the Setter Method for newSubAwardAmountReleased
-	 * @param newSubAwardAmountReleased
-	 *  The newSubAwardAmountReleased to set.
-	 */
-	public void setNewSubAwardAmountReleased(
-			SubAwardAmountReleased newSubAwardAmountReleased) {
-		this.newSubAwardAmountReleased = newSubAwardAmountReleased;
-	}
+    /**
+     * .
+     * This is the Setter Method for newSubAwardAmountReleased
+     *
+     * @param newSubAwardAmountReleased The newSubAwardAmountReleased to set.
+     */
+    public void setNewSubAwardAmountReleased(
+            SubAwardAmountReleased newSubAwardAmountReleased) {
+        this.newSubAwardAmountReleased = newSubAwardAmountReleased;
+    }
 
-	/**.
-	 * This is the Getter Method for customDataHelper
-	 * @return Returns the customDataHelper.
-	 */
-	public CustomDataHelper getCustomDataHelper() {
-		return customDataHelper;
-	}
+    /**
+     * .
+     * This is the Getter Method for customDataHelper
+     *
+     * @return Returns the customDataHelper.
+     */
+    public CustomDataHelper getCustomDataHelper() {
+        return customDataHelper;
+    }
 
-	/**.
-	 * This is the Setter Method for customDataHelper
-	 * @param customDataHelper The customDataHelper to set.
-	 */
-	public void setCustomDataHelper(CustomDataHelper customDataHelper) {
-		this.customDataHelper = customDataHelper;
-	}
+    /**
+     * .
+     * This is the Setter Method for customDataHelper
+     *
+     * @param customDataHelper The customDataHelper to set.
+     */
+    public void setCustomDataHelper(CustomDataHelper customDataHelper) {
+        this.customDataHelper = customDataHelper;
+    }
 
-	
-	public NotificationHelper<SubAwardNotificationContext> getNotificationHelper() {
+    public NotificationHelper<SubAwardNotificationContext> getNotificationHelper() {
         return notificationHelper;
     }
 
@@ -256,20 +280,21 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
     }
 
     /**
-	 * Constructs a SubAwardForm.java.
-	 */
-	public SubAwardForm() {
+     * Constructs a SubAwardForm.java.
+     */
+    public SubAwardForm() {
         super();
         initialize();
     }
 
-   /**.
-   * this method for subAward
-   */
-   private SubAward subAward;
+    /**
+     * .
+     * this method for subAward
+     */
+    private SubAward subAward;
 
-
-    /**.
+    /**
+     * .
      *
      * This method initialize all form variables
      */
@@ -288,13 +313,17 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
     /**
      *
      * This method returns the SubAwardDocument object.
+     *
      * @return SubAwardDocument
      */
     public SubAwardDocument getSubAwardDocument() {
         return (SubAwardDocument) super.getDocument();
     }
-    /**.
+
+    /**
+     * .
      * This method returns a string representation of the document type
+     *
      * @return SubAwardDocument
      */
     public String getDocumentTypeName() {
@@ -303,63 +332,61 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
 
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
-         super.populateHeaderFields(workflowDocument);
+        super.populateHeaderFields(workflowDocument);
 
         SubAwardDocument subAwardDocument = getSubAwardDocument();
         getDocInfo().clear();
         String docIdAndStatus = COLUMN;
         if (workflowDocument != null) {
             docIdAndStatus = getDocument().getDocumentNumber()
-            + COLUMN + workflowDocument.getStatus().getLabel();
+                    + COLUMN + workflowDocument.getStatus().getLabel();
         }
-        String lastUpdated ="";
+        String lastUpdated = "";
         if (subAwardDocument.getSubAward().getUpdateTimestamp() != null
-        && subAwardDocument.getSubAward().getUpdateUser() != null) {
+                && subAwardDocument.getSubAward().getUpdateUser() != null) {
 
             lastUpdated = subAwardDocument.getSubAward().getUpdateTimestamp().
-            toString() + " By " +  subAwardDocument.getSubAward().
-            getUpdateUser();
+                    toString() + " By " + subAwardDocument.getSubAward().
+                    getUpdateUser();
         }
 
         getDocInfo().add(new HeaderField(
-        "DataDictionary.SubAward.attributes.requisitionerId",
-        subAwardDocument.getSubAward().getRequisitionerUserName()));
+                "DataDictionary.SubAward.attributes.requisitionerId",
+                subAwardDocument.getSubAward().getRequisitionerUserName()));
         getDocInfo().add(new HeaderField(
-        "DataDictionary.SubAward.attributes.docIdStatus", docIdAndStatus));
+                "DataDictionary.SubAward.attributes.docIdStatus", docIdAndStatus));
         if (subAwardDocument.getSubAward().getUnit() != null) {
             getDocInfo().add(new HeaderField(""
-          +  "DataDictionary.SubAward.attributes.requisitionerUnit",
-          subAwardDocument.getSubAward().getUnit().getUnitName()));
+                    + "DataDictionary.SubAward.attributes.requisitionerUnit",
+                    subAwardDocument.getSubAward().getUnit().getUnitName()));
         } else {
             getDocInfo().add(new HeaderField(
-            "DataDictionary.SubAward.attributes.requisitionerUnit", ""));
+                    "DataDictionary.SubAward.attributes.requisitionerUnit", ""));
 
         }
         getDocInfo().add(new HeaderField(""
-        + "DataDictionary.SubAward.attributes.subAwardId",
-        subAwardDocument.getSubAward().getSubAwardCode()));
+                + "DataDictionary.SubAward.attributes.subAwardId",
+                subAwardDocument.getSubAward().getSubAwardCode()));
         getDocInfo().add(new HeaderField(""
-      + "DataDictionary.SubAward.attributes.organizationId",
-       subAwardDocument.getSubAward().getOrganizationName()));
+                + "DataDictionary.SubAward.attributes.organizationId",
+                subAwardDocument.getSubAward().getOrganizationName()));
         getDocInfo().add(new HeaderField(""
-       + "DataDictionary.SubAward.attributes.lastUpdate", lastUpdated));
-
+                + "DataDictionary.SubAward.attributes.lastUpdate", lastUpdated));
 
     }
 
     /**
-     * 
-     * This method initializes either the document
-     *  or the form based on the command value.
+     *
+     * This method initializes either the document or the form based on the
+     * command value.
      */
-    public void initializeFormOrDocumentBasedOnCommand(){
+    public void initializeFormOrDocumentBasedOnCommand() {
         if (KewApiConstants.INITIATE_COMMAND.equals(getCommand())) {
             getSubAwardDocument().initialize();
         } else {
             initialize();
         }
     }
-
 
     @Override
     protected String getLockRegion() {
@@ -411,8 +438,6 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
         return newSubAwardCloseout;
     }
 
-   
-
     public void setNewSubAwardContact(SubAwardContact newSubAwardContact) {
         this.newSubAwardContact = newSubAwardContact;
     }
@@ -422,7 +447,8 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
     }
 
     /**
-     * Gets the medusaBean attribute. 
+     * Gets the medusaBean attribute.
+     *
      * @return Returns the medusaBean.
      */
     public MedusaBean getMedusaBean() {
@@ -431,27 +457,29 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
 
     /**
      * Sets the medusaBean attribute value.
+     *
      * @param medusaBean The medusaBean to set.
      */
     public void setMedusaBean(MedusaBean medusaBean) {
         this.medusaBean = medusaBean;
     }
 
-    /**.
-     * 
+    /**
+     * .
+     *
      * This returns the value of subawardservice.
-     * getFollowupDateDefaultLengthInDays()
-     * to be used on subAwardCloseout.tag
+     * getFollowupDateDefaultLengthInDays() to be used on subAwardCloseout.tag
+     *
      * @return
      */
     public int getDefaultFollowUpDayDifference() {
         if (defaultFollowUpDayDifference == 0) {
             defaultFollowUpDayDifference = KraServiceLocator.
-            getService(SubAwardService.class).getFollowupDateDefaultLengthInDays();
+                    getService(SubAwardService.class).getFollowupDateDefaultLengthInDays();
         }
         return defaultFollowUpDayDifference;
     }
-        
+
     public List<ExtraButton> getExtraFinancialButtons() {
         // clear out the extra buttons array
         extraButtons.clear();
@@ -462,13 +490,13 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
         TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
         ConfigurationService configurationService = CoreApiServiceLocator.getKualiConfigurationService();
         SubAwardTask task = new SubAwardTask(TaskName.ADD_INVOICE_SUBAWARD, doc);
-        if(tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task)) {       
+        if (tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task)) {
             String submitToGrantsGovImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_addinvoice.gif";
             addExtraButton("methodToCall.addAmountReleased", submitToGrantsGovImage, "Add Invoice");
         }
         return extraButtons;
     }
-    
+
     /*
      * returns flag indicating if edit button should be displayed at bottom of form 
      * 
@@ -479,26 +507,52 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
         if (activeVersion != null) {
             displayEditButton &= activeVersion.getSequenceOwnerSequenceNumber().equals(getSubAwardDocument().getSubAward().getSequenceNumber());
         }
-        
+
         return displayEditButton;
     }
+
     /**
-     * This method disables the caching of drop down lists.  
-     * Subaward Print has a drop down list whose value depends on another drop down list.  With caching enabled the
-     * drop down list will always be empty.  Disabling caching will reload the drop down list whenever the page is posted.
-     * 
-     * @see org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm#populate(javax.servlet.http.HttpServletRequest)
+     * This method disables the caching of drop down lists. Subaward Print has a
+     * drop down list whose value depends on another drop down list. With
+     * caching enabled the drop down list will always be empty. Disabling
+     * caching will reload the drop down list whenever the page is posted.
+     *
+     * @see
+     * org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm#populate(javax.servlet.http.HttpServletRequest)
      */
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
         if (getActionFormUtilMap() != null && getActionFormUtilMap() instanceof ActionFormUtilMap) {
             ((ActionFormUtilMap) getActionFormUtilMap()).setCacheValueFinderResults(false);
-        } 
+        }
     }
-    
+
     protected VersionHistoryService getVersionHistoryService() {
         return KraServiceLocator.getService(VersionHistoryService.class);
     }
 
+    @Override
+    public HeaderNavigation[] getHeaderNavigationTabs() {
+
+        HeaderNavigation[] navigation = super.getHeaderNavigationTabs();
+
+        List<HeaderNavigation> resultList = new ArrayList<HeaderNavigation>();
+
+        for (HeaderNavigation nav : navigation) {
+            if (StringUtils.equalsIgnoreCase(nav.getHeaderTabNavigateTo(), CUSTOM_DATA_NAV_TO)) {
+                boolean displayTab = this.getCustomDataHelper().getCustomAttributeDocuments().isEmpty();
+                nav.setDisabled(displayTab);
+                if (!displayTab) {
+                    resultList.add(nav);
+                }
+            } else {
+                resultList.add(nav);
+            }
+        }
+
+        HeaderNavigation[] result = new HeaderNavigation[resultList.size()];
+        resultList.toArray(result);
+        return result;
+    }
 }
