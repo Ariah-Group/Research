@@ -41,6 +41,7 @@ import org.kuali.kra.infrastructure.TimeAndMoneyPermissionConstants;
  * to create a a time and money document for an Award. The user must have the
  * Create Time And Money Document permission in any of the units in order to create 
  * a time and money document.
+ * 
  */
 public class CreateTimeAndMoneyAuthorizer extends TaskAuthorizerImpl {
 
