@@ -1593,4 +1593,8 @@ public class AwardForm extends BudgetVersionFormBase
         Collections.reverse(results);
         return results;
     }
+    
+    public boolean isHideAwardDocDescriptionPanel() {
+        return getAwardDocument().isDefaultDocumentDescription();
+    }    
 }
