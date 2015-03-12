@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.iacuc;
 
@@ -58,22 +74,26 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import org.kuali.kra.bo.SpecialReviewUsage;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class...
  */
 public class IacucProtocolForm extends ProtocolFormBase {
-    
+
     private static final long serialVersionUID = -535557943052220820L;
     private IacucProtocolSpeciesHelper iacucProtocolSpeciesHelper;
     private IacucAlternateSearchHelper iacucAlternateSearchHelper;
     private IacucProtocolExceptionHelper iacucProtocolExceptionHelper;
     private IacucProtocolProceduresHelper iacucProtocolProceduresHelper;
     private boolean defaultOpenCopyTab = false;
-    
     private boolean reinitializeModifySubmissionFields = true;
-    
+    private static final String SPECIALREVIEW_NAV_TO = "specialReview";
+
     public IacucProtocolForm() throws Exception {
         super();
         initializeIacucProtocolSpecies();
@@ -82,11 +102,10 @@ public class IacucProtocolForm extends ProtocolFormBase {
         initializeIacucProtocolProcedures();
     }
 
-    
     public void initializeIacucProtocolSpecies() throws Exception {
         setIacucProtocolSpeciesHelper(new IacucProtocolSpeciesHelper(this));
     }
-    
+
     public void initializeIacucProtocolProcedures() throws Exception {
         setIacucProtocolProceduresHelper(new IacucProtocolProceduresHelper(this));
     }
@@ -98,27 +117,28 @@ public class IacucProtocolForm extends ProtocolFormBase {
     protected void initializeIacucAlternateSearchHelper() throws Exception {
         setIacucAlternateSearchHelper(new IacucAlternateSearchHelper(this));
     }
-    
+
     @Override
     public String getActionName() {
         return "iacucProtocol";
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected String getDefaultDocumentTypeName() {
         return "IacucProtocolDocument";
     }
 
-
     /**
      * Gets a {@link IacucProtocolDocument ProtocolDocument}.
+     *
      * @return {@link IacucProtocolDocument ProtocolDocument}
      */
     public IacucProtocolDocument getIacucProtocolDocument() {
         return (IacucProtocolDocument) super.getProtocolDocument();
     }
-
 
     @Override
     protected String getLockRegion() {
@@ -127,42 +147,41 @@ public class IacucProtocolForm extends ProtocolFormBase {
     }
 
     public IacucProtocolHelper getProtocolHelper() {
-        return (IacucProtocolHelper)super.getProtocolHelper();
+        return (IacucProtocolHelper) super.getProtocolHelper();
     }
 
     @Override
     protected ProtocolHelperBase createNewProtocolHelperInstanceHook(ProtocolFormBase protocolForm) {
         return new IacucProtocolHelper((IacucProtocolForm) protocolForm);
     }
-    
-    
+
     public IacucPermissionsHelper getPermissionsHelper(ProtocolFormBase protocolForm) {
-        return (IacucPermissionsHelper)super.getPermissionsHelper();
+        return (IacucPermissionsHelper) super.getPermissionsHelper();
     }
-    
+
     @Override
     protected IacucPermissionsHelper createNewPermissionsHelperInstanceHook(ProtocolFormBase protocolForm) {
         return new IacucPermissionsHelper((IacucProtocolForm) protocolForm);
     }
-    
+
     public IacucPersonnelHelper getPersonnelHelper(ProtocolFormBase protocolForm) {
-        return (IacucPersonnelHelper)super.getPersonnelHelper();
+        return (IacucPersonnelHelper) super.getPersonnelHelper();
     }
-    
+
     @Override
     protected IacucPersonnelHelper createNewPersonnelHelperInstanceHook(ProtocolFormBase protocolForm) {
-        return new IacucPersonnelHelper((IacucProtocolForm)protocolForm);
+        return new IacucPersonnelHelper((IacucProtocolForm) protocolForm);
     }
-    
+
     public IacucNotesAttachmentsHelper getNotesAttachmentHelper(ProtocolFormBase form) {
-        return (IacucNotesAttachmentsHelper)super.getNotesAttachmentsHelper();
+        return (IacucNotesAttachmentsHelper) super.getNotesAttachmentsHelper();
     }
-    
+
     @Override
     protected IacucNotesAttachmentsHelper createNewNotesAttachmentsHelperInstanceHook(ProtocolFormBase protocolForm) {
-        return new IacucNotesAttachmentsHelper((IacucProtocolForm)protocolForm);
+        return new IacucNotesAttachmentsHelper((IacucProtocolForm) protocolForm);
     }
-    
+
     protected QuestionnaireHelperBase createNewQuestionnaireHelper(ProtocolFormBase form) {
         return new IacucQuestionnaireHelper(form);
     }
@@ -200,70 +219,70 @@ public class IacucProtocolForm extends ProtocolFormBase {
     public void setIacucProtocolExceptionHelper(IacucProtocolExceptionHelper iacucProtocolExceptionHelper) {
         this.iacucProtocolExceptionHelper = iacucProtocolExceptionHelper;
     }
-    
+
     @Override
-    public void populate(HttpServletRequest request) { 
+    public void populate(HttpServletRequest request) {
         super.populate(request);
-        
+
         // Temporary hack for KRACOEUS-489
         if (getActionFormUtilMap() instanceof ActionFormUtilMap) {
             ((ActionFormUtilMap) getActionFormUtilMap()).clear();
         }
-        getIacucProtocolDocument().getIacucProtocol().setIacucProtocolStudyGroupBeans(getIacucProtocolProcedureService().getRevisedStudyGroupBeans(getIacucProtocolDocument().getIacucProtocol(), 
+        getIacucProtocolDocument().getIacucProtocol().setIacucProtocolStudyGroupBeans(getIacucProtocolProcedureService().getRevisedStudyGroupBeans(getIacucProtocolDocument().getIacucProtocol(),
                 getIacucProtocolProceduresHelper().getAllProcedures()));
 
     }
-    
+
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         IacucProtocolDocument pd = getIacucProtocolDocument();
-        
+
         HeaderField documentNumber = getDocInfo().get(0);
         documentNumber.setDdAttributeEntryName("DataDictionary.IacucProtocolDocument.attributes.documentNumber");
-        
+
         ProtocolStatusBase protocolStatus = (pd == null) ? null : pd.getIacucProtocol().getProtocolStatus();
-        HeaderField docStatus = new HeaderField("DataDictionary.AttributeReference.attributes.workflowDocumentStatus", protocolStatus == null? "" : protocolStatus.getDescription());
+        HeaderField docStatus = new HeaderField("DataDictionary.AttributeReference.attributes.workflowDocumentStatus", protocolStatus == null ? "" : protocolStatus.getDescription());
         getDocInfo().set(1, docStatus);
-        
+
         String lastUpdatedDateStr = null;
-        if(pd != null && pd.getUpdateTimestamp() != null) {
+        if (pd != null && pd.getUpdateTimestamp() != null) {
             lastUpdatedDateStr = getFormattedDateTime(pd.getUpdateTimestamp());
         }
-        
-        if(getDocInfo().size() > 2) {
+
+        if (getDocInfo().size() > 2) {
             KcPerson initiator = getKcPersonService().getKcPersonByPersonId(pd.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
             String modifiedInitiatorFieldStr = initiator == null ? "" : initiator.getUserName();
-            if(StringUtils.isNotBlank(lastUpdatedDateStr)) {
+            if (StringUtils.isNotBlank(lastUpdatedDateStr)) {
                 modifiedInitiatorFieldStr += (" : " + lastUpdatedDateStr);
             }
             getDocInfo().set(2, new HeaderField("DataDictionary.IacucProtocol.attributes.initiatorLastUpdated", modifiedInitiatorFieldStr));
         }
-        
+
         String protocolSubmissionStatusStr = null;
-        if(pd != null && pd.getIacucProtocol() != null && pd.getIacucProtocol().getProtocolSubmission() != null) {
+        if (pd != null && pd.getIacucProtocol() != null && pd.getIacucProtocol().getProtocolSubmission() != null) {
             pd.getIacucProtocol().getProtocolSubmission().refreshReferenceObject("submissionStatus");
             protocolSubmissionStatusStr = pd.getIacucProtocol().getProtocolSubmission().getSubmissionStatus().getDescription();
         }
         HeaderField protocolSubmissionStatus = new HeaderField("DataDictionary.IacucProtocol.attributes.protocolSubmissionStatus", protocolSubmissionStatusStr);
         getDocInfo().set(3, protocolSubmissionStatus);
-        
+
         getDocInfo().add(new HeaderField("DataDictionary.IacucProtocol.attributes.protocolNumber", (pd == null) ? null : pd.getIacucProtocol().getProtocolNumber()));
 
         String expirationDateStr = null;
-        if(pd != null && pd.getProtocol().getExpirationDate() != null) {
-            expirationDateStr = getFormattedDate(pd.getIacucProtocol().getExpirationDate()); 
+        if (pd != null && pd.getProtocol().getExpirationDate() != null) {
+            expirationDateStr = getFormattedDate(pd.getIacucProtocol().getExpirationDate());
         }
-        
+
         HeaderField expirationDate = new HeaderField("DataDictionary.IacucProtocol.attributes.expirationDate", expirationDateStr);
         getDocInfo().add(expirationDate);
     }
-    
+
     @Override
     public HeaderNavigation[] getHeaderNavigationTabs() {
-        
+
         HeaderNavigation[] navigation = super.getHeaderNavigationTabs();
-        
+
         ProtocolOnlineReviewService onlineReviewService = getProtocolOnlineReviewService();
         List<HeaderNavigation> resultList = new ArrayList<HeaderNavigation>();
         boolean onlineReviewTabEnabled = false;
@@ -272,55 +291,69 @@ public class IacucProtocolForm extends ProtocolFormBase {
             String principalId = GlobalVariables.getUserSession().getPrincipalId();
             ProtocolSubmissionBase submission = getProtocolDocument().getProtocol().getProtocolSubmission();
             boolean isUserOnlineReviewer = onlineReviewService.isProtocolReviewer(principalId, false, submission);
-            boolean isUserIacucAdmin = getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), "KC-UNT", "IACUC Administrator"); 
-            onlineReviewTabEnabled = (isUserOnlineReviewer || isUserIacucAdmin) 
-                    && onlineReviewService.isProtocolInStateToBeReviewed((IacucProtocol)getProtocolDocument().getProtocol());
+            boolean isUserIacucAdmin = getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), "KC-UNT", "IACUC Administrator");
+            onlineReviewTabEnabled = (isUserOnlineReviewer || isUserIacucAdmin)
+                    && onlineReviewService.isProtocolInStateToBeReviewed((IacucProtocol) getProtocolDocument().getProtocol());
         }
+
+        Map<String, String> specialReviewUsageParams = new HashMap<String, String>();
+        specialReviewUsageParams.put("moduleCode", Constants.MODULE_CODE_IACUC);
+        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+
+        List<SpecialReviewUsage> usages = (List<SpecialReviewUsage>) businessObjectService.findMatching(SpecialReviewUsage.class, specialReviewUsageParams);
+        boolean includeSpecialReviews = true;
         
-            //We have to copy the HeaderNavigation elements into a new collection as the 
-            //List returned by DD is it's cached copy of the header navigation list.
+        if (usages == null || usages.isEmpty()) {
+            includeSpecialReviews = false;
+        }
+
+        //We have to copy the HeaderNavigation elements into a new collection as the 
+        //List returned by DD is it's cached copy of the header navigation list.
         for (HeaderNavigation nav : navigation) {
-            if (StringUtils.equals(nav.getHeaderTabNavigateTo(),ONLINE_REVIEW_NAV_TO)) {
+            if (StringUtils.equals(nav.getHeaderTabNavigateTo(), ONLINE_REVIEW_NAV_TO)) {
                 nav.setDisabled(!onlineReviewTabEnabled);
                 if (onlineReviewTabEnabled || ((!onlineReviewTabEnabled) && (!HIDE_ONLINE_REVIEW_WHEN_DISABLED))) {
                     resultList.add(nav);
                 }
+            } else if (StringUtils.equalsIgnoreCase(nav.getHeaderTabNavigateTo(), SPECIALREVIEW_NAV_TO)) {
+                if (includeSpecialReviews) {
+                    resultList.add(nav);
+                }
+
             } else {
                 resultList.add(nav);
             }
         }
-        
+
         HeaderNavigation[] result = new HeaderNavigation[resultList.size()];
         resultList.toArray(result);
         return result;
     }
 
-    
-   protected ProtocolOnlineReviewService getProtocolOnlineReviewService() {
-       return KraServiceLocator.getService(IacucProtocolOnlineReviewService.class);
-   }
+    protected ProtocolOnlineReviewService getProtocolOnlineReviewService() {
+        return KraServiceLocator.getService(IacucProtocolOnlineReviewService.class);
+    }
 
-  
     @Override
     protected QuestionnaireHelperBase createNewQuestionnaireHelperInstanceHook(ProtocolFormBase protocolForm) {
         return new IacucQuestionnaireHelper((IacucProtocolForm) protocolForm);
     }
-    
+
     @Override
-    protected ActionHelperBase createNewActionHelperInstanceHook(ProtocolFormBase protocolForm) throws Exception{
+    protected ActionHelperBase createNewActionHelperInstanceHook(ProtocolFormBase protocolForm) throws Exception {
         return new IacucActionHelper((IacucProtocolForm) protocolForm);
     }
-    
+
     @Override
     protected ProtocolSpecialReviewHelperBase createNewSpecialReviewHelperInstanceHook(ProtocolFormBase protocolForm) {
         return new IacucProtocolSpecialReviewHelper((IacucProtocolForm) protocolForm);
     }
-    
+
     @Override
     protected ProtocolCustomDataHelperBase createNewCustomDataHelperInstanceHook(ProtocolFormBase protocolForm) {
         return new IacucProtocolCustomDataHelper((IacucProtocolForm) protocolForm);
     }
-    
+
     @Override
     protected OnlineReviewsActionHelperBase createNewOnlineReviewsActionHelperInstanceHook(ProtocolFormBase protocolForm) {
         return new IacucOnlineReviewsActionHelper((IacucProtocolForm) protocolForm);
@@ -340,7 +373,7 @@ public class IacucProtocolForm extends ProtocolFormBase {
     }
 
     protected IacucProtocolProcedureService getIacucProtocolProcedureService() {
-        return (IacucProtocolProcedureService)KraServiceLocator.getService("iacucProtocolProcedureService");
+        return (IacucProtocolProcedureService) KraServiceLocator.getService("iacucProtocolProcedureService");
     }
 
     public boolean isReinitializeModifySubmissionFields() {
@@ -359,12 +392,11 @@ public class IacucProtocolForm extends ProtocolFormBase {
         this.defaultOpenCopyTab = defaultOpenCopyTab;
     }
 
-
     @Override
     protected List<String> getTerminalNodeNamesHook() {
         List<String> retVal = new ArrayList<String>();
         retVal.add(Constants.IACUC_PROTOCOL_IACUCREVIEW_ROUTE_NODE_NAME);
         return retVal;
     }
-   
+
 }
