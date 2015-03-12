@@ -12,16 +12,32 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
---%>
-<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+-------------------------------------
 
-<c:set var="subAwardAttributes" value="${DataDictionary.SubAward.attributes}" />
-<c:set var="action" value="subAward" />
+Updates made after January 1, 2015 are :
+Copyright 2015 The Ariah Group, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+--%>
+<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"
+%><%@ attribute name="transparent" required="false"
+%><c:set var="subAwardAttributes" value="${DataDictionary.SubAward.attributes}"
+/><c:set var="action" value="subAward" />
 <script type='text/javascript' src='dwr/interface/KraPersonService.js'></script>
 <script language="javascript" src="dwr/interface/OrganizationService.js"></script>
 <script type='text/javascript' src='dwr/interface/RolodexService.js'></script>
-
-<kul:tab tabTitle="Subaward" defaultOpen="${KualiForm.document.subAwardList[0].defaultOpen}" tabErrorKey="document.subAwardList[0].statusCode*,document.subAwardList[0].requisitionerUserName*,document.subAwardList[0].siteInvestigatorId*,document.subAwardList[0].purchaseOrderNum*,document.subAwardList[0].organizationId*,document.subAwardList[0].subAwardTypeCode*,document.subAwardList[0].title*,document.subAwardList[0].startDate*,document.subAwardList[0].endDate*,document.subAwardList[0].accountNumber*,document.subAwardList[0].vendorNumber*,document.subAwardList[0].requisitionerUnit*,document.subAwardList[0].archiveLocation*,document.subAwardList[0].closeoutDate*,document.subAwardList[0].comments*,document.subAwardList[0].totalAnticipatedAmount*,document.subAwardList[0].totalObligatedAmount*"
+<kul:tab tabTitle="Subaward" transparentBackground="${transparent}" defaultOpen="${KualiForm.document.subAwardList[0].defaultOpen}" tabErrorKey="document.subAwardList[0].statusCode*,document.subAwardList[0].requisitionerUserName*,document.subAwardList[0].siteInvestigatorId*,document.subAwardList[0].purchaseOrderNum*,document.subAwardList[0].organizationId*,document.subAwardList[0].subAwardTypeCode*,document.subAwardList[0].title*,document.subAwardList[0].startDate*,document.subAwardList[0].endDate*,document.subAwardList[0].accountNumber*,document.subAwardList[0].vendorNumber*,document.subAwardList[0].requisitionerUnit*,document.subAwardList[0].archiveLocation*,document.subAwardList[0].closeoutDate*,document.subAwardList[0].comments*,document.subAwardList[0].totalAnticipatedAmount*,document.subAwardList[0].totalObligatedAmount*"
  auditCluster="subawardFinancialdAuditErrors" tabAuditKey="document.subAwardList[0].totalAnticipatedAmount*,document.subAwardList[0].totalObligatedAmount*" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
