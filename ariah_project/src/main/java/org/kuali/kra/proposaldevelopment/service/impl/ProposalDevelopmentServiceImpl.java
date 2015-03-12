@@ -59,7 +59,6 @@ import java.util.*;
 
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
 
-
 // TODO : extends PersistenceServiceStructureImplBase is a hack to temporarily resolve get class descriptor.
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
 
@@ -70,12 +69,11 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     private BudgetService budgetService;
     private ParameterService parameterService;
     private DocumentService documentService;
-    private VersionHistoryService versionHistoryService;      
-
+    private VersionHistoryService versionHistoryService;
 
     /**
      * Sets the ParameterService.
-     * 
+     *
      * @param parameterService the parameter service.
      */
     public void setParameterService(ParameterService parameterService) {
@@ -83,9 +81,10 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
 
     /**
-     * This method gets called from the "save" action. It initializes the applicant org. on the first save; it also sets the
-     * performing org. if the user didn't make a selection.
-     * 
+     * This method gets called from the "save" action. It initializes the
+     * applicant org. on the first save; it also sets the performing org. if the
+     * user didn't make a selection.
+     *
      * @param proposalDevelopmentDocument
      */
     public void initializeUnitOrganizationLocation(ProposalDevelopmentDocument proposalDevelopmentDocument) {
@@ -107,16 +106,27 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         ProposalSite performingOrganization = developmentProposal.getPerformingOrganization();
         if (StringUtils.isEmpty(developmentProposal.getProposalNumber()) && performingOrganization.getOrganization() == null
                 && developmentProposal.getOwnedByUnitNumber() != null) {
-            String performingOrganizationId = developmentProposal.getOwnedByUnit().getOrganizationId();
+
+            String performingOrganizationId = "";
+
+            String tempPerfOrgId = this.parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.ARIAH_PARAM_PROPDEV_DEFAULT_PERFORMING_ORG_ID);
+
+            if (tempPerfOrgId != null && !tempPerfOrgId.isEmpty()) {
+                performingOrganizationId = tempPerfOrgId;
+            } else {
+                performingOrganizationId = developmentProposal.getOwnedByUnit().getOrganizationId();
+            }
+
             performingOrganization = createProposalSite(performingOrganizationId, getNextSiteNumber(proposalDevelopmentDocument));
             developmentProposal.setPerformingOrganization(performingOrganization);
         }
     }
 
     /**
-     * Constructs a ProposalSite; initializes the organization, and locationName fields, and sets the default district if there is
-     * one defined for the Organization.
-     * 
+     * Constructs a ProposalSite; initializes the organization, and locationName
+     * fields, and sets the default district if there is one defined for the
+     * Organization.
+     *
      * @param organizationId
      */
     protected ProposalSite createProposalSite(String organizationId, int siteNumber) {
@@ -134,10 +144,11 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     // see interface for Javadoc
     public void initializeProposalSiteNumbers(ProposalDevelopmentDocument proposalDevelopmentDocument) {
-        for (ProposalSite proposalSite : proposalDevelopmentDocument.getDevelopmentProposal().getProposalSites())
+        for (ProposalSite proposalSite : proposalDevelopmentDocument.getDevelopmentProposal().getProposalSites()) {
             if (proposalSite.getSiteNumber() == null) {
                 proposalSite.setSiteNumber(getNextSiteNumber(proposalDevelopmentDocument));
             }
+        }
     }
 
     public List<Unit> getDefaultModifyProposalUnitsForUser(String userId) {
@@ -147,7 +158,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     /**
      * Accessor for <code>{@link BusinessObjectService}</code>
-     * 
+     *
      * @param bos BusinessObjectService
      */
     public void setBusinessObjectService(BusinessObjectService bos) {
@@ -156,7 +167,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     /**
      * Accessor for <code>{@link BusinessObjectService}</code>
-     * 
+     *
      * @return BusinessObjectService
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -165,7 +176,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     /**
      * Set the Unit Authorization Service. Injected by Spring.
-     * 
+     *
      * @param unitAuthService
      */
     public void setUnitAuthorizationService(UnitAuthorizationService unitAuthService) {
@@ -181,12 +192,13 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         }
         return StringUtils.EMPTY;
     }
+
     public String populateBudgetEditableFieldMetaDataForAjaxCall(String proposalNumber, String documentNumber, String editableFieldDBColumn) {
         if (isAuthorizedToAccess(proposalNumber) && StringUtils.isNotBlank(documentNumber) && StringUtils.isNotBlank(editableFieldDBColumn)) {
             return populateBudgetEditableFieldMetaData(documentNumber, editableFieldDBColumn);
         }
         return StringUtils.EMPTY;
-        
+
     }
 
     protected ProposalOverview getProposalOverview(String proposalNumber) {
@@ -196,14 +208,14 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
                 primaryKeys);
         return currentProposal;
     }
-    
+
     protected BudgetVersionOverview getBudgetVersionOverview(String documentNumber) {
-        BudgetVersionOverview currentBudget=null;
+        BudgetVersionOverview currentBudget = null;
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put("documentNumber", documentNumber);
         Collection<BudgetVersionOverview> currentBudgets = businessObjectService.findMatching(BudgetVersionOverview.class,
                 primaryKeys);
-        for (BudgetVersionOverview budgetVersionOverview:currentBudgets) {
+        for (BudgetVersionOverview budgetVersionOverview : currentBudgets) {
             if (budgetVersionOverview.isFinalVersionFlag()) {
                 currentBudget = budgetVersionOverview;
                 break;
@@ -221,8 +233,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             try {
                 lookupClass = Class.forName(lookupClassName);
                 lookupClassPkFields = (List<String>) kraPersistenceStructureService.getPrimaryKeys(lookupClass);
-            }
-            catch (ClassNotFoundException e) {
+            } catch (ClassNotFoundException e) {
             }
 
             if (CollectionUtils.isNotEmpty(lookupClassPkFields)) {
@@ -245,8 +256,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             try {
                 lookupClass = Class.forName(lookupClassName);
                 lookupClassPkFields = (List<String>) kraPersistenceStructureService.getPrimaryKeys(lookupClass);
-            }
-            catch (ClassNotFoundException e) {
+            } catch (ClassNotFoundException e) {
             }
 
             if (CollectionUtils.isNotEmpty(lookupClassPkFields)) {
@@ -265,13 +275,11 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         return displayValue;
     }
 
-
     protected String getPropertyValue(BusinessObject businessObject, String fieldName) {
         String displayValue = "";
         try {
             displayValue = (String) ObjectUtils.getPropertyValue(businessObject, fieldName);
-        }
-        // Might happen due to Unknown Property Exception
+        } // Might happen due to Unknown Property Exception
         catch (RuntimeException e) {
         }
         return displayValue;
@@ -289,19 +297,19 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         }
         return fieldValue;
     }
-    
+
     public Object getBudgetFieldValueFromDBColumnName(String documentNumber, String dbColumnName) {
-        Object fieldValue = null;        
+        Object fieldValue = null;
         Map<String, String> fieldMap = kraPersistenceStructureService.getDBColumnToObjectAttributeMap(BudgetVersionOverview.class);
         String budgetAttributeName = fieldMap.get(dbColumnName);
         if (StringUtils.isNotEmpty(budgetAttributeName)) {
-            BudgetVersionOverview currentBudget = getBudgetVersionOverview(documentNumber);            
+            BudgetVersionOverview currentBudget = getBudgetVersionOverview(documentNumber);
             if (currentBudget != null) {
                 fieldValue = ObjectUtils.getPropertyValue(currentBudget, budgetAttributeName);
             }
-        }            
-        return fieldValue;    
-             
+        }
+        return fieldValue;
+
     }
 
     protected String populateProposalEditableFieldMetaData(String proposalNumber, String editableFieldDBColumn) {
@@ -323,14 +331,11 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
                     + ","
                     + getDataOverrideLookupDisplayDisplayValue(editableColumn.getLookupClass(),
                             (fieldValue != null ? fieldValue.toString() : ""), editableColumn.getLookupReturn());
-        }
-        else if (fieldValue != null && editableColumn.getDataType().equalsIgnoreCase("DATE")) {
+        } else if (fieldValue != null && editableColumn.getDataType().equalsIgnoreCase("DATE")) {
             returnValue = ",," + CoreApiServiceLocator.getDateTimeService().toString((Date) fieldValue, "MM/dd/yyyy");
-        }
-        else if (fieldValue != null) {
+        } else if (fieldValue != null) {
             returnValue = ",," + fieldValue.toString();
-        }
-        else {
+        } else {
             returnValue = ",,";
         }
 
@@ -340,7 +345,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
         return returnValue;
     }
- 
+
     @SuppressWarnings("unchecked")
     public Award getProposalCurrentAwardVersion(ProposalDevelopmentDocument proposal) {
         String awardNumber = proposal.getDevelopmentProposal().getCurrentAwardNumber();
@@ -349,8 +354,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
         if (vh != null) {
             award = (Award) vh.getSequenceOwner();
-        }
-        else {
+        } else {
             HashMap<String, String> valueMap = new HashMap<String, String>();
             valueMap.put("awardNumber", awardNumber);
             List<Award> awards = (List<Award>) businessObjectService.findMatching(Award.class, valueMap);
@@ -368,8 +372,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
         if (vh != null) {
             ip = (InstitutionalProposal) vh.getSequenceOwner();
-        }
-        else if (StringUtils.isNotEmpty(proposalNumber)) {
+        } else if (StringUtils.isNotEmpty(proposalNumber)) {
             HashMap<String, String> valueMap = new HashMap<String, String>();
             valueMap.put("proposalNumber", proposalNumber);
             List<InstitutionalProposal> proposals = (List<InstitutionalProposal>) businessObjectService.findMatching(
@@ -391,7 +394,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     /**
      * Retrieve injected <code>{@link BudgetService}</code> singleton
-     * 
+     *
      * @return BudgetService
      */
     public BudgetService getBudgetService() {
@@ -400,7 +403,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     /**
      * Inject <code>{@link BudgetService}</code> singleton
-     * 
+     *
      * @return budgetService to assign
      */
     public void setBudgetService(BudgetService budgetService) {
@@ -428,8 +431,9 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
 
     /**
-     * 
-     * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService#deleteProposal(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     *
+     * @see
+     * org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService#deleteProposal(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
     public void deleteProposal(ProposalDevelopmentDocument proposalDocument) throws WorkflowException {
         ListIterator<BudgetDocumentVersion> iter = proposalDocument.getBudgetDocumentVersions().listIterator();
@@ -462,8 +466,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
             document.setParentDocument(parentDocument);
             document.setBudgetDeleted(true);
             getDocumentService().saveDocument(document);
-        }
-        catch (WorkflowException e) {
+        } catch (WorkflowException e) {
             LOG.warn("Error getting budget document to delete", e);
         }
 
@@ -481,7 +484,6 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      * a utility method to check if dwr/ajax call really has authorization 'updateProtocolFundingSource' also accessed by non ajax
      * call
      */
-
     private boolean isAuthorizedToAccess(String proposalNumber) {
         boolean isAuthorized = true;
         if (proposalNumber.contains(Constants.COLON)) {
@@ -493,13 +495,11 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
                 String docFormKey = invalues[1];
                 if (StringUtils.isBlank(docFormKey)) {
                     isAuthorized = false;
-                }
-                else {
+                } else {
                     Object formObj = GlobalVariables.getUserSession().retrieveObject(docFormKey);
                     if (formObj == null || !(formObj instanceof ProposalDevelopmentForm)) {
                         isAuthorized = false;
-                    }
-                    else {
+                    } else {
                         Map<String, String> editModes = ((ProposalDevelopmentForm) formObj).getEditingMode();
                         isAuthorized = BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.FULL_ENTRY))
                                 || BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.VIEW_ONLY))
@@ -507,8 +507,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
                     }
                 }
 
-            }
-            else {
+            } else {
                 // TODO : it seemed that tomcat has this issue intermittently ?
                 LOG.info("dwr/ajax does not have session ");
             }
@@ -574,7 +573,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
     /**
      * Return the institutional proposal linked to the development proposal.
-     * 
+     *
      * @param proposalDevelopmentDocument
      * @param instProposalNumber
      * @return
@@ -593,20 +592,21 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         }
         return null;
     }
+
     protected String populateBudgetEditableFieldMetaData(
             String documentNumber, String editableFieldDBColumn) {
-        String returnValue  = "";
-      
+        String returnValue = "";
+
         //BudgetDocument budgetDocument = null;
         if (GlobalVariables.getMessageMap() != null) {
             GlobalVariables.getMessageMap().clearErrorMessages();
-        }      
+        }
         Object fieldValue = getBudgetFieldValueFromDBColumnName(documentNumber, editableFieldDBColumn);
-        
+
         Map<String, Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put("columnName", editableFieldDBColumn);
         BudgetColumnsToAlter editableColumn = (BudgetColumnsToAlter) businessObjectService.findByPrimaryKey(
-                BudgetColumnsToAlter.class, primaryKeys);            
+                BudgetColumnsToAlter.class, primaryKeys);
         if (editableColumn.getHasLookup()) {
             returnValue = getDataOverrideLookupDisplayReturnValue(editableColumn.getLookupClass())
                     + ","
@@ -614,20 +614,17 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
                     + ","
                     + getDataOverrideLookupDisplayDisplayValue(editableColumn.getLookupClass(),
                             (fieldValue != null ? fieldValue.toString() : ""), editableColumn.getLookupReturn());
-        }
-        else if (fieldValue != null && editableColumn.getDataType().equalsIgnoreCase("DATE")) {
+        } else if (fieldValue != null && editableColumn.getDataType().equalsIgnoreCase("DATE")) {
             returnValue = ",," + CoreApiServiceLocator.getDateTimeService().toString((Date) fieldValue, "MM/dd/yyyy");
-        }
-        else if (fieldValue != null) {
+        } else if (fieldValue != null) {
             returnValue = ",," + fieldValue.toString();
-        }
-        else {
+        } else {
             returnValue = ",,";
         }
         if (fieldValue instanceof Boolean) {
             editableColumn.setDataType("boolean");
         }
-      
+
         returnValue += "," + editableColumn.getDataType();
         returnValue += "," + editableColumn.getHasLookup();
         returnValue += "," + editableColumn.getLookupClass();
