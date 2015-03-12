@@ -33,6 +33,9 @@ import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -41,8 +44,10 @@ import org.kuali.rice.krms.api.engine.Facts.Builder;
 /**
  * This class is for subAwardDocument...
  */
-public class SubAwardDocument extends ResearchDocumentBase
-        implements Copyable, SessionDocument, KrmsRulesContext {
+@NAMESPACE(namespace = Constants.MODULE_NAMESPACE_SUBAWARD)
+@COMPONENT(component = ParameterConstants.DOCUMENT_COMPONENT)
+
+public class SubAwardDocument extends ResearchDocumentBase implements Copyable, SessionDocument, KrmsRulesContext {
 
     /**
      * .
