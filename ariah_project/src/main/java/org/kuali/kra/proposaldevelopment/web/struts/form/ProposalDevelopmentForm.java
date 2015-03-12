@@ -2242,6 +2242,9 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         String sponsorCode = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.ARIAH_PROPDEV_DEFAULT_SPONSOR_CODE);
         proposalDevelopmentDocument.getDevelopmentProposal().setSponsorCode(sponsorCode);        
         
+        String defaultProjectTitle = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.ARIAH_PROPDEV_DEFAULT_PROPOSAL_TITLE);
+        proposalDevelopmentDocument.getDevelopmentProposal().setTitle(defaultProjectTitle);
+        
         String defaultSponsorDeadlineType = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.ARIAH_PROPDEV_DEFAULT_SPONSOR_DEADLINE_TYPE);
 
         if (defaultSponsorDeadlineType != null && !defaultSponsorDeadlineType.isEmpty()) {

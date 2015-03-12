@@ -950,6 +950,7 @@ public interface Constants {
     public static final String ARIAH_PROPDEV_DEFAULT_PROPOSAL_TYPE_CODE = "ARIAH_PROPDEV_DEFAULT_PROPOSAL_TYPE_CODE";
     public static final String ARIAH_PROPDEV_DEFAULT_ACTIVITY_TYPE_CODE = "ARIAH_PROPDEV_DEFAULT_ACTIVITY_TYPE_CODE";
     public static final String ARIAH_PROPDEV_DEFAULT_SPONSOR_CODE = "ARIAH_PROPDEV_DEFAULT_SPONSOR_CODE";
+    public static final String ARIAH_PROPDEV_DEFAULT_PROPOSAL_TITLE = "ARIAH_PROPDEV_DEFAULT_PROPOSAL_TITLE";
     
     /**
      * Module Code for "Award" records in as defined in COEUS_MODULE database table.
