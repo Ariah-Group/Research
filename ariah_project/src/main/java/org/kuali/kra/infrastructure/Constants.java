@@ -944,6 +944,9 @@ public interface Constants {
     public static final String ARIAH_PROPDEV_DEFAULT_SPONSOR_DEADLINE_TYPE = "ARIAH_PROPDEV_DEFAULT_SPONSOR_DEADLINE_TYPE";
     public static final String ARIAH_PROPDEV_REQUIRE_SPONSOR_DEADLINE_TYPE = "ARIAH_PROPDEV_REQUIRE_SPONSOR_DEADLINE_TYPE";
     public static final String ARIAH_PARAM_AWARD_HIDE_AND_DEFAULT_AWARD_DOC_DESC = "ARIAH_PARAM_AWARD_HIDE_AND_DEFAULT_AWARD_DOC_DESC";
+    public static final String ARIAH_IRB_HIDE_AND_DEFAULT_IRB_PROTOCOL_DOC_DESC = "ARIAH_IRB_HIDE_AND_DEFAULT_IRB_PROTOCOL_DOC_DESC";
+    
+    
     /**
      * Module Code for "Award" records in as defined in COEUS_MODULE database table.
      */

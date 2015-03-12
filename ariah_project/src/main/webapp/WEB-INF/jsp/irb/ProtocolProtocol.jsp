@@ -15,7 +15,6 @@
 --%>
 <%@ page import="org.kuali.kra.infrastructure.Constants"%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
 <c:set var="protocolAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
 <kul:documentPage
 	showDocumentInfo="true"
@@ -26,19 +25,21 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="protocol">
-
 <script type="text/javascript">
    var $j = jQuery.noConflict();
 </script>
- 
-
-  	
 <div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Protocol" /></div>
-<kul:documentOverview editingMode="${KualiForm.editingMode}" />
-
-<kra-irb:protocolRequiredFields />
+<c:choose>
+    <c:when test="${!KualiForm.hideIrbDocDescriptionPanel}">
+	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+    </c:when>
+    <c:otherwise>
+        <div id="workarea">
+         <c:set var="requiredTransparent" value="true"/> 
+    </c:otherwise>
+</c:choose>
+<kra-irb:protocolRequiredFields transparent="${requiredTransparent}"/>
 <kra-irb:protocolStatusDate />
-
 <c:choose>
 	<c:when test="${KualiForm.displayRiskLevelPanel}" > 
 		<kra-irb:protocolRiskLevel />
@@ -48,7 +49,6 @@
 <kra-irb:protocolLocations />
 <kra-irb:protocolFundingSources />
 <kra-irb:protocolParticipants />
-
 <kul:panelFooter />
 	<kul:documentControls 
 		transactionalDocument="false"
@@ -58,13 +58,10 @@
 		extraButtonAlt="${extraButtonAlt}"
 		viewOnly="${KualiForm.editingMode['viewOnly']}"
 		/>
-
 <SCRIPT type="text/javascript">
 var kualiForm = document.forms['KualiForm'];
 var kualiElements = kualiForm.elements;
-
 </SCRIPT>
-
 <script language="javascript" src="dwr/interface/ProtocolFundingSourceService.js"></script>
 <!-- <script language="javascript" src="dwr/interface/UnitService.js"></script> -->
 </kul:documentPage>
