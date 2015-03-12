@@ -77,7 +77,11 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import org.kuali.kra.bo.SpecialReviewUsage;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class...
@@ -96,6 +100,7 @@ public class ProtocolForm extends ProtocolFormBase {
     private static final boolean HIDE_ONLINE_REVIEW_WHEN_DISABLED = true;
     private static final String ONLINE_REVIEW_NAV_TO = "onlineReview";
     private static final String CUSTOM_DATA_NAV_TO = "customData";
+    private static final String SPECIALREVIEW_NAV_TO = "specialReview";
 
     private boolean reinitializeModifySubmissionFields = true;
 
@@ -142,6 +147,18 @@ public class ProtocolForm extends ProtocolFormBase {
                     && onlineReviewService.isProtocolInStateToBeReviewed((Protocol) getProtocolDocument().getProtocol());
         }
 
+        Map<String, String> specialReviewUsageParams = new HashMap<String, String>();
+        specialReviewUsageParams.put("moduleCode", Constants.MODULE_CODE_IRB);
+        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+
+        List<SpecialReviewUsage> usages = (List<SpecialReviewUsage>) businessObjectService.findMatching(SpecialReviewUsage.class, specialReviewUsageParams);
+
+        boolean includeSpecialReviews = true;
+
+        if (usages == null || usages.isEmpty()) {
+            includeSpecialReviews = false;
+        }
+
             //We have to copy the HeaderNavigation elements into a new collection as the 
         //List returned by DD is it's cached copy of the header navigation list.
         for (HeaderNavigation nav : navigation) {
@@ -154,6 +171,10 @@ public class ProtocolForm extends ProtocolFormBase {
                 boolean displayTab = this.getCustomDataHelper().canDisplayCustomDataTab();
                 nav.setDisabled(!displayTab);
                 if (displayTab) {
+                    resultList.add(nav);
+                }
+            } else if (StringUtils.equalsIgnoreCase(nav.getHeaderTabNavigateTo(), SPECIALREVIEW_NAV_TO)) {
+                if (includeSpecialReviews) {
                     resultList.add(nav);
                 }
             } else {
