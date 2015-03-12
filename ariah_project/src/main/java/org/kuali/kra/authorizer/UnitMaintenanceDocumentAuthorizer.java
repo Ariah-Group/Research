@@ -29,14 +29,15 @@ import org.kuali.rice.krad.util.KRADConstants;
 
 import java.util.HashSet;
 import java.util.Set;
+import org.kuali.kra.infrastructure.RoleConstants;
 
 public class UnitMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
     private static final String UNIT = "Unit";
-    
+
     private KcPersonService kcPersonService;
     private UnitAuthorizationService unitAuthorizationService;
-    
+
     @Override
     public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
         Set<String> actions = getDocumentActions(document);
@@ -46,10 +47,10 @@ public class UnitMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthor
 
     protected Set<String> getDocumentActions(Document document) {
         Set<String> documentActions = new HashSet<String>();
-        
+
         String personId = getKcPersonService().getKcPersonByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId()).getPersonId();
-        boolean hasModifyPermission = getUnitAuthorizationService().hasPermission(personId, "KC-UNT", PermissionConstants.MODIFY_UNIT);
-        boolean hasAddPermission = getUnitAuthorizationService().hasPermission(personId, "KC-UNT", PermissionConstants.ADD_UNIT);
+        boolean hasModifyPermission = getUnitAuthorizationService().hasPermission(personId, RoleConstants.DEPARTMENT_ROLE_TYPE, PermissionConstants.MODIFY_UNIT);
+        boolean hasAddPermission = getUnitAuthorizationService().hasPermission(personId, RoleConstants.DEPARTMENT_ROLE_TYPE, PermissionConstants.ADD_UNIT);
 
         if (hasModifyPermission) {
             documentActions = getDocumentActionsWithModifyPermission(document);
@@ -60,7 +61,7 @@ public class UnitMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthor
         }
         return documentActions;
     }
-    
+
     private Set<String> getDocumentActionsWithModifyPermission(Document document) {
         Set<String> documentActions = new HashSet<String>();
         if (document.getDocumentHeader().getWorkflowDocument().isInitiated() || document.getDocumentHeader().getWorkflowDocument().isSaved()) {
@@ -77,7 +78,7 @@ public class UnitMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthor
         }
         return documentActions;
     }
-    
+
     private Set<String> getDocumentActionsWithAddPermission(Document document) {
         Set<String> documentActions = new HashSet<String>();
         String maintenanceAction = ((MaintenanceDocumentBase) document).getNewMaintainableObject().getMaintenanceAction();
@@ -118,25 +119,25 @@ public class UnitMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthor
         }
         return documentActions;
     }
-    
+
     public KcPersonService getKcPersonService() {
         if (kcPersonService == null) {
             kcPersonService = KraServiceLocator.getService(KcPersonService.class);
         }
         return kcPersonService;
     }
-    
+
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
     }
-    
+
     public UnitAuthorizationService getUnitAuthorizationService() {
         if (unitAuthorizationService == null) {
             unitAuthorizationService = KraServiceLocator.getService(UnitAuthorizationService.class);
         }
         return unitAuthorizationService;
     }
-    
+
     public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
         this.unitAuthorizationService = unitAuthorizationService;
     }
