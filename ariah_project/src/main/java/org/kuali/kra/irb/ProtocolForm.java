@@ -81,6 +81,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.kuali.kra.bo.SpecialReviewUsage;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -142,7 +143,7 @@ public class ProtocolForm extends ProtocolFormBase {
             String principalId = GlobalVariables.getUserSession().getPrincipalId();
             ProtocolSubmission submission = (ProtocolSubmission) getProtocolDocument().getProtocol().getProtocolSubmission();
             boolean isUserOnlineReviewer = onlineReviewService.isProtocolReviewer(principalId, false, submission);
-            boolean isUserIrbAdmin = getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), "KC-UNT", "IRB Administrator");
+            boolean isUserIrbAdmin = getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR);
             onlineReviewTabEnabled = (isUserOnlineReviewer || isUserIrbAdmin)
                     && onlineReviewService.isProtocolInStateToBeReviewed((Protocol) getProtocolDocument().getProtocol());
         }
