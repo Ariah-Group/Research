@@ -2168,4 +2168,19 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             }
         }        
     }    
+    
+    /**
+     * Whether the sponsor deadline is a required field.
+     * <p>
+     * Used to mark the field with an asterix if it is required</p>
+     *
+     * @return true if the required system parameter exists and contains an
+     * affirmative value, otherwise false
+     */
+    public boolean isDeadlineDateRequired() {
+        return getParameterService().getParameterValueAsBoolean(
+                Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT,
+                Constants.ARIAH_PROPDEV_REQUIRE_SPONSOR_DEADLINE_TYPE, false);
+    }    
 }
