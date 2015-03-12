@@ -572,8 +572,13 @@ public class ProtocolProtocolAction extends ProtocolAction {
     @Override
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.preSave(mapping, form, request, response);
-        
-        preSaveProtocol(form);        
+
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        if (protocolForm.isHideIrbDocDescriptionPanel()) {
+            protocolForm.getProtocolDocument().defaultDocumentDescription();
+        }
+
+        preSaveProtocol(form);
     }
 
     private void preSaveProtocol(ActionForm form)  throws Exception {
