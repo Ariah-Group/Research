@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.negotiations.web.struts.form;
 
@@ -40,29 +56,27 @@ import java.util.Map;
 import static org.kuali.rice.krad.util.KRADConstants.EMPTY_STRING;
 
 /**
- * 
+ *
  * This class holds all the objects required for a negotiation web object.
  */
 public class NegotiationForm extends KraTransactionalDocumentFormBase implements CustomDataDocumentForm {
-    
-    private static final long serialVersionUID = 6245888664423593163L;
 
+    private static final long serialVersionUID = 6245888664423593163L;
 
     private final String filterAllActivities = "All";
     private final String filterPendingActivities = "Pending";
 
-    
     private List<NegotiationUnassociatedDetail> negotiationUnassociatedDetailsToDelete;
     private NegotiationActivityHelper negotiationActivityHelper;
     private NegotiationAssociatedDetailBean negotiationAssociatedDetailBean;
     private CustomDataHelper customDataHelper = new CustomDataHelper(this);
     private NotificationHelper<NegotiationCloseNotificationContext> notificationHelper;
     private String filterActivities;
-    
+
     private MedusaBean medusaBean;
-    
+
     /**
-     * 
+     *
      * Constructs a NegotiationForm.java.
      */
     public NegotiationForm() {
@@ -74,40 +88,38 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase implements
         filterActivities = "All";
         init();
     }
-    
-    private void init()
-    {
+
+    private void init() {
         getCustomDataHelper().prepareCustomData();
     }
 
+    @Override
     public CustomDataHelper getCustomDataHelper() {
         return customDataHelper;
     }
 
     /**
      * This method sets the custom data helper
-     * 
+     *
      * @param customDataHelper
      */
     public void setCustomDataHelper(CustomDataHelper customDataHelper) {
         this.customDataHelper = customDataHelper;
     }
 
-    
     /**
      * This method returns a string representation of the document type
-     * 
+     *
      * @return
      */
     public String getDocumentTypeName() {
         return "NegotiationDocument";
     }
 
-    
     public NegotiationDocument getNegotiationDocument() {
         return (NegotiationDocument) this.getDocument();
     }
-    
+
     public List<NegotiationUnassociatedDetail> getNegotiationUnassociatedDetailsToDelete() {
         return negotiationUnassociatedDetailsToDelete;
     }
@@ -127,38 +139,38 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase implements
         getDocumentActions().put(KRADConstants.KUALI_ACTION_CAN_SAVE, KRADConstants.KUALI_DEFAULT_TRUE_VALUE);
 
     }
-    
+
     public BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
-    
+
     public NegotiationService getNegotiationService() {
         return KraServiceLocator.getService(NegotiationService.class);
     }
-    
+
     private boolean isAssocitationType(String typeCode) {
         if (this.getNegotiationDocument().getNegotiation().getNegotiationAssociationType() != null) {
             return StringUtils.equalsIgnoreCase(typeCode, this.getNegotiationDocument().getNegotiation().getNegotiationAssociationType().getCode());
         }
         return false;
     }
-    
+
     public boolean getDisplayUnAssociatedDetail() {
         return isAssocitationType(NegotiationAssociationType.NONE_ASSOCIATION);
     }
-    
+
     public boolean getDisplayProposalLog() {
         return isAssocitationType(NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION);
     }
-    
+
     public boolean getDisplayInstitutionalProposal() {
         return isAssocitationType(NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION);
     }
-    
+
     public boolean getDisplayAward() {
         return isAssocitationType(NegotiationAssociationType.AWARD_ASSOCIATION);
     }
-    
+
     public boolean getDisplaySubAward() {
         return isAssocitationType(NegotiationAssociationType.SUB_AWARD_ASSOCIATION);
     }
@@ -170,48 +182,41 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase implements
     public void setNegotiationActivityHelper(NegotiationActivityHelper negotiationActivityHelper) {
         this.negotiationActivityHelper = negotiationActivityHelper;
     }
-    
-    public boolean getDispayAssociatedDetailPanel() { 
+
+    public boolean getDispayAssociatedDetailPanel() {
         return !getDisplayUnAssociatedDetail() && StringUtils.isNotEmpty(this.getNegotiationDocument().getNegotiation().getAssociatedDocumentId());
     }
-    
-    
+
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         NegotiationDocument nd = getNegotiationDocument();
         final String ATTRIB_NEG_ID = "DataDictionary.Negotiation.attributes.negotiationId";
         final String ATTRIB_NEG_USER_NAME = "DataDictionary.Negotiation.attributes.negotiatorUserName";
-        
-        if (nd == null || nd.getNegotiation() == null)
-        {
+
+        if (nd == null || nd.getNegotiation() == null) {
             getDocInfo().add(2, new HeaderField(ATTRIB_NEG_ID, EMPTY_STRING));
-            getDocInfo().add(2, new HeaderField(ATTRIB_NEG_USER_NAME, EMPTY_STRING));            
+            getDocInfo().add(2, new HeaderField(ATTRIB_NEG_USER_NAME, EMPTY_STRING));
             return;
         }
-        if (nd.getNegotiation().getNegotiationId() == null)
-        {
-             getDocInfo().add(2, new HeaderField(ATTRIB_NEG_ID, EMPTY_STRING));
+        if (nd.getNegotiation().getNegotiationId() == null) {
+            getDocInfo().add(2, new HeaderField(ATTRIB_NEG_ID, EMPTY_STRING));
+        } else {
+            getDocInfo().add(2, new HeaderField(ATTRIB_NEG_ID, nd.getNegotiation().getNegotiationId().toString()));
         }
-        else
-        {             
-            getDocInfo().add(2, new HeaderField(ATTRIB_NEG_ID, nd.getNegotiation().getNegotiationId().toString()));            
-        }
-        if (nd.getNegotiation().getNegotiatorUserName() == null)
-        {
+        if (nd.getNegotiation().getNegotiatorUserName() == null) {
             getDocInfo().add(2, new HeaderField(ATTRIB_NEG_USER_NAME, EMPTY_STRING));
+        } else {
+            getDocInfo().add(2, new HeaderField(ATTRIB_NEG_USER_NAME, nd.getNegotiation().getNegotiatorUserName()));
         }
-        else
-        {
-            getDocInfo().add(2, new HeaderField(ATTRIB_NEG_USER_NAME, nd.getNegotiation().getNegotiatorUserName()));            
-        }
-        
+
     }
 
-    
     /**
-     * 
-     * This method returns the NegotiationAssociatedDetailBean.  If it hasn't been set, it does so.
+     *
+     * This method returns the NegotiationAssociatedDetailBean. If it hasn't
+     * been set, it does so.
+     *
      * @return
      */
     public NegotiationAssociatedDetailBean getNegotiationAssociatedDetailBean() {
@@ -221,21 +226,23 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase implements
         }
         return negotiationAssociatedDetailBean;
     }
-    
+
     /**
-     * 
-     * This method builds the javascript the disables and enables the ending date field based on the status field.
+     *
+     * This method builds the javascript the disables and enables the ending
+     * date field based on the status field.
+     *
      * @return
      */
     public String getStatusRelatedJavascript() {
-        StringBuffer sb = new StringBuffer(100);
+        StringBuilder sb = new StringBuilder(1000);
         String newLine = "\n ";
         sb.append("function manageStatusEndDate(doUpdateDate){").append(newLine);
         sb.append("var statusField = document.getElementById('document.negotiationList[0].negotiationStatusId');").append(newLine);
         sb.append("var dateField = document.getElementById('document.negotiationList[0].negotiationEndDate');").append(newLine);
         sb.append("var statusFieldSelectedVal = statusField.options[statusField.selectedIndex].value;").append(newLine);
         sb.append("var dateFieldPicker = document.getElementById('document.negotiationList[0].negotiationEndDate_datepicker');").append(newLine);
-        
+
         sb.append("if (");
         int currentIndex = 0;
         List<String> completedCodes = this.getNegotiationService().getCompletedStatusCodes();
@@ -248,7 +255,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase implements
             currentIndex++;
         }
         sb.append(") {").append(newLine);
-        
+
         sb.append("  dateField.disabled = false;").append(newLine);
         sb.append("  if (dateField.value == '' && doUpdateDate) {").append(newLine);
         sb.append("    var currentTime = new Date();").append(newLine);
@@ -262,7 +269,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase implements
 
         return sb.toString();
     }
-    
+
     private NegotiationStatus getNegotiationStatus(String code) {
         return getNegotiationService().getNegotiationStatus(code);
     }
@@ -282,10 +289,12 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase implements
     public void setFilterActivities(String filterActivities) {
         this.filterActivities = filterActivities;
     }
-    
+
     /**
-     * 
-     * This method calls the negotiation service and return the results of the getNegotiationActivityHistoryLineBeans function.
+     *
+     * This method calls the negotiation service and return the results of the
+     * getNegotiationActivityHistoryLineBeans function.
+     *
      * @return
      */
     public List<NegotiationActivityHistoryLineBean> getNegotiationActivityHistoryLineBeans() {
@@ -293,8 +302,10 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase implements
     }
 
     /**
-     * 
-     * This method calls the negotiation service and return the results of the getNegotiationNotifications function.
+     *
+     * This method calls the negotiation service and return the results of the
+     * getNegotiationNotifications function.
+     *
      * @return
      */
     public List<NegotiationNotification> getNegotiationNotifications() {
@@ -316,34 +327,42 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase implements
     public String getFilterPendingActivities() {
         return filterPendingActivities;
     }
-    
+
     /**
-     * 
-     * This method returns true if the negotiable select icon's need a div tag surrounding it,to generate a javascript warning.
+     *
+     * This method returns true if the negotiable select icon's need a div tag
+     * surrounding it,to generate a javascript warning.
+     *
      * @return
      */
     public boolean getDispayChangeAssociatedDocumentWarning() {
         boolean retVal = !StringUtils.isEmpty(this.getNegotiationDocument().getNegotiation().getAssociatedDocumentId());
         return retVal;
     }
-    
+
     /**
-     * 
-     * This method creates creates the opening div tag for the warning javascript message.
+     *
+     * This method creates creates the opening div tag for the warning
+     * javascript message.
+     *
      * @return
      */
     public String getDispayChangeAssociatedDocumentWarningMessage() {
         if (getDispayChangeAssociatedDocumentWarning() && this.getNegotiationDocument().getNegotiation().getNegotiationAssociationType() != null) {
-            StringBuffer sb = new StringBuffer("<div id=\"searchIconDiv\" style=\"display: inline;\" onclick=\"return confirm('");
+            StringBuilder sb = new StringBuilder("<div id=\"searchIconDiv\" style=\"display: inline;\" onclick=\"return confirm('");
             String associatedType = this.getNegotiationDocument().getNegotiation().getNegotiationAssociationType().getDescription();
             String docNumber = this.getNegotiationDocument().getNegotiation().getAssociatedNegotiable().getAssociatedDocumentId();
             sb.append("This Negotiation is already associated with ").append(associatedType).append(" number ").append(docNumber);
-            sb.append(".  Selecting a different ").append(associatedType).append(" document will disassociate this Negotiation with "); 
+            sb.append(".  Selecting a different ").append(associatedType).append(" document will disassociate this Negotiation with ");
             sb.append(docNumber).append(".  Are you sure?").append("')\">");
             return sb.toString();
-            
+
         } else {
             return "";
         }
+    }
+
+    public boolean isHideNegotiationDocDescriptionPanel() {
+        return getNegotiationDocument().isDefaultDocumentDescription();
     }
 }

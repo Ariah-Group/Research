@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.negotiations.web.struts.action;
 
@@ -162,6 +178,10 @@ public class NegotiationNegotiationAction extends NegotiationAction {
                 sendCloseNotification = true;
             }
         }
+
+        // call new preSave method to default doc description
+        preSave(mapping, negotiationForm, request, response);
+
         ActionForward actionForward = super.save(mapping, form, request, response);
         
         NegotiationCloseNotificationContext context = new NegotiationCloseNotificationContext(negotiationForm.getNegotiationDocument());
@@ -192,6 +212,23 @@ public class NegotiationNegotiationAction extends NegotiationAction {
        return actionForward;
    }
     
+    /**
+     * This method allows logic to be executed before a save, after
+     * authorization is confirmed.
+     *
+     * @param mapping the Action Mapping
+     * @param form the Action Form
+     * @param request the Http Request
+     * @param response Http Response
+     * @throws Exception if bad happens
+     */
+    public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        NegotiationForm negotiationForm = (NegotiationForm) form;
+        if (negotiationForm.isHideNegotiationDocDescriptionPanel()) {
+            negotiationForm.getNegotiationDocument().defaultDocumentDescription();
+        }
+    }
+
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         NegotiationForm negotiationForm = (NegotiationForm) form;
@@ -252,7 +289,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
     
 
     private void loadCodeObjects(Negotiation negotiation) {
-        Map primaryKeys = new HashMap();
+        //Map primaryKeys = new HashMap();
         negotiation.refreshReferenceObject("negotiationAgreementType");
         negotiation.refreshReferenceObject("negotiationAssociationType");
         negotiation.refreshReferenceObject("negotiationStatus");

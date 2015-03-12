@@ -1,14 +1,44 @@
-<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<%--
+ Copyright 2005-2014 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.osedu.org/licenses/ECL-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-------------------------------------
 
-<c:set var="negotiationAttributes" value="${DataDictionary.Negotiation.attributes}" />
-<c:set var="negotiationUnassociatedDetailAttributes" value="${DataDictionary.NegotiationUnassociatedDetail.attributes}" />
-<c:set var="action" value="negotiationNegotiation" />
-<c:set var="className" value="org.kuali.kra.negotiations.document.NegotiationDocument" />
-<c:set var="readOnly" value="${not KualiForm.editingMode['modify']}"/>
-<c:set var="medusaLink" value="${KualiForm.methodToCall eq 'medusa'}"/>
+Updates made after January 1, 2015 are :
+Copyright 2015 The Ariah Group, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--%>
+<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"
+%><%@ attribute name="transparent" required="false"
+%><c:set var="negotiationAttributes" value="${DataDictionary.Negotiation.attributes}"
+/><c:set var="negotiationUnassociatedDetailAttributes" value="${DataDictionary.NegotiationUnassociatedDetail.attributes}"
+/><c:set var="action" value="negotiationNegotiation" 
+/><c:set var="className" value="org.kuali.kra.negotiations.document.NegotiationDocument"
+/><c:set var="readOnly" value="${not KualiForm.editingMode['modify']}"
+/><c:set var="medusaLink" value="${KualiForm.methodToCall eq 'medusa'}"/>
 <script type='text/javascript' src='dwr/interface/KraPersonService.js'></script>
-
-<kul:tab tabTitle="Negotiation" defaultOpen="${!medusaLink}" 
+<kul:tab tabTitle="Negotiation" defaultOpen="${!medusaLink}" transparentBackground="${transparent}" 
 					tabErrorKey="document.negotiationList[0].negotiation*,document.negotiationList[0].negotiator*,document.negotiationList[0].anticipatedAwardDate,document.negotiationList[0].documentFolder,document.negotiationList[0].associatedDocumentId,document.negotiationList[0].unAssociatedDetail*" 
 					auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
