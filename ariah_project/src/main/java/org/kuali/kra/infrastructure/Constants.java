@@ -948,6 +948,7 @@ public interface Constants {
     public static final String ARIAH_IACUC_HIDE_AND_DEFAULT_IACUC_PROTOCOL_DOC_DESC = "ARIAH_IACUC_HIDE_AND_DEFAULT_IACUC_PROTOCOL_DOC_DESC";
     
     public static final String ARIAH_PROPDEV_DEFAULT_PROPOSAL_TYPE_CODE = "ARIAH_PROPDEV_DEFAULT_PROPOSAL_TYPE_CODE";
+    public static final String ARIAH_PROPDEV_DEFAULT_ACTIVITY_TYPE_CODE = "ARIAH_PROPDEV_DEFAULT_ACTIVITY_TYPE_CODE";
     
     /**
      * Module Code for "Award" records in as defined in COEUS_MODULE database table.
