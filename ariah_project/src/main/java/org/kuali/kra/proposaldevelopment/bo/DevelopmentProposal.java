@@ -62,7 +62,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private static final String ATTACHMENTS_INCOMPLETE = "Inomplete";
 
     private static final String ATTACHMENTS_NONE = "None";
-    
+
     private static final String ROLODEX_ID_FIELD_NAME = "rolodexId";
 
     private String proposalNumber;
@@ -88,7 +88,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private String currentAwardNumber;
 
     private Date deadlineDate;
-    
+
     private String deadlineTime;
 
     private String noticeOfOpportunityCode;
@@ -96,7 +96,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private NoticeOfOpportunity noticeOfOpportunity;
 
     private String deadlineType;
-    
+
     private Integer anticipatedAwardTypeCode;
     private AwardType anticipatedAwardType;
 
@@ -154,7 +154,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private List<S2sAppSubmission> s2sAppSubmission;
 
     private List<S2sUserAttachedForm> s2sUserAttachedForms;
-    
+
     private String newScienceKeywordCode;
 
     private String newDescription;
@@ -198,15 +198,15 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private boolean sponsorNihOsc;
 
     private List<ProposalChangedData> proposalChangedDataList;
-    
+
     private List<BudgetChangedData> budgetChangedDataList;
 
     private Map<String, List<ProposalChangedData>> proposalChangeHistory;
-    
+
     private Map<String, List<BudgetChangedData>> budgetChangeHistory;
 
     private Boolean submitFlag = Boolean.FALSE;
-    
+
     private Boolean grantsGovSelectFlag = Boolean.FALSE;
 
     private ProposalDevelopmentDocument proposalDocument;
@@ -216,13 +216,12 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private String hierarchyStatusName;
     private String hierarchyOriginatingChildProposalNumber;
 
-
     private String hierarchyParentProposalNumber;
 
     private Integer hierarchyLastSyncHashCode;
 
     private String hierarchyBudgetType;
-    
+
     private String lastSyncedBudgetDocumentNumber;
 
     private transient ParameterService parameterService;
@@ -230,52 +229,55 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private transient ProposalHierarchyService proposalHierarchyService;
     private transient KeyPersonnelService keyPersonnelService;
     private Sponsor primeSponsor;
- 
+
     private String proposalNumberForGG;
-    
+
     private String opportunityIdForGG;
 
     private String agencyRoutingIdentifier;
-    
+
     private String prevGrantsGovTrackingID;
- 
+
+    private boolean sponsorDeadlineRequired = false;
 
     /**
-     * Gets the proposalNumberForGG attribute. 
+     * Gets the proposalNumberForGG attribute.
+     *
      * @return Returns the proposalNumberForGG.
      */
     public String getProposalNumberForGG() {
-        if(s2sOpportunity != null){
+        if (s2sOpportunity != null) {
             proposalNumberForGG = s2sOpportunity.getProposalNumber();
         }
         return proposalNumberForGG;
     }
-    
+
     public String getOpportunityIdForGG() {
-        if(s2sOpportunity != null){
+        if (s2sOpportunity != null) {
             opportunityIdForGG = s2sOpportunity.getOpportunityId();
         }
         return opportunityIdForGG;
     }
-    
+
     /**
      * Sets the proposalNumberForGG attribute value.
+     *
      * @param proposalNumberForGG The proposalNumberForGG to set.
      */
     public void setProposalNumberForGG(String proposalNumberForGG) {
-       this.proposalNumberForGG = proposalNumberForGG;
-       
+        this.proposalNumberForGG = proposalNumberForGG;
+
     }
 
     public void setOpportunityIdForGG(String opportunityIdForGG) {
         this.opportunityIdForGG = opportunityIdForGG;
-        
-     }
 
-    
+    }
+
     /**
      * Looks up and returns the ParameterService.
-     * @return the parameter service. 
+     *
+     * @return the parameter service.
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
@@ -286,7 +288,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Looks up and returns the ProposalHierarchyService.
-     * @return the proposal hierarchy service. 
+     *
+     * @return the proposal hierarchy service.
      */
     protected ProposalHierarchyService getProposalHierarchyService() {
         if (this.proposalHierarchyService == null) {
@@ -303,7 +306,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * Gets the hierarchy attribute. 
+     * Gets the hierarchy attribute.
+     *
      * @return Returns the hierarchy.
      */
     public String getHierarchyStatus() {
@@ -312,6 +316,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Sets the hierarchy attribute value.
+     *
      * @param hierarchy The hierarchy to set.
      */
     public void setHierarchyStatus(String hierarchyStatus) {
@@ -319,7 +324,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * Gets the hierarchyParentProposalNumber attribute. 
+     * Gets the hierarchyParentProposalNumber attribute.
+     *
      * @return Returns the hierarchyParentProposalNumber.
      */
     public String getHierarchyParentProposalNumber() {
@@ -328,7 +334,9 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Sets the hierarchyParentProposalNumber attribute value.
-     * @param hierarchyParentProposalNumber The hierarchyParentProposalNumber to set.
+     *
+     * @param hierarchyParentProposalNumber The hierarchyParentProposalNumber to
+     * set.
      */
     public void setHierarchyParentProposalNumber(String hierarchyParentProposalNumber) {
         this.hierarchyParentProposalNumber = hierarchyParentProposalNumber;
@@ -344,6 +352,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Sets the hierarchyLastSyncHashCode attribute value.
+     *
      * @param hierarchyLastSyncHashCode The hierarchyLastSyncHashCode to set.
      */
     public void setHierarchyLastSyncHashCode(Integer hierarchyLastSyncHashCode) {
@@ -351,7 +360,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * Gets the hierarchyLastSyncHashCode attribute. 
+     * Gets the hierarchyLastSyncHashCode attribute.
+     *
      * @return Returns the hierarchyLastSyncHashCode.
      */
     public Integer getHierarchyLastSyncHashCode() {
@@ -373,7 +383,9 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     public String getHierarchyStatusName() {
         hierarchyStatusName = HierarchyStatusConstants.None.description();
         for (HierarchyStatusConstants status : HierarchyStatusConstants.values()) {
-            if (status.code().equals(getHierarchyStatus())) hierarchyStatusName = status.description();
+            if (status.code().equals(getHierarchyStatus())) {
+                hierarchyStatusName = status.description();
+            }
         }
         return hierarchyStatusName;
     }
@@ -384,6 +396,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Sets the hierarchyBudgetType attribute value.
+     *
      * @param hierarchyBudgetType The hierarchyBudgetType to set.
      */
     public void setHierarchyBudgetType(String hierarchyBudgetType) {
@@ -391,7 +404,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * Gets the hierarchyBudgetType attribute. 
+     * Gets the hierarchyBudgetType attribute.
+     *
      * @return Returns the hierarchyBudgetType.
      */
     public String getHierarchyBudgetType() {
@@ -443,7 +457,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets the value of proposalPersons
-     * 
+     *
      * @return the value of proposalPersons
      */
     public List<ProposalPerson> getProposalPersons() {
@@ -461,9 +475,9 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
             person.setMoveDownAllowed(i < (proposalPersons.size() - 1)
                     && !getKeyPersonnelService().isPrincipalInvestigator(person));
             if (isSponsorNihMultiplePi() && getKeyPersonnelService().isCoInvestigator(person) && person.isMultiplePi()) {
-                person.setMoveUpAllowed(i > 0 
+                person.setMoveUpAllowed(i > 0
                         && person.isMultiplePi() == proposalPersons.get(i - 1).isMultiplePi());
-                person.setMoveDownAllowed(person.isMoveDownAllowed() 
+                person.setMoveDownAllowed(person.isMoveDownAllowed()
                         && person.isMultiplePi() == proposalPersons.get(i + 1).isMultiplePi());
             }
         }
@@ -479,7 +493,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Sets the value of proposalPersons
-     * 
+     *
      * @param argProposalPersons Value to assign to this.proposalPersons
      */
     public void setProposalPersons(List<ProposalPerson> argProposalPersons) {
@@ -504,11 +518,13 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Dummy getter to support 2 different views of ownedByUnit through the DD.
+     *
      * @return
      */
     public String getOwnedByUnitNumberRestricted() {
         return ownedByUnitNumber;
     }
+
     public void setOwnedByUnitNumberRestricted(String ownedByUnit) {
         this.ownedByUnitNumber = ownedByUnit;
     }
@@ -523,7 +539,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets the continuedFrom attribute.
-     * 
+     *
      * @return Returns the continuedFrom.
      */
     public String getContinuedFrom() {
@@ -532,7 +548,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Sets the continuedFrom attribute value.
-     * 
+     *
      * @param continuedFrom The continuedFrom to set.
      */
     public void setContinuedFrom(String continuedFrom) {
@@ -589,7 +605,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets the agencyDivisionCode attribute.
-     * 
+     *
      * @return Returns the agencyDivisionCode.
      */
     public String getAgencyDivisionCode() {
@@ -598,7 +614,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Sets the agencyDivisionCode attribute value.
-     * 
+     *
      * @param agencyDivisionCode The agencyDivisionCode to set.
      */
     public void setAgencyDivisionCode(String agencyDivisionCode) {
@@ -607,7 +623,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets the agencyProgramCode attribute.
-     * 
+     *
      * @return Returns the agencyProgramCode.
      */
     public String getAgencyProgramCode() {
@@ -616,7 +632,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Sets the agencyProgramCode attribute value.
-     * 
+     *
      * @param agencyProgramCode The agencyProgramCode to set.
      */
     public void setAgencyProgramCode(String agencyProgramCode) {
@@ -625,7 +641,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets the cfdaNumber attribute.
-     * 
+     *
      * @return Returns the cfdaNumber.
      */
     public String getCfdaNumber() {
@@ -634,7 +650,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Sets the cfdaNumber attribute value.
-     * 
+     *
      * @param cfdaNumber The cfdaNumber to set.
      */
     public void setCfdaNumber(String cfdaNumber) {
@@ -643,7 +659,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets the deadlineDate attribute.
-     * 
+     *
      * @return Returns the deadlineDate.
      */
     public Date getDeadlineDate() {
@@ -652,7 +668,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Sets the deadlineDate attribute value.
-     * 
+     *
      * @param deadlineDate The deadlineDate to set.
      */
     public void setDeadlineDate(Date deadlineDate) {
@@ -669,7 +685,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets the deadlineType attribute.
-     * 
+     *
      * @return Returns the deadlineType.
      */
     public String getDeadlineType() {
@@ -678,31 +694,33 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Sets the anticipatedAwardType attribute value.
-     * 
+     *
      * @param anticipatedAwardType The anticipatedAwardType to set.
      */
     public void setAnticipatedAwardTypeCode(Integer anticipatedAwardTypeCode) {
         this.anticipatedAwardTypeCode = anticipatedAwardTypeCode;
     }
-    
+
     public void setAnticipatedAwardType(AwardType anticipatedAwardType) {
         this.anticipatedAwardType = anticipatedAwardType;
     }
+
     /**
      * Gets the anticipatedAwardType attribute.
-     * 
+     *
      * @return Returns the anticipatedAwardType.
      */
     public Integer getAnticipatedAwardTypeCode() {
         return anticipatedAwardTypeCode;
     }
+
     public AwardType getAnticipatedAwardType() {
         return anticipatedAwardType;
     }
 
     /**
      * Sets the deadlineType attribute value.
-     * 
+     *
      * @param deadlineType The deadlineType to set.
      */
     public void setDeadlineType(String deadlineType) {
@@ -711,7 +729,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets the noticeOfOpportu nityCode attribute.
-     * 
+     *
      * @return Returns the noticeOfOpportunityCode.
      */
     public String getNoticeOfOpportunityCode() {
@@ -720,7 +738,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Sets the noticeOfOpportunityCode attribute value.
-     * 
+     *
      * @param noticeOfOpportunityCode The noticeOfOpportunityCode to set.
      */
     public void setNoticeOfOpportunityCode(String noticeOfOpportunityCode) {
@@ -729,7 +747,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets the nsfCode attribute.
-     * 
+     *
      * @return Returns the nsfCode.
      */
     public String getNsfCode() {
@@ -738,7 +756,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Sets the nsfCode attribute value.
-     * 
+     *
      * @param nsfCode The nsfCode to set.
      */
     public void setNsfCode(String nsfCode) {
@@ -747,7 +765,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets the primeSponsorCode attribute.
-     * 
+     *
      * @return Returns the primeSponsorCode.
      */
     public String getPrimeSponsorCode() {
@@ -756,7 +774,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Sets the primeSponsorCode attribute value.
-     * 
+     *
      * @param primeSponsorCode The primeSponsorCode to set.
      */
     public void setPrimeSponsorCode(String primeSponsorCode) {
@@ -765,7 +783,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets the programAnnouncementNumber attribute.
-     * 
+     *
      * @return Returns the programAnnouncementNumber.
      */
     public String getProgramAnnouncementNumber() {
@@ -774,7 +792,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Sets the programAnnouncementNumber attribute value.
-     * 
+     *
      * @param programAnnouncementNumber The programAnnouncementNumber to set.
      */
     public void setProgramAnnouncementNumber(String programAnnouncementNumber) {
@@ -783,7 +801,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets the programAnnouncementTitle attribute.
-     * 
+     *
      * @return Returns the programAnnouncementTitle.
      */
     public String getProgramAnnouncementTitle() {
@@ -792,7 +810,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Sets the programAnnouncementTitle attribute value.
-     * 
+     *
      * @param programAnnouncementTitle The programAnnouncementTitle to set.
      */
     public void setProgramAnnouncementTitle(String programAnnouncementTitle) {
@@ -801,7 +819,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets the sponsorProposalNumber attribute.
-     * 
+     *
      * @return Returns the sponsorProposalNumber.
      */
     public String getSponsorProposalNumber() {
@@ -810,7 +828,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Sets the sponsorProposalNumber attribute value.
-     * 
+     *
      * @param sponsorProposalNumber The sponsorProposalNumber to set.
      */
     public void setSponsorProposalNumber(String sponsorProposalNumber) {
@@ -819,7 +837,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets the subcontracts attribute.
-     * 
+     *
      * @return Returns the subcontracts.
      */
     public Boolean getSubcontracts() {
@@ -828,7 +846,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Sets the subcontracts attribute value.
-     * 
+     *
      * @param subcontracts The subcontracts to set.
      */
     public void setSubcontracts(Boolean subcontracts) {
@@ -901,15 +919,16 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * This method sets the Applicant Organization based on a Organization object.
+     * This method sets the Applicant Organization based on a Organization
+     * object.
+     *
      * @param organization
      * @see setApplicantOrganization(ProposalSite)
      */
     public void setApplicantOrgFromOrganization(Organization organization) {
         if (organization == null) {
             setApplicantOrganization((ProposalSite) null);
-        }
-        else {
+        } else {
             ProposalSite applicantSite = new ProposalSite();
             applicantSite.setOrganization(organization);
             setApplicantOrganization(applicantSite);
@@ -918,7 +937,9 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     public ProposalSite getApplicantOrganization() {
         ProposalSite applicant = getProposalSiteForType(ProposalSite.PROPOSAL_SITE_APPLICANT_ORGANIZATION);
-        if (applicant != null) applicant.setRolodex(applicant.getOrganization() == null ? null : applicant.getOrganization().getRolodex());
+        if (applicant != null) {
+            applicant.setRolodex(applicant.getOrganization() == null ? null : applicant.getOrganization().getRolodex());
+        }
         return applicant;
     }
 
@@ -927,15 +948,16 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * This method sets the Performing Organization based on a Organization object.
+     * This method sets the Performing Organization based on a Organization
+     * object.
+     *
      * @param organization
      * @see setPerformingOrgFromOrganization(ProposalSite)
      */
     public void setPerformingOrgFromOrganization(Organization organization) {
         if (organization == null) {
             setPerformingOrganization((ProposalSite) null);
-        }
-        else {
+        } else {
             ProposalSite performingSite = new ProposalSite();
             performingSite.setOrganization(organization);
             setPerformingOrganization(performingSite);
@@ -956,8 +978,10 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * This method replaces one or more Proposal Sites of a given type with another Proposal Site.
-     * The new Proposal Site's type is set to the locationType parameter.
+     * This method replaces one or more Proposal Sites of a given type with
+     * another Proposal Site. The new Proposal Site's type is set to the
+     * locationType parameter.
+     *
      * @param proposalSite
      * @param locationType
      */
@@ -968,8 +992,10 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * This method replaces all Proposal Sites of a given type with a new list of Proposal Sites.
-     * Each new Proposal Site's types are set to the locationType parameter.
+     * This method replaces all Proposal Sites of a given type with a new list
+     * of Proposal Sites. Each new Proposal Site's types are set to the
+     * locationType parameter.
+     *
      * @param proposalSites
      * @param locationType
      */
@@ -994,8 +1020,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         List<ProposalSite> matchingSites = getProposalSitesForType(locationType);
         if (matchingSites.isEmpty()) {
             return null;
-        }
-        else {
+        } else {
             return matchingSites.get(0);
         }
     }
@@ -1053,11 +1078,13 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * Among all ProposalSites of a given location type, this method deletes the index-th
-     * one of them.
-     * If, for example, there is a total of eight Proposal Sites, of which five are Performance Sites,
-     * then calling this method with the location type ProposalSite.PROPOSAL_SITE_PERFORMANCE_SITE
-     * and index 2 will delete the second Performance Site (not the second Proposal Site overall).
+     * Among all ProposalSites of a given location type, this method deletes the
+     * index-th one of them. If, for example, there is a total of eight Proposal
+     * Sites, of which five are Performance Sites, then calling this method with
+     * the location type ProposalSite.PROPOSAL_SITE_PERFORMANCE_SITE and index 2
+     * will delete the second Performance Site (not the second Proposal Site
+     * overall).
+     *
      * @param locationType
      * @param index
      */
@@ -1079,6 +1106,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * This method returns all proposal sites associated with the document
+     *
      * @return
      */
     public List<ProposalSite> getProposalSites() {
@@ -1132,8 +1160,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     public void setPropSpecialReviews(List<ProposalSpecialReview> propSpecialReviews) {
         this.propSpecialReviews = propSpecialReviews;
     }
-    
-     /*
+
+    /*
      * Refreshes the rolodex from the mailingAddressId
      */
     protected void refreshRolodex() {
@@ -1145,8 +1173,10 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         }
         setRolodex(rolodex);
     }
+
     /**
      * Build an identifier map for the BOS lookup
+     *
      * @param identifierField
      * @param identifierValue
      * @return
@@ -1156,14 +1186,16 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         map.put(identifierField, identifierValue);
         return map;
     }
-    
+
     /**
      * This method looks up BOS
+     *
      * @return
      */
     protected BusinessObjectService getBusinessObjectService() {
         return (BusinessObjectService) KraServiceLocator.getService(BusinessObjectService.class);
     }
+
     @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -1206,8 +1238,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         }
         if (s2sOppForms != null && s2sOppForms.size() > 0) {
             managedLists.add(s2sOppForms);
-        }
-        else {
+        } else {
             managedLists.add(new ArrayList<S2sOppForms>());
         }
         managedLists.add(opportunities);
@@ -1217,7 +1248,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets the sponsor attribute.
-     * 
+     *
      * @return Returns the sponsor.
      */
     public Sponsor getSponsor() {
@@ -1229,7 +1260,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Sets the sponsor attribute value.
-     * 
+     *
      * @param sponsor The sponsor to set.
      */
     public void setSponsor(Sponsor sponsor) {
@@ -1250,7 +1281,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Utility method to get person in ProposalPersons with the PI role
-     * 
+     *
      * @return ProposalPerson
      */
     public ProposalPerson getPrincipalInvestigator() {
@@ -1279,7 +1310,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Adds a new proposal person to the collection in the document
-     * 
+     *
      * @param p person to add
      */
     public void addProposalPerson(ProposalPerson p) {
@@ -1300,7 +1331,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Get the list of Proposal Attachments (Narratives) for this Proposal.
-     * 
+     *
      * @return the proposal's list of narratives.
      */
     public List<Narrative> getNarratives() {
@@ -1309,7 +1340,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Set the list of Proposal Attachments (Narratives) for this Proposal.
-     * 
+     *
      * @param narratives the proposal's new list of narratives.
      */
     public void setNarratives(List<Narrative> narratives) {
@@ -1318,7 +1349,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Get the list of Abstracts for this Proposal.
-     * 
+     *
      * @return the proposal's list of abstracts.
      */
     public List<ProposalAbstract> getProposalAbstracts() {
@@ -1327,7 +1358,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Set the list of Abstracts for this Proposal.
-     * 
+     *
      * @param proposalAbstracts the proposal's new list of abstracts.
      */
     public void setProposalAbstracts(List<ProposalAbstract> proposalAbstracts) {
@@ -1352,7 +1383,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets the ownedByUnit attribute.
-     * 
+     *
      * @return Returns the ownedByUnit.
      */
     public Unit getOwnedByUnit() {
@@ -1361,7 +1392,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Sets the ownedByUnit attribute value.
-     * 
+     *
      * @param ownedByUnit The ownedByUnit to set.
      */
     public void setOwnedByUnit(Unit ownedByUnit) {
@@ -1369,9 +1400,10 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * 
-     * This method adds new personnel attachment to biography and biography attachment bo with proper set up.
-     * 
+     *
+     * This method adds new personnel attachment to biography and biography
+     * attachment bo with proper set up.
+     *
      * @param proposalPersonBiography
      * @throws Exception
      */
@@ -1380,9 +1412,9 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * 
+     *
      * This method delete the attachment for the deleted personnel.
-     * 
+     *
      * @param proposalPerson
      * @throws Exception
      */
@@ -1391,9 +1423,9 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * 
+     *
      * Method to delete a personnel attachment from personnel attachment list
-     * 
+     *
      * @param narrative
      */
     public void deleteProposalPersonBiography(int lineToDelete) {
@@ -1401,9 +1433,9 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * 
+     *
      * Method to add a new narrative to narratives list
-     * 
+     *
      * @param narrative
      */
     public void addNarrative(Narrative narrative) {
@@ -1411,9 +1443,9 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * 
+     *
      * Method to delete a narrative from narratives list
-     * 
+     *
      * @param narrative
      */
     public void deleteProposalAttachment(int lineToDelete) {
@@ -1421,9 +1453,9 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * 
+     *
      * Method to add a new institute attachment to institute attachment list
-     * 
+     *
      * @param narrative
      */
     public void addInstituteAttachment(Narrative narrative) {
@@ -1431,9 +1463,9 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * 
+     *
      * Method to delete a narrative from narratives list
-     * 
+     *
      * @param narrative
      */
     public void deleteInstitutionalAttachment(int lineToDelete) {
@@ -1470,7 +1502,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets the narrativeService attribute.
-     * 
+     *
      * @return Returns the narrativeService.
      */
     public NarrativeService getNarrativeService() {
@@ -1482,7 +1514,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Sets the narrativeService attribute value.
-     * 
+     *
      * @param narrativeService The narrativeService to set.`
      */
     public void setNarrativeService(NarrativeService narrativeService) {
@@ -1502,7 +1534,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Accessor method to locally store credit types
-     * 
+     *
      * @param creditTypes a <code>{@link Collection}</code> of credit types
      */
     public void setInvestigatorCreditTypes(Collection<InvestigatorCreditType> creditTypes) {
@@ -1511,7 +1543,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Accessor method to locally store credit types
-     * 
+     *
      * @return <code>{@link Collection}</code> of credit types
      */
     public Collection<InvestigatorCreditType> getInvestigatorCreditTypes() {
@@ -1543,7 +1575,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     // also used in JSP  
     /**
      * Gets index i from the propSpecialReviews list.
-     * 
+     *
      * @param index
      * @return Question at index i
      */
@@ -1556,7 +1588,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets index i from the propScienceKeywords list.
-     * 
+     *
      * @param index
      * @return Question at index i
      */
@@ -1569,7 +1601,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets index i from the narratives list.
-     * 
+     *
      * @param index
      * @return Question at index i
      */
@@ -1582,7 +1614,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets index i from the institute attachment list.
-     * 
+     *
      * @param index
      * @return Question at index i
      */
@@ -1595,7 +1627,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets index i from the proposalAbstracts list.
-     * 
+     *
      * @param index
      * @return Question at index i
      */
@@ -1608,7 +1640,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets index i from the proposalAbstracts list.
-     * 
+     *
      * @param index
      * @return Question at index i
      */
@@ -1621,7 +1653,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets index i from the investigators list.
-     * 
+     *
      * @param index
      * @return Question at index i
      */
@@ -1634,7 +1666,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets index i from the proposalYnqs list.
-     * 
+     *
      * @param index
      * @return Question at index i
      */
@@ -1647,7 +1679,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets index i from the ynqGroupNames list.
-     * 
+     *
      * @param index
      * @return Question at index i
      */
@@ -1660,7 +1692,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets the ynqService attribute.
-     * 
+     *
      * @return Returns the ynqService.
      */
     public YnqService getYnqService() {
@@ -1683,9 +1715,11 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     //        this.getProposalDocument().setBudgetDocumentVersions(budgetDocumentVersions);  
     //    }  
     /**
-     * This method gets the next budget version number for this proposal. We can't use documentNextVersionNumber because that
-     * requires a save and we don't want to save the proposal development document before forwarding to the budget document.
-     * 
+     * This method gets the next budget version number for this proposal. We
+     * can't use documentNextVersionNumber because that requires a save and we
+     * don't want to save the proposal development document before forwarding to
+     * the budget document.
+     *
      * @return Integer
      */
     //    public Integer getNextBudgetVersionNumber() {  
@@ -1699,6 +1733,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     //    }  
     /**
      * Sets the budgetStatusDescription attribute value.
+     *
      * @param budgetStatusDescription The budgetStatusDescription to set.
      */
     public void setBudgetStatusDescription(String budgetStatusDescription) {
@@ -1706,7 +1741,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * Gets the budgetStatusDescription attribute. 
+     * Gets the budgetStatusDescription attribute.
+     *
      * @return Returns the budgetStatusDescription.
      */
     public String getBudgetStatusDescription() {
@@ -1718,7 +1754,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets index i from the budget versions list.
-     * 
+     *
      * @param index
      * @return BudgetVersionOverview at index i
      */
@@ -1810,7 +1846,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Gets the creationStatusCode attribute.
-     * 
+     *
      * @return Returns the creationStatusCode.
      */
     public String getCreationStatusCode() {
@@ -1819,7 +1855,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Sets the creationStatusCode attribute value.
-     * 
+     *
      * @param creationStatusCode The creationStatusCode to set.
      */
     public void setCreationStatusCode(String creationStatusCode) {
@@ -1836,7 +1872,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     public boolean isProposalComplete() {
         String budgetStatusCompleteCode = this.getParameterService().getParameterValueAsString(
-               BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+                BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
 
         if (this.getBudgetStatus() != null && budgetStatusCompleteCode != null
                 && this.getBudgetStatus().equals(budgetStatusCompleteCode)) {
@@ -1852,8 +1888,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
                 DevelopmentProposal parent = getProposalHierarchyService().lookupParent(this);
                 KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(parent);
                 retval = parent.isProposalComplete();
-            }
-            catch (ProposalHierarchyException x) {
+            } catch (ProposalHierarchyException x) {
                 // this should never happen  
                 throw new IllegalStateException(x);
             }
@@ -1873,7 +1908,9 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * This method returns true if the sponsor is in the NIH Multiple PI hierarchy.
+     * This method returns true if the sponsor is in the NIH Multiple PI
+     * hierarchy.
+     *
      * @return
      */
     public boolean isSponsorNihMultiplePi() {
@@ -1885,7 +1922,9 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * This method returns true if the sponsor is in the NIH Other Significant Contributor hierarchy.
+     * This method returns true if the sponsor is in the NIH Other Significant
+     * Contributor hierarchy.
+     *
      * @return
      */
     public boolean isSponsorNihOsc() {
@@ -1928,7 +1967,6 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return this.submitFlag;
     }
 
-
     public Boolean getGrantsGovSelectFlag() {
         return grantsGovSelectFlag;
     }
@@ -1945,12 +1983,10 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         this.proposalStateTypeCode = proposalStateTypeCode;
         if (proposalStateTypeCode == null) {
             this.proposalState = null;
-        }
-        else {
+        } else {
             try {
                 refreshReferenceObject("proposalState");
-            }
-            catch (NullPointerException ex) {
+            } catch (NullPointerException ex) {
                 // do nothing: this will happen when
                 // creating a proposal from a unit test
                 // without access to a database.
@@ -1961,11 +1997,13 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     public ProposalState getProposalState() {
         return proposalState;
     }
-    
+
     /**
-     * 
-     * This method returns the linked ProposalDevelopmentDocument.  If there isn't a linked ProposalDevelopmentDocument, then a 
-     * new one is created per KRACOEUS-5304.
+     *
+     * This method returns the linked ProposalDevelopmentDocument. If there
+     * isn't a linked ProposalDevelopmentDocument, then a new one is created per
+     * KRACOEUS-5304.
+     *
      * @return
      */
     public ProposalDevelopmentDocument getProposalDocument() {
@@ -2003,6 +2041,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * Sets the proposalType attribute value.
+     *
      * @param proposalType The proposalType to set.
      */
     public void setProposalType(ProposalType proposalType) {
@@ -2010,7 +2049,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * Gets the proposalType attribute. 
+     * Gets the proposalType attribute.
+     *
      * @return Returns the proposalType.
      */
     public ProposalType getProposalType() {
@@ -2032,16 +2072,17 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     //        this.children = children;  
     //    }  
     /**
-     * In the case where a person is in the proposal twice (Investigator and Key Person),
-     * this method's return list contains only the Investigator.
-     * 
+     * In the case where a person is in the proposal twice (Investigator and Key
+     * Person), this method's return list contains only the Investigator.
+     *
      * @see org.kuali.kra.budget.core.BudgetParent#getPersonRolodexList()
      */
     public List<PersonRolodex> getPersonRolodexList() {
         ArrayList<PersonRolodex> filtered = new ArrayList<PersonRolodex>();
         for (ProposalPerson person : getProposalPersons()) {
-            if (!filtered.contains(person)) filtered.add(person);
-            else {
+            if (!filtered.contains(person)) {
+                filtered.add(person);
+            } else {
                 if (person.isInvestigator()) {
                     filtered.remove(person);
                     filtered.add(person);
@@ -2060,14 +2101,15 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
-     * This method sets the proposal number on all sub-BOs that have a proposal number.
+     * This method sets the proposal number on all sub-BOs that have a proposal
+     * number.
      */
     public void updateProposalNumbers() {
         String proposalNumber = getProposalNumber();
         for (ProposalSite site : getProposalSites()) {
             site.setProposalNumber(proposalNumber);
         }
-        if(s2sOpportunity!=null){
+        if (s2sOpportunity != null) {
             s2sOpportunity.setProposalNumber(proposalNumber);
             this.proposalNumberForGG = proposalNumber;
         }
@@ -2141,6 +2183,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     /**
      * checks if a sponsor code needs refreshing.
+     *
      * @param code the code
      * @param spon the sponsor to refresh
      * @return true if needs refreshing
@@ -2162,8 +2205,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     public String getParentPIName() {
         String proposalInvestigatorName = null;
         for (ProposalPerson pPerson : this.getProposalPersons()) {
-            if (pPerson.getPersonId() != null && pPerson.getProposalPersonRoleId().equals("PI"))
-            {
+            if (pPerson.getPersonId() != null && pPerson.getProposalPersonRoleId().equals("PI")) {
                 proposalInvestigatorName = pPerson.getFullName();
                 break;
             }
@@ -2180,9 +2222,9 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         String proposalNumber = this.getProposalNumber();
         proposalNumberMap.put("proposalNumber", proposalNumber);
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-      LookupableDevelopmentProposal lookupDevProposal = (LookupableDevelopmentProposal) businessObjectService
-              .findByPrimaryKey(LookupableDevelopmentProposal.class,
-                      proposalNumberMap);
+        LookupableDevelopmentProposal lookupDevProposal = (LookupableDevelopmentProposal) businessObjectService
+                .findByPrimaryKey(LookupableDevelopmentProposal.class,
+                        proposalNumberMap);
         if (lookupDevProposal != null) {
             return lookupDevProposal.getSponsor().getOwnedByUnit();
         }
@@ -2214,99 +2256,100 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         // TODO Auto-generated method stub
         return getTitle();
     }
-    
+
     @Override
     public String getProjectId() {
         // TODO Auto-generated method stub
         return getProposalNumber();
     }
+
     public void setBudgetChangeHistory(Map<String, List<BudgetChangedData>> budgetChangeHistory) {
         this.budgetChangeHistory = budgetChangeHistory;
     }
-    
+
     public Map<String, List<BudgetChangedData>> getBudgetChangeHistory() {
         return budgetChangeHistory;
     }
     /*
-    This method will update the budget change data history
-    */
-    
+     This method will update the budget change data history
+     */
+
     public void updateBudgetChangeHistory() {
         budgetChangeHistory = new TreeMap<String, List<BudgetChangedData>>();
         // Arranging Budget Change History  
-       if (CollectionUtils.isNotEmpty(this.getBudgetChangedDataList())) {
+        if (CollectionUtils.isNotEmpty(this.getBudgetChangedDataList())) {
             for (BudgetChangedData budgetChangedData : this.getBudgetChangedDataList()) {
                 if (this.getBudgetChangeHistory().get(budgetChangedData.getEditableColumn().getColumnLabel()) == null) {
                     this.getBudgetChangeHistory().put(budgetChangedData.getEditableColumn().getColumnLabel(),
                             new ArrayList<BudgetChangedData>());
                 }
-    
+
                 this.getBudgetChangeHistory().get(budgetChangedData.getEditableColumn().getColumnLabel()).add(
                         budgetChangedData);
             }
         }
     }
-    
+
     public void setBudgetChangedDataList(List<BudgetChangedData> budgetChangedDataList) {
         this.budgetChangedDataList = budgetChangedDataList;
     }
-    
+
     public List<BudgetChangedData> getBudgetChangedDataList() {
         return budgetChangedDataList;
     }
-    
+
     public KrmsRulesContext getKrmsRulesContext() {
         return (KrmsRulesContext) getProposalDocument();
     }
-    
+
     public String getLastSyncedBudgetDocumentNumber() {
         return lastSyncedBudgetDocumentNumber;
     }
-    
+
     public void setLastSyncedBudgetDocumentNumber(String lastSyncedBudgetDocumentNumber) {
         this.lastSyncedBudgetDocumentNumber = lastSyncedBudgetDocumentNumber;
     }
 
-/**
- * Gets the agencyRoutingIdentifier attribute.
- * 
- * @return Returns the agencyRoutingIdentifier.
- */
-public String getAgencyRoutingIdentifier() {
-    return agencyRoutingIdentifier;
-}
+    /**
+     * Gets the agencyRoutingIdentifier attribute.
+     *
+     * @return Returns the agencyRoutingIdentifier.
+     */
+    public String getAgencyRoutingIdentifier() {
+        return agencyRoutingIdentifier;
+    }
 
-/**
- * Sets the agencyRoutingIdentifier attribute value.
- * 
- * @param agencyRoutingIdentifier The agencyRoutingIdentifier to set.
- */
-public void setAgencyRoutingIdentifier(String agencyRoutingIdentifier) {
-    this.agencyRoutingIdentifier = agencyRoutingIdentifier;
-}
+    /**
+     * Sets the agencyRoutingIdentifier attribute value.
+     *
+     * @param agencyRoutingIdentifier The agencyRoutingIdentifier to set.
+     */
+    public void setAgencyRoutingIdentifier(String agencyRoutingIdentifier) {
+        this.agencyRoutingIdentifier = agencyRoutingIdentifier;
+    }
 
-/**
- * Gets the prevGrantsGovTrackingID attribute.
- * 
- * @return Returns the prevGrantsGovTrackingID.
- */
-public String getPrevGrantsGovTrackingID() {
-    return prevGrantsGovTrackingID;
-}
+    /**
+     * Gets the prevGrantsGovTrackingID attribute.
+     *
+     * @return Returns the prevGrantsGovTrackingID.
+     */
+    public String getPrevGrantsGovTrackingID() {
+        return prevGrantsGovTrackingID;
+    }
 
-/**
- * Sets the prevGrantsGovTrackingID attribute value.
- * 
- * @param prevGrantsGovTrackingID The prevGrantsGovTrackingID to set.
- */
-public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
-    this.prevGrantsGovTrackingID = prevGrantsGovTrackingID;
-}
-   
+    /**
+     * Sets the prevGrantsGovTrackingID attribute value.
+     *
+     * @param prevGrantsGovTrackingID The prevGrantsGovTrackingID to set.
+     */
+    public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
+        this.prevGrantsGovTrackingID = prevGrantsGovTrackingID;
+    }
+
     public void markNarratives(NarrativeStatus narrativeStatus) {
-        if(narrativeStatus != null) {
-            for(Narrative narrative : narratives) {
-                if(narrative.getReplaceAttachment(GlobalVariables.getUserSession().getPrincipalId())) {
+        if (narrativeStatus != null) {
+            for (Narrative narrative : narratives) {
+                if (narrative.getReplaceAttachment(GlobalVariables.getUserSession().getPrincipalId())) {
                     narrative.setNarrativeStatus(narrativeStatus);
                     narrative.setModuleStatusCode(narrativeStatus.getNarrativeStatusCode());
                     narrative.refreshReferenceObject("narrativeStatus");
@@ -2316,17 +2359,18 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
             //proposalDocument.getDevelopmentProposalList().get(0).setNarratives(narratives);
         }
     }
-    
+
     public void modifyNarrativeStatus(int selectedLine) {
         Narrative narrative = getNarratives().get(selectedLine);
-        if(narrative.getReplaceAttachment(GlobalVariables.getUserSession().getPrincipalId())) {
+        if (narrative.getReplaceAttachment(GlobalVariables.getUserSession().getPrincipalId())) {
             narrative.refreshReferenceObject("narrativeStatus");
             getBusinessObjectService().save(narrative);
         }
     }
 
     /**
-     * Gets the s2sUserAttachedForms attribute. 
+     * Gets the s2sUserAttachedForms attribute.
+     *
      * @return Returns the s2sUserAttachedForms.
      */
     public List<S2sUserAttachedForm> getS2sUserAttachedForms() {
@@ -2335,10 +2379,24 @@ public void setPrevGrantsGovTrackingID(String prevGrantsGovTrackingID) {
 
     /**
      * Sets the s2sUserAttachedForms attribute value.
+     *
      * @param s2sUserAttachedForms The s2sUserAttachedForms to set.
      */
     public void setS2sUserAttachedForms(List<S2sUserAttachedForm> s2sUserAttachedForms) {
         this.s2sUserAttachedForms = s2sUserAttachedForms;
+    }
+
+    /**
+     */
+    public boolean isSponsorDeadlineRequired() {
+        return sponsorDeadlineRequired;
+    }
+
+    /**
+     * @param sponsorDeadlineRequired the sponsorDeadlineRequired to set
+     */
+    public void setSponsorDeadlineRequired(boolean sponsorDeadlineRequired) {
+        this.sponsorDeadlineRequired = sponsorDeadlineRequired;
     }
 
 }

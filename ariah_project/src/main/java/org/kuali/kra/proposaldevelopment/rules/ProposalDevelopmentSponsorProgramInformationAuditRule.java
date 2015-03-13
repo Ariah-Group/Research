@@ -90,16 +90,15 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
         if (proposal.getDeadlineDate() == null && proposalForm.isDeadlineDateRequired()) {
             // Validation Error
             auditErrors.add(new AuditError(Constants.DEADLINE_DATE_KEY, KeyConstants.WARNING_EMPTY_DEADLINE_DATE, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
-        }
 
-        if (auditErrors.size() > 0) {
-            KNSGlobalVariables.getAuditErrorMap().put("sponsorProgramInformationAuditWarnings", new AuditCluster(Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
-            valid &= false;
-        }
+            if (auditErrors.size() > 0) {
+                KNSGlobalVariables.getAuditErrorMap().put("sponsorProgramInformationAuditWarnings", new AuditCluster(Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
+                valid &= false;
+            }
 
-        auditErrors = new ArrayList<AuditError>();
-
-        if (proposal.getDeadlineDate() == null) {
+            auditErrors = new ArrayList<AuditError>();
+            
+        } else if (proposal.getDeadlineDate() == null) {
             // WARNING
             auditErrors.add(new AuditError(Constants.DEADLINE_DATE_KEY, KeyConstants.WARNING_EMPTY_DEADLINE_DATE, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
         } else if (proposal.getDeadlineDate().before(new Date(System.currentTimeMillis()))) {
