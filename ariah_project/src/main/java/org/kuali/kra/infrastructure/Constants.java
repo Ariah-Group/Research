@@ -982,5 +982,9 @@ public interface Constants {
      * Module Code for "IACUC" records in as defined in COEUS_MODULE database table.
      */
     public static String MODULE_CODE_IACUC= "9";    
+    
+    
+    
+    public final static String ATTR_PROPOSAL_NUMBER_DD = "DataDictionary.DevelopmentProposal.attributes.proposalNumber";
 }
 

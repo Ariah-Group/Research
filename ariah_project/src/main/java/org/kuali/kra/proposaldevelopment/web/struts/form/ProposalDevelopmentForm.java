@@ -466,6 +466,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             }
         }
 
+        // Proposal ID/Number
+        getDocInfo().add(new HeaderField(Constants.ATTR_PROPOSAL_NUMBER_DD, pd.getDevelopmentProposal().getProposalNumber()));        
     }
 
     /**
