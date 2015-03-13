@@ -177,6 +177,7 @@ public interface PermissionConstants {
      * Award
      */
      public static final String AWARD_BLANKET_APPROVE = "Blanket Approve AwardDocument";
+     public static final String AWARD_SUBMIT_AWARD = "Submit Award";
      
     /*
      * Subaward

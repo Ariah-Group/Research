@@ -407,7 +407,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         PermissionService permService = KraServiceLocator.getService(KimApiServiceLocator.KIM_PERMISSION_SERVICE);
         canRoute
                 = (!(isFinal(document) || isProcessed(document))
-                && permService.hasPermission(user.getPrincipalId(), "KC-AWARD", "Submit Award"));
+                && permService.hasPermission(user.getPrincipalId(), Constants.MODULE_NAMESPACE_AWARD, PermissionConstants.AWARD_SUBMIT_AWARD));
         return canRoute;
     }
 
