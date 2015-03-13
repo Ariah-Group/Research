@@ -492,7 +492,7 @@ public class ProtocolDocument extends ProtocolDocumentBase {
 
     public boolean isDefaultDocumentDescription() {
         return KraServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean(ProtocolDocument.class, Constants.ARIAH_IRB_HIDE_AND_DEFAULT_IRB_PROTOCOL_DOC_DESC);
-}
+    }
 
     public void defaultDocumentDescription() {
         Protocol protocol = getProtocol();
@@ -501,5 +501,9 @@ public class ProtocolDocument extends ProtocolDocumentBase {
                 protocol.getProtocolNumber(),
                 protocol.getPrincipalInvestigatorName() != null ? protocol.getPrincipalInvestigatorName().substring(0, Math.min(protocol.getPrincipalInvestigatorName().length(), 50)) : "null");
         getDocumentHeader().setDocumentDescription(desc);
+    }
+
+    public boolean isHideQuestionnairesOnHistoryPanel() {
+        return KraServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean(ProtocolDocument.class, Constants.ARIAH_IRB_HIDE_QUESTIONNAIRES_ON_HISTORY);
     }
 }

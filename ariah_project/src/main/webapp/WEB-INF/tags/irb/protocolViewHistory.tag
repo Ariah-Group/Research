@@ -1,15 +1,11 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
 <c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
 ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
-<c:set var="submissionDocAttributes" value="${DataDictionary.ProtocolSubmissionDoc.attributes}" />
-
-<c:set var="canViewIRBCorrespondence" value="${KualiForm.actionHelper.allowedToViewProtocolCorrespondence}" />
-<c:set var="canUpdateIRBCorrespondence" value="${KualiForm.actionHelper.allowedToUpdateProtocolCorrespondence}" />
-<c:set var="canRegenerateIRBCorrespondence" value="${KualiForm.actionHelper.allowedToRegenerateProtocolCorrespondence}" />
-
+<c:set var="submissionDocAttributes" value="${DataDictionary.ProtocolSubmissionDoc.attributes}"
+/><c:set var="canViewIRBCorrespondence" value="${KualiForm.actionHelper.allowedToViewProtocolCorrespondence}"
+/><c:set var="canUpdateIRBCorrespondence" value="${KualiForm.actionHelper.allowedToUpdateProtocolCorrespondence}"
+/><c:set var="canRegenerateIRBCorrespondence" value="${KualiForm.actionHelper.allowedToRegenerateProtocolCorrespondence}" />
 <kul:innerTab tabTitle="History" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.filteredHistory*">
-
     <div class="innerTab-container" align="left">
     <h3>
    			<span class="subhead-left">History</span>
@@ -46,7 +42,6 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
             </tr>
             </tbody>
         </table>
-        
         <table id="historyTable" class="tab" cellpadding="0" cellspacing="0" summary="">
             <tbody>
                 <tr>
@@ -202,26 +197,10 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 		                                            </tr>
 		           		                            <c:forEach items="${protocolAction.filteredProtocolNotifications}" var="notification" varStatus="notificationStatus">
 		           		    	                        <tr>
-															<td>
-																<div align="center">
-																    <fmt:formatDate value="${notification.createTimestamp}" pattern="MM/dd/yyyy KK:mm a" /> 
-															    </div>
-															</td>    
-                    										<td align="center" valign="middle">
-																<div align="center">
-																    ${notification.recipients}
-                        										</div>
-                    										</td>
-										                    <td align="left" valign="middle">
-                        										<div align="left"> 
-                            										${notification.subject}
-                        										</div>
-                    										</td>
-		           		 					                <td align="center" valign="middle">
-                                                                <div align="left">
-                                                                	${notification.message}
-								                            	</div>
-							                                </td>
+									<td><div align="center"><fmt:formatDate value="${notification.createTimestamp}" pattern="MM/dd/yyyy KK:mm a" /> </div></td>    
+                  										<td align="center" valign="middle"><div align="center">${notification.recipients}</div></td>
+										                    <td align="left" valign="middle"><div align="left"> ${notification.subject}</div></td>
+		           		 					                <td align="center" valign="middle"><div align="left">${notification.message}</div></td>
 		           		    	                        </tr>
 		           		                            </c:forEach>
 		            		                    </tbody>
@@ -252,7 +231,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 		           		    	                            <td><div align="left">
 	                                                            <kul:htmlControlAttribute property="document.protocol.protocolActions[${status.index}].protocolSubmissionDocs[${attachmentStatus.index}].description" attributeEntry="${submissionDocAttributes.description}" readOnly="true"/>
 		           		    	                            </div></td>
-		           		 					                <td align="center" valign="middle">
+		           		 		                    <td align="center" valign="middle">
 	                                                            <div align="center">
 									                            <html:image property="methodToCall.viewSubmissionDoc.line${status.index}.attachment${attachmentStatus.index}.anchor${currentTabIndex}"
 										                                    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif'
@@ -270,7 +249,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 	            		        </td>            		        
 	            			</tr>
 	            		</c:if>
-
+                    <c:if test="${!KualiForm.hideQuestionnairesOnHistoryPanel}">
 	            		<c:if test="${fn:length(protocolAction.questionnaireHelper.answerHeaders) > 0}">
 	            		    <c:set var="printOption" value="${protocolAction.questionnairePrintOption}"/>
 	            			<tr>
@@ -291,6 +270,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 								</td>
 	            			</tr>
 	            		</c:if>
+                    </c:if>
 	
 
             		</c:if>
@@ -307,5 +287,4 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
             </tbody>
         </table>
     </div>
-    			
 </kul:innerTab>

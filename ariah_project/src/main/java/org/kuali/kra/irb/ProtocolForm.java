@@ -427,4 +427,7 @@ public class ProtocolForm extends ProtocolFormBase {
         this.reinitializeModifySubmissionFields = reinitializeModifySubmissionFields;
     }
 
+    public boolean isHideQuestionnairesOnHistoryPanel() {
+        return getProtocolDocument().isHideQuestionnairesOnHistoryPanel();
+    }    
 }
