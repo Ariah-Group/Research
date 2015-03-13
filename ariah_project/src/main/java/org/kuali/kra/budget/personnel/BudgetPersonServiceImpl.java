@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.budget.personnel;
 
@@ -34,16 +50,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class implements methods specified by <code>{@link BudgetPersonService}</code> interface
+ * This class implements methods specified by
+ * <code>{@link BudgetPersonService}</code> interface
  */
 public class BudgetPersonServiceImpl implements BudgetPersonService {
-    
 
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
     private KcPersonService kcPersonService;
-    
-    
+
     @Override
     public void addBudgetPerson(Budget budget, BudgetPerson budgetPerson) {
         if (budgetPerson.getPersonId() != null) {
@@ -59,13 +74,13 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
     protected void populateBudgetPersonData(Budget budget, BudgetPerson budgetPerson) {
         budgetPerson.setBudgetId(budget.getBudgetId());
         budgetPerson.setPersonSequenceNumber(budget.getHackedDocumentNextValue(Constants.PERSON_SEQUENCE_NUMBER));
-        
+
         populatePersonDefaultDataIfEmpty(budget, budgetPerson);
     }
 
     @Override
     public void populateBudgetPersonDefaultDataIfEmpty(Budget budget) {
-        for (BudgetPerson budgetPerson: budget.getBudgetPersons()) {
+        for (BudgetPerson budgetPerson : budget.getBudgetPersons()) {
             populatePersonDefaultDataIfEmpty(budget, budgetPerson);
         }
     }
@@ -74,10 +89,10 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
     public void synchBudgetPersonsToProposal(Budget budget) {
         budget.getBudgetDocument().refreshReferenceObject("documentNextvalues");
         BudgetParent budgetParent = budget.getBudgetDocument().getParentDocument().getBudgetParent();
-        for (PersonRolodex proposalPerson: budgetParent.getPersonRolodexList()) {
+        for (PersonRolodex proposalPerson : budgetParent.getPersonRolodexList()) {
             if (!proposalPerson.isOtherSignificantContributorFlag()) {
                 boolean present = false;
-                for (BudgetPerson budgetPerson: budget.getBudgetPersons()) {
+                for (BudgetPerson budgetPerson : budget.getBudgetPersons()) {
                     if (proposalPerson.getPersonId() != null && proposalPerson.getPersonId().equals(budgetPerson.getPersonId())) {
                         present = true;
                         break;
@@ -92,21 +107,22 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
                     } else {
                         BudgetPerson newBudgetPerson = new BudgetPerson(proposalPerson);
                         populateBudgetPersonData(budget, newBudgetPerson);
-                        budget.addBudgetPerson(newBudgetPerson);                        
+                        budget.addBudgetPerson(newBudgetPerson);
                     }
                     //
                 }
             }
         }
     }
-    
+
     protected void addBudgetEmployee(Budget budget, BudgetPerson budgetPerson) {
         //if its a person, get all available appointments
         //and add each appointment as a separate BudgetPerson
         KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(budgetPerson.getPersonId());
         List<PersonAppointment> appointments = kcPerson.getExtendedAttributes().getPersonAppointments();
         boolean added = false;
-        String defaultJobCode = this.parameterService.getParameterValueAsString("KC-B", "Document", Constants.BUDGET_PERSON_DEFAULT_JOB_CODE_PARAMETER);
+        String defaultJobCode = this.parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_BUDGET,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_PERSON_DEFAULT_JOB_CODE_PARAMETER);
         for (PersonAppointment appointment : appointments) {
             if (isAppointmentApplicableToBudget(budget, appointment)) {
                 BudgetPerson newBudgetPerson = new BudgetPerson();
@@ -140,15 +156,17 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
             budget.addBudgetPerson(budgetPerson);
         }
     }
-    
+
     /**
-     * 
-     * Determines if an appointment is applicable to the current budget, currently
-     * based soley on whether the budget period matches some part of the appointment
-     * period
+     *
+     * Determines if an appointment is applicable to the current budget,
+     * currently based soley on whether the budget period matches some part of
+     * the appointment period
+     *
      * @param budget
      * @param appointment
-     * @return true if the appointment start or end date is inside the budget period
+     * @return true if the appointment start or end date is inside the budget
+     * period
      */
     protected boolean isAppointmentApplicableToBudget(Budget budget, PersonAppointment appointment) {
         Calendar budgetStart = Calendar.getInstance();
@@ -173,20 +191,18 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
             return false;
         }
     }
-    
+
     protected void populatePersonDefaultDataIfEmpty(Budget budget, BudgetPerson budgetPerson) {
         BudgetParent proposal = budget.getBudgetDocument().getParentDocument().getBudgetParent();
         if (proposal != null && ObjectUtils.isNull(budgetPerson.getEffectiveDate())) {
             budgetPerson.setEffectiveDate(proposal.getRequestedStartDateInitial());
         }
-        
+
         if (ObjectUtils.isNull(budgetPerson.getCalculationBase())) {
             budgetPerson.setCalculationBase(new BudgetDecimal(this.parameterService.getParameterValueAsString(
                     BudgetDocument.class, Constants.BUDGET_PERSON_DEFAULT_CALCULATION_BASE)));
         }
-        
-        
-        
+
         if (StringUtils.isBlank(budgetPerson.getAppointmentTypeCode())) {
             budgetPerson.setAppointmentTypeCode(this.parameterService.getParameterValueAsString(
                     BudgetDocument.class, Constants.BUDGET_PERSON_DEFAULT_APPOINTMENT_TYPE));
@@ -195,7 +211,8 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
 
     /**
      * Sets the ParameterService.
-     * @param parameterService the parameter service. 
+     *
+     * @param parameterService the parameter service.
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
@@ -207,11 +224,12 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
         Map queryMap = new HashMap();
         queryMap.put("budgetId", budgetPersonnelDetails.getBudgetId());
         queryMap.put("personSequenceNumber", budgetPersonnelDetails.getPersonSequenceNumber());
-        return (BudgetPerson)businessObjectService.findByPrimaryKey(BudgetPerson.class, queryMap);
+        return (BudgetPerson) businessObjectService.findByPrimaryKey(BudgetPerson.class, queryMap);
     }
 
     /**
-     * Gets the businessObjectService attribute. 
+     * Gets the businessObjectService attribute.
+     *
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -220,6 +238,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
 
     /**
      * Sets the businessObjectService attribute value.
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -233,5 +252,5 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
     }
-    
+
 }
