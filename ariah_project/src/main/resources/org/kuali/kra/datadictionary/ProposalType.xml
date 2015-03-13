@@ -27,6 +27,8 @@
         <ref bean="ProposalType-proposalTypeCode" />
         <ref bean="ProposalType-description" />
         <ref bean="ProposalType-versionNumber" />
+                <ref bean="ProposalType-active" />
+                <ref bean="ProposalType-sortOrder" />
       </list>
     </property>
   </bean>
@@ -61,6 +63,32 @@
   <bean id="ProposalType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
   </bean>
 
+
+    <bean id="ProposalType-active" parent="ProposalType-active-parentBean"/>
+    <bean id="ProposalType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean"> 
+        <property name="name" value="active" />
+        <property name="label" value="Active" />
+        <property name="shortLabel" value="Active" />
+        <property name="summary" value="Active" />
+        <property name="description" value="Active" />
+    </bean>
+
+    <bean id="ProposalType-sortOrder" parent="ProposalType-sortOrder-parentBean"/>
+    <bean id="ProposalType-sortOrder-parentBean" abstract="true" parent="AttributeDefinition"> 
+        <property name="name" value="sortOrder" />
+        <property name="label" value="Sort Order" />
+        <property name="shortLabel" value="Sort Order" />
+        <property name="summary" value="Sort Order" />
+        <property name="description" value="Sort Order" />
+        <property name="maxLength" value="5" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>        
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                  p:size="4" />
+        </property>        
+    </bean>
 <!-- Business Object Inquiry Definition -->
 
 
@@ -75,11 +103,10 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="proposalTypeCode"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="description" />
+                            <bean parent="FieldDefinition" p:attributeName="proposalTypeCode" p:forceInquiry="true" />
+                            <bean parent="FieldDefinition" p:attributeName="description" />
+                            <bean parent="FieldDefinition" p:attributeName="active" />
+                            <bean parent="FieldDefinition" p:attributeName="sortOrder" />
             </list>
           </property>
         </bean>
@@ -102,19 +129,17 @@
     </property>
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalTypeCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
+                <bean parent="FieldDefinition" p:attributeName="proposalTypeCode" />
+                <bean parent="FieldDefinition" p:attributeName="description" />
+                <bean parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="proposalTypeCode"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="description" />
+                <bean parent="FieldDefinition" p:attributeName="proposalTypeCode" p:forceInquiry="true" />
+                <bean parent="FieldDefinition" p:attributeName="description" />
+                <bean parent="FieldDefinition" p:attributeName="active" />
+                <bean parent="FieldDefinition" p:attributeName="sortOrder" />
       </list>
     </property>
   </bean>

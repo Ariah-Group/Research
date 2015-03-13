@@ -14,16 +14,10 @@
       <list>
         <value>proposalTypeCode</value>
       </list>
-    </property>	<property name="allowsRecordDeletion" value="true" />	
-    
-    
-    
-    
-    
+    </property>
+	<property name="allowsRecordDeletion" value="true" />
     <property name="documentTypeName" value="ProposalTypeMaintenanceDocument"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
-    
-    
   </bean>
 
 <!-- Maintenance Section Definitions -->
@@ -38,6 +32,8 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="proposalTypeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="sortOrder" p:required="false"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
       </list>
     </property>

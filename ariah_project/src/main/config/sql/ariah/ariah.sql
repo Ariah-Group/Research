@@ -66,6 +66,13 @@ INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VA
 VALUES  ('KC-PD','Document','ARIAH_PROPDEV_DEFAULT_PROPOSAL_TITLE', sys_guid(),0,'CONFG','To Be Determined','Default value a Proposal Development Title','A','KUALI');
 
 
+-- Dev Proposal DML modifications
+
+alter table proposal_type add (
+ACTIVE varchar2(1 byte),
+SORT_ORDER NUMBER (5,0),
+help_desc varchar2(200 byte)
+); 
 
 -- AWARD Table Modifications
 alter table AWARD MODIFY ACCOUNT_NUMBER VARCHAR2(50);
