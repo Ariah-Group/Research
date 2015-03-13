@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.web.struts.action;
 
@@ -61,7 +77,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ReportTrackingLookupAction extends KualiLookupAction {
-    
+
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReportTrackingLookupForm.class);
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     private ReportTrackingDao reportTrackingDao;
@@ -74,10 +90,10 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         isAuthorized();
         return super.execute(mapping, form, request, response);
     }
-    
+
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ReportTrackingLookupForm lookupForm = (ReportTrackingLookupForm) form;
-        
+
         Lookupable kualiLookupable = lookupForm.getLookupable();
         if (kualiLookupable == null) {
             LOG.error("Lookupable is null.");
@@ -86,18 +102,18 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
 
         // validate search parameters
         kualiLookupable.validateSearchParameters(lookupForm.getFields());
-        
+
         if (lookupForm.isViewRawResults()) {
             return super.search(mapping, lookupForm, request, response);
         } else {
             LookupUtils.preProcessRangeFields(lookupForm.getFields());
-            List<ReportTracking> groupedResults = 
-                getReportTrackingDao().getResultsGroupedBy(lookupForm.getFields(), lookupForm.getGroupedByFields(), lookupForm.getGroupedByDisplayFields());
+            List<ReportTracking> groupedResults
+                    = getReportTrackingDao().getResultsGroupedBy(lookupForm.getFields(), lookupForm.getGroupedByFields(), lookupForm.getGroupedByDisplayFields());
             lookupForm.setGroupedByResults(groupedResults);
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
     }
-    
+
     public ActionForward getDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ReportTrackingLookupForm lookupForm = (ReportTrackingLookupForm) form;
         LookupUtils.preProcessRangeFields(lookupForm.getFields());
@@ -107,35 +123,35 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         lookupForm.setDetailResults(detailResults);
         return mapping.findForward("ajaxDetails");
     }
-    
+
     public ActionForward updateView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ReportTrackingLookupForm lookupForm = (ReportTrackingLookupForm) form;
         lookupForm.setCurrentView();
         lookupForm.setViewRawResults(false);
         return this.search(mapping, lookupForm, request, response);
     }
-    
+
     public ActionForward resetCustomView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ReportTrackingLookupForm lookupForm = (ReportTrackingLookupForm) form;
         lookupForm.resetCustomFields();
         lookupForm.setCurrentView();
-        return this.search(mapping, lookupForm, request, response);        
+        return this.search(mapping, lookupForm, request, response);
     }
-    
+
     public ActionForward viewRawResults(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ReportTrackingLookupForm lookupForm = (ReportTrackingLookupForm) form;
         lookupForm.setViewRawResults(true);
         lookupForm.setHideReturnLink(true);
         lookupForm.setSuppressActions(true);
-        return this.search(mapping, lookupForm, request, response);        
+        return this.search(mapping, lookupForm, request, response);
     }
-    
+
     public ActionForward viewAggregateResults(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ReportTrackingLookupForm lookupForm = (ReportTrackingLookupForm) form;
         lookupForm.setViewRawResults(false);
-        return this.search(mapping, lookupForm, request, response);        
+        return this.search(mapping, lookupForm, request, response);
     }
-    
+
     public ActionForward moveGroupByColumns(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ReportTrackingLookupForm lookupForm = (ReportTrackingLookupForm) form;
         String fieldName = lookupForm.getMoveField();
@@ -147,15 +163,15 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
                 newIndex--;
             }
             lookupForm.getGroupedByDisplayFields().add(newIndex, fieldName);
-            
+
             String origItem = lookupForm.getGroupedByFields().get(oldIndex);
             lookupForm.getGroupedByFields().remove(origItem);
             lookupForm.getGroupedByFields().add(newIndex, origItem);
         }
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     public ActionForward moveDetailColumns(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ReportTrackingLookupForm lookupForm = (ReportTrackingLookupForm) form;
         String fieldName = lookupForm.getMoveField();
@@ -168,29 +184,30 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
             }
             lookupForm.getDetailFields().add(newIndex, fieldName);
         }
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
-    public ActionForward printAllReportTracking(ActionMapping mapping,ActionForm form, HttpServletRequest request,HttpServletResponse response) throws Exception {
+
+    public ActionForward printAllReportTracking(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         ReportTrackingLookupForm lookupForm = (ReportTrackingLookupForm) form;
         List<Printable> printableArtifactLists = new ArrayList<Printable>();
-        Map<String, String> allFields = new HashMap<String,String>(lookupForm.getFields());
-		List<ReportTracking> detailResults =
-                getReportTrackingDao().getResultsGroupedBy(allFields, lookupForm.getGroupedByFields(), lookupForm.getGroupedByDisplayFields());
+        Map<String, String> allFields = new HashMap<String, String>(lookupForm.getFields());
+        List<ReportTracking> detailResults
+                = getReportTrackingDao().getResultsGroupedBy(allFields, lookupForm.getGroupedByFields(), lookupForm.getGroupedByDisplayFields());
         for (ReportTracking detailResult : detailResults) {
-            AwardReportTracking  printables = new AwardReportTracking();  
-            printables = getReportTrackingPrintingService().getReportPrintable(ReportTrackingType.AWARD_REPORT_TRACKING,detailResult,printables);
+            AwardReportTracking printables = new AwardReportTracking();
+            printables = getReportTrackingPrintingService().getReportPrintable(ReportTrackingType.AWARD_REPORT_TRACKING, detailResult, printables);
             printableArtifactLists.add((AwardReportTracking) printables.clone());
         }
-        org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource attachmentDataSource =
-            getReportTrackingPrintingService()
-            .printAwardReportTracking(printableArtifactLists);
+        org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource attachmentDataSource
+                = getReportTrackingPrintingService()
+                .printAwardReportTracking(printableArtifactLists);
         streamToResponse(attachmentDataSource, response);
         actionForward = RESPONSE_ALREADY_HANDLED;
         return actionForward;
     }
+
     public ActionForward printReportTracking(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         ReportTrackingLookupForm lookupForm = (ReportTrackingLookupForm) form;
@@ -198,24 +215,25 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         String line = request.getParameter("line");
         ReportTracking reportTracking = detailResults.get(Integer.parseInt(line));
         List<Printable> printableArtifactList = new ArrayList<Printable>();
-        AwardReportTracking printable = new AwardReportTracking();  
+        AwardReportTracking printable = new AwardReportTracking();
         printable = getReportTrackingPrintingService().getReportPrintable(
-                ReportTrackingType.AWARD_REPORT_TRACKING,reportTracking,printable);
+                ReportTrackingType.AWARD_REPORT_TRACKING, reportTracking, printable);
         printableArtifactList.add(printable);
-        org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource attachmentDataSource =
-            getReportTrackingPrintingService()
-            .printAwardReportTracking(printableArtifactList);
+        org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource attachmentDataSource
+                = getReportTrackingPrintingService()
+                .printAwardReportTracking(printableArtifactList);
         streamToResponse(attachmentDataSource, response);
         actionForward = RESPONSE_ALREADY_HANDLED;
         return actionForward;
     }
+
     public ActionForward openAwardReports(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String awardNumber = getSelectedAwardNumber(request);
         List<VersionHistory> versions = KraServiceLocator.getService(VersionHistoryService.class).loadVersionHistory(Award.class, awardNumber);
         Award newest = null;
         for (VersionHistory version : versions) {
-            if (newest == null || version.getSequenceOwnerSequenceNumber() > newest.getSequenceNumber() &&
-                    version.getStatus() != VersionStatus.CANCELED) {
+            if (newest == null || version.getSequenceOwnerSequenceNumber() > newest.getSequenceNumber()
+                    && version.getStatus() != VersionStatus.CANCELED) {
                 newest = ((Award) version.getSequenceOwner());
             }
         }
@@ -223,8 +241,8 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         final AwardDocument awardDocument = (AwardDocument) getDocumentService().getByDocumentHeaderId(docNumber);
         String forwardUrl = buildForwardUrl(awardDocument.getDocumentHeader().getWorkflowDocument().getDocumentId());
         return new ActionForward(forwardUrl, true);
-    }    
-    
+    }
+
     protected String getSelectedAwardNumber(HttpServletRequest request) {
         String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
@@ -234,11 +252,12 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         }
 
     }
-    
+
     /**
-     * Takes a routeHeaderId for a particular document and constructs the URL to forward to that document
-     * Copied from KraTransactionalDocument as this does not extend from that.
-     * 
+     * Takes a routeHeaderId for a particular document and constructs the URL to
+     * forward to that document Copied from KraTransactionalDocument as this
+     * does not extend from that.
+     *
      * @param routeHeaderId
      * @return String
      */
@@ -248,8 +267,7 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         //forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
         if (forward.indexOf("?") == -1) {
             forward += "?";
-        }
-        else {
+        } else {
             forward += "&";
         }
         forward += KewApiConstants.DOCUMENT_ID_PARAMETER + "=" + routeHeaderId;
@@ -258,11 +276,12 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
             forward += "&" + KewApiConstants.BACKDOOR_ID_PARAMETER + "=" + GlobalVariables.getUserSession().getPrincipalName();
         }
         return forward;
-    }    
-    
+    }
+
     /**
      * Add the aggregate(grouped by) values passed in via javascript and ajax,
-     * to the fields map for the DAO search. 
+     * to the fields map for the DAO search.
+     *
      * @param aggregateValues
      * @param fields
      * @param columns
@@ -280,25 +299,25 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
             }
         }
     }
-    
+
     protected void isAuthorized() {
         //check permissions
         boolean userHasPermission = false;
         String permissionName = AwardPermissionConstants.VIEW_AWARD.getAwardPermission();
-        userHasPermission = getUnitAuthorizationService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), "KC-AWARD", permissionName);
+        userHasPermission = getUnitAuthorizationService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), Constants.PARAMETER_MODULE_AWARD, permissionName);
         if (!userHasPermission) {
             permissionName = AwardPermissionConstants.MODIFY_AWARD.getAwardPermission();
-            userHasPermission = getUnitAuthorizationService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), "KC-AWARD", permissionName);
+            userHasPermission = getUnitAuthorizationService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), Constants.PARAMETER_MODULE_AWARD, permissionName);
         }
         if (!userHasPermission) {
             permissionName = AwardPermissionConstants.MODIFY_AWARD_REPORT_TRACKING.getAwardPermission();
-            userHasPermission = getUnitAuthorizationService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), "KC-AWARD", permissionName);            
+            userHasPermission = getUnitAuthorizationService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), Constants.PARAMETER_MODULE_AWARD, permissionName);
         }
         if (!userHasPermission) {
             throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalName(), "Search", "Report Tracking");
         }
     }
-    
+
     protected ReportTrackingDao getReportTrackingDao() {
         if (reportTrackingDao == null) {
             reportTrackingDao = KraServiceLocator.getService(ReportTrackingDao.class);
@@ -334,10 +353,11 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         }
         return versionHistoryService;
     }
-    
+
     private ReportTrackingPrintingService getReportTrackingPrintingService() {
         return KraServiceLocator.getService(ReportTrackingPrintingService.class);
     }
+
     /**
      * method to stream the byte array to response object
      *
@@ -372,6 +392,7 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
             }
         }
     }
+
     public UnitAuthorizationService getUnitAuthorizationService() {
         if (unitAuthorizationService == null) {
             unitAuthorizationService = KraServiceLocator.getService(UnitAuthorizationService.class);
