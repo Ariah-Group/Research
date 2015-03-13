@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.subaward.document;
 
@@ -30,15 +46,15 @@ import java.util.Map;
 public class SubAwardInvoiceMaintainableImpl extends KraMaintainableImpl {
 
     private static final long serialVersionUID = 7243072336736625204L;
-    
+
     private transient DateTimeService dateTimeService;
     private transient DictionaryValidationService dictionaryValidationService;
-    
+
     public SubAwardInvoiceMaintainableImpl() {
         dateTimeService = KraServiceLocator.getService(DateTimeService.class);
         dictionaryValidationService = KNSServiceLocator.getKNSDictionaryValidationService();
     }
-    
+
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
         SubAwardAmountReleased invoice = (SubAwardAmountReleased) document.getNoteTarget();
@@ -48,7 +64,7 @@ public class SubAwardInvoiceMaintainableImpl extends KraMaintainableImpl {
         invoice.setCreatedDate(getDateTimeService().getCurrentTimestamp());
         invoice.setCreatedBy(GlobalVariables.getUserSession().getPrincipalId());
     }
-    
+
     @Override
     public void prepareForSave() {
         super.prepareForSave();
@@ -62,7 +78,7 @@ public class SubAwardInvoiceMaintainableImpl extends KraMaintainableImpl {
             getBusinessObjectService().save(invoice);
         }
     }
-    
+
     @Override
     public void doRouteStatusChange(DocumentHeader documentHeader) {
         SubAwardAmountReleased invoice = (SubAwardAmountReleased) this.getBusinessObject();
@@ -84,7 +100,7 @@ public class SubAwardInvoiceMaintainableImpl extends KraMaintainableImpl {
 
     protected DictionaryValidationService getDictionaryValidationService() {
         if (dictionaryValidationService == null) {
-            //need kns validation service because the KC documents are still using KNS validations,
+            //need kns validation service because the documents are still using KNS validations,
             //and to use the KRAD validation requires changing the DD file associated with this BO.
             dictionaryValidationService = KNSServiceLocator.getKNSDictionaryValidationService();
         }
@@ -94,6 +110,5 @@ public class SubAwardInvoiceMaintainableImpl extends KraMaintainableImpl {
     public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService) {
         this.dictionaryValidationService = dictionaryValidationService;
     }
-    
 
 }

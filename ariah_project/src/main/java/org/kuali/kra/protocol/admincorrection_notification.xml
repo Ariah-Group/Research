@@ -3,7 +3,7 @@
 <notification xmlns="ns:notification/NotificationRequest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:notification/NotificationRequest resource:notification/NotificationRequest">
     <!-- this is the name of the notification channel -->
     <!-- that has been registered in the system -->
-    <channel>KC Notification Channel</channel>
+    <channel>AR Notification Channel</channel>
 
     <!-- this is the name of the producing system -->
     <!-- the value must match a registered producer -->
@@ -32,7 +32,7 @@
     <!-- here must match one of the registered priorities -->
     <priority>Normal</priority>
 
-    <title>KC - Administrative Correction Notification</title>
+    <title>AR - Administrative Correction Notification</title>
 
     <!-- this is the name of the content type for the message -->
     <!-- content types are registered in the system, so your value -->

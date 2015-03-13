@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
@@ -31,7 +47,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class representation of the Proposal Person <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>
+ * Class representation of the Proposal Person
+ * <code>{@link org.kuali.rice.krad.bo.BusinessObject}</code>
  *
  * @see org.kuali.rice.krad.bo.BusinessObject
  * @see org.kuali.rice.krad.bo.PersistableBusinessObject
@@ -217,7 +234,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     private String mobilePhoneNumber;
 
     private String eraCommonsUserName;
-    
+
     private String division;
 
     private Boolean active = true;
@@ -233,8 +250,9 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     private transient KcPersonService kcPersonService;
 
     /**
-     * This list is not automatically populated by the ORM by design.
-     * Call ProposalDevelopmentPersonQuestionnaireService.setAnswerHeaders() to set this list.
+     * This list is not automatically populated by the ORM by design. Call
+     * ProposalDevelopmentPersonQuestionnaireService.setAnswerHeaders() to set
+     * this list.
      */
     //private List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>(); 
     public boolean isMoveDownAllowed() {
@@ -288,8 +306,8 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     }
 
     /**
-     * Stateful variable set by the Action to determine whether this <code>{@link ProposalPerson}</code> 
-     * is an investigator or not.
+     * Stateful variable set by the Action to determine whether this
+     * <code>{@link ProposalPerson}</code> is an investigator or not.
      *
      * @return boolean;
      */
@@ -298,8 +316,8 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     }
 
     /**
-     * Stateful variable set by the Action to determine whether this <code>{@link ProposalPerson}</code> 
-     * is an investigator or not.
+     * Stateful variable set by the Action to determine whether this
+     * <code>{@link ProposalPerson}</code> is an investigator or not.
      *
      * @return boolean;
      */
@@ -308,8 +326,8 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     }
 
     /**
-     * Stateful variable set by the Action to determine whether this <code>{@link ProposalPerson}</code> 
-     * is an investigator or not.
+     * Stateful variable set by the Action to determine whether this
+     * <code>{@link ProposalPerson}</code> is an investigator or not.
      *
      * @param b;
      */
@@ -399,9 +417,11 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     }
 
     /**
-     * 
-     * This method returns the concatation of proposalNumber + "|" + proposalPersonNumber.
-     * Those two fields are the combined primary key on the table.
+     *
+     * This method returns the concatation of proposalNumber + "|" +
+     * proposalPersonNumber. Those two fields are the combined primary key on
+     * the table.
+     *
      * @return
      */
     public String getUniqueId() {
@@ -411,7 +431,8 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     /**
      * Sets the value of proposalPersonNumber
      *
-     * @param argProposalPersonNumber Value to assign to this.proposalPersonNumber
+     * @param argProposalPersonNumber Value to assign to
+     * this.proposalPersonNumber
      */
     public void setProposalPersonNumber(Integer argProposalPersonNumber) {
         this.proposalPersonNumber = argProposalPersonNumber;
@@ -525,7 +546,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
         return this.proposalPersonRoleId;
     }
 
-    /** 
+    /**
      * Sets the value of propPersonRoleId
      *
      * @param argPropPersonRoleId Value to assign to this.propPersonRoleId
@@ -546,7 +567,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
         return this.proposalPersonRoleId;
     }
 
-    /** 
+    /**
      * Sets the value of propPersonRoleId
      *
      * @param argPropPersonRoleId Value to assign to this.propPersonRoleId
@@ -564,7 +585,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
         return role;
     }
 
-    /** 
+    /**
      * Sets the value of propPersonRole
      *
      * @param argPropPersonRole Value to assign to this.propPersonRole
@@ -583,7 +604,8 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the value of person, or null if no personId is defined (this is the case for non-employees).
+     * Gets the value of person, or null if no personId is defined (this is the
+     * case for non-employees).
      *
      * @return the value of person
      */
@@ -596,8 +618,9 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the KC Person Service.
-     * @return KC Person Service.
+     * Gets the Person Service.
+     *
+     * @return Person Service.
      */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
@@ -617,7 +640,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
 
     /**
      * Gets index i from the degrees list.
-     * 
+     *
      * @param index
      * @return <code>{@link ProposalPersonDegree}</code> instance at index i
      */
@@ -639,7 +662,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
 
     /**
      * Gets index i from the units list.
-     * 
+     *
      * @param index
      * @return <code>{@link ProposalPersonUnit}</code> instance at index i
      */
@@ -652,7 +675,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
 
     /**
      * Gets unit with unitNumber from the units list.
-     * 
+     *
      * @param unitNumber
      * @return <code>{@link ProposalPersonUnit}</code> instance at index i
      */
@@ -669,8 +692,9 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     }
 
     /**
-     * Read access to a flag that determines if this instance should be deleted from a list of other instances.
-     * 
+     * Read access to a flag that determines if this instance should be deleted
+     * from a list of other instances.
+     *
      * @return boolean
      */
     public boolean isDelete() {
@@ -678,9 +702,10 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     }
 
     /**
-     * Write access to a flag that determines if this instance should be deleted from a list of other instances.
-     * 
-     * @param delete 
+     * Write access to a flag that determines if this instance should be deleted
+     * from a list of other instances.
+     *
+     * @param delete
      */
     public void setDelete(boolean delete) {
         this.delete = delete;
@@ -696,7 +721,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
 
     /**
      * Gets index i from the creditSplits list.
-     * 
+     *
      * @param index
      * @return Question at index i
      */
@@ -717,7 +742,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
 
     /**
      * Gets index i from the proposalPersonYnqs list.
-     * 
+     *
      * @param index
      * @return Question at index i
      */
@@ -777,8 +802,9 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     }
 
     /**
-     * Determine if the <code>{@link ProposalPerson}</code> instance role has changed
-     * 
+     * Determine if the <code>{@link ProposalPerson}</code> instance role has
+     * changed
+     *
      * @return boolean
      */
     public boolean isRoleChanged() {
@@ -787,7 +813,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
 
     /**
      * Trigger a role change
-     * 
+     *
      * @param roleChanged
      */
     public void setRoleChanged(boolean roleChanged) {
@@ -795,8 +821,9 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     }
 
     /**
-     * Loops through units to determine if the person has a <code>{@link ProposalPersonUnit}</code> with the given number.
-     * 
+     * Loops through units to determine if the person has a
+     * <code>{@link ProposalPersonUnit}</code> with the given number.
+     *
      * @param unitNumber
      * @return if the unit exists
      */
@@ -813,9 +840,11 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the simpleName attribute. <code>simpleName</code> is used for mapping credit split totals by person. They are mapped
-     * to the simpleName instead of a fullName because simpleName doesn't have any funny characters. 
-     * 
+     * Gets the simpleName attribute. <code>simpleName</code> is used for
+     * mapping credit split totals by person. They are mapped to the simpleName
+     * instead of a fullName because simpleName doesn't have any funny
+     * characters.
+     *
      * @return Returns the simpleName.
      */
     public String getSimpleName() {
@@ -823,9 +852,11 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     }
 
     /**
-     * Sets the simpleName attribute value. <code>simpleName</code> is used for mapping credit split totals by person. They are mapped
-     * to the simpleName instead of a fullName because simpleName doesn't have any funny characters.
-     * 
+     * Sets the simpleName attribute value. <code>simpleName</code> is used for
+     * mapping credit split totals by person. They are mapped to the simpleName
+     * instead of a fullName because simpleName doesn't have any funny
+     * characters.
+     *
      * @param simpleName The simpleName to set.
      */
     public void setSimpleName(String simpleName) {
@@ -833,7 +864,8 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the otherSignificantContributorFlag attribute. 
+     * Gets the otherSignificantContributorFlag attribute.
+     *
      * @return Returns the otherSignificantContributorFlag.
      */
     public boolean isOtherSignificantContributorFlag() {
@@ -842,7 +874,9 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
 
     /**
      * Sets the otherSignificantContributorFlag attribute value.
-     * @param otherSignificantContributorFlag The otherSignificantContributorFlag to set.
+     *
+     * @param otherSignificantContributorFlag The
+     * otherSignificantContributorFlag to set.
      */
     public void setOtherSignificantContributorFlag(boolean otherSignificantContributorFlag) {
         this.otherSignificantContributorFlag = otherSignificantContributorFlag;
@@ -881,7 +915,8 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the hierarchyProposalNumber attribute. 
+     * Gets the hierarchyProposalNumber attribute.
+     *
      * @return Returns the hierarchyProposalNumber.
      */
     public String getHierarchyProposalNumber() {
@@ -909,7 +944,8 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     /**
      * Sets the value of socialSecurityNumber
      *
-     * @param argSocialSecurityNumber Value to assign to this.socialSecurityNumber
+     * @param argSocialSecurityNumber Value to assign to
+     * this.socialSecurityNumber
      */
     public void setSocialSecurityNumber(String argSocialSecurityNumber) {
         this.socialSecurityNumber = argSocialSecurityNumber;
@@ -1368,7 +1404,8 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     /**
      * Sets the value of secondaryOfficeLocation
      *
-     * @param argSecondaryOfficeLocation Value to assign to this.secondaryOfficeLocation
+     * @param argSecondaryOfficeLocation Value to assign to
+     * this.secondaryOfficeLocation
      */
     public void setSecondaryOfficeLocation(String argSecondaryOfficeLocation) {
         this.secondaryOfficeLocation = argSecondaryOfficeLocation;
@@ -1386,7 +1423,8 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     /**
      * Sets the value of secondaryOfficePhone
      *
-     * @param argSecondaryOfficePhone Value to assign to this.secondaryOfficePhone
+     * @param argSecondaryOfficePhone Value to assign to
+     * this.secondaryOfficePhone
      */
     public void setSecondaryOfficePhone(String argSecondaryOfficePhone) {
         this.secondaryOfficePhone = argSecondaryOfficePhone;
@@ -1412,7 +1450,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
 
     /**
      * Gets the value of yearGraduated
-     * 
+     *
      * @return the value of yearGraduated
      */
     public String getYearGraduated() {
@@ -1476,7 +1514,8 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     /**
      * Sets the value of countryOfCitizenship
      *
-     * @param argCountryOfCitizenship Value to assign to this.countryOfCitizenship
+     * @param argCountryOfCitizenship Value to assign to
+     * this.countryOfCitizenship
      */
     public void setCountryOfCitizenship(String argCountryOfCitizenship) {
         this.countryOfCitizenship = argCountryOfCitizenship;
@@ -1566,7 +1605,8 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     /**
      * Sets the value of graduateStudentStaff
      *
-     * @param argGraduateStudentStaff Value to assign to this.graduateStudentStaff
+     * @param argGraduateStudentStaff Value to assign to
+     * this.graduateStudentStaff
      */
     public void setGraduateStudentStaffFlag(Boolean argGraduateStudentStaff) {
         this.graduateStudentStaffFlag = argGraduateStudentStaff;
@@ -1947,7 +1987,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     public String getEraCommonsUserName() {
         if (StringUtils.isBlank(eraCommonsUserName) && personId != null) {
             this.eraCommonsUserName = getKcPersonService().getKcPersonByPersonId(personId).
-                                        getExtendedAttributes().getEraCommonUserName();
+                    getExtendedAttributes().getEraCommonUserName();
         }
         return this.eraCommonsUserName;
     }
@@ -1960,19 +2000,20 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     public void setEraCommonsUserName(String argEraCommonsUserName) {
         this.eraCommonsUserName = argEraCommonsUserName;
     }
-    
+
     /**
-     * 
+     *
      * Gets the value of division;
-     * 
+     *
      * @return the value of division
      */
     public String getDivision() {
         return division;
     }
-       /**
+
+    /**
      * Sets the value of division
-     * 
+     *
      * @param division Value to assign to this.division
      */
     public void setDivision(String division) {
@@ -1990,7 +2031,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     /**
      * Unit reference referred by {@link #getUnit()}
      *
-     * @param unit 
+     * @param unit
      */
     public void setHomeUnitRef(Unit unit) {
         this.homeUnitRef = unit;
@@ -1999,7 +2040,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     /**
      * Unit reference referred by {@link #getUnit()}
      *
-     * @return unit 
+     * @return unit
      */
     public Unit getHomeUnitRef() {
         return homeUnitRef;
@@ -2056,6 +2097,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
 
     /**
      * Sets the hierarchyProposalNumber attribute value.
+     *
      * @param hierarchyProposalNumber The hierarchyProposalNumber to set.
      */
     public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
@@ -2063,7 +2105,8 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the hiddenInHierarchy attribute. 
+     * Gets the hiddenInHierarchy attribute.
+     *
      * @return Returns the hiddenInHierarchy.
      */
     public boolean isHiddenInHierarchy() {
@@ -2072,6 +2115,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
 
     /**
      * Sets the hiddenInHierarchy attribute value.
+     *
      * @param hiddenInHierarchy The hiddenInHierarchy to set.
      */
     public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
@@ -2115,9 +2159,10 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     }
 
     /**
-     * 
-     * This method determines if any of this person's YNQs have been answered.  If so, return yes.
-     * Otherwise return no.
+     *
+     * This method determines if any of this person's YNQs have been answered.
+     * If so, return yes. Otherwise return no.
+     *
      * @return
      */
     public boolean getAnyYNQsAnswered() {

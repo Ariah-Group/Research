@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.service.impl;
 
@@ -60,12 +76,14 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import java.util.*;
 
 /**
- * This class contains the implementation for common budget calculations required for S2S Form generators
- * 
+ * This class contains the implementation for common budget calculations
+ * required for S2S Form generators
+ *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class S2SBudgetCalculatorServiceImpl implements 
-                S2SBudgetCalculatorService {
+public class S2SBudgetCalculatorServiceImpl implements
+        S2SBudgetCalculatorService {
+
     public static final String KEY_MAPPING_NAME = "mappingName";
     public static final String KEY_TARGET_CATEGORY_CODE = "targetCategoryCode";
     private static final int MAX_KEY_PERSON_COUNT = 8;
@@ -95,10 +113,10 @@ public class S2SBudgetCalculatorServiceImpl implements
     private static final String DESCRIPTION_LA = "LA ";
     private static final String KEYPERSON_CO_PD_PI = "CO-PD/PI";
     private static final String NID_PD_PI = "PD/PI";
-    private static final String NID_CO_PD_PI = "CO-INVESTIGATOR"; 
+    private static final String NID_CO_PD_PI = "CO-INVESTIGATOR";
     private static final String KEYPERSON_OTHER = "Other (Specify)";
     private static final Log LOG = LogFactory
-                    .getLog(S2SBudgetCalculatorServiceImpl.class);
+            .getLog(S2SBudgetCalculatorServiceImpl.class);
     private static final String PRINCIPAL_INVESTIGATOR_ROLE = "PD/PI";
     private BusinessObjectService businessObjectService;
     private KcPersonService kcPersonService;
@@ -106,15 +124,14 @@ public class S2SBudgetCalculatorServiceImpl implements
     private ParameterService parameterService;
     private List<AuditError> auditErrors;
 
-
-   protected ParameterService getParameterService() {
+    protected ParameterService getParameterService() {
         if (this.parameterService == null) {
             this.parameterService = KraServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }
 
-   public void setParameterService(ParameterService parameterService) {
+    public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
 
@@ -134,14 +151,16 @@ public class S2SBudgetCalculatorServiceImpl implements
     // return parameterValue==null?true:ONE_STRING.equals(parameterValue);
     // }
     /**
-     * 
-     * This method does the budget related calculations for a given ProposalDevelopmentDocument and returns them in
-     * BudgetSummaryInfo
-     * 
+     *
+     * This method does the budget related calculations for a given
+     * ProposalDevelopmentDocument and returns them in BudgetSummaryInfo
+     *
      * @param pdDoc ProposalDevelopmentDocument.
-     * @return BudgetSummaryInfo corresponding to the ProposalDevelopmentDocument object.
+     * @return BudgetSummaryInfo corresponding to the
+     * ProposalDevelopmentDocument object.
      * @throws S2SException
-     * @see org.kuali.kra.s2s.service.S2SBudgetCalculatorService#getBudgetInfo(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     * @see
+     * org.kuali.kra.s2s.service.S2SBudgetCalculatorService#getBudgetInfo(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
     public BudgetSummaryInfo getBudgetInfo(ProposalDevelopmentDocument pdDoc, List<BudgetPeriodInfo> budgetPeriodInfos)
             throws S2SException {
@@ -178,7 +197,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                 Constants.S2SBUDGET_RATE_TYPE_SUPPORT_STAFF_SALARIES);
         String rateTypeAdministrativeSalaries = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                 Constants.S2SBUDGET_RATE_TYPE_ADMINISTRATIVE_SALARIES);
-                
+
         for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
             for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
                 totalDirectCostSharing = totalDirectCostSharing.add(lineItem.getCostSharingAmount());
@@ -198,8 +217,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                     if (canBudgetLineItemCostSharingInclude(budget, lineItem)) {
                         if (lineItemCalAmt.getRateClass().getRateClassType().equals(RateClassType.OVERHEAD.getRateClassType())) {
                             totalIndirectCostSharing = totalIndirectCostSharing.add(lineItemCalAmt.getCalculatedCostSharing());
-                        }
-                        else {
+                        } else {
                             totalDirectCostSharing = totalDirectCostSharing.add(lineItemCalAmt.getCalculatedCostSharing());
                         }
                     }
@@ -210,7 +228,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                             || (lineItemCalAmt.getRateClassCode().equals(
                                     getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                             Constants.S2SBUDGET_RATE_CLASS_CODE_VACATION)) && !lineItemCalAmt.getRateTypeCode()
-                                    .equals(rateTypeAdministrativeSalaries))) {
+                            .equals(rateTypeAdministrativeSalaries))) {
                         if (lineItem
                                 .getBudgetCategory()
                                 .getBudgetCategoryType()
@@ -226,7 +244,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                             .getRateClass()
                             .getRateClassType()
                             .equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                                    Constants.S2SBUDGET_RATE_CLASS_TYPE_LAB_ALLOCATION_SALARIES))) {
+                                            Constants.S2SBUDGET_RATE_CLASS_TYPE_LAB_ALLOCATION_SALARIES))) {
                         budgetDetailsCost = budgetDetailsCost.add(lineItemCalAmt.getCalculatedCost());
                         if (canBudgetLineItemCostSharingInclude(budget, lineItem)) {
                             budgetDetailsCostSharingAmount = budgetDetailsCostSharingAmount.add(lineItemCalAmt
@@ -237,14 +255,14 @@ public class S2SBudgetCalculatorServiceImpl implements
                             .getRateClass()
                             .getRateClassType()
                             .equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                                    Constants.S2SBUDGET_RATE_CLASS_TYPE_EMPLOYEE_BENEFITS)) && lineItemCalAmt.getRateTypeCode()
+                                            Constants.S2SBUDGET_RATE_CLASS_TYPE_EMPLOYEE_BENEFITS)) && lineItemCalAmt.getRateTypeCode()
                             .equals(rateTypeSupportStaffSalaries))
                             || (lineItemCalAmt
-                                    .getRateClass()
-                                    .getRateClassType()
-                                    .equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+                            .getRateClass()
+                            .getRateClassType()
+                            .equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                             Constants.S2SBUDGET_RATE_CLASS_TYPE_VACATION)) && lineItemCalAmt.getRateTypeCode()
-                                    .equals(rateTypeAdministrativeSalaries))) {
+                            .equals(rateTypeAdministrativeSalaries))) {
                         budgetDetailsFringeCost = budgetDetailsFringeCost.add(lineItemCalAmt.getCalculatedCost());
                         if (canBudgetLineItemCostSharingInclude(budget, lineItem)) {
                             budgetDetailsFringeCostSharingAmount = budgetDetailsFringeCostSharingAmount.add(lineItemCalAmt
@@ -346,22 +364,21 @@ public class S2SBudgetCalculatorServiceImpl implements
 
                     cumPartStipendsCostSharing = cumPartStipendsCostSharing
                             .add(otherDirectCostInfo.getPartStipendsCostSharing() == null ? BudgetDecimal.ZERO
-                                    : otherDirectCostInfo.getPartStipendsCostSharing());
+                                            : otherDirectCostInfo.getPartStipendsCostSharing());
                     cumPartTravelCostSharing = cumPartTravelCostSharing
                             .add(otherDirectCostInfo.getPartTravelCostSharing() == null ? BudgetDecimal.ZERO : otherDirectCostInfo
-                                    .getPartTravelCostSharing());
+                                            .getPartTravelCostSharing());
                     cumPartSubsistenceCostSharing = cumPartSubsistenceCostSharing.add(otherDirectCostInfo
                             .getPartSubsistenceCostSharing() == null ? BudgetDecimal.ZERO : otherDirectCostInfo
-                            .getPartSubsistenceCostSharing());
+                                    .getPartSubsistenceCostSharing());
                     cumPartTuitionCostSharing = cumPartTuitionCostSharing
                             .add(otherDirectCostInfo.getPartTuitionCostSharing() == null ? BudgetDecimal.ZERO : otherDirectCostInfo
-                                    .getPartTuitionCostSharing());
+                                            .getPartTuitionCostSharing());
 
                     cumPartOtherCostSharing = cumPartOtherCostSharing
                             .add(otherDirectCostInfo.getPartOtherCostSharing() == null ? BudgetDecimal.ZERO : otherDirectCostInfo
-                                    .getPartOtherCostSharing());
-                }
-                else {
+                                            .getPartOtherCostSharing());
+                } else {
                     cumAlterationsCostSharing = cumAlterationsCostSharing.add(BudgetDecimal.ZERO);
                     cumConsultantsCostSharing = cumConsultantsCostSharing.add(BudgetDecimal.ZERO);
                     cumMaterialsCostSharing = cumMaterialsCostSharing.add(BudgetDecimal.ZERO);
@@ -500,12 +517,15 @@ public class S2SBudgetCalculatorServiceImpl implements
     }
 
     /**
-     * This method gets the list of BudgetPeriodInfo for the latest BudgetDocument of the given ProposalDevelopmentDocument
-     * 
+     * This method gets the list of BudgetPeriodInfo for the latest
+     * BudgetDocument of the given ProposalDevelopmentDocument
+     *
      * @param pdDoc ProposalDevelopmentDocument
-     * @return a List of BudgetPeriodInfo corresponding to the ProposalDevelopmentDocument object.
+     * @return a List of BudgetPeriodInfo corresponding to the
+     * ProposalDevelopmentDocument object.
      * @throws S2SException
-     * @see org.kuali.kra.s2s.service.S2SBudgetCalculatorService#getBudgetPeriods(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     * @see
+     * org.kuali.kra.s2s.service.S2SBudgetCalculatorService#getBudgetPeriods(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
     public List<BudgetPeriodInfo> getBudgetPeriods(ProposalDevelopmentDocument pdDoc) throws S2SException {
         List<BudgetPeriodInfo> budgetPeriods = new ArrayList<BudgetPeriodInfo>();
@@ -533,8 +553,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                                     .equals(RateClassType.OVERHEAD.getRateClassType())) {
                                 totalIndirectCostSharing = totalIndirectCostSharing.add(lineItemCalculatedAmt
                                         .getCalculatedCostSharing());
-                            }
-                            else {
+                            } else {
                                 totalDirectCostSharing = totalDirectCostSharing.add(lineItemCalculatedAmt
                                         .getCalculatedCostSharing());
                             }
@@ -592,7 +611,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                 }
             }
             List<List<KeyPersonInfo>> keyPersonList = getKeyPersons(
-                    budgetPeriod,pdDoc,MAX_KEY_PERSON_COUNT);
+                    budgetPeriod, pdDoc, MAX_KEY_PERSON_COUNT);
             List<KeyPersonInfo> keyPersons = new ArrayList<KeyPersonInfo>();
             List<KeyPersonInfo> extraPersons = new ArrayList<KeyPersonInfo>();
             if (keyPersonList.size() > 0) {
@@ -657,10 +676,10 @@ public class S2SBudgetCalculatorServiceImpl implements
     }
 
     /**
-     * 
-     * This method populates the {@link OtherPersonnelInfo} business objects for the given {@link BudgetPeriod} and
-     * {@link ProposalDevelopmentDocument}
-     * 
+     *
+     * This method populates the {@link OtherPersonnelInfo} business objects for
+     * the given {@link BudgetPeriod} and {@link ProposalDevelopmentDocument}
+     *
      * @param budgetPeriod given budget period.
      * @param pdDoc Proposal Development Document.
      * @return {@link List} of {@link OtherPersonnelInfo}
@@ -668,47 +687,47 @@ public class S2SBudgetCalculatorServiceImpl implements
     protected List<OtherPersonnelInfo> getOtherPersonnel(BudgetPeriod budgetPeriod, ProposalDevelopmentDocument pdDoc) {
         List<OtherPersonnelInfo> cvOtherPersonnel = new ArrayList<OtherPersonnelInfo>();
         cvOtherPersonnel.add(getOtherPersonnelDetails(
-                budgetPeriod,pdDoc,
+                budgetPeriod, pdDoc,
                 getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                        Constants.S2SBUDGET_CATEGORY_01_GRADUATES),PERSONNEL_TYPE_GRAD,
+                        Constants.S2SBUDGET_CATEGORY_01_GRADUATES), PERSONNEL_TYPE_GRAD,
                 ROLE_GRADUATE_STUDENTS));
         cvOtherPersonnel.add(getOtherPersonnelDetails(
-                budgetPeriod,pdDoc,
+                budgetPeriod, pdDoc,
                 getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                        Constants.S2SBUDGET_CATEGORY_01_POSTDOCS),PERSONNEL_TYPE_POSTDOC,
+                        Constants.S2SBUDGET_CATEGORY_01_POSTDOCS), PERSONNEL_TYPE_POSTDOC,
                 ROLE_POST_DOCTORAL_ASSOCIATES));
         cvOtherPersonnel.add(getOtherPersonnelDetails(
-                budgetPeriod,pdDoc,
+                budgetPeriod, pdDoc,
                 getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                        Constants.S2SBUDGET_CATEGORY_01_UNDERGRADS),PERSONNEL_TYPE_UNDERGRAD,
+                        Constants.S2SBUDGET_CATEGORY_01_UNDERGRADS), PERSONNEL_TYPE_UNDERGRAD,
                 ROLE_GRADUATE_UNDERGRADUATE_STUDENTS));
         cvOtherPersonnel.add(getOtherPersonnelDetails(
-                budgetPeriod,pdDoc,
+                budgetPeriod, pdDoc,
                 getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                        Constants.S2SBUDGET_CATEGORY_01_SECRETARIAL),PERSONNEL_TYPE_SEC,
+                        Constants.S2SBUDGET_CATEGORY_01_SECRETARIAL), PERSONNEL_TYPE_SEC,
                 ROLE_GRADUATE_SECRETARIAL_OR_CLERICAL));
         cvOtherPersonnel.add(getOtherPersonnelDetails(
-                budgetPeriod,pdDoc,
+                budgetPeriod, pdDoc,
                 getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                        Constants.S2SBUDGET_CATEGORY_01_OTHER),PERSONNEL_TYPE_OTHER,
+                        Constants.S2SBUDGET_CATEGORY_01_OTHER), PERSONNEL_TYPE_OTHER,
                 ROLE_GRADUATE_OTHER));
         cvOtherPersonnel.add(getOtherPersonnelDetails(
-                budgetPeriod,pdDoc,
+                budgetPeriod, pdDoc,
                 getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                        Constants.S2SBUDGET_CATEGORY_01_OTHER_PROFS),PERSONNEL_TYPE_OTHER_PROFESSIONALS,
+                        Constants.S2SBUDGET_CATEGORY_01_OTHER_PROFS), PERSONNEL_TYPE_OTHER_PROFESSIONALS,
                 ROLE_GRADUATE_OTHER_PROFESSIONALS));
         cvOtherPersonnel.add(getOtherPersonnelDetails(
-                budgetPeriod,pdDoc,
-                LASALARIES,PERSONNEL_TYPE_ALLOCATED_ADMIN_SUPPORT,
+                budgetPeriod, pdDoc,
+                LASALARIES, PERSONNEL_TYPE_ALLOCATED_ADMIN_SUPPORT,
                 ROLE_GRADUATE_ALLOCATED_ADMIN_SUPPORT));
         return cvOtherPersonnel;
     }
 
     /**
-     * 
-     * This method populates the details for {@link OtherPersonnelInfo} business object for the given
-     * {@link ProposalDevelopmentDocument}
-     * 
+     *
+     * This method populates the details for {@link OtherPersonnelInfo} business
+     * object for the given {@link ProposalDevelopmentDocument}
+     *
      * @param budgetPeriod given budget period.
      * @param pdDoc Proposal Development Document.
      * @param category budget category
@@ -758,7 +777,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                 Constants.S2SBUDGET_RATE_TYPE_ADMINISTRATIVE_SALARIES);
         Map<String, String> personJobCodes = new HashMap<String, String>();
         boolean personExistsAsProposalPerson = false;
-        
+
         // Calculate the salary and fringe for category
         // LASALARIES
         if (category.equalsIgnoreCase(LASALARIES)) {
@@ -770,9 +789,9 @@ public class S2SBudgetCalculatorServiceImpl implements
                             .getRateClass()
                             .getRateClassType()
                             .equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                                    Constants.S2SBUDGET_RATE_CLASS_TYPE_LAB_ALLOCATION_SALARIES))) {
+                                            Constants.S2SBUDGET_RATE_CLASS_TYPE_LAB_ALLOCATION_SALARIES))) {
                         mrLaCost = mrLaCost.add(lineItemCalculatedAmount.getCalculatedCost());
-                        if(lineItem.getSubmitCostSharingFlag()){
+                        if (lineItem.getSubmitCostSharingFlag()) {
                             mrLaCostSharingAmount = mrLaCostSharingAmount.add(lineItemCalculatedAmount
                                     .getCalculatedCostSharing());
                         }
@@ -783,27 +802,26 @@ public class S2SBudgetCalculatorServiceImpl implements
                             .getRateClass()
                             .getRateClassType()
                             .equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                                    Constants.S2SBUDGET_RATE_CLASS_TYPE_EMPLOYEE_BENEFITS)) && lineItemCalculatedAmount
-                                    .getRateTypeCode().equals(
-                                            rateTypeSupportStaffSalaries))
-                                            || (lineItemCalculatedAmount
-                                                    .getRateClass()
-                                                    .getRateClassType()
-                                                    .equals(getParameterService().getParameterValueAsString(
-                                                            ProposalDevelopmentDocument.class,
-                                                            Constants.S2SBUDGET_RATE_CLASS_TYPE_VACATION)) && lineItemCalculatedAmount
-                                                            .getRateTypeCode().equals(
-                                                                    rateTypeAdministrativeSalaries))) {
+                                            Constants.S2SBUDGET_RATE_CLASS_TYPE_EMPLOYEE_BENEFITS)) && lineItemCalculatedAmount
+                            .getRateTypeCode().equals(
+                                    rateTypeSupportStaffSalaries))
+                            || (lineItemCalculatedAmount
+                            .getRateClass()
+                            .getRateClassType()
+                            .equals(getParameterService().getParameterValueAsString(
+                                            ProposalDevelopmentDocument.class,
+                                            Constants.S2SBUDGET_RATE_CLASS_TYPE_VACATION)) && lineItemCalculatedAmount
+                            .getRateTypeCode().equals(
+                                    rateTypeAdministrativeSalaries))) {
                         mrLaFringeCost = mrLaFringeCost.add(lineItemCalculatedAmount.getCalculatedCost());
-                        if(lineItem.getSubmitCostSharingFlag()){
+                        if (lineItem.getSubmitCostSharingFlag()) {
                             mrLaFringeCostSharingAmount = mrLaFringeCostSharingAmount.add(lineItemCalculatedAmount
                                     .getCalculatedCostSharing());
                         }
                     }
                 }
             }
-        }
-        else{
+        } else {
             // boolean lineItemMatched;
             for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
                 // lineItemMatched = false;
@@ -834,7 +852,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                                     }
                                     if (!personExistsAsProposalPerson) {
                                         salaryRequested = salaryRequested.add(personDetails.getSalaryRequested());
-                                        if(lineItem.getSubmitCostSharingFlag()){
+                                        if (lineItem.getSubmitCostSharingFlag()) {
                                             salaryCostSharing = salaryCostSharing.add(personDetails.getCostSharingAmount());
                                         }
                                         numberOfMonths = s2SUtilService.getNumberOfMonths(personDetails.getStartDate(),
@@ -848,9 +866,8 @@ public class S2SBudgetCalculatorServiceImpl implements
                                             } else {
                                                 academicMonths = academicMonths.add(personDetails.getPercentCharged()
                                                         .multiply(numberOfMonths).multiply(new BudgetDecimal(0.01)));
-                                            }                                            
-                                        }
-                                        else if (personDetails.getPeriodTypeCode().equals(
+                                            }
+                                        } else if (personDetails.getPeriodTypeCode().equals(
                                                 getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                                         Constants.S2SBUDGET_PERIOD_TYPE_SUMMER_MONTHS))) {
                                             if (lineItem.getSubmitCostSharingFlag()) {
@@ -860,9 +877,8 @@ public class S2SBudgetCalculatorServiceImpl implements
                                                 summerMonths = summerMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths)
                                                         .multiply(new BudgetDecimal(0.01)));
                                             }
-                                            
-                                        }
-                                        else if (personDetails.getPeriodTypeCode().equals(
+
+                                        } else if (personDetails.getPeriodTypeCode().equals(
                                                 getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                                         Constants.S2SBUDGET_PERIOD_TYPE_CALENDAR_MONTHS))) {
                                             if (lineItem.getSubmitCostSharingFlag()) {
@@ -872,8 +888,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                                                 calendarMonths = calendarMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths)
                                                         .multiply(new BudgetDecimal(0.01)));
                                             }
-                                        }
-                                        else if (personDetails.getPeriodTypeCode().equals(
+                                        } else if (personDetails.getPeriodTypeCode().equals(
                                                 getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                                         Constants.S2SBUDGET_PERIOD_TYPE_CYCLE_MONTHS))) {
                                             cycleMonths = cycleMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
@@ -892,12 +907,12 @@ public class S2SBudgetCalculatorServiceImpl implements
                                                     rateClassCodeEmployeeBenefits) && !personCalculatedAmount
                                                     .getRateTypeCode().equals(
                                                             rateTypeSupportStaffSalaries))
-                                                            || (personCalculatedAmount.getRateClassCode().equals(
-                                                                    rateClassCodeVacation) && !personCalculatedAmount
-                                                                    .getRateTypeCode().equals(
-                                                                            rateTypeAdministrativeSalaries))) {
+                                                    || (personCalculatedAmount.getRateClassCode().equals(
+                                                            rateClassCodeVacation) && !personCalculatedAmount
+                                                    .getRateTypeCode().equals(
+                                                            rateTypeAdministrativeSalaries))) {
                                                 fringeCost = fringeCost.add(personCalculatedAmount.getCalculatedCost());
-                                                if(lineItem.getSubmitCostSharingFlag()){
+                                                if (lineItem.getSubmitCostSharingFlag()) {
                                                     fringeCostSharingAmount = fringeCostSharingAmount.add(personCalculatedAmount
                                                             .getCalculatedCostSharing());
                                                 }
@@ -911,14 +926,13 @@ public class S2SBudgetCalculatorServiceImpl implements
                                     // }
                                 }
                             }
-                        }
-                        else {
+                        } else {
                             // personExist is false. No person found for the line
                             // item.
                             // get costs for this budget category that do not have
                             // persons attached to the cost element
                             lineItemCost = lineItemCost.add(lineItem.getLineItemCost());
-                            if(lineItem.getSubmitCostSharingFlag()){
+                            if (lineItem.getSubmitCostSharingFlag()) {
                                 lineItemCostSharingAmount = lineItemCostSharingAmount.add(lineItem.getCostSharingAmount());
                             }
                             count = lineItem.getQuantity();
@@ -934,11 +948,11 @@ public class S2SBudgetCalculatorServiceImpl implements
                                         rateClassCodeEmployeeBenefits) && !lineItemCalculatedAmount
                                         .getRateTypeCode().equals(
                                                 rateTypeSupportStaffSalaries))
-                                                || (lineItemCalculatedAmount.getRateClassCode().equals(
-                                                        rateClassCodeVacation) && !lineItemCalculatedAmount
-                                                        .getRateTypeCode().equals(
-                                                                rateTypeAdministrativeSalaries))) {
-                                    if(lineItem.getSubmitCostSharingFlag()){
+                                        || (lineItemCalculatedAmount.getRateClassCode().equals(
+                                                rateClassCodeVacation) && !lineItemCalculatedAmount
+                                        .getRateTypeCode().equals(
+                                                rateTypeAdministrativeSalaries))) {
+                                    if (lineItem.getSubmitCostSharingFlag()) {
                                         fringeCostSharingAmount = fringeCostSharingAmount.add(lineItemCalculatedAmount
                                                 .getCalculatedCostSharing());
                                     }
@@ -987,9 +1001,9 @@ public class S2SBudgetCalculatorServiceImpl implements
     }
 
     /**
-     * 
+     *
      * This method computes the indirect costs for a given {@link BudgetPeriod}
-     * 
+     *
      * @param budgetPeriod given BudgetPeriod.
      * @return IndirectCostInfo for the corresponding BudgetPeriod object.
      */
@@ -1008,9 +1022,9 @@ public class S2SBudgetCalculatorServiceImpl implements
         boolean firstLoop = true;
 
         if (budget.getModularBudgetFlag()) {
-            if(budgetPeriod.getBudgetModular()==null){
+            if (budgetPeriod.getBudgetModular() == null) {
                 S2SErrorHandler.getError(S2SConstants.MODULAR_BUDGET_REQUIRED);
-            }else{
+            } else {
                 for (BudgetModularIdc budgetModularIdc : budgetPeriod.getBudgetModular().getBudgetModularIdcs()) {
                     if (firstLoop) {
                         appliedRate = appliedRate.add(budgetModularIdc.getIdcRate());
@@ -1030,9 +1044,8 @@ public class S2SBudgetCalculatorServiceImpl implements
                 indirectCostDetailList.add(indirectCostDetails);
                 totalIndirectCosts = totalIndirectCosts.add(calculatedCost);
                 totalIndirectCostSharing = totalIndirectCostSharing.add(calculatedCostSharing);
-            }            
-        }
-        else {
+            }
+        } else {
             Map<String, IndirectCostDetails> costDetailsMap = new HashMap<String, IndirectCostDetails>();
             for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
                 for (BudgetRateAndBase rateBase : lineItem.getBudgetRateAndBaseList()) {
@@ -1062,8 +1075,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                             indirectCostDetails.setFunds(rateBase.getCalculatedCost() == null ? BudgetDecimal.ZERO : rateBase
                                     .getCalculatedCost());
                             indirectCostDetails.setRate(appliedRate);
-                        }
-                        else {
+                        } else {
                             indirectCostDetails = costDetailsMap.get(key);
                             baseCost = indirectCostDetails.getBase().add(
                                     rateBase.getBaseCost() == null ? BudgetDecimal.ZERO : rateBase.getBaseCost());
@@ -1075,7 +1087,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                                 calculatedCostSharing = indirectCostDetails.getCostSharing().add(
                                         rateBase.getCalculatedCostSharing() == null ? BudgetDecimal.ZERO : rateBase
                                                 .getCalculatedCostSharing());
-                            } else if (!lineItem.getSubmitCostSharingFlag()&& budget.getSubmitCostSharingFlag()) {
+                            } else if (!lineItem.getSubmitCostSharingFlag() && budget.getSubmitCostSharingFlag()) {
                                 calculatedCostSharing = indirectCostDetails.getCostSharing();
                             }
                             indirectCostDetails.setBase(baseCost);
@@ -1091,7 +1103,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                         if (canBudgetLineItemCostSharingInclude(budget, lineItem)) {
                             totalIndirectCostSharing = totalIndirectCostSharing
                                     .add(rateBase.getCalculatedCostSharing() == null ? BudgetDecimal.ZERO : rateBase
-                                            .getCalculatedCostSharing());
+                                                    .getCalculatedCostSharing());
                         }
                     }
                 }
@@ -1105,12 +1117,14 @@ public class S2SBudgetCalculatorServiceImpl implements
     }
 
     /**
-     * 
-     * This method computes Other Dirtect Costs for the given {@link BudgetPeriod} and Sponsor
-     * 
+     *
+     * This method computes Other Dirtect Costs for the given
+     * {@link BudgetPeriod} and Sponsor
+     *
      * @param budgetPeriod given BudgetPeriod.
      * @param sponsor sponsor detail.
-     * @return List<OtherDirectCostInfo> list of OtherDirectCostInfo corresponding to the BudgetPeriod object.
+     * @return List<OtherDirectCostInfo> list of OtherDirectCostInfo
+     * corresponding to the BudgetPeriod object.
      */
     protected List<OtherDirectCostInfo> getOtherDirectCosts(BudgetPeriod budgetPeriod, String sponsor) {
         Budget budget = budgetPeriod.getBudget();
@@ -1166,7 +1180,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                         .getRateClass()
                         .getRateClassType()
                         .equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                                Constants.S2SBUDGET_RATE_CLASS_TYPE_SALARIES_MS))) {
+                                        Constants.S2SBUDGET_RATE_CLASS_TYPE_SALARIES_MS))) {
                     totalCost = totalCost.add(lineItemCalculatedAmt.getCalculatedCost());
                     if (canBudgetLineItemCostSharingInclude(budget, lineItem)) {
                         totalCostSharing = totalCostSharing.add(lineItemCalculatedAmt.getCalculatedCostSharing());
@@ -1234,64 +1248,55 @@ public class S2SBudgetCalculatorServiceImpl implements
                 if (budget.getSubmitCostSharingFlag()) {
                     materialCostSharing = materialCostSharing.add(costInfo.getCostSharing());
                 }
-            }
-            else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+            } else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                     Constants.S2SBUDGET_CONSULTANT_COSTS_CATEGORY))) {
                 consultantCost = consultantCost.add(costInfo.getCost());
                 if (budget.getSubmitCostSharingFlag()) {
                     consultantCostSharing = consultantCostSharing.add(costInfo.getCostSharing());
                 }
-            }
-            else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+            } else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                     Constants.S2SBUDGET_PUBLICATION_COSTS_CATEGORY))) {
                 publicationCost = publicationCost.add(costInfo.getCost());
                 if (budget.getSubmitCostSharingFlag()) {
                     publicationCostSharing = publicationCostSharing.add(costInfo.getCostSharing());
                 }
-            }
-            else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+            } else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                     Constants.S2SBUDGET_COMPUTER_SERVICES_CATEGORY))) {
                 computerCost = computerCost.add(costInfo.getCost());
                 if (budget.getSubmitCostSharingFlag()) {
                     computerCostSharing = computerCostSharing.add(costInfo.getCostSharing());
                 }
-            }
-            else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+            } else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                     Constants.S2SBUDGET_ALTERATIONS_CATEGORY))) {
                 alterationsCost = alterationsCost.add(costInfo.getCost());
                 if (budget.getSubmitCostSharingFlag()) {
                     alterationsCostSharing = alterationsCostSharing.add(costInfo.getCostSharing());
                 }
-            }
-            else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+            } else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                     Constants.S2SBUDGET_SUBCONTRACT_CATEGORY))) {
                 subContractCost = subContractCost.add(costInfo.getCost());
                 if (budget.getSubmitCostSharingFlag()) {
                     subContractCostSharing = subContractCostSharing.add(costInfo.getCostSharing());
                 }
-            }
-            else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+            } else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                     Constants.S2SBUDGET_EQUIPMENT_RENTAL_CATEGORY))) {
                 equipmentRentalCost = equipmentRentalCost.add(costInfo.getCost());
                 if (budget.getSubmitCostSharingFlag()) {
                     equipmentRentalCostSharing = equipmentRentalCostSharing.add(costInfo.getCostSharing());
                 }
-            }
-            else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+            } else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                     Constants.S2SBUDGET_DOMESTIC_TRAVEL_CATEGORY))) {
                 domesticTravelCost = domesticTravelCost.add(costInfo.getCost());
                 if (budget.getSubmitCostSharingFlag()) {
                     domesticTravelCostSharing = domesticTravelCostSharing.add(costInfo.getCostSharing());
                 }
-            }
-            else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+            } else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                     Constants.S2SBUDGET_FOREIGN_TRAVEL_CATEGORY))) {
                 foreignTravelCost = foreignTravelCost.add(costInfo.getCost());
                 if (budget.getSubmitCostSharingFlag()) {
                     foreignTravelCostSharing = foreignTravelCostSharing.add(costInfo.getCostSharing());
                 }
-            }
-            else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+            } else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                     Constants.S2SBUDGET_PARTICIPANT_STIPENDS_CATEGORY))) {
                 partStipendsCost = partStipendsCost.add(costInfo.getCost());
                 if (budget.getSubmitCostSharingFlag()) {
@@ -1299,8 +1304,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                     totalParticipantCostSharing = totalParticipantCostSharing.add(costInfo.getCostSharing());
                 }
                 totalParticipantCost = totalParticipantCost.add(costInfo.getCost());
-            }
-            else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+            } else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                     Constants.S2SBUDGET_PARTICIPANT_TRAVEL_CATEGORY))) {
                 partTravelCost = partTravelCost.add(costInfo.getCost());
                 if (budget.getSubmitCostSharingFlag()) {
@@ -1308,8 +1312,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                     totalParticipantCostSharing = totalParticipantCostSharing.add(costInfo.getCostSharing());
                 }
                 totalParticipantCost = totalParticipantCost.add(costInfo.getCost());
-            }
-            else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+            } else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                     Constants.S2SBUDGET_PARTICIPANT_TUITION_CATEGORY))) {
                 partTuitionCost = partTuitionCost.add(costInfo.getCost());
                 if (budget.getSubmitCostSharingFlag()) {
@@ -1317,8 +1320,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                     totalParticipantCostSharing = totalParticipantCostSharing.add(costInfo.getCostSharing());
                 }
                 totalParticipantCost = totalParticipantCost.add(costInfo.getCost());
-            }
-            else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+            } else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                     Constants.S2SBUDGET_PARTICIPANT_SUBSISTENCE_CATEGORY))) {
                 partSubsistenceCost = partSubsistenceCost.add(costInfo.getCost());
                 if (budget.getSubmitCostSharingFlag()) {
@@ -1326,8 +1328,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                     totalParticipantCostSharing = totalParticipantCostSharing.add(costInfo.getCostSharing());
                 }
                 totalParticipantCost = totalParticipantCost.add(costInfo.getCost());
-            }
-            else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+            } else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                     Constants.S2SBUDGET_PARTICIPANT_OTHER_CATEGORY))) {
                 partOtherCost = partOtherCost.add(costInfo.getCost());
                 if (budget.getSubmitCostSharingFlag()) {
@@ -1336,15 +1337,13 @@ public class S2SBudgetCalculatorServiceImpl implements
                 }
                 totalParticipantCost = totalParticipantCost.add(costInfo.getCost());
                 totalParticipantCount += costInfo.getQuantity();
-            }
-            else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+            } else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                     Constants.S2SBUDGET_OTHER_DIRECT_COSTS_CATEGORY))) {
                 otherDirectCost = otherDirectCost.add(costInfo.getCost());
                 if (budget.getSubmitCostSharingFlag()) {
                     otherDirectCostSharing = otherDirectCostSharing.add(costInfo.getCostSharing());
                 }
-            }
-            else {
+            } else {
                 otherCost = otherCost.add(costInfo.getCost());
                 if (budget.getSubmitCostSharingFlag()) {
                     otherCostSharing = otherCostSharing.add(costInfo.getCostSharing());
@@ -1419,14 +1418,14 @@ public class S2SBudgetCalculatorServiceImpl implements
         Map<String, String> hmOtherDirectCostDetails = new HashMap<String, String>();
         hmOtherDirectCostDetails.put(S2SConstants.KEY_COST, otherDirectCost.toString());
         hmOtherDirectCostDetails
-                .put(DESCRIPTION,OTHER_DIRECT_COSTS);
+                .put(DESCRIPTION, OTHER_DIRECT_COSTS);
         hmOtherDirectCostDetails.put(S2SConstants.KEY_COSTSHARING, otherDirectCostSharing.toString());
         otherCostDetails.add(hmOtherDirectCostDetails);
 
         Map<String, String> hmOtherCostDetails = new HashMap<String, String>();
         hmOtherCostDetails.put(S2SConstants.KEY_COST, otherCost.toString());
         hmOtherCostDetails
-                .put(DESCRIPTION,ALL_OTHER_COSTS);
+                .put(DESCRIPTION, ALL_OTHER_COSTS);
         hmOtherCostDetails.put(S2SConstants.KEY_COSTSHARING, otherCostSharing.toString());
         otherCostDetails.add(hmOtherCostDetails);
 
@@ -1441,14 +1440,18 @@ public class S2SBudgetCalculatorServiceImpl implements
     }
 
     /**
-     * This method returns a list of BudgetCategoryMap based on the input. The list returned will not contain the categories that
-     * the codes passed as a list of String and also will not contain those that match the types passed as list of String. In case 2
-     * empty lists are passed as parameters, the method will return entire list without applying any filters.
-     * 
+     * This method returns a list of BudgetCategoryMap based on the input. The
+     * list returned will not contain the categories that the codes passed as a
+     * list of String and also will not contain those that match the types
+     * passed as list of String. In case 2 empty lists are passed as parameters,
+     * the method will return entire list without applying any filters.
+     *
      * @param filterTargetCategoryCodes Category Codes that must be filtered
      * @param filterCategoryTypes Category types that must be filtered
      * @return a List of BudgetCategoryMap.
-     * @see org.kuali.kra.s2s.service.S2SBudgetCalculatorService#getBudgetCategoryMapList(java.util.List, java.util.List)
+     * @see
+     * org.kuali.kra.s2s.service.S2SBudgetCalculatorService#getBudgetCategoryMapList(java.util.List,
+     * java.util.List)
      */
     public List<BudgetCategoryMap> getBudgetCategoryMapList(List<String> filterTargetCategoryCodes, List<String> filterCategoryTypes) {
         List<BudgetCategoryMapping> budgetCategoryMappingList;
@@ -1518,11 +1521,12 @@ public class S2SBudgetCalculatorServiceImpl implements
     }
 
     /**
-     * 
+     *
      * This method computes the Equipment Costs for a given {@link BudgetPeriod}
-     * 
+     *
      * @param budgetPeriod given BudgetPeriod.
-     * @return List<EquipmentInfo> list of equipment cost corresponding to the BudgetPeriod object.
+     * @return List<EquipmentInfo> list of equipment cost corresponding to the
+     * BudgetPeriod object.
      */
     protected List<EquipmentInfo> getEquipment(BudgetPeriod budgetPeriod) {
         List<CostInfo> cvExtraEquipment = new ArrayList<CostInfo>();
@@ -1540,16 +1544,17 @@ public class S2SBudgetCalculatorServiceImpl implements
                 equipCostInfo = new CostInfo();
                 for (BudgetCategoryMapping budgetCategoryMapping : budgetCategoryMap.getBudgetCategoryMappings()) {
                     if (lineItem.getBudgetCategoryCode().equals(budgetCategoryMapping.getBudgetCategoryCode())
-                            && (budgetCategoryMapping.getTargetCategoryCode().equals( getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                                    Constants.S2SBUDGET_TARGET_CATEGORY_CODE_EQUIPMENT_COST)))
+                            && (budgetCategoryMapping.getTargetCategoryCode().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+                                            Constants.S2SBUDGET_TARGET_CATEGORY_CODE_EQUIPMENT_COST)))
                             && (budgetCategoryMapping.getMappingName().equals(S2SConstants.SPONSOR))) {
                         equipCostInfo.setBudgetPeriod(budgetPeriod.getBudgetPeriod().intValue());
                         equipCostInfo.setCategory(budgetCategoryMap.getDescription());
                         equipCostInfo.setCategoryType(budgetCategoryMap.getCategoryType());
-                        if (lineItem.getLineItemDescription() != null)
+                        if (lineItem.getLineItemDescription() != null) {
                             equipCostInfo.setDescription(lineItem.getLineItemDescription());
-                        else
+                        } else {
                             equipCostInfo.setDescription(lineItem.getCostElementBO().getDescription());
+                        }
                         totalEquipFund = totalEquipFund.add(lineItem.getLineItemCost());
                         if (canBudgetLineItemCostSharingInclude(budgetPeriod.getBudget(), lineItem)) {
                             totalEquipNonFund = totalEquipNonFund.add(lineItem.getCostSharingAmount());
@@ -1565,16 +1570,16 @@ public class S2SBudgetCalculatorServiceImpl implements
                             equipCostInfo.setBudgetPeriod(budgetPeriod.getBudgetPeriod().intValue());
                             equipCostInfo.setCategory(budgetCategoryMap.getDescription());
                             equipCostInfo.setCategoryType(budgetCategoryMap.getCategoryType());
-                            if (lineItem.getLineItemDescription() != null)
+                            if (lineItem.getLineItemDescription() != null) {
                                 equipCostInfo.setDescription(lineItem.getLineItemDescription());
-                            else
+                            } else {
                                 equipCostInfo.setDescription(lineItem.getCostElementBO().getDescription());
+                            }
                             equipCostInfo.setCost(lineItem.getLineItemCost());
                             if (canBudgetLineItemCostSharingInclude(budgetPeriod.getBudget(), lineItem)) {
                                 equipCostInfo.setCostSharing(lineItem.getCostSharingAmount());
                             }
-                        }
-                        else {
+                        } else {
                             equipCostInfo = costInfoMap.get(key);
                             equipCostInfo.setCost(equipCostInfo.getCost().add(lineItem.getLineItemCost()));
                             if (canBudgetLineItemCostSharingInclude(budgetPeriod.getBudget(), lineItem)) {
@@ -1613,8 +1618,9 @@ public class S2SBudgetCalculatorServiceImpl implements
     }
 
     /**
-     * This method gets the {@link List} of Key Persons for a given {@link ProposalDevelopmentDocument}
-     * 
+     * This method gets the {@link List} of Key Persons for a given
+     * {@link ProposalDevelopmentDocument}
+     *
      * @param budgetPeriod given BudgetPeriod.
      * @param pdDoc Proposal Development Document.
      * @param numKeyPersons number of key persons.
@@ -1656,12 +1662,12 @@ public class S2SBudgetCalculatorServiceImpl implements
 
             SponsorService sponsorService = KraServiceLocator.getService(SponsorService.class);
             if (sponsorService.isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())) {
-                if (coInvestigator.isMultiplePi()){
+                if (coInvestigator.isMultiplePi()) {
                     keyPerson.setRole(NID_PD_PI);
-                }else{
+                } else {
                     keyPerson.setRole(NID_CO_PD_PI);
                 }
-            }else{
+            } else {
                 keyPerson.setRole(KEYPERSON_CO_PD_PI);
             }
             keyPersons.add(keyPerson);
@@ -1684,7 +1690,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 
         boolean personAlreadyAdded = false;
         Map<String, String> categoryMap = new HashMap<String, String>();
-        categoryMap.put(KEY_TARGET_CATEGORY_CODE,TARGET_CATEGORY_CODE_01);
+        categoryMap.put(KEY_TARGET_CATEGORY_CODE, TARGET_CATEGORY_CODE_01);
         categoryMap.put(KEY_MAPPING_NAME, S2SConstants.SPONSOR);
         List<BudgetCategoryMapping> budgetCategoryList = getBudgetCategoryMappings(categoryMap);
         for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
@@ -1716,7 +1722,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                             if (isSeniorLineItem(budgetCategoryList, lineItem.getBudgetCategoryCode())) {
                                 keyPersons.add(keyPerson);
                             }
-                        }else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getTbnId())) {
+                        } else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getTbnId())) {
                             Map<String, String> searchMap = new HashMap<String, String>();
                             searchMap.put("tbnId", budgetPersonnelDetails.getBudgetPerson().getTbnId());
                             TbnPerson tbnPerson = (TbnPerson) businessObjectService.findByPrimaryKey(TbnPerson.class, searchMap);
@@ -1732,18 +1738,17 @@ public class S2SBudgetCalculatorServiceImpl implements
                                 keyPerson.setRole(tbnPerson.getPersonName());
                                 keyPerson.setNonMITPersonFlag(false);
 
-                                if (isSeniorLineItem( budgetCategoryList, lineItem.getBudgetCategoryCode())) {
+                                if (isSeniorLineItem(budgetCategoryList, lineItem.getBudgetCategoryCode())) {
                                     keyPersons.add(keyPerson);
                                 }
 
                             }
                         }
-                    }else {
+                    } else {
                         KcPerson kcPerson = null;
                         try {
                             kcPerson = kcPersonService.getKcPersonByPersonId(budgetPersonnelDetails.getPersonId());
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             LOG.error("Person not found " + e);
                         }
                         if (kcPerson != null) {
@@ -1756,7 +1761,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                             keyPerson.setMiddleName(kcPerson.getMiddleName());
                             keyPerson.setNonMITPersonFlag(false);
                             keyPerson.setRole(getBudgetPersonRoleOther());
-                            if (isSeniorLineItem( budgetCategoryList, lineItem.getBudgetCategoryCode())) {
+                            if (isSeniorLineItem(budgetCategoryList, lineItem.getBudgetCategoryCode())) {
                                 keyPersons.add(keyPerson);
                             }
                         }
@@ -1764,14 +1769,14 @@ public class S2SBudgetCalculatorServiceImpl implements
                 }
             }
         }
-        for(KeyPersonInfo seniorPerson : keyPersons){
-            if(seniorPerson.getRole().equals(NID_PD_PI)||hasPersonnelBudget(budgetPeriod,seniorPerson)){
+        for (KeyPersonInfo seniorPerson : keyPersons) {
+            if (seniorPerson.getRole().equals(NID_PD_PI) || hasPersonnelBudget(budgetPeriod, seniorPerson)) {
                 seniorPersons.add(seniorPerson);
-            }            
+            }
         }
 
         List<KeyPersonInfo> nKeyPersons = getNKeyPersons(seniorPersons, true, numKeyPersons);
-        List<KeyPersonInfo> extraPersons = getNKeyPersons(seniorPersons, false, numKeyPersons);         
+        List<KeyPersonInfo> extraPersons = getNKeyPersons(seniorPersons, false, numKeyPersons);
         CompensationInfo compensationInfo;
         for (KeyPersonInfo keyPersonInfo : nKeyPersons) {
             keyPerson = keyPersonInfo;
@@ -1816,19 +1821,21 @@ public class S2SBudgetCalculatorServiceImpl implements
         return listKeyPersons;
     }
 
-    private Boolean hasPersonnelBudget(BudgetPeriod budgetPeriod,KeyPersonInfo keyPerson){
+    private Boolean hasPersonnelBudget(BudgetPeriod budgetPeriod, KeyPersonInfo keyPerson) {
 
         for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
             for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
-                if( budgetPersonnelDetails.getPersonId().equals(keyPerson.getPersonId())){
+                if (budgetPersonnelDetails.getPersonId().equals(keyPerson.getPersonId())) {
                     return true;
-                } 
+                }
             }
         }
         return false;
     }
+
     /**
      * This method...
+     *
      * @return
      */
     private String getBudgetPersonRoleOther() {
@@ -1851,8 +1858,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                 if (budgetPerson.getPersonId().equals(propPerson.getPersonId())) {
                     return true;
                 }
-            }
-            else if (budgetPerson.getRolodexId() != null) {
+            } else if (budgetPerson.getRolodexId() != null) {
                 if (budgetPerson.getRolodexId().equals(propPerson.getRolodexId())) {
                     return true;
                 }
@@ -1862,11 +1868,13 @@ public class S2SBudgetCalculatorServiceImpl implements
     }
 
     /**
-     * This method determines whether a {@link ProposalPerson} is a Non MIT person
-     * 
+     * This method determines whether a {@link ProposalPerson} is a Non MIT
+     * person
+     *
      * @param proposalPerson ProposalPerson.
      * @return boolean true if Non MIT Person false otherwise.
-     * @see org.kuali.kra.s2s.service.S2SBudgetCalculatorService#isPersonNonMITPerson(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
+     * @see
+     * org.kuali.kra.s2s.service.S2SBudgetCalculatorService#isPersonNonMITPerson(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
      */
     public boolean isPersonNonMITPerson(ProposalPerson proposalPerson) {
         return proposalPerson.getPersonId() == null;
@@ -1883,14 +1891,16 @@ public class S2SBudgetCalculatorServiceImpl implements
     }
 
     /**
-     * 
-     * This method computes the CompensationInfo for given person, {@link BudgetPeriod} and Proposal Numnber
-     * 
+     *
+     * This method computes the CompensationInfo for given person,
+     * {@link BudgetPeriod} and Proposal Numnber
+     *
      * @param personId id of the proposal person.
      * @param budgetPeriod given BudgetPeriod.
      * @param proposalNumber propsal number.
-     * 
-     * @return {@link CompensationInfo} corresponding to the personId,budgetPeriod and proposalNumber.
+     *
+     * @return {@link CompensationInfo} corresponding to the
+     * personId,budgetPeriod and proposalNumber.
      */
     protected CompensationInfo getCompensation(KeyPersonInfo keyPerson, BudgetPeriod budgetPeriod, String proposalNumber) {
         CompensationInfo compensationInfo = new CompensationInfo();
@@ -1905,15 +1915,15 @@ public class S2SBudgetCalculatorServiceImpl implements
         BudgetDecimal numberOfMonths = BudgetDecimal.ZERO;
         String budgetCatagoryCodePersonnel = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                 Constants.S2SBUDGET_BUDGET_CATEGORY_CODE_PERSONNEL);
-        
+
         for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-            
+
             for (BudgetPersonnelDetails personDetails : lineItem.getBudgetPersonnelDetailsList()) {
                 if (s2SUtilService.keyPersonEqualsBudgetPerson(keyPerson, personDetails)) {
                     numberOfMonths = s2SUtilService.getNumberOfMonths(personDetails.getStartDate(), personDetails.getEndDate());
                     if (personDetails.getPeriodTypeCode().equals(
                             getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                                    Constants.S2SBUDGET_PERIOD_TYPE_ACADEMIC_MONTHS))) {                        
+                                    Constants.S2SBUDGET_PERIOD_TYPE_ACADEMIC_MONTHS))) {
                         if (lineItem.getSubmitCostSharingFlag()) {
                             academicMonths = academicMonths.add(personDetails.getPercentEffort()
                                     .multiply(numberOfMonths).multiply(new BudgetDecimal(0.01)));
@@ -1921,8 +1931,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                             academicMonths = academicMonths.add(personDetails.getPercentCharged()
                                     .multiply(numberOfMonths).multiply(new BudgetDecimal(0.01)));
                         }
-                    }
-                    else if (personDetails.getPeriodTypeCode().equals(
+                    } else if (personDetails.getPeriodTypeCode().equals(
                             getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                     Constants.S2SBUDGET_PERIOD_TYPE_SUMMER_MONTHS))) {
                         if (lineItem.getSubmitCostSharingFlag()) {
@@ -1932,8 +1941,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                             summerMonths = summerMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths)
                                     .multiply(new BudgetDecimal(0.01)));
                         }
-                    }
-                    else {
+                    } else {
                         if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId())) {
                             if (lineItem.getBudgetCategory()
                                     .getBudgetCategoryCode().equals(budgetCatagoryCodePersonnel)) {
@@ -1944,33 +1952,32 @@ public class S2SBudgetCalculatorServiceImpl implements
                                     calendarMonths = calendarMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths)
                                             .multiply(new BudgetDecimal(0.01)));
                                 }
-                            } 
-                        }else {
+                            }
+                        } else {
                             if (lineItem.getSubmitCostSharingFlag()) {
                                 calendarMonths = calendarMonths.add(personDetails.getPercentEffort().multiply(numberOfMonths)
                                         .multiply(new BudgetDecimal(0.01)));
-                            }
-                            else {
+                            } else {
                                 calendarMonths = calendarMonths.add(personDetails.getPercentCharged().multiply(numberOfMonths)
                                         .multiply(new BudgetDecimal(0.01)));
                             }
                         }
                     }
-                    if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId() ) ){
-                        if(lineItem.getBudgetCategory()
-                                .getBudgetCategoryCode().equals(budgetCatagoryCodePersonnel)){
-                                    totalSal = totalSal.add(personDetails.getSalaryRequested());
-                                }
-                    }else{
+                    if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId())) {
+                        if (lineItem.getBudgetCategory()
+                                .getBudgetCategoryCode().equals(budgetCatagoryCodePersonnel)) {
+                            totalSal = totalSal.add(personDetails.getSalaryRequested());
+                        }
+                    } else {
                         totalSal = totalSal.add(personDetails.getSalaryRequested());
                     }
                     if (canBudgetLineItemCostSharingInclude(budgetPeriod.getBudget(), lineItem)) {
-                        if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId() ) ){
-                            if(lineItem.getBudgetCategory()
-                                    .getBudgetCategoryCode().equals(budgetCatagoryCodePersonnel)){
-                        totalSalCostSharing = totalSalCostSharing.add(personDetails.getCostSharingAmount());
+                        if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId())) {
+                            if (lineItem.getBudgetCategory()
+                                    .getBudgetCategoryCode().equals(budgetCatagoryCodePersonnel)) {
+                                totalSalCostSharing = totalSalCostSharing.add(personDetails.getCostSharingAmount());
                             }
-                        }else{
+                        } else {
                             totalSalCostSharing = totalSalCostSharing.add(personDetails.getCostSharingAmount());
                         }
                     }
@@ -1980,35 +1987,33 @@ public class S2SBudgetCalculatorServiceImpl implements
                                 .getRateClass()
                                 .getRateClassType()
                                 .equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                                        Constants.S2SBUDGET_RATE_CLASS_TYPE_EMPLOYEE_BENEFITS)) && !personCalculatedAmt
+                                                Constants.S2SBUDGET_RATE_CLASS_TYPE_EMPLOYEE_BENEFITS)) && !personCalculatedAmt
                                 .getRateTypeCode().equals(
                                         getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                                 Constants.S2SBUDGET_RATE_TYPE_SUPPORT_STAFF_SALARIES)))
                                 || (personCalculatedAmt
-                                        .getRateClass()
-                                        .getRateClassType()
-                                        .equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+                                .getRateClass()
+                                .getRateClassType()
+                                .equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                                 Constants.S2SBUDGET_RATE_CLASS_TYPE_VACATION)) && !personCalculatedAmt
-                                        .getRateTypeCode().equals(
-                                                getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                                                        Constants.S2SBUDGET_RATE_TYPE_ADMINISTRATIVE_SALARIES)))) {
-                            if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId() ) ){
-                                if(lineItem.getBudgetCategory()
-                                        .getBudgetCategoryCode().equals(budgetCatagoryCodePersonnel)){
+                                .getRateTypeCode().equals(
+                                        getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+                                                Constants.S2SBUDGET_RATE_TYPE_ADMINISTRATIVE_SALARIES)))) {
+                            if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId())) {
+                                if (lineItem.getBudgetCategory()
+                                        .getBudgetCategoryCode().equals(budgetCatagoryCodePersonnel)) {
                                     fringe = fringe.add(personCalculatedAmt.getCalculatedCost());
                                 }
-                            }
-                            else{
+                            } else {
                                 fringe = fringe.add(personCalculatedAmt.getCalculatedCost());
                             }
                             if (canBudgetLineItemCostSharingInclude(budgetPeriod.getBudget(), lineItem)) {
-                                if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId() ) ){
-                                    if(lineItem.getBudgetCategory()
-                                            .getBudgetCategoryCode().equals(budgetCatagoryCodePersonnel)){
+                                if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId())) {
+                                    if (lineItem.getBudgetCategory()
+                                            .getBudgetCategoryCode().equals(budgetCatagoryCodePersonnel)) {
                                         fringeCostSharing = fringeCostSharing.add(personCalculatedAmt.getCalculatedCostSharing());
                                     }
-                                }
-                                else{ 
+                                } else {
                                     fringeCostSharing = fringeCostSharing.add(personCalculatedAmt.getCalculatedCostSharing());
                                 }
                             }
@@ -2024,7 +2029,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                         if (!apptTypeCode.equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                 Constants.S2SBUDGET_APPOINTMENT_TYPE_SUM_EMPLOYEE))
                                 && !apptTypeCode.equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
-                                        Constants.S2SBUDGET_APPOINTMENT_TYPE_TMP_EMPLOYEE))) {
+                                                Constants.S2SBUDGET_APPOINTMENT_TYPE_TMP_EMPLOYEE))) {
                             baseAmount = budgetPerson.getCalculationBase();
                         }
                     }
@@ -2045,14 +2050,15 @@ public class S2SBudgetCalculatorServiceImpl implements
         return compensationInfo;
     }
 
-
     /**
-     * 
-     * This method limits the number of key persons to n, returns list of key persons, first n in case firstN is true, or all other
-     * than first n, in case of firstN being false
-     * 
+     *
+     * This method limits the number of key persons to n, returns list of key
+     * persons, first n in case firstN is true, or all other than first n, in
+     * case of firstN being false
+     *
      * @param keyPersons list of {@link KeyPersonInfo}
-     * @param firstN value that determines whether the returned list should contain first n persons or the rest of persons
+     * @param firstN value that determines whether the returned list should
+     * contain first n persons or the rest of persons
      * @param n number of key persons that are considered as not extra persons
      * @return list of {@link KeyPersonInfo}
      */
@@ -2066,8 +2072,7 @@ public class S2SBudgetCalculatorServiceImpl implements
             if (keyPersonInfo.getPersonId() != null && previousKeyPersonInfo.getPersonId() != null
                     && keyPersonInfo.getPersonId().equals(previousKeyPersonInfo.getPersonId())) {
                 keyPersons.remove(i);
-            }
-            else if (keyPersonInfo.getRolodexId() != null && previousKeyPersonInfo.getRolodexId() != null
+            } else if (keyPersonInfo.getRolodexId() != null && previousKeyPersonInfo.getRolodexId() != null
                     && keyPersonInfo.getRolodexId().equals(previousKeyPersonInfo.getRolodexId())) {
                 keyPersons.remove(i);
             }
@@ -2086,8 +2091,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                 firstNPersons.add(keyPersons.get(i));
             }
             return firstNPersons;
-        }
-        else {
+        } else {
             // return extra people
             List<KeyPersonInfo> extraPersons = new ArrayList<KeyPersonInfo>();
             for (int i = n; i < size; i++) {
@@ -2098,12 +2102,15 @@ public class S2SBudgetCalculatorServiceImpl implements
     }
 
     /**
-     * This method returns the final version of BudgetDocument for a given ProposalDevelopmentDocument.
-     * 
+     * This method returns the final version of BudgetDocument for a given
+     * ProposalDevelopmentDocument.
+     *
      * @param pdDoc Proposal development document.
-     * @return BudgetDocument final version of budget corresponding to the ProposalDevelopmentDocument object.
+     * @return BudgetDocument final version of budget corresponding to the
+     * ProposalDevelopmentDocument object.
      * @throws S2SException
-     * @see org.kuali.kra.s2s.service.S2SBudgetCalculatorService#getFinalBudgetVersion(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     * @see
+     * org.kuali.kra.s2s.service.S2SBudgetCalculatorService#getFinalBudgetVersion(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
     public BudgetDocument getFinalBudgetVersion(ProposalDevelopmentDocument pdDoc) throws S2SException {
         BudgetDocument budgetDocument = null;
@@ -2113,8 +2120,7 @@ public class S2SBudgetCalculatorServiceImpl implements
             if (versionOverview != null) {
                 budgetDocument = (BudgetDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(
                         versionOverview.getDocumentNumber());
-            }
-            else {
+            } else {
                 List<BudgetDocumentVersion> budgetVersions = pdDoc.getBudgetDocumentVersions();
 
                 QueryList<BudgetVersionOverview> budgetVersionOverviews = new QueryList<BudgetVersionOverview>();
@@ -2130,8 +2136,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                 }
             }
 
-        }
-        catch (WorkflowException e) {
+        } catch (WorkflowException e) {
             LOG.error("Error while getting Budget veraion", e);
             throw new S2SException(e);
         }
@@ -2139,12 +2144,13 @@ public class S2SBudgetCalculatorServiceImpl implements
     }
 
     /**
-     * 
+     *
      * This method gets the salary requested for a given proposal person.
-     * 
-     * @param pdDoc {@link ProposalDevelopmentDocument} from which salary needs to be fetched
+     *
+     * @param pdDoc {@link ProposalDevelopmentDocument} from which salary needs
+     * to be fetched
      * @param proposalPerson proposal person whose salary needs to be fetched
-     * 
+     *
      * @return {@link BudgetDecimal} salary of proposal person
      * @throws S2SException
      */
@@ -2169,7 +2175,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 
     /**
      * Sets the s2sUtilService attribute value.
-     * 
+     *
      * @param generatorUtilService The s2sUtilService to set.
      */
     public void setS2SUtilService(S2SUtilService s2SUtilService) {
@@ -2178,7 +2184,7 @@ public class S2SBudgetCalculatorServiceImpl implements
 
     /**
      * This method is to set businessObjectService
-     * 
+     *
      * @param businessObjectService(BusinessObjectService)
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -2186,9 +2192,9 @@ public class S2SBudgetCalculatorServiceImpl implements
     }
 
     /**
-     * Sets the KC Person Service.
-     * 
-     * @param kcPersonService the kc person service
+     * Sets the Person Service.
+     *
+     * @param kcPersonService the person service
      */
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;

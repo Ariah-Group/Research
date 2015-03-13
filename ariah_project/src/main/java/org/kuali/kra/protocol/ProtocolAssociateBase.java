@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.protocol;
 
@@ -20,9 +36,10 @@ import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
- * 
- * This class is to maintain repetitive coeus legacy code, protocolNumber & sequenceNumber, for protocol Bos.
- * 
+ *
+ * This class is to maintain repetitive coeus legacy code, protocolNumber &
+ * sequenceNumber, for protocol Bos.
+ *
  * Much of this class is duplicated with ProtocolAssociateBase but there is no
  * way around that due to the limitations in rice, ojb, etc.
  */
@@ -40,7 +57,7 @@ public abstract class ProtocolAssociateBase extends KraPersistableBusinessObject
 
     /**
      * Constructs a ProtocolAssociateBase setting protocol related fields.
-     * 
+     *
      * @param protocol the ProtocolBase
      */
     public ProtocolAssociateBase(ProtocolBase protocol) {
@@ -49,18 +66,19 @@ public abstract class ProtocolAssociateBase extends KraPersistableBusinessObject
 
     /**
      * Constructs a ProtocolAssociateBase.
-     * 
-     * Assures that the sequence number is always set. Note that 
-     * when protocol implements versioning,  the KC versioning API 
-     * will need to manage sequenceNumber.
-     * 
+     *
+     * Assures that the sequence number is always set. Note that when protocol
+     * implements versioning, the versioning API will need to manage
+     * sequenceNumber.
+     *
      */
     public ProtocolAssociateBase() {
         super();
     }
 
     /**
-     * Gets the protocolId attribute. 
+     * Gets the protocolId attribute.
+     *
      * @return Returns the protocolId.
      */
     public Long getProtocolId() {
@@ -69,6 +87,7 @@ public abstract class ProtocolAssociateBase extends KraPersistableBusinessObject
 
     /**
      * Sets the protocolId attribute value.
+     *
      * @param protocolId The protocolId to set.
      */
     public void setProtocolId(Long protocolId) {
@@ -76,7 +95,8 @@ public abstract class ProtocolAssociateBase extends KraPersistableBusinessObject
     }
 
     /**
-     * Gets the protocol attribute. 
+     * Gets the protocol attribute.
+     *
      * @return Returns the protocol.
      */
     public ProtocolBase getProtocol() {
@@ -85,6 +105,7 @@ public abstract class ProtocolAssociateBase extends KraPersistableBusinessObject
 
     /**
      * Sets the protocol attribute value.
+     *
      * @param protocol The protocol to set.
      */
     public void setProtocol(ProtocolBase protocol) {
@@ -94,6 +115,7 @@ public abstract class ProtocolAssociateBase extends KraPersistableBusinessObject
 
     /**
      * Sets the protocol id and protocolNumber from the passed in protocol.
+     *
      * @param aProtocol the ProtocolBase
      */
     private void initProtocolInfo(ProtocolBase aProtocol) {
@@ -104,6 +126,7 @@ public abstract class ProtocolAssociateBase extends KraPersistableBusinessObject
 
     /**
      * Gets the sequence number.
+     *
      * @return sequence number.
      */
     public Integer getSequenceNumber() {
@@ -112,6 +135,7 @@ public abstract class ProtocolAssociateBase extends KraPersistableBusinessObject
 
     /**
      * Sets the sequence number.
+     *
      * @param sequenceNumber sequence number.
      */
     public void setSequenceNumber(Integer sequenceNumber) {
@@ -120,6 +144,7 @@ public abstract class ProtocolAssociateBase extends KraPersistableBusinessObject
 
     /**
      * Gets the protocol number.
+     *
      * @return protocol number.
      */
     public String getProtocolNumber() {
@@ -131,13 +156,16 @@ public abstract class ProtocolAssociateBase extends KraPersistableBusinessObject
 
     /**
      * Sets the protocol number.
+     *
      * @param protocolNumber protocol number.
      */
     public void setProtocolNumber(String protocolNumber) {
         this.protocolNumber = protocolNumber;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -147,7 +175,9 @@ public abstract class ProtocolAssociateBase extends KraPersistableBusinessObject
         return result;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -177,19 +207,25 @@ public abstract class ProtocolAssociateBase extends KraPersistableBusinessObject
         return true;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ProtocolBase getSequenceOwner() {
         return this.getProtocol();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void setSequenceOwner(ProtocolBase newlyVersionedOwner) {
         this.setProtocol(newlyVersionedOwner);
     }
 
     /**
-     * This inits the object to an unpersisted state by calling {@link #resetPersistenceState()}
-     * Also, sets the protocol, protocol id, sequence number, and protocol number.
+     * This inits the object to an unpersisted state by calling
+     * {@link #resetPersistenceState()} Also, sets the protocol, protocol id,
+     * sequence number, and protocol number.
+     *
      * @param aProtocol the protocol to init the object with.
      */
     public final void init(ProtocolBase aProtocol) {
@@ -200,8 +236,11 @@ public abstract class ProtocolAssociateBase extends KraPersistableBusinessObject
     }
 
     /**
-     * This method is designed to allow subclasses to perform additional initialization not performed by the final init method.
-     * This method is called by {@link #init(ProtocolBase)} after all other initialization is performed.
+     * This method is designed to allow subclasses to perform additional
+     * initialization not performed by the final init method. This method is
+     * called by {@link #init(ProtocolBase)} after all other initialization is
+     * performed.
+     *
      * @param aProtocol the protocol initialization is requested with.
      */
     public void postInitHook(ProtocolBase aProtocol) {

@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.protocol.personnel;
 
@@ -188,7 +204,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
     private String mobilePhoneNumber;
 
     private String eraCommonsUserName;
-    
+
     private transient boolean affiliationTypeCodeChanged = false;
 
     public ProtocolPersonBase() {
@@ -245,11 +261,11 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
     // is different from the existing one.
     public void setAffiliationTypeCode(Integer newAffiliationTypeCode) {
         boolean changed = true;
-        if(ObjectUtils.equals(this.affiliationTypeCode, newAffiliationTypeCode)) {
+        if (ObjectUtils.equals(this.affiliationTypeCode, newAffiliationTypeCode)) {
             changed = false;
         }
         this.affiliationTypeCode = newAffiliationTypeCode;
-        if(changed) {
+        if (changed) {
             this.refreshReferenceObject("affiliationType");
             this.setAffiliationTypeCodeChanged(true);
         }
@@ -290,8 +306,9 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
     }
 
     /**
-     * Gets the KC Person Service.
-     * @return KC Person Service.
+     * Gets the Person Service.
+     *
+     * @return Person Service.
      */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
@@ -317,8 +334,9 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
     }
 
     /**
-     * This method is linked to personnel service to check whether person has attended any training session.
-     * 
+     * This method is linked to personnel service to check whether person has
+     * attended any training session.
+     *
      * @return boolean
      */
     public boolean isTrained() {
@@ -327,7 +345,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
 
     /**
      * This method is to check whether protocol units is required.
-     * 
+     *
      * @return boolean
      */
     public boolean isUnitRequired() {
@@ -348,7 +366,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
 
     /**
      * This method adds a new unit to the collection of person units.
-     * 
+     *
      * @param protocolUnit
      */
     public void addProtocolUnit(ProtocolUnitBase protocolUnit) {
@@ -357,7 +375,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
 
     /**
      * Gets index i from the protocol units list.
-     * 
+     *
      * @param index
      * @return protocol unit at index i
      */
@@ -388,7 +406,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
 
     /**
      * This method is to build and return a unique key for protocol person.
-     * 
+     *
      * @return String
      */
     public String getPersonUniqueKey() {
@@ -404,9 +422,10 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
     }
 
     /**
-     * This method checks whether person is an employee or not non employee details are updated in rolodex a value in rolodex.
-     * indicates that the person is non employee
-     * 
+     * This method checks whether person is an employee or not non employee
+     * details are updated in rolodex a value in rolodex. indicates that the
+     * person is non employee
+     *
      * @return true / false
      */
     public boolean isNonEmployee() {
@@ -415,7 +434,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
 
     /**
      * This method is to find lead unit from unit list.
-     * 
+     *
      * @return ProtocolUnitBase (lead unit)
      */
     public ProtocolUnitBase getLeadUnit() {
@@ -431,6 +450,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
 
     /**
      * Gets the attachment personnels. Cannot return {@code null}.
+     *
      * @return the attachment personnels
      */
     public List<ProtocolAttachmentPersonnelBase> getAttachmentPersonnels() {
@@ -444,9 +464,8 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         this.attachmentPersonnels = attachmentPersonnels;
     }
 
-    /** 
-     * {@inheritDoc} 
-     * inits ProtocolBase Units. 
+    /**
+     * {@inheritDoc} inits ProtocolBase Units.
      */
     @Override
     public void postInitHook(ProtocolBase protocol) {
@@ -458,12 +477,16 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         }
     }
 
-    /** {@inheritDoc}  */
+    /**
+     * {@inheritDoc}
+     */
     public void resetPersistenceState() {
         this.setProtocolPersonId(null);
     }
 
-    /**  {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -482,7 +505,9 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return result;
     }
 
-    /**  {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -1049,11 +1074,11 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    
+
     public ProtocolBase getParent() {
         return this.getProtocol();
     }
-    
+
     public String getRoleCode() {
         return getProtocolPersonRoleId();
     }

@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.web.struts.action;
 
@@ -30,53 +46,61 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class provides a central place for application-wide {@link Formatter Formatter} registration.
- * 
+ * This class provides a central place for application-wide
+ * {@link Formatter Formatter} registration.
+ *
  * <p>
- * It's important to have Formatter registration happen early and in a centralized fashion so that our application
- * will always be in a state where Formatters are registered when they should be.
+ * It's important to have Formatter registration happen early and in a
+ * centralized fashion so that our application will always be in a state where
+ * Formatters are registered when they should be.
  * </p>
- * 
+ *
  * <p>
- * Without this central approach, we are relying on the registration code to be executed before a page is accessed
- * requiring a specific formatter.  This has been troublesome for KC in the past. 
+ * Without this central approach, we are relying on the registration code to be
+ * executed before a page is accessed requiring a specific formatter. This has
+ * been troublesome in the past.
  * </p>
  */
 public class GlobalFormatterRegistry implements PlugIn {
 
     private static final Map<Class<?>, Class<? extends Formatter>> KC_FORMATTERS;
+
     static {
         final Map<Class<?>, Class<? extends Formatter>> temp = new HashMap<Class<?>, Class<? extends Formatter>>();
         temp.put(BudgetDecimal.class, BudgetDecimalFormatter.class);
         temp.put(RateDecimal.class, RateDecimalFormatter.class);
-        
+
         KC_FORMATTERS = Collections.unmodifiableMap(temp);
     }
-    
-    
+
     private ActionServlet servlet;
     private ModuleConfig config;
-    
+
     private final Map<Class<?>, Class<? extends Formatter>> previousRegisters = new HashMap<Class<?>, Class<? extends Formatter>>();
-    
-    /** {@inheritDoc} */
+
+    /**
+     * {@inheritDoc}
+     */
     public void init(final ActionServlet aServlet, final ModuleConfig aConfig) throws ServletException {
         servlet = aServlet;
         config = aConfig;
-        
+
         register();
     }
-    
-    /** {@inheritDoc} */
+
+    /**
+     * {@inheritDoc}
+     */
     public void destroy() {
         servlet = null;
         config = null;
-        
+
         deRegister();
     }
-    
+
     /**
-     * Saves the current Formatter registration then registers KC specific formatters possibly overwriting a registration.
+     * Saves the current Formatter registration then registers KC specific
+     * formatters possibly overwriting a registration.
      */
     private void register() {
         for (Map.Entry<Class<?>, Class<? extends Formatter>> entry : KC_FORMATTERS.entrySet()) {
@@ -84,15 +108,16 @@ public class GlobalFormatterRegistry implements PlugIn {
             Formatter.registerFormatter(entry.getKey(), entry.getValue());
         }
     }
-    
+
     /**
-     * Removes any KC Formatter registration and restores things they way they were.
+     * Removes any Formatter registration and restores things they way they
+     * were.
      */
     private void deRegister() {
         for (Map.Entry<Class<?>, Class<? extends Formatter>> entry : previousRegisters.entrySet()) {
             Formatter.registerFormatter(entry.getKey(), entry.getValue());
         }
-        
+
         previousRegisters.clear();
     }
 }

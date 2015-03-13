@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.protocol.noteattachment;
 
@@ -53,12 +69,13 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase imple
     }
 
     /**
-     * Convenience ctor to set the protocol, protocol id and the protocolNumber from the passed in protocol.
-     * 
+     * Convenience ctor to set the protocol, protocol id and the protocolNumber
+     * from the passed in protocol.
+     *
      * <p>
      * This ctor does not validate any of the properties.
      * </p>
-     * 
+     *
      * @param protocol the protocol.
      */
     public ProtocolAttachmentBase(final ProtocolBase protocol) {
@@ -67,6 +84,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase imple
 
     /**
      * Gets the ProtocolBase Attachment Base File.
+     *
      * @return the ProtocolBase Attachment Base File
      */
     public AttachmentFile getFile() {
@@ -78,6 +96,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase imple
 
     /**
      * Sets the ProtocolBase Attachment Base File.
+     *
      * @param file the ProtocolBase Attachment Base File
      */
     public void setFile(AttachmentFile file) {
@@ -86,6 +105,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase imple
 
     /**
      * Gets the ProtocolBase Attachment Base New File.
+     *
      * @return the ProtocolBase Attachment Base New File
      */
     public FormFile getNewFile() {
@@ -94,6 +114,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase imple
 
     /**
      * Sets the ProtocolBase Attachment Base New File.
+     *
      * @param newFile the ProtocolBase Attachment Base New File
      */
     public void setNewFile(FormFile newFile) {
@@ -101,7 +122,8 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase imple
     }
 
     /**
-     * Gets the file Id. 
+     * Gets the file Id.
+     *
      * @return the file Id.
      */
     public Long getFileId() {
@@ -110,6 +132,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase imple
 
     /**
      * Sets the file Id.
+     *
      * @param fileId the file Id.
      */
     public void setFileId(Long fileId) {
@@ -118,18 +141,22 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase imple
 
     /**
      * A human readable description of the attachment type.
+     *
      * @return a description
      */
     public abstract String getAttachmentDescription();
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void resetPersistenceState() {
         this.setId(null);
     }
 
     /**
-     * Gets the  id.
-     * @return the  id
+     * Gets the id.
+     *
+     * @return the id
      */
     public Long getId() {
         return this.id;
@@ -137,6 +164,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase imple
 
     /**
      * Sets the id.
+     *
      * @param id the id
      */
     public void setId(Long id) {
@@ -145,6 +173,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase imple
 
     /**
      * Adds an attachment to a Collection.
+     *
      * @param <T> the type of attachment
      * @param attachment the attachment.
      * @param toCollection the Collection.
@@ -162,6 +191,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase imple
 
     /**
      * Adds an attachment to a Collection.
+     *
      * @param <T> the type of attachment
      * @param attachment the attachment.
      * @param fromCollection the Collection.
@@ -179,6 +209,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase imple
 
     /**
      * Checks if an attachment is new (not persisted yet).
+     *
      * @return true if new false if not
      */
     public boolean isNew() {
@@ -187,6 +218,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase imple
 
     /**
      * Returns a new collection containing only new attachments.
+     *
      * @param <T> the type of attachments in the collection.
      * @param attachments the current collection
      * @return an collection containing only new attachments
@@ -203,6 +235,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase imple
 
     /**
      * Returns a new collection containing only exiting attachments.
+     *
      * @param <T> the type of attachments in the collection.
      * @param attachments the current collection
      * @return an collection containing only exiting attachments
@@ -214,15 +247,18 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase imple
     }
 
     /**
-     * Method to check whether an attachment supports versioning.  Currently, all attachments
-     * have structural capabilities to version; however, currently we are not versioning all attachment types
-     * to be consistent with other parts of KC.
-     * 
+     * Method to check whether an attachment supports versioning. Currently, all
+     * attachments have structural capabilities to version; however, currently
+     * we are not versioning all attachment types to be consistent with other
+     * parts of the system.
+     *
      * @return true is attachment supports versioning.
      */
     public abstract boolean supportsVersioning();
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -233,7 +269,9 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase imple
         return result;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -312,6 +350,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase imple
 
         /**
          * Sets the enum properties.
+         *
          * @param name the name.
          */
         PropertyName(final String name) {
@@ -320,6 +359,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase imple
 
         /**
          * Gets the property name.
+         *
          * @return the the property name.
          */
         public String getPropertyName() {
@@ -328,6 +368,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase imple
 
         /**
          * Gets the {@link #getPropertyName() propertyName()}.
+         *
          * @return {@link #getPropertyName() propertyName()}
          */
         @Override
@@ -345,7 +386,8 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase imple
     }
 
     /**
-     * Gets the updateUserFullName attribute. 
+     * Gets the updateUserFullName attribute.
+     *
      * @return Returns the updateUserFullName.
      */
     public String getUpdateUserFullName() {
@@ -354,6 +396,7 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase imple
 
     /**
      * Sets the updateUserFullName attribute value.
+     *
      * @param updateUserFullName The updateUserFullName to set.
      */
     public void setUpdateUserFullName(String updateUserFullName) {

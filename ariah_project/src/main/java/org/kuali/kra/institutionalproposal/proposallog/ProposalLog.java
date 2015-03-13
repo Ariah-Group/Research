@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.institutionalproposal.proposallog;
 
@@ -33,98 +49,101 @@ import java.util.List;
 /**
  * Encapsulates data and behavior of a Proposal Log.
  */
-public class ProposalLog extends KraPersistableBusinessObjectBase implements Negotiable { 
-    
-    /** Log Status property name. */
+public class ProposalLog extends KraPersistableBusinessObjectBase implements Negotiable {
+
+    /**
+     * Log Status property name.
+     */
     static final String LOG_STATUS = "logStatus";
-    
-    /** Proposal Log Type Code property name. */
+
+    /**
+     * Proposal Log Type Code property name.
+     */
     static final String PROPOSAL_LOG_TYPE_CODE = "proposalLogTypeCode";
-    
+
     private static final long serialVersionUID = 1L;
-    
-    private String proposalNumber; 
-    private String proposalTypeCode; 
-    private String title; 
-    private String piId; 
+
+    private String proposalNumber;
+    private String proposalTypeCode;
+    private String title;
+    private String piId;
     private Integer rolodexId;
-    private String piName; 
-    private String leadUnit; 
-    private String sponsorCode; 
-    private String sponsorName; 
-    private String logStatus; 
-    private String comments; 
-    private Date deadlineDate; 
+    private String piName;
+    private String leadUnit;
+    private String sponsorCode;
+    private String sponsorName;
+    private String logStatus;
+    private String comments;
+    private Date deadlineDate;
     private String deadlineTime;
     private String proposalLogTypeCode;
     private Integer fiscalMonth;
     private Integer fiscalYear;
     private String createUser;
-    private Timestamp createTimestamp;  
-    
+    private Timestamp createTimestamp;
+
     private ProposalType proposalType;
     private NonOrganizationalRolodex rolodex;
     private Sponsor sponsor;
     private ProposalLogStatus proposalLogStatus;
     private Unit unit;
     private ProposalLogType proposalLogType;
-    
+
     private String mergedWith;
     private ProposalLog mergedWithProposal;
     private String instProposalNumber;
-    
+
     private transient KcPersonService kcPersonService;
-    
+
     /**
      * Constructs a ProposalLog.java.
      */
-    public ProposalLog() { 
+    public ProposalLog() {
 
-    } 
-    
+    }
+
     /* Public convenience methods */
-    
     /**
      * Determine whether this Proposal Log has been persisted.
-     * 
+     *
      * @return boolean
      */
     public boolean isPersisted() {
         return this.getVersionNumber() != null;
     }
-    
+
     /**
-     * Determine whether this Proposal Log has been promoted to an Institutional Proposal.
-     * 
+     * Determine whether this Proposal Log has been promoted to an Institutional
+     * Proposal.
+     *
      * @return boolean
      */
     public boolean isSubmitted() {
         return ProposalLogUtils.getProposalLogSubmittedStatusCode().equals(this.getLogStatus());
     }
-    
+
     /**
      * Determine whether this Proposal Log has a proposal log type of Temporary.
-     * 
+     *
      * @return boolean
      */
     public boolean isLogTypeTemporary() {
         return ProposalLogUtils.getProposalLogTemporaryTypeCode().equals(this.getProposalLogTypeCode());
     }
-    
+
     /**
-     * Determine whether this Proposal Log is a candidate to be merged with another Proposal Log.
-     * 
+     * Determine whether this Proposal Log is a candidate to be merged with
+     * another Proposal Log.
+     *
      * @return boolean
      */
     public boolean isMergeCandidate() {
         return ProposalLogUtils.getProposalLogTemporaryTypeCode().equals(this.getProposalLogTypeCode())
-            && !ProposalLogUtils.getProposalLogMergedStatusCode().equals(this.getLogStatus());
+                && !ProposalLogUtils.getProposalLogMergedStatusCode().equals(this.getLogStatus());
     }
-    
+
     /* End public convenience methods */
-    
     /* Getters and setters */
-    
     public String getProposalNumber() {
         return proposalNumber;
     }
@@ -156,7 +175,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
     public void setPiId(String piId) {
         this.piId = piId;
     }
-    
+
     public Integer getRolodexId() {
         return rolodexId;
     }
@@ -223,7 +242,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
     public void setDeadlineDate(Date deadlineDate) {
         this.deadlineDate = deadlineDate;
     }
-    
+
     public String getDeadlineTime() {
         return deadlineTime;
     }
@@ -239,7 +258,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
     public void setProposalLogTypeCode(String proposalLogTypeCode) {
         this.proposalLogTypeCode = proposalLogTypeCode;
     }
-    
+
     public ProposalType getProposalType() {
         return proposalType;
     }
@@ -254,7 +273,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
         }
         return new KcPerson();
     }
-    
+
     public NonOrganizationalRolodex getRolodex() {
         return rolodex;
     }
@@ -270,7 +289,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
     public void setSponsor(Sponsor sponsor) {
         this.sponsor = sponsor;
     }
-    
+
     public ProposalLogStatus getProposalLogStatus() {
         return proposalLogStatus;
     }
@@ -278,7 +297,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
     public void setProposalLogStatus(ProposalLogStatus proposalLogStatus) {
         this.proposalLogStatus = proposalLogStatus;
     }
-    
+
     public Unit getUnit() {
         return unit;
     }
@@ -286,7 +305,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
     public void setUnit(Unit unit) {
         this.unit = unit;
     }
-    
+
     public ProposalLogType getProposalLogType() {
         return proposalLogType;
     }
@@ -294,7 +313,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
     public void setProposalLogType(ProposalLogType proposalLogType) {
         this.proposalLogType = proposalLogType;
     }
-    
+
     public Integer getFiscalMonth() {
         return fiscalMonth;
     }
@@ -310,14 +329,14 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
     public void setFiscalYear(Integer fiscalYear) {
         this.fiscalYear = fiscalYear;
     }
-    
+
     public String getFiscalMonthYear() {
         if (this.getFiscalMonth() != null && this.getFiscalYear() != null) {
             return this.getFiscalMonth().toString() + " / " + this.getFiscalYear().toString();
         }
         return "";
     }
-    
+
     public String getCreateUser() {
         return createUser;
     }
@@ -333,43 +352,35 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
     public void setCreateTimestamp(Timestamp createTimestamp) {
         this.createTimestamp = createTimestamp;
     }
-    
-    public String getMergedWith()
-    {
+
+    public String getMergedWith() {
         return mergedWith;
     }
-    
-    public void setMergedWith(String mergedWith)
-    {
+
+    public void setMergedWith(String mergedWith) {
         this.mergedWith = mergedWith;
     }
 
-    public String getInstProposalNumber()
-    {
+    public String getInstProposalNumber() {
         return instProposalNumber;
     }
-    
-    public void setInstProposalNumber(String instProposalNumber)
-    {
+
+    public void setInstProposalNumber(String instProposalNumber) {
         this.instProposalNumber = instProposalNumber;
     }
-   
-    /* End getters and setters */
-    
-    
-    
-    /* These methods are for manipulating data before object persistence. */
 
+    /* End getters and setters */
+    /* These methods are for manipulating data before object persistence. */
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
      */
-    @Override 
+    @Override
     protected void prePersist() {
         super.prePersist();
         setSponsorName();
         mergeTemporaryLog();
-    }    
-    
+    }
+
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#beforeInsert()
      */
@@ -378,7 +389,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
         super.preUpdate();
         setSponsorName();
     }
-    
+
     /*
      * This method will set the Sponsor name field from the Sponsor.
      * We need to denormalize this data before persistence for Coeus database compatibility.
@@ -386,35 +397,34 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
     private void setSponsorName() {
         if (!isEmpty(this.getSponsorCode())) {
             this.refreshReferenceObject("sponsor");
-            if (this.getSponsor()!= null) {
+            if (this.getSponsor() != null) {
                 sponsorName = this.getSponsor().getSponsorName();
-            }
-            else {
+            } else {
                 sponsorName = null;
             }
         }
     }
-    
+
     private void mergeTemporaryLog() {
         if (StringUtils.isNotBlank(getMergedWith()) && StringUtils.equals(getProposalLogTypeCode(), ProposalLogUtils.getProposalLogPermanentTypeCode())) {
             KraServiceLocator.getService(ProposalLogService.class).mergeProposalLog(this, this.getMergedWith());
         }
     }
-    
-    /* End data persistence methods. */
 
+    /* End data persistence methods. */
     /**
-     * Gets the KC Person Service.
-     * @return KC Person Service.
+     * Gets the Person Service.
+     *
+     * @return Person Service.
      */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
             this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
         }
-        
+
         return this.kcPersonService;
     }
-    
+
     boolean isEmpty(String str) {
         return str == null || str.length() == 0;
     }
@@ -469,7 +479,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
     public String getSubAwardOrganizationName() {
         return EMPTY_STRING;
     }
-    
+
     @Override
     public List<NegotiationPersonDTO> getProjectPeople() {
         List<NegotiationPersonDTO> kcPeople = new ArrayList<NegotiationPersonDTO>();
@@ -483,7 +493,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
     public String getAssociatedDocumentId() {
         return getProposalNumber();
     }
-    
+
     @Override
     public String getNegotiableProposalTypeCode() {
         return getProposalTypeCode();
@@ -492,7 +502,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
     @Override
     public ProposalType getNegotiableProposalType() {
         return this.getProposalType();
-    }    
+    }
 
     @Override
     public String getSubAwardRequisitionerName() {
@@ -520,5 +530,5 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
 
     public void setMergedWithProposal(ProposalLog mergedWithProposal) {
         this.mergedWithProposal = mergedWithProposal;
-    }    
+    }
 }

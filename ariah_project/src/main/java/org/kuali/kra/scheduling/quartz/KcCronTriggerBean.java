@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.scheduling.quartz;
 
@@ -30,14 +46,14 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * The KC Cron Trigger Bean is needed because we can't inject
- * the Cron Expression from the SpringBeans.xml file.  Rather,
- * we have to retrieve the Cron Expression from the System Parameters.
+ * The Cron Trigger Bean is needed because we can't inject the Cron Expression
+ * from the SpringBeans.xml file. Rather, we have to retrieve the Cron
+ * Expression from the System Parameters.
  */
 public class KcCronTriggerBean extends CronTriggerBean {
 
     private static final Log LOG = LogFactory.getLog(KcCronTriggerBean.class);
-    
+
     private String defaultCronExpression = Constants.DEFAULT_CRON_EXPRESSION;
     private String parameterNamespace;
     private String parameterComponent;
@@ -46,48 +62,54 @@ public class KcCronTriggerBean extends CronTriggerBean {
     private String startTimeParameterName;
     private ParameterService parameterService;
     private DateTimeService dateTimeService;
-    
+
     /**
      * Sets the ParameterService.
-     * @param parameterService the parameter service. 
+     *
+     * @param parameterService the parameter service.
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-    
+
     /**
-     * We need to set the Cron Expression based upon the value in the system parameters.
-     * 
-     * @see org.springframework.scheduling.quartz.CronTriggerBean#afterPropertiesSet()
+     * We need to set the Cron Expression based upon the value in the system
+     * parameters.
+     *
+     * @see
+     * org.springframework.scheduling.quartz.CronTriggerBean#afterPropertiesSet()
      */
     public void afterPropertiesSet() throws Exception {
         setCronExpression(getSystemCronExpression());
         setStartTime(getCronStartTime());
         super.afterPropertiesSet();
     }
-    
+
     /**
      * Get the Cron Expression from the system parameters.
+     *
      * @return the Cron Expression
      */
     protected String getSystemCronExpression() {
-        if (StringUtils.isNotBlank(cronExpressionParameterName) 
+        if (StringUtils.isNotBlank(cronExpressionParameterName)
                 && getParameterService().parameterExists(parameterNamespace, parameterComponent, cronExpressionParameterName)) {
             final String param = getParameterService().getParameterValueAsString(parameterNamespace, parameterComponent, cronExpressionParameterName);
             if (param != null) {
                 return param;
-            } 
+            }
             LOG.warn("parameter [" + cronExpressionParameterName + "] not found using default value of [" + defaultCronExpression + "].");
-    
+
         }
         return defaultCronExpression;
     }
-    
+
     /**
      * If the trigger is disabled this will return a date 2 years in the future.
-     * If the parm doesn't exist or is empty will return today's date.
-     * If the parm does exist and has a parsable date in it, it will return that date.
-     * If the parm does exist but the value cannot be parsed a date 2 years in the future will be returned.
+     * If the parm doesn't exist or is empty will return today's date. If the
+     * parm does exist and has a parsable date in it, it will return that date.
+     * If the parm does exist but the value cannot be parsed a date 2 years in
+     * the future will be returned.
+     *
      * @return
      */
     protected Date getCronStartTime() {
@@ -97,7 +119,7 @@ public class KcCronTriggerBean extends CronTriggerBean {
         Date cronStartTime = dateTimeService.getCurrentDate();
         if (!isTriggerEnabled()) {
             return disabledStartTime;
-        } else if (!StringUtils.isBlank(startTimeParameterName) 
+        } else if (!StringUtils.isBlank(startTimeParameterName)
                 && getParameterService().parameterExists(parameterNamespace, parameterComponent, startTimeParameterName)) {
             String CUSTOM_DATE_FORMAT = "dd-MMM-yyyy hh:mm a";
             SimpleDateFormat dateFormat = new SimpleDateFormat(CUSTOM_DATE_FORMAT);
@@ -119,7 +141,7 @@ public class KcCronTriggerBean extends CronTriggerBean {
         }
         return cronStartTime;
     }
-    
+
     protected boolean isTriggerEnabled() {
         if (StringUtils.isNotBlank(triggerEnabledParameterName)) {
             if (getParameterService().parameterExists(parameterNamespace, parameterComponent, triggerEnabledParameterName)) {

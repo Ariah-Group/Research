@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.protocol;
 
@@ -53,7 +69,7 @@ import java.util.*;
 /**
  * This class handles searching for protocols.
  */
-public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol extends ProtocolBase> extends KraLookupableHelperServiceImpl {    
+public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol extends ProtocolBase> extends KraLookupableHelperServiceImpl {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -64,17 +80,16 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
     protected static final String PENDING_PROTOCOL_LOOKUP = "lookupPendingProtocol";
     protected static final String PENDING_PI_ACTION_PROTOCOL_LOOKUP = "lookupPendingPIActionProtocol";
     protected static final String PROTOCOL_PERSON_ID_LOOKUP = "lookupProtocolPersonId";
-    
+
     private static final String PROTOCOL_LOOKUP_KEY_FIELD = "protocolNumber";
-    
-    
+
     private static final String RESEARCH_AREA_CLASS_PATH = ResearchArea.class.getName();
     private static final String ORGANIZATION_CLASS_PATH = Organization.class.getName();
-    
+
     private static final Log LOG = LogFactory.getLog(ProtocolLookupableHelperServiceImplBase.class);
 
     private DictionaryValidationService dictionaryValidationService;
-    
+
     protected KcPersonService kcPersonService;
     protected KraAuthorizationService kraAuthorizationService;
     protected TaskAuthorizationService taskAuthorizationService;
@@ -87,18 +102,21 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
         super.setBackLocationDocFormKey(fieldValues);
         return getSearchResultsFilteredByTask(fieldValues); //filterProtocols(fieldValues);
     }
-    
-    
+
     /**
-     * Filters the unbounded list of protocols by the given field values and protocol tasks.
+     * Filters the unbounded list of protocols by the given field values and
+     * protocol tasks.
+     *
      * @param fieldValues the field values that form a normal protocol search
-     * @param taskNames the list of protocol tasks that the user must be able to perform in a protocol in order for it to be in the search results
-     * @return a list of all protocols filtered by the given field values and being able to perform tasks in the taskNames
+     * @param taskNames the list of protocol tasks that the user must be able to
+     * perform in a protocol in order for it to be in the search results
+     * @return a list of all protocols filtered by the given field values and
+     * being able to perform tasks in the taskNames
      */
     protected List<? extends BusinessObject> filterProtocolsByTask(Map<String, String> fieldValues, String... taskNames) {
         List<GenericProtocol> filteredProtocols = new ArrayList<GenericProtocol>();
-        
-        for (GenericProtocol protocol : (List<GenericProtocol>)getProtocolDaoHook().getProtocols(filterFieldValues(fieldValues))) {
+
+        for (GenericProtocol protocol : (List<GenericProtocol>) getProtocolDaoHook().getProtocols(filterFieldValues(fieldValues))) {
             for (String taskName : taskNames) {
                 ProtocolTaskBase task = createNewProtocolTaskInstanceHook(taskName, protocol);
                 if (taskAuthorizationService.isAuthorized(getUserIdentifier(), task)) {
@@ -107,44 +125,50 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
                 }
             }
         }
-        
+
         return getPagedResults(filteredProtocols);
     }
 
     protected abstract ProtocolTaskBase createNewProtocolTaskInstanceHook(String taskName, ProtocolBase protocol);
 
-
     /**
-     * Filters the unbounded list of protocols by the given field values and protocol status codes.
+     * Filters the unbounded list of protocols by the given field values and
+     * protocol status codes.
+     *
      * @param fieldValues the field values that form a normal protocol search
-     * @param protocolStatusCodes the list of protocol status codes that should be included in the search result
-     * @return a list of all protocols filtered by the given field values and having statuses in protocolStatusCodes
+     * @param protocolStatusCodes the list of protocol status codes that should
+     * be included in the search result
+     * @return a list of all protocols filtered by the given field values and
+     * having statuses in protocolStatusCodes
      */
     protected List<? extends BusinessObject> filterProtocolsByStatus(Map<String, String> fieldValues, String... protocolStatusCodes) {
         List<GenericProtocol> filteredProtocols = new ArrayList<GenericProtocol>();
 
         List<String> protocolStatusCodeList = Arrays.asList(protocolStatusCodes);
-        for (GenericProtocol protocol : (List<GenericProtocol>)getProtocolDaoHook().getProtocols(filterFieldValues(fieldValues))) {
+        for (GenericProtocol protocol : (List<GenericProtocol>) getProtocolDaoHook().getProtocols(filterFieldValues(fieldValues))) {
             String statusCode = protocol.getProtocolStatusCode();
             if (protocolStatusCodeList.contains(statusCode)) {
                 filteredProtocols.add(protocol);
             }
         }
-        
+
         return getPagedResults(filteredProtocols);
     }
-    
+
     /**
-     * Filters the unbounded list of protocols by the given field values and whether the given principalId represents a protocol initiator or PI.
+     * Filters the unbounded list of protocols by the given field values and
+     * whether the given principalId represents a protocol initiator or PI.
+     *
      * @param fieldValues the field values that form a normal protocol search
      * @param personKey the key in the fieldValues that maps to the principalId
-     * @return a list of all protocols filtered by the given field values and whether the given principalId represents a protocol initiator or PI
+     * @return a list of all protocols filtered by the given field values and
+     * whether the given principalId represents a protocol initiator or PI
      */
     protected List<? extends BusinessObject> filterProtocolsByPrincipal(Map<String, String> fieldValues, String principalKey) {
         List<GenericProtocol> filteredProtocols = new ArrayList<GenericProtocol>();
-        
+
         String principalId = fieldValues.get(principalKey);
-        for (GenericProtocol protocol : (List<GenericProtocol>)getProtocolDaoHook().getProtocols(filterFieldValues(fieldValues))) {
+        for (GenericProtocol protocol : (List<GenericProtocol>) getProtocolDaoHook().getProtocols(filterFieldValues(fieldValues))) {
             try {
                 String principalInvestigatorId = protocol.getPrincipalInvestigator().getPersonId();
                 ProtocolDocumentBase document = (ProtocolDocumentBase) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
@@ -156,22 +180,24 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
                 LOG.warn("Cannot find Document with header id " + protocol.getProtocolDocument().getDocumentNumber() + ", removing from search results.");
             }
         }
-        
+
         return getPagedResults(filteredProtocols);
     }
-    
+
     /**
      * Filters the unbounded list of protocols by the given field values
+     *
      * @param fieldValues the field values that form a normal protocol search
      * @return a list of all protocols filtered by the given field values
      */
     protected List<? extends BusinessObject> filterProtocols(Map<String, String> fieldValues) {
-        List<GenericProtocol> protocols = (List<GenericProtocol>)getProtocolDaoHook().getProtocols(filterFieldValues(fieldValues));
+        List<GenericProtocol> protocols = (List<GenericProtocol>) getProtocolDaoHook().getProtocols(filterFieldValues(fieldValues));
         return getPagedResults(protocols);
     }
-    
+
     /**
      * Filters out extra lookup parameters from the fieldValues.
+     *
      * @param fieldValues the field values that form a normal protocol search
      * @return the field values with extra lookup parameters removed
      */
@@ -181,6 +207,7 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
 
     /**
      * Separates the list of protocols into pageable results.
+     *
      * @param protocols the list of protocols
      * @return a collection of protocol pageable results.
      */
@@ -194,9 +221,9 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
         }
     }
 
-
     /**
      * This method trims the search result.
+     *
      * @param result, the result set to be trimmed
      * @param trimSize, the maximum size of the trimmed result set
      * @return the trimmed result set
@@ -204,8 +231,8 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
     protected List<GenericProtocol> trimResult(List<GenericProtocol> result, Integer trimSize) {
         List<GenericProtocol> trimedResult = new ArrayList<GenericProtocol>();
         for (GenericProtocol protocol : result) {
-            if (trimedResult.size()< trimSize) {
-                trimedResult.add(protocol); 
+            if (trimedResult.size() < trimSize) {
+                trimedResult.add(protocol);
             }
         }
         return trimedResult;
@@ -219,15 +246,15 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
             String value = fieldValues.get(key).toString();
             if (key.toUpperCase().indexOf("DATE") > 0) {
                 //we have a date, now we need to weed out the calculated params that have '..' or '>=' or '<='
-                if(value.indexOf("..") == -1 && value.indexOf(">=") == -1 && value.indexOf("<=") == -1) {
+                if (value.indexOf("..") == -1 && value.indexOf(">=") == -1 && value.indexOf("<=") == -1) {
                     boolean valid = validateDate(key, value);
                 }
             }
         }
     }
-    
+
     protected boolean validateDate(String dateFieldName, String dateFieldValue) {
-        try{
+        try {
             CoreApiServiceLocator.getDateTimeService().convertToSqlTimestamp(dateFieldValue);
             return true;
         } catch (ParseException e) {
@@ -239,10 +266,12 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
             return false;
         }
     }
-    
+
     /**
-     * 
-     * This method returns an instance of a DictionaryValidationService implementation
+     *
+     * This method returns an instance of a DictionaryValidationService
+     * implementation
+     *
      * @return
      */
     public DictionaryValidationService getDictionaryValidationService() {
@@ -254,27 +283,30 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, java.util.List)
+     *
+     * @see
+     * org.kuali.kra.lookup.KraLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject,
+     * java.util.List)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         return getCustomActions(businessObject, pkNames);
     }
-    
+
     protected boolean isParameterTrue(String parameterKey) {
         boolean parameterTrue = false;
-        
+
         if (getParameters() != null && getParameters().containsKey(parameterKey)) {
             Object parameterObject = getParameters().get(parameterKey);
             if (parameterObject != null) {
                 if (parameterObject instanceof Boolean) {
                     parameterTrue = (Boolean) parameterObject;
                 }
-                
+
                 if (parameterObject instanceof String) {
                     parameterTrue = Boolean.parseBoolean(parameterObject.toString());
                 }
-                
+
                 if (parameterObject instanceof String[]) {
                     String[] parameterObjectStringArray = (String[]) parameterObject;
                     for (String parameterObjectString : parameterObjectStringArray) {
@@ -286,12 +318,13 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
                 }
             }
         }
-        
+
         return parameterTrue;
     }
-    
+
     /**
      * Constructs and returns the perform action links.
+     *
      * @param businessObject
      * @param actionKey
      * @return
@@ -306,13 +339,14 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
         parameters.put("viewDocument", "false");
         parameters.put("docId", ((ProtocolBase) businessObject).getProtocolDocument().getDocumentNumber());
         parameters.put(actionKey, "true");
-        String href  = UrlFactory.parameterizeUrl("../" + getHtmlAction(), parameters);
+        String href = UrlFactory.parameterizeUrl("../" + getHtmlAction(), parameters);
         htmlData.setHref(href);
         return htmlData;
     }
-    
+
     /**
      * Construct and return edit, view, and copy links.
+     *
      * @param businessObject
      * @param pkNames
      */
@@ -339,21 +373,22 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
         return htmlDataList;
     }
 
-
     /**
-     * This override is reset field definition for research area lookup fields & investigator label.
+     * This override is reset field definition for research area lookup fields &
+     * investigator label.
+     *
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getRows()
      */
     @SuppressWarnings("deprecation")
     @Override
     public List<Row> getRows() {
-        List<Row> rows =  super.getRows();
+        List<Row> rows = super.getRows();
         for (Row row : rows) {
             for (Field field : row.getFields()) {
                 if (field.getPropertyName().equals(ProtocolLookupConstants.Property.RESEARCH_AREA_CODE)) {
-                    super.updateLookupField(field,ProtocolLookupConstants.Property.RESEARCH_AREA_CODE,RESEARCH_AREA_CLASS_PATH);
+                    super.updateLookupField(field, ProtocolLookupConstants.Property.RESEARCH_AREA_CODE, RESEARCH_AREA_CLASS_PATH);
                 } else if (field.getPropertyName().equals(ProtocolLookupConstants.Property.PERFORMING_ORGANIZATION_ID)) {
-                    super.updateLookupField(field,ProtocolLookupConstants.Property.ORGANIZATION_ID,ORGANIZATION_CLASS_PATH);
+                    super.updateLookupField(field, ProtocolLookupConstants.Property.ORGANIZATION_ID, ORGANIZATION_CLASS_PATH);
                 } else if (field.getPropertyName().equals(ProtocolLookupConstants.Property.PROTOCOL_STATUS_CODE) || field.getPropertyName().equals(ProtocolLookupConstants.Property.PROTOCOL_TYPE_CODE)) {
                     // to disable lookup/inquiry display
                     field.setQuickFinderClassNameImpl(KRADConstants.EMPTY_STRING);
@@ -362,25 +397,30 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
                     if (field.getPropertyName().equals("leadUnitNumber")) {
                         field.setFieldLabel("Unit Number");
                     } else {
-                        field.setFieldLabel("Unit Name");                        
+                        field.setFieldLabel("Unit Name");
                     }
                 }
             }
         }
         return rows;
     }
-             
+
     /**
-     * Sets the KC Person Service.
-     * @param kcPersonService the kc person service
+     * Sets the Person Service.
+     *
+     * @param kcPersonService the person service
      */
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
     }
 
     /**
-     * This method is for several fields that does not have inquiry created by lookup frame work.
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
+     * This method is for several fields that does not have inquiry created by
+     * lookup frame work.
+     *
+     * @see
+     * org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getInquiryUrl(org.kuali.core.bo.BusinessObject,
+     * java.lang.String)
      */
     @Override
     public HtmlData getInquiryUrl(BusinessObject bo, String propertyName) {
@@ -388,7 +428,7 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
         BusinessObject inqBo = bo;
         String inqPropertyName = propertyName;
         if (propertyName.equals(ProtocolLookupConstants.Property.LEAD_UNIT_NUMBER)) {
-           inqBo = new Unit();
+            inqBo = new Unit();
             ((Unit) inqBo).setUnitNumber(((ProtocolBase) bo).getLeadUnitNumber());
             inqPropertyName = ProtocolLookupConstants.Property.UNIT_NUMBER;
         } else if (propertyName.equals(ProtocolLookupConstants.Property.INVESTIGATOR)) {
@@ -414,40 +454,45 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
     protected String getHtmlAction() {
         return getHtmlActionHook();
     }
-    
+
     @Override
     protected String getDocumentTypeName() {
         return getDocumentTypeNameHook();
     }
-    
+
     @Override
     protected String getKeyFieldName() {
-        return PROTOCOL_LOOKUP_KEY_FIELD; 
+        return PROTOCOL_LOOKUP_KEY_FIELD;
     }
 
     protected String getUserIdentifier() {
-         return GlobalVariables.getUserSession().getPrincipalId();
+        return GlobalVariables.getUserSession().getPrincipalId();
     }
 
     public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
     }
-    
+
     public void setTaskAuthorizationService(TaskAuthorizationService taskAuthorizationService) {
         this.taskAuthorizationService = taskAuthorizationService;
     }
-    
+
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
 
-
     protected abstract List<? extends BusinessObject> getSearchResultsFilteredByTask(Map<String, String> fieldValues);
+
     protected abstract Map<String, String> removeExtraFilterParameters(Map<String, String> fieldValues);
+
     protected abstract List<HtmlData> getCustomActions(BusinessObject businessObject, List pkNames);
+
     protected abstract ProtocolDao<GenericProtocol> getProtocolDaoHook();
+
     protected abstract String getDocumentTypeNameHook();
+
     protected abstract String getHtmlActionHook();
+
     protected abstract Class<? extends ProtocolBase> getProtocolClassHook();
-    
+
 }

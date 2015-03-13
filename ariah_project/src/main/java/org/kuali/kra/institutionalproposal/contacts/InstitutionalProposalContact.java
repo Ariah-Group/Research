@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.institutionalproposal.contacts;
 
@@ -41,10 +57,10 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
 
     private static final String ROLODEX_ID_FIELD_NAME = "rolodexId";
 
-
     /**
-     * These field are OJB hacks. Because anonymous access wouldn't work for more than one field, the institutionalProposal,
-     * we need to provide real fields to be persisted
+     * These field are OJB hacks. Because anonymous access wouldn't work for
+     * more than one field, the institutionalProposal, we need to provide real
+     * fields to be persisted
      */
     protected String personId;
 
@@ -71,8 +87,9 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
     }
 
     /**
-     * 
+     *
      * Convenience constructor
+     *
      * @param rolodex
      * @param contactType
      */
@@ -83,8 +100,9 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
     }
 
     /**
-     * 
+     *
      * Convenience constructor
+     *
      * @param person
      * @param contactCategory
      */
@@ -96,6 +114,7 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
 
     /**
      * This has been modified from the Eclipse generated method
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -131,7 +150,8 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
     }
 
     /**
-     * Gets the institutionalProposalContactId attribute. 
+     * Gets the institutionalProposalContactId attribute.
+     *
      * @return Returns the institutionalProposalContactId.
      */
     public Long getInstitutionalProposalContactId() {
@@ -139,7 +159,8 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
     }
 
     /**
-     * Gets the contact attribute. 
+     * Gets the contact attribute.
+     *
      * @return Returns the contact.
      */
     public Contactable getContact() {
@@ -179,7 +200,8 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
     }
 
     /**
-     * Gets the contactRole attribute. 
+     * Gets the contactRole attribute.
+     *
      * @return Returns the contactRole.
      */
     public ContactRole getContactRole() {
@@ -208,7 +230,8 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
     }
 
     /**
-     * Gets the person attribute. 
+     * Gets the person attribute.
+     *
      * @return Returns the person.
      */
     public KcPerson getPerson() {
@@ -219,7 +242,8 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
     }
 
     /**
-     * Gets the personId attribute. 
+     * Gets the personId attribute.
+     *
      * @return Returns the personId.
      */
     public String getPersonId() {
@@ -231,7 +255,8 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
     }
 
     /**
-     * Gets the roleCode attribute. 
+     * Gets the roleCode attribute.
+     *
      * @return Returns the roleCode.
      */
     public String getRoleCode() {
@@ -239,7 +264,8 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
     }
 
     /**
-     * Gets the rolodex attribute. 
+     * Gets the rolodex attribute.
+     *
      * @return Returns the rolodex.
      */
     public NonOrganizationalRolodex getRolodex() {
@@ -247,7 +273,8 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
     }
 
     /**
-     * Gets the rolodexId attribute. 
+     * Gets the rolodexId attribute.
+     *
      * @return Returns the rolodexId.
      */
     public Integer getRolodexId() {
@@ -256,6 +283,7 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
 
     /**
      * This has been modified from the Eclipse generated method
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -268,6 +296,7 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
 
     /**
      * This method determines if contact is an employee
+     *
      * @return
      */
     public boolean isEmployee() {
@@ -283,7 +312,9 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
 
     /**
      * Sets the institutionalProposalContactId attribute value.
-     * @param institutionalProposalContactId The institutionalProposalContactId to set.
+     *
+     * @param institutionalProposalContactId The institutionalProposalContactId
+     * to set.
      */
     public void setInstitutionalProposalContactId(Long institutionalProposalContactid) {
         this.institutionalProposalContactId = institutionalProposalContactid;
@@ -291,6 +322,7 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
 
     /**
      * Sets the contactRole attribute value.
+     *
      * @param contactRole The contactRole to set.
      */
     public void setContactRole(ContactRole contactRole) {
@@ -312,6 +344,7 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
 
     /**
      * Sets the person attribute value.
+     *
      * @param person The person to set.
      */
     public void setPerson(KcPerson person) {
@@ -337,6 +370,7 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
 
     /**
      * Sets the personId attribute value.
+     *
      * @param personId The personId to set.
      */
     public void setPersonId(String personId) {
@@ -349,6 +383,7 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
 
     /**
      * Sets the roleCode attribute value.
+     *
      * @param roleCode The roleCode to set.
      */
     public void setRoleCode(String roleCode) {
@@ -358,6 +393,7 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
 
     /**
      * Sets the rolodex attribute value.
+     *
      * @param rolodex The rolodex to set.
      */
     public void setRolodex(NonOrganizationalRolodex rolodex) {
@@ -383,6 +419,7 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
 
     /**
      * Sets the rolodexId attribute value.
+     *
      * @param rolodexId The rolodexId to set.
      */
     public void setRolodexId(Integer rolodexId) {
@@ -395,6 +432,7 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
 
     /**
      * This method looks up BOS
+     *
      * @return
      */
     protected BusinessObjectService getBusinessObjectService() {
@@ -402,8 +440,9 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
     }
 
     /**
-     * Gets the KC Person Service.
-     * @return KC Person Service.
+     * Gets the Person Service.
+     *
+     * @return Person Service.
      */
     protected KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
@@ -414,18 +453,22 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
 
     /**
      * This method specifies the actual class implementing ContactRole
+     *
      * @return
      */
     protected abstract Class<? extends ContactRole> getContactRoleType();
 
     /**
-     * This method specifies the identifier of the actual type implementing ContactRole
+     * This method specifies the identifier of the actual type implementing
+     * ContactRole
+     *
      * @return
      */
     protected abstract String getContactRoleTypeIdentifier();
 
     /**
-     * @see org.kuali.kra.institutionalProposal.contacts.institutionalProposalContact#refreshContactRole()
+     * @see
+     * org.kuali.kra.institutionalProposal.contacts.institutionalProposalContact#refreshContactRole()
      */
     protected ContactRole refreshContactRole() {
         ContactRole role;
@@ -440,6 +483,7 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
 
     /**
      * Build an identifier map for the BOS lookup
+     *
      * @param identifierField
      * @param identifierValue
      * @return
@@ -485,7 +529,8 @@ public abstract class InstitutionalProposalContact extends InstitutionalProposal
     //        return getInstitutionalProposal().getSequenceNumber();  
     //    }  
     /**
-     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
+     * @see
+     * org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
      */
     public void setSequenceOwner(InstitutionalProposal newlyVersionedOwner) {
         setInstitutionalProposal((InstitutionalProposal) newlyVersionedOwner);

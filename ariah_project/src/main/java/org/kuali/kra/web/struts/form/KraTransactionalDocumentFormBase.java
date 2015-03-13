@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.web.struts.form;
 
@@ -42,7 +58,7 @@ import java.util.*;
 import static org.kuali.kra.logging.BufferedLogger.debug;
 
 /**
- * This class isbase class for KC Transactional Documents ...
+ * This class is base class for Transactional Documents ...
  */
 public abstract class KraTransactionalDocumentFormBase extends KualiTransactionalDocumentFormBase {
 
@@ -50,15 +66,15 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
 
     protected String actionName;
     protected String navigateTo;
-    
+
     private boolean viewOnly;
     private boolean popupViewOnly;
-    
+
     private boolean medusaOpenedDoc;
     private Map<String, Boolean> personEditableFields;
-    
+
     private List<String> unitRulesMessages = new ArrayList<String>();
-   
+
     public String getActionName() {
         return actionName;
     }
@@ -66,7 +82,7 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     public void setActionName(String actionName) {
         this.actionName = actionName;
     }
-    
+
     public String getNavigateTo() {
         return navigateTo;
     }
@@ -78,8 +94,7 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-        
-        
+
         // Hack to get panels with add/delete items that are editable after add (Protocol Participants, Special Review) to work correctly with validation.  
         // In this scenario, the user adds a couple of correctly formatted items but then changes one of the fields to an incorrect format and saves.  This will
         // cause validation errors, but if the user now tries to delete the errant entry, validation will fail because the validator in the Kuali Request 
@@ -98,32 +113,33 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
 
     /**
      * Consume SoftErrors (if any) and return the collection
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
     public Map<String, Collection<SoftError>> getSoftErrors() {
         return (Map<String, Collection<SoftError>>) GlobalVariables.getUserSession().retrieveObject(KeyConstants.SOFT_ERRORS_KEY);
     }
-    
+
     public void setupLockRegions() {
         String lockRegion = getLockRegion();
-        GlobalVariables.getUserSession().addObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION, (Object)lockRegion);  
+        GlobalVariables.getUserSession().addObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION, (Object) lockRegion);
         boolean activeLockRegionChangedInd = hasActiveLockRegionChanged(getDocument(), lockRegion);
         GlobalVariables.getUserSession().addObject(KraAuthorizationConstants.LOCK_REGION_CHANGE_IND, activeLockRegionChangedInd);
     }
 
     private boolean hasActiveLockRegionChanged(Document document, String activeLockRegion) {
-        if(StringUtils.isNotEmpty(activeLockRegion)) {
-            for(PessimisticLock lock: document.getPessimisticLocks()) {
-                if(lock.getLockDescriptor()!=null && !lock.getLockDescriptor().contains(activeLockRegion)
+        if (StringUtils.isNotEmpty(activeLockRegion)) {
+            for (PessimisticLock lock : document.getPessimisticLocks()) {
+                if (lock.getLockDescriptor() != null && !lock.getLockDescriptor().contains(activeLockRegion)
                         && lock.getOwnedByUser().getPrincipalId().equals(GlobalVariables.getUserSession().getPrincipalId())) {
                     return true;
                 }
-            } 
-        } else if (document.getPessimisticLocks().size()>0) {
+            }
+        } else if (document.getPessimisticLocks().size() > 0) {
             return true;
         }
-        
+
         return false;
     }
 
@@ -140,7 +156,7 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     protected boolean hasModifyBudgetPermission(Map editMode) {
         String modifyBudgetPermission = "";
         boolean hasModifyBudgetPermission = false;
-        
+
         if (editMode != null && editMode.containsKey(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET)) {
             modifyBudgetPermission = (String) editMode.get(KraAuthorizationConstants.BudgetEditMode.MODIFY_BUDGET);
             hasModifyBudgetPermission = ((ObjectUtils.isNotNull(modifyBudgetPermission)) && (DocumentAuthorizerBase.EDIT_MODE_DEFAULT_TRUE_VALUE
@@ -153,7 +169,7 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
             hasModifyBudgetPermission = ((ObjectUtils.isNotNull(modifyBudgetPermission)) && (DocumentAuthorizerBase.EDIT_MODE_DEFAULT_TRUE_VALUE
                     .equals(modifyBudgetPermission)));
         }
-        
+
         return hasModifyBudgetPermission;
     }
 
@@ -167,7 +183,7 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
 
         return false;
     }
-    
+
     protected boolean hasModifyNarrativesPermission(Map editMode) {
         if (editMode != null && editMode.containsKey(KraAuthorizationConstants.ProposalEditMode.ADD_NARRATIVES)) {
             String modifyNarrativesPermission = (String) editMode.get(KraAuthorizationConstants.ProposalEditMode.ADD_NARRATIVES);
@@ -177,48 +193,50 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
 
         return false;
     }
-    
+
     /**
-     * Get the Header Dispatch.  This determines the action that will occur
-     * when the user switches tabs for a document.  If the user can modify
-     * the document, the document is automatically saved.  If not (view-only),
-     * then a reload will be executed instead.
+     * Get the Header Dispatch. This determines the action that will occur when
+     * the user switches tabs for a document. If the user can modify the
+     * document, the document is automatically saved. If not (view-only), then a
+     * reload will be executed instead.
+     *
      * @return the Header Dispatch action
      */
     public String getHeaderDispatch() {
         return this.getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_SAVE) ? "save" : "reload";
     }
-    
+
     protected abstract String getLockRegion();
-    
+
     protected abstract void setSaveDocumentControl(Map editMode);
-    
+
     public final boolean isViewOnly() {
         return viewOnly;
     }
-    
+
     public final void setViewOnly(boolean viewOnly) {
         this.viewOnly = viewOnly;
     }
-    
+
     public final boolean isPopupViewOnly() {
         return popupViewOnly;
     }
-    
+
     public final void setPopupViewOnly(boolean popupViewOnly) {
         this.popupViewOnly = popupViewOnly;
     }
-    
+
     @Override
     public void setDocument(Document document) {
         super.setDocument(document);
-        ((ResearchDocumentBase)document).setViewOnly(isViewOnly());
+        ((ResearchDocumentBase) document).setViewOnly(isViewOnly());
     }
-    
-    /** {@inheritDoc} */
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected abstract String getDefaultDocumentTypeName();
-
 
     public boolean isMedusaOpenedDoc() {
         return medusaOpenedDoc;
@@ -227,23 +245,23 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     public void setMedusaOpenedDoc(boolean medusaOpenedDoc) {
         this.medusaOpenedDoc = medusaOpenedDoc;
     }
-    
+
     /**
      * This is a utility method to add a new button to the extra buttons
      * collection.
-     *   
+     *
      * @param property
      * @param source
      * @param altText
-     */ 
-    protected void addExtraButton(String property, String source, String altText){
-        
+     */
+    protected void addExtraButton(String property, String source, String altText) {
+
         ExtraButton newButton = new ExtraButton();
-        
+
         newButton.setExtraButtonProperty(property);
         newButton.setExtraButtonSource(source);
         newButton.setExtraButtonAltText(altText);
-        
+
         extraButtons.add(newButton);
     }
 
@@ -269,13 +287,13 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
         setPersonEditableFields(new HashMap<String, Boolean>());
 
         @SuppressWarnings("unchecked")
-     //   Collection<PersonEditableField> fields = getBusinessObjectService().findAll(PersonEditableField.class);
+        //   Collection<PersonEditableField> fields = getBusinessObjectService().findAll(PersonEditableField.class);
         Map fieldValues = new HashMap();
         fieldValues.put("moduleCode", getModuleCode());
         Collection<PersonEditableField> fields = getBusinessObjectService().findMatching(PersonEditableField.class, fieldValues);
         for (PersonEditableField field : fields) {
             debug("found field " + field.getFieldName());
-                getPersonEditableFields().put(field.getFieldName(), Boolean.valueOf(field.isActive()));
+            getPersonEditableFields().put(field.getFieldName(), Boolean.valueOf(field.isActive()));
         }
         // if "All" is implemented
 //        fieldValues.clear();
@@ -295,18 +313,24 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     }
 
     /**
-     * 
-     * This method should be overriden by modules that is using person editable field.
+     *
+     * This method should be overriden by modules that is using person editable
+     * field.
+     *
      * @return
      */
     public String getModuleCode() {
         return "0";
     }
-    
+
     /**
-     * This is a duplication of KualiTransactionalDocumentFormBase.populateFalseCheckboxes with the cavet that this function
-     * puts a NULL in for fields that contain "answer", which are the field names of radio Y/N buttons for the questionnaire framework.
-     * @see org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#populateFalseCheckboxes(javax.servlet.http.HttpServletRequest)
+     * This is a duplication of
+     * KualiTransactionalDocumentFormBase.populateFalseCheckboxes with the cavet
+     * that this function puts a NULL in for fields that contain "answer", which
+     * are the field names of radio Y/N buttons for the questionnaire framework.
+     *
+     * @see
+     * org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#populateFalseCheckboxes(javax.servlet.http.HttpServletRequest)
      */
     @Override
     protected void populateFalseCheckboxes(HttpServletRequest request) {
@@ -318,7 +342,7 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
                 for (int i = 0; i < checkboxesToResetFields.length; i++) {
                     String propertyName = (String) checkboxesToResetFields[i];
                     if (!StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) == null) {
-                        if (this instanceof QuestionableFormInterface 
+                        if (this instanceof QuestionableFormInterface
                                 && (StringUtils.startsWithIgnoreCase(propertyName, ((QuestionableFormInterface) this).getQuestionnaireFieldStarter())
                                 && StringUtils.containsIgnoreCase(propertyName, ((QuestionableFormInterface) this).getQuestionnaireFieldMiddle())
                                 && StringUtils.endsWithIgnoreCase(propertyName, ((QuestionableFormInterface) this).getQuestionnaireFieldEnd())
@@ -326,12 +350,12 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
                             populateForProperty(propertyName, null, parameterMap);
                         } else if (this instanceof MultiQuestionableFormInterface) {
                             processMultiQuestionCheckBox(propertyName, parameterMap, (MultiQuestionableFormInterface) this);
-                            
+
                         } else {
                             populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_FALSE_STR_VALUE_DISPLAY, parameterMap);
                         }
-                    } else if (!StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) != null 
-                            && parameterMap.get(propertyName).length >= 1 
+                    } else if (!StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) != null
+                            && parameterMap.get(propertyName).length >= 1
                             && parameterMap.get(propertyName)[0].equalsIgnoreCase("on")) {
                         populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_TRUE_STR_VALUE_DISPLAY, parameterMap);
                     }
@@ -339,7 +363,7 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
             }
         }
     }
-    
+
     protected void processMultiQuestionCheckBox(String propertyName, Map<String, String[]> parameterMap, MultiQuestionableFormInterface form) {
         boolean checkBoxFound = false;
         int j = 0;
@@ -357,7 +381,7 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
             populateForProperty(propertyName, KimConstants.KIM_ATTRIBUTE_BOOLEAN_FALSE_STR_VALUE_DISPLAY, parameterMap);
         }
     }
-    
+
     public List<String> getUnitRulesMessages() {
         return unitRulesMessages;
     }
@@ -365,27 +389,27 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
     public void setUnitRulesMessages(List<String> unitRulesMessages) {
         this.unitRulesMessages = unitRulesMessages;
     }
-    
+
     public boolean isUnitRulesErrorsExist() {
         return getUnitRulesErrors().size() > 0;
     }
-    
+
     public boolean isUnitRulesWarningsExist() {
         return getUnitRulesWarnings().size() > 0;
     }
-    
+
     public List<String> getUnitRulesErrors() {
         return getUnitRulesMessages(KcKrmsConstants.MESSAGE_TYPE_ERROR);
     }
-    
+
     public List<String> getUnitRulesWarnings() {
         return getUnitRulesMessages(KcKrmsConstants.MESSAGE_TYPE_WARNING);
     }
-    
+
     public void clearUnitRulesMessages() {
         this.unitRulesMessages = Collections.emptyList();
     }
-    
+
     protected List<String> getUnitRulesMessages(String messageType) {
         List<String> messages = new ArrayList<String>();
         for (String message : this.unitRulesMessages) {
