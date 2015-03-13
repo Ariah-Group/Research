@@ -267,7 +267,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         super();
         initialize();
         sponsorFormTemplates = new ArrayList<SponsorFormTemplateList>();
-        
+
         projectDatesRequired = getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, Constants.ARIAH_PROPDEV_REQUIRE_PROJECT_DATES, false);
     }
 
@@ -456,6 +456,13 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
                 }
             } else {
                 getDocInfo().add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", EMPTY_STRING));
+            }
+        }
+
+        for (HeaderField hdr : getDocInfo()) {
+            if (hdr.getDdAttributeEntryName().equals("DataDictionary.AttributeReference.attributes.initiatorNetworkId")) {
+                hdr.setDisplayValue("Creator");
+                break;
             }
         }
 
@@ -2286,15 +2293,15 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
                 Constants.PARAMETER_COMPONENT_DOCUMENT,
                 Constants.ARIAH_PROPDEV_REQUIRE_SPONSOR_DEADLINE_DATE, false);
     }
-    
+
     public boolean isProjectDatesRequired() {
         return projectDatesRequired;
     }
 
     public void setProjectDatesRequired(boolean projectDatesRequired) {
         this.projectDatesRequired = projectDatesRequired;
-    }    
-    
+    }
+
     /**
      * @return the faPercentageCalculated
      */
@@ -2394,5 +2401,5 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      */
     public void setFaPercentageCalculated(BudgetDecimal faPercentageCalculated) {
         this.faPercentageCalculated = faPercentageCalculated;
-    }    
+    }
 }
