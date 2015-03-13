@@ -33,7 +33,7 @@
 		<br />
 		The comment on the action is '<xsl:value-of select="Protocol/Submissions/SubmissionDetails/ActionType/ActionComments" />'.
 		<br />
-		Additional information and further actions can be accessed through the Kuali Coeus system.
+		Additional information and further actions can be accessed through the Ariah Research system.
 		<br />
 	</xsl:template>
 </xsl:stylesheet>

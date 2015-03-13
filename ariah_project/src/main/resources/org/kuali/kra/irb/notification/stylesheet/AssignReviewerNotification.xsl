@@ -12,7 +12,7 @@
 			<xsl:value-of select="Protocol/ProtocolMasterData/ProtocolNumber" />
 		</a>
 
-		through Kuali Coeus.
+		through Ariah Research.
 
 	</xsl:template>
 </xsl:stylesheet>

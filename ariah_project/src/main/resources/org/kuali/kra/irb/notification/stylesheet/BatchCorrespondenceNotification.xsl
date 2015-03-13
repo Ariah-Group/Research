@@ -25,7 +25,7 @@
 		<xsl:text> </xsl:text>
 		<xsl:value-of select="Protocol/user/lastName" />
 		. Additional information and further actions can be accessed through
-		the Kuali Coeus system.
+		the Ariah Research system.
 
         Here is link to
 		<a title="" target="_self"

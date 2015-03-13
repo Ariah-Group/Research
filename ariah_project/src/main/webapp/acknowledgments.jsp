@@ -17,7 +17,7 @@
 <html>
 <head>
 <%--KC MODIFICATION START--%>
-<title>Kuali Coeus 2.0 Acknowledgements</title>
+<title>Ariah Research and Kuali Coeus 5.2.1 Acknowledgements</title>
 <link href="css/screen.css" rel="stylesheet" type="text/css">
 <%--KC MODIFICATION END--%>
 </head>

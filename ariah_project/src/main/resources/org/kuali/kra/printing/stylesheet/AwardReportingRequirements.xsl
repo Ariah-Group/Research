@@ -37,7 +37,7 @@
 													<fo:table-cell number-columns-spanned="2" padding="2pt" display-align="before">
 														<fo:block>
 															<fo:inline font-size="13pt" font-weight="bold">
-																<xsl:text>Kuali Coeus-Award Reporting</xsl:text>
+																<xsl:text>Ariah Research-Award Reporting</xsl:text>
 															</fo:inline>
 															<fo:block/>
 															<fo:inline font-size="10pt" font-weight="bold">
