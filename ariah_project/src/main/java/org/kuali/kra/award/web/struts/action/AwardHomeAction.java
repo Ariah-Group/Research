@@ -270,11 +270,13 @@ public class AwardHomeAction extends AwardAction {
         /**
          * the following two null overrides are per KCAWD-1001
          */
-        if (awardDocument.getAward().getAwardAmountInfos().get(0).getAnticipatedTotalAmount() == null) {
-            awardDocument.getAward().getAwardAmountInfos().get(0).setAnticipatedTotalAmount(new KualiDecimal(0));
+        AwardAmountInfo awardAmtInfo = awardDocument.getAward().getAwardAmountInfos().get(0);
+        
+        if (awardAmtInfo.getAnticipatedTotalAmount() == null) {
+            awardAmtInfo.setAnticipatedTotalAmount(KualiDecimal.ZERO);
         }
-        if (awardDocument.getAward().getAwardAmountInfos().get(0).getAmountObligatedToDate() == null) {
-            awardDocument.getAward().getAwardAmountInfos().get(0).setAmountObligatedToDate(new KualiDecimal(0));
+        if (awardAmtInfo.getAmountObligatedToDate() == null) {
+            awardAmtInfo.setAmountObligatedToDate(KualiDecimal.ZERO);
         }
 
         awardForm.getProjectPersonnelBean().updateLeadUnit();
