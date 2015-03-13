@@ -460,7 +460,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         }
 
         for (HeaderField hdr : getDocInfo()) {
-            if (hdr.getDdAttributeEntryName().equals("DataDictionary.AttributeReference.attributes.initiatorNetworkId")) {
+            if (hdr.getDdAttributeEntryName().equals(Constants.ATTR_INITIATOR_NETWORK_ID_DD)) {
                 hdr.setDisplayValue("Creator");
                 break;
             }
