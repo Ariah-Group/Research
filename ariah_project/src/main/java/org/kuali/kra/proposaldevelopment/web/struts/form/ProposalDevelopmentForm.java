@@ -2340,7 +2340,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
                         boolean boolCampusFlag = false;
 
-                        if (Constants.DEFALUT_CAMUS_FLAG.equalsIgnoreCase(campusFlag) || Constants.ON_CAMUS_FLAG.equalsIgnoreCase(campusFlag)) {
+                        if (Constants.DEFAULT_CAMPUS_FLAG.equalsIgnoreCase(campusFlag) || Constants.ON_CAMPUS_FLAG.equalsIgnoreCase(campusFlag)) {
                             boolCampusFlag = true;
                         }
 

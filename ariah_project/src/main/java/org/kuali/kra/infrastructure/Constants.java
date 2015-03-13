@@ -253,9 +253,9 @@ public interface Constants {
     public static final String TASK_AUTHORIZATION = "taskAuthorization";
 
     //Budget Rates
-    public static final String ON_CAMUS_FLAG = "N";
-    public static final String OFF_CAMUS_FLAG = "F";
-    public static final String DEFALUT_CAMUS_FLAG = "D";
+    public static final String ON_CAMPUS_FLAG = "N";
+    public static final String OFF_CAMPUS_FLAG = "F";
+    public static final String DEFAULT_CAMPUS_FLAG = "D";
     public static final String RATE_CLASS_TYPE_FOR_INFLATION = "I";
     
     //Budget Expenses
