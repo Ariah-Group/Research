@@ -7,7 +7,7 @@
 			<name>ValidProtoSubTypeQualMaintenanceDocument</name>
 			<description>Create/Edit Valid Protocol Submission Type Qualifier</description>
 			<label>Valid Protocol Submission Type Qualifier</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/validprotocolsubmissiontypequalifier.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>

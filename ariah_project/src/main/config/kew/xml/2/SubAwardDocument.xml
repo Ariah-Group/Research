@@ -4,7 +4,7 @@
 		<documentType>
 			<name>SubAwardDocument</name>
 			<description>Manage Subawards</description>
-			<label>KC Subaward</label>
+			<label>Subaward</label>
 			<postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
@@ -36,7 +36,7 @@
                     <rulesEngine executorClass="org.kuali.kra.subaward.service.impl.SubAwardRulesEngineExecutorImpl"/>
                 </requests>
 			</routeNodes>
-			<parent>KC</parent>
+			<parent>AR</parent>
 		</documentType>
 	</documentTypes>	
 </data>

@@ -7,7 +7,7 @@
             <name>FandaRateTypeMaintenanceDocument</name>
             <description>Create/Edit a F &amp; A Rate Type</description>
             <label>F &amp; A Rate Type</label>
-            <parent>KcSharedMaintenanceDocument</parent>
+            <parent>ArSharedMaintenanceDocument</parent>
             <helpDefinitionURL>default.htm?turl=Documents/faratetype.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>

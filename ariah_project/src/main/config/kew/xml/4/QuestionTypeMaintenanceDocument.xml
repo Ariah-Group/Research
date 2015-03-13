@@ -5,7 +5,7 @@
 			<name>QuestionTypeMaintenanceDocument</name>
 			<description>Create/Edit a Question Type</description>
 			<label>Questionnaire Type</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/questiontype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

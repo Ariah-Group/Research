@@ -7,7 +7,7 @@
 			<name>IacucValidProtocolActionActionMaintenanceDocument</name>
 			<description>Create/Edit Valid IACUC Protocol Follow-up Actions</description>
 			<label>IACUC Protocol Follow-up Actions Maintenance Document</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/protocolfollowupactions.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>

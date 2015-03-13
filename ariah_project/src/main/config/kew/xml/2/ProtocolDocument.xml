@@ -5,9 +5,9 @@
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>ProtocolDocument</name>
-			<description>Create a KC Protocol Document</description>
-			<label>KC Protocol</label>
-			<parent>KC</parent>
+			<description>Create a Protocol Document</description>
+			<label>Protocol</label>
+			<parent>AR</parent>
 			<postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<superUserWorkgroupName>KC-WKFLW:IRBAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>KC-WKFLW:IRBAdmin</blanketApproveWorkgroupName>

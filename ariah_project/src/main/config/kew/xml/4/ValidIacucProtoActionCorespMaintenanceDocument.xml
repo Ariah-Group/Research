@@ -7,7 +7,7 @@
 			<name>ValidIacucProtocolActionCorrespondenceMaintenanceDocument</name>
 			<description>Create/Edit Correspondence Generated for Protocol Action</description>
 			<label>IACUC Correspondence Generated</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/correspondencegenerated.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>

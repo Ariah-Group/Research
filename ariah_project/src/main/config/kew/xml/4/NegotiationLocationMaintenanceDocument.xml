@@ -5,7 +5,7 @@
 			<name>NegotiationLocationMaintenanceDocument</name>
 			<description>Create a New Negotiation Location</description>
 			<label>Negotiation Location</label>
-			<parent>KcProposalsMaintenanceDocument</parent>
+			<parent>ArProposalsMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

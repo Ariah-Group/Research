@@ -5,7 +5,7 @@
 			<name>FinancialIndirectCostRecoveryTypeCodeMaintenanceDocument</name>
 			<description>Create new Financial Indirect Cost Recovery Type Code</description>
 			<label>Financial Indirect Cost Recovery Type Code Maintenance Document</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/FinancialIndirectCostRecoveryTypeCode.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

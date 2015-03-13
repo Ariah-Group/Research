@@ -5,7 +5,7 @@
 			<name>CoeusModuleMaintenanceDocument</name>
 			<description>Create an Ariah Research Module</description>
 			<label>Ariah Research Module</label>
-			<parent>KcMiscellaneousMaintenanceDocument</parent>
+			<parent>ArMiscellaneousMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/modulenames.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

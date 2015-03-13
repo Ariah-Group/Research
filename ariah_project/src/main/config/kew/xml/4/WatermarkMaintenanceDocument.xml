@@ -5,7 +5,7 @@
 			<name>WatermarkMaintenanceDocument</name>
 			<description>Create/Edit Watermark Details</description>
 			<label>Watermark Details</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

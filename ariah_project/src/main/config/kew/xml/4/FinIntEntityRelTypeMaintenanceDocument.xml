@@ -5,7 +5,7 @@
             <name>FinIntEntityRelTypeMaintenanceDocument</name>
             <description>Create a Financial Interest Entity relationship type</description>
             <label>Financial Interest Entity Relationship Type Maintenance Document</label>
-            <parent>KcMiscellaneousMaintenanceDocument</parent>
+            <parent>ArMiscellaneousMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/entityrelationshiptype.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>    

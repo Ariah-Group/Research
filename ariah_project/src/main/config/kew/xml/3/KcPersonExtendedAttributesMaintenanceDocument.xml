@@ -3,9 +3,9 @@
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>KcPersonExtendedAttributesMaintenanceDocument</name>
-			<description>Create/Edit a KC Person Extended Attributes entry</description>
+			<description>Create/Edit a Person Extended Attributes entry</description>
 			<label>Person</label>
-			<parent>KcMaintenanceDocument</parent>
+			<parent>ArMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>
 	

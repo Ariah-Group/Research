@@ -5,7 +5,7 @@
             <name>UnitAdministratorTypeMaintenanceDocument</name>
             <description>Create a New Administrator Type</description>
             <label>Administrator Type</label>
-            <parent>KcMiscellaneousMaintenanceDocument</parent>
+            <parent>ArMiscellaneousMaintenanceDocument</parent>
             <helpDefinitionURL>default.htm?turl=Documents/unitadministratortype.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>    

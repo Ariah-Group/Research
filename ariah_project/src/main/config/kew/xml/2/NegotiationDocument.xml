@@ -5,7 +5,7 @@
 			<name>NegotiationDocument</name>
 			<description>Create a Negotiation</description>
 			<label>Negotiation Document</label>
-			<parent>KC</parent>
+			<parent>AR</parent>
 			<docHandler>${kuali.docHandler.url.prefix}/negotiationNegotiation.do?methodToCall=docHandler</docHandler>
             <helpDefinitionURL>default.htm?turl=Documents/negotiation.htm</helpDefinitionURL>
 		</documentType>

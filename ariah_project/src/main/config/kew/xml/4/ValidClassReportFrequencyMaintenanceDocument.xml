@@ -5,7 +5,7 @@
 			<name>Valid Class Report Freq Maintenance Document</name>
 			<description>Document used to create or update Valid Class Report Frequency business objects.</description>
 			<label>Valid Class Report Frequency Maintenance Document</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

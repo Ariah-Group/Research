@@ -5,7 +5,7 @@
 			<name>Award Transaction Type Maintenance Document</name>
 			<description>Create a New Award Transaction Type</description>
 			<label>Award Transaction Type</label>
-			<parent>KcMaintenanceDocument</parent>
+			<parent>ArMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

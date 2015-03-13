@@ -5,7 +5,7 @@
 			<name>SponsorTypeMaintenanceDocument</name>
 			<description>Create a New Sponsor Type</description>
 			<label>Sponsor Type</label>
-			<parent>KcMiscellaneousMaintenanceDocument</parent>
+			<parent>ArMiscellaneousMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/sponsortype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

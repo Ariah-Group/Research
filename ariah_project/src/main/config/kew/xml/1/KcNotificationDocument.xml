@@ -3,8 +3,8 @@
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>KcNotificationDocument</name>
-			<description>This is the default document type that will be associated with all KC notifications, i.e. notifications sent out via the KC notification service.</description>
-			<label>KC Notification</label>
+			<description>This is the default document type that will be associated with all notifications, i.e. notifications sent out via the notification service.</description>
+			<label>Notification</label>
 			<parent>KualiNotification</parent>
 			<security>
         		<securityAttribute name="KcNotificationDocumentSecurityAttribute"/>
@@ -17,8 +17,8 @@
 		<ruleAttribute>
    			<name>KcNotificationDocumentSecurityAttribute</name>
    			<className>{http://kc.kuali.org/core/v5_0}kcNotificationDocumentSecurityTypeService</className>
-   			<label>KC Notification Document Security Attribute</label>
-   			<description>KC Notification Document Security Attribute</description>
+   			<label>Notification Document Security Attribute</label>
+   			<description>Notification Document Security Attribute</description>
    			<type>DocumentSecurityAttribute</type>
    			<applicationId>KC</applicationId>
  		</ruleAttribute>

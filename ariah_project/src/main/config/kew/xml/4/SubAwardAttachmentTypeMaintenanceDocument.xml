@@ -5,7 +5,7 @@
 			<name>SubAwardAttachmentTypeMaintenanceDocument</name>
 			<description>Create a New Subaward Attachment Type</description>
 			<label>Subaward Attachment Type</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

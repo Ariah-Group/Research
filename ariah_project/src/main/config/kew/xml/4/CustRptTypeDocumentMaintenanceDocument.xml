@@ -5,7 +5,7 @@
 			<name>CustRptTypeDocumentMaintenanceDocument</name>
 			<description>Create a New Cust Rpt Type Document</description>
 			<label>CustRpt Type Document</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

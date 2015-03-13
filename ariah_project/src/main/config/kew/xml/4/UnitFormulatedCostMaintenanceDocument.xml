@@ -5,7 +5,7 @@
 			<name>UnitFormulatedCostMaintenanceDocument</name>
 			<description>Create a New Unit Formulated Cost</description>
 			<label>Unit Formulated Cost</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/unitformulatedcost.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

@@ -5,7 +5,7 @@
 			<name>S2sSubmissionTypeMaintenanceDocument</name>
 			<description>Create a New SubmissionType Document Type</description>
 			<label>Submission Type Document Type</label>
-			<parent>KcProposalsMaintenanceDocument</parent>
+			<parent>ArProposalsMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/s2ssubmissiontype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

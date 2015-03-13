@@ -5,7 +5,7 @@
 			<name>BudgetCategoryMapMaintenanceDocument</name>
 			<description>Create/Edit a Budget Category Maps</description>
 			<label>Budget Category Maps Maintenance Document</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/budgetcategorymaps.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

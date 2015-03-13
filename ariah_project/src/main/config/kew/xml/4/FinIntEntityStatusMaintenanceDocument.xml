@@ -5,7 +5,7 @@
             <name>FinIntEntityStatusMaintenanceDocument</name>
             <description>Create a Financial Interest Entity Status</description>
             <label>Financial Interest Entity Status Maintenance Document</label>
-            <parent>KcSharedMaintenanceDocument</parent>
+            <parent>ArSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/entitystatus.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>    

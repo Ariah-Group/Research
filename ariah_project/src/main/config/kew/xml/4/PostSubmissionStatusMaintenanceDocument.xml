@@ -5,7 +5,7 @@
 			<name>PostSubmissionStatusMaintenanceDocument</name>
 			<description>Create a New Post Submission Status Code</description>
 			<label>Post Submission Status Code</label>
-			<parent>KcProposalsMaintenanceDocument</parent>
+			<parent>ArProposalsMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

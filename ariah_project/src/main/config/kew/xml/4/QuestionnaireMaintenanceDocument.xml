@@ -3,7 +3,7 @@
     <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
         <documentType>
             <name>QuestionnaireMaintenanceDocument</name>
-            <parent>KcSharedMaintenanceDocument</parent>
+            <parent>ArSharedMaintenanceDocument</parent>
             <description>Create/Edit a Questionnaire</description>
             <label>Questionnaire</label>
 			<blanketApproveWorkgroupName>KC-WKFLW:QuestionnaireAdmin</blanketApproveWorkgroupName>

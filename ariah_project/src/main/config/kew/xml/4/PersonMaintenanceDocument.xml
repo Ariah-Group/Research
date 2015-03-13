@@ -5,7 +5,7 @@
 			<name>PersonMaintenanceDocument</name>
 			<description>Create/Edit a Person entry</description>
 			<label>Person</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/personextendedattributes.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

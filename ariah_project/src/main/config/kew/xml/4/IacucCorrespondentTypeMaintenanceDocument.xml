@@ -7,7 +7,7 @@
             <name>IacucCorrespondentTypeMaintenanceDocument</name>
             <description>Create/Edit an IACUC Correspondent Type</description>
             <label>IACUC Correspondent Type</label>
-            <parent>KcSharedMaintenanceDocument</parent>
+            <parent>ArSharedMaintenanceDocument</parent>
             <helpDefinitionURL>default.htm?turl=Documents/iacuccorrespondenttype.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>

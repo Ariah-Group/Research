@@ -5,7 +5,7 @@
 			<name>Questionnaire Questions Maintenance Document</name>
 			<description>Create a Questionnaire Questions</description>
 			<label>Questionnaire Questions</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

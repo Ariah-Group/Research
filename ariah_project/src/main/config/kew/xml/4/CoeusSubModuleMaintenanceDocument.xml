@@ -5,7 +5,7 @@
 			<name>Ariah Research Sub Module Maintenance Document</name>
 			<description>Create an Ariah Research Sub Module</description>
 			<label>Ariah Research Sub Module</label>
-			<parent>KcMiscellaneousMaintenanceDocument</parent>
+			<parent>ArMiscellaneousMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

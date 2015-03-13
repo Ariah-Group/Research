@@ -5,7 +5,7 @@
 			<name>CarrierTypeMaintenanceDocument</name>
 			<description>Create a New Carrier Type</description>
 			<label>Carrier Type</label>
-			<parent>KcMaintenanceDocument</parent>
+			<parent>ArMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

@@ -5,7 +5,7 @@
 			<name>FinancialObjectCodeMappingMaintenanceDocument</name>
 			<description>Create new Financial Object Code</description>
 			<label>FinancialObjectCodeMapping Maintenance Document</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/FinancialObjectCodeMapping.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

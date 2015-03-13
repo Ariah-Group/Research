@@ -4,13 +4,13 @@
 		<documentType>
 			<name>TimeAndMoneyDocument</name>
 			<description>Manage TimeAndMoney</description>
-			<label>KC TimeAndMoney</label>
+			<label>TimeAndMoney</label>
 			<postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
 			<docHandler>${kuali.docHandler.url.prefix}/timeAndMoney.do?methodToCall=docHandler</docHandler>
-			<parent>KC</parent>
+			<parent>AR</parent>
 		    <helpDefinitionURL>default.htm?turl=Documents/timeandmoney.htm</helpDefinitionURL>
 			<active>true</active>
 			<policies>

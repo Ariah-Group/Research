@@ -5,7 +5,7 @@
             <name>CoiDisclosureEventTypeMaintenanceDocument</name>
             <description>Create a Coi Event Type</description>
             <label>Coi Event Type Maintenance Document</label>
-            <parent>KcSharedMaintenanceDocument</parent>
+            <parent>ArSharedMaintenanceDocument</parent>
             <docHandler>${kuali.docHandler.url.prefix}/maintenanceCoiDisclosureEvent.do?methodToCall=docHandler</docHandler>
 			<helpDefinitionURL>default.htm?turl=Documents/coidisclosureeventtype.htm</helpDefinitionURL>
         </documentType>

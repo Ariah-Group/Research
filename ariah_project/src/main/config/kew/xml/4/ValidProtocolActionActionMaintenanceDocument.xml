@@ -7,7 +7,7 @@
 			<name>ValidProtocolActionActionMaintenanceDocument</name>
 			<description>Create/Edit Valid Protocol Follow-up Actions</description>
 			<label>Protocol Follow-up Actions Maintenance Document</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/protocolfollowupactions.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>

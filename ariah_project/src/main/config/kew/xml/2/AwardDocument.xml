@@ -14,8 +14,8 @@
 		<documentType>
 			<name>AwardDocument</name>
 			<description>Manage Award</description>
-			<label>KC Award</label>
-			<parent>KC</parent>
+			<label>Award</label>
+			<parent>AR</parent>
 			<postProcessorName>org.kuali.kra.workflow.KcPostProcessor</postProcessorName>
 			<superUserWorkgroupName>KC-WKFLW:AwardAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>KC-WKFLW:AwardAdmin</blanketApproveWorkgroupName>

@@ -5,7 +5,7 @@
             <name>CoiDisclosureStatusMaintenanceDocument</name>
             <description>Create a Coi Disclosure Status</description>
             <label>Coi Disclosure Status Maintenance Document</label>
-            <parent>KcSharedMaintenanceDocument</parent>
+            <parent>ArSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/coidisclosurestatus.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>    

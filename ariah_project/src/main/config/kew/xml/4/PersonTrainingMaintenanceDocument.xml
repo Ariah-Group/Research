@@ -5,7 +5,7 @@
 			<name>PersonTrainingMaintenanceDocument</name>
 			<description>Create a New Person Training</description>
 			<label>Person Training Maintenance Document</label>
-			<parent>KcMiscellaneousMaintenanceDocument</parent>
+			<parent>ArMiscellaneousMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/persontraining.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

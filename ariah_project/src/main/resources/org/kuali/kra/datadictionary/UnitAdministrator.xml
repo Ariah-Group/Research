@@ -35,8 +35,8 @@
 
   <bean id="UnitAdministrator-personId-parentBean" abstract="true" parent="PersonImpl-principalId">
   	<property name="name" value="personId" />
-        <property name="label" value="KC Person ID" />
-        <property name="shortLabel" value="KC Person ID" />
+        <property name="label" value="Person ID" />
+        <property name="shortLabel" value="Person ID" />
         <property name="control">
             <bean parent="HiddenControlDefinition" />
         </property>
@@ -46,8 +46,8 @@
   <bean id="UnitAdministrator-person.userName" parent="UnitAdministrator-person.userName-parentBean" />
     <bean id="UnitAdministrator-person.userName-parentBean" abstract="true" parent="PersonImpl-principalName">
         <property name="name" value="person.userName" />
-        <property name="label" value="KC Person" />
-        <property name="shortLabel" value="KC Person User Name" />
+        <property name="label" value="Person" />
+        <property name="shortLabel" value="Person User Name" />
         <property name="required" value="false" />
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" />

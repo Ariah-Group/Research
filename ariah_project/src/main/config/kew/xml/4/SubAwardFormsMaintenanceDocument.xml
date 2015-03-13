@@ -5,7 +5,7 @@
 			<name>SubAwardFormsMaintenanceDocument</name>
 			<description>Document used to create or update Subaward Forms business objects.</description>
 			<label>Subaward Forms Maintenance Document</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 			</documentType>
 	</documentTypes>	
 </data>

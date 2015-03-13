@@ -75,7 +75,7 @@
 	<bean id="IacucPersonTraining-person.userName" parent="IacucPersonTraining-person.userName-parentBean" />
     <bean id="IacucPersonTraining-person.userName-parentBean" abstract="true" parent="PersonImpl-principalName">
         <property name="name" value="person.userName" />
-        <property name="label" value="KC Person" />
+        <property name="label" value="Person" />
         <property name="shortLabel" value="Name" />
         <property name="required" value="false" />
         <property name="validationPattern" >

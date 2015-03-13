@@ -5,7 +5,7 @@
 <name>BudgetDocument</name>
 <description>Create a Budget</description>
 <label>Budget Document</label>
-<parent>KC</parent>
+<parent>AR</parent>
 <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 <superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
 <blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>

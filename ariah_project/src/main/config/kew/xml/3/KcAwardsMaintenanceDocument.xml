@@ -3,9 +3,9 @@
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>KcAwardsMaintenanceDocument</name>
-			<description>Parent of Awards maintenance documents in KC</description>
+			<description>Parent of Awards maintenance documents</description>
 			<label>KcAwardsMaintenanceDocument</label>
-			<parent>KcMaintenanceDocument</parent>
+			<parent>ArMaintenanceDocument</parent>
 			<routePaths>
 				<routePath>
 					<start name="Initiated" />

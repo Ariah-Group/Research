@@ -7,7 +7,7 @@
 			<name>CorrespondentTypeMaintenanceDocument</name>
 			<description>Create/Edit a Correspondent Type</description>
 			<label>Correspondent Type</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/correspondenttype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>

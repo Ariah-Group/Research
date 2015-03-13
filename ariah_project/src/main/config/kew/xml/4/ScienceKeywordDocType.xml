@@ -5,7 +5,7 @@
 			<name>ScienceKeywordMaintenanceDocument</name>
 			<description>Create a New Science Keyword</description>
 			<label>Science Keyword</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/sciencekeyword.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

@@ -5,7 +5,7 @@
             <name>CoiNoteTypeMaintenanceDocument</name>
             <description>Create a Coi Note Type</description>
             <label>Coi Note Type Maintenance Document</label>
-            <parent>KcSharedMaintenanceDocument</parent>
+            <parent>ArSharedMaintenanceDocument</parent>
             <helpDefinitionURL>default.htm?turl=Documents/coinotetype.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>    

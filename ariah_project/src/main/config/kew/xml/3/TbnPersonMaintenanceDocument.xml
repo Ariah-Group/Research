@@ -5,7 +5,7 @@
 			<name>TbnPersonMaintenanceDocument</name>
 			<description>Create a New TBN Person</description>
 			<label>To Be Named Person</label>
-			<parent>KcMaintenanceDocument</parent>
+			<parent>ArMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

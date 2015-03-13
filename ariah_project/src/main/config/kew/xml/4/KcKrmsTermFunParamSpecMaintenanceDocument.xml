@@ -5,7 +5,7 @@
 			<name>KcKrmsTermFunParamSpecMaintenanceDocument</name>
 			<description>Create/Edit a Krms Term Stored Function Parameters</description>
 			<label>Krms Term Stored Function Params</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/krmsstoredfunctionparams.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

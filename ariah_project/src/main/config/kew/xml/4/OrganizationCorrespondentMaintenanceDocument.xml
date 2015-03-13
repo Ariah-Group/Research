@@ -7,7 +7,7 @@
 			<name>OrganizationCorrespondentMaintenanceDocument</name>
 			<description>Create/Edit an Organization Correspondent</description>
 			<label>Organization Correspondent Maintenance Document</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/organizationcorrespondents.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

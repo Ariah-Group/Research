@@ -5,7 +5,7 @@
             <name>CoiCommitteeRoleTypeMaintenanceDocument</name>
             <description>Create a Coi Committee Role Type</description>
             <label>Coi Committee Role Type Maintenance Document</label>
-            <parent>KcSharedMaintenanceDocument</parent>
+            <parent>ArSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/coicommitteeroletype.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>    

@@ -5,7 +5,7 @@
 			<name>ProposalColumnsToAlterMaintenanceDocument</name>
 			<description>Create a New Proposal Column To Alter</description>
 			<label>Proposal Column To Alter</label>
-			<parent>KcMaintenanceDocument</parent>
+			<parent>ArMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

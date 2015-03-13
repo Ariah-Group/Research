@@ -3,9 +3,9 @@
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>CoiDisclosureDocument</name>
-			<parent>KC</parent>
+			<parent>AR</parent>
 			<description>Manage COI Disclosure</description>
-			<label>KC COI Disclosure</label>
+			<label>COI Disclosure</label>
 			<postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>

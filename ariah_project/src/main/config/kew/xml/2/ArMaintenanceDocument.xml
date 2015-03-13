@@ -2,10 +2,17 @@
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
-			<name>KcComplianceMaintenanceDocument</name>
-			<description>Parent of Compliance maintenance documents</description>
-			<label>KcComplianceMaintenanceDocument</label>
-			<parent>ArMaintenanceDocument</parent>
+			<name>ArMaintenanceDocument</name>
+			<description>Parent of maintenance documents in KC</description>
+			<label>ArMaintenanceDocument</label>
+			<parent>AR</parent>
+			<postProcessorName>org.kuali.kra.workflow.KcPostProcessor</postProcessorName>
+			<superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
+			<blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
+			<defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
+			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<active>true</active>
+			<!-- <routingVersion>2</routingVersion> -->
 			<routePaths>
 				<routePath>
 					<start name="Initiated" />

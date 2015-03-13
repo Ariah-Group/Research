@@ -88,8 +88,8 @@
     <bean id="PersonSignature-personId" parent="PersonSignature-personId-parentBean" />
     <bean id="PersonSignature-personId-parentBean" abstract="true" parent="PersonImpl-principalId" >
        	<property name="name" value="personId" />
-        <property name="label" value="KC Person ID" />
-        <property name="shortLabel" value="KC Person ID" />
+        <property name="label" value="Person ID" />
+        <property name="shortLabel" value="Person ID" />
         <property name="displayLabelAttribute" value="person.userName" />
         <property name="control">
             <bean parent="HiddenControlDefinition" />
@@ -106,8 +106,8 @@
     <bean id="PersonSignature-person.userName" parent="PersonSignature-person.userName-parentBean" />
     <bean id="PersonSignature-person.userName-parentBean" abstract="true" parent="PersonImpl-principalName">
         <property name="name" value="person.userName" />
-        <property name="label" value="KC Person" />
-        <property name="shortLabel" value="KC Person User Name" />
+        <property name="label" value="Person" />
+        <property name="shortLabel" value="Person User Name" />
         <property name="required" value="false" />
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" />

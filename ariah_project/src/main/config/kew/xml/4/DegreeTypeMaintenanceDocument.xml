@@ -5,7 +5,7 @@
 			<name>DegreeTypeMaintenanceDocument</name>
 			<description>Create/Edit a Degree Type entry</description>
 			<label>Degree Type</label>
-			<parent>KcProposalsMaintenanceDocument</parent>
+			<parent>ArProposalsMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/degreetype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

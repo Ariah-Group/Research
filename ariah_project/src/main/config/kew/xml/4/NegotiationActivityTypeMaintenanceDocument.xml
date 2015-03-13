@@ -5,7 +5,7 @@
 			<name>NegotiationActivityTypeMaintenanceDocument</name>
 			<description>Create a New Negotiation Activity Type</description>
 			<label>Negotiation Activity Type</label>
-			<parent>KcProposalsMaintenanceDocument</parent>
+			<parent>ArProposalsMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

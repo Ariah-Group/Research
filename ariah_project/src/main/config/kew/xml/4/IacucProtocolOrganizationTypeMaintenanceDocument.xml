@@ -5,7 +5,7 @@
             <name>IacucProtocolOrganizationTypeMaintenanceDocument</name>
             <description>Create/Edit an IACUC Protocol Organization Type</description>
             <label>IACUC Protocol Organization Type Maintenance Document</label>
-            <parent>KcSharedMaintenanceDocument</parent>
+            <parent>ArSharedMaintenanceDocument</parent>
         <helpDefinitionURL>default.htm?turl=Documents/iacucprotocolorganizationtype.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>

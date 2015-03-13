@@ -5,7 +5,7 @@
 			<name>ValidNarrFormsMaintenanceDocument</name>
 			<description>Map a Valid Narrative type to an S2S form </description>
 			<label>Valid Narrative Type - S2S Form</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

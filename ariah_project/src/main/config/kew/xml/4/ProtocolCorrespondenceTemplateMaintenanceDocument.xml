@@ -7,7 +7,7 @@
 			<name>ProtocolCorrespondenceTemplateMaintenanceDocument</name>
 			<description>Create/Edit a Correspondence Template</description>
 			<label>Correspondence Template</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/correspondencetemplate.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>

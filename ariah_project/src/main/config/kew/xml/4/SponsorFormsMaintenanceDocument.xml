@@ -5,7 +5,7 @@
 			<name>SponsorFormsMaintenanceDocument</name>
 			<description>Create a New Sponsor Form</description>
 			<label>Sponsor Form</label>
-			<parent>KcMiscellaneousMaintenanceDocument</parent>
+			<parent>ArMiscellaneousMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/sponsorforms.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

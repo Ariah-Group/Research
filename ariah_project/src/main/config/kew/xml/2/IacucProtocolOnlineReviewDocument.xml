@@ -15,9 +15,9 @@
         xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
         <documentType>
             <name>IacucProtocolOnlineReviewDocument</name>
-            <description>Create a KC IACUC Protocol Review Document</description>
-            <label>KC IACUC Protocol Review</label>
-            <parent>KC</parent>
+            <description>Create a IACUC Protocol Review Document</description>
+            <label>IACUC Protocol Review</label>
+            <parent>AR</parent>
             <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
             <superUserGroupName namespace="KC-WKFLW">IACUCAdmin</superUserGroupName>
             <blanketApproveGroupName namespace="KC-WKFLW">IACUCAdmin</blanketApproveGroupName>

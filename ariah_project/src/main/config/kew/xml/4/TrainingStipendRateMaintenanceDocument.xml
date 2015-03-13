@@ -5,7 +5,7 @@
 			<name>TrainingStipendRateMaintenanceDocument</name>
 			<description>Create/Edit a Training Stipend Rate</description>
 			<label>Training Stipend Rate Maintenance Document</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/trainingstipendrate.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

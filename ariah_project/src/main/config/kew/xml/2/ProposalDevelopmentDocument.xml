@@ -366,7 +366,7 @@
 				Create an Awesome Development Proposal
 			</description>
 			<label>Proposal Development Document</label>
-			<parent>KC</parent>
+			<parent>AR</parent>
 			<postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 		 	<superUserWorkgroupName>KC-WKFLW:OSP Superuser</superUserWorkgroupName>
 			<defaultExceptionWorkgroupName>KC-WKFLW:ProposalAdmin</defaultExceptionWorkgroupName>

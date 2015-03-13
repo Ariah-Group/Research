@@ -5,7 +5,7 @@
 			<name>ActivityTypeMaintenanceDocument</name>
 			<description>Create a New Activity Type</description>
 			<label>Activity Type Maintenance Document</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/activitytype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

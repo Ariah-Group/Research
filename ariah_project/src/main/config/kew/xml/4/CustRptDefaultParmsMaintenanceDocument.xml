@@ -5,7 +5,7 @@
 			<name>CustRptDefaultParmsMaintenanceDocument</name>
 			<description>Create a New Cust Rpt Default Parms</description>
 			<label>CustRpt Default Parms MaintenanceDocument</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

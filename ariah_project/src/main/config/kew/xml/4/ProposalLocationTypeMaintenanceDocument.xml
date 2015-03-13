@@ -5,7 +5,7 @@
             <name>ProposalLocationTypeMaintenanceDocument</name>
             <description>Create/Edit a Proposal Location Type</description>
             <label>Proposal Location Type</label>
-            <parent>KcProposalsMaintenanceDocument</parent>
+            <parent>ArProposalsMaintenanceDocument</parent>
         </documentType>
     </documentTypes>    
 </data>

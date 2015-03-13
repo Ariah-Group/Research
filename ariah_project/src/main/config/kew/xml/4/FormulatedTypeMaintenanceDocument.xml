@@ -5,7 +5,7 @@
 			<name>FormulatedTypeMaintenanceDocument</name>
 			<description>Create a New Formulated Type</description>
 			<label>Formulated Type</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/formulatedtype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

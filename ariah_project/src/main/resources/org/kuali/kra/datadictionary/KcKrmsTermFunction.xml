@@ -22,7 +22,7 @@
     <bean id="KcKrmsTermFunction" parent="KcKrmsTermFunction-parentBean" />
     <bean id="KcKrmsTermFunction-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.krms.KcKrmsTermFunction" />
-        <property name="objectLabel" value="KC Stored Function Term" />
+        <property name="objectLabel" value="Stored Function Term" />
         <property name="inquiryDefinition" >
             <ref bean="KcKrmsTermFunction-inquiryDefinition" />
         </property>

@@ -7,7 +7,7 @@
             <name>BatchCorrespondenceDetailMaintenanceDocument</name>
             <description>Create/Edit Batch Correspondence Details</description>
             <label>Batch Correspondence Detail</label>
-            <parent>KcSharedMaintenanceDocument</parent>
+            <parent>ArSharedMaintenanceDocument</parent>
         </documentType>
     </documentTypes>
 </data>

@@ -5,7 +5,7 @@
             <name>ContactUsageMaintenanceDocument</name>
             <description>Create/Edit Contact Usage</description>
             <label>Contact Usage</label>
-            <parent>KcSharedMaintenanceDocument</parent>
+            <parent>ArSharedMaintenanceDocument</parent>
             <helpDefinitionURL>default.htm?turl=Documents/contactusage.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>    

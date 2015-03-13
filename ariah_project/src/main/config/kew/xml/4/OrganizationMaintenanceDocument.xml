@@ -5,7 +5,7 @@
 			<name>OrganizationMaintenanceDocument</name>
 			<description>Create/Edit an Organization</description>
 			<label>Organization Maintenance Document</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/organization.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

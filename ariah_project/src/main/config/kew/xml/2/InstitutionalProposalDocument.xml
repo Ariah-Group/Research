@@ -4,7 +4,7 @@
 		<documentType>
 			<name>InstitutionalProposalDocument</name>
 			<description>Manage Institutional Proposal</description>
-			<label>KC Institutional Proposal</label>
+			<label>Institutional Proposal</label>
 			<postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
 			<superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
@@ -36,7 +36,7 @@
                     <rulesEngine executorClass="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalRulesEngineExecutorImpl"/>
                 </requests>
 			</routeNodes>
-			<parent>KC</parent>
+			<parent>AR</parent>
 		</documentType>
 	</documentTypes>
 </data>

@@ -5,7 +5,7 @@
 			<name>PropLocationMaintenanceDocument</name>
 			<description>Create/Edit a Prop Location</description>
 			<label>Prop Location</label>
-			<parent>KcMaintenanceDocument</parent>
+			<parent>ArMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

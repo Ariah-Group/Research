@@ -5,7 +5,7 @@
 			<name>MailTypeMaintenanceDocument</name>
 			<description>Create/Edit a Mail Type</description>
 			<label>Mail Type</label>
-			<parent>KcProposalsMaintenanceDocument</parent>
+			<parent>ArProposalsMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

@@ -5,7 +5,7 @@
 			<name>ValidAwardBasisPaymentMaintenanceDocument</name>
 			<description>Document used to create or update Valid Award Basis Payment business objects.</description>
 			<label>Valid Award Basis Payment Maintenance Document</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

@@ -5,7 +5,7 @@
 			<name>PersonAppointmentMaintenanceDocument</name>
 			<description>Create/Edit a Person Appointment entry</description>
 			<label>Person Appointment</label>
-			<parent>KcMaintenanceDocument</parent>
+			<parent>ArMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

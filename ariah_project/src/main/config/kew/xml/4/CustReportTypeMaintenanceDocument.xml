@@ -5,7 +5,7 @@
 			<name>CustReportTypeMaintenanceDocument</name>
 			<description>Create a New Cust Report Type</description>
 			<label>CustReport Type MaintenanceDocument</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

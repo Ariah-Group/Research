@@ -5,7 +5,7 @@
 			<name>IacucUnitCorrespondentMaintenanceDocument</name>
 			<description>Create/Edit an IACUC Unit Correspondent</description>
 			<label>IACUC Unit Correspondent Maintenance Document</label>
-			<parent>KcSharedMaintenanceDocument</parent>
+			<parent>ArSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/unitcorrespondents.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

@@ -5,7 +5,7 @@
 			<name>SponsorTermMaintenanceDocument</name>
 			<description>Create a New Award Sponsor Term</description>
 			<label>Award Sponsor Term</label>
-			<parent>KcMaintenanceDocument</parent>
+			<parent>ArMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

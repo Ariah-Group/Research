@@ -5,7 +5,7 @@
             <name>CoiRecomendedActionTypeMaintenanceDocument</name>
             <description>Create a Coi Recomended Action Type</description>
             <label>Coi Recomended Action Type Maintenance Document</label>
-            <parent>KcSharedMaintenanceDocument</parent>
+            <parent>ArSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/coirecomendedactiontype.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>    
