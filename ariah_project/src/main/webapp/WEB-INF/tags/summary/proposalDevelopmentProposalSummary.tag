@@ -12,24 +12,30 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
+---------------------------------
+Updates made after January 1, 2015 are :
+Copyright 2015 The Ariah Group, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 --%>
-
-<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
-<c:set var="proposalDevelopmentAttributes"
-	value="${DataDictionary.DevelopmentProposal.attributes}" />
-<c:set var="textAreaFieldName"
-	value="document.developmentProposalList[0].title" />
-<c:set var="action" value="proposalDevelopmentApproverView" />
-<c:set var="budgetAttributes"
-	value="${DataDictionary.Budget.attributes}" />
-<c:set var="projectIncomeAttributes"
-	value="${DataDictionary.BudgetProjectIncome.attributes}" />
-<c:set var="budgetProjectIncomeAttributes"
-	value="${DataDictionary.BudgetProjectIncome.attributes}" />
-<c:set var="budgetVersion"
-	value="${KualiForm.budgetToSummarize.budgetVersionNumber}" />
-
+<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"
+%><c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}"
+/><c:set var="textAreaFieldName" value="document.developmentProposalList[0].title"
+/><c:set var="action" value="proposalDevelopmentApproverView"
+/><c:set var="budgetAttributes" value="${DataDictionary.Budget.attributes}"
+/><c:set var="projectIncomeAttributes" value="${DataDictionary.BudgetProjectIncome.attributes}"
+/><c:set var="budgetProjectIncomeAttributes" value="${DataDictionary.BudgetProjectIncome.attributes}"
+/><c:set var="budgetVersion" value="${KualiForm.budgetToSummarize.budgetVersionNumber}" />
 <kul:tab tabTitle="Proposal Summary" transparentBackground="true"
 	defaultOpen="true"
 	tabErrorKey="document.developmentProposalList[0].currentAwardNumber*,document.developmentProposalList[0].continuedFrom,document.developmentProposalList[0].sponsorCode*,document.developmentProposalList[0].proposalTypeCode*,document.developmentProposalList[0].requestedStartDateInitial*,document.developmentProposalList[0].ownedByUnit*,document.developmentProposalList[0].requestedEndDateInitial*,document.developmentProposalList[0].activityTypeCode*,document.developmentProposalList[0].title"
@@ -40,7 +46,6 @@
 			<span class="subhead-left">Proposal Information</span> <span
 				class="subhead-right">&nbsp;</span>
 		</h3>
-
 		<table cellpadding=0 cellspacing=0 summary="">
 			<tr>
 				<th width="5%" class="infoline"><div align="right">Title</div>
@@ -55,12 +60,10 @@
 				</th>
 				<td>${KualiForm.document.developmentProposalList[0].proposalNumber}&nbsp;</td>
 			</tr>
-
 			<tr>
 				<th><div align="right">Principal Investigator</div>
 				</th>
 				<td>${KualiForm.document.developmentProposalList[0].principalInvestigatorName}&nbsp;</td>
-
 				<th><div align="right">Project Start Date</div>
 				</th>
 				<td><kul:htmlControlAttribute
@@ -78,7 +81,6 @@
 						</c:if>
 					</div></td>
 			</tr>
-
 			<tr>
 				<th><div align="right">Lead Unit</div></th>
 				<td align="left" valign="middle"><c:choose>
@@ -140,10 +142,8 @@
 						readOnly="true"
 						attributeEntry="${proposalDevelopmentAttributes.deadlineType}" />&nbsp;
 				</td>
-
 			</tr>
 		</table>
-
 		<c:set var="budgetFinal" value="false" />
 		<c:forEach items="${KualiForm.document.budgetDocumentVersions}"
 			var="customAttributeDocument1" varStatus="status">
@@ -158,28 +158,15 @@
 					</h3>
 					<table cellpadding=0 cellspacing=0 summary="">
 						<tr>
-
-							<th><div align="center">
-									<kul:htmlAttributeLabel
-										attributeEntry="${budgetAttributes.totalDirectCost}" />
-								</div>
-							</th>
-							<th>
-								<div align="center">Total F&A Costs</div>
-							</th>
-							<th><div align="center">
-									<kul:htmlAttributeLabel
-										attributeEntry="${budgetAttributes.totalCost}" />
-								</div>
-							</th>
-							<th><div align="center">Cost Share
-							</th>
-							<th><div align="center">Underrecovery</div>
-							</th>
-							<th><div align="center">Program Income</div>
-							</th>
-							<th><div align="center">F&A Rate Type</div>
-							</th>
+                            <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.totalDirectCost}" /></div></th>
+                        <th><div align="center">Total F&A Costs</div></th>
+                        <th><div align="center">F&A %</div></th>
+                        <th><div align="center">Overhead %</div></th>                        
+                        <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.totalCost}" /></div></th>
+                        <th><div align="center">Cost Share</div></th>
+                        <th><div align="center">Underrecovery</div></th>
+                        <th><div align="center">Program Income</div></th>
+                        <th><div align="center">F&A Rate Type</div></th>
 						</tr>
 						<tr>
 							<td>
@@ -202,6 +189,18 @@
 							</td>
 							<td>
 								<div align="right">
+                                    <fmt:formatNumber pattern="#,##0.00" value="${KualiForm.faPercentageCalculated}" />
+                                </div>
+                            </td>
+                            <td>
+                                <div align="right">
+                                    <kra-summary:indirectCostPercentage 
+                                        totalIndirectCost = "${KualiForm.document.budgetDocumentVersions[status.index].budgetVersionOverviews[0].totalIndirectCost}"
+                                        totalCost = "${KualiForm.document.budgetDocumentVersions[status.index].budgetVersionOverviews[0].totalCost}" />
+                                </div>
+                            </td>                            
+                            <td>
+                                <div align="right">
 									$
 									<kul:htmlControlAttribute
 										property="document.budgetDocumentVersions[${status.index}].budgetVersionOverviews[0].totalCost"
@@ -239,50 +238,29 @@
 								<div align=left>${KualiForm.document.budgetDocumentVersions[0].budgetVersionOverviews[0].rateClass.description}&nbsp;</div>
 							</td>
 						</tr>
-
 					</table>
 				</c:when>
 			</c:choose>
 		</c:forEach>
 		<c:choose>
-
-			<c:when
-				test="${budgetFinal == false &&  fn:length(KualiForm.document.budgetDocumentVersions) > 0}">
-
-				<c:set var="length"
-					value="${fn:length(KualiForm.document.budgetDocumentVersions)}" />
-
+            <c:when test="${budgetFinal == false &&  fn:length(KualiForm.document.budgetDocumentVersions) > 0}">
+                <c:set var="length" value="${fn:length(KualiForm.document.budgetDocumentVersions)}" />
 				<h3>
-					<span class="subhead-left">Budget Totals</span> <span
-						class="subhead-right">&nbsp;</span>
+                    <span class="subhead-left">Budget Totals</span> <span class="subhead-right">&nbsp;</span>
 				</h3>
 				<table cellpadding=0 cellspacing=0 summary="">
 					<tr>
-
-						<th><div align="center">
-								<kul:htmlAttributeLabel
-									attributeEntry="${budgetAttributes.totalDirectCost}" />
-							</div>
-						</th>
-						<th>
-							<div align="center">Total F&A Costs</div>
-						</th>
-						<th><div align="center">
-								<kul:htmlAttributeLabel
-									attributeEntry="${budgetAttributes.totalCost}" />
-							</div>
-						</th>
-						<th><div align="center">Cost Share
-						</th>
-						<th><div align="center">Underrecovery</div>
-						</th>
-						<th><div align="center">Program Income</div>
-						</th>
-						<th><div align="center">F&A Rate Type</div>
-						</th>
+                        <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.totalDirectCost}" /></div></th>
+                    <th><div align="center">Total F&A Costs</div></th>
+                    <th><div align="center">F&A %</div></th>
+                    <th><div align="center">Overhead %</div></th>
+                    <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.totalCost}" /></div></th>
+                    <th><div align="center">Cost Share</div></th>
+                    <th><div align="center">Underrecovery</div></th>
+                    <th><div align="center">Program Income</div></th>
+                    <th><div align="center">F&A Rate Type</div></th>
 					</tr>
 					<tr>
-
 						<c:forEach items="${KualiForm.document.budgetDocumentVersions}"
 							var="customAttributeDocument1" varStatus="status">
 							<c:set var="versionNumber"
@@ -311,6 +289,18 @@
 								</td>
 								<td>
 									<div align="right">
+                                    <fmt:formatNumber pattern="#,##0.00" value="${KualiForm.faPercentageCalculated}" />
+                                </div>
+                            </td>
+                            <td>
+                                <div align="right">
+                                    <kra-summary:indirectCostPercentage 
+                                        totalIndirectCost = "${KualiForm.document.budgetDocumentVersions[status.index].budgetVersionOverviews[0].totalIndirectCost}"
+                                        totalCost = "${KualiForm.document.budgetDocumentVersions[status.index].budgetVersionOverviews[0].totalCost}" />
+                                </div>
+                            </td>                          
+                            <td>
+                                <div align="right">
 										$
 										<kul:htmlControlAttribute
 											property="document.budgetDocumentVersions[${status.index}].budgetVersionOverviews[0].totalCost"
@@ -351,18 +341,15 @@
 							</c:if>
 						</c:forEach>
 					</tr>
-
 				</table>
 			</c:when>
 			<c:otherwise>
 				<c:if test="${budgetFinal == false}">
 					<h3>
-						<span class="subhead-left">No budget versions available</span> <span
-							class="subhead-right">&nbsp;</span>
+                        <span class="subhead-left">No budget versions available</span> <span class="subhead-right">&nbsp;</span>
 					</h3>
 				</c:if>
 			</c:otherwise>
 		</c:choose>
 	</div>
 </kul:tab>
-

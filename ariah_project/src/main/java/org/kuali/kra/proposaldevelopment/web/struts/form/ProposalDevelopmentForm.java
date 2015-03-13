@@ -61,7 +61,11 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.SpecialReviewUsage;
 import org.kuali.kra.bo.SponsorFormTemplateList;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.rates.BudgetRate;
+import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
 import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
@@ -138,6 +142,7 @@ import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.util.AutoPopulatingList;
@@ -256,6 +261,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private ProposalDevelopmentCustomDataHelper customDataHelper;
     private String narrativeStatusesChangeKey;
     private NarrativeStatus narrativeStatusesChange;
+    private BudgetDecimal faPercentageCalculated;
 
     public ProposalDevelopmentForm() {
         super();
@@ -2287,5 +2293,106 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
     public void setProjectDatesRequired(boolean projectDatesRequired) {
         this.projectDatesRequired = projectDatesRequired;
+    }    
+    
+    /**
+     * @return the faPercentageCalculated
+     */
+    public BudgetDecimal getFaPercentageCalculated() {
+
+        BudgetDecimal closestApplicableRate = null;
+
+        try {
+            Budget actualBudget = null;
+            ProposalDevelopmentDocument propDevDoc = this.getProposalDevelopmentDocument();
+
+            List<BudgetDocumentVersion> budDocVersions = propDevDoc.getBudgetDocumentVersions();
+            String budgetDocumentNumberToRetrieve = null;
+
+            if (budDocVersions != null) {
+
+                // find the most recent version (greatest budget version number)
+                int numBudgetVersion = budDocVersions.size();
+                for (int i = 0; i < numBudgetVersion; i++) {
+                    BudgetDocumentVersion budVer = budDocVersions.get(i);
+
+                    if (budVer.getBudgetVersionOverview().isFinalVersionFlag()) {
+                        budgetDocumentNumberToRetrieve = budVer.getBudgetVersionOverview().getDocumentNumber();
+                    }
+                }
+
+                // if a budget doc number for a FINAL budget was found, then process, else do nothing so ZERO is returned
+                if (budgetDocumentNumberToRetrieve != null) {
+                    try {
+                        // retrieve the actual BudgetDocument
+                        DocumentService docService = KraServiceLocator.getService(DocumentService.class);
+                        BudgetDocument budgetDoc = (BudgetDocument) docService.getByDocumentHeaderId(budgetDocumentNumberToRetrieve);
+
+                        // retrieve the actual Budget
+                        actualBudget = budgetDoc.getBudget();
+
+                        List<BudgetRate> rates = actualBudget.getBudgetRates();
+
+                        java.sql.Date budgetStartDate = actualBudget.getStartDate();
+                        String rateClassCode = actualBudget.getRateClass().getRateClassCode();
+                        String rateClassType = actualBudget.getRateClass().getRateClassType();
+                        String campusFlag = actualBudget.getOnOffCampusFlag();
+
+                        boolean boolCampusFlag = false;
+
+                        if (Constants.DEFALUT_CAMUS_FLAG.equalsIgnoreCase(campusFlag) || Constants.ON_CAMUS_FLAG.equalsIgnoreCase(campusFlag)) {
+                            boolCampusFlag = true;
+                        }
+
+                        java.sql.Date closestApplicableStartDate = null;
+
+                        for (int i = 0; i < rates.size(); i++) {
+                            BudgetRate rate = rates.get(i);
+
+                            // ensure the OnCampus flag and the Rate Class and Rate Class Type from the BUDGET matches the current rate we are checking, otherwise ignore the rate
+                            if (boolCampusFlag == rate.getOnOffCampusFlag() && rateClassCode.equals(rate.getRateClassCode()) && rateClassType.equals(rate.getRateClassType())) {
+
+                                if (rate.getStartDate().before(budgetStartDate) || rate.getStartDate().equals(budgetStartDate)) {
+                                    // then the START DATE of the Rate is ON or AFTER the Budget Start date
+                                    // BUT is it the EARLIEST applicable rate?
+
+                                    // temp variable hasn't been set so set the temp variables 
+                                    if (closestApplicableStartDate == null) {
+                                        closestApplicableStartDate = rate.getStartDate();
+                                        closestApplicableRate = rate.getApplicableRate();
+                                    }
+
+                                    // check the rate start date against the earliest date temp variable
+                                    if (rate.getStartDate().after(closestApplicableStartDate)) {
+                                        closestApplicableStartDate = rate.getStartDate();
+                                        closestApplicableRate = rate.getApplicableRate();
+                                    }
+                                }
+                            }
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (closestApplicableRate == null) {
+            closestApplicableRate = BudgetDecimal.ZERO;
+        }
+
+        return closestApplicableRate;
+    }
+
+    /**
+     * @param faPercentageCalculated the faPercentageCalculated to set
+     */
+    public void setFaPercentageCalculated(BudgetDecimal faPercentageCalculated) {
+        this.faPercentageCalculated = faPercentageCalculated;
     }    
 }
