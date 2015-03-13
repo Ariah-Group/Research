@@ -211,6 +211,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private transient boolean grantsGovSubmitFlag;
     private transient boolean saveXmlPermission;
     private transient boolean grantsGovSelectFlag;
+    private transient boolean projectDatesRequired;
 
     private String proposalFormTabTitle = "Print Sponsor Form Packages ";
     private transient ParameterService parameterService;
@@ -260,6 +261,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         super();
         initialize();
         sponsorFormTemplates = new ArrayList<SponsorFormTemplateList>();
+        
+        projectDatesRequired = getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, Constants.ARIAH_PROPDEV_REQUIRE_PROJECT_DATES, false);
     }
 
     /**
@@ -2277,4 +2280,12 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
                 Constants.PARAMETER_COMPONENT_DOCUMENT,
                 Constants.ARIAH_PROPDEV_REQUIRE_SPONSOR_DEADLINE_DATE, false);
     }
+    
+    public boolean isProjectDatesRequired() {
+        return projectDatesRequired;
+    }
+
+    public void setProjectDatesRequired(boolean projectDatesRequired) {
+        this.projectDatesRequired = projectDatesRequired;
+    }    
 }

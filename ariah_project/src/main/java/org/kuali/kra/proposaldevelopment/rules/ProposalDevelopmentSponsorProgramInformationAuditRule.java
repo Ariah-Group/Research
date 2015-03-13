@@ -87,7 +87,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
         // following conditions: a) if the date entered is older than the current date,
         // or b) if there is no data entered. Additionally, if the 'Require Sponsor Deadline
         // Date' parameter is enabled, then if the Deadline Date is 
-        if (proposal.getDeadlineDate() == null && proposalForm.isDeadlineDateRequired()) {
+        if (proposalForm.isDeadlineDateRequired() && proposal.getDeadlineDate() == null) {
             // Validation Error
             auditErrors.add(new AuditError(Constants.DEADLINE_DATE_KEY, KeyConstants.WARNING_EMPTY_DEADLINE_DATE, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
 

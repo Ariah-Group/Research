@@ -73,7 +73,11 @@ limitations under the License.
                 <td>
                       <kul:htmlControlAttribute property="document.developmentProposalList[0].proposalTypeCode" readOnly="${readOnly}" attributeEntry="${proposalDevelopmentAttributes.proposalTypeCode}" />
                 </td>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.requestedStartDateInitial}" /></div></th>
+                <th><div align="right">
+                    <c:if test="${KualiForm.projectDatesRequired}" >
+                    *&nbsp;
+                    </c:if>
+                    <kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.requestedStartDateInitial}" /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.developmentProposalList[0].requestedStartDateInitial" attributeEntry="${proposalDevelopmentAttributes.requestedStartDateInitial}"  />
                 </td>
@@ -90,7 +94,11 @@ limitations under the License.
                     </c:otherwise>
                   </c:choose>
 				</td>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.requestedEndDateInitial}" /></div></th>
+                <th><div align="right">
+                    <c:if test="${KualiForm.projectDatesRequired}" >
+                    *&nbsp;
+                    </c:if>
+                    <kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.requestedEndDateInitial}" /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.developmentProposalList[0].requestedEndDateInitial" attributeEntry="${proposalDevelopmentAttributes.requestedEndDateInitial}"  />
                 </td>
