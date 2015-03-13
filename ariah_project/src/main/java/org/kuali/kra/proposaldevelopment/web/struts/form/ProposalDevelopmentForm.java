@@ -145,6 +145,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.util.AutoPopulatingList;
 
 /**
@@ -468,6 +469,9 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
         // Proposal ID/Number
         getDocInfo().add(new HeaderField(Constants.ATTR_PROPOSAL_NUMBER_DD, pd.getDevelopmentProposal().getProposalNumber()));        
+        
+        // Sponsor Deadline Date
+        getDocInfo().add(new HeaderField(Constants.ATTR_SPONSOR_DEADLINE_DATE_DD, ObjectUtils.formatPropertyValue(pd.getDevelopmentProposal().getDeadlineDate())));        
     }
 
     /**

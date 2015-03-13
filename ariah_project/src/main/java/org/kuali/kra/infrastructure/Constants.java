@@ -986,5 +986,7 @@ public interface Constants {
     
     
     public final static String ATTR_PROPOSAL_NUMBER_DD = "DataDictionary.DevelopmentProposal.attributes.proposalNumber";
+    public final static String ATTR_INITIATOR_NETWORK_ID_DD = "DataDictionary.AttributeReference.attributes.initiatorNetworkId";
+    public final static String ATTR_SPONSOR_DEADLINE_DATE_DD = "DataDictionary.DevelopmentProposal.attributes.deadlineDate";
 }
 
