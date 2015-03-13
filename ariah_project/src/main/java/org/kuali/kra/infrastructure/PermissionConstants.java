@@ -174,6 +174,11 @@ public interface PermissionConstants {
     public static final String UPDATE_FE_STATUS_ADMIN = "Maintain Coi FE Status Admin";
     
     /*
+     * Award
+     */
+     public static final String AWARD_BLANKET_APPROVE = "Blanket Approve AwardDocument";
+     
+    /*
      * Subaward
      */
      public static final String CREATE_SUBAWARD = "CREATE SUBAWARD";

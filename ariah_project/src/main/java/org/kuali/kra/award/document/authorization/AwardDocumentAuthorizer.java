@@ -40,6 +40,7 @@ import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 import java.util.*;
+import org.kuali.kra.infrastructure.PermissionConstants;
 
 /**
  * This class is the Award Document Authorizer. It determines the edit modes and
@@ -328,7 +329,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         PermissionService permService = KraServiceLocator.getService(KimApiServiceLocator.KIM_PERMISSION_SERVICE);
         canBA
                 = (!(isFinal(document) || isProcessed(document))
-                && permService.hasPermission(user.getPrincipalId(), Constants.MODULE_NAMESPACE_AWARD, "Blanket Approve AwardDocument"));
+                && permService.hasPermission(user.getPrincipalId(), Constants.MODULE_NAMESPACE_AWARD, PermissionConstants.AWARD_BLANKET_APPROVE));
         if (!isFinal(document) && canBA) {
             // check system parameter - if Y, use default workflow behavior: allow a user with the permission
             // to perform the blanket approve action at any time
