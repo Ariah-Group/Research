@@ -30,7 +30,7 @@
                                             <fo:block>
                                                 <fo:leader leader-pattern="space" />
                                             </fo:block>
-                                            <fo:inline font-size="12.0pt" font-weight="bold">Coeus </fo:inline>
+                                            <fo:inline font-size="12.0pt" font-weight="bold">Ariah Research </fo:inline>
                                             <fo:inline font-size="12.0pt" font-weight="bold"> <xsl:value-of select="$parentTypeName" /> </fo:inline>
                                             <fo:inline font-size="12.0pt" font-weight="bold"> Development - Cumulative Budget Summary</fo:inline>
                                             <fo:block>

@@ -29,7 +29,7 @@
 	            <tr>
 	                <td>
 	                    <div align="center">
-	                        Your changes are being synchronized to the Coeus Sub-Modules for COI.
+	                        Your changes are being synchronized to the Ariah Research Sub-Modules for COI.
 	                    </div>
 	                </td>
 	            </tr>

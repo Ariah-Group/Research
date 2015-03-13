@@ -3,8 +3,8 @@
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>CoeusModuleMaintenanceDocument</name>
-			<description>Create a Kuali Coeus Module</description>
-			<label>Kuali Coeus Module</label>
+			<description>Create an Ariah Research Module</description>
+			<label>Ariah Research Module</label>
 			<parent>KcMiscellaneousMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/modulenames.htm</helpDefinitionURL>
 		</documentType>

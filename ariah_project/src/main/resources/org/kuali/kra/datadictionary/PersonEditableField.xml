@@ -98,8 +98,8 @@
 
   <bean id="PersonEditableField-coeusModule.description-parentBean" abstract="true" parent="CoeusModule-description">
     <property name="name" value="coeusModule.description" />
-    <property name="label" value="Coeus Module" />
-    <property name="shortLabel" value="Coeus Module" />
+    <property name="label" value="Research Module" />
+    <property name="shortLabel" value="Research Module" />
   </bean>
   
   <bean id="PersonEditableField-versionNumber" parent="PersonEditableField-versionNumber-parentBean"/>

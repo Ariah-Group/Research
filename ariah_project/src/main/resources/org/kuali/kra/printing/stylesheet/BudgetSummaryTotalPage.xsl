@@ -10956,7 +10956,7 @@
                                     <fo:block>
                                     <fo:block/>
                                         <fo:inline font-family="Times New Roman" font-size="15pt" font-weight="bold">
-                                            <xsl:text>Coeus </xsl:text>
+                                            <xsl:text>Ariah Research </xsl:text>
 											<xsl:text/> <xsl:value-of select="$parentTypeName" />
                                             <xsl:text> - </xsl:text>
                                         </fo:inline>

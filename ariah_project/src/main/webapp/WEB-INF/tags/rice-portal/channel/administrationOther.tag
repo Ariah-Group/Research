@@ -47,7 +47,7 @@
 <ul class="chan">
   <li>Argument Values</li>
   <li>Closeout Type</li>
-  <li>Coeus Module Names</li>
+  <li>Ariah Research Module Names</li>
   <li><portal:portalLink displayTitle="true" title="Country" url="${ConfigProperties.kr.url}/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.Country&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
   <li>EDI Enabled Sponsors</li>
   <li>Investigators Credit Type</li>

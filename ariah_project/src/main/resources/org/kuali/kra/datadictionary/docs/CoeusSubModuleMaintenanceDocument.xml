@@ -15,7 +15,7 @@
             </list>
         </property>
         <property name="allowsRecordDeletion" value="true" />
-        <property name="documentTypeName" value="Coeus Sub Module Maintenance Document" />
+        <property name="documentTypeName" value="Ariah Research Sub Module Maintenance Document" />
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
     </bean>
 
@@ -23,8 +23,8 @@
     
     <bean id="CoeusSubModuleMaintenanceDocument-EditCoeusSubModule" parent="CoeusSubModuleMaintenanceDocument-EditCoeusSubModule-parentBean" />
     <bean id="CoeusSubModuleMaintenanceDocument-EditCoeusSubModule-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-        <property name="id" value="Edit Coeus Sub Module" />
-        <property name="title" value="Edit Coeus Sub Module" />
+        <property name="id" value="Edit Ariah Research Sub Module" />
+        <property name="title" value="Edit Ariah Research Sub Module" />
         <property name="maintainableItems" >
             <list>
                 <bean parent="MaintainableFieldDefinition"

@@ -1264,7 +1264,7 @@ CalculationMethodologyWithoutHeader.lay ## -->
     <xsl:template name="BudgetHeader">
         <fo:block-container position="absolute" top="12pt" left="28pt" height="15.0pt" width="384.0pt" border-width="1.0pt" display-align="before">
             <fo:block span="none" white-space-collapse="true" color="#000000"  font-size="12.0pt" font-weight="bold" text-align="start" position="relative" top="12pt" left="28pt" height="15.0pt" width="384.0pt">
-                <xsl:text>Coeus Proposal Development - Budget Summary</xsl:text>
+                <xsl:text>Proposal Development - Budget Summary</xsl:text>
             </fo:block>
         </fo:block-container>
         <fo:block-container position="absolute" top="30pt" left="28pt" height="15.0pt" width="100.0pt" border-width="1.0pt" display-align="before">

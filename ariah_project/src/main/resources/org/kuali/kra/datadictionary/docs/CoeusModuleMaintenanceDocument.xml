@@ -23,8 +23,8 @@
     
     <bean id="CoeusModuleMaintenanceDocument-EditCoeusModule" parent="CoeusModuleMaintenanceDocument-EditCoeusModule-parentBean" />
     <bean id="CoeusModuleMaintenanceDocument-EditCoeusModule-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-        <property name="id" value="Edit Coeus Module" />
-        <property name="title" value="Edit Coeus Module" />
+        <property name="id" value="Edit Ariah Research Module" />
+        <property name="title" value="Edit Ariah Research Module" />
         <property name="maintainableItems" >
             <list>
                 <bean parent="MaintainableFieldDefinition"

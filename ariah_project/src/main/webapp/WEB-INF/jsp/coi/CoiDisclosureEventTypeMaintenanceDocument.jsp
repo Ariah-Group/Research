@@ -44,7 +44,7 @@
 	<script type="text/javascript">
 		var $j = jQuery.noConflict();
 		$j(document).ready(function() {
-  				alert("Your changes are being synchronized to the Coeus Sub-Modules for COI");
+  				alert("Your changes are being synchronized to the Ariah Research Sub-Modules for COI");
 			}
 		);
 	</script>
