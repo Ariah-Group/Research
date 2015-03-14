@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.irb.protocol;
 
@@ -61,21 +77,24 @@ import java.util.Map.Entry;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 
 /**
- * The ProtocolProtocolAction corresponds to the Protocol tab (web page). It is responsible for handling all user requests from that
- * tab (web page).
+ * The ProtocolProtocolAction corresponds to the Protocol tab (web page). It is
+ * responsible for handling all user requests from that tab (web page).
  */
 public class ProtocolProtocolAction extends ProtocolAction {
-    
+
     private static final String CONFIRM_DELETE_PROTOCOL_FUNDING_SOURCE_KEY = "confirmDeleteProtocolFundingSource";
 
     /**
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see
+     * org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
+     * org.apache.struts.action.ActionForm,
+     * javax.servlet.http.HttpServletRequest,
+     * javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        
+
         ActionForward actionForward = super.execute(mapping, form, request, response);
 
         // Following is for protocol lookup - edit protocol
@@ -127,15 +146,16 @@ public class ProtocolProtocolAction extends ProtocolAction {
             // finally do validation and error reporting for inactive research areas
             (new ProtocolDocumentRule()).processProtocolResearchAreaBusinessRules((ProtocolDocument) protocolDocument);
         }
-        
-        
+
     }
-    
+
     /**
-     * 
-     * This method adds an <code>ProtocolParticipant</code> business object to the list of <code>ProtocolParticipants</code>
-     * business objects It gets called upon add action on the Participant Types sub-panel of the Protocol panel
-     * 
+     *
+     * This method adds an <code>ProtocolParticipant</code> business object to
+     * the list of <code>ProtocolParticipants</code> business objects It gets
+     * called upon add action on the Participant Types sub-panel of the Protocol
+     * panel
+     *
      * @param mapping
      * @param form
      * @param request
@@ -143,26 +163,28 @@ public class ProtocolProtocolAction extends ProtocolAction {
      * @return
      * @throws Exception
      */
-    public ActionForward addProtocolParticipant(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-        throws Exception {
-        
+    public ActionForward addProtocolParticipant(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolParticipant newProtocolParticipant = ((ProtocolHelper) protocolForm.getProtocolHelper()).getNewProtocolParticipant();
         List<ProtocolParticipant> protocolParticipants = ((Protocol) protocolForm.getProtocolDocument().getProtocol()).getProtocolParticipants();
 
         if (applyRules(new AddProtocolParticipantEvent((ProtocolDocument) protocolForm.getProtocolDocument(), newProtocolParticipant, protocolParticipants))) {
             getProtocolParticipantService().addProtocolParticipant((Protocol) protocolForm.getProtocolDocument().getProtocol(), newProtocolParticipant);
-            ((ProtocolHelper) protocolForm.getProtocolHelper()).setNewProtocolParticipant(new ProtocolParticipant());          
+            ((ProtocolHelper) protocolForm.getProtocolHelper()).setNewProtocolParticipant(new ProtocolParticipant());
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
-     * 
-     * This method deletes an <code>ProtocolParticipant</code> business object from the list of <code>ProtocolParticipants</code>
-     * business objects It gets called upon delete action on the Participant Types sub-panel of the Protocol panel
-     * 
+     *
+     * This method deletes an <code>ProtocolParticipant</code> business object
+     * from the list of <code>ProtocolParticipants</code> business objects It
+     * gets called upon delete action on the Participant Types sub-panel of the
+     * Protocol panel
+     *
      * @param mapping
      * @param form
      * @param request
@@ -170,9 +192,9 @@ public class ProtocolProtocolAction extends ProtocolAction {
      * @return
      * @throws Exception
      */
-    public ActionForward deleteProtocolParticipant(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-        throws Exception {
-        
+    public ActionForward deleteProtocolParticipant(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+
         ProtocolForm protocolForm = (ProtocolForm) form;
         ((Protocol) protocolForm.getProtocolDocument().getProtocol()).getProtocolParticipants().remove(getLineToDelete(request));
 
@@ -180,58 +202,62 @@ public class ProtocolProtocolAction extends ProtocolAction {
     }
 
     /**
-     * This method is hook to KNS, it adds ProtocolReference. Method is called in protocolAdditonalInformation.tag
-     * 
+     * This method is hook to KNS, it adds ProtocolReference. Method is called
+     * in protocolAdditonalInformation.tag
+     *
      * @param mapping
      * @param form
      * @param request
      * @param response
      * @return
      * @throws Exception
-     
-    public ActionForward addProtocolReference(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolReference newProtocolReference = protocolForm.getNewProtocolReference();
-
-        if (applyRules(new AddProtocolReferenceEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), newProtocolReference))) {
-
-            ProtocolReferenceService service = KraServiceLocator.getService(ProtocolReferenceService.class);
-
-            service.addProtocolReference(protocolForm.getProtocolDocument().getProtocol(), newProtocolReference);
-
-            protocolForm.setNewProtocolReference(new ProtocolReference());
-
-        }
-
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }*/
-    
+     *
+     * public ActionForward addProtocolReference(ActionMapping mapping,
+     * ActionForm form, HttpServletRequest request, HttpServletResponse
+     * response) throws Exception { ProtocolForm protocolForm = (ProtocolForm)
+     * form; ProtocolReference newProtocolReference =
+     * protocolForm.getNewProtocolReference();
+     *
+     * if (applyRules(new AddProtocolReferenceEvent(Constants.EMPTY_STRING,
+     * protocolForm.getProtocolDocument(), newProtocolReference))) {
+     *
+     * ProtocolReferenceService service =
+     * KraServiceLocator.getService(ProtocolReferenceService.class);
+     *
+     * service.addProtocolReference(protocolForm.getProtocolDocument().getProtocol(),
+     * newProtocolReference);
+     *
+     * protocolForm.setNewProtocolReference(new ProtocolReference());
+     *
+     * }
+     *
+     * return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+     */
     public ActionForward addProtocolReferenceBean(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolReferenceBean bean = (ProtocolReferenceBean) protocolForm.getNewProtocolReferenceBean();
-        
+
         if (applyRules(new AddProtocolReferenceEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), bean))) {
             ProtocolReferenceType type = this.getBusinessObjectService().findBySinglePrimaryKey(ProtocolReferenceType.class, bean.getProtocolReferenceTypeCode());
-            
+
             ProtocolReference ref = new ProtocolReference(bean, (Protocol) protocolForm.getProtocolDocument().getProtocol(), type);
-            
+
             ProtocolReferenceService service = KraServiceLocator.getService(ProtocolReferenceService.class);
 
             service.addProtocolReference(protocolForm.getProtocolDocument().getProtocol(), ref);
-            
+
             protocolForm.setNewProtocolReferenceBean(new ProtocolReferenceBean());
         }
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-
     /**
-     * This method is hook to KNS, it deletes selected ProtocolReference from the UI list. Method is called in
-     * protocolAdditonalInformation.tag
-     * 
+     * This method is hook to KNS, it deletes selected ProtocolReference from
+     * the UI list. Method is called in protocolAdditonalInformation.tag
+     *
      * @param mapping
      * @param form
      * @param request
@@ -249,9 +275,9 @@ public class ProtocolProtocolAction extends ProtocolAction {
     }
 
     /**
-     * This method is hook to KNS, it deletes selected ProtocolResearchArea from the UI list. Method is called in
-     * protocolAdditonalInformation.tag
-     * 
+     * This method is hook to KNS, it deletes selected ProtocolResearchArea from
+     * the UI list. Method is called in protocolAdditonalInformation.tag
+     *
      * @param mapping
      * @param form
      * @param request
@@ -269,9 +295,9 @@ public class ProtocolProtocolAction extends ProtocolAction {
     }
 
     /**
-     * This method is linked to ProtocolLocationService to perform the action - Add Protocol Location. Method is called in
-     * protocolLocations.tag
-     * 
+     * This method is linked to ProtocolLocationService to perform the action -
+     * Add Protocol Location. Method is called in protocolLocations.tag
+     *
      * @param mapping
      * @param form
      * @param request
@@ -293,9 +319,9 @@ public class ProtocolProtocolAction extends ProtocolAction {
     }
 
     /**
-     * This method is linked to ProtocolLocationService to perform the action - Delete Protocol Location. Method is called in
-     * protocolLocations.tag
-     * 
+     * This method is linked to ProtocolLocationService to perform the action -
+     * Delete Protocol Location. Method is called in protocolLocations.tag
+     *
      * @param mapping
      * @param form
      * @param request
@@ -311,9 +337,10 @@ public class ProtocolProtocolAction extends ProtocolAction {
     }
 
     /**
-     * This method is linked to ProtocolLocationService to perform the action - Clear Protocol Location address. Method is called in
+     * This method is linked to ProtocolLocationService to perform the action -
+     * Clear Protocol Location address. Method is called in
      * protocolLocations.tag
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -331,7 +358,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
 
     /**
      * This method is to get protocol participant service
-     * 
+     *
      * @return ProtocolPersonnelService
      */
     private ProtocolParticipantService getProtocolParticipantService() {
@@ -340,7 +367,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
 
     /**
      * This method is to get protocol location service
-     * 
+     *
      * @return ProtocolLocationService
      */
     private ProtocolLocationService getProtocolLocationService() {
@@ -348,9 +375,10 @@ public class ProtocolProtocolAction extends ProtocolAction {
     }
 
     /**
-     * This method is linked to ProtocolFundingService to perform the action - Add Protocol Funding Source. Method is called in
+     * This method is linked to ProtocolFundingService to perform the action -
+     * Add Protocol Funding Source. Method is called in
      * protocolFundingSources.tag
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -365,7 +393,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
         ProtocolFundingSource fundingSource = (ProtocolFundingSource) protocolForm.getProtocolHelper().getNewFundingSource();
         List<ProtocolFundingSourceBase> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
         AddProtocolFundingSourceEvent event = new AddProtocolFundingSourceEvent(Constants.EMPTY_STRING, protocolDocument,
-            fundingSource, (List)protocolFundingSources);
+                fundingSource, (List) protocolFundingSources);
 
         protocolForm.getProtocolHelper().syncFundingSources(protocolDocument.getProtocol());
 
@@ -376,11 +404,11 @@ public class ProtocolProtocolAction extends ProtocolAction {
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
-     * This method is linked to ProtocolFundingSourceService to Delete a ProtocolFundingSource. Method is called in
-     * protocolFundingSources.tag
-     * 
+     * This method is linked to ProtocolFundingSourceService to Delete a
+     * ProtocolFundingSource. Method is called in protocolFundingSources.tag
+     *
      * @param mapping
      * @param form
      * @param request
@@ -388,17 +416,17 @@ public class ProtocolProtocolAction extends ProtocolAction {
      * @return
      * @throws Exception
      */
-    public ActionForward deleteProtocolFundingSource(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-        throws Exception {
-        
+    public ActionForward deleteProtocolFundingSource(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+
         return confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_DELETE_PROTOCOL_FUNDING_SOURCE_KEY,
                 KeyConstants.QUESTION_PROTOCOL_FUNDING_SOURCE_DELETE_CONFIRMATION), CONFIRM_DELETE_PROTOCOL_FUNDING_SOURCE_KEY, "");
     }
 
     /**
-     * This method is linked to ProtocolFundingSourceService to Delete a ProtocolFundingSource. Method is called in
-     * protocolFundingSources.tag
-     * 
+     * This method is linked to ProtocolFundingSourceService to Delete a
+     * ProtocolFundingSource. Method is called in protocolFundingSources.tag
+     *
      * @param mapping
      * @param form
      * @param request
@@ -406,25 +434,25 @@ public class ProtocolProtocolAction extends ProtocolAction {
      * @return
      * @throws Exception
      */
-    public ActionForward confirmDeleteProtocolFundingSource(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-        throws Exception {
-        
+    public ActionForward confirmDeleteProtocolFundingSource(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_DELETE_PROTOCOL_FUNDING_SOURCE_KEY.equals(question)) {
             ProtocolForm protocolForm = (ProtocolForm) form;
             ProtocolDocument protocolDocument = (ProtocolDocument) protocolForm.getProtocolDocument();
-            
+
             ProtocolFundingSource protocolFundingSource = (ProtocolFundingSource) protocolDocument.getProtocol().getProtocolFundingSources().remove(getLineToDelete(request));
             protocolForm.getProtocolHelper().getDeletedProtocolFundingSources().add(protocolFundingSource);
         }
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
-     * This method is linked to ProtocolFundingSourceService to View a ProtocolFundingSource. Method is called in
-     * protocolFundingSources.tag
-     * 
+     * This method is linked to ProtocolFundingSourceService to View a
+     * ProtocolFundingSource. Method is called in protocolFundingSources.tag
+     *
      * @param mapping
      * @param form
      * @param request
@@ -449,28 +477,27 @@ public class ProtocolProtocolAction extends ProtocolAction {
 
         if (StringUtils.isNotEmpty(viewFundingSourceUrl)) {
             return new ActionForward(viewFundingSourceUrl, true);
-        }
-        else {
+        } else {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
     }
 
     /**
-     * Exposing this to be used in ProtocolFundingSource Service so we can avoid stacking funding source conditional logic in the
-     * action
-     * 
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#buildForwardUrl(java.lang.Long)
+     * Exposing this to be used in ProtocolFundingSource Service so we can avoid
+     * stacking funding source conditional logic in the action
+     *
+     * @see
+     * org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#buildForwardUrl(java.lang.Long)
      */
     @Override
     public String buildForwardUrl(String routeHeaderId) {
         return super.buildForwardUrl(routeHeaderId);
     }
 
-
     /**
-     * 
+     *
      * Takes care of forwarding to the lookup action.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -479,8 +506,8 @@ public class ProtocolProtocolAction extends ProtocolAction {
      * @throws Exception
      */
     public ActionForward performFundingSourceLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-        HttpServletResponse response) throws Exception {
-        
+            HttpServletResponse response) throws Exception {
+
         ActionForward returnAction = null;
 
         ProtocolForm protocolForm = (ProtocolForm) form;
@@ -488,7 +515,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
         String fundingSourceTypeCode = protocolForm.getProtocolHelper().getNewFundingSource().getFundingSourceTypeCode();
 
         LookupProtocolFundingSourceEvent event = new LookupProtocolFundingSourceEvent(
-            Constants.EMPTY_STRING, ((ProtocolForm) form).getDocument(), fundingSourceTypeCode, ProtocolEventBase.ErrorType.HARDERROR);
+                Constants.EMPTY_STRING, ((ProtocolForm) form).getDocument(), fundingSourceTypeCode, ProtocolEventBase.ErrorType.HARDERROR);
 
         if (applyRules(event)) {
             Entry<String, String> entry = getProtocolFundingSourceService().getLookupParameters(fundingSourceTypeCode);
@@ -509,20 +536,18 @@ public class ProtocolProtocolAction extends ProtocolAction {
         return returnAction;
     }
 
-
     /**
      * This method is to get protocol location service
-     * 
+     *
      * @return ProtocolFundingSourceService
      */
     private ProtocolFundingSourceService getProtocolFundingSourceService() {
         return (ProtocolFundingSourceService) KraServiceLocator.getService(ProtocolFundingSourceService.class);
     }
 
-
     /**
      * This method is to return Proposal Development Document service
-     * 
+     *
      * @return ProtocolProposalDevelopmentDocumentService
      */
     private ProtocolProposalDevelopmentDocumentService getProtocolProposalDevelopmentDocumentService() {
@@ -530,9 +555,10 @@ public class ProtocolProtocolAction extends ProtocolAction {
     }
 
     /**
-     * This method is linked to ProtocolFundingService to perform the action - Create Proposal Development. Method is called in
+     * This method is linked to ProtocolFundingService to perform the action -
+     * Create Proposal Development. Method is called in
      * protocolFundingSources.tag
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -544,23 +570,21 @@ public class ProtocolProtocolAction extends ProtocolAction {
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument protocolDocument = (ProtocolDocument) protocolForm.getProtocolDocument();
-        
-        if ( protocolForm.getProtocolHelper().isProtocolProposalDevelopmentLinkingEnabled())
-        {
-            ProtocolProposalDevelopmentDocumentService service = getProtocolProposalDevelopmentDocumentService(); 
+
+        if (protocolForm.getProtocolHelper().isProtocolProposalDevelopmentLinkingEnabled()) {
+            ProtocolProposalDevelopmentDocumentService service = getProtocolProposalDevelopmentDocumentService();
             ProposalDevelopmentDocument proposalDevelopmentDocument = service.createProposalDevelopmentDocument(protocolForm);
-            if (proposalDevelopmentDocument != null )
-            {
+            if (proposalDevelopmentDocument != null) {
                 DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
-        
-                ProtocolFundingSourceServiceImpl protocolFundingSourceServiceImpl = (ProtocolFundingSourceServiceImpl) getProtocolFundingSourceService(); 
+
+                ProtocolFundingSourceServiceImpl protocolFundingSourceServiceImpl = (ProtocolFundingSourceServiceImpl) getProtocolFundingSourceService();
                 ProtocolFundingSource proposalProtocolFundingSource = (ProtocolFundingSource) protocolFundingSourceServiceImpl.updateProtocolFundingSource(FundingSourceType.PROPOSAL_DEVELOPMENT, developmentProposal.getProposalNumber(), developmentProposal.getSponsorName());
                 proposalProtocolFundingSource.setProtocol(protocolDocument.getProtocol());
-               
+
                 List<ProtocolFundingSourceBase> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
                 AddProtocolFundingSourceEvent event = new AddProtocolFundingSourceEvent(Constants.EMPTY_STRING, protocolDocument,
-                        proposalProtocolFundingSource, (List)protocolFundingSources);
-                
+                        proposalProtocolFundingSource, (List) protocolFundingSources);
+
                 if (applyRules(event)) {
                     protocolDocument.getProtocol().getProtocolFundingSources().add(proposalProtocolFundingSource);
                 }
@@ -581,7 +605,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
         preSaveProtocol(form);
     }
 
-    private void preSaveProtocol(ActionForm form)  throws Exception {
+    private void preSaveProtocol(ActionForm form) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument protocolDocument = (ProtocolDocument) protocolForm.getProtocolDocument();
         List<ProtocolFundingSourceBase> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
@@ -590,41 +614,41 @@ public class ProtocolProtocolAction extends ProtocolAction {
         setDeletedFundingSource(form);
         protocolForm.getProtocolHelper().prepareRequiredFieldsForSave();
         protocolForm.getProtocolHelper().createInitialProtocolAction();
-        
+
         if (protocolDocument.getProtocol().isNew()) {
-            if (applyRules(new SaveProtocolFundingSourceLinkEvent(protocolDocument, (List)protocolFundingSources, (List)deletedProtocolFundingSources))) {
+            if (applyRules(new SaveProtocolFundingSourceLinkEvent(protocolDocument, (List) protocolFundingSources, (List) deletedProtocolFundingSources))) {
                 protocolForm.getProtocolHelper().syncSpecialReviewsWithFundingSources();
             }
         }
-        
+
     }
-    
+
     private void setDeletedFundingSource(ActionForm form) {
-        
+
         ProtocolForm protocolForm = (ProtocolForm) form;
-       protocolForm.setDeletedProtocolFundingSources(new ArrayList<ProtocolFundingSourceBase> ());
+        protocolForm.setDeletedProtocolFundingSources(new ArrayList<ProtocolFundingSourceBase>());
         for (ProtocolFundingSourceBase fundingSource : protocolForm.getProtocolHelper().getDeletedProtocolFundingSources()) {
             if (fundingSource.getProtocolFundingSourceId() != null) {
                 protocolForm.getDeletedProtocolFundingSources().add(fundingSource);
             }
         }
     }
-    
+
     @Override
     protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        preSaveProtocol(form);        
+        preSaveProtocol(form);
         ActionForward forward = super.saveOnClose(mapping, form, request, response);
         if (GlobalVariables.getMessageMap().hasNoErrors()) {
             fundingSourceNotification(form);
         }
         return forward;
     }
-    
+
     public ActionForward performProtocolAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         super.docHandler(mapping, form, request, response);
-        
+
         return super.protocolActions(mapping, form, request, response);
     }
 
@@ -634,7 +658,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
         super.postSave(mapping, form, request, response);
         fundingSourceNotification(form);
 
-    }   
+    }
 
     private void fundingSourceNotification(ActionForm form) {
         ProtocolForm protocolForm = (ProtocolForm) form;
@@ -656,16 +680,15 @@ public class ProtocolProtocolAction extends ProtocolAction {
                 fundingSourceGenerated = true;
             }
         }
-        if(fundingSourceGenerated) {
+        if (fundingSourceGenerated) {
             try {
                 getProtocolActionRequestService().generateFundingSource(protocolForm);
-            }catch(Exception ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
     }
-    
-    
+
     private KcNotificationService getKcNotificationService() {
         return KraServiceLocator.getService(KcNotificationService.class);
     }

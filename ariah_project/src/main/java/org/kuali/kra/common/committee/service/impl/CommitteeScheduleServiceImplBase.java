@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.common.committee.service.impl;
 
@@ -44,25 +60,22 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.*;
-
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * The CommitteeBase Service implementation.
  */
 @Transactional
-public abstract class CommitteeScheduleServiceImplBase<CS extends CommitteeScheduleBase<CS, CMT, ?, CSM>, 
-                                                   CMT extends CommitteeBase<CMT,?,CS>,
-                                                   CSM extends CommitteeScheduleMinuteBase<CSM, CS>>
+public abstract class CommitteeScheduleServiceImplBase<CS extends CommitteeScheduleBase<CS, CMT, ?, CSM>, CMT extends CommitteeBase<CMT, ?, CS>, CSM extends CommitteeScheduleMinuteBase<CSM, CS>>
+        implements CommitteeScheduleServiceBase<CS, CMT, CSM> {
 
-                                                   implements CommitteeScheduleServiceBase<CS, CMT, CSM> {
-    
     @SuppressWarnings("unused")
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeScheduleServiceImplBase.class);
-    
+
     private static final String COLON = ":";
-    
+
     private static final String DESCRIPTION = "description";
-    
+
     private static final String SCHEDULED = "Scheduled";
 
     private static final String PROTOCOL_ID_FIELD = "protocolIdFk";
@@ -70,68 +83,75 @@ public abstract class CommitteeScheduleServiceImplBase<CS extends CommitteeSched
     private static final String ENTRY_NUMBER_FIELD = "entryNumber";
     private BusinessObjectService businessObjectService;
 
-    private ScheduleService scheduleService;   
-
+    private ScheduleService scheduleService;
 
     private ReviewCommentsService<?> reviewCommentsService;
 
-    
     /**
      * Set the Business Object Service.
+     *
      * @param businessObjectService the Business Object Service
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
-    }    
-    
+    }
+
     /**
      * Set the Schedule Service.
+     *
      * @param scheduleService
      */
     public void setScheduleService(ScheduleService scheduleService) {
         this.scheduleService = scheduleService;
     }
-    
+
     /**
-     * 
+     *
      * Set the ReviewComments Service.
+     *
      * @param reviewCommentsService
      */
-   
     public void setReviewCommentsService(ReviewCommentsService<?> reviewCommentsService) {
         this.reviewCommentsService = reviewCommentsService;
     }
-    
+
     /**
-     * @see org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase#isCommitteeScheduleDeletable(org.kuali.kra.common.committee.bo.CommitteeScheduleBase)
+     * @see
+     * org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase#isCommitteeScheduleDeletable(org.kuali.kra.common.committee.bo.CommitteeScheduleBase)
      */
-    public Boolean isCommitteeScheduleDeletable(CS committeeSchedule){
-        
+    public Boolean isCommitteeScheduleDeletable(CS committeeSchedule) {
+
         boolean retVal = false;
-        
+
         retVal = !isProtocolAssignedToScheduleDate(committeeSchedule);
 
         return retVal;
     }
-       
+
     /**
-     * Helper method to check if ProtocolBase is assigned to CommitteeScheduleBase.
+     * Helper method to check if ProtocolBase is assigned to
+     * CommitteeScheduleBase.
+     *
      * @param committeeSchedule
      * @return
      */
-    protected Boolean isProtocolAssignedToScheduleDate(CS committeeSchedule){
+    protected Boolean isProtocolAssignedToScheduleDate(CS committeeSchedule) {
         boolean retVal = true;
         List<ProtocolBase> list = committeeSchedule.getProtocols();
-        if(null == list || list.size() == 0)
+        if (null == list || list.size() == 0) {
             retVal = false;
+        }
         return retVal;
     }
 
     /**
-     * @see org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase#addSchedule(org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData, org.kuali.kra.common.committee.bo.CommitteeBase)
+     * @see
+     * org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase#addSchedule(org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData,
+     * org.kuali.kra.common.committee.bo.CommitteeBase)
      */
+    @Override
     public void addSchedule(ScheduleData scheduleData, CMT committee) throws ParseException {
-        
+
         List<Date> dates = null;
         Date dtEnd = null;
         int frequency = 0;
@@ -140,50 +160,50 @@ public abstract class CommitteeScheduleServiceImplBase<CS extends CommitteeSched
         CronSpecialChars weekOfMonth = null;
         CronSpecialChars dayOfWeek = null;
         CronSpecialChars month = null;
-        
+
         Time24HrFmt time = getTime24hFmt(scheduleData.getScheduleStartDate(), scheduleData.getTime().findMinutes());
-        Date dt = scheduleData.getScheduleStartDate();       
-        
-        StyleKey key = StyleKey.valueOf(scheduleData.getRecurrenceType());        
+        Date dt = scheduleData.getScheduleStartDate();
+
+        StyleKey key = StyleKey.valueOf(scheduleData.getRecurrenceType());
         switch (key) {
-            case NEVER :
+            case NEVER:
                 dates = scheduleService.getScheduledDates(dt, dt, time, null);
                 break;
-            case DAILY : 
+            case DAILY:
                 DailyScheduleDetails.optionValues dailyoption = DailyScheduleDetails.optionValues.valueOf(scheduleData.getDailySchedule().getDayOption());
                 switch (dailyoption) {
-                    case XDAY: 
+                    case XDAY:
                         dtEnd = scheduleData.getDailySchedule().getScheduleEndDate();
                         day = scheduleData.getDailySchedule().getDay();
                         dates = scheduleService.getIntervalInDaysScheduledDates(dt, dtEnd, time, day);
                         break;
-                    case WEEKDAY : 
-                        dtEnd = scheduleData.getDailySchedule().getScheduleEndDate();                        
+                    case WEEKDAY:
+                        dtEnd = scheduleData.getDailySchedule().getScheduleEndDate();
                         weekdays = ScheduleData.convertToWeekdays(scheduleData.getDailySchedule().getDaysOfWeek());
-                        ScheduleSequence scheduleSequence = new WeekScheduleSequenceDecorator(new TrimDatesScheduleSequenceDecorator(new DefaultScheduleSequence()),1,weekdays.length);
+                        ScheduleSequence scheduleSequence = new WeekScheduleSequenceDecorator(new TrimDatesScheduleSequenceDecorator(new DefaultScheduleSequence()), 1, weekdays.length);
                         dates = scheduleService.getScheduledDates(dt, dtEnd, time, weekdays, scheduleSequence);
                         break;
                 }
                 break;
-            case WEEKLY :
+            case WEEKLY:
                 dtEnd = scheduleData.getWeeklySchedule().getScheduleEndDate();
-                if(CollectionUtils.isNotEmpty(scheduleData.getWeeklySchedule().getDaysOfWeek())) {
+                if (CollectionUtils.isNotEmpty(scheduleData.getWeeklySchedule().getDaysOfWeek())) {
                     weekdays = ScheduleData.convertToWeekdays(scheduleData.getWeeklySchedule().getDaysOfWeek().toArray(new String[scheduleData.getWeeklySchedule().getDaysOfWeek().size()]));
                 }
-                
-                ScheduleSequence scheduleSequence = new WeekScheduleSequenceDecorator(new TrimDatesScheduleSequenceDecorator(new DefaultScheduleSequence()),scheduleData.getWeeklySchedule().getWeek(),weekdays.length);
+
+                ScheduleSequence scheduleSequence = new WeekScheduleSequenceDecorator(new TrimDatesScheduleSequenceDecorator(new DefaultScheduleSequence()), scheduleData.getWeeklySchedule().getWeek(), weekdays.length);
                 dates = scheduleService.getScheduledDates(dt, dtEnd, time, weekdays, scheduleSequence);
                 break;
-            case MONTHLY :
+            case MONTHLY:
                 MonthlyScheduleDetails.optionValues monthOption = MonthlyScheduleDetails.optionValues.valueOf(scheduleData.getMonthlySchedule().getMonthOption());
-                switch(monthOption) {
-                    case XDAYANDXMONTH :
+                switch (monthOption) {
+                    case XDAYANDXMONTH:
                         dtEnd = scheduleData.getMonthlySchedule().getScheduleEndDate();
                         day = scheduleData.getMonthlySchedule().getDay();
                         frequency = scheduleData.getMonthlySchedule().getOption1Month();
                         dates = scheduleService.getScheduledDates(dt, dtEnd, time, day, frequency, null);
                         break;
-                    case XDAYOFWEEKANDXMONTH :
+                    case XDAYOFWEEKANDXMONTH:
                         dtEnd = scheduleData.getMonthlySchedule().getScheduleEndDate();
                         weekOfMonth = ScheduleData.getWeekOfMonth(scheduleData.getMonthlySchedule().getSelectedMonthsWeek());
                         dayOfWeek = ScheduleData.getDayOfWeek(scheduleData.getMonthlySchedule().getSelectedDayOfWeek());
@@ -192,10 +212,10 @@ public abstract class CommitteeScheduleServiceImplBase<CS extends CommitteeSched
                         break;
                 }
                 break;
-            case YEARLY : 
+            case YEARLY:
                 YearlyScheduleDetails.yearOptionValues yearOption = YearlyScheduleDetails.yearOptionValues.valueOf(scheduleData.getYearlySchedule().getYearOption());
-                switch(yearOption) {
-                    case XDAY :
+                switch (yearOption) {
+                    case XDAY:
                         dtEnd = scheduleData.getYearlySchedule().getScheduleEndDate();
                         month = ScheduleData.getMonthOfWeek(scheduleData.getYearlySchedule().getSelectedOption1Month());
                         day = scheduleData.getYearlySchedule().getDay();
@@ -211,43 +231,45 @@ public abstract class CommitteeScheduleServiceImplBase<CS extends CommitteeSched
                         dates = scheduleService.getScheduledDates(dt, dtEnd, time, weekOfMonth, dayOfWeek, month, frequency, null);
                         break;
                 }
-                break;            
+                break;
         }
         List<java.sql.Date> skippedDates = new ArrayList<java.sql.Date>();
         scheduleData.setDatesInConflict(skippedDates);
-        addScheduleDatesToCommittee(dates, committee, scheduleData.getPlace(),skippedDates);
+        addScheduleDatesToCommittee(dates, committee, scheduleData.getPlace(), skippedDates);
 
     }
-    
+
     /**
      * Helper method to convert date and minutes into Time24HrFmt object.
+     *
      * @param date
      * @param min
      * @return
      * @throws ParseException
      */
-    protected Time24HrFmt getTime24hFmt(Date date, int min) throws ParseException{
-        Date dt  = DateUtils.round(date, Calendar.DAY_OF_MONTH);            
+    protected Time24HrFmt getTime24hFmt(Date date, int min) throws ParseException {
+        Date dt = DateUtils.round(date, Calendar.DAY_OF_MONTH);
         dt = DateUtils.addMinutes(dt, min);
         Calendar cl = new GregorianCalendar();
         cl.setTime(dt);
         StringBuffer sb = new StringBuffer();
-        String str = sb.append(cl.get(Calendar.HOUR_OF_DAY)).append(COLON).append(cl.get(Calendar.MINUTE)).toString();       
-        return new Time24HrFmt(str); 
+        String str = sb.append(cl.get(Calendar.HOUR_OF_DAY)).append(COLON).append(cl.get(Calendar.MINUTE)).toString();
+        return new Time24HrFmt(str);
     }
-  
+
     /**
      * Helper method to add schedule to list.
+     *
      * @param dates
      * @param committee
      * @param location
      * @param skippedDates
      */
-    protected void addScheduleDatesToCommittee(List<Date> dates, CMT committee, String location, List<java.sql.Date> skippedDates){
-        for(Date date: dates) {
+    protected void addScheduleDatesToCommittee(List<Date> dates, CMT committee, String location, List<java.sql.Date> skippedDates) {
+        for (Date date : dates) {
             java.sql.Date sqldate = new java.sql.Date(date.getTime());
-            
-            if(!isDateAvailable(committee.getCommitteeSchedules(), sqldate)){
+
+            if (!isDateAvailable(committee.getCommitteeSchedules(), sqldate)) {
                 skippedDates.add(sqldate);
                 continue;
             }
@@ -266,15 +288,16 @@ public abstract class CommitteeScheduleServiceImplBase<CS extends CommitteeSched
             ScheduleStatus defaultStatus = getDefaultScheduleStatus();
             committeeSchedule.setScheduleStatusCode(defaultStatus.getScheduleStatusCode());
             committeeSchedule.setScheduleStatus(defaultStatus);
-                         
-            committee.getCommitteeSchedules().add(committeeSchedule);            
+
+            committee.getCommitteeSchedules().add(committeeSchedule);
         }
     }
-    
+
     protected abstract CS getNewCommiteeScheduleInstanceHook();
-    
+
     /**
      * Helper method to test if date is available (non conflicting).
+     *
      * @param committeeSchedules
      * @param date
      * @return
@@ -290,91 +313,105 @@ public abstract class CommitteeScheduleServiceImplBase<CS extends CommitteeSched
         }
         return retVal;
     }
-    
+
     /**
      * Helper method to calculate advanced submission days.
+     *
      * @param startDate
      * @param days
      * @return
      */
-    protected java.sql.Date calculateAdvancedSubmissionDays(Date startDate, Integer days){
+    protected java.sql.Date calculateAdvancedSubmissionDays(Date startDate, Integer days) {
         Date deadlineDate = DateUtils.addDays(startDate, -days);
         return new java.sql.Date(deadlineDate.getTime());
     }
-    
+
     /**
      * Helper method to retrieve default ScheduleStatus object.
+     *
      * @return
      */
-    protected ScheduleStatus getDefaultScheduleStatus(){
+    protected ScheduleStatus getDefaultScheduleStatus() {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(DESCRIPTION, SCHEDULED);
-        List<ScheduleStatus> scheduleStatuses = (List<ScheduleStatus>)businessObjectService.findMatching(ScheduleStatus.class, fieldValues);
+        List<ScheduleStatus> scheduleStatuses = (List<ScheduleStatus>) businessObjectService.findMatching(ScheduleStatus.class, fieldValues);
         return scheduleStatuses.get(0);
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase#getMinutesByProtocol(java.lang.Long)
+     *
+     * @see
+     * org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase#getMinutesByProtocol(java.lang.Long)
      */
-    public List<CSM> getMinutesByProtocol(Long protocolId){
+    @Override
+    public List<CSM> getMinutesByProtocol(Long protocolId) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(PROTOCOL_ID_FIELD, protocolId);
         List<CSM> minutes = (List<CSM>) businessObjectService.findMatchingOrderBy(getCommitteeScheduleMinuteBOClassHook(), fieldValues, ENTRY_NUMBER_FIELD, true);
         return minutes;
     }
-    
+
     protected abstract Class<CSM> getCommitteeScheduleMinuteBOClassHook();
 
     /**
-     * 
-     * @see org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase#getMinutesBySchedule(java.lang.Long)
+     *
+     * @see
+     * org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase#getMinutesBySchedule(java.lang.Long)
      */
-    public List<CSM> getMinutesBySchedule(Long scheduleId){
+    @Override
+    public List<CSM> getMinutesBySchedule(Long scheduleId) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         List<CSM> permittedMinutes = new ArrayList<CSM>();
         fieldValues.put(SCHEDULE_ID_FIELD, scheduleId);
-        List<CSM> minutes = (List<CSM>)businessObjectService.findMatchingOrderBy(getCommitteeScheduleMinuteBOClassHook(), fieldValues, ENTRY_NUMBER_FIELD, true);
+        List<CSM> minutes = (List<CSM>) businessObjectService.findMatchingOrderBy(getCommitteeScheduleMinuteBOClassHook(), fieldValues, ENTRY_NUMBER_FIELD, true);
+
+        // Customization - retrieve Principal ID and check if it is Admin ONLY ONCE outside the loop below
+        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        boolean isAdmin = reviewCommentsService.isAdministrator(principalId);
+
         for (CSM minute : minutes) {
-            if(reviewCommentsService.getReviewerCommentsView(minute)){
+            if (reviewCommentsService.getReviewerCommentsView(minute, isAdmin)) {
                 permittedMinutes.add(minute);
             }
         }
-        
+
         return permittedMinutes;
     }
 
     /**
-     * This method will downloadAttachment  to CommitteeScheduleAttachmentsBase.
+     * This method will downloadAttachment to CommitteeScheduleAttachmentsBase.
+     *
      * @param committeScheduleAttachments
      * @return
      */
     @Override
     public void downloadAttachment(KraPersistableBusinessObjectBase attachmentDataSource, HttpServletResponse response) throws Exception {
 
-    	CommitteeScheduleAttachmentsBase committeScheduleAttachments = getNewCommitteeScheduleAttachmentsInstanceHook();
+        CommitteeScheduleAttachmentsBase committeScheduleAttachments = getNewCommitteeScheduleAttachmentsInstanceHook();
         byte[] data = null;
         String contentType = null;
         String fileName = null;
-        if(attachmentDataSource.getClass().isInstance(committeScheduleAttachments)){
-            committeScheduleAttachments =(CommitteeScheduleAttachmentsBase)attachmentDataSource;
+        if (attachmentDataSource.getClass().isInstance(committeScheduleAttachments)) {
+            committeScheduleAttachments = (CommitteeScheduleAttachmentsBase) attachmentDataSource;
             data = committeScheduleAttachments.getData();
             contentType = committeScheduleAttachments.getContentType();
             fileName = committeScheduleAttachments.getFileName();
         }
-        ByteArrayOutputStream baos = null;
-        try {
-            baos = new ByteArrayOutputStream(data.length);
-            baos.write(data);
-            WebUtils.saveMimeOutputStreamAsFile(response, contentType, baos, fileName);
-        } finally {
-        	try {
-                if (baos != null) {
-                    baos.close();
-                    baos = null;
+        if (data != null) {
+            ByteArrayOutputStream baos = null;
+            try {
+                baos = new ByteArrayOutputStream(data.length);
+                baos.write(data);
+                WebUtils.saveMimeOutputStreamAsFile(response, contentType, baos, fileName);
+            } finally {
+                try {
+                    if (baos != null) {
+                        baos.close();
+                        baos = null;
+                    }
+                } catch (IOException ioEx) {
+
                 }
-            } catch (IOException ioEx) {
-               
             }
         }
     }

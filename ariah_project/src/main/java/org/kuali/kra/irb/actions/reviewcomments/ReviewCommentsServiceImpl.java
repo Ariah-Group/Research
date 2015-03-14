@@ -11,6 +11,37 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
+ * limitations under the License. *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
  * limitations under the License.
  */
 package org.kuali.kra.irb.actions.reviewcomments;
@@ -35,21 +66,22 @@ import org.kuali.kra.protocol.onlinereview.ProtocolReviewableBase;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
- * 
+ *
  * This class takes care of the persistence for Reviewer comments.
  */
 public class ReviewCommentsServiceImpl extends ReviewCommentsServiceImplBase<ProtocolReviewAttachment> implements ReviewCommentsService {
 
-    private static final String[] PROTOCOL_SUBMISSION_COMPLETE_STATUSES = { ProtocolSubmissionStatus.APPROVED, 
-                                                                            ProtocolSubmissionStatus.EXEMPT, 
-                                                                            ProtocolSubmissionStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED, 
-                                                                            ProtocolSubmissionStatus.SUBSTANTIVE_REVISIONS_REQUIRED, 
-                                                                            ProtocolSubmissionStatus.DEFERRED,
-                                                                            ProtocolSubmissionStatus.WITHDRAWN,
-                                                                            ProtocolSubmissionStatus.RETURNED_TO_PI,
-                                                                            ProtocolSubmissionStatus.DISAPPROVED };
+    private static final String[] PROTOCOL_SUBMISSION_COMPLETE_STATUSES = {ProtocolSubmissionStatus.APPROVED,
+        ProtocolSubmissionStatus.EXEMPT,
+        ProtocolSubmissionStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED,
+        ProtocolSubmissionStatus.SUBSTANTIVE_REVISIONS_REQUIRED,
+        ProtocolSubmissionStatus.DEFERRED,
+        ProtocolSubmissionStatus.WITHDRAWN,
+        ProtocolSubmissionStatus.RETURNED_TO_PI,
+        ProtocolSubmissionStatus.DISAPPROVED};
 
     @Override
     protected String[] getProtocolSubmissionCompleteStatusCodeArrayHook() {
@@ -136,7 +168,7 @@ public class ReviewCommentsServiceImpl extends ReviewCommentsServiceImplBase<Pro
                 businessObjectService.save(reviewAttachment);
             }
         }
-        
+
         if (!deletedReviewAttachments.isEmpty()) {
             businessObjectService.delete(deletedReviewAttachments);
         }
@@ -147,41 +179,48 @@ public class ReviewCommentsServiceImpl extends ReviewCommentsServiceImplBase<Pro
         return ProtocolReviewAttachment.class;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
     public List<CommitteeScheduleMinuteBase> getReviewerComments(String protocolNumber, int submissionNumber) {
         ArrayList<CommitteeScheduleMinuteBase> reviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
-        
-        List<ProtocolSubmission> protocolSubmissions = (List)getProtocolFinderDao().findProtocolSubmissions(protocolNumber, submissionNumber);
+
+        // Customization - retrieve Principal ID and check if it is Admin ONLY ONCE outside the loop below
+        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        boolean isAdmin = isAdministrator(principalId);
+
+        List<ProtocolSubmission> protocolSubmissions = (List) getProtocolFinderDao().findProtocolSubmissions(protocolNumber, submissionNumber);
         for (ProtocolSubmission protocolSubmission : protocolSubmissions) {
-            if (protocolSubmission.getCommitteeScheduleMinutes() != null) {
-                List<CommitteeScheduleMinute> committeeScheduleMinutes = (List)protocolSubmission.getCommitteeScheduleMinutes();
+
+            // removed duplicate call to protocolSubmission.getCommitteeScheduleMinutes() as it performs a refreshObject
+            List<CommitteeScheduleMinuteBase> commSchedMinBase = protocolSubmission.getCommitteeScheduleMinutes();
+
+            if (commSchedMinBase != null) {
+                List<CommitteeScheduleMinute> committeeScheduleMinutes = (List) commSchedMinBase;
                 for (CommitteeScheduleMinute minute : committeeScheduleMinutes) {
                     String minuteEntryTypeCode = minute.getMinuteEntryTypeCode();
                     // need to check current minute entry; otherwise may have minutes from previous version comittee
                     if ((MinuteEntryType.PROTOCOL.equals(minuteEntryTypeCode) || MinuteEntryType.PROTOCOL_REVIEWER_COMMENT.equals(minuteEntryTypeCode)) && isCurrentMinuteEntry(minute)) {
                         minute.setCommitteeIdFromSubmission(protocolSubmission);
-                        if(getReviewerCommentsView(minute)){
+                        if (getReviewerCommentsView(minute, isAdmin)) {
                             reviewComments.add(minute);
                         }
                     }
                 }
             }
         }
-        
+
         return reviewComments;
     }
-    
+
     @SuppressWarnings("rawtypes")
     protected boolean isActiveCommitteeMember(ProtocolReviewableBase minute, String principalId) {
         boolean retVal = false;
         // we have a commitee schedule then let the superclass version handle this
-        if(minute.getCommitteeSchedule() != null) {
+        if (minute.getCommitteeSchedule() != null) {
             retVal = super.isActiveCommitteeMember(minute, principalId);
-        }
-        // otherwise use the commitee id from submission that should've been set by the caller of this method
+        } // otherwise use the commitee id from submission that should've been set by the caller of this method
         else {
-            if(minute instanceof CommitteeScheduleMinute) {
+            if (minute instanceof CommitteeScheduleMinute) {
                 String committeeId = ((CommitteeScheduleMinute) minute).getCommitteeIdFromSubmission();
                 // since there was no committee schedule we set schedule id to be null
                 retVal = super.isActiveCommitteeMember(committeeId, null, principalId);
