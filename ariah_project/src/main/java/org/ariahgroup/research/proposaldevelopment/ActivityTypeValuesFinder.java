@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalType;
+import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -40,22 +40,22 @@ public class ActivityTypeValuesFinder extends UifKeyValuesFinderBase {
     }
 
     /**
-     * Retrieve the key/value list of ProposalTypes sorted by the sortOrder field 
-     * and filtered for records with an active field of Y.
-     * 
-     * @return The key/value list of ProposalTypes
+     * Retrieve the key/value list of ActivityTypes sorted by the sortOrder
+     * field and filtered for records with an active field of Y.
+     *
+     * @return The key/value list of ActivityTypes
      */
     @Override
     public List<KeyValue> getKeyValues() {
         Map<String, Object> values = new HashMap<String, Object>();
         values.put("active", "Y");
-        
+
         List<KeyValue> result = new ArrayList<KeyValue>();
-        Collection<ProposalType> types = getBusinessObjectService().findMatchingOrderBy(ProposalType.class, values, "sortOrder", true);
-        
-        for (ProposalType type : types) {
+        Collection<ActivityType> types = getBusinessObjectService().findMatchingOrderBy(ActivityType.class, values, "sortOrder", true);
+
+        for (ActivityType type : types) {
             ConcreteKeyValue pair = new ConcreteKeyValue();
-            pair.setKey(type.getProposalTypeCode());
+            pair.setKey(type.getActivityTypeCode());
             pair.setValue(type.getDescription());
             result.add(pair);
         }
