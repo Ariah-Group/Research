@@ -26,6 +26,10 @@ public class DeadlineType extends KraPersistableBusinessObjectBase {
     private String deadlineTypeCode;
 
     private String description;
+    
+    private boolean active;
+
+    private int sortOrder;    
 
     /**
      * Gets the deadlineTypeCode attribute. 
@@ -60,4 +64,26 @@ public class DeadlineType extends KraPersistableBusinessObjectBase {
     public void setDescription(String description) {
         this.description = description;
     }
+    
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    /**
+     * @return the sortOrder
+     */
+    public int getSortOrder() {
+        return sortOrder;
+    }
+
+    /**
+     * @param sortOrder the sortOrder to set
+     */
+    public void setSortOrder(int sortOrder) {
+        this.sortOrder = sortOrder;
+    }    
 }

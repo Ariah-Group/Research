@@ -470,7 +470,7 @@
 		<property name="required" value="false" />
 		<property name="control">
 			<bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.DeadlineType"
-				p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+				p:valuesFinderClass="org.ariahgroup.research.proposaldevelopment.DeadlineTypeValuesFinder"
 				p:includeKeyInLabel="false" p:keyAttribute="deadlineTypeCode"
 				p:labelAttribute="description" />
 		</property>
