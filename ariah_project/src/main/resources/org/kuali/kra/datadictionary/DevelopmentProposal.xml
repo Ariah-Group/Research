@@ -302,7 +302,7 @@
 		<property name="required" value="true" />
 		<property name="control">
 			<bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.proposaldevelopment.bo.ActivityType"
-				p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+				p:valuesFinderClass="org.ariahgroup.research.proposaldevelopment.ActivityTypeValuesFinder"
 				p:includeKeyInLabel="false" p:keyAttribute="activityTypeCode"
 				p:labelAttribute="description" />
 		</property>

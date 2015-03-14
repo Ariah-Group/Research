@@ -22,6 +22,8 @@
                 <ref bean="ActivityType-description" />
                 <ref bean="ActivityType-higherEducationFunctionCode" />
                 <ref bean="ActivityType-versionNumber" />
+                <ref bean="ActivityType-active" />
+                <ref bean="ActivityType-sortOrder" />                
             </list>
         </property>
     </bean>
@@ -42,7 +44,7 @@
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-            p:size="4" />
+                  p:size="4" />
         </property>
         <property name="summary" value="Activity Type" />
         <property name="description" value="Activity Type" />
@@ -68,11 +70,37 @@
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-            p:size="4" />
+                  p:size="4" />
         </property>
         <property name="summary" value="Higher education function code" />
         <property name="description" value="Higher education function code" />
     </bean>
+    
+    <bean id="ActivityType-active" parent="ActivityType-active-parentBean"/>
+    <bean id="ActivityType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean"> 
+        <property name="name" value="active" />
+        <property name="label" value="Active" />
+        <property name="shortLabel" value="Active" />
+        <property name="summary" value="Active" />
+        <property name="description" value="Active" />
+    </bean>
+
+    <bean id="ActivityType-sortOrder" parent="ActivityType-sortOrder-parentBean"/>
+    <bean id="ActivityType-sortOrder-parentBean" abstract="true" parent="AttributeDefinition"> 
+        <property name="name" value="sortOrder" />
+        <property name="label" value="Sort Order" />
+        <property name="shortLabel" value="Sort Order" />
+        <property name="summary" value="Sort Order" />
+        <property name="description" value="Sort Order" />
+        <property name="maxLength" value="5" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>        
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                  p:size="4" />
+        </property>        
+    </bean>    
     <!-- Business Object Inquiry Definition -->
 
 
@@ -87,13 +115,11 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                    p:attributeName="activityTypeCode"
-                    p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                    p:attributeName="description" />
-                            <bean parent="FieldDefinition"
-                    p:attributeName="higherEducationFunctionCode" />
+                            <bean parent="FieldDefinition" p:attributeName="activityTypeCode" p:forceInquiry="true" />
+                            <bean parent="FieldDefinition" p:attributeName="description" />
+                            <bean parent="FieldDefinition" p:attributeName="higherEducationFunctionCode" />
+                            <bean parent="FieldDefinition" p:attributeName="active" />
+                            <bean parent="FieldDefinition" p:attributeName="sortOrder" />                            
                         </list>
                     </property>
                 </bean>
@@ -102,7 +128,6 @@
     </bean>
 
     <!-- Business Object Lookup Definition -->
-
 
     <bean id="ActivityType-lookupDefinition" parent="ActivityType-lookupDefinition-parentBean" />
 
@@ -116,23 +141,19 @@
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-              p:attributeName="activityTypeCode" />
-                <bean parent="FieldDefinition"
-              p:attributeName="description" />
-                <bean parent="FieldDefinition"
-              p:attributeName="higherEducationFunctionCode" />
+                <bean parent="FieldDefinition" p:attributeName="activityTypeCode" />
+                <bean parent="FieldDefinition" p:attributeName="description" />
+                <bean parent="FieldDefinition" p:attributeName="higherEducationFunctionCode" />
+                <bean parent="FieldDefinition" p:attributeName="active" />
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-              p:attributeName="activityTypeCode"
-              p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-              p:attributeName="description" />
-                <bean parent="FieldDefinition"
-              p:attributeName="higherEducationFunctionCode" />
+                <bean parent="FieldDefinition" p:attributeName="activityTypeCode" p:forceInquiry="true" />
+                <bean parent="FieldDefinition" p:attributeName="description" />
+                <bean parent="FieldDefinition" p:attributeName="higherEducationFunctionCode" />
+                <bean parent="FieldDefinition" p:attributeName="active" />
+                <bean parent="FieldDefinition" p:attributeName="sortOrder" />                
             </list>
         </property>
     </bean>

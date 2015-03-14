@@ -80,6 +80,12 @@ SORT_ORDER NUMBER (5,0),
 help_desc varchar2(200)
 ); 
 
+alter table activity_type add (
+ACTIVE varchar2(1),
+SORT_ORDER NUMBER (5,0),
+help_desc varchar2(200)
+); 
+
 alter table EPS_PROPOSAL add EXECUTIVE_SUMMARY VARCHAR2(800);
 
 
