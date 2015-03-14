@@ -51,6 +51,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.ariahgroup.research.datadictionary.AttributeDefinition;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
@@ -140,9 +141,11 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
+import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -468,10 +471,10 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         }
 
         // Proposal ID/Number
-        getDocInfo().add(new HeaderField(Constants.ATTR_PROPOSAL_NUMBER_DD, pd.getDevelopmentProposal().getProposalNumber()));        
-        
+        getDocInfo().add(new HeaderField(Constants.ATTR_PROPOSAL_NUMBER_DD, pd.getDevelopmentProposal().getProposalNumber()));
+
         // Sponsor Deadline Date
-        getDocInfo().add(new HeaderField(Constants.ATTR_SPONSOR_DEADLINE_DATE_DD, ObjectUtils.formatPropertyValue(pd.getDevelopmentProposal().getDeadlineDate())));        
+        getDocInfo().add(new HeaderField(Constants.ATTR_SPONSOR_DEADLINE_DATE_DD, ObjectUtils.formatPropertyValue(pd.getDevelopmentProposal().getDeadlineDate())));
     }
 
     /**
@@ -2306,6 +2309,56 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
     public void setProjectDatesRequired(boolean projectDatesRequired) {
         this.projectDatesRequired = projectDatesRequired;
+    }
+
+    /**
+     * whether to display the executive summary text area.
+     *
+     * @return true if the required system parameter does not exist or exists
+     * and contains an affirmative value, otherwise false
+     */
+    public boolean isDisplayExecutiveSummary() {
+        Boolean display = getParameterService().getParameterValueAsBoolean(
+                Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT,
+                Constants.ARIAH_PROPDEV_DISPLAY_EXECUTIVE_SUMMARY, true);
+
+        return display;
+    }
+
+    /**
+     * whether the executive summary is a required field.
+     * <p>
+     * Used to mark the field with an asterisk if it is required</p>
+     *
+     * @return true if the required system parameter exists and contains an
+     * affirmative value, otherwise false
+     */
+    public boolean isExecutiveSummaryRequired() {
+        Boolean display = getParameterService().getParameterValueAsBoolean(
+                Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT,
+                Constants.ARIAH_PROPDEV_REQUIRE_EXECUTIVE_SUMMARY, false);
+
+        return display;
+    }
+
+    /**
+     * @return the word count configured in the data dictionary since it is not
+     * exposed on the attributes available to JSP
+     */
+    public int getExecutiveSummaryWordCount() {
+        
+        DataObjectEntry entry = KRADServiceLocatorWeb.getDataDictionaryService().getDataDictionary().getDataObjectEntry(
+                DevelopmentProposal.class.getCanonicalName());
+        
+        AttributeDefinition defn = (AttributeDefinition) entry.getAttributeDefinition("executiveSummary");
+        
+        if (defn.getWordCountConstraint() == null) {
+            return 0;
+        } else {
+            return defn.getWordCountConstraint().getWordCount();
+        }
     }
 
     /**

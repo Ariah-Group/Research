@@ -961,6 +961,8 @@ public interface Constants {
     public static final String ARIAH_PROPDEV_DEFAULT_ACTIVITY_TYPE_CODE = "ARIAH_PROPDEV_DEFAULT_ACTIVITY_TYPE_CODE";
     public static final String ARIAH_PROPDEV_DEFAULT_SPONSOR_CODE = "ARIAH_PROPDEV_DEFAULT_SPONSOR_CODE";
     public static final String ARIAH_PROPDEV_DEFAULT_PROPOSAL_TITLE = "ARIAH_PROPDEV_DEFAULT_PROPOSAL_TITLE";
+    public static final String ARIAH_PROPDEV_DISPLAY_EXECUTIVE_SUMMARY = "ARIAH_PROPDEV_DISPLAY_EXECUTIVE_SUMMARY";
+    public static final String ARIAH_PROPDEV_REQUIRE_EXECUTIVE_SUMMARY = "ARIAH_PROPDEV_REQUIRE_EXECUTIVE_SUMMARY";
     
     /**
      * Module Code for "Award" records in as defined in COEUS_MODULE database table.
@@ -988,5 +990,7 @@ public interface Constants {
     public final static String ATTR_PROPOSAL_NUMBER_DD = "DataDictionary.DevelopmentProposal.attributes.proposalNumber";
     public final static String ATTR_INITIATOR_NETWORK_ID_DD = "DataDictionary.AttributeReference.attributes.initiatorNetworkId";
     public final static String ATTR_SPONSOR_DEADLINE_DATE_DD = "DataDictionary.DevelopmentProposal.attributes.deadlineDate";
+    
+    public static final String MESSAGE_WORD_COUNT_EXCEEDED = "message.wordcount.exceeded";
 }
 

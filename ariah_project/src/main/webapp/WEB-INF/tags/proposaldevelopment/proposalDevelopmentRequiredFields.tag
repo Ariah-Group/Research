@@ -136,6 +136,23 @@ limitations under the License.
                 <kul:lookup boClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" fieldConversions="proposalNumber:document.developmentProposalList[0].continuedFrom" anchor="${tabKey}" />
 				</td>
               </tr>
+              <c:if test="${KualiForm.displayExecutiveSummary}" >
+                <tr>
+                    <th>
+                <div align="right">
+                    <c:if test="${KualiForm.executiveSummaryRequired}" >
+                        *&nbsp;
+                    </c:if>
+                    <kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.executiveSummary}" />
+                    <c:if test="${KualiForm.executiveSummaryWordCount > 0}" >
+                        (${KualiForm.executiveSummaryWordCount} words)
+                    </c:if>
+                </div></th>
+                <td align="left" valign="middle">
+                <kul:htmlControlAttribute property="document.developmentProposalList[0].executiveSummary" attributeEntry="${proposalDevelopmentAttributes.executiveSummary}" />
+                </td>
+                </tr>
+            </c:if>              
             </tbody></table>
     </div>
 </kul:tab>

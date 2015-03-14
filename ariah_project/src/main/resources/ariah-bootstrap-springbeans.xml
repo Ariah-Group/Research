@@ -37,4 +37,5 @@
     
     <bean id="kcCoiConfigurer" class="org.kuali.kra.coi.config.CoiConfigurer" />
 
+    <import resource="classpath:org/ariahgroup/research/Custom-ModuleBeans.xml" />
 </beans>
