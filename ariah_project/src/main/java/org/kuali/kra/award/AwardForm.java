@@ -1155,7 +1155,7 @@ public class AwardForm extends BudgetVersionFormBase
     }
 
     private void populateAwardHierarchyTempObject(Map<String, Object> parms, String parmKey) {
-        int indexOfClosingBracket = parmKey.indexOf("]");
+        int indexOfClosingBracket = parmKey.indexOf(']');
         String fieldName = parmKey.substring(indexOfClosingBracket + 2);
         Object fieldValue = parms.get(parmKey);
         int tempObjectIndex = Integer.valueOf(parmKey.substring(AWARD_HIERARCHY_TEMP_OBJ_PARAM_NAME_PREFIX_LENGTH, indexOfClosingBracket));
@@ -1593,8 +1593,8 @@ public class AwardForm extends BudgetVersionFormBase
         Collections.reverse(results);
         return results;
     }
-    
+
     public boolean isHideAwardDocDescriptionPanel() {
         return getAwardDocument().isDefaultDocumentDescription();
-    }    
+    }
 }

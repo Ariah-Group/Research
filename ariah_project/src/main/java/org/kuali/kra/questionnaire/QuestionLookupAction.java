@@ -66,7 +66,7 @@ public class QuestionLookupAction extends KualiAction {
             for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
                 Question question = (Question) iter.next();
                 String desc = question.getQuestion();
-                // need to deal with '"' in questio's description
+                // need to deal with '"' in question's description
                 // This '"' caused trouble for document.getElementById("selectedQuestions").value;
                 // It only getvalue up to '"', so not the whole string is returned
                 if (desc.indexOf("\"") > 0) {

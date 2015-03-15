@@ -94,9 +94,9 @@ import static org.kuali.kra.logging.BufferedLogger.debug;
  * This class implements methods specified by BudgetDocumentService interface
  */
 public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<T> {
-    
+
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetServiceImpl.class);
-    
+
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
@@ -105,14 +105,15 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     private BudgetVersionRule budgetVersionRule;
     private DeepCopyPostProcessor deepCopyPostProcessor;
     private BudgetSummaryService budgetSummaryService;
-    private FiscalYearMonthService fiscalYearMonthService;    
+    private FiscalYearMonthService fiscalYearMonthService;
 
-    
     /**
-     * Service method for adding a {@link BudgetVersionOverview} to a {@link ProposalDevelopmentDocument}. If a 
-     * {@link BudgetVersionOverview} instance with the  <code>versionName</code> already exists 
-     * in the {@link ProposalDevelopmentDocument}, then a hard error will occur. Try it and you'll see what I mean.
-     * 
+     * Service method for adding a {@link BudgetVersionOverview} to a
+     * {@link ProposalDevelopmentDocument}. If a {@link BudgetVersionOverview}
+     * instance with the  <code>versionName</code> already exists in the
+     * {@link ProposalDevelopmentDocument}, then a hard error will occur. Try it
+     * and you'll see what I mean.
+     *
      * @param document instance to add {@link BudgetVersionOverview} to
      * @param versionName of the {@link BudgetVersionOverview}
      */
@@ -124,8 +125,10 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         }
 
         BudgetDocument<T> newBudgetDoc = getNewBudgetVersion(document, versionName);
-        if(newBudgetDoc==null) return null;
-        
+        if (newBudgetDoc == null) {
+            return null;
+        }
+
         return newBudgetDoc;
     }
 
@@ -135,24 +138,30 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     }
 
     /**
-     * Runs business rules on the given name of a {@link BudgetVersionOverview} instance and {@link ProposalDevelopmentDocument} instance to 
-     * determine if it is ok to add a {@link BudgetVersionOverview} instance to a {@link BudgetDocument} instance. If the business rules fail, 
-     * this should be false and there will be errors in the error map.<br/>
+     * Runs business rules on the given name of a {@link BudgetVersionOverview}
+     * instance and {@link ProposalDevelopmentDocument} instance to determine if
+     * it is ok to add a {@link BudgetVersionOverview} instance to a
+     * {@link BudgetDocument} instance. If the business rules fail, this should
+     * be false and there will be errors in the error map.<br/>
      *
-     * <p>Takes care of all the setup and calling of the {@link KualiRuleService}. Uses the {@link AddBudgetVersionEvent}.</p>
+     * <p>
+     * Takes care of all the setup and calling of the {@link KualiRuleService}.
+     * Uses the {@link AddBudgetVersionEvent}.</p>
      *
      * @param document {@link ProposalDevelopmentDocument} to validate against
-     * @param name of the pseudo-{@link BudgetVersionOverview} instance to validate
+     * @param name of the pseudo-{@link BudgetVersionOverview} instance to
+     * validate
      * @returns true if the rules passed, false otherwise
      */
     @Override
-    public boolean isBudgetVersionNameValid(BudgetParentDocument<T> document,  String name) {
+    public boolean isBudgetVersionNameValid(BudgetParentDocument<T> document, String name) {
         debug("Invoking budgetrule getBudgetVersionRule()");
         return new AddBudgetVersionEvent(document, name).invokeRuleMethod(getBudgetVersionRule());
     }
+
     /**
      * Retrieve injected <code>{@link PessimisticLockService}</code> singleton
-     * 
+     *
      * @return PessimisticLockService
      */
     public PessimisticLockService getPessimisticLockService() {
@@ -161,15 +170,16 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
 
     /**
      * Inject <code>{@link PessimisticLockService}</code> singleton
-     * 
+     *
      * @param pessimisticLockService to assign
      */
     public void setPessimisticLockService(PessimisticLockService pessimisticLockService) {
         this.pessimisticLockService = pessimisticLockService;
     }
+
     /**
      * Retrieve injected <code>{@link AddBudgetVersionRule}</code> singleton
-     * 
+     *
      * @return AddBudgetVersionRule
      */
     public BudgetVersionRule getBudgetVersionRule() {
@@ -178,35 +188,35 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
 
     /**
      * Inject <code>{@link AddBudgetVersionRule}</code> singleton
-     * 
+     *
      * @return AddBudgetVersionRule
      */
     public void setBudgetVersionRule(BudgetVersionRule budgetVersionRule) {
         this.budgetVersionRule = budgetVersionRule;
     }
-    
 
     /**
      * This method...
+     *
      * @param budgetDocument
      * @throws WorkflowException
      */
     protected void saveBudgetDocument(BudgetDocument<T> budgetDocument) throws WorkflowException {
         Budget budget = budgetDocument.getBudget();
-        BudgetParentDocument<T> parentDocument = budgetDocument.getParentDocument(); 
-        boolean isProposalBudget = new Boolean(parentDocument.getProposalBudgetFlag()).booleanValue();
+        BudgetParentDocument<T> parentDocument = budgetDocument.getParentDocument();
+        boolean isProposalBudget = Boolean.valueOf(parentDocument.getProposalBudgetFlag());
 
-        if(!isProposalBudget){
-            AwardBudgetExt budgetExt = (AwardBudgetExt)budget;
+        if (!isProposalBudget) {
+            AwardBudgetExt budgetExt = (AwardBudgetExt) budget;
             budgetExt.setAwardBudgetStatusCode(this.parameterService.getParameterValueAsString(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS));
             budgetExt.setAwardBudgetTypeCode(this.parameterService.getParameterValueAsString(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_TYPE_NEW));
             documentService.saveDocument(budgetDocument);
-        }else{
+        } else {
             documentService.saveDocument(budgetDocument);
             documentService.routeDocument(budgetDocument, "Route to Final", new ArrayList());
         }
     }
-    
+
     @Override
     public void updateDocumentDescription(BudgetVersionOverview budgetVersion) {
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
@@ -218,47 +228,52 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             boService.save(docHeader);
         }
     }
-    
+
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
-    
+
     /**
      * Sets the ParameterService.
-     * @param parameterService the parameter service. 
+     *
+     * @param parameterService the parameter service.
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-    
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
-    
     /**
      * Recurse through all of the BOs and if a BO has a ProposalNumber property,
      * set its value to the new proposal number.
+     *
      * @param object the object
      */
     @SuppressWarnings("unchecked")
-    protected void fixProperty(Object object, String methodName, Class clazz, Object propertyValue, Map<String, Object> objectMap){
-        if(ObjectUtils.isNotNull(object)) {
+    protected void fixProperty(Object object, String methodName, Class clazz, Object propertyValue, Map<String, Object> objectMap) {
+        if (ObjectUtils.isNotNull(object)) {
             if (object instanceof PersistableBusinessObject) {
                 PersistableBusinessObject objectWId = (PersistableBusinessObject) object;
-                if (objectMap.get(objectWId.getObjectId()) != null) return;
+                if (objectMap.get(objectWId.getObjectId()) != null) {
+                    return;
+                }
                 objectMap.put(((PersistableBusinessObject) object).getObjectId(), object);
-                
+
                 Method[] methods = object.getClass().getMethods();
                 for (Method method : methods) {
                     if (method.getName().equals(methodName)) {
                         if (!(object instanceof BudgetDocument)) {
-                              try {
-                                if(clazz.equals(Long.class))
-                                    method.invoke(object, (Long) propertyValue);  
-                                else 
+                            try {
+                                if (clazz.equals(Long.class)) {
+                                    method.invoke(object, (Long) propertyValue);
+                                } else {
                                     method.invoke(object, (Integer) propertyValue);
-                               } catch (Throwable e) { }  
+                                }
+                            } catch (Throwable e) {
+                            }
                         }
                     } else if (isPropertyGetterMethod(method, methods)) {
                         Object value = null;
@@ -267,8 +282,8 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
                         } catch (Throwable e) {
                             //We don't need to propagate this exception
                         }
-                        
-                        if(value != null) {
+
+                        if (value != null) {
                             if (value instanceof Collection) {
                                 Collection<Object> c = (Collection<Object>) value;
                                 Iterator<Object> iter = c.iterator();
@@ -278,23 +293,23 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
                                 }
                             } else {
                                 fixProperty(value, methodName, clazz, propertyValue, objectMap);
-                            }   
+                            }
                         }
                     }
                 }
             }
         }
     }
-    
-    
+
     /**
-     * Is the given method a getter method for a property?  Must conform to
-     * the following:
+     * Is the given method a getter method for a property? Must conform to the
+     * following:
      * <ol>
      * <li>Must start with the <b>get</b></li>
      * <li>Must have a corresponding setter method</li>
      * <li>Must have zero arguments.</li>
      * </ol>
+     *
      * @param method the method to check
      * @param methods the other methods in the object
      * @return true if it is property getter method; otherwise false
@@ -310,12 +325,12 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         }
         return false;
     }
-    
+
     @SuppressWarnings("unchecked")
     @Override
     public Collection<BudgetRate> getSavedBudgetRates(Budget budget) {
-        Map<String,Long> qMap = new HashMap<String, Long>();
-        qMap.put("budgetId",budget.getBudgetId());
+        Map<String, Long> qMap = new HashMap<String, Long>();
+        qMap.put("budgetId", budget.getBudgetId());
         Collection<BudgetRate> rates = businessObjectService.findMatching(BudgetRate.class, qMap);
         for (BudgetRate rate : rates) {
             java.util.Calendar startDate = new java.util.GregorianCalendar();
@@ -325,7 +340,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         }
         return rates;
     }
-    
+
     @SuppressWarnings("unchecked")
     @Override
     public boolean checkActivityTypeChange(Collection<BudgetRate> allPropRates, String activityTypeCode) {
@@ -336,7 +351,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
                 return true;
             }
         }
-                
+
         return false;
     }
 
@@ -357,15 +372,14 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         validCeQMap.put("costElement", budgetLineItem.getCostElement());
         costElementBO.refreshReferenceObject("validCeRateTypes");
         List<ValidCeRateType> validCeRateTypes = costElementBO.getValidCeRateTypes();
-        QueryList<ValidCeRateType> qValidCeRateTypes = validCeRateTypes == null ? new QueryList<ValidCeRateType>() : 
-                        new QueryList<ValidCeRateType>(validCeRateTypes);
+        QueryList<ValidCeRateType> qValidCeRateTypes = validCeRateTypes == null ? new QueryList<ValidCeRateType>()
+                : new QueryList<ValidCeRateType>(validCeRateTypes);
         // Check whether it contains Inflation Rate
         Equals eqInflation = new Equals("rateClassType", RateClassType.INFLATION.getRateClassType());
         QueryList<ValidCeRateType> inflationValidCeRates = qValidCeRateTypes.filter(eqInflation);
         if (!inflationValidCeRates.isEmpty()) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -375,34 +389,30 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     public String getActivityTypeForBudget(BudgetDocument<T> budgetDocument) {
         Budget budget = budgetDocument.getBudget();
         BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
-        if(budgetParent==null){
+        if (budgetParent == null) {
             budgetDocument.refreshReferenceObject("parentDocument");
         }
-        Map<String,Object> qMap = new HashMap<String,Object>();
-        qMap.put("budgetId",budget.getBudgetId());
-        List<BudgetRate> allPropRates = (List)businessObjectService.findMatching(
+        Map<String, Object> qMap = new HashMap<String, Object>();
+        qMap.put("budgetId", budget.getBudgetId());
+        List<BudgetRate> allPropRates = (List) businessObjectService.findMatching(
                 BudgetRate.class, qMap);
         if (CollectionUtils.isNotEmpty(allPropRates)) {
-            qMap.put("activityTypeCode",budgetParent.getActivityTypeCode());
-            Collection<BudgetRate> matchActivityTypePropRates =businessObjectService.findMatching(
-                BudgetRate.class, qMap);
+            qMap.put("activityTypeCode", budgetParent.getActivityTypeCode());
+            Collection<BudgetRate> matchActivityTypePropRates = businessObjectService.findMatching(
+                    BudgetRate.class, qMap);
             if (CollectionUtils.isNotEmpty(matchActivityTypePropRates)) {
-                for (BudgetRate budgetRate : allPropRates) { 
+                for (BudgetRate budgetRate : allPropRates) {
                     if (!budgetRate.getActivityTypeCode().equals(budgetParent.getActivityTypeCode())) {
                         return budgetRate.getActivityTypeCode();
                     }
                 }
-                return budgetParent.getActivityTypeCode();                
+                return budgetParent.getActivityTypeCode();
             } else {
                 return allPropRates.get(0).getActivityTypeCode();
             }
         }
-                
         return "x";
-        
     }
-
-
 
     @SuppressWarnings("unchecked")
     @Override
@@ -411,38 +421,38 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
 
         String jobCodeValidationEnabledInd = this.parameterService.getParameterValueAsString(
                 BudgetDocument.class, Constants.BUDGET_JOBCODE_VALIDATION_ENABLED);
-        
-        if(StringUtils.isNotEmpty(jobCodeValidationEnabledInd) && jobCodeValidationEnabledInd.equals("Y")) { 
+
+        if (StringUtils.isNotEmpty(jobCodeValidationEnabledInd) && jobCodeValidationEnabledInd.equals("Y")) {
             Map fieldValues = new HashMap();
             fieldValues.put("budgetId", budgetId);
             fieldValues.put("personSequenceNumber", personSequenceNumber);
             BudgetPerson budgetPerson = (BudgetPerson) businessObjectService.findByPrimaryKey(BudgetPerson.class, fieldValues);
-            
+
             fieldValues.clear();
-            if(budgetPerson != null && StringUtils.isNotEmpty(budgetPerson.getJobCode())) {
+            if (budgetPerson != null && StringUtils.isNotEmpty(budgetPerson.getJobCode())) {
                 fieldValues.put("jobCode", budgetPerson.getJobCode().toUpperCase());
                 validCostElements = (List<ValidCeJobCode>) businessObjectService.findMatching(ValidCeJobCode.class, fieldValues);
             }
         }
-        
+
         return validCostElements;
     }
-    
+
     @SuppressWarnings("unchecked")
     @Override
-    public String getApplicableCostElementsForAjaxCall(Long budgetId,String personSequenceNumber, 
+    public String getApplicableCostElementsForAjaxCall(Long budgetId, String personSequenceNumber,
             String budgetCategoryTypeCode) {
-        
+
         String resultStr = "";
-        
-        if(isAuthorizedToAccess(budgetCategoryTypeCode)){
+
+        if (isAuthorizedToAccess(budgetCategoryTypeCode)) {
             if (StringUtils.isNotBlank(budgetCategoryTypeCode) && budgetCategoryTypeCode.contains(Constants.COLON)) {
                 budgetCategoryTypeCode = StringUtils.split(budgetCategoryTypeCode, Constants.COLON)[0];
             }
 
             List<ValidCeJobCode> validCostElements = getApplicableCostElements(budgetId, personSequenceNumber);
 
-            if(CollectionUtils.isNotEmpty(validCostElements)) {
+            if (CollectionUtils.isNotEmpty(validCostElements)) {
                 for (ValidCeJobCode validCE : validCostElements) {
                     Map fieldValues = new HashMap();
                     fieldValues.put("costElement", validCE.getCostElement());
@@ -455,32 +465,32 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
                 ceValuesFinder.setBudgetCategoryTypeCode(budgetCategoryTypeCode);
                 List<KeyValue> allPersonnelCostElements = ceValuesFinder.getKeyValues();
                 for (KeyValue keyValue : allPersonnelCostElements) {
-                    if(StringUtils.isNotEmpty(keyValue.getKey().toString())) {
+                    if (StringUtils.isNotEmpty(keyValue.getKey().toString())) {
                         resultStr += "," + keyValue.getKey() + ";" + keyValue.getValue();
                     }
                 }
                 resultStr += ",ceLookup;true";
             }
         }
-        
+
         return resultStr;
     }
 
     @Override
     public String getBudgetExpensePanelName(BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem) {
-        StringBuffer panelName = new StringBuffer();
-        if(budgetLineItem.getBudgetCategory() == null) {
+        StringBuilder panelName = new StringBuilder();
+        if (budgetLineItem.getBudgetCategory() == null) {
             budgetLineItem.refreshReferenceObject("budgetCategory");
         }
-        
-        if(budgetLineItem.getBudgetCategory() != null && budgetLineItem.getBudgetCategory().getBudgetCategoryType() == null) {
+
+        if (budgetLineItem.getBudgetCategory() != null && budgetLineItem.getBudgetCategory().getBudgetCategoryType() == null) {
             budgetLineItem.getBudgetCategory().refreshReferenceObject("budgetCategoryType");
         }
-        
-        if(budgetLineItem.getBudgetCategory() != null && budgetLineItem.getBudgetCategory().getBudgetCategoryType() != null) {
+
+        if (budgetLineItem.getBudgetCategory() != null && budgetLineItem.getBudgetCategory().getBudgetCategoryType() != null) {
             panelName.append(budgetLineItem.getBudgetCategory().getBudgetCategoryType().getDescription());
         }
-        
+
         return panelName.toString();
     }
 
@@ -503,11 +513,10 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     @SuppressWarnings("unchecked")
     @Override
     public Collection<BudgetRate> getSavedProposalRates(BudgetVersionOverview budgetToOpen) {
-        Map<String,Long> qMap = new HashMap<String,Long>();
-        qMap.put("budgetId",budgetToOpen.getBudgetId());
+        Map<String, Long> qMap = new HashMap<String, Long>();
+        qMap.put("budgetId", budgetToOpen.getBudgetId());
         return businessObjectService.findMatching(BudgetRate.class, qMap);
     }
-
 
     @SuppressWarnings("unchecked")
     @Override
@@ -522,7 +531,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             budgetVersionsExists = true;
             if (budgetVersion.isFinalVersionFlag()) {
                 valid &= applyAuditRuleForBudgetDocument(budgetVersion);
-                if (parentDocument.getBudgetParent().getBudgetStatus() != null 
+                if (parentDocument.getBudgetParent().getBudgetStatus() != null
                         && parentDocument.getBudgetParent().getBudgetStatus().equals(budgetStatusCompleteCode)) {
                     finalAndCompleteBudgetVersionFound = true;
                 } else {
@@ -547,7 +556,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         boolean valid = true;
         for (BudgetDocumentVersion budgetDocumentVersion : proposalDevelopmentDocument.getBudgetDocumentVersions()) {
             BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
-            
+
             String budgetStatusCompleteCode = this.parameterService.getParameterValueAsString(BudgetDocument.class,
                     Constants.BUDGET_STATUS_COMPLETE_CODE);
             // if status is complete and version is not final, then business rule will take care of it
@@ -564,14 +573,14 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             // audit warnings are OK.  only audit errors prevent to change to complete status.
             valid = true;
             for (Object key : KNSGlobalVariables.getAuditErrorMap().keySet()) {
-                AuditCluster auditCluster = (AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(key);
+                AuditCluster auditCluster = (AuditCluster) KNSGlobalVariables.getAuditErrorMap().get(key);
                 if (auditCluster.getCategory().equals(Constants.AUDIT_ERRORS)) {
                     valid = false;
                     break;
                 }
             }
         }
-        
+
         //if the budget is considered valid, then any resulting audit errors or warnings do not matter
         //for the purposes of checking if the budget is valid to save.
         if (valid) {
@@ -588,11 +597,11 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         return KraServiceLocator.getService(KualiRuleService.class).applyRules(new DocumentAuditEvent(budgetDocument));
 
     }
-    
+
     /**
-     * @throws NoSuchMethodException 
-     * @throws InvocationTargetException 
-     * @throws IllegalAccessException 
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws IllegalAccessException
      * @throws FormatException
      */
     @SuppressWarnings("unchecked")
@@ -602,15 +611,15 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         budgetDocument.toCopy();
         budgetDocument.getParentDocument().getDocumentHeader().setDocumentNumber(parentDocumentNumber);
         budgetDocument.getParentDocument().setDocumentNumber(parentDocumentNumber);
-        if(budgetDocument.getBudgets().isEmpty()) { 
+        if (budgetDocument.getBudgets().isEmpty()) {
             throw new RuntimeException("Not able to find any Budget Version associated with this document");
         }
         Budget budget = budgetDocument.getBudget();
-        
+
         if (onlyOnePeriod) {
             //Copy full first version, then include empty periods for remainder
-            List<BudgetPeriod> oldBudgetPeriods = budget.getBudgetPeriods(); 
-            for ( int i = 1 ; i < oldBudgetPeriods.size(); i++ ) {
+            List<BudgetPeriod> oldBudgetPeriods = budget.getBudgetPeriods();
+            for (int i = 1; i < oldBudgetPeriods.size(); i++) {
                 BudgetPeriod period = oldBudgetPeriods.get(i);
                 period.getBudgetLineItems().clear();
                 period.setCostSharingAmount(new BudgetDecimal(0.0));
@@ -620,15 +629,15 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
                 period.setTotalDirectCost(new BudgetDecimal(0.0));
                 period.setTotalIndirectCost(new BudgetDecimal(0.0));
                 period.setUnderrecoveryAmount(new BudgetDecimal(0.0));
-            }            
-            
+            }
+
             /**
-             * KRACOEUS-6312
-             * Zero out any applicable BudgetSubAwardPeriodDetail lines.
+             * KRACOEUS-6312 Zero out any applicable BudgetSubAwardPeriodDetail
+             * lines.
              */
             if (budget.getBudgetSubAwards() != null && budget.getBudgetSubAwards().size() > 0) {
                 List<BudgetSubAwardPeriodDetail> budetSubawardPeriodDetail = budget.getBudgetSubAwards().get(0).getBudgetSubAwardPeriodDetails();
-                for ( int i = 1 ; i < budetSubawardPeriodDetail.size(); i++ ) {
+                for (int i = 1; i < budetSubawardPeriodDetail.size(); i++) {
                     BudgetSubAwardPeriodDetail period = budetSubawardPeriodDetail.get(i);
                     period.setAmountsModified(true);
                     period.setCostShare(new BudgetDecimal(0.0));
@@ -638,7 +647,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
                 }
             }
         }
-        
+
         budget.setBudgetVersionNumber(budgetDocument.getParentDocument().getNextBudgetVersionNumber());
         try {
             Map<String, Object> objectMap = new HashMap<String, Object>();
@@ -664,21 +673,21 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             objectMap.clear();
             fixProperty(budgetDocument, "setFinalVersionFlag", Boolean.class, Boolean.FALSE, objectMap);
             objectMap.clear();
-            
+
             ObjectUtils.materializeAllSubObjects(budgetDocument);
-        }catch (Exception e) {
+        } catch (Exception e) {
             LOG.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
-        
+
         //Work around for 1-to-1 Relationship between BudgetPeriod & BudgetModular
-        Map<String, BudgetModular> tmpBudgetModulars = new HashMap<String, BudgetModular>(); 
-        for(BudgetPeriod budgetPeriod: budgetDocument.getBudget().getBudgetPeriods()) {
+        Map<String, BudgetModular> tmpBudgetModulars = new HashMap<String, BudgetModular>();
+        for (BudgetPeriod budgetPeriod : budgetDocument.getBudget().getBudgetPeriods()) {
             BudgetModular tmpObject = null;
-            if(budgetPeriod.getBudgetModular() != null) {
+            if (budgetPeriod.getBudgetModular() != null) {
                 tmpObject = (BudgetModular) ObjectUtils.deepCopy(budgetPeriod.getBudgetModular());
             }
-            tmpBudgetModulars.put(""+budgetPeriod.getBudget().getVersionNumber() + budgetPeriod.getBudgetPeriod(), tmpObject);
+            tmpBudgetModulars.put("" + budgetPeriod.getBudget().getVersionNumber() + budgetPeriod.getBudgetPeriod(), tmpObject);
             budgetPeriod.setBudgetModular(null);
         }
 
@@ -693,28 +702,31 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             updateProjectIncomes(budgetDocument, projectIncomes);
         }
         getBudgetCommonService(budget.getBudgetDocument().getParentDocument()).calculateBudgetOnSave(budget);
-        for(BudgetPeriod tmpBudgetPeriod: budgetDocument.getBudget().getBudgetPeriods()) {
-            BudgetModular tmpBudgetModular = tmpBudgetModulars.get(""+tmpBudgetPeriod.getBudget().getVersionNumber() + tmpBudgetPeriod.getBudgetPeriod());
-            if(tmpBudgetModular != null) {
+        for (BudgetPeriod tmpBudgetPeriod : budgetDocument.getBudget().getBudgetPeriods()) {
+            BudgetModular tmpBudgetModular = tmpBudgetModulars.get("" + tmpBudgetPeriod.getBudget().getVersionNumber() + tmpBudgetPeriod.getBudgetPeriod());
+            if (tmpBudgetModular != null) {
                 tmpBudgetModular.setBudgetPeriodId(tmpBudgetPeriod.getBudgetPeriodId());
                 tmpBudgetPeriod.setBudgetModular(tmpBudgetModular);
             }
         }
-        
+
         saveBudgetDocument(budgetDocument);
         budgetDocument.getParentDocument().refreshBudgetDocumentVersions();
         return budgetDocument;
     }
-    
+
     protected BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParentDocument parentBudgetDocument) {
         return BudgetCommonServiceFactory.createInstance(parentBudgetDocument);
-    }    
+    }
+
     /**
-     * 
+     *
      * This method is to handle budgetprojectincomes independently.
-     * budgetprojectincomes is a collection of 'budget', but it also reference to budgetperiod.
-     * During copy budgetperiodid is set to null.  If save with budgetdocument, then budgetperiodid will not be set.
-     * So, has to use this to set manually.
+     * budgetprojectincomes is a collection of 'budget', but it also reference
+     * to budgetperiod. During copy budgetperiodid is set to null. If save with
+     * budgetdocument, then budgetperiodid will not be set. So, has to use this
+     * to set manually.
+     *
      * @param budgetDocument
      * @param projectIncomes
      */
@@ -733,15 +745,17 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         budgetDocument.getBudget().refreshReferenceObject("budgetProjectIncomes");
 
     }
+
     /**
-     * 
+     *
      * Do this so that new personnel details(or copied ones) can be calculated
+     *
      * @param budgetDocument
      */
     protected void copyLineItemToPersonnelDetails(BudgetDocument budgetDocument) {
         for (BudgetPeriod budgetPeriod : budgetDocument.getBudget().getBudgetPeriods()) {
             if (budgetPeriod.getBudgetLineItems() != null && !budgetPeriod.getBudgetLineItems().isEmpty()) {
-                for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {        
+                for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
                     if (budgetLineItem.getBudgetPersonnelDetailsList() != null && !budgetLineItem.getBudgetPersonnelDetailsList().isEmpty()) {
                         for (BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
                             budgetPersonnelDetails.setBudgetId(budgetLineItem.getBudgetId());
@@ -749,15 +763,16 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
                             budgetPersonnelDetails.setLineItemNumber(budgetLineItem.getLineItemNumber());
                             budgetPersonnelDetails.setCostElement(budgetLineItem.getCostElement());
                             budgetPersonnelDetails.setCostElementBO(budgetLineItem.getCostElementBO());
-                       }
+                        }
                     }
                 }
             }
         }
-    }    
-    
+    }
+
     /**
-     * Gets the budgetRatesService attribute. 
+     * Gets the budgetRatesService attribute.
+     *
      * @return Returns the budgetRatesService.
      */
     public BudgetRatesService<T> getBudgetRatesService() {
@@ -766,6 +781,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
 
     /**
      * Sets the budgetRatesService attribute value.
+     *
      * @param budgetRatesService The budgetRatesService to set.
      */
     public void setBudgetRatesService(BudgetRatesService<T> budgetRatesService) {
@@ -774,6 +790,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
 
     /**
      * Sets the deepCopyPostProcessor attribute value.
+     *
      * @param deepCopyPostProcessor The deepCopyPostProcessor to set.
      */
     public void setDeepCopyPostProcessor(DeepCopyPostProcessor deepCopyPostProcessor) {
@@ -781,7 +798,8 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     }
 
     /**
-     * Gets the deepCopyPostProcessor attribute. 
+     * Gets the deepCopyPostProcessor attribute.
+     *
      * @return Returns the deepCopyPostProcessor.
      */
     public DeepCopyPostProcessor getDeepCopyPostProcessor() {
@@ -789,7 +807,8 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     }
 
     /**
-     * Gets the budgetSummaryService attribute. 
+     * Gets the budgetSummaryService attribute.
+     *
      * @return Returns the budgetSummaryService.
      */
     public BudgetSummaryService getBudgetSummaryService() {
@@ -798,20 +817,20 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
 
     /**
      * Sets the budgetSummaryService attribute value.
+     *
      * @param budgetSummaryService The budgetSummaryService to set.
      */
     public void setBudgetSummaryService(BudgetSummaryService budgetSummaryService) {
         this.budgetSummaryService = budgetSummaryService;
     }
-    
+
     /*
      * a utility method to check if dwr/ajax call really has authorization
      * 'updateProtocolFundingSource' also accessed by non ajax call
      */
-    
     private boolean isAuthorizedToAccess(String budgetCategoryTypeCode) {
         boolean isAuthorized = true;
-        if(budgetCategoryTypeCode.contains(Constants.COLON)){
+        if (budgetCategoryTypeCode.contains(Constants.COLON)) {
             if (GlobalVariables.getUserSession() != null) {
                 // TODO : this is a quick hack for KC 3.1.1 to provide authorization check for dwr/ajax call. dwr/ajax will be replaced by
                 // jquery/ajax in rice 2.0
@@ -824,12 +843,12 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
                     if (formObj == null || !(formObj instanceof BudgetForm)) {
                         isAuthorized = false;
                     } else {
-                        Map<String, String> editModes = ((BudgetForm)formObj).getEditingMode();
+                        Map<String, String> editModes = ((BudgetForm) formObj).getEditingMode();
                         isAuthorized = BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.FULL_ENTRY))
-                        || BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.VIEW_ONLY))
-                        || BooleanUtils.toBoolean(editModes.get("modifyBudgtes"))
-                        || BooleanUtils.toBoolean(editModes.get("viewBudgets"))
-                        || BooleanUtils.toBoolean(editModes.get("addBudget"));
+                                || BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.VIEW_ONLY))
+                                || BooleanUtils.toBoolean(editModes.get("modifyBudgtes"))
+                                || BooleanUtils.toBoolean(editModes.get("viewBudgets"))
+                                || BooleanUtils.toBoolean(editModes.get("addBudget"));
                     }
                 }
 
@@ -848,8 +867,9 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     public void setFiscalYearMonthService(FiscalYearMonthService fiscalYearMonthService) {
         this.fiscalYearMonthService = fiscalYearMonthService;
     }
+
     @Override
-    public BudgetDecimal getBaseSalaryByPeriod(Long budgetId, int budgetPeriod, KeyPersonInfo person ) {
+    public BudgetDecimal getBaseSalaryByPeriod(Long budgetId, int budgetPeriod, KeyPersonInfo person) {
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         final Integer listIndex = 0;
         BudgetDecimal baseSalaryByPeriod = null;
@@ -861,17 +881,18 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             budgetPersonInPeriodsSalaryMap.put("personId", person.getRolodexId());
         }
         budgetPersonInPeriodsSalaryMap.put("budgetPeriod", budgetPeriod);
-        Collection<BudgetPersonSalaryDetails> personSalaryDetails = boService.findMatchingOrderBy(BudgetPersonSalaryDetails.class, budgetPersonInPeriodsSalaryMap,"personSequenceNumber",true);
+        Collection<BudgetPersonSalaryDetails> personSalaryDetails = boService.findMatchingOrderBy(BudgetPersonSalaryDetails.class, budgetPersonInPeriodsSalaryMap, "personSequenceNumber", true);
         List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails = (List<BudgetPersonSalaryDetails>) personSalaryDetails;
         if (budgetPersonSalaryDetails != null && budgetPersonSalaryDetails.size() > 0) {
             baseSalaryByPeriod = budgetPersonSalaryDetails.get(listIndex).getBaseSalary();
         }
         return baseSalaryByPeriod;
     }
+
     @Override
-    public String populateBudgetPersonSalaryDetailsInPeriods(String budgetId, String personSequenceNumber, String personId ){
+    public String populateBudgetPersonSalaryDetailsInPeriods(String budgetId, String personSequenceNumber, String personId) {
         String baseSalary = "";
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class); 
+        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         HashMap budgetPersonInPeriodsSalaryMap = new HashMap();
         budgetPersonInPeriodsSalaryMap.put("personSequenceNumber", personSequenceNumber);
         budgetPersonInPeriodsSalaryMap.put("budgetId", budgetId);
@@ -879,13 +900,14 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         Collection<BudgetPersonSalaryDetails> budgetPersonSalaryDetails = boService.findMatching(BudgetPersonSalaryDetails.class, budgetPersonInPeriodsSalaryMap);
         if (budgetPersonSalaryDetails != null && !budgetPersonSalaryDetails.isEmpty()) {
             for (BudgetPersonSalaryDetails salaryDetails : budgetPersonSalaryDetails) {
-                baseSalary = baseSalary + salaryDetails.getBaseSalary() + ","; 
+                baseSalary = baseSalary + salaryDetails.getBaseSalary() + ",";
             }
-        
+
             baseSalary = baseSalary.substring(0, baseSalary.lastIndexOf(","));
         }
         return baseSalary;
     }
+
     @Override
     public void populateNewBudgetLineItem(BudgetLineItem newBudgetLineItem, BudgetPeriod budgetPeriod) {
         Budget budget = budgetPeriod.getBudget();
@@ -898,32 +920,33 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         newBudgetLineItem.setApplyInRateFlag(true);
         newBudgetLineItem.setSubmitCostSharingFlag(budget.getSubmitCostSharingFlag());
         newBudgetLineItem.refreshReferenceObject("costElementBO");
-        
+
         // on/off campus flag enhancement
         String onOffCampusFlag = budget.getOnOffCampusFlag();
         if (onOffCampusFlag.equalsIgnoreCase(Constants.DEFAULT_CAMPUS_FLAG)) {
-            newBudgetLineItem.setOnOffCampusFlag(newBudgetLineItem.getCostElementBO().getOnOffCampusFlag()); 
+            newBudgetLineItem.setOnOffCampusFlag(newBudgetLineItem.getCostElementBO().getOnOffCampusFlag());
         } else {
-            newBudgetLineItem.setOnOffCampusFlag(onOffCampusFlag.equalsIgnoreCase(Constants.ON_CAMPUS_FLAG));                 
+            newBudgetLineItem.setOnOffCampusFlag(onOffCampusFlag.equalsIgnoreCase(Constants.ON_CAMPUS_FLAG));
         }
         newBudgetLineItem.setBudgetCategoryCode(newBudgetLineItem.getCostElementBO().getBudgetCategoryCode());
         newBudgetLineItem.setLineItemSequence(newBudgetLineItem.getLineItemNumber());
-        
-        if(isBudgetFormulatedCostEnabled()){
+
+        if (isBudgetFormulatedCostEnabled()) {
             List<String> formulatedCostElements = getFormulatedCostElements();
-            if(formulatedCostElements.contains(newBudgetLineItem.getCostElement())){
+            if (formulatedCostElements.contains(newBudgetLineItem.getCostElement())) {
                 newBudgetLineItem.setFormulatedCostElementFlag(true);
             }
         }
     }
-    
+
     protected boolean isBudgetFormulatedCostEnabled() {
         String formulatedCostEnabled = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.FORMULATED_COST_ENABLED);
-        return (formulatedCostEnabled!=null && formulatedCostEnabled.equalsIgnoreCase("Y"))?true:false;
+        return (formulatedCostEnabled != null && formulatedCostEnabled.equalsIgnoreCase("Y")) ? true : false;
     }
+
     protected List<String> getFormulatedCostElements() {
         String formulatedCEsValue = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.FORMULATED_COST_ELEMENTS);
-        String[] formulatedCEs = formulatedCEsValue==null?new String[0]:formulatedCEsValue.split(",");
+        String[] formulatedCEs = formulatedCEsValue == null ? new String[0] : formulatedCEsValue.split(",");
         return Arrays.asList(formulatedCEs);
     }
 

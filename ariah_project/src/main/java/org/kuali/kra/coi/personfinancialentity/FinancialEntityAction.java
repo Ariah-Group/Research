@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.coi.personfinancialentity;
 
@@ -64,7 +80,7 @@ import static org.apache.commons.lang.StringUtils.replace;
 import static org.kuali.rice.krad.util.KRADConstants.*;
 
 /**
- * 
+ *
  * This class is the struts action for financial entity maintenance
  */
 @SuppressWarnings("deprecation")
@@ -76,10 +92,12 @@ public class FinancialEntityAction extends KualiAction {
     protected static final String CONFIRM_NO_CANCEL_FE = "declineCancelFinancialEntity";
 
     private KcNotificationService kcNotificationService;
-    
+
     /**
-     * 
-     * This method is called when user open the financial entity maintenance page
+     *
+     * This method is called when user open the financial entity maintenance
+     * page
+     *
      * @param mapping
      * @param form
      * @param request
@@ -92,13 +110,14 @@ public class FinancialEntityAction extends KualiAction {
 
         ((FinancialEntityForm) form).getFinancialEntityHelper().initiate();
         // if this starts from FE link.  clean any coiDocId resicure
- //       ((FinancialEntityForm) form).setCoiDocId(null);
+        //       ((FinancialEntityForm) form).setCoiDocId(null);
         return mapping.findForward("management");
     }
 
     /**
-     * 
+     *
      * This method is to forward to 'New Financial Entity' page
+     *
      * @param mapping
      * @param form
      * @param request
@@ -114,8 +133,9 @@ public class FinancialEntityAction extends KualiAction {
     }
 
     /**
-     * 
+     *
      * This method is to forward to 'My Financial Entities' page.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -138,12 +158,13 @@ public class FinancialEntityAction extends KualiAction {
         ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities(true));
         ((FinancialEntityForm) form).getFinancialEntityHelper().setInactiveFinancialEntities(getFinancialEntities(false));
         recordSubmitActionSuccess("Financial Entity save ");
-        
+
     }
-    
+
     /**
-     * 
+     *
      * This method for 'close' button action.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -152,8 +173,8 @@ public class FinancialEntityAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-        throws Exception {
-        final StrutsConfirmation confirm = buildParameterizedConfirmationQuestion(mapping, form, request, response, 
+            throws Exception {
+        final StrutsConfirmation confirm = buildParameterizedConfirmationQuestion(mapping, form, request, response,
                 CONFIRM_YES_CANCEL_FE, KeyConstants.MESSAGE_CANCEL_FE);
         return confirm(confirm, CONFIRM_YES_CANCEL_FE, CONFIRM_NO_CANCEL_FE);
     }
@@ -175,14 +196,15 @@ public class FinancialEntityAction extends KualiAction {
         GlobalVariables.getMessageMap().removeFromErrorPath(errorPath + ".finEntityContactInfos[0]");
 
         boolean isValid = GlobalVariables.getMessageMap().hasNoErrors();
-        isValid &= checkRule(new SaveFinancialEntityEvent(errorPath,personFinIntDisclosure));
+        isValid &= checkRule(new SaveFinancialEntityEvent(errorPath, personFinIntDisclosure));
         return isValid;
 
     }
 
     /**
-     * 
+     *
      * This method is to process rule check.
+     *
      * @param event
      * @return
      */
@@ -201,6 +223,7 @@ public class FinancialEntityAction extends KualiAction {
     protected FinancialEntityService getFinancialEntityService() {
         return KraServiceLocator.getService(FinancialEntityService.class);
     }
+
     protected CoiDisclosureService getCoiDisclosureService() {
         return KraServiceLocator.getService(CoiDisclosureService.class);
     }
@@ -215,14 +238,15 @@ public class FinancialEntityAction extends KualiAction {
     protected List<PersonFinIntDisclosure> getFinancialEntities(boolean active) {
         return getFinancialEntities(GlobalVariables.getUserSession().getPrincipalId(), active);
     }
-    
+
     protected List<PersonFinIntDisclosure> getFinancialEntities(String personId, boolean active) {
         return getFinancialEntityService().getFinancialEntities(personId, active);
     }
-    
+
     /**
-     * 
+     *
      * This method is for header message displaying
+     *
      * @param submitAction
      */
     protected void recordSubmitActionSuccess(String submitAction) {
@@ -230,8 +254,14 @@ public class FinancialEntityAction extends KualiAction {
     }
 
     /**
-     * This is specifically for 'sponsor' lookup'  when return a value, the addresses fields will be overriden.
-     * @see org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * This is specifically for 'sponsor' lookup' when return a value, the
+     * addresses fields will be overriden.
+     *
+     * @see
+     * org.kuali.rice.kns.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
+     * org.apache.struts.action.ActionForm,
+     * javax.servlet.http.HttpServletRequest,
+     * javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -245,9 +275,9 @@ public class FinancialEntityAction extends KualiAction {
         boolean isEdit = false;
         if (StringUtils.isNotBlank(refreshCaller) && StringUtils.isBlank(sponsorCode) && financialEntityHelper.getEditEntityIndex() >= 0) {
             if (StringUtils.equals(ACTIVATE_ENTITY, financialEntityHelper.getEditType())) {
-                sponsorCode = request.getParameter("financialEntityHelper.activeFinancialEntities["+financialEntityHelper.getEditEntityIndex()+"].sponsorCode");
+                sponsorCode = request.getParameter("financialEntityHelper.activeFinancialEntities[" + financialEntityHelper.getEditEntityIndex() + "].sponsorCode");
             } else {
-                sponsorCode = request.getParameter("financialEntityHelper.inactiveFinancialEntities["+financialEntityHelper.getEditEntityIndex()+"].sponsorCode");
+                sponsorCode = request.getParameter("financialEntityHelper.inactiveFinancialEntities[" + financialEntityHelper.getEditEntityIndex() + "].sponsorCode");
             }
             isEdit = true;
         }
@@ -257,7 +287,7 @@ public class FinancialEntityAction extends KualiAction {
                 if (sponsor.getRolodex() == null) {
                     sponsor.refreshReferenceObject("rolodex");
                 }
-                
+
                 FinancialEntityContactInfo contactInfo = financialEntityHelper.getNewPersonFinancialEntity().getFinEntityContactInfos().get(0);
                 if (isEdit) {
                     if (StringUtils.equals(ACTIVATE_ENTITY, financialEntityHelper.getEditType())) {
@@ -287,11 +317,10 @@ public class FinancialEntityAction extends KualiAction {
         // investigate if it can be shared
         ResearchDocumentService researchDocumentService = KraServiceLocator.getService(ResearchDocumentService.class);
         String forward = researchDocumentService.getDocHandlerUrl(routeHeaderId);
- //       forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
-        if (forward.indexOf("?") == -1) {
+        //       forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
+        if (forward.indexOf('?') == -1) {
             forward += "?";
-        }
-        else {
+        } else {
             forward += "&";
         }
         forward += KewApiConstants.DOCUMENT_ID_PARAMETER + "=" + routeHeaderId;
@@ -312,7 +341,7 @@ public class FinancialEntityAction extends KualiAction {
             return mapping.findForward(Constants.MAPPING_BASIC);
         } else {
             final AttachmentFile file = attachment.getAttachmentFile();
-            PrintingUtils.streamToResponse(file.getData(), getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
+            PrintingUtils.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
             return null;  // response already handled
         }
     }
@@ -323,28 +352,27 @@ public class FinancialEntityAction extends KualiAction {
         final String selection = request.getParameter("linkId");
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("id", selection);
-        List<AttachmentFile> files = (List<AttachmentFile>)getBusinessObjectService().findMatching(AttachmentFile.class, fieldValues);
+        List<AttachmentFile> files = (List<AttachmentFile>) getBusinessObjectService().findMatching(AttachmentFile.class, fieldValues);
         if (files.size() == 0) {
             return mapping.findForward(Constants.MAPPING_BASIC);
         } else {
             AttachmentFile attachmentFile = files.get(0);
-            PrintingUtils.streamToResponse(attachmentFile.getData(), getValidHeaderString(attachmentFile.getName()),  getValidHeaderString(attachmentFile.getType()), response);
+            PrintingUtils.streamToResponse(attachmentFile.getData(), getValidHeaderString(attachmentFile.getName()), getValidHeaderString(attachmentFile.getType()), response);
             return null;  // response already handled
         }
     }
 
     protected CoiPrintingService getCoiPrintingService() {
-        return  KraServiceLocator.getService(CoiPrintingService.class);  
+        return KraServiceLocator.getService(CoiPrintingService.class);
     }
-    
+
     protected WatermarkService getWatermarkService() {
-        return  KraServiceLocator.getService(WatermarkService.class);  
+        return KraServiceLocator.getService(WatermarkService.class);
     }
 
     protected static String getValidHeaderString(String s) {
         return MimeUtility.quote(s, HeaderTokenizer.MIME);
-    }    
-
+    }
 
     /**
      * "borrowed" from KraTransactionalDocumentActionBase class
@@ -383,13 +411,11 @@ public class FinancialEntityAction extends KualiAction {
             if (ConfirmationQuestion.YES.equals(buttonClicked) && isNotBlank(yesMethodName)) {
                 return dispatchMethod(question.getMapping(), question.getForm(), question.getRequest(), question.getResponse(),
                         yesMethodName);
-            }
-            else if (isNotBlank(noMethodName)) {
+            } else if (isNotBlank(noMethodName)) {
                 return dispatchMethod(question.getMapping(), question.getForm(), question.getRequest(), question.getResponse(),
                         noMethodName);
             }
-        }
-        else {
+        } else {
             return this.performQuestionWithoutInput(question, EMPTY_STRING);
         }
 
@@ -426,7 +452,7 @@ public class FinancialEntityAction extends KualiAction {
      * if user answers "no", then stay where we are
      */
     public ActionForward declineCancelFinancialEntity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-                                                                                                                throws Exception {
+            throws Exception {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -434,16 +460,16 @@ public class FinancialEntityAction extends KualiAction {
      * if user cancels, where do we go
      */
     public ActionForward whereToGoAfterCancel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-                                                HttpServletResponse response) throws Exception {
+            HttpServletResponse response) throws Exception {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     protected void sendNotificationAndPersist(String feAction, String actionDescription, PersonFinIntDisclosure disclosure) {
-        FinancialEntityNotificationContext context = new FinancialEntityNotificationContext(disclosure, 
-            feAction, actionDescription, new FinancialEntityNotificationRenderer(disclosure));
+        FinancialEntityNotificationContext context = new FinancialEntityNotificationContext(disclosure,
+                feAction, actionDescription, new FinancialEntityNotificationRenderer(disclosure));
         getKcNotificationService().sendNotificationAndPersist(context, new CoiNotification(), disclosure);
     }
-    
+
     public KcNotificationService getKcNotificationService() {
         if (kcNotificationService == null) {
             kcNotificationService = KraServiceLocator.getService(KcNotificationService.class);

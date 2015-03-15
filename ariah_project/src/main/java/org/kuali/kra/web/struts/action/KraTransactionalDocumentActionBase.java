@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.web.struts.action;
 
@@ -100,19 +116,19 @@ import static org.kuali.rice.krad.util.KRADConstants.*;
 
 // TODO : should move this class to org.kuali.kra.web.struts.action
 public class KraTransactionalDocumentActionBase extends KualiTransactionalDocumentActionBase {
-    
+
     private static final Log LOG = LogFactory.getLog(KraTransactionalDocumentActionBase.class);
-    
+
     private static final String DEFAULT_TAB = "Versions";
     private static final String ALTERNATE_OPEN_TAB = "Parameters";
 
     private static final String ONE_ADHOC_REQUIRED_ERROR_KEY = "error.adhoc.oneAdHocRequired";
-    private static final String DOCUMENT_RELOAD_QUESTION="DocReload";
+    private static final String DOCUMENT_RELOAD_QUESTION = "DocReload";
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        
+
         /*
          * If the document is being opened in view only mode, mark the form.  We will also
          * mark the document, but it should be mentioned that a reload will cause a new 
@@ -124,10 +140,10 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         if (StringUtils.isNotBlank(commandParam) && commandParam.equals("displayDocSearchView") && StringUtils.isNotBlank(request.getParameter("viewDocument"))) {
             if (request.getParameter("viewDocument").equals("true")) {
                 kcForm.setViewOnly(true);
-                ((ResearchDocumentBase)kcForm.getDocument()).setViewOnly(kcForm.isViewOnly());
+                ((ResearchDocumentBase) kcForm.getDocument()).setViewOnly(kcForm.isViewOnly());
             }
         }
-        
+
         /*
          * Restore messages passed through the holding page
          */
@@ -136,19 +152,22 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             KNSGlobalVariables.getMessageList().addAll(messageList);
             GlobalVariables.getUserSession().removeObject(Constants.HOLDING_PAGE_MESSAGES);
         }
-        
+
         ActionForward returnForward = mapping.findForward(Constants.MAPPING_BASIC);
         returnForward = super.execute(mapping, form, request, response);
-        
+
         return returnForward;
     }
 
     /**
-     * By overriding the dispatchMethod(), we can check the user's authorization to perform the given action/task.
-     * 
-     * @see org.apache.struts.actions.DispatchAction#dispatchMethod(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
-     *      java.lang.String)
+     * By overriding the dispatchMethod(), we can check the user's authorization
+     * to perform the given action/task.
+     *
+     * @see
+     * org.apache.struts.actions.DispatchAction#dispatchMethod(org.apache.struts.action.ActionMapping,
+     * org.apache.struts.action.ActionForm,
+     * javax.servlet.http.HttpServletRequest,
+     * javax.servlet.http.HttpServletResponse, java.lang.String)
      */
     @Override
     protected ActionForward dispatchMethod(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -157,8 +176,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         ActionForward actionForward = null;
         if (!isTaskAuthorized(methodName, form, request)) {
             actionForward = processAuthorizationViolation(methodName, mapping, form, request, response);
-        }
-        else {
+        } else {
             actionForward = super.dispatchMethod(mapping, form, request, response, methodName);
         }
         return actionForward;
@@ -172,24 +190,27 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             throws Exception {
 
         if (form instanceof KraTransactionalDocumentFormBase) {
-            ((KraTransactionalDocumentFormBase)form).setNavigateTo(getHeaderTabNavigateTo(request));
+            ((KraTransactionalDocumentFormBase) form).setNavigateTo(getHeaderTabNavigateTo(request));
         }
         ((KualiForm) form).setTabStates(new HashMap());
         return super.headerTab(mapping, form, request, response);
-    }  
+    }
 
     /**
-     * Initiates a Confirmation. Part of the Question Framework for handling confirmations where a "yes" or "no" answer is required.
-     * <br/> <br/> A <code>yesMethodName</code> is provided as well as a <code>noMethodName</code>. These are callback methods
-     * for handling "yes" or "no" responses.
-     * 
+     * Initiates a Confirmation. Part of the Question Framework for handling
+     * confirmations where a "yes" or "no" answer is required.
+     * <br/> <br/> A <code>yesMethodName</code> is provided as well as a
+     * <code>noMethodName</code>. These are callback methods for handling "yes"
+     * or "no" responses.
+     *
      * @param question a bean containing question information for the delegated
-     *        <code>{@link #performQuestionWithoutInput(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse, String, String, String, String, String)}</code>
-     *        method.
+     * <code>{@link #performQuestionWithoutInput(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse, String, String, String, String, String)}</code>
+     * method.
      * @param yesMethodName "yes" response callback
      * @param noMethodName "no" response callback
      * @return
-     * @throws Exception can be thrown as a result of a problem during dispatching
+     * @throws Exception can be thrown as a result of a problem during
+     * dispatching
      * @see https://test.kuali.org/confluence/x/EoFXAQ
      */
     public ActionForward confirm(StrutsConfirmation question, String yesMethodName, String noMethodName) throws Exception {
@@ -204,13 +225,11 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             if (ConfirmationQuestion.YES.equals(buttonClicked) && isNotBlank(yesMethodName)) {
                 return dispatchMethod(question.getMapping(), question.getForm(), question.getRequest(), question.getResponse(),
                         yesMethodName);
-            }
-            else if (isNotBlank(noMethodName)) {
+            } else if (isNotBlank(noMethodName)) {
                 return dispatchMethod(question.getMapping(), question.getForm(), question.getRequest(), question.getResponse(),
                         noMethodName);
             }
-        }
-        else {
+        } else {
             return this.performQuestionWithoutInput(question, EMPTY_STRING);
         }
 
@@ -218,10 +237,12 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     }
 
     /**
-     * Generically creates a <code>{@link StrutsConfirmation}</code> instance while deriving the question from a resource bundle.<br/>
-     * <br/> In this case, the question in the resource bundle is expected to be parameterized. This method takes this into account,
-     * and passes parameters and replaces tokens in the question with the parameters.
-     * 
+     * Generically creates a <code>{@link StrutsConfirmation}</code> instance
+     * while deriving the question from a resource bundle.<br/>
+     * <br/> In this case, the question in the resource bundle is expected to be
+     * parameterized. This method takes this into account, and passes parameters
+     * and replaces tokens in the question with the parameters.
+     *
      * @param mapping The mapping associated with this action.
      * @param form The Proposal Development form.
      * @param request the HTTP request
@@ -240,7 +261,6 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         retval.setQuestionId(questionId);
         retval.setQuestionType(CONFIRMATION_QUESTION);
 
-
         ConfigurationService kualiConfiguration = CoreApiServiceLocator.getKualiConfigurationService();
         String questionText = kualiConfiguration.getPropertyValueAsString(configurationId);
 
@@ -255,9 +275,9 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
 
     /**
      * Wrapper around
-     * <code>{@link performQuestionWithoutInput(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)}</code> using
-     * <code>{@link StrutsConfirmation}</code>
-     * 
+     * <code>{@link performQuestionWithoutInput(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)}</code>
+     * using <code>{@link StrutsConfirmation}</code>
+     *
      * @param question StrutsConfirmation
      * @param context
      * @return ActionForward
@@ -270,8 +290,9 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     }
 
     /**
-     * Takes a routeHeaderId for a particular document and constructs the URL to forward to that document
-     * 
+     * Takes a routeHeaderId for a particular document and constructs the URL to
+     * forward to that document
+     *
      * @param routeHeaderId
      * @return String
      */
@@ -279,10 +300,9 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         ResearchDocumentService researchDocumentService = KraServiceLocator.getService(ResearchDocumentService.class);
         String forward = researchDocumentService.getDocHandlerUrl(routeHeaderId);
         forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
-        if (forward.indexOf("?") == -1) {
+        if (forward.indexOf('?') == -1) {
             forward += "?";
-        }
-        else {
+        } else {
             forward += "&";
         }
         forward += KewApiConstants.DOCUMENT_ID_PARAMETER + "=" + routeHeaderId;
@@ -292,10 +312,10 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         }
         return forward;
     }
-    
+
     /**
      * Builds the forward URL for the given routeHeaderId.
-     * 
+     *
      * @param routeHeaderId the document id to forward to
      * @param actionTabName the tab to navigate to
      * @param documentTypeName the type name of the document
@@ -310,9 +330,10 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     }
 
     /**
-     * Check the authorization for executing a task. A task corresponds to a Struts action. The name of a task always corresponds to
-     * the name of the Struts action method.
-     * 
+     * Check the authorization for executing a task. A task corresponds to a
+     * Struts action. The name of a task always corresponds to the name of the
+     * Struts action method.
+     *
      * @param form the submitted form
      * @param request the HTTP request
      * @throws AuthorizationException
@@ -324,19 +345,20 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         boolean isAuthorized = webAuthorizationService.isAuthorized(userId, this.getClass(), methodName, form, request);
         if (!isAuthorized) {
             error("User not authorized to perform ", methodName, " for document: ",
-                     ((KualiDocumentFormBase) form).getDocument().getClass().getName());
+                    ((KualiDocumentFormBase) form).getDocument().getClass().getName());
         }
         return isAuthorized;
     }
-    
+
     /**
      * Is the current user authorized to perform the given task?
+     *
      * @param task the task
      * @return true if authorized; otherwise false
      */
     protected boolean isAuthorized(Task task) {
         String currentUser = GlobalVariables.getUserSession().getPrincipalId();
-        
+
         TaskAuthorizationService authorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         boolean isAuthorized = authorizationService.isAuthorized(currentUser, task);
         if (!isAuthorized) {
@@ -346,10 +368,10 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         }
         return isAuthorized;
     }
-        
+
     /**
      * ProcessDefinitionDefinitionDefinition an Authorization Violation.
-     * 
+     *
      * @param mapping the Action Mapping
      * @param form the form
      * @param request the HTTP request
@@ -364,9 +386,11 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    /** 
+    /**
      * {@inheritDoc}
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#generatePessimisticLockMessage(org.kuali.rice.krad.document.authorization.PessimisticLock)
+     *
+     * @see
+     * org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#generatePessimisticLockMessage(org.kuali.rice.krad.document.authorization.PessimisticLock)
      */
     @Override
     protected String generatePessimisticLockMessage(PessimisticLock lock) {
@@ -378,12 +402,12 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         message = message.replace("{LOCKED_BY}", lock.getOwnedByUser().getPrincipalName());
         message = message.replace("{TIMESTAMP}", org.kuali.rice.core.api.util.RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp()));
         message = message.replace("{DATESTAMP}", org.kuali.rice.core.api.util.RiceConstants.getDefaultDateFormat().format(lock.getGeneratedTimestamp()));
-        
+
         return message;
     }
 
     private String getDocumentType(String descriptor) {
-        String result="document";
+        String result = "document";
         if (StringUtils.isNotEmpty(descriptor)) {
             String[] resultArray = descriptor.split("-");
             if (resultArray.length > 2) {
@@ -408,7 +432,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         }
         return result;
     }
-    
+
     private List<PessimisticLock> findMatchingLocksWithGivenDescriptor(String lockDescriptor) {
         BusinessObjectService boService = KRADServiceLocator.getBusinessObjectService();
         Map fieldValues = new HashMap();
@@ -416,7 +440,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         List<PessimisticLock> matchingLocks = (List<PessimisticLock>) boService.findMatching(PessimisticLock.class, fieldValues);
         return matchingLocks;
     }
-    
+
     @Override
     protected void releaseLocks(Document document, String methodToCall) {
         String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(
@@ -426,60 +450,60 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         Person loggedInUser = GlobalVariables.getUserSession().getPerson();
 
         String budgetLockDescriptor = null;
-        for(PessimisticLock lock: document.getPessimisticLocks()) {
-            if(StringUtils.isNotEmpty(lock.getLockDescriptor()) && lock.getLockDescriptor().contains("BUDGET")) {
+        for (PessimisticLock lock : document.getPessimisticLocks()) {
+            if (StringUtils.isNotEmpty(lock.getLockDescriptor()) && lock.getLockDescriptor().contains("BUDGET")) {
                 budgetLockDescriptor = lock.getLockDescriptor();
                 break;
             }
         }
-        
+
         // first check if the method to call is listed as required lock clearing
         if (document.getLockClearningMethodNames().contains(methodToCall) || StringUtils.isEmpty(activeLockRegion)) {
             // find all locks for the current user and remove them
             lockService.releaseAllLocksForUser(document.getPessimisticLocks(), loggedInUser);
-            
-            if(StringUtils.isNotEmpty(activeLockRegion) && activeLockRegion.contains("BUDGET")) {
+
+            if (StringUtils.isNotEmpty(activeLockRegion) && activeLockRegion.contains("BUDGET")) {
                 //Add code here
-                List<PessimisticLock> otherBudgetLocks = findMatchingLocksWithGivenDescriptor(budgetLockDescriptor); 
+                List<PessimisticLock> otherBudgetLocks = findMatchingLocksWithGivenDescriptor(budgetLockDescriptor);
                 lockService.releaseAllLocksForUser(otherBudgetLocks, loggedInUser, budgetLockDescriptor);
             }
         }
-        
+
         //Code still here, but probably can be deleted. Copied to populateAuthorizationFields
         //as it looks like this code is only called when the document is being closed, not every request
         //Check the locks held by the user - detect user's navigation away from one lock region to another
-        for(PessimisticLock lock: document.getPessimisticLocks()) {
-            if(StringUtils.isNotEmpty(lock.getLockDescriptor()) && StringUtils.isNotEmpty(activeLockRegion) && !lock.getLockDescriptor().contains(activeLockRegion)) {
+        for (PessimisticLock lock : document.getPessimisticLocks()) {
+            if (StringUtils.isNotEmpty(lock.getLockDescriptor()) && StringUtils.isNotEmpty(activeLockRegion) && !lock.getLockDescriptor().contains(activeLockRegion)) {
                 List<PessimisticLock> otherLocks = findMatchingLocksWithGivenDescriptor(lock.getLockDescriptor());
                 lockService.releaseAllLocksForUser(otherLocks, loggedInUser, lock.getLockDescriptor());
             }
-        }  
+        }
     }
-    
+
     /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase#populateAuthorizationFields(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     * @see
+     * org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase#populateAuthorizationFields(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @SuppressWarnings("unchecked")
     @Override
     protected void populateAuthorizationFields(KualiDocumentFormBase formBase) {
-        
+
         if (formBase.isFormDocumentInitialized()) {
             KraTransactionalDocumentFormBase kcFormBase = (KraTransactionalDocumentFormBase) formBase;
             ResearchDocumentBase document = (ResearchDocumentBase) formBase.getDocument();
             Person user = GlobalVariables.getUserSession().getPerson();
             KcTransactionalDocumentAuthorizerBase documentAuthorizer = (KcTransactionalDocumentAuthorizerBase) getDocumentHelperService().getDocumentAuthorizer(document);
             Set<String> editModes = new HashSet<String>();
-            
+
             KraTransactionalDocumentFormBase kraFormBase = (KraTransactionalDocumentFormBase) formBase;
-            kraFormBase.setupLockRegions();     
-            String activeLockRegion = (String)GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
-            
+            kraFormBase.setupLockRegions();
+            String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+
             if (!documentAuthorizer.canOpen(document, user)) {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
-            }
-            else {
+            } else {
                 document.setViewOnly(kcFormBase.isViewOnly());
-                
+
                 /*
                  * Documents that require a pessimistic lock need to be treated differently.  If a user
                  * can edit the document, they need to obtain the lock, but it is possible that another
@@ -488,15 +512,15 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                  */
                 if (requiresLock(document) && documentAuthorizer.canEdit(document, user)) {
                     editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
-                            
+
                     Map<String, String> editMode = convertSetToMap(editModes);
-                    
+
                     //Check the locks held by the user - detect user's navigation away from one lock region to another
                     //refresh locks as stale ones can exist in the document due to it being in the form
                     document.refreshPessimisticLocks();
                     Set<String> handledLockDescriptors = new HashSet<String>();
-                    for(PessimisticLock lock: document.getPessimisticLocks()) {
-                        if(StringUtils.isNotEmpty(lock.getLockDescriptor()) && StringUtils.isNotEmpty(activeLockRegion) && !lock.getLockDescriptor().contains(activeLockRegion)
+                    for (PessimisticLock lock : document.getPessimisticLocks()) {
+                        if (StringUtils.isNotEmpty(lock.getLockDescriptor()) && StringUtils.isNotEmpty(activeLockRegion) && !lock.getLockDescriptor().contains(activeLockRegion)
                                 && !handledLockDescriptors.contains(lock.getLockDescriptor())) {
                             getPessimisticLockService().releaseAllLocksForUser(document.getPessimisticLocks(), user, lock.getLockDescriptor());
                             handledLockDescriptors.add(lock.getLockDescriptor());
@@ -508,66 +532,71 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                     }
                     //ensure locks are current
                     document.refreshPessimisticLocks();
-                     
+
                     //Task Authorizers should key off the document viewonly flag to determine
                     //if the document is available for writing or if its locked.
                     if (editMode.containsKey(AuthorizationConstants.EditMode.VIEW_ONLY)) {
                         document.setViewOnly(true);
                         //if budget document we need to set the parent document view only as well for authorization consistency.
                         if (document instanceof BudgetDocument) {
-                            BudgetDocument budgetDoc = (BudgetDocument)document;
+                            BudgetDocument budgetDoc = (BudgetDocument) document;
                             budgetDoc.getParentDocument().setViewOnly(true);
                         }
                     }
                 }
                 editModes = documentAuthorizer.getEditModes(document, user, null);
                 Set<String> documentActions = documentAuthorizer.getDocumentActions(document, user, null);
-                
+
                 formBase.setDocumentActions(convertSetToMap(documentActions));
             }
             formBase.setEditingMode(convertSetToMap(editModes));
         }
     }
-    
+
     private boolean requiresLock(Document document) {
         return getDataDictionaryService().getDataDictionary().getDocumentEntry(document.getClass().getName()).getUsePessimisticLocking();
     }
-    
+
     /**
-     * Provide hooks for subclasses to perform additional tasks related to saving
-     * the document.  The optional tasks are:
-     *    1. Doing something right before the document is saved.
-     *    2. Doing something after the document has been saved for the first time only.
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * Provide hooks for subclasses to perform additional tasks related to
+     * saving the document. The optional tasks are: 1. Doing something right
+     * before the document is saved. 2. Doing something after the document has
+     * been saved for the first time only.
+     *
+     * @see
+     * org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping,
+     * org.apache.struts.action.ActionForm,
+     * javax.servlet.http.HttpServletRequest,
+     * javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {    
-         
+            throws Exception {
+
         KualiDocumentFormBase docForm = (KualiDocumentFormBase) form;
-        
+
         preDocumentSave(docForm);
         String originalStatus = getDocumentStatus(docForm.getDocument());
         ActionForward actionForward;
         if ((form instanceof CommitteeForm) || (form instanceof IacucCommitteeForm)) {
             actionForward = saveCommitteeDocument(mapping, form, request, response);
         } else {
-            actionForward = super.save(mapping, form, request, response);            
+            actionForward = super.save(mapping, form, request, response);
         }
         if (isInitialSave(originalStatus)) {
-            initialDocumentSave(docForm); 
+            initialDocumentSave(docForm);
         }
         postDocumentSave(docForm);
 
         return actionForward;
     }
-        
+
     /*
      * This is copied from KualiDocumentactionbase.save.  Use KraDocumentService instead of DocumentService
      * This is for CommitteeDocument handling; to save it in workflow not persisted BO until it is approved.
      */
     private ActionForward saveCommitteeDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-    throws Exception {    
+            throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         //get any possible changes to adHocWorkgroups
         refreshAdHocRoutingWorkgroupLookups(request, kualiDocumentFormBase);
@@ -580,33 +609,36 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         kualiDocumentFormBase.setAnnotation("");
 
         return mapping.findForward(RiceConstants.MAPPING_BASIC);
-     
-    
+
     }
+
     /**
-     * Any processing that must be performed before the save operation goes here.
-     * Typically overridden by a subclass.
+     * Any processing that must be performed before the save operation goes
+     * here. Typically overridden by a subclass.
+     *
      * @param form the Form
      * @throws Exception
      */
     protected void preDocumentSave(KualiDocumentFormBase form) throws Exception {
         // do nothing
     }
-    
+
     /**
      * Any processing that must be performed after the save operation goes here.
      * Typically overridden by a subclass.
+     *
      * @param form the Form
      * @throws Exception
      */
     protected void postDocumentSave(KualiDocumentFormBase form) throws Exception {
         // do nothing
     }
-    
+
     /**
      * Any processing that must occur only once after the document has been
-     * initially saved is done here.  This method is typically overridden by
-     * a subclass.
+     * initially saved is done here. This method is typically overridden by a
+     * subclass.
+     *
      * @param form the form
      * @throws Exception
      */
@@ -615,31 +647,32 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     }
 
     /**
-     * Get the current status of the document.  
+     * Get the current status of the document.
+     *
      * @param doc the Protocol Document
      * @return the status (INITIATED, SAVED, etc.)
      */
     private String getDocumentStatus(Document doc) {
         return doc.getDocumentHeader().getWorkflowDocument().getStatus().getLabel();
     }
-    
+
     /**
-     * Is this the initial save of the document?  If there are errors
-     * in the document, it won't be saved and thus it cannot be initial
-     * successful save.
+     * Is this the initial save of the document? If there are errors in the
+     * document, it won't be saved and thus it cannot be initial successful
+     * save.
+     *
      * @param status the original status before the save operation
      * @return true if the initial save; otherwise false
      */
     private boolean isInitialSave(String status) {
-        return GlobalVariables.getMessageMap().hasNoErrors() &&
-               StringUtils.equals("INITIATED", status);
+        return GlobalVariables.getMessageMap().hasNoErrors()
+                && StringUtils.equals("INITIATED", status);
     }
-    
-    
+
     /**
-     * Close the document and take the user back to the index (portal page); 
-     * only after asking the user if they want to save the document first.
-     * Only users who have the "canSave()" permission are given this option.
+     * Close the document and take the user back to the index (portal page);
+     * only after asking the user if they want to save the document first. Only
+     * users who have the "canSave()" permission are given this option.
      *
      * @param mapping
      * @param form
@@ -651,41 +684,43 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     @Override
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        
+
         KualiDocumentFormBase docForm = (KualiDocumentFormBase) form;
-        
+
         // only want to prompt them to save if they already can save
         if (canSave(docForm)) {
-            
+
             Object question = getQuestion(request);
             // logic for close question
             if (question == null) {
                 // KULRICE-7306: Unconverted Values not carried through during a saveOnClose action.
                 // Stash the unconverted values to populate errors if the user elects to save
                 saveUnconvertedValuesToSession(request, docForm);
-                
+
                 // ask question if not already asked
-                forward = performQuestionWithoutInput(mapping, form, request, response, KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, 
-                        getKualiConfigurationService().getPropertyValueAsString(RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), 
+                forward = performQuestionWithoutInput(mapping, form, request, response, KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION,
+                        getKualiConfigurationService().getPropertyValueAsString(RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE),
                         Constants.KC_CONFIRMATION_QUESTION, KRADConstants.MAPPING_CLOSE, "");
             } else {
                 // otherwise attempt to save and close
                 Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
-                
+
                 // KULRICE-7306: Unconverted Values not carried through during a saveOnClose action.
                 // Side effecting in that it clears the session attribute that holds the unconverted values.
                 Map<String, Object> unconvertedValues = restoreUnconvertedValuesFromSession(request, docForm);
-                
+
                 if ((KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && KcConfirmationQuestion.YES.equals(buttonClicked)) {
                     // if yes button clicked - save the doc
 
                     // KULRICE-7306: Unconverted Values not carried through during a saveOnClose action.
                     // If there were values that couldn't be converted, we attempt to populate them so that the
                     // the appropriate errors get set on those fields
-                    if (MapUtils.isNotEmpty(unconvertedValues)) for (Map.Entry<String, Object> entry : unconvertedValues.entrySet()) {
-                        docForm.populateForProperty(entry.getKey(), entry.getValue(), unconvertedValues);
+                    if (MapUtils.isNotEmpty(unconvertedValues)) {
+                        for (Map.Entry<String, Object> entry : unconvertedValues.entrySet()) {
+                            docForm.populateForProperty(entry.getKey(), entry.getValue(), unconvertedValues);
+                        }
                     }
-                    
+
                     forward = saveOnClose(mapping, form, request, response);
                 } else if ((KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && KcConfirmationQuestion.CANCEL.equals(buttonClicked)) {
                     forward = mapping.findForward(Constants.MAPPING_BASIC);
@@ -699,7 +734,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
 
         return forward;
     }
-    
+
     // stash unconvertedValues in the session
     private void saveUnconvertedValuesToSession(HttpServletRequest request, KualiDocumentFormBase docForm) {
         if (MapUtils.isNotEmpty(docForm.getUnconvertedValues())) {
@@ -710,8 +745,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     // SIDE EFFECTING: clears out unconverted values from the Session and restores them to the form
     private Map<String, Object> restoreUnconvertedValuesFromSession(HttpServletRequest request,
             KualiDocumentFormBase docForm) {// first restore unconvertedValues and clear out of session
-        Map<String, Object> unconvertedValues =
-            (Map<String, Object>)request.getSession().getAttribute(getUnconvertedValuesSessionAttributeKey(docForm));
+        Map<String, Object> unconvertedValues
+                = (Map<String, Object>) request.getSession().getAttribute(getUnconvertedValuesSessionAttributeKey(docForm));
         if (MapUtils.isNotEmpty(unconvertedValues)) {
             request.getSession().removeAttribute(getUnconvertedValuesSessionAttributeKey(docForm));
             docForm.setUnconvertedValues(unconvertedValues); // setting them here just for good measure
@@ -725,8 +760,9 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     }
 
     /**
-     * Subclass can override this method in order to perform
-     * any operations when the document is saved on a close action.
+     * Subclass can override this method in order to perform any operations when
+     * the document is saved on a close action.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -736,11 +772,11 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      */
     protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase documentForm = (KualiDocumentFormBase) form;
-        
+
         if (isInitialSave(getDocumentStatus(documentForm.getDocument()))) {
-            initialDocumentSave(documentForm); 
+            initialDocumentSave(documentForm);
         }
-        
+
         return super.close(mapping, form, request, response);
     }
 
@@ -751,15 +787,13 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         if (kualiDocumentFormBase instanceof CommitteeForm) {
             loadCommitteeDocument(kualiDocumentFormBase);
-        }
-        else if(kualiDocumentFormBase instanceof IacucCommitteeForm) {
+        } else if (kualiDocumentFormBase instanceof IacucCommitteeForm) {
             loadIacucCommitteeDocument(kualiDocumentFormBase);
-        }
-        else {
+        } else {
             super.loadDocument(kualiDocumentFormBase);
         }
     }
-    
+
     /*
      * This method is specifically to load committee BOs from wkflw doc content.
      */
@@ -771,9 +805,9 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             throw new UnknownDocumentIdException("Document no longer exists.  It may have been cancelled before being saved.");
         }
         WorkflowDocument workflowDocument = doc.getDocumentHeader().getWorkflowDocument();
-        
-        if ( workflowDocument != doc.getDocumentHeader().getWorkflowDocument() ) {
-            LOG.warn( "Workflow document changed via canOpen check" );
+
+        if (workflowDocument != doc.getDocumentHeader().getWorkflowDocument()) {
+            LOG.warn("Workflow document changed via canOpen check");
             doc.getDocumentHeader().setWorkflowDocument(workflowDocument);
         }
         kualiDocumentFormBase.setDocument(doc);
@@ -781,8 +815,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         kualiDocumentFormBase.setDocTypeName(workflowDoc.getDocumentTypeName());
         String content = KraServiceLocator.getService(RouteHeaderService.class).getContent(workflowDoc.getDocumentId()).getDocumentContent();
         if (doc instanceof CommitteeDocument && !workflowDoc.getStatus().getCode().equals(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
-            Committee committee = (Committee)populateCommitteeFromXmlDocumentContents(content);
-            ((CommitteeDocument)doc).getCommitteeList().add(committee);
+            Committee committee = (Committee) populateCommitteeFromXmlDocumentContents(content);
+            ((CommitteeDocument) doc).getCommitteeList().add(committee);
             committee.setCommitteeDocument((CommitteeDocument) doc);
         }
         if (!getDocumentHelperService().getDocumentAuthorizer(doc).canOpen(doc, GlobalVariables.getUserSession().getPerson())) {
@@ -790,8 +824,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         }
         KRADServiceLocatorWeb.getSessionDocumentService().addDocumentToUserSession(GlobalVariables.getUserSession(), workflowDoc);
     }
-    
-    
+
     /*
      * This method is specifically to load committee BOs from wkflw doc content.
      */
@@ -804,9 +837,9 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             throw new UnknownDocumentIdException("Document no longer exists.  It may have been cancelled before being saved.");
         }
         WorkflowDocument workflowDocument = doc.getDocumentHeader().getWorkflowDocument();
-        
-        if ( workflowDocument != doc.getDocumentHeader().getWorkflowDocument() ) {
-            LOG.warn( "Workflow document changed via canOpen check" );
+
+        if (workflowDocument != doc.getDocumentHeader().getWorkflowDocument()) {
+            LOG.warn("Workflow document changed via canOpen check");
             doc.getDocumentHeader().setWorkflowDocument(workflowDocument);
         }
         kualiDocumentFormBase.setDocument(doc);
@@ -814,8 +847,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         kualiDocumentFormBase.setDocTypeName(workflowDoc.getDocumentTypeName());
         String content = KraServiceLocator.getService(RouteHeaderService.class).getContent(workflowDoc.getDocumentId()).getDocumentContent();
         if (doc instanceof CommonCommitteeDocument && !workflowDoc.getStatus().getCode().equals(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
-            IacucCommittee committee = (IacucCommittee)populateIacucCommitteeFromXmlDocumentContents(content);
-            ((CommonCommitteeDocument)doc).getCommitteeList().add(committee);
+            IacucCommittee committee = (IacucCommittee) populateIacucCommitteeFromXmlDocumentContents(content);
+            ((CommonCommitteeDocument) doc).getCommitteeList().add(committee);
             committee.setCommitteeDocument((CommonCommitteeDocument) doc);
         }
         if (!getDocumentHelperService().getDocumentAuthorizer(doc).canOpen(doc, GlobalVariables.getUserSession().getPerson())) {
@@ -829,30 +862,28 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      */
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-        throws Exception {
-        
+            throws Exception {
+
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        
+
         if (form instanceof CommitteeForm) {
             forward = routeCommittee(mapping, form, request, response);
-        }
-        else if(form instanceof IacucCommitteeForm) {
+        } else if (form instanceof IacucCommitteeForm) {
             forward = routeIacucCommittee(mapping, form, request, response);
+        } else {
+            forward = super.route(mapping, form, request, response);
         }
-        else {
-            forward = super.route(mapping, form, request, response);            
-        }
-        
+
         // Only forward to Portal if it will eventually go to the holding page
-        if (form instanceof ProposalDevelopmentForm || form instanceof InstitutionalProposalForm || form instanceof AwardForm || form instanceof IacucProtocolForm 
-            || form instanceof ProtocolForm || form instanceof CommitteeForm || form instanceof IacucCommitteeForm || form instanceof TimeAndMoneyForm || form instanceof SubAwardForm) {
+        if (form instanceof ProposalDevelopmentForm || form instanceof InstitutionalProposalForm || form instanceof AwardForm || form instanceof IacucProtocolForm
+                || form instanceof ProtocolForm || form instanceof CommitteeForm || form instanceof IacucCommitteeForm || form instanceof TimeAndMoneyForm || form instanceof SubAwardForm) {
             ActionForward basicForward = mapping.findForward(Constants.MAPPING_BASIC);
             if (StringUtils.equals(forward.getPath(), basicForward.getPath())) {
                 setupDocumentExit();
                 forward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
             }
         }
-        
+
         return forward;
     }
 
@@ -876,9 +907,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
 
         return createSuccessfulSubmitRedirect("Committee", committeeDocument.getCommittee().getCommitteeId(), request, mapping, committeeForm);
     }
-    
-    
-    
+
     /*
      * This method is specifically to route committee because committee's BOs will be persisted at route.
      */
@@ -900,33 +929,33 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
 
         return createSuccessfulSubmitRedirect("IacucCommittee", committeeDocument.getCommittee().getCommitteeId(), request, mapping, committeeForm);
     }
-    
-    
+
     /**
      * Creates a redirect to the sender after a successful route (submit).
-     * 
-     * @param submissionType The name of the type of document routed (i.e. Protocol, Committee)
+     *
+     * @param submissionType The name of the type of document routed (i.e.
+     * Protocol, Committee)
      * @param refId The user-readable number created for the document
      * @param request
      * @param mapping
      * @param form
      * @return the redirect back to the sender (most likely the portal page)
      */
-    protected ActionForward createSuccessfulSubmitRedirect(String submissionType, String refId, HttpServletRequest request, ActionMapping mapping, 
+    protected ActionForward createSuccessfulSubmitRedirect(String submissionType, String refId, HttpServletRequest request, ActionMapping mapping,
             KualiDocumentFormBase form) {
-        
+
         ActionForward forward = returnToSender(request, mapping, form);
-        
+
         Properties parameters = new Properties();
         parameters.put("successfulSubmission", Boolean.TRUE.toString());
         parameters.put("submissionType", submissionType);
         parameters.put("refId", refId);
-        
+
         ActionRedirect redirect = new ActionRedirect(forward);
         for (Map.Entry<Object, Object> parameter : parameters.entrySet()) {
             redirect.addParameter(parameter.getKey().toString(), parameter.getValue());
         }
-        
+
         return redirect;
     }
 
@@ -945,16 +974,13 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                 org.w3c.dom.Document xmlDocument = builder.parse(new InputSource(new StringReader(xmlDocumentContents)));
                 bo = getBusinessObjectFromXML(xmlDocumentContents, Committee.class.getName());
 
-            }
-            catch (ParserConfigurationException e) {
+            } catch (ParserConfigurationException e) {
                 LOG.error("Error while parsing document contents", e);
                 throw new RuntimeException("Could not load document contents from xml", e);
-            }
-            catch (SAXException e) {
+            } catch (SAXException e) {
                 LOG.error("Error while parsing document contents", e);
                 throw new RuntimeException("Could not load document contents from xml", e);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 LOG.error("Error while parsing document contents", e);
                 throw new RuntimeException("Could not load document contents from xml", e);
             }
@@ -962,8 +988,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         }
         return bo;
     }
-    
-    
+
     /*
      * This is pretty much a copy from MaintenanceDocumentBase's populateMaintainablesFromXmlDocumentContents.
      * Since committee is not persisted in DB util it is approved, so we need this to populate
@@ -980,16 +1005,13 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                 org.w3c.dom.Document xmlDocument = builder.parse(new InputSource(new StringReader(xmlDocumentContents)));
                 bo = getBusinessObjectFromXML(xmlDocumentContents, IacucCommittee.class.getName());
 
-            }
-            catch (ParserConfigurationException e) {
+            } catch (ParserConfigurationException e) {
                 LOG.error("Error while parsing document contents", e);
                 throw new RuntimeException("Could not load document contents from xml", e);
-            }
-            catch (SAXException e) {
+            } catch (SAXException e) {
                 LOG.error("Error while parsing document contents", e);
                 throw new RuntimeException("Could not load document contents from xml", e);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 LOG.error("Error while parsing document contents", e);
                 throw new RuntimeException("Could not load document contents from xml", e);
             }
@@ -997,7 +1019,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         }
         return bo;
     }
-    
+
     protected void streamToResponse(AttachmentDataSource attachmentDataSource,
             HttpServletResponse response) throws Exception {
         byte[] xbts = attachmentDataSource.getContent();
@@ -1023,10 +1045,9 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         }
     }
 
-
     /**
-     * Retrieves substring of document contents from maintainable tag name. Then use xml service to translate xml into a business
-     * object.
+     * Retrieves substring of document contents from maintainable tag name. Then
+     * use xml service to translate xml into a business object.
      */
     private PersistableBusinessObject getBusinessObjectFromXML(String xmlDocumentContents, String objectTagName) {
         String objXml = StringUtils.substringBetween(xmlDocumentContents, "<" + objectTagName + ">", "</" + objectTagName + ">");
@@ -1039,7 +1060,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     }
 
     private DocumentService getKraDocumentService() {
-        return (DocumentService) KraServiceLocator.getService("kraDocumentService"); 
+        return (DocumentService) KraServiceLocator.getService("kraDocumentService");
     }
 
     @Override
@@ -1047,34 +1068,35 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         //call this first so it will call setupDocumentExit before we try to return
         ActionForward superForward = super.returnToSender(request, mapping, form);
         if (form instanceof KraTransactionalDocumentFormBase) {
-            KraTransactionalDocumentFormBase kraForm = (KraTransactionalDocumentFormBase)form;
+            KraTransactionalDocumentFormBase kraForm = (KraTransactionalDocumentFormBase) form;
             if (kraForm.isMedusaOpenedDoc()) {
                 return mapping.findForward(Constants.MAPPING_CLOSE_PAGE);
             }
         }
-        
-        if(form.isReturnToActionList()) {
+
+        if (form.isReturnToActionList()) {
             // temporary fix to unload block ui in embedded mode
             // here we are forcing to route through holding page when an action is performed through action list
             // and we need to send the user back to action list.
             GlobalVariables.getUserSession().addObject(Constants.FORCE_HOLDING_PAGE_FOR_ACTION_LIST, true);
             return routeActionListToHoldingPage(mapping, superForward);
-        }else {
-            
+        } else {
+
             return superForward;
         }
-        
+
     }
-    
+
     private ActionForward routeActionListToHoldingPage(ActionMapping mapping, ActionForward actionForward) {
         String returnLocation = actionForward.getPath();
         ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
     }
-    
+
     /**
      * Optional path to send certain documents to the holding page.
+     *
      * @param forward Forward following the basic or portal mapping
      * @param returnForward Forward calculated by returnToSender
      * @param holdingPageForward Forward going to the holding page
@@ -1083,9 +1105,10 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     protected ActionForward routeToHoldingPage(ActionForward forward, ActionForward returnForward, ActionForward holdingPageForward, String returnLocation) {
         return routeToHoldingPage(Collections.singletonList(forward), returnForward, holdingPageForward, returnLocation);
     }
-    
+
     /**
      * Optional path to send certain documents to the holding page.
+     *
      * @param forward Forward following the basic or portal mapping
      * @param returnForward Forward calculated by returnToSender
      * @param holdingPageForward Forward going to the holding page
@@ -1105,12 +1128,12 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_RETURN_LOCATION, (Object) returnLocation);
             return holdingPageForward;
         }
-    }    
+    }
 
     public ActionForward sendAdHocRequests(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KraTransactionalDocumentFormBase dform = (KraTransactionalDocumentFormBase) form;
         Document document = dform.getDocument();
-        if( dform.getAdHocRoutePersons().size() > 0 || dform.getAdHocRouteWorkgroups().size() > 0) {
+        if (dform.getAdHocRoutePersons().size() > 0 || dform.getAdHocRouteWorkgroups().size() > 0) {
             document.prepareForSave();
             return super.sendAdHocRequests(mapping, dform, request, response);
         } else {
@@ -1118,27 +1141,30 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
     }
-    
+
     /**
-     * Quotes a string that follows RFC 822 and is valid to include in an http header.
-     * 
+     * Quotes a string that follows RFC 822 and is valid to include in an http
+     * header.
+     *
      * <p>
-     * This really should be a part of {@link org.kuali.rice.kns.util.WebUtils WebUtils}.
+     * This really should be a part of
+     * {@link org.kuali.rice.kns.util.WebUtils WebUtils}.
      * <p>
-     * 
-     * For example: without this method, file names with spaces will not show up to the client correctly.
-     * 
+     *
+     * For example: without this method, file names with spaces will not show up
+     * to the client correctly.
+     *
      * <p>
-     * This method is not doing a Base64 encode just a quoted printable character otherwise we would have
-     * to set the encoding type on the header.
+     * This method is not doing a Base64 encode just a quoted printable
+     * character otherwise we would have to set the encoding type on the header.
      * <p>
-     * 
+     *
      * @param s the original string
      * @return the modified header string
      */
     protected static String getValidHeaderString(String s) {
         return MimeUtility.quote(s, HeaderTokenizer.MIME);
-    }    
+    }
 
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -1148,13 +1174,13 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         if (canSave(docForm)) {
             Object question = getQuestion(request);
             if (question == null) {
-                return this.performQuestionWithoutInput(mapping, form, request, response, 
-                        DOCUMENT_RELOAD_QUESTION, 
+                return this.performQuestionWithoutInput(mapping, form, request, response,
+                        DOCUMENT_RELOAD_QUESTION,
                         getKualiConfigurationService().getPropertyValueAsString(KeyConstants.WARNING_DOCUMENT_RELOAD_CONFIRMATION),
                         KRADConstants.CONFIRMATION_QUESTION, methodToCall, "");
             } else {
                 Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
-                if(DOCUMENT_RELOAD_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                if (DOCUMENT_RELOAD_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                     forward = super.reload(mapping, docForm, request, response);
                 }
             }
@@ -1167,7 +1193,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     public ActionForward reloadWithoutWarning(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return super.reload(mapping, form, request, response);
     }
-    
+
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.docHandler(mapping, form, request, response);
@@ -1179,8 +1205,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
 
     @Override
     public ActionForward recall(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        ActionForward forward = super.recall(mapping, form, request, response);       
+
+        ActionForward forward = super.recall(mapping, form, request, response);
         ActionForward basicForward = mapping.findForward(Constants.MAPPING_BASIC);
         //if recall is returning back to basic path then we should return to the portal to avoid
         //problems with workflow routing changes to the document. This should eventually return to the holding page,
@@ -1191,6 +1217,5 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             return forward;
         }
     }
-    
 
 }

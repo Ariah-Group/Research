@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.budget.rates;
 
@@ -162,7 +178,7 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
         awardInstituteRate.setRateTypeCode(awardFnArateTypeCode);
         awardInstituteRate.setRateType(awardFnARate.getFandaRateType());
         awardInstituteRate.setRateClassCode(awardFnARate.getFandaRateType().getRateClassCode());
-        Boolean onCampusFlag = new Boolean(awardFnARate.getOnCampusFlag().equals("N"));
+        Boolean onCampusFlag = awardFnARate.getOnCampusFlag().equals("N");
         awardInstituteRate.setOnOffCampusFlag(onCampusFlag);
         awardInstituteRate.setNonEditableRateFlag(true);
         awardInstituteRate.refreshReferenceObject("rateClass");
@@ -172,7 +188,7 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
     private InstituteRate filterInstituteRate(AwardFandaRate awardFnARate, Award award,Collection<InstituteRate> instituteRates) {
         QueryList<InstituteRate> qlInstituteRates = new QueryList<InstituteRate>(instituteRates);
         Equals eqActivityType = new Equals("activityTypeCode",award.getActivityTypeCode());
-        Equals eqCampusFlag = new Equals("onOffCampusFlag",new Boolean(awardFnARate.getOnCampusFlag().equals("N")));
+        Equals eqCampusFlag = new Equals("onOffCampusFlag", awardFnARate.getOnCampusFlag().equals("N"));
         Equals eqRateClassCode = new Equals("rateClassCode",awardFnARate.getFandaRateType().getRateClassCode());
         Equals eqRateTypeCode = new Equals("rateTypeCode",awardFnARate.getFandaRateTypeCode());
         And campFlagAndActTypeAndUnitNum = new And(eqActivityType,eqCampusFlag);

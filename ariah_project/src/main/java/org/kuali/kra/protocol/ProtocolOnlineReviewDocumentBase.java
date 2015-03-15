@@ -12,8 +12,23 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
-
 package org.kuali.kra.protocol;
 
 import org.apache.commons.lang.StringUtils;
@@ -40,18 +55,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ *
  * This class represents the ProtocolBase Review Document Object.
- * ProtocolReviewDocument has a 1:1 relationship with ProtocolReview Business Object.
- * We have declared a list of ProtocolBase BOs in the ProtocolDocumentBase at the same time to
- * get around the OJB anonymous keys issue of primary keys of different data types.
- * Also we have provided convenient getter and setter methods so that to the outside world;
+ * ProtocolReviewDocument has a 1:1 relationship with ProtocolReview Business
+ * Object. We have declared a list of ProtocolBase BOs in the
+ * ProtocolDocumentBase at the same time to get around the OJB anonymous keys
+ * issue of primary keys of different data types. Also we have provided
+ * convenient getter and setter methods so that to the outside world;
  * ProtocolBase and ProtocolDocumentBase can have a 1:1 relationship.
  */
-@NAMESPACE(namespace=Constants.MODULE_NAMESPACE_PROTOCOL)
-@COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
-public abstract class ProtocolOnlineReviewDocumentBase extends ResearchDocumentBase implements Copyable, SessionDocument { 
-	
+@NAMESPACE(namespace = Constants.MODULE_NAMESPACE_PROTOCOL)
+@COMPONENT(component = ParameterConstants.DOCUMENT_COMPONENT)
+public abstract class ProtocolOnlineReviewDocumentBase extends ResearchDocumentBase implements Copyable, SessionDocument {
+
     private static final String DOCUMENT_TYPE_CODE = "PTRV";
     private static final String OLR_DOC_ID_PARAM = "olrDocId";
     private static final String OLR_EVENT_PARAM = "olrEvent";
@@ -64,59 +80,63 @@ public abstract class ProtocolOnlineReviewDocumentBase extends ResearchDocumentB
     /**
      * Constructs a ProtocolDocumentBase object
      */
-	public ProtocolOnlineReviewDocumentBase() { 
+    public ProtocolOnlineReviewDocumentBase() {
         super();
-	} 
-	
+    }
+
     public void initialize() {
         super.initialize();
     }
 
-    
     /**
-     * 
-     * This method is a convenience method for facilitating a 1:1 relationship between ProtocolDocumentBase 
-     * and ProtocolBase to the outside world - aka a single ProtocolBase field associated with ProtocolDocumentBase
+     *
+     * This method is a convenience method for facilitating a 1:1 relationship
+     * between ProtocolDocumentBase and ProtocolBase to the outside world - aka
+     * a single ProtocolBase field associated with ProtocolDocumentBase
+     *
      * @return
      */
     public abstract ProtocolOnlineReviewBase getProtocolOnlineReview();
- 
+
     /**
-     * 
-     * This method is a convenience method for facilitating a 1:1 relationship between ProtocolDocumentBase 
-     * and ProtocolBase to the outside world - aka a single ProtocolBase field associated with ProtocolDocumentBase
+     *
+     * This method is a convenience method for facilitating a 1:1 relationship
+     * between ProtocolDocumentBase and ProtocolBase to the outside world - aka
+     * a single ProtocolBase field associated with ProtocolDocumentBase
+     *
      * @param protocol
      */
-     public abstract void setProtocolOnlineReview(ProtocolOnlineReviewBase protocolOnlineReview);
+    public abstract void setProtocolOnlineReview(ProtocolOnlineReviewBase protocolOnlineReview);
 
-     /**
+    /**
      * @see org.kuali.kra.document.ResearchDocumentBase#getAllRolePersons()
      */
     @Override
     protected List<RolePersons> getAllRolePersons() {
-        KraAuthorizationService kraAuthService = 
-               (KraAuthorizationService) KraServiceLocator.getService(KraAuthorizationService.class); 
+        KraAuthorizationService kraAuthService
+                = (KraAuthorizationService) KraServiceLocator.getService(KraAuthorizationService.class);
         return new ArrayList<RolePersons>();
     }
-    
+
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
     }
-    
-    
+
     /**
-     * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange)
+     * @see
+     * org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange)
      */
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
     }
-  
+
     /**
-     * @see org.kuali.rice.krad.document.DocumentBase#doActionTaken(org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent)
+     * @see
+     * org.kuali.rice.krad.document.DocumentBase#doActionTaken(org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent)
      */
     @Override
-    public void doActionTaken( ActionTakenEvent event ) {
+    public void doActionTaken(ActionTakenEvent event) {
         super.doActionTaken(event);
     }
 
@@ -127,10 +147,10 @@ public abstract class ProtocolOnlineReviewDocumentBase extends ResearchDocumentB
             this.setVersionNumber(new Long(0));
         }
     }
-    
+
     public boolean isProcessComplete() {
         boolean isComplete = true;
-        
+
         String backLocation = (String) GlobalVariables.getUserSession().retrieveObject(Constants.HOLDING_PAGE_RETURN_LOCATION);
         String olrDocId = getURLParamValue(backLocation, OLR_DOC_ID_PARAM);
         if (olrDocId != null) {
@@ -138,54 +158,54 @@ public abstract class ProtocolOnlineReviewDocumentBase extends ResearchDocumentB
             if (StringUtils.equalsIgnoreCase(olrEvent, "Approve")) {
                 isComplete = isOnlineReviewApproveComplete(olrDocId);
             } else if (StringUtils.equalsIgnoreCase(olrEvent, "Reject")) {
-                isComplete = isOnlineReviewRejectComplete(olrDocId);         
+                isComplete = isOnlineReviewRejectComplete(olrDocId);
             }
         }
-            
+
         return isComplete;
     }
-  
+
     private WorkflowDocumentService getWorkflowDocumentService() {
         return KRADServiceLocatorWeb.getWorkflowDocumentService();
-    }    
+    }
 
     private boolean isOnlineReviewApproveComplete(String olrDocId) {
         boolean isComplete = true;
         try {
-            ProtocolOnlineReviewDocumentBase onlineReviewDoc = (ProtocolOnlineReviewDocumentBase)getDocumentService().getByDocumentHeaderId(olrDocId);
+            ProtocolOnlineReviewDocumentBase onlineReviewDoc = (ProtocolOnlineReviewDocumentBase) getDocumentService().getByDocumentHeaderId(olrDocId);
             if (getWorkflowDocumentService().getCurrentRouteNodeNames(onlineReviewDoc.getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.ONLINE_REVIEW_ROUTE_NODE_ONLINE_REVIEWER)) {
                 isComplete = false;
             }
         } catch (Exception e) {
             isComplete = true;
         }
-        
+
         return isComplete;
     }
 
     private boolean isOnlineReviewRejectComplete(String olrDocId) {
         boolean isComplete = true;
         try {
-            ProtocolOnlineReviewDocumentBase onlineReviewDoc = (ProtocolOnlineReviewDocumentBase)getDocumentService().getByDocumentHeaderId(olrDocId);
+            ProtocolOnlineReviewDocumentBase onlineReviewDoc = (ProtocolOnlineReviewDocumentBase) getDocumentService().getByDocumentHeaderId(olrDocId);
             if (!getWorkflowDocumentService().getCurrentRouteNodeNames(onlineReviewDoc.getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.ONLINE_REVIEW_ROUTE_NODE_ONLINE_REVIEWER)) {
                 isComplete = false;
             }
         } catch (Exception e) {
             isComplete = true;
         }
-        
+
         return isComplete;
     }
-    
+
     private DocumentService getDocumentService() {
         return KraServiceLocator.getService(DocumentService.class);
     }
-    
+
     private String getURLParamValue(String url, String paramName) {
         String pValue = null;
-        
-        if (StringUtils.isNotBlank(url) && url.indexOf("?") > -1) {
-            String paramString = url.substring(url.indexOf("?") + 1);
+
+        if (StringUtils.isNotBlank(url) && url.indexOf('?') > -1) {
+            String paramString = url.substring(url.indexOf('?') + 1);
 
             if (StringUtils.isNotBlank(paramString)) {
                 String params[] = paramString.split("&");
@@ -198,7 +218,7 @@ public abstract class ProtocolOnlineReviewDocumentBase extends ResearchDocumentB
                 }
             }
         }
-        
+
         return pValue;
     }
 

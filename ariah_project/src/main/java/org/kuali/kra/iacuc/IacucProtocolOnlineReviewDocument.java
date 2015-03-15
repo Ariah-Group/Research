@@ -248,8 +248,8 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
     private String getURLParamValue(String url, String paramName) {
         String pValue = null;
         
-        if (StringUtils.isNotBlank(url) && url.indexOf("?") > -1) {
-            String paramString = url.substring(url.indexOf("?") + 1);
+        if (StringUtils.isNotBlank(url) && url.indexOf('?') > -1) {
+            String paramString = url.substring(url.indexOf('?') + 1);
 
             if (StringUtils.isNotBlank(paramString)) {
                 String params[] = paramString.split("&");

@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.common.committee.lookup;
 
@@ -46,54 +62,50 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 
+ *
  * This class is for committee lookup.
  */
-@SuppressWarnings({ "serial", "deprecation" })
-public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends CommitteeBase<CMT, CD, ?>,
-                                                           CD extends CommitteeDocumentBase<CD, CMT, ?>> 
-
-                                                           extends KraLookupableHelperServiceImpl {
+@SuppressWarnings({"serial", "deprecation"})
+public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends CommitteeBase<CMT, CD, ?>, CD extends CommitteeDocumentBase<CD, CMT, ?>>
+        extends KraLookupableHelperServiceImpl {
 
     private static final String COMMITTEE_TYPE_CODE_FIELD_NAME = "committeeTypeCode";
     private static final String PERSON_NAME = "personName";
     private static final String RESEARCH_AREA_CODE = "researchAreaCode";
     private static final String DOCHANDLER_LINK = "%s/DocHandler.do?command=displayDocSearchView&docId=%s";
-    
+
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         // we set the lookup to only list committees of type chosen
         fieldValues.put(COMMITTEE_TYPE_CODE_FIELD_NAME, getCommitteeTypeCodeHook());
-        List<CMT> activeCommittees =  (List<CMT>)getUniqueList(super.getSearchResultsUnbounded(fieldValues), fieldValues);
+        List<CMT> activeCommittees = (List<CMT>) getUniqueList(super.getSearchResultsUnbounded(fieldValues), fieldValues);
         Long matchingResultsCount = new Long(activeCommittees.size());
         // TODO should the Question.class be replaced by a committee class below?
         Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(Question.class);
-        
+
         if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit.intValue())) {
             return new CollectionIncomplete(activeCommittees, new Long(0));
-        } 
-        else {
+        } else {
             return new CollectionIncomplete(trimResult(activeCommittees, searchResultsLimit), matchingResultsCount);
         }
     }
 
-    
     protected abstract String getCommitteeTypeCodeHook();
-
 
     /**
      * Specifically, for drop down.
+     *
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getRows()
      */
     @Override
     public List<Row> getRows() {
-        List<Row> rows =  super.getRows();
+        List<Row> rows = super.getRows();
         for (Row row : rows) {
             for (Field field : row.getFields()) {
                 if (field.getPropertyName().equals("committeeResearchAreas.researchAreaCode")) {
-                    super.updateLookupField(field,RESEARCH_AREA_CODE,"org.kuali.kra.bo.ResearchArea");
+                    super.updateLookupField(field, RESEARCH_AREA_CODE, "org.kuali.kra.bo.ResearchArea");
                 } else if (field.getPropertyName().equals("committeeMemberships.personName")) {
-                    super.updateLookupField(field,PERSON_NAME, getCommitteeMembershipFullyQualifiedClassNameHook());
+                    super.updateLookupField(field, PERSON_NAME, getCommitteeMembershipFullyQualifiedClassNameHook());
                 }
             }
         }
@@ -102,7 +114,6 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
 
     protected abstract String getCommitteeMembershipFullyQualifiedClassNameHook();
 
-    
     /*
      * remove duplicates and get only the one with the highest sequence number from the search results
      */
@@ -111,7 +122,7 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
 
         List<CMT> uniqueResults = new ArrayList<CMT>();
         List<String> committeeIds = new ArrayList<String>();
-        ((List<CMT>)searchResults).addAll(getUnapprovedCommittees(fieldValues));
+        ((List<CMT>) searchResults).addAll(getUnapprovedCommittees(fieldValues));
         if (CollectionUtils.isNotEmpty(searchResults)) {
             Collections.sort((List<CMT>) searchResults, Collections.reverseOrder());
             for (CMT committee : (List<CMT>) searchResults) {
@@ -124,28 +135,28 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
         }
         return uniqueResults;
     }
-    
-    
+
     protected abstract String getHtmlAction();
+
     protected abstract String getDocumentTypeName();
-    
+
     protected String getKeyFieldName() {
         return "committeeId";
     }
-    
+
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
         String editCommitteeDocId = getEditedCommitteeDocId((CMT) businessObject);
         boolean isUnappprovedCommittee = false;
-        if (KewApiConstants.ROUTE_HEADER_SAVED_CD.equals((((CMT) businessObject).getCommitteeDocument().getDocStatusCode())) 
+        if (KewApiConstants.ROUTE_HEADER_SAVED_CD.equals((((CMT) businessObject).getCommitteeDocument().getDocStatusCode()))
                 && ((CMT) businessObject).getSequenceNumber() == 1) {
             isUnappprovedCommittee = true;
             editCommitteeDocId = ((CMT) businessObject).getCommitteeDocument().getDocumentNumber();
         }
 //        if (getKraAuthorizationService().hasPermission(getUserIdentifier(), (CMT) businessObject,
 //                PermissionConstants.MODIFY_IACUC_COMMITTEE)) {
-        if (getKraAuthorizationService().hasPermission(getUserIdentifier(), (CMT) businessObject, getModifyCommitteePermissionNameHook())) {   
+        if (getKraAuthorizationService().hasPermission(getUserIdentifier(), (CMT) businessObject, getModifyCommitteePermissionNameHook())) {
             htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
             if (StringUtils.isNotBlank(editCommitteeDocId)) {
                 AnchorHtmlData htmlData = (AnchorHtmlData) htmlDataList.get(0);
@@ -181,7 +192,7 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
         }
         return docId;
     }
-    
+
     /*
      * get saved committee documents of the committeeId specified.
      * should only have one if exists
@@ -199,10 +210,9 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
         return result;
 
     }
-    
+
     protected abstract Class<CD> getCommitteeDocumentBOClassHook();
 
-    
     /*
      * Get the committee that is saved, but not approved yet.  basically this is sequence = 1
      */
@@ -224,7 +234,6 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
                             workflowCommitteeDoc.getDocumentHeader().getWorkflowDocument().getDocumentId()).getDocumentContent();
 
                     // Create committee from XML and add to the document
-
                     commDoc.getCommitteeList().add(populateCommitteeFromXmlDocumentContents(content));
                     if (isCriteriaMatched(commDoc.getCommittee(), criterias)) {
                         commDoc.getCommittee().setCommitteeDocument(commDoc);
@@ -283,7 +292,7 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
         }
         return isMatch;
     }
-    
+
     /*
      * check if any member name matched the criteria
      */
@@ -313,7 +322,7 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
         }
         return isMatch;
     }
-    
+
     /*
      * check if any committee research area code matched search criteria
      */
@@ -327,7 +336,7 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
         }
         return isMatch;
     }
-    
+
     /*
      * using reg expression to check if pattern matched
      */
@@ -335,11 +344,10 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
         boolean isMatch = false;
         if (StringUtils.isBlank(patternString)) {
             isMatch = true;
-        }
-        else {
+        } else {
             patternString = patternString.replaceAll("\\?", "\\\\?");
             patternString = patternString.replaceAll("\\.", "\\\\.");
-            if (patternString.indexOf("*") == 0) {
+            if (patternString.indexOf('*') == 0) {
                 patternString = patternString.replaceFirst("\\*", "^*");
             }
             if (!patternString.endsWith("*")) {
@@ -360,8 +368,7 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
         boolean isMatch = false;
         if (StringUtils.isBlank(selectedCode)) {
             isMatch = true;
-        }
-        else {
+        } else {
             isMatch = selectedCode.equals(value);
         }
         return isMatch;
@@ -379,7 +386,7 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
         }
         return committee;
     }
-    
+
     protected abstract Class<CMT> getCommitteeBOClassHook();
 
 
@@ -400,7 +407,7 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
     protected KraAuthorizationService getKraAuthorizationService() {
         return KraServiceLocator.getService(KraAuthorizationService.class);
     }
-    
+
     /*
      * get the existing approved committee id
      */
@@ -416,11 +423,12 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
     }
 
     protected String getUserIdentifier() {
-         return GlobalVariables.getUserSession().getPrincipalId();
+        return GlobalVariables.getUserSession().getPrincipalId();
     }
 
     /**
      * This method trims the search result.
+     *
      * @param result, the result set to be trimmed
      * @param trimSize, the maximum size of the trimmed result set
      * @return the trimmed result set
@@ -428,8 +436,8 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
     protected List<CMT> trimResult(List<CMT> result, Integer trimSize) {
         List<CMT> trimedResult = new ArrayList<CMT>();
         for (CMT committee : result) {
-            if (trimedResult.size()< trimSize) {
-                trimedResult.add(committee); 
+            if (trimedResult.size() < trimSize) {
+                trimedResult.add(committee);
             }
         }
         return trimedResult;

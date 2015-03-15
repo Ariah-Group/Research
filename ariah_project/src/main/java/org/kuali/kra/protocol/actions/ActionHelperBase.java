@@ -2765,7 +2765,7 @@ public abstract class ActionHelperBase implements Serializable {
         ResearchDocumentService researchDocumentService = KraServiceLocator.getService(ResearchDocumentService.class);
         String forward = researchDocumentService.getDocHandlerUrl(routeHeaderId);
         forward = forward.replaceFirst(DEFAULT_TAB, ALTERNATE_OPEN_TAB);
-        if (forward.indexOf("?") == -1) {
+        if (forward.indexOf('?') == -1) {
             forward += "?";
         } else {
             forward += "&";

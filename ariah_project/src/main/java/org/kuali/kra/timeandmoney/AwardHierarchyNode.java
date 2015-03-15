@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.timeandmoney;
 
@@ -21,19 +37,19 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 import java.sql.Date;
 
-public class AwardHierarchyNode extends AwardHierarchy { 
-    
+public class AwardHierarchyNode extends AwardHierarchy {
+
     private Date currentFundEffectiveDate;
     private Date obligationExpirationDate;
     private Date finalExpirationDate;
     private Date projectStartDate;
-    private KualiDecimal anticipatedTotalAmount; 
-    private KualiDecimal anticipatedTotalDirect; 
-    private KualiDecimal anticipatedTotalIndirect; 
+    private KualiDecimal anticipatedTotalAmount;
+    private KualiDecimal anticipatedTotalDirect;
+    private KualiDecimal anticipatedTotalIndirect;
     private KualiDecimal antDistributableAmount;
-    private KualiDecimal amountObligatedToDate; 
-    private KualiDecimal obligatedTotalDirect; 
-    private KualiDecimal obligatedTotalIndirect; 
+    private KualiDecimal amountObligatedToDate;
+    private KualiDecimal obligatedTotalDirect;
+    private KualiDecimal obligatedTotalIndirect;
     private KualiDecimal obliDistributableAmount;
     private String leadUnitName;
     private String principalInvestigatorName;
@@ -44,10 +60,9 @@ public class AwardHierarchyNode extends AwardHierarchy {
     private Boolean awardDocumentFinalStatus;
     private String awardDocumentNumber;
     private Boolean hasChildren;
-    
+
     //transient
     private boolean populatedFromClient;
-    
 
     public AwardHierarchyNode() {
         anticipatedTotalAmount = new KualiDecimal("0");
@@ -61,7 +76,8 @@ public class AwardHierarchyNode extends AwardHierarchy {
     }
 
     /**
-     * Gets the currentFundEffectiveDate attribute. 
+     * Gets the currentFundEffectiveDate attribute.
+     *
      * @return Returns the currentFundEffectiveDate.
      */
     public Date getCurrentFundEffectiveDate() {
@@ -70,6 +86,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
 
     /**
      * Sets the currentFundEffectiveDate attribute value.
+     *
      * @param currentFundEffectiveDate The currentFundEffectiveDate to set.
      */
     public void setCurrentFundEffectiveDate(Date currentFundEffectiveDate) {
@@ -77,7 +94,8 @@ public class AwardHierarchyNode extends AwardHierarchy {
     }
 
     /**
-     * Gets the obligationExpirationDate attribute. 
+     * Gets the obligationExpirationDate attribute.
+     *
      * @return Returns the obligationExpirationDate.
      */
     public Date getObligationExpirationDate() {
@@ -86,6 +104,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
 
     /**
      * Sets the obligationExpirationDate attribute value.
+     *
      * @param obligationExpirationDate The obligationExpirationDate to set.
      */
     public void setObligationExpirationDate(Date obligationExpirationDate) {
@@ -93,7 +112,8 @@ public class AwardHierarchyNode extends AwardHierarchy {
     }
 
     /**
-     * Gets the finalExpirationDate attribute. 
+     * Gets the finalExpirationDate attribute.
+     *
      * @return Returns the finalExpirationDate.
      */
     public Date getFinalExpirationDate() {
@@ -102,6 +122,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
 
     /**
      * Sets the finalExpirationDate attribute value.
+     *
      * @param finalExpirationDate The finalExpirationDate to set.
      */
     public void setFinalExpirationDate(Date finalExpirationDate) {
@@ -109,11 +130,12 @@ public class AwardHierarchyNode extends AwardHierarchy {
     }
 
     /**
-     * Gets the anticipatedTotalAmount attribute. 
+     * Gets the anticipatedTotalAmount attribute.
+     *
      * @return Returns the anticipatedTotalAmount.
      */
     public KualiDecimal getAnticipatedTotalAmount() {
-        if(anticipatedTotalAmount == null){
+        if (anticipatedTotalAmount == null) {
             setAnticipatedTotalAmount(new KualiDecimal(0));
         }
         return anticipatedTotalAmount;
@@ -121,6 +143,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
 
     /**
      * Sets the anticipatedTotalAmount attribute value.
+     *
      * @param anticipatedTotalAmount The anticipatedTotalAmount to set.
      */
     public void setAnticipatedTotalAmount(KualiDecimal anticipatedTotalAmount) {
@@ -128,22 +151,24 @@ public class AwardHierarchyNode extends AwardHierarchy {
     }
 
     /**
-     * Gets the antDistributableAmount attribute. 
+     * Gets the antDistributableAmount attribute.
+     *
      * @return Returns the antDistributableAmount.
      */
     public KualiDecimal getAntDistributableAmount() {
-        if(antDistributableAmount == null){
+        if (antDistributableAmount == null) {
             setAntDistributableAmount(new KualiDecimal(0));
         }
         return antDistributableAmount;
     }
-    
+
     public String getAwardNumber() {
         return super.getAwardNumber();
     }
 
     /**
      * Sets the antDistributableAmount attribute value.
+     *
      * @param antDistributableAmount The antDistributableAmount to set.
      */
     public void setAntDistributableAmount(KualiDecimal antDistributableAmount) {
@@ -151,11 +176,12 @@ public class AwardHierarchyNode extends AwardHierarchy {
     }
 
     /**
-     * Gets the amountObligatedToDate attribute. 
+     * Gets the amountObligatedToDate attribute.
+     *
      * @return Returns the amountObligatedToDate.
      */
     public KualiDecimal getAmountObligatedToDate() {
-        if(amountObligatedToDate == null){
+        if (amountObligatedToDate == null) {
             setAmountObligatedToDate(new KualiDecimal(0));
         }
         return amountObligatedToDate;
@@ -163,6 +189,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
 
     /**
      * Sets the amountObligatedToDate attribute value.
+     *
      * @param amountObligatedToDate The amountObligatedToDate to set.
      */
     public void setAmountObligatedToDate(KualiDecimal amountObligatedToDate) {
@@ -170,11 +197,12 @@ public class AwardHierarchyNode extends AwardHierarchy {
     }
 
     /**
-     * Gets the obliDistributableAmount attribute. 
+     * Gets the obliDistributableAmount attribute.
+     *
      * @return Returns the obliDistributableAmount.
      */
     public KualiDecimal getObliDistributableAmount() {
-        if(obliDistributableAmount == null){
+        if (obliDistributableAmount == null) {
             setObliDistributableAmount(new KualiDecimal(0));
         }
         return obliDistributableAmount;
@@ -183,6 +211,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
 
     /**
      * Sets the obliDistributableAmount attribute value.
+     *
      * @param obliDistributableAmount The obliDistributableAmount to set.
      */
     public void setObliDistributableAmount(KualiDecimal obliDistributableAmount) {
@@ -190,7 +219,8 @@ public class AwardHierarchyNode extends AwardHierarchy {
     }
 
     /**
-     * Gets the leadUnitName attribute. 
+     * Gets the leadUnitName attribute.
+     *
      * @return Returns the leadUnitName.
      */
     public String getLeadUnitName() {
@@ -199,6 +229,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
 
     /**
      * Sets the leadUnitName attribute value.
+     *
      * @param leadUnitName The leadUnitName to set.
      */
     public void setLeadUnitName(String leadUnitName) {
@@ -206,7 +237,8 @@ public class AwardHierarchyNode extends AwardHierarchy {
     }
 
     /**
-     * Gets the principalInvestigatorName attribute. 
+     * Gets the principalInvestigatorName attribute.
+     *
      * @return Returns the principalInvestigatorName.
      */
     public String getPrincipalInvestigatorName() {
@@ -215,6 +247,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
 
     /**
      * Sets the principalInvestigatorName attribute value.
+     *
      * @param principalInvestigatorName The principalInvestigatorName to set.
      */
     public void setPrincipalInvestigatorName(String principalInvestigatorName) {
@@ -222,7 +255,8 @@ public class AwardHierarchyNode extends AwardHierarchy {
     }
 
     /**
-     * Gets the accountNumber attribute. 
+     * Gets the accountNumber attribute.
+     *
      * @return Returns the accountNumber.
      */
     public String getAccountNumber() {
@@ -231,6 +265,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
 
     /**
      * Sets the accountNumber attribute value.
+     *
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -238,7 +273,8 @@ public class AwardHierarchyNode extends AwardHierarchy {
     }
 
     /**
-     * Gets the awardStatusCode attribute. 
+     * Gets the awardStatusCode attribute.
+     *
      * @return Returns the awardStatusCode.
      */
     public Integer getAwardStatusCode() {
@@ -247,6 +283,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
 
     /**
      * Sets the awardStatusCode attribute value.
+     *
      * @param awardStatusCode The awardStatusCode to set.
      */
     public void setAwardStatusCode(Integer awardStatusCode) {
@@ -254,7 +291,8 @@ public class AwardHierarchyNode extends AwardHierarchy {
     }
 
     /**
-     * Gets the projectStartDate attribute. 
+     * Gets the projectStartDate attribute.
+     *
      * @return Returns the projectStartDate.
      */
     public Date getProjectStartDate() {
@@ -263,16 +301,16 @@ public class AwardHierarchyNode extends AwardHierarchy {
 
     /**
      * Sets the projectStartDate attribute value.
+     *
      * @param projectStartDate The projectStartDate to set.
      */
     public void setProjectStartDate(Date projectStartDate) {
         this.projectStartDate = projectStartDate;
     }
-    
-    
 
     /**
-     * Gets the anticipatedTotalDirect attribute. 
+     * Gets the anticipatedTotalDirect attribute.
+     *
      * @return Returns the anticipatedTotalDirect.
      */
     public KualiDecimal getAnticipatedTotalDirect() {
@@ -281,6 +319,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
 
     /**
      * Sets the anticipatedTotalDirect attribute value.
+     *
      * @param anticipatedTotalDirect The anticipatedTotalDirect to set.
      */
     public void setAnticipatedTotalDirect(KualiDecimal anticipatedTotalDirect) {
@@ -288,7 +327,8 @@ public class AwardHierarchyNode extends AwardHierarchy {
     }
 
     /**
-     * Gets the anticipatedTotalIndirect attribute. 
+     * Gets the anticipatedTotalIndirect attribute.
+     *
      * @return Returns the anticipatedTotalIndirect.
      */
     public KualiDecimal getAnticipatedTotalIndirect() {
@@ -297,6 +337,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
 
     /**
      * Sets the anticipatedTotalIndirect attribute value.
+     *
      * @param anticipatedTotalIndirect The anticipatedTotalIndirect to set.
      */
     public void setAnticipatedTotalIndirect(KualiDecimal anticipatedTotalIndirect) {
@@ -304,7 +345,8 @@ public class AwardHierarchyNode extends AwardHierarchy {
     }
 
     /**
-     * Gets the obligatedTotalDirect attribute. 
+     * Gets the obligatedTotalDirect attribute.
+     *
      * @return Returns the obligatedTotalDirect.
      */
     public KualiDecimal getObligatedTotalDirect() {
@@ -313,6 +355,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
 
     /**
      * Sets the obligatedTotalDirect attribute value.
+     *
      * @param obligatedTotalDirect The obligatedTotalDirect to set.
      */
     public void setObligatedTotalDirect(KualiDecimal obligatedTotalDirect) {
@@ -320,7 +363,8 @@ public class AwardHierarchyNode extends AwardHierarchy {
     }
 
     /**
-     * Gets the obligatedTotalIndirect attribute. 
+     * Gets the obligatedTotalIndirect attribute.
+     *
      * @return Returns the obligatedTotalIndirect.
      */
     public KualiDecimal getObligatedTotalIndirect() {
@@ -329,6 +373,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
 
     /**
      * Sets the obligatedTotalIndirect attribute value.
+     *
      * @param obligatedTotalIndirect The obligatedTotalIndirect to set.
      */
     public void setObligatedTotalIndirect(KualiDecimal obligatedTotalIndirect) {
@@ -336,7 +381,8 @@ public class AwardHierarchyNode extends AwardHierarchy {
     }
 
     /**
-     * Gets the title attribute. 
+     * Gets the title attribute.
+     *
      * @return Returns the title.
      */
     public String getTitle() {
@@ -345,6 +391,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
 
     /**
      * Sets the title attribute value.
+     *
      * @param title The title to set.
      */
     public void setTitle(String title) {
@@ -352,7 +399,8 @@ public class AwardHierarchyNode extends AwardHierarchy {
     }
 
     /**
-     * Gets the awardId attribute. 
+     * Gets the awardId attribute.
+     *
      * @return Returns the awardId.
      */
     public Long getAwardId() {
@@ -361,19 +409,20 @@ public class AwardHierarchyNode extends AwardHierarchy {
 
     /**
      * Sets the awardId attribute value.
+     *
      * @param awardId The awardId to set.
      */
     public void setAwardId(Long awardId) {
         this.awardId = awardId;
     }
-    
+
     public Boolean isAwardDocumentFinalStatus() {
-        if(awardDocumentFinalStatus == null){
-            setAwardDocumentFinalStatus(new Boolean(false)); 
+        if (awardDocumentFinalStatus == null) {
+            setAwardDocumentFinalStatus(false);
         }
         return awardDocumentFinalStatus;
     }
-    
+
     public void setAwardDocumentFinalStatus(Boolean awardDocumentStatus) {
         this.awardDocumentFinalStatus = awardDocumentStatus;
     }
@@ -393,40 +442,42 @@ public class AwardHierarchyNode extends AwardHierarchy {
     public void setHasChildren(Boolean hasChildren) {
         this.hasChildren = hasChildren;
     }
-    
+
     @Override
     public boolean equals(Object other) {
         return equals((AwardHierarchyNode) other);
     }
-    
+
     /**
-     * 
-     * This method implements equals using ObjectUtils.equals method for each member variable.
+     *
+     * This method implements equals using ObjectUtils.equals method for each
+     * member variable.
+     *
      * @param other
      * @return
      */
-    public boolean equals(AwardHierarchyNode other) {  
-        boolean retVal = other != null && ObjectUtils.equals(getCurrentFundEffectiveDate(), other.getCurrentFundEffectiveDate()) 
-            && ObjectUtils.equals(obligationExpirationDate, other.getObligationExpirationDate())
-            && ObjectUtils.equals(finalExpirationDate, other.getFinalExpirationDate())
-            && ObjectUtils.equals(projectStartDate, other.getProjectStartDate())
-            && ObjectUtils.equals(anticipatedTotalAmount, other.getAnticipatedTotalAmount())
-            && ObjectUtils.equals(anticipatedTotalIndirect, other.getAnticipatedTotalIndirect())
-            && ObjectUtils.equals(anticipatedTotalDirect, other.getAnticipatedTotalDirect())
-            && ObjectUtils.equals(antDistributableAmount, other.getAntDistributableAmount())
-            && ObjectUtils.equals(amountObligatedToDate, other.getAmountObligatedToDate())
-            && ObjectUtils.equals(obligatedTotalDirect, other.getObligatedTotalDirect())
-            && ObjectUtils.equals(obligatedTotalIndirect, other.getObligatedTotalIndirect())
-            && ObjectUtils.equals(obliDistributableAmount, other.getObliDistributableAmount())
-            && ObjectUtils.equals(leadUnitName, other.getLeadUnitName())
-            && ObjectUtils.equals(principalInvestigatorName, other.getPrincipalInvestigatorName())
-            && ObjectUtils.equals(accountNumber, other.getAccountNumber())
-            && ObjectUtils.equals(awardStatusCode, other.getAwardStatusCode())
-            && ObjectUtils.equals(title, other.getTitle())
-            && ObjectUtils.equals(awardId, other.getAwardId())
-            && ObjectUtils.equals(awardDocumentFinalStatus, other.isAwardDocumentFinalStatus())
-            && ObjectUtils.equals(awardDocumentNumber, other.getAwardDocumentNumber())
-            && ObjectUtils.equals(getHasChildren(), other.getHasChildren());
+    public boolean equals(AwardHierarchyNode other) {
+        boolean retVal = other != null && ObjectUtils.equals(getCurrentFundEffectiveDate(), other.getCurrentFundEffectiveDate())
+                && ObjectUtils.equals(obligationExpirationDate, other.getObligationExpirationDate())
+                && ObjectUtils.equals(finalExpirationDate, other.getFinalExpirationDate())
+                && ObjectUtils.equals(projectStartDate, other.getProjectStartDate())
+                && ObjectUtils.equals(anticipatedTotalAmount, other.getAnticipatedTotalAmount())
+                && ObjectUtils.equals(anticipatedTotalIndirect, other.getAnticipatedTotalIndirect())
+                && ObjectUtils.equals(anticipatedTotalDirect, other.getAnticipatedTotalDirect())
+                && ObjectUtils.equals(antDistributableAmount, other.getAntDistributableAmount())
+                && ObjectUtils.equals(amountObligatedToDate, other.getAmountObligatedToDate())
+                && ObjectUtils.equals(obligatedTotalDirect, other.getObligatedTotalDirect())
+                && ObjectUtils.equals(obligatedTotalIndirect, other.getObligatedTotalIndirect())
+                && ObjectUtils.equals(obliDistributableAmount, other.getObliDistributableAmount())
+                && ObjectUtils.equals(leadUnitName, other.getLeadUnitName())
+                && ObjectUtils.equals(principalInvestigatorName, other.getPrincipalInvestigatorName())
+                && ObjectUtils.equals(accountNumber, other.getAccountNumber())
+                && ObjectUtils.equals(awardStatusCode, other.getAwardStatusCode())
+                && ObjectUtils.equals(title, other.getTitle())
+                && ObjectUtils.equals(awardId, other.getAwardId())
+                && ObjectUtils.equals(awardDocumentFinalStatus, other.isAwardDocumentFinalStatus())
+                && ObjectUtils.equals(awardDocumentNumber, other.getAwardDocumentNumber())
+                && ObjectUtils.equals(getHasChildren(), other.getHasChildren());
         return retVal;
     }
 

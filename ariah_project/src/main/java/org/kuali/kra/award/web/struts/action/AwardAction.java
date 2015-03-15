@@ -420,8 +420,8 @@ public class AwardAction extends BudgetParentActionBase {
         }
 
         // call new preSave method to default award doc description
-        preSave(mapping, awardForm, request, response);           
-        
+        preSave(mapping, awardForm, request, response);
+
         forward = super.save(mapping, form, request, response);
         if (awardForm.getMethodToCall().equals("save") && awardForm.isAuditActivated()) {
             forward = mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
@@ -1412,7 +1412,7 @@ public class AwardAction extends BudgetParentActionBase {
          * SCOPE1...SCOPEN : A ':' delimited list of scope names that should be synced. If none are specified then the sync is done for every field and method.
          * 
          */
-        if (StringUtils.isNotBlank(syncScopes) && syncScopes.length() > 1 && syncScopes.indexOf(":") > -1) {
+        if (StringUtils.isNotBlank(syncScopes) && syncScopes.length() > 1 && syncScopes.indexOf(':') > -1) {
             String[] scopeStrings = StringUtils.split(StringUtils.substringAfter(syncScopes, ":"));
             scopes = new AwardTemplateSyncScope[scopeStrings.length];
             for (int i = 0; i < scopeStrings.length; i++) {

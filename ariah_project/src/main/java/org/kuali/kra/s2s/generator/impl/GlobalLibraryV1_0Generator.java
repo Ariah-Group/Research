@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.impl;
 
@@ -29,7 +45,7 @@ public class GlobalLibraryV1_0Generator {
 
     /**
      * Create AddressDataType from ProposalPerson
-     * 
+     *
      * @param person ProposalPerson
      * @return AddressDataType corresponding to the ProposalPerson object.
      */
@@ -41,7 +57,7 @@ public class GlobalLibraryV1_0Generator {
             String street1 = person.getAddressLine1();
             addressType.setStreet1(street1);
             String street2 = person.getAddressLine2();
-            if (street2 != null && !street2.equals("")) {                
+            if (street2 != null && !street2.equals("")) {
                 addressType.setStreet2(street2);
             }
             String city = person.getCity();
@@ -71,11 +87,10 @@ public class GlobalLibraryV1_0Generator {
 
     /**
      * Create AddressDataType from rolodex entry
-     * 
+     *
      * @param rolodex Rolodex entry
      * @return The AddressDataType corresponding to the rolodex entry.
      */
-
     public AddressDataType getAddressDataType(Rolodex rolodex) {
         AddressDataType addressType = AddressDataType.Factory.newInstance();
         if (rolodex != null) {
@@ -110,9 +125,10 @@ public class GlobalLibraryV1_0Generator {
 
     /**
      * Create AddressRequireCountryDataType from rolodex object
-     * 
+     *
      * @param rolodex Rolodex object
-     * @return AddressRequireCountryDataType corresponding to the rolodex object.
+     * @return AddressRequireCountryDataType corresponding to the rolodex
+     * object.
      */
     public AddressRequireCountryDataType getAddressRequireCountryDataType(Rolodex rolodex) {
 
@@ -148,9 +164,10 @@ public class GlobalLibraryV1_0Generator {
 
     /**
      * Create AddressRequireCountryDataType from ProposalPerson object
-     * 
+     *
      * @param person ProposalPerson Object
-     * @return AddressRequireCountryDataType corresponding to the ProposalPerson object
+     * @return AddressRequireCountryDataType corresponding to the ProposalPerson
+     * object
      */
     public AddressRequireCountryDataType getAddressRequireCountryDataType(ProposalPerson person) {
 
@@ -186,9 +203,10 @@ public class GlobalLibraryV1_0Generator {
 
     /**
      * Create AddressRequireCountryDataType from DepartmentalPerson object
-     * 
+     *
      * @param person DepartmentalPerson
-     * @return AddressRequireCountryDataType corresponding to the DepartmentalPerson object.
+     * @return AddressRequireCountryDataType corresponding to the
+     * DepartmentalPerson object.
      */
     public AddressRequireCountryDataType getAddressRequireCountryDataType(DepartmentalPerson person) {
 
@@ -224,7 +242,7 @@ public class GlobalLibraryV1_0Generator {
 
     /**
      * Create HumanNameDataType from ProposalPerson object
-     * 
+     *
      * @param person ProposalPerson
      * @return HumanNameDataType corresponding to the ProposalPerson object.
      */
@@ -245,11 +263,10 @@ public class GlobalLibraryV1_0Generator {
 
     /**
      * Create HumanNameDataType from DepartmentalPerson object
-     * 
+     *
      * @param person DepartmentalPerson
      * @return HumanNameDataType corresponding to the DepartmentalPerson object
      */
-
     public HumanNameDataType getHumanNameDataType(DepartmentalPerson person) {
 
         HumanNameDataType humanName = HumanNameDataType.Factory.newInstance();
@@ -266,9 +283,9 @@ public class GlobalLibraryV1_0Generator {
     }
 
     /**
-     * Create HumanNameDataType from explanation string. The string is expected to be comma separated values of firstname, lastname,
-     * in order.
-     * 
+     * Create HumanNameDataType from explanation string. The string is expected
+     * to be comma separated values of firstname, lastname, in order.
+     *
      * @param explanation Comma separated string of first name and last name
      * @return HumanNameDataType created from the string explanation
      */
@@ -280,13 +297,12 @@ public class GlobalLibraryV1_0Generator {
         String formerName = explanation;
         int commaPos = 0;
         if (formerName != null) {
-            commaPos = formerName.indexOf(",");
+            commaPos = formerName.indexOf(',');
 
             if (commaPos > 0) {
                 lastName = formerName.substring(0, commaPos);
                 firstName = formerName.substring(commaPos + 1);
-            }
-            else {
+            } else {
                 lastName = formerName;
             }
         }
@@ -297,7 +313,7 @@ public class GlobalLibraryV1_0Generator {
 
     /**
      * Create a HumanNameDataType from Rolodex object
-     * 
+     *
      * @param rolodex Rolodex object
      * @return HumanNameDataType corresponding to the rolodex object.
      */
@@ -318,7 +334,7 @@ public class GlobalLibraryV1_0Generator {
 
     /**
      * Create HumanNameDataType from KeyPersonInfo object
-     * 
+     *
      * @param keyPerson KeyPersonInfo
      * @return HumanNameDataType corresponding to the KeyPersonInfo object
      */
@@ -336,7 +352,7 @@ public class GlobalLibraryV1_0Generator {
 
     /**
      * Create ContactPersonDataType from ProposalPerson object
-     * 
+     *
      * @param person Proposalperson
      * @return ContactPersonDataType created from ProposalPerson object
      */
