@@ -245,16 +245,16 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
         return new Date(calendar.getTimeInMillis());
     }
 
-    /**
-     * Logs the Query
-     *
-     * @param q the query
-     */
-    private static void logQuery(Query q) {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(q.toString());
-        }
-    }
+//    /**
+//     * Logs the Query
+//     *
+//     * @param q the query
+//     */
+//    private static void logQuery(Query q) {
+//        if (LOG.isDebugEnabled()) {
+//            LOG.debug(q.toString());
+//        }
+//    }
 
     /**
      * Checks that an attachment is valid for a version attachment lookup.

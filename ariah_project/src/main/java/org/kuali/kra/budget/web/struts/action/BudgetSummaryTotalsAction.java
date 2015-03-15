@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.budget.web.struts.action;
 
@@ -45,6 +61,7 @@ public class BudgetSummaryTotalsAction extends BudgetAction {
             throws Exception {
         return super.execute(mapping, form, request, response);
     }
+
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -58,76 +75,79 @@ public class BudgetSummaryTotalsAction extends BudgetAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         Budget budget = getBudget(form);
-        if(budget instanceof AwardBudgetExt){
+        if (budget instanceof AwardBudgetExt) {
             List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
             for (int i = 0; i < budgetPeriods.size(); i++) {
-                AwardBudgetPeriodExt awardBudgetPeriod = (AwardBudgetPeriodExt)budgetPeriods.get(i);
-                String val = request.getParameter("document.budget.budgetPeriods["+i+"].rateOverrideFlag");
-                if(StringUtils.isNotBlank(val)){
+                AwardBudgetPeriodExt awardBudgetPeriod = (AwardBudgetPeriodExt) budgetPeriods.get(i);
+                String val = request.getParameter("document.budget.budgetPeriods[" + i + "].rateOverrideFlag");
+                if (StringUtils.isNotBlank(val)) {
                     awardBudgetPeriod.setRateOverrideFlag(Boolean.valueOf(val));
                 }
             }
         }
-        
+
         //ugly hack to work around OJB bug, unsure how else to fix issue though
         if (budget != null && budget instanceof ProposalDevelopmentBudgetExt) {
             this.getBusinessObjectService().findBySinglePrimaryKey(ProposalDevelopmentBudgetExt.class, budget.getBudgetId());
         }
         return super.save(mapping, form, request, response);
     }
-    private AwardBudgetService getAwardBudgetService() {
-        return KraServiceLocator.getService(AwardBudgetService.class);
-    }
-    private BudgetCalculationService getBudgetCalaculationService() {
-        return KraServiceLocator.getService(BudgetCalculationService.class);
-    }
+//    private AwardBudgetService getAwardBudgetService() {
+//        return KraServiceLocator.getService(AwardBudgetService.class);
+//    }
+//    private BudgetCalculationService getBudgetCalaculationService() {
+//        return KraServiceLocator.getService(BudgetCalculationService.class);
+//    }
+
     public ActionForward previousPeriodSet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        if(StringUtils.isNotEmpty(request.getParameter("periodStartIndex")) && 
-                StringUtils.isNotEmpty(request.getParameter("periodEndIndex"))) {
+        if (StringUtils.isNotEmpty(request.getParameter("periodStartIndex"))
+                && StringUtils.isNotEmpty(request.getParameter("periodEndIndex"))) {
             int oldPeriodStartIndex = Integer.parseInt(request.getParameter("periodStartIndex"));
             int oldPeriodEndIndex = Integer.parseInt(request.getParameter("periodEndIndex"));
-            
-            int newPeriodStartIndex = oldPeriodStartIndex - Constants.BUDGET_SUMMARY_PERIOD_GROUP_SIZE; 
-            int newPeriodEndIndex = oldPeriodEndIndex - Constants.BUDGET_SUMMARY_PERIOD_GROUP_SIZE; 
-                    
-            if(newPeriodStartIndex < 0) {
+
+            int newPeriodStartIndex = oldPeriodStartIndex - Constants.BUDGET_SUMMARY_PERIOD_GROUP_SIZE;
+            int newPeriodEndIndex = oldPeriodEndIndex - Constants.BUDGET_SUMMARY_PERIOD_GROUP_SIZE;
+
+            if (newPeriodStartIndex < 0) {
                 newPeriodStartIndex = 0;
-                newPeriodEndIndex = newPeriodStartIndex + (Constants.BUDGET_SUMMARY_PERIOD_GROUP_SIZE -1);
+                newPeriodEndIndex = newPeriodStartIndex + (Constants.BUDGET_SUMMARY_PERIOD_GROUP_SIZE - 1);
             }
             request.setAttribute("startIndex", newPeriodStartIndex);
             request.setAttribute("endIndex", newPeriodEndIndex);
         }
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     public ActionForward nextPeriodSet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Budget budget = getBudget(form);
-        
-        if(StringUtils.isNotEmpty(request.getParameter("periodStartIndex")) && 
-                StringUtils.isNotEmpty(request.getParameter("periodEndIndex"))) {
+
+        if (StringUtils.isNotEmpty(request.getParameter("periodStartIndex"))
+                && StringUtils.isNotEmpty(request.getParameter("periodEndIndex"))) {
             int oldPeriodStartIndex = Integer.parseInt(request.getParameter("periodStartIndex"));
             int oldPeriodEndIndex = Integer.parseInt(request.getParameter("periodEndIndex"));
-            
-            int newPeriodStartIndex = -1; 
+
+            int newPeriodStartIndex = -1;
             int newPeriodEndIndex = -1;
-                    
-            if(budget.getBudgetPeriods().size() > (oldPeriodEndIndex + Constants.BUDGET_SUMMARY_PERIOD_GROUP_SIZE)) {
+
+            if (budget.getBudgetPeriods().size() > (oldPeriodEndIndex + Constants.BUDGET_SUMMARY_PERIOD_GROUP_SIZE)) {
                 newPeriodEndIndex = oldPeriodEndIndex + Constants.BUDGET_SUMMARY_PERIOD_GROUP_SIZE;
                 newPeriodStartIndex = oldPeriodStartIndex + Constants.BUDGET_SUMMARY_PERIOD_GROUP_SIZE;
-            } else if (budget.getBudgetPeriods().size() > (oldPeriodEndIndex +1) ) {
-                newPeriodEndIndex = budget.getBudgetPeriods().size() -1 ;
-                newPeriodStartIndex = newPeriodEndIndex - (Constants.BUDGET_SUMMARY_PERIOD_GROUP_SIZE -1);
+            } else if (budget.getBudgetPeriods().size() > (oldPeriodEndIndex + 1)) {
+                newPeriodEndIndex = budget.getBudgetPeriods().size() - 1;
+                newPeriodStartIndex = newPeriodEndIndex - (Constants.BUDGET_SUMMARY_PERIOD_GROUP_SIZE - 1);
             }
-            
+
             request.setAttribute("startIndex", newPeriodStartIndex);
             request.setAttribute("endIndex", newPeriodEndIndex);
         }
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+
     /**
      * This method...
+     *
      * @param form
      * @return
      */
@@ -137,7 +157,7 @@ public class BudgetSummaryTotalsAction extends BudgetAction {
         Budget budget = budgetDocument.getBudget();
         return budget;
     }
-    
+
     @Override
     protected void populateAuthorizationFields(KualiDocumentFormBase formBase) {
         super.populateAuthorizationFields(formBase);
@@ -150,6 +170,5 @@ public class BudgetSummaryTotalsAction extends BudgetAction {
             }
         }
     }
-
 
 }

@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.common.committee.notification;
 
@@ -27,7 +43,6 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.util.Map;
 
-
 /**
  * Renders fields for the IRB notifications.
  */
@@ -39,12 +54,13 @@ public class CommitteeNotificationRenderer extends NotificationRendererBase {
     private static final long serialVersionUID = 6334584979829689495L;
 
     private CommitteeBase committee;
-    
+
     private transient BusinessObjectService businessObjectService;
     private transient KcPersonService kcPersonService;
-    
+
     /**
      * Constructs an IRB notification renderer.
+     *
      * @param CommitteeBase
      */
     public CommitteeNotificationRenderer(CommitteeBase committee) {
@@ -53,17 +69,19 @@ public class CommitteeNotificationRenderer extends NotificationRendererBase {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationRenderer#getReplacementParameters()
+     *
+     * @see
+     * org.kuali.kra.common.notification.NotificationRenderer#getReplacementParameters()
      */
     public Map<String, String> getDefaultReplacementParameters() {
         String[] replacementParameters = CommitteeReplacementParameters.REPLACEMENT_PARAMETERS;
-        
+
         Map<String, String> params = super.getDefaultReplacementParameters();
-        
+
         String key = null;
         for (int i = 0; i < replacementParameters.length; i++) {
             key = replacementParameters[i];
-            
+
             if (StringUtils.equals(key, CommitteeReplacementParameters.DOCUMENT_NUMBER)) {
                 params.put(key, committee.getCommitteeDocument().getDocumentNumber());
             } else if (StringUtils.equals(key, CommitteeReplacementParameters.SEQUENCE_NUMBER)) {
@@ -71,8 +89,7 @@ public class CommitteeNotificationRenderer extends NotificationRendererBase {
             } else if (StringUtils.equals(key, CommitteeReplacementParameters.COMMITTEE_NAME)) {
                 params.put(key, committee.getCommitteeName().toString());
             }
-           
-            
+
         }
         return params;
     }
@@ -84,7 +101,7 @@ public class CommitteeNotificationRenderer extends NotificationRendererBase {
     public void setCommittee(CommitteeBase committee) {
         this.committee = committee;
     }
-    
+
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
             businessObjectService = KRADServiceLocator.getBusinessObjectService();
@@ -107,8 +124,7 @@ public class CommitteeNotificationRenderer extends NotificationRendererBase {
         this.kcPersonService = kcPersonService;
     }
 
-    private ConfigurationService getKualiConfigurationService() {
-        return CoreApiServiceLocator.getKualiConfigurationService();
-    }
-    
+//    private ConfigurationService getKualiConfigurationService() {
+//        return CoreApiServiceLocator.getKualiConfigurationService();
+//    }
 }

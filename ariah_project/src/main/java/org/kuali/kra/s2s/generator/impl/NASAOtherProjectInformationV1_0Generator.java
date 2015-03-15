@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.impl;
 
@@ -45,7 +61,7 @@ import java.util.List;
  * Class for generating the XML object for grants.gov
  * NasaOtherProjectInformationV1_0. Form is generated using XMLBean classes and
  * is based on NasaOtherProjectInformation schema.
- * 
+ *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class NASAOtherProjectInformationV1_0Generator extends
@@ -72,7 +88,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
     private static final String COUNTRY_CODE_PUERTO_RICO = "PRI";
     private static final String COUNTRY_CODE_VIRGIN_ISLANDS = "VIR";
     private static final String NOT_ANSWERED = "No";
-    
+
     private static final int FISCAL_YEAR_2006 = 2006;
     private static final int FISCAL_YEAR_2007 = 2007;
     private static final int FISCAL_YEAR_2008 = 2008;
@@ -95,19 +111,18 @@ public class NASAOtherProjectInformationV1_0Generator extends
     private static final int FISCAL_YEAR_4 = 3;
     private static final int FISCAL_YEAR_5 = 4;
     private static final int FISCAL_YEAR_6 = 5;
-    
+
     List<AnswerHeader> answerHeaders;
 
     /**
-     * 
+     *
      * This method gives information of NasaCivilServicePersonnel,
      * HistoricalImpact, InternationalParticipation from
      * NasaOtherProjectInformation
-     * 
+     *
      * @return nasaOtherInformationDocument {@link XmlObject} of type
-     *         NASAOtherProjectInformationDocument.
+     * NASAOtherProjectInformationDocument.
      */
-
     private NASAOtherProjectInformationDocument getNasaOtherProjectInformation() {
 
         NASAOtherProjectInformationDocument nasaOtherInformationDocument = NASAOtherProjectInformationDocument.Factory
@@ -129,7 +144,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == PROGRAM_SPECIFIC_DATA) {
                 attachedFileDataType = getAttachedFileType(narrative);
-                if(attachedFileDataType != null){
+                if (attachedFileDataType != null) {
                     nasaOtherProjectInformation.setPSDataAttach(attachedFileDataType);
                     break;
                 }
@@ -159,12 +174,12 @@ public class NASAOtherProjectInformationV1_0Generator extends
     }
 
     /**
-     * 
+     *
      * This method gives information of NasaCivilServicePersonnel for
      * NasaOtherProjectInformation
-     * 
+     *
      * @return NASACivilServicePersonnel object containing Nasa civil service
-     *         personnel details.
+     * personnel details.
      */
     private NASACivilServicePersonnel getNasaCivilServicePersonnel() {
 
@@ -172,99 +187,98 @@ public class NASAOtherProjectInformationV1_0Generator extends
                 .newInstance();
 
         String answerDetails = getAnswer(CIVIL_SERVICE_PERSONNEL);
-        if(answerDetails!=null && !answerDetails.equals(NOT_ANSWERED)){
+        if (answerDetails != null && !answerDetails.equals(NOT_ANSWERED)) {
             YesNoDataType.Enum answer = (answerDetails.equals(
                     S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
                             : YesNoDataType.N_NO);
             nasaCivilServicePersonnel.setCivilServicePersonnel(answer);
         }
-        
+
         List<String> fteAnswerDetails = getAnswerList(FTE);
         List<String> fiscalYearDetails = getAnswerList(FISCAL_YEAR);
-        if(fteAnswerDetails.size()>FISCAL_YEAR_1){
+        if (fteAnswerDetails.size() > FISCAL_YEAR_1) {
             FYFTE1 fyfte1 = FYFTE1.Factory.newInstance();
             String fte = fteAnswerDetails.get(FISCAL_YEAR_1).toString();
-            BigDecimal fte1= BigDecimal.valueOf(Double.parseDouble(fte));
+            BigDecimal fte1 = BigDecimal.valueOf(Double.parseDouble(fte));
             fyfte1.setFTE1(fte1);
-            if(fiscalYearDetails.size()>FISCAL_YEAR_1){
-                String fiscalYear =fiscalYearDetails.get(FISCAL_YEAR_1);
+            if (fiscalYearDetails.size() > FISCAL_YEAR_1) {
+                String fiscalYear = fiscalYearDetails.get(FISCAL_YEAR_1);
                 FYDataType.Enum fyscalYear = getFisaclYear(fiscalYear);
                 fyfte1.setFY1(fyscalYear);
                 nasaCivilServicePersonnel.setFYFTE1(fyfte1);
-            }           
-        }else if(answerDetails!=null && answerDetails.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)){
+            }
+        } else if (answerDetails != null && answerDetails.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
             nasaCivilServicePersonnel.setFYFTE1(null);
         }
-        if(fteAnswerDetails.size()>FISCAL_YEAR_2){
+        if (fteAnswerDetails.size() > FISCAL_YEAR_2) {
             FYFTE2 fyfte2 = FYFTE2.Factory.newInstance();
             String fte = fteAnswerDetails.get(FISCAL_YEAR_2).toString();
-            BigDecimal fte2= BigDecimal.valueOf(Double.parseDouble(fte));
+            BigDecimal fte2 = BigDecimal.valueOf(Double.parseDouble(fte));
             fyfte2.setFTE2(fte2);
-            if(fiscalYearDetails.size()>FISCAL_YEAR_2){
-                String fiscalYear =fiscalYearDetails.get(FISCAL_YEAR_2);
+            if (fiscalYearDetails.size() > FISCAL_YEAR_2) {
+                String fiscalYear = fiscalYearDetails.get(FISCAL_YEAR_2);
                 FYDataType.Enum fyscalYear = getFisaclYear(fiscalYear);
                 fyfte2.setFY2(fyscalYear);
                 nasaCivilServicePersonnel.setFYFTE2(fyfte2);
             }
         }
-        if(fteAnswerDetails.size()>FISCAL_YEAR_3){
+        if (fteAnswerDetails.size() > FISCAL_YEAR_3) {
             FYFTE3 fyfte3 = FYFTE3.Factory.newInstance();
             String fte = fteAnswerDetails.get(FISCAL_YEAR_3).toString();
-            BigDecimal fte3= BigDecimal.valueOf(Double.parseDouble(fte));
+            BigDecimal fte3 = BigDecimal.valueOf(Double.parseDouble(fte));
             fyfte3.setFTE3(fte3);
-            if(fiscalYearDetails.size()>FISCAL_YEAR_3){
-            String fiscalYear =fiscalYearDetails.get(FISCAL_YEAR_3);
-            FYDataType.Enum fyscalYear = getFisaclYear(fiscalYear);
-            fyfte3.setFY3(fyscalYear);
-            nasaCivilServicePersonnel.setFYFTE3(fyfte3);
+            if (fiscalYearDetails.size() > FISCAL_YEAR_3) {
+                String fiscalYear = fiscalYearDetails.get(FISCAL_YEAR_3);
+                FYDataType.Enum fyscalYear = getFisaclYear(fiscalYear);
+                fyfte3.setFY3(fyscalYear);
+                nasaCivilServicePersonnel.setFYFTE3(fyfte3);
             }
         }
-        if(fteAnswerDetails.size()>FISCAL_YEAR_4){
+        if (fteAnswerDetails.size() > FISCAL_YEAR_4) {
             FYFTE4 fyfte4 = FYFTE4.Factory.newInstance();
             String fte = fteAnswerDetails.get(FISCAL_YEAR_4).toString();
-            BigDecimal fte4= BigDecimal.valueOf(Double.parseDouble(fte));
+            BigDecimal fte4 = BigDecimal.valueOf(Double.parseDouble(fte));
             fyfte4.setFTE4(fte4);
-            if(fiscalYearDetails.size()>FISCAL_YEAR_4){
-                String fiscalYear =fiscalYearDetails.get(FISCAL_YEAR_4);
+            if (fiscalYearDetails.size() > FISCAL_YEAR_4) {
+                String fiscalYear = fiscalYearDetails.get(FISCAL_YEAR_4);
                 FYDataType.Enum fyscalYear = getFisaclYear(fiscalYear);
                 fyfte4.setFY4(fyscalYear);
                 nasaCivilServicePersonnel.setFYFTE4(fyfte4);
             }
         }
-        if(fteAnswerDetails.size()>FISCAL_YEAR_5){
+        if (fteAnswerDetails.size() > FISCAL_YEAR_5) {
             FYFTE5 fyfte5 = FYFTE5.Factory.newInstance();
             String fte = fteAnswerDetails.get(FISCAL_YEAR_5).toString();
-            BigDecimal fte5= BigDecimal.valueOf(Double.parseDouble(fte));
+            BigDecimal fte5 = BigDecimal.valueOf(Double.parseDouble(fte));
             fyfte5.setFTE5(fte5);
-            if(fiscalYearDetails.size()>FISCAL_YEAR_5){
-                String fiscalYear =fiscalYearDetails.get(FISCAL_YEAR_5);
+            if (fiscalYearDetails.size() > FISCAL_YEAR_5) {
+                String fiscalYear = fiscalYearDetails.get(FISCAL_YEAR_5);
                 FYDataType.Enum fyscalYear = getFisaclYear(fiscalYear);
                 fyfte5.setFY5(fyscalYear);
                 nasaCivilServicePersonnel.setFYFTE5(fyfte5);
             }
         }
-        if(fteAnswerDetails.size()>FISCAL_YEAR_6){
+        if (fteAnswerDetails.size() > FISCAL_YEAR_6) {
             FYFTE6 fyfte6 = FYFTE6.Factory.newInstance();
             String fte = fteAnswerDetails.get(FISCAL_YEAR_6).toString();
-            BigDecimal fte6= BigDecimal.valueOf(Double.parseDouble(fte));
+            BigDecimal fte6 = BigDecimal.valueOf(Double.parseDouble(fte));
             fyfte6.setFTE6(fte6);
-            if(fiscalYearDetails.size()>FISCAL_YEAR_6){
-                String fiscalYear =fiscalYearDetails.get(FISCAL_YEAR_6);
+            if (fiscalYearDetails.size() > FISCAL_YEAR_6) {
+                String fiscalYear = fiscalYearDetails.get(FISCAL_YEAR_6);
                 FYDataType.Enum fyscalYear = getFisaclYear(fiscalYear);
                 fyfte6.setFY6(fyscalYear);
                 nasaCivilServicePersonnel.setFYFTE6(fyfte6);
             }
         }
-        if(fteAnswerDetails.size()!=fiscalYearDetails.size()){
+        if (fteAnswerDetails.size() != fiscalYearDetails.size()) {
             nasaCivilServicePersonnel.setFYFTE1(null);
         }
         return nasaCivilServicePersonnel;
     }
-    
-    
-    private FYDataType.Enum getFisaclYear(String fiscalYear){
+
+    private FYDataType.Enum getFisaclYear(String fiscalYear) {
         FYDataType.Enum fyscalYear = null;
-        switch(Integer.parseInt(fiscalYear)){
+        switch (Integer.parseInt(fiscalYear)) {
             case FISCAL_YEAR_2006:
                 fyscalYear = FYDataType.X_2006;
                 break;
@@ -314,124 +328,124 @@ public class NASAOtherProjectInformationV1_0Generator extends
                 fyscalYear = FYDataType.X_2021;
                 break;
         }
-        
+
         return fyscalYear;
     }
+
     /**
-     * 
+     *
      * This method gives HistoricalImpact information based on the proposal Ynq
      * question id.
-     * 
+     *
      * @return HistoricImpact object containing HistoricalImpact details.
      */
     private HistoricImpact getHistoricImpact() {
         HistoricImpact historicImpact = HistoricImpact.Factory.newInstance();
-        
-       String answerDetails = getAnswer(HISTORICAL_IMPACT);
-        if(answerDetails!= null && !answerDetails.equals(NOT_ANSWERED)){
+
+        String answerDetails = getAnswer(HISTORICAL_IMPACT);
+        if (answerDetails != null && !answerDetails.equals(NOT_ANSWERED)) {
             YesNoDataType.Enum answer = (answerDetails.equals(
                     S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
-                    : YesNoDataType.N_NO);
+                            : YesNoDataType.N_NO);
             historicImpact.setHistoricImpactQ(answer);
         }
-      
-        
-        String childAnswerrDetails = getChildQuestionAnswer(HISTORICAL_IMPACT,EXPLATATION);
-        
-        if(childAnswerrDetails!= null && !childAnswerrDetails.equals(NOT_ANSWERED)){
+
+        String childAnswerrDetails = getChildQuestionAnswer(HISTORICAL_IMPACT, EXPLATATION);
+
+        if (childAnswerrDetails != null && !childAnswerrDetails.equals(NOT_ANSWERED)) {
             if (childAnswerrDetails.length() > MAX_EXPLANATION_LENGTH) {
                 historicImpact.setHistoricImpactEx(childAnswerrDetails.substring(0,
-                                MAX_EXPLANATION_LENGTH));            
-            }else{
+                        MAX_EXPLANATION_LENGTH));
+            } else {
                 historicImpact.setHistoricImpactEx(childAnswerrDetails);
             }
-        }else if(answerDetails!=null && answerDetails.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)){
+        } else if (answerDetails != null && answerDetails.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
             historicImpact.setHistoricImpactEx(null);
         }
         return historicImpact;
     }
 
     /**
-     * 
+     *
      * This method gives the information about InternationalParticipation such
      * as international participation question,explanation Role and Facility.
-     * 
-     * 
+     *
+     *
      * @return InternationalParticipation object containing information
-     *         regarding the international participation.
+     * regarding the international participation.
      */
     private InternationalParticipation getInternationalParticipation() {
         InternationalParticipation inParticipation = InternationalParticipation.Factory
                 .newInstance();
-        
+
         String answerDetails = getAnswer(INTERNATIONAL_PARTICIPATION);
-        if(answerDetails != null && !answerDetails.equals(NOT_ANSWERED)){
-            YesNoDataType.Enum  answer = (answerDetails.equals(
+        if (answerDetails != null && !answerDetails.equals(NOT_ANSWERED)) {
+            YesNoDataType.Enum answer = (answerDetails.equals(
                     S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES
-                    : YesNoDataType.N_NO);
+                            : YesNoDataType.N_NO);
             inParticipation.setInternationalParticipationQ(answer);
         }
-       
-        String childAnswerDetails = getChildQuestionAnswer(INTERNATIONAL_PARTICIPATION,EXPLATATION);
-        if(childAnswerDetails != null){
+
+        String childAnswerDetails = getChildQuestionAnswer(INTERNATIONAL_PARTICIPATION, EXPLATATION);
+        if (childAnswerDetails != null) {
             if (inParticipation.getInternationalParticipationQ() != null
                     && inParticipation.getInternationalParticipationQ().equals(
                             YesNoDataType.Y_YES)) {
                 if (childAnswerDetails.length() > MAX_EXPLANATION_LENGTH) {
                     inParticipation
-                    .setInternationalParticipatioEx(childAnswerDetails
-                            .substring(0,
-                                    MAX_EXPLANATION_LENGTH));
+                            .setInternationalParticipatioEx(childAnswerDetails
+                                    .substring(0,
+                                            MAX_EXPLANATION_LENGTH));
                 } else {
                     inParticipation
-                    .setInternationalParticipatioEx(childAnswerDetails);
+                            .setInternationalParticipatioEx(childAnswerDetails);
                 }
             }
-        }else if(answerDetails!=null && answerDetails.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)){
+        } else if (answerDetails != null && answerDetails.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
             inParticipation
-            .setInternationalParticipatioEx(null);
+                    .setInternationalParticipatioEx(null);
         }
-          List<String> answerList = getAnswerList(INTERNATIONAL_PARTICIPATION_SUPPORT);
-          
-          if(answerList.size()>0){
-              if(answerList.contains(PRINCIPAL_INVESTIGATOR)){
-                  inParticipation.setInternationalParticipationPI(YesNoDataType.Y_YES);
-              }
-              if(answerList.contains(C0_INVESTIGATOR)){
-                  inParticipation.setInternationalParticipationCoI(YesNoDataType.Y_YES);
-              }
-              if(answerList.contains(COLLABORATOR_ROLE)){
-                  inParticipation.setInternationalParticipationCollaborator(YesNoDataType.Y_YES);
-              }
-              if(answerList.contains(EQUIPMENT)){
-                  inParticipation.setInternationalParticipationEquipment(YesNoDataType.Y_YES);
-              }
-              if(answerList.contains(FACILITY)){
-                  inParticipation.setInternationalParticipationFacility(YesNoDataType.Y_YES);
-              }
-          }else if(answerDetails != null && answerDetails.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)){
-              inParticipation.setInternationalParticipationPI(null);
-          }
-        
+        List<String> answerList = getAnswerList(INTERNATIONAL_PARTICIPATION_SUPPORT);
+
+        if (answerList.size() > 0) {
+            if (answerList.contains(PRINCIPAL_INVESTIGATOR)) {
+                inParticipation.setInternationalParticipationPI(YesNoDataType.Y_YES);
+            }
+            if (answerList.contains(C0_INVESTIGATOR)) {
+                inParticipation.setInternationalParticipationCoI(YesNoDataType.Y_YES);
+            }
+            if (answerList.contains(COLLABORATOR_ROLE)) {
+                inParticipation.setInternationalParticipationCollaborator(YesNoDataType.Y_YES);
+            }
+            if (answerList.contains(EQUIPMENT)) {
+                inParticipation.setInternationalParticipationEquipment(YesNoDataType.Y_YES);
+            }
+            if (answerList.contains(FACILITY)) {
+                inParticipation.setInternationalParticipationFacility(YesNoDataType.Y_YES);
+            }
+        } else if (answerDetails != null && answerDetails.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
+            inParticipation.setInternationalParticipationPI(null);
+        }
+
         return inParticipation;
     }
+
     /**
-     * 
-     * This method is used to get the answerList for a particular Questionnaire question
-     * question based on the question id.
-     * 
-     * @param questionId
-     *            the question id to be passed.
-     * @return returns the answerList for a particular
-     *         question based on the question id passed.
+     *
+     * This method is used to get the answerList for a particular Questionnaire
+     * question question based on the question id.
+     *
+     * @param questionId the question id to be passed.
+     * @return returns the answerList for a particular question based on the
+     * question id passed.
      */
-    private List<String> getAnswerList(String questionId){
-        List <String> answerList= new ArrayList();
-        for(AnswerHeader answerHeader:answerHeaders){
+    private List<String> getAnswerList(String questionId) {
+        List<String> answerList = new ArrayList();
+        for (AnswerHeader answerHeader : answerHeaders) {
             List<Answer> answerDetails = answerHeader.getAnswers();
-            for(Answer answers:answerDetails){
-                if(questionId.equals(answers.getQuestion().getQuestionId())){
-                    if(answers.getAnswer()!=null){
+            for (Answer answers : answerDetails) {
+                if (questionId.equals(answers.getQuestion().getQuestionId())) {
+                    if (answers.getAnswer() != null) {
                         answerList.add(answers.getAnswer());
                     }
                 }
@@ -443,43 +457,42 @@ public class NASAOtherProjectInformationV1_0Generator extends
     /*
      * This method checks whether the Rolodex association is Foreign
      */
-    private boolean isRolodexPersonForeign(ProposalPerson proposalPerson) {
-        boolean isForeign = false;
-        if (proposalPerson.getRolodexId() != null) {
-            Rolodex rolodex = KraServiceLocator
-                    .getService(RolodexService.class).getRolodex(
-                            proposalPerson.getRolodexId());
-            if (rolodex != null) {
-                if (rolodex.getSponsor() != null
-                        && rolodex.getSponsor().getSponsorTypeCode() != null) {
-                    if (Integer.parseInt(rolodex.getSponsor()
-                            .getSponsorTypeCode()) > 9) {
-                        isForeign = true;
-                    }
-                } else if (rolodex.getCountryCode() != null) {
-                    if (rolodex.getCountryCode().equals(
-                            COUNTRY_CODE_PUERTO_RICO)
-                            || rolodex.getCountryCode()
-                                    .equals(COUNTRY_CODE_USA)
-                            || rolodex.getCountryCode().equals(
-                                    COUNTRY_CODE_VIRGIN_ISLANDS)) {
-                        isForeign = false;
-                    } else {
-                        isForeign = true;
-                    }
-                }
-            }
-        }
-        return isForeign;
-    }
-
+//    private boolean isRolodexPersonForeign(ProposalPerson proposalPerson) {
+//        boolean isForeign = false;
+//        if (proposalPerson.getRolodexId() != null) {
+//            Rolodex rolodex = KraServiceLocator
+//                    .getService(RolodexService.class).getRolodex(
+//                            proposalPerson.getRolodexId());
+//            if (rolodex != null) {
+//                if (rolodex.getSponsor() != null
+//                        && rolodex.getSponsor().getSponsorTypeCode() != null) {
+//                    if (Integer.parseInt(rolodex.getSponsor()
+//                            .getSponsorTypeCode()) > 9) {
+//                        isForeign = true;
+//                    }
+//                } else if (rolodex.getCountryCode() != null) {
+//                    if (rolodex.getCountryCode().equals(
+//                            COUNTRY_CODE_PUERTO_RICO)
+//                            || rolodex.getCountryCode()
+//                                    .equals(COUNTRY_CODE_USA)
+//                            || rolodex.getCountryCode().equals(
+//                                    COUNTRY_CODE_VIRGIN_ISLANDS)) {
+//                        isForeign = false;
+//                    } else {
+//                        isForeign = true;
+//                    }
+//                }
+//            }
+//        }
+//        return isForeign;
+//    }
     /**
-     * 
+     *
      * This method is used to get List of attachments for Appendices from
      * NarrativeAttachmentList
-     * 
+     *
      * @return AttachedFileDataType[] array of attached files based on the
-     *         Narrative Type Code.
+     * Narrative Type Code.
      */
     private AttachedFileDataType[] getAppendixFileDataTypes() {
         List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
@@ -489,7 +502,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == APPENDICES) {
                 attachedFileDataType = getAttachedFileType(narrative);
-                if(attachedFileDataType != null){
+                if (attachedFileDataType != null) {
                     attachedFileDataTypeList.add(attachedFileDataType);
                 }
             }
@@ -498,12 +511,12 @@ public class NASAOtherProjectInformationV1_0Generator extends
     }
 
     /**
-     * 
+     *
      * This method is used to get List of attachments for non-US organization
      * letters of endorsement type from NarrativeAttachmentList
-     * 
+     *
      * @return AttachedFileDataType[] array of attached files based on the
-     *         Narrative Type Code.
+     * Narrative Type Code.
      */
     private AttachedFileDataType[] getEndorsementFileDataTypes() {
         List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
@@ -513,7 +526,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == NON_US_ORGANIZATION_LETTERS_OF_ENDORSEMENT) {
                 attachedFileDataType = getAttachedFileType(narrative);
-                if(attachedFileDataType != null){
+                if (attachedFileDataType != null) {
                     attachedFileDataTypeList.add(attachedFileDataType);
                 }
             }
@@ -522,12 +535,12 @@ public class NASAOtherProjectInformationV1_0Generator extends
     }
 
     /**
-     * 
+     *
      * This method is used to get List of attachments for IRB-ACUC-LETTERS type
      * from NarrativeAttachmentList
-     * 
+     *
      * @return AttachedFileDataType[] array of attached files based on the
-     *         Narrative Type Code.
+     * Narrative Type Code.
      */
     private AttachedFileDataType[] getIRBACUCLettersFileDataTypes() {
         List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
@@ -537,7 +550,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVE_IRB_ACUC_LETTERS) {
                 attachedFileDataType = getAttachedFileType(narrative);
-                if(attachedFileDataType != null){
+                if (attachedFileDataType != null) {
                     attachedFileDataTypeList.add(attachedFileDataType);
                 }
             }
@@ -545,23 +558,22 @@ public class NASAOtherProjectInformationV1_0Generator extends
         return attachedFileDataTypeList.toArray(new AttachedFileDataType[0]);
     }
 
-   /**
-     * 
-     * This method is used to get the answer for a particular Questionnaire question
-     * question based on the question id.
-     * 
-     * @param questionId
-     *            the question id to be passed.
-     * @return returns the answer for a particular
-     *         question based on the question id passed.
+    /**
+     *
+     * This method is used to get the answer for a particular Questionnaire
+     * question question based on the question id.
+     *
+     * @param questionId the question id to be passed.
+     * @return returns the answer for a particular question based on the
+     * question id passed.
      */
     private String getAnswer(String questionId) {
-        String answer= null;
-        for(AnswerHeader answerHeader:answerHeaders){
-            if(answerHeader!=null){
+        String answer = null;
+        for (AnswerHeader answerHeader : answerHeaders) {
+            if (answerHeader != null) {
                 List<Answer> answerDetails = answerHeader.getAnswers();
-                for(Answer answers:answerDetails){
-                    if(questionId.equals(answers.getQuestion().getQuestionId())){
+                for (Answer answers : answerDetails) {
+                    if (questionId.equals(answers.getQuestion().getQuestionId())) {
                         answer = answers.getAnswer();
                         return answer;
                     }
@@ -572,26 +584,26 @@ public class NASAOtherProjectInformationV1_0Generator extends
         return answer;
 
     }
+
     /**
-     * 
-     * This method is used to get the child question answer for a particular Questionnaire question
-     * question based on the question id.
-     * @param parentQuestionId
-     *            the parentQuestion id to be passed.
-     * @param questionId
-     *            the question id to be passed.
-     * @return returns the answer for a particular
-     *         question based on the question id passed.
+     *
+     * This method is used to get the child question answer for a particular
+     * Questionnaire question question based on the question id.
+     *
+     * @param parentQuestionId the parentQuestion id to be passed.
+     * @param questionId the question id to be passed.
+     * @return returns the answer for a particular question based on the
+     * question id passed.
      */
-    private String getChildQuestionAnswer(String parentQuestionId,String questionId) {
-        String answer= null;
-        for(AnswerHeader answerHeader:answerHeaders){
-            if(answerHeader!=null){
+    private String getChildQuestionAnswer(String parentQuestionId, String questionId) {
+        String answer = null;
+        for (AnswerHeader answerHeader : answerHeaders) {
+            if (answerHeader != null) {
                 List<Answer> answerDetails = answerHeader.getAnswers();
-                for(Answer answers:answerDetails){
-                    if(answers.getParentAnswer()!= null){
-                        Answer parentAnswer =  answers.getParentAnswer().get(0);
-                        if(questionId.equals(answers.getQuestion().getQuestionId()) && parentAnswer.getQuestion().getQuestionId().equals(parentQuestionId) ){
+                for (Answer answers : answerDetails) {
+                    if (answers.getParentAnswer() != null) {
+                        Answer parentAnswer = answers.getParentAnswer().get(0);
+                        if (questionId.equals(answers.getQuestion().getQuestionId()) && parentAnswer.getQuestion().getQuestionId().equals(parentQuestionId)) {
                             answer = answers.getAnswer();
                             return answer;
                         }
@@ -603,16 +615,18 @@ public class NASAOtherProjectInformationV1_0Generator extends
         return answer;
 
     }
+
     /**
      * This method creates {@link XmlObject} of type
      * {@link NASAOtherProjectInformationDocument} by populating data from the
      * given {@link ProposalDevelopmentDocument}
-     * 
-     * @param proposalDevelopmentDocument
-     *            for which the {@link XmlObject} needs to be created
+     *
+     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs
+     * to be created
      * @return {@link XmlObject} which is generated using the given
-     *         {@link ProposalDevelopmentDocument}
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+     * {@link ProposalDevelopmentDocument}
+     * @see
+     * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
      */
     public XmlObject getFormObject(
             ProposalDevelopmentDocument proposalDevelopmentDocument) {
@@ -624,12 +638,12 @@ public class NASAOtherProjectInformationV1_0Generator extends
     /**
      * This method typecasts the given {@link XmlObject} to the required
      * generator type and returns back the document of that generator type.
-     * 
-     * @param xmlObject
-     *            which needs to be converted to the document type of the
-     *            required generator
+     *
+     * @param xmlObject which needs to be converted to the document type of the
+     * required generator
      * @return {@link XmlObject} document of the required generator type
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
+     * @see
+     * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
      */
     public XmlObject getFormObject(XmlObject xmlObject) {
 
