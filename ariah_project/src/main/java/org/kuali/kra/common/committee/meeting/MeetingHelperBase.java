@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.common.committee.meeting;
 
@@ -40,7 +56,7 @@ public abstract class MeetingHelperBase implements Serializable {
 
     private static final long serialVersionUID = 2363534404324211441L;
     private static final String FIELD_SEPARAATOR = "#f#";
-    
+
     private MeetingFormBase form;
     private Date agendaGenerationDate;
     private CommitteeScheduleBase<?, ?, ?, ?> committeeSchedule;
@@ -92,27 +108,26 @@ public abstract class MeetingHelperBase implements Serializable {
         newOtherAction = getNewCommScheduleActItemInstanceHook();
         newCommitteeScheduleMinute = getNewCommitteeScheduleMinuteInstanceHook();
 
-        newCommitteeScheduleAttachments= getNewCommitteeScheduleAttachmentsInstanceHook();
+        newCommitteeScheduleAttachments = getNewCommitteeScheduleAttachmentsInstanceHook();
 
         newOtherPresentBean = getNewOtherPresentBeanInstanceHook();
         scheduleAgendas = new ArrayList<ScheduleAgendaBase>();
         minuteDocs = new ArrayList<CommScheduleMinuteDocBase>();
-        correspondences = new ArrayList<ProtocolCorrespondence>() ;
-        printRooster = new Boolean(false);
-        printFutureScheduledMeeting = new Boolean(false);
- //       hideReviewerName = getReviewerCommentsService().isHideReviewerName();
+        correspondences = new ArrayList<ProtocolCorrespondence>();
+        printRooster = false;
+        printFutureScheduledMeeting = false;
+        //       hideReviewerName = getReviewerCommentsService().isHideReviewerName();
         initDeletedList();
         initPrintCorrespondence();
     }
 
     protected abstract CommitteeScheduleAttachmentsBase getNewCommitteeScheduleAttachmentsInstanceHook();
-    
+
     protected abstract OtherPresentBeanBase getNewOtherPresentBeanInstanceHook();
-    
+
     protected abstract CommScheduleActItemBase getNewCommScheduleActItemInstanceHook();
 
     protected abstract CommitteeScheduleMinuteBase<?, ?> getNewCommitteeScheduleMinuteInstanceHook();
-
 
     protected abstract CommitteeScheduleBase<?, ?, ?, ?> getNewCommitteeScheduleInstanceHook();
 
@@ -123,7 +138,6 @@ public abstract class MeetingHelperBase implements Serializable {
     public void setForm(MeetingFormBase form) {
         this.form = form;
     }
-
 
     public CommScheduleActItemBase getNewOtherAction() {
         return newOtherAction;
@@ -206,10 +220,11 @@ public abstract class MeetingHelperBase implements Serializable {
     }
 
     /**
-     * 
-     * This method is to get absent list which will be used to create 'alternate for' drop down list. Can only pass a string to
-     * valuesfinder as property, so has to concatenate the needed data into a string.
-     * 
+     *
+     * This method is to get absent list which will be used to create 'alternate
+     * for' drop down list. Can only pass a string to valuesfinder as property,
+     * so has to concatenate the needed data into a string.
+     *
      * @return
      */
     public String getAbsenteeList() {
@@ -230,8 +245,7 @@ public abstract class MeetingHelperBase implements Serializable {
             if (StringUtils.isBlank(result)) {
                 result = memberAbsentBean.getAttendance().getPersonId() + FIELD_SEPARAATOR
                         + memberAbsentBean.getAttendance().getPersonName();
-            }
-            else {
+            } else {
                 result = result + "#m#" + memberAbsentBean.getAttendance().getPersonId() + FIELD_SEPARAATOR
                         + memberAbsentBean.getAttendance().getPersonName();
             }
@@ -258,11 +272,10 @@ public abstract class MeetingHelperBase implements Serializable {
     public List<CommitteeScheduleMinuteBase<?, ?>> getDeletedCommitteeScheduleMinutes() {
         return deletedCommitteeScheduleMinutes;
     }
-    
+
     public CommitteeScheduleAttachmentsBase getNewCommitteeScheduleAttachments() {
         return newCommitteeScheduleAttachments;
     }
-
 
     public void setNewCommitteeScheduleAttachments(CommitteeScheduleAttachmentsBase newCommitteeScheduleAttachments) {
         this.newCommitteeScheduleAttachments = newCommitteeScheduleAttachments;
@@ -271,9 +284,9 @@ public abstract class MeetingHelperBase implements Serializable {
     public void setDeletedCommitteeScheduleMinutes(List<CommitteeScheduleMinuteBase<?, ?>> deletedCommitteeScheduleMinutes) {
         this.deletedCommitteeScheduleMinutes = deletedCommitteeScheduleMinutes;
     }
-    
+
     /**
-     * 
+     *
      * This method method is used to initialize the deleted bo list.
      */
     protected void initDeletedList() {
@@ -284,9 +297,9 @@ public abstract class MeetingHelperBase implements Serializable {
     }
 
     /**
-     * 
+     *
      * This method put all deleted bos to a list, so boservice can delete them.
-     * 
+     *
      * @return
      */
     protected List<PersistableBusinessObject> getDeletedBos() {
@@ -299,8 +312,9 @@ public abstract class MeetingHelperBase implements Serializable {
     }
 
     /**
-     * 
-     * This method populate committeescheduleattendance from 3 beans, memberpresent/otherpresent/memberabsent.
+     *
+     * This method populate committeescheduleattendance from 3 beans,
+     * memberpresent/otherpresent/memberabsent.
      */
     protected void populateAttendancePreSave() {
         List<CommitteeScheduleAttendanceBase> attendances = new ArrayList<CommitteeScheduleAttendanceBase>();
@@ -315,9 +329,6 @@ public abstract class MeetingHelperBase implements Serializable {
         this.setDeletedAttendances(committeeSchedule.getCommitteeScheduleAttendances());
         committeeSchedule.setCommitteeScheduleAttendances(attendances);
     }
-
-
-
 
     /*
      * Sort attendances by person name.
@@ -350,26 +361,24 @@ public abstract class MeetingHelperBase implements Serializable {
     public boolean hasViewModifySchedulePermission() {
         return this.canModifySchedule() || (this.canViewSchedule() && this.form.isReadOnly());
     }
-    
+
     public boolean canModifySchedule() {
         CommitteeTaskBase task = getNewCommitteeTaskInstanceHook(TaskName.MODIFY_SCHEDULE, committeeSchedule.getParentCommittee());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
-    
+
     protected abstract CommitteeTaskBase getNewCommitteeTaskInstanceHook(String taskName, CommitteeBase committee);
-    
 
     public boolean getCanModifySchedule() {
-        return  canModifySchedule();
+        return canModifySchedule();
     }
 
     public boolean canViewSchedule() {
         CommitteeTaskBase task = getNewCommitteeScheduleTaskInstanceHook(TaskName.VIEW_SCHEDULE, committeeSchedule.getParentCommittee(), committeeSchedule);
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
-    
-    protected abstract CommitteeScheduleTaskBase getNewCommitteeScheduleTaskInstanceHook(String taskName, CommitteeBase committee, CommitteeScheduleBase committeeSchedule);
 
+    protected abstract CommitteeScheduleTaskBase getNewCommitteeScheduleTaskInstanceHook(String taskName, CommitteeBase committee, CommitteeScheduleBase committeeSchedule);
 
     public boolean getCanViewSchedule() {
         return canViewSchedule();
@@ -397,77 +406,64 @@ public abstract class MeetingHelperBase implements Serializable {
 
     /**
      * Get the principalId of the user for the current session.
+     *
      * @return the current session's userName
      */
     protected String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId();
-   }
-
+    }
 
     public List<ScheduleAgendaBase> getScheduleAgendas() {
         return scheduleAgendas;
     }
 
-
     public void setScheduleAgendas(List<ScheduleAgendaBase> scheduleAgendas) {
         this.scheduleAgendas = scheduleAgendas;
     }
-
 
     public List<CommScheduleMinuteDocBase> getMinuteDocs() {
         return minuteDocs;
     }
 
-
     public void setMinuteDocs(List<CommScheduleMinuteDocBase> minuteDocs) {
         this.minuteDocs = minuteDocs;
     }
-
 
     public List<ProtocolCorrespondence> getCorrespondences() {
         return correspondences;
     }
 
-
     public void setCorrespondences(List<ProtocolCorrespondence> correspondences) {
         this.correspondences = correspondences;
     }
-
 
     public String getReportType() {
         return reportType;
     }
 
-
     public void setReportType(String reportType) {
         this.reportType = reportType;
     }
-
 
     public String getViewId() {
         return viewId;
     }
 
-
     public void setViewId(String viewId) {
         this.viewId = viewId;
     }
-
 
     public Boolean getPrintRooster() {
         return printRooster;
     }
 
-
     public void setPrintRooster(Boolean printRooster) {
         this.printRooster = printRooster;
     }
 
-
     public Boolean getPrintFutureScheduledMeeting() {
         return printFutureScheduledMeeting;
     }
-
 
     public void setPrintFutureScheduledMeeting(Boolean printFutureScheduledMeeting) {
         this.printFutureScheduledMeeting = printFutureScheduledMeeting;
@@ -476,7 +472,6 @@ public abstract class MeetingHelperBase implements Serializable {
     public boolean isHideReviewerName() {
         return hideReviewerName;
     }
-
 
     public void setHideReviewerName(boolean hideReviewerName) {
         this.hideReviewerName = hideReviewerName;
@@ -488,7 +483,7 @@ public abstract class MeetingHelperBase implements Serializable {
         }
         return minutesSentMessage;
     }
-    
+
     public String getAgendaSentMessage() {
         if (agendaSentMessage == null) {
             agendaSentMessage = CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MESSAGE_COMMITTEESCHEDULE_AGENDASENT);
@@ -496,35 +491,30 @@ public abstract class MeetingHelperBase implements Serializable {
         return agendaSentMessage;
     }
 
-
     public ProtocolCorrespondence getProtocolCorrespondence() {
         return protocolCorrespondence;
     }
-
 
     public void setProtocolCorrespondence(ProtocolCorrespondence protocolCorrespondence) {
         this.protocolCorrespondence = protocolCorrespondence;
     }
 
-
     public List<ProtocolCorrespondence> getRegeneratedCorrespondences() {
         return regeneratedCorrespondences;
     }
 
-
     public void setRegeneratedCorrespondences(List<ProtocolCorrespondence> regeneratedCorrespondences) {
         this.regeneratedCorrespondences = regeneratedCorrespondences;
     }
-    
-    
+
     protected KraAuthorizationService getKraAuthorizationService() {
         if (this.kraAuthorizationService == null) {
             this.kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
         }
-        
+
         return this.kraAuthorizationService;
     }
-    
+
     public abstract boolean isAdmin();
 
     public List<CorrespondencePrintOption> getCorrespondencesToPrint() {
@@ -534,7 +524,7 @@ public abstract class MeetingHelperBase implements Serializable {
     public void setCorrespondencesToPrint(List<CorrespondencePrintOption> correspondencesToPrint) {
         this.correspondencesToPrint = correspondencesToPrint;
     }
-    
+
     protected abstract void initPrintCorrespondence();
 
 }
