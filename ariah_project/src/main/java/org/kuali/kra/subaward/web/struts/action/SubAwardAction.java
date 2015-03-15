@@ -237,6 +237,7 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase{
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#loadDocument(
      * org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
+    @Override
     protected void loadDocument(KualiDocumentFormBase kualiForm)
     throws WorkflowException {
         super.loadDocument(kualiForm);

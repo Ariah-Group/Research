@@ -187,6 +187,7 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase
      *
      * @return Returns the auditActivated.
      */
+    @Override
     public boolean isAuditActivated() {
         return auditActivated;
     }
@@ -197,6 +198,7 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase
      *
      * @param auditActivated The auditActivated to set.
      */
+    @Override
     public void setAuditActivated(boolean auditActivated) {
         this.auditActivated = auditActivated;
     }
@@ -269,6 +271,7 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase
      *
      * @return Returns the customDataHelper.
      */
+    @Override
     public CustomDataHelper getCustomDataHelper() {
         return customDataHelper;
     }
@@ -441,6 +444,7 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase
         return lookupResultsBOClassName;
     }
 
+    @Override
     public PermissionsHelperBase getPermissionsHelper() {
         // TODO Auto-generated method stub
         return null;

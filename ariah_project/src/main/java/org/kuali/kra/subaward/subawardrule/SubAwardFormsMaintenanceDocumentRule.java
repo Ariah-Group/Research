@@ -45,6 +45,7 @@ public class SubAwardFormsMaintenanceDocumentRule extends KraMaintenanceDocument
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
 
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         return isDocumentValidForSave(document);
     }
@@ -71,6 +72,7 @@ public class SubAwardFormsMaintenanceDocumentRule extends KraMaintenanceDocument
      * 
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#isDocumentValidForSave(org.kuali.rice.kns.document.MaintenanceDocument)
      */
+    @Override
     public boolean isDocumentValidForSave(MaintenanceDocument document) {
         boolean result = super.isDocumentValidForSave(document);
         final SubAwardForms subAwardForms = (SubAwardForms) document.getNewMaintainableObject().getDataObject();

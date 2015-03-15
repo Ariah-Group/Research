@@ -139,6 +139,7 @@ public class SubAwardForms extends KraPersistableBusinessObjectBase implements P
 	 * This is the Getter Method for attachmentContent
 	 * @return Returns the attachmentContent.
 	 */
+    @Override
 	public byte[] getAttachmentContent() {
 		return attachmentContent;
 	}
@@ -148,6 +149,7 @@ public class SubAwardForms extends KraPersistableBusinessObjectBase implements P
 	 * This is the Setter Method for attachmentContent
 	 * @param attachmentContent The attachmentContent to set.
 	 */
+    @Override
 	public void setAttachmentContent(byte[] attachmentContent) {
 		this.attachmentContent = attachmentContent;
 	}
@@ -157,6 +159,7 @@ public class SubAwardForms extends KraPersistableBusinessObjectBase implements P
 	 * This is the Getter Method for fileName
 	 * @return Returns the fileName.
 	 */
+    @Override
 	public String getFileName() {
 		return fileName;
 	}
@@ -166,6 +169,7 @@ public class SubAwardForms extends KraPersistableBusinessObjectBase implements P
 	 * This is the Setter Method for fileName
 	 * @param fileName The fileName to set.
 	 */
+    @Override
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
@@ -175,6 +179,7 @@ public class SubAwardForms extends KraPersistableBusinessObjectBase implements P
 	 * This is the Getter Method for contentType
 	 * @return Returns the contentType.
 	 */
+    @Override
 	public String getContentType() {
 		return contentType;
 	}
@@ -184,6 +189,7 @@ public class SubAwardForms extends KraPersistableBusinessObjectBase implements P
 	 * This is the Setter Method for contentType
 	 * @param contentType The contentType to set.
 	 */
+    @Override
 	public void setContentType(String contentType) {
 		this.contentType = contentType;
 	}

@@ -180,6 +180,7 @@ public class SubAwardDocument extends ResearchDocumentBase implements Copyable, 
      *
      * @return
      */
+    @Override
     public boolean isProcessComplete() {
 
         boolean isComplete = false;
@@ -224,6 +225,7 @@ public class SubAwardDocument extends ResearchDocumentBase implements Copyable, 
         return managedLists;
     }
 
+    @Override
     public String getDocumentBoNumber() {
         return getSubAward().getSubAwardCode();
     }

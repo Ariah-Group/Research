@@ -242,6 +242,7 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
      * @param sponsorFormTemplateLists - list of sponsor form template list
      * @return list of sponsor form template
      */
+    @Override
     public List<SubAwardForms> getSponsorFormTemplates(SubAwardPrintAgreement subAwardPrint, List<SubAwardForms> subAwardFormList) {
         List<SubAwardForms> printFormTemplates = new ArrayList<SubAwardForms>();
         if (subAwardPrint.getFdpType().equals(SUB_AWARD_FDP_TEMPLATE)) {
@@ -280,6 +281,7 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
         }
     }
 
+    @Override
     public boolean isPdf(byte[] data) {
         final int ATTRIBUTE_CHUNK_SIZE = 1200;// increased for ppt
         final String PRE_HEXA = "0x";

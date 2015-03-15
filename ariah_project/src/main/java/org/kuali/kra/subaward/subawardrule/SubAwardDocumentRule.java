@@ -96,6 +96,7 @@ AddSubAwardAttachmentRule,SubAwardTemplateInfoRule {
      * @param subAward
      * @return rulePassed boolean...
      */
+    @Override
     public boolean processAddSubAwardBusinessRules(SubAward subAward) {
 
         boolean rulePassed = true;
@@ -173,6 +174,7 @@ AddSubAwardAttachmentRule,SubAwardTemplateInfoRule {
         return rulePassed;
     }
 
+    @Override
     public boolean processAddSubAwardAmountInfoBusinessRules(SubAwardAmountInfo amountInfo,SubAward subAward) {
         boolean rulePassed = true; 
         
@@ -217,6 +219,7 @@ AddSubAwardAttachmentRule,SubAwardTemplateInfoRule {
         return rulePassed;
     }
 
+    @Override
     public boolean processAddSubAwardContactBusinessRules(SubAwardContact subAwardContact,SubAward subAward) {
         boolean rulePassed = true;          
         
@@ -247,6 +250,7 @@ AddSubAwardAttachmentRule,SubAwardTemplateInfoRule {
         return rulePassed;
     }
 
+    @Override
     public boolean processAddSubAwardCloseoutBusinessRules(SubAwardCloseout subAwardCloseout) {
         boolean rulePassed = true;
         rulePassed &= processSaveSubAwardCloseoutBusinessRules(subAwardCloseout);
@@ -278,6 +282,7 @@ AddSubAwardAttachmentRule,SubAwardTemplateInfoRule {
     
     
 
+    @Override
     public boolean processAddSubAwardFundingSourceBusinessRules(SubAwardFundingSource subAwardFundingSource,SubAward subAward) {
         boolean rulePassed = true;
         rulePassed &= processSaveSubAwardFundingSourceBusinessRules(subAwardFundingSource,subAward);
@@ -339,6 +344,7 @@ AddSubAwardAttachmentRule,SubAwardTemplateInfoRule {
     /**
      * @see org.kuali.kra.subaward.subawardrule.AddSubAwardAttachmentRule#processsAddSubawardAttachmentRule(org.kuali.kra.subaward.subawardrule.events.AddSubAwardAttachmentEvent)
      */
+    @Override
     public boolean processsAddSubawardAttachmentRule(AddSubAwardAttachmentEvent event) {
         boolean valid = true;
         
@@ -374,6 +380,7 @@ AddSubAwardAttachmentRule,SubAwardTemplateInfoRule {
         return valid;
         
     }
+    @Override
     public boolean processAddSubAwardTemplateInfoBusinessRules(SubAward subAward) {
         boolean rulePassed = true;
         rulePassed &= processSaveSubAwardTemplateInfoBusinessRules(subAward);

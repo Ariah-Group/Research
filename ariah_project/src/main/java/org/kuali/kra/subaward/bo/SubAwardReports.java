@@ -12,21 +12,34 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.subaward.bo;
-
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 
-
-
 public class SubAwardReports extends SubAwardAssociate implements Comparable<SubAwardReports> {
-    
-    private String  subAwardReportId;
+
+    private String subAwardReportId;
     private Long subAwardId;
-    private String  subAwardCode;
+    private String subAwardCode;
     private Integer sequenceNumber;
     private SubAwardReportType typeCode;
     private String subAwardReportTypeCode;
@@ -37,43 +50,54 @@ public class SubAwardReports extends SubAwardAssociate implements Comparable<Sub
     public SubAwardReports(final SubAward subaward) {
         this.setSubAward(subaward);
     }
-    
+
     public SubAwardReports() {
         super();
     }
-    
+
     /**
-     * Gets the subAwardId attribute. 
+     * Gets the subAwardId attribute.
+     *
      * @return Returns the subAwardId.
      */
+    @Override
     public Long getSubAwardId() {
         return subAwardId;
     }
 
     /**
      * Sets the subAwardId attribute value.
+     *
      * @param subAwardId The subAwardId to set.
      */
+    @Override
     public void setSubAwardId(Long subAwardId) {
         this.subAwardId = subAwardId;
     }
+
     /**
-     * Gets the subAwardCode attribute. 
+     * Gets the subAwardCode attribute.
+     *
      * @return Returns the subAwardCode.
      */
+    @Override
     public String getSubAwardCode() {
         return subAwardCode;
     }
+
     /**
      * Sets the subAwardCode attribute value.
+     *
      * @param subAwardCode The subAwardCode to set.
      */
+    @Override
     public void setSubAwardCode(String subAwardCode) {
         this.subAwardCode = subAwardCode;
     }
-    
+
     /**
-     * Gets the subAwardReportId attribute. 
+     * Gets the subAwardReportId attribute.
+     *
      * @return Returns the subAwardReportId.
      */
     public String getSubAwardReportId() {
@@ -82,6 +106,7 @@ public class SubAwardReports extends SubAwardAssociate implements Comparable<Sub
 
     /**
      * Sets the subAwardReportId attribute value.
+     *
      * @param subAwardReportId The subAwardReportId to set.
      */
     public void setSubAwardReportId(String subAwardReportId) {
@@ -89,72 +114,87 @@ public class SubAwardReports extends SubAwardAssociate implements Comparable<Sub
     }
 
     /**
-     * Gets the sequenceNumber attribute. 
+     * Gets the sequenceNumber attribute.
+     *
      * @return Returns the sequenceNumber.
      */
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
+
     /**
      * Sets the sequenceNumber attribute value.
+     *
      * @param sequenceNumber The sequenceNumber to set.
      */
+    @Override
     public void setSequenceNumber(Integer sequenceNumber) {
         this.sequenceNumber = sequenceNumber;
     }
+
     /**
-     * Gets the typeCode attribute. 
+     * Gets the typeCode attribute.
+     *
      * @return Returns the typeCode.
      */
     public SubAwardReportType getTypeCode() {
         return typeCode;
     }
+
     /**
      * Sets the typeCode attribute value.
+     *
      * @param typeCode The typeCode to set.
      */
     public void setTypeCode(SubAwardReportType typeCode) {
         this.typeCode = typeCode;
     }
+
     /**
-     * Gets the subAwardReportTypeCode attribute. 
+     * Gets the subAwardReportTypeCode attribute.
+     *
      * @return Returns the subAwardReportTypeCode.
      */
     public String getSubAwardReportTypeCode() {
         return subAwardReportTypeCode;
     }
+
     /**
      * Sets the subAwardReportTypeCode attribute value.
+     *
      * @param subAwardReportTypeCode The subAwardReportTypeCode to set.
      */
     public void setSubAwardReportTypeCode(String subAwardReportTypeCode) {
         this.subAwardReportTypeCode = subAwardReportTypeCode;
     }
-    
+
     /**
-     * 
+     *
      * This method returns the full name of the update user.
+     *
      * @return
      */
     public String getUpdateUserName() {
         Person updateUser = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName(this.getUpdateUser());
         return updateUser != null ? updateUser.getName() : this.getUpdateUser();
     }
-    
+
     @Override
     public void resetPersistenceState() {
         this.setSubAwardReportId(null);
     }
-    
+
     @Override
     public int compareTo(SubAwardReports o) {
         return this.getSubAwardReportId().compareTo(o.getSubAwardReportId());
-       
+
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kra.bo.KraPersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
+     *
+     * @see
+     * org.kuali.kra.bo.KraPersistableBusinessObjectBase#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
      */
     @Override
     protected void preUpdate() {
@@ -164,5 +204,4 @@ public class SubAwardReports extends SubAwardAssociate implements Comparable<Sub
         }
     }
 
-    
 }

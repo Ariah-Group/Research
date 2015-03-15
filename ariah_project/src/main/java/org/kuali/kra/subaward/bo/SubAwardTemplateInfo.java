@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.subaward.bo;
 
@@ -20,55 +36,56 @@ import java.sql.Date;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
-    
+
     private String subAwardCode;
-    
+
     private Integer sequenceNumber;
-    
+
     private Long subAwardId;
-  
-    private String sowOrSubProposalBudget="N";
-    
+
+    private String sowOrSubProposalBudget = "N";
+
     private Date subProposalDate;
-    
+
     private Integer invoiceOrPaymentContact;
-    
+
     private Integer finalStmtOfCostscontact;
-    
+
     private Integer changeRequestsContact;
-    
+
     private Integer terminationContact;
-   
+
     private Integer noCostExtensionContact;
-    
-    private String perfSiteDiffFromOrgAddr="N";
-    
-    private String perfSiteSameAsSubPiAddr="N";
-    
-    private String subRegisteredInCcr="N";
-    
-    private String subExemptFromReportingComp="N";
-    
+
+    private String perfSiteDiffFromOrgAddr = "N";
+
+    private String perfSiteSameAsSubPiAddr = "N";
+
+    private String subRegisteredInCcr = "N";
+
+    private String subExemptFromReportingComp = "N";
+
     private String parentDunsNumber;
-    
+
     private String parentCongressionalDistrict;
-    
-    private String exemptFromRprtgExecComp="N";
-    
+
+    private String exemptFromRprtgExecComp = "N";
+
     private Integer copyRightType;
-    
-    private String automaticCarryForward="N";
-    
+
+    private String automaticCarryForward = "N";
+
     private Integer carryForwardRequestsSentTo;
-    
-    private String treatmentPrgmIncomeAdditive="N";
-    
+
+    private String treatmentPrgmIncomeAdditive = "N";
+
     private String applicableProgramRegulations;
-    
+
     private Date applicableProgramRegsDate;
 
     /**
-     * Gets the subAwardCode attribute. 
+     * Gets the subAwardCode attribute.
+     *
      * @return Returns the subAwardCode.
      */
     public String getSubAwardCode() {
@@ -77,6 +94,7 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the subAwardCode attribute value.
+     *
      * @param subAwardCode The subAwardCode to set.
      */
     public void setSubAwardCode(String subAwardCode) {
@@ -84,7 +102,8 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the sequenceNumber attribute. 
+     * Gets the sequenceNumber attribute.
+     *
      * @return Returns the sequenceNumber.
      */
     public Integer getSequenceNumber() {
@@ -93,6 +112,7 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the sequenceNumber attribute value.
+     *
      * @param sequenceNumber The sequenceNumber to set.
      */
     public void setSequenceNumber(Integer sequenceNumber) {
@@ -100,7 +120,8 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the subAwardId attribute. 
+     * Gets the subAwardId attribute.
+     *
      * @return Returns the subAwardId.
      */
     public Long getSubAwardId() {
@@ -109,6 +130,7 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the subAwardId attribute value.
+     *
      * @param subAwardId The subAwardId to set.
      */
     public void setSubAwardId(Long subAwardId) {
@@ -116,7 +138,8 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the sowOrSubProposalBudget attribute. 
+     * Gets the sowOrSubProposalBudget attribute.
+     *
      * @return Returns the sowOrSubProposalBudget.
      */
     public String getSowOrSubProposalBudget() {
@@ -125,6 +148,7 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the sowOrSubProposalBudget attribute value.
+     *
      * @param sowOrSubProposalBudget The sowOrSubProposalBudget to set.
      */
     public void setSowOrSubProposalBudget(String sowOrSubProposalBudget) {
@@ -132,7 +156,8 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the subProposalDate attribute. 
+     * Gets the subProposalDate attribute.
+     *
      * @return Returns the subProposalDate.
      */
     public Date getSubProposalDate() {
@@ -141,6 +166,7 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the subProposalDate attribute value.
+     *
      * @param subProposalDate The subProposalDate to set.
      */
     public void setSubProposalDate(Date subProposalDate) {
@@ -148,7 +174,8 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the invoiceOrPaymentContact attribute. 
+     * Gets the invoiceOrPaymentContact attribute.
+     *
      * @return Returns the invoiceOrPaymentContact.
      */
     public Integer getInvoiceOrPaymentContact() {
@@ -157,6 +184,7 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the invoiceOrPaymentContact attribute value.
+     *
      * @param invoiceOrPaymentContact The invoiceOrPaymentContact to set.
      */
     public void setInvoiceOrPaymentContact(Integer invoiceOrPaymentContact) {
@@ -164,7 +192,8 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the finalStmtOfCostscontact attribute. 
+     * Gets the finalStmtOfCostscontact attribute.
+     *
      * @return Returns the finalStmtOfCostscontact.
      */
     public Integer getFinalStmtOfCostscontact() {
@@ -173,6 +202,7 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the finalStmtOfCostscontact attribute value.
+     *
      * @param finalStmtOfCostscontact The finalStmtOfCostscontact to set.
      */
     public void setFinalStmtOfCostscontact(Integer finalStmtOfCostscontact) {
@@ -180,7 +210,8 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the changeRequestsContact attribute. 
+     * Gets the changeRequestsContact attribute.
+     *
      * @return Returns the changeRequestsContact.
      */
     public Integer getChangeRequestsContact() {
@@ -189,6 +220,7 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the changeRequestsContact attribute value.
+     *
      * @param changeRequestsContact The changeRequestsContact to set.
      */
     public void setChangeRequestsContact(Integer changeRequestsContact) {
@@ -196,7 +228,8 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the terminationContact attribute. 
+     * Gets the terminationContact attribute.
+     *
      * @return Returns the terminationContact.
      */
     public Integer getTerminationContact() {
@@ -205,6 +238,7 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the terminationContact attribute value.
+     *
      * @param terminationContact The terminationContact to set.
      */
     public void setTerminationContact(Integer terminationContact) {
@@ -212,7 +246,8 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the noCostExtensionContact attribute. 
+     * Gets the noCostExtensionContact attribute.
+     *
      * @return Returns the noCostExtensionContact.
      */
     public Integer getNoCostExtensionContact() {
@@ -221,6 +256,7 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the noCostExtensionContact attribute value.
+     *
      * @param noCostExtensionContact The noCostExtensionContact to set.
      */
     public void setNoCostExtensionContact(Integer noCostExtensionContact) {
@@ -228,7 +264,8 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the perfSiteDiffFromOrgAddr attribute. 
+     * Gets the perfSiteDiffFromOrgAddr attribute.
+     *
      * @return Returns the perfSiteDiffFromOrgAddr.
      */
     public String getPerfSiteDiffFromOrgAddr() {
@@ -237,6 +274,7 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the perfSiteDiffFromOrgAddr attribute value.
+     *
      * @param perfSiteDiffFromOrgAddr The perfSiteDiffFromOrgAddr to set.
      */
     public void setPerfSiteDiffFromOrgAddr(String perfSiteDiffFromOrgAddr) {
@@ -244,7 +282,8 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the perfSiteSameAsSubPiAddr attribute. 
+     * Gets the perfSiteSameAsSubPiAddr attribute.
+     *
      * @return Returns the perfSiteSameAsSubPiAddr.
      */
     public String getPerfSiteSameAsSubPiAddr() {
@@ -253,6 +292,7 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the perfSiteSameAsSubPiAddr attribute value.
+     *
      * @param perfSiteSameAsSubPiAddr The perfSiteSameAsSubPiAddr to set.
      */
     public void setPerfSiteSameAsSubPiAddr(String perfSiteSameAsSubPiAddr) {
@@ -260,7 +300,8 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the subRegisteredInCcr attribute. 
+     * Gets the subRegisteredInCcr attribute.
+     *
      * @return Returns the subRegisteredInCcr.
      */
     public String getSubRegisteredInCcr() {
@@ -269,6 +310,7 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the subRegisteredInCcr attribute value.
+     *
      * @param subRegisteredInCcr The subRegisteredInCcr to set.
      */
     public void setSubRegisteredInCcr(String subRegisteredInCcr) {
@@ -276,7 +318,8 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the subExemptFromReportingComp attribute. 
+     * Gets the subExemptFromReportingComp attribute.
+     *
      * @return Returns the subExemptFromReportingComp.
      */
     public String getSubExemptFromReportingComp() {
@@ -285,6 +328,7 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the subExemptFromReportingComp attribute value.
+     *
      * @param subExemptFromReportingComp The subExemptFromReportingComp to set.
      */
     public void setSubExemptFromReportingComp(String subExemptFromReportingComp) {
@@ -292,7 +336,8 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the parentDunsNumber attribute. 
+     * Gets the parentDunsNumber attribute.
+     *
      * @return Returns the parentDunsNumber.
      */
     public String getParentDunsNumber() {
@@ -301,6 +346,7 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the parentDunsNumber attribute value.
+     *
      * @param parentDunsNumber The parentDunsNumber to set.
      */
     public void setParentDunsNumber(String parentDunsNumber) {
@@ -308,7 +354,8 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the parentCongressionalDistrict attribute. 
+     * Gets the parentCongressionalDistrict attribute.
+     *
      * @return Returns the parentCongressionalDistrict.
      */
     public String getParentCongressionalDistrict() {
@@ -317,14 +364,17 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the parentCongressionalDistrict attribute value.
-     * @param parentCongressionalDistrict The parentCongressionalDistrict to set.
+     *
+     * @param parentCongressionalDistrict The parentCongressionalDistrict to
+     * set.
      */
     public void setParentCongressionalDistrict(String parentCongressionalDistrict) {
         this.parentCongressionalDistrict = parentCongressionalDistrict;
     }
 
     /**
-     * Gets the exemptFromRprtgExecComp attribute. 
+     * Gets the exemptFromRprtgExecComp attribute.
+     *
      * @return Returns the exemptFromRprtgExecComp.
      */
     public String getExemptFromRprtgExecComp() {
@@ -333,6 +383,7 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the exemptFromRprtgExecComp attribute value.
+     *
      * @param exemptFromRprtgExecComp The exemptFromRprtgExecComp to set.
      */
     public void setExemptFromRprtgExecComp(String exemptFromRprtgExecComp) {
@@ -340,7 +391,8 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the copyRightType attribute. 
+     * Gets the copyRightType attribute.
+     *
      * @return Returns the copyRightType.
      */
     public Integer getCopyRightType() {
@@ -349,6 +401,7 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the copyRightType attribute value.
+     *
      * @param copyRightType The copyRightType to set.
      */
     public void setCopyRightType(Integer copyRightType) {
@@ -356,7 +409,8 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the automaticCarryForward attribute. 
+     * Gets the automaticCarryForward attribute.
+     *
      * @return Returns the automaticCarryForward.
      */
     public String getAutomaticCarryForward() {
@@ -365,6 +419,7 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the automaticCarryForward attribute value.
+     *
      * @param automaticCarryForward The automaticCarryForward to set.
      */
     public void setAutomaticCarryForward(String automaticCarryForward) {
@@ -372,7 +427,8 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the carryForwardRequestsSentTo attribute. 
+     * Gets the carryForwardRequestsSentTo attribute.
+     *
      * @return Returns the carryForwardRequestsSentTo.
      */
     public Integer getCarryForwardRequestsSentTo() {
@@ -381,6 +437,7 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the carryForwardRequestsSentTo attribute value.
+     *
      * @param carryForwardRequestsSentTo The carryForwardRequestsSentTo to set.
      */
     public void setCarryForwardRequestsSentTo(Integer carryForwardRequestsSentTo) {
@@ -388,7 +445,8 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the treatmentPrgmIncomeAdditive attribute. 
+     * Gets the treatmentPrgmIncomeAdditive attribute.
+     *
      * @return Returns the treatmentPrgmIncomeAdditive.
      */
     public String getTreatmentPrgmIncomeAdditive() {
@@ -397,14 +455,17 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the treatmentPrgmIncomeAdditive attribute value.
-     * @param treatmentPrgmIncomeAdditive The treatmentPrgmIncomeAdditive to set.
+     *
+     * @param treatmentPrgmIncomeAdditive The treatmentPrgmIncomeAdditive to
+     * set.
      */
     public void setTreatmentPrgmIncomeAdditive(String treatmentPrgmIncomeAdditive) {
         this.treatmentPrgmIncomeAdditive = treatmentPrgmIncomeAdditive;
     }
 
     /**
-     * Gets the applicableProgramRegulations attribute. 
+     * Gets the applicableProgramRegulations attribute.
+     *
      * @return Returns the applicableProgramRegulations.
      */
     public String getApplicableProgramRegulations() {
@@ -413,14 +474,17 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the applicableProgramRegulations attribute value.
-     * @param applicableProgramRegulations The applicableProgramRegulations to set.
+     *
+     * @param applicableProgramRegulations The applicableProgramRegulations to
+     * set.
      */
     public void setApplicableProgramRegulations(String applicableProgramRegulations) {
         this.applicableProgramRegulations = applicableProgramRegulations;
     }
 
     /**
-     * Gets the applicableProgramRegsDate attribute. 
+     * Gets the applicableProgramRegsDate attribute.
+     *
      * @return Returns the applicableProgramRegsDate.
      */
     public Date getApplicableProgramRegsDate() {
@@ -429,10 +493,11 @@ public class SubAwardTemplateInfo extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the applicableProgramRegsDate attribute value.
+     *
      * @param applicableProgramRegsDate The applicableProgramRegsDate to set.
      */
     public void setApplicableProgramRegsDate(Date applicableProgramRegsDate) {
         this.applicableProgramRegsDate = applicableProgramRegsDate;
     }
-     
+
 }
