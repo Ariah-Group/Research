@@ -12,9 +12,24 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.web.struts.action;
-
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -52,64 +67,66 @@ import java.sql.Timestamp;
 import java.util.*;
 
 /**
- * 
- * This class represents the Struts Action for Payments, 
- * Reports & Terms page(AwardPaymentsReportsAndTerms.jsp)
+ *
+ * This class represents the Struts Action for Payments, Reports & Terms
+ * page(AwardPaymentsReportsAndTerms.jsp)
  */
 public class AwardPaymentReportsAndTermsAction extends AwardAction {
-    private static final Log LOG = LogFactory.getLog( AwardPaymentReportsAndTermsAction.class );
+
+    private static final Log LOG = LogFactory.getLog(AwardPaymentReportsAndTermsAction.class);
     private static final String ROLODEX = "rolodex";
-    private static final String PERIOD = ".";    
+    private static final String PERIOD = ".";
     private static final String AWARD_REPORT_TERM_PROPERTY = "awardReportTermItems";
     private SponsorTermActionHelper sponsorTermActionHelper;
-    
+
     public AwardPaymentReportsAndTermsAction() {
         sponsorTermActionHelper = new SponsorTermActionHelper();
     }
-    
+
     /**
      * Clear rolodex entry from recipients
-     * 
+     *
      */
-    public ActionForward clearRolodex(ActionMapping mapping, ActionForm form, 
-            HttpServletRequest request, HttpServletResponse response) 
-    throws Exception {
-        ((AwardForm)form).getAwardReportsBean().getNewAwardReportTermRecipient(getAwardReportTermIndex(request)).setRolodexId(null);
-        ((AwardForm)form).getAwardReportsBean().getNewAwardReportTermRecipient(getAwardReportTermIndex(request)).setRolodex(null);
+    public ActionForward clearRolodex(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ((AwardForm) form).getAwardReportsBean().getNewAwardReportTermRecipient(getAwardReportTermIndex(request)).setRolodexId(null);
+        ((AwardForm) form).getAwardReportsBean().getNewAwardReportTermRecipient(getAwardReportTermIndex(request)).setRolodex(null);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
 
-    public ActionForward addPaymentScheduleItem(ActionMapping mapping, ActionForm form, 
-            HttpServletRequest request, HttpServletResponse response) 
+    public ActionForward addPaymentScheduleItem(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ((AwardForm) form).getPaymentScheduleBean().addPaymentScheduleItem();
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
-    public ActionForward deletePaymentScheduleItem(ActionMapping mapping, ActionForm form, 
-            HttpServletRequest request, HttpServletResponse response) 
-                                            throws Exception {
-            (((AwardForm) form).getPaymentScheduleBean()).deletePaymentScheduleItem(getLineToDelete(request));
-        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-    }
-    
-    public ActionForward generatePaymentSchedules(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response) 
+
+    public ActionForward deletePaymentScheduleItem(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        
-        (((AwardForm) form).getPaymentScheduleBean()).generatePaymentSchedules();
-        
+        (((AwardForm) form).getPaymentScheduleBean()).deletePaymentScheduleItem(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
-    public ActionForward addApprovedEquipmentItem(ActionMapping mapping, ActionForm form, 
-                                                    HttpServletRequest request, HttpServletResponse response) 
-                                                    throws Exception {
+
+    public ActionForward generatePaymentSchedules(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+
+        (((AwardForm) form).getPaymentScheduleBean()).generatePaymentSchedules();
+
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+    }
+
+    public ActionForward addApprovedEquipmentItem(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
         ((AwardForm) form).getApprovedEquipmentBean().addApprovedEquipmentItem();
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
+
     /**
      * This method adds a foreign travel trip
+     *
      * @param mapping
      * @param form
      * @param request
@@ -117,19 +134,15 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      * @return
      * @throws Exception
      */
-    public ActionForward addApprovedForeignTravel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-                                                                                                                                throws Exception {
+    public ActionForward addApprovedForeignTravel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
         ((AwardForm) form).getApprovedForeignTravelBean().addApprovedForeignTravel();
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
-    
-    
-    
-    
-    
+
     /**
      * This method forces recalculation
+     *
      * @param mapping
      * @param form
      * @param request
@@ -137,32 +150,34 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      * @return
      * @throws Exception
      */
-    public ActionForward recalculateSpecialApprovalTotals(ActionMapping mapping, ActionForm form, 
-                                                    HttpServletRequest request, HttpServletResponse response) 
-                                                    throws Exception {
+    public ActionForward recalculateSpecialApprovalTotals(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-           
+
     /**
      * This method triggers recalculation of the award payment schedule total
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
      * @param response
-     * @return 
+     * @return
      * @throws Exception
      */
     public ActionForward recalculateCostShareTotal(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-       
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
-     * 
-     * This method gets called upon clicking of refresh pulldown menu buttons on the screen
-     * to populate the drop down menus afresh based on other parameters.
+     *
+     * This method gets called upon clicking of refresh pulldown menu buttons on
+     * the screen to populate the drop down menus afresh based on other
+     * parameters.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -170,40 +185,44 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      * @return
      * @throws Exception
      */
-    public ActionForward refreshPulldownOptions(ActionMapping mapping, ActionForm form, 
+    public ActionForward refreshPulldownOptions(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
+
     /**
-     * Upon the return from look up on <code>Rolodex</code> (Organization) field, this method gets
-     * executed; We need to display Organization name on the screen;
-     * 
-     * For this first we are adding all the AwardReportTermRecipient objects and the string "Rolodex"
-     * to two lists and passing it to PersistenceService which then refreshes the Rolodex object in 
-     * all of AwardReportTermRecipient objects in 1 single transation.
-     *  
+     * Upon the return from look up on <code>Rolodex</code> (Organization)
+     * field, this method gets executed; We need to display Organization name on
+     * the screen;
+     *
+     * For this first we are adding all the AwardReportTermRecipient objects and
+     * the string "Rolodex" to two lists and passing it to PersistenceService
+     * which then refreshes the Rolodex object in all of
+     * AwardReportTermRecipient objects in 1 single transation.
+     *
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(
-     * org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, 
-     * javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * org.apache.struts.action.ActionMapping,
+     * org.apache.struts.action.ActionForm,
+     * javax.servlet.http.HttpServletRequest,
+     * javax.servlet.http.HttpServletResponse)
      */
     @SuppressWarnings("unchecked")
-    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.refresh(mapping, form, request, response);
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = (AwardDocument) awardForm.getAwardDocument();
-        
+
         awardForm.getApprovedForeignTravelBean().refreshTravelers();
-        
+
         refreshAwardReportTermRecipients(awardForm, awardDocument);
-        
+
         String lookupResultsBOClassName = request.getParameter(KRADConstants.LOOKUP_RESULTS_BO_CLASS_NAME);
         String lookupResultsSequenceNumber = request.getParameter(KRADConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
         awardForm.setLookupResultsBOClassName(lookupResultsBOClassName);
-        awardForm.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);        
+        awardForm.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
         List<AwardSyncPendingChangeBean> pendingChanges = new ArrayList<AwardSyncPendingChangeBean>();
-        try{
+        try {
             // check to see if we are coming back from a lookup
             if (Constants.MULTIPLE_VALUE.equals(awardForm.getRefreshCaller())) {
                 // Multivalue lookup. Note that the multivalue keyword lookup results are returned persisted to avoid using session.
@@ -212,55 +231,58 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
                 if (StringUtils.isNotBlank(thisLookupResultsSequenceNumber)) {
                     Class lookupResultsBOClass = Class.forName(awardForm.getLookupResultsBOClassName());
                     Collection<PersistableBusinessObject> rawValues = KNSServiceLocator.getLookupResultsService()
-                        .retrieveSelectedResultBOs(thisLookupResultsSequenceNumber, lookupResultsBOClass, GlobalVariables.getUserSession().getPrincipalId());
+                            .retrieveSelectedResultBOs(thisLookupResultsSequenceNumber, lookupResultsBOClass, GlobalVariables.getUserSession().getPrincipalId());
                     if (lookupResultsBOClass.isAssignableFrom(SponsorTerm.class)) {
                         for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
                             SponsorTerm sponsorTerm = (SponsorTerm) iter.next();
-                            AwardSponsorTerm awardSponsorTerm = 
-                                sponsorTermActionHelper.addSponsorTermFromMutiValueLookup(((AwardForm) form).getSponsorTermFormHelper(), sponsorTerm, request);
+                            AwardSponsorTerm awardSponsorTerm
+                                    = sponsorTermActionHelper.addSponsorTermFromMutiValueLookup(((AwardForm) form).getSponsorTermFormHelper(), sponsorTerm, request);
                             if (awardSponsorTerm != null) {
-                                pendingChanges.add(new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, awardSponsorTerm, "awardSponsorTerms")); 
+                                pendingChanges.add(new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, awardSponsorTerm, "awardSponsorTerms"));
                             }
                         }
                     }
                 }
-            }   
-        }catch(Exception ex){
+            }
+        } catch (Exception ex) {
             LOG.error("exception in refresh", ex);
         }
         if (!pendingChanges.isEmpty()) {
             return this.confirmSyncAction(mapping, form, request, response, pendingChanges,
                     mapping.findForward(Constants.MAPPING_AWARD_BASIC));
         } else {
-            return mapping.findForward(Constants.MAPPING_AWARD_BASIC);            
+            return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
     }
-    
+
     /**
-     * 
+     *
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#reload(
-     * org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, 
-     * javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * org.apache.struts.action.ActionMapping,
+     * org.apache.struts.action.ActionForm,
+     * javax.servlet.http.HttpServletRequest,
+     * javax.servlet.http.HttpServletResponse)
      */
     @SuppressWarnings("all")
-    public ActionForward reload(ActionMapping mapping, ActionForm form, 
+    public ActionForward reload(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+
         AwardForm awardForm = (AwardForm) form;
-        
+
         ActionForward actionForward = super.reload(mapping, form, request, response);
-        
+
         setReportsAndTermsOnAwardForm(awardForm);
-        
-        return actionForward;        
+
+        return actionForward;
     }
-    
+
     /**
-     * 
-     * This method adds a new AwardReportTerm object to the list of AwardReportTerm objects
-     * inside Award.
-     * For every added AwardReportTerm object; we are adding an empty AwardReportTerm object to
+     *
+     * This method adds a new AwardReportTerm object to the list of
+     * AwardReportTerm objects inside Award. For every added AwardReportTerm
+     * object; we are adding an empty AwardReportTerm object to
      * AwardForm.newAwardReportTermRecipients list - for recipients to be added.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -268,30 +290,29 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      * @return
      * @throws Exception
      */
-    public ActionForward addAwardReportTerm(ActionMapping mapping, ActionForm form, 
+    public ActionForward addAwardReportTerm(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        if(new AwardDocumentRule().processAwardReportTermSaveRules((AwardForm) form)) {
-            AwardReportTerm newReport = 
-                    ((AwardForm) form).getAwardReportsBean().addAwardReportTermItem(getReportClass(request), getReportClassCodeIndex(request));
+        if (new AwardDocumentRule().processAwardReportTermSaveRules((AwardForm) form)) {
+            AwardReportTerm newReport
+                    = ((AwardForm) form).getAwardReportsBean().addAwardReportTermItem(getReportClass(request), getReportClassCodeIndex(request));
             if (newReport != null) {
-                ActionForward confirmSynch = this.confirmSyncAction(mapping, form, request, response, AwardSyncType.ADD_SYNC, newReport, AWARD_REPORT_TERM_PROPERTY, null, 
+                ActionForward confirmSynch = this.confirmSyncAction(mapping, form, request, response, AwardSyncType.ADD_SYNC, newReport, AWARD_REPORT_TERM_PROPERTY, null,
                         mapping.findForward(Constants.MAPPING_AWARD_BASIC));
                 ((AwardForm) form).getReportTrackingBeans().add(new ReportTrackingBean());
                 return confirmSynch;
-            }
-            else {
+            } else {
                 return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
             }
-        }
-        else {
+        } else {
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
     }
-    
+
     /**
-     * 
-     * This method deletes a AwardReportTerm from the list of AwardReportTerm objects.
-     * 
+     *
+     * This method deletes a AwardReportTerm from the list of AwardReportTerm
+     * objects.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -301,19 +322,19 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      */
     public ActionForward deleteAwardReportTerm(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardForm awardForm =(AwardForm) form;
-        AwardReportTerm newReport = 
-            (awardForm.getAwardReportsBean()).deleteAwardReportTermItem(getLineToDelete(request));
-        ActionForward af = this.confirmSyncAction(mapping, form, request, response, AwardSyncType.DELETE_SYNC, newReport, 
+        AwardForm awardForm = (AwardForm) form;
+        AwardReportTerm newReport
+                = (awardForm.getAwardReportsBean()).deleteAwardReportTermItem(getLineToDelete(request));
+        ActionForward af = this.confirmSyncAction(mapping, form, request, response, AwardSyncType.DELETE_SYNC, newReport,
                 AWARD_REPORT_TERM_PROPERTY, null, mapping.findForward(Constants.MAPPING_AWARD_BASIC));
         List<ReportTracking> reportTrackings = this.getReportTrackingService().getReportTacking(newReport);
         awardForm.getReportTrackingsToDelete().addAll(reportTrackings);
         return af;
     }
-    
+
     public ActionForward deleteReportTrackingRecord(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardForm awardForm =(AwardForm) form;
+        AwardForm awardForm = (AwardForm) form;
         int reportTrackingRecordToDelete = getLineToDelete(request);
         int awardReportTermRecord = getSelectedAwardTermRecord(request);
         AwardReportTerm art = awardForm.getAwardDocument().getAward().getAwardReportTermItems().get(awardReportTermRecord);
@@ -322,7 +343,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         awardForm.getReportTrackingsToDelete().add(rt);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
+
     protected int getSelectedAwardTermRecord(HttpServletRequest request) {
         int selectedLine = -1;
         String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
@@ -333,11 +354,11 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
 
         return selectedLine;
     }
-    
+
     /**
-     * 
+     *
      * This method adds an AwardCloseout Item.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -346,16 +367,16 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      * @throws Exception
      */
     public ActionForward addAwardCloseout(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+
         ((AwardForm) form).getAwardCloseoutBean().addAwardCloseoutItem();
-        
+
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
+
     /**
-     * 
+     *
      * This method deletes an AwardCloseout Item.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -363,35 +384,33 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      * @return
      * @throws Exception
      */
-    public ActionForward deleteAwardCloseout(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-                                                throws Exception {
-        
+    public ActionForward deleteAwardCloseout(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+
         (((AwardForm) form).getAwardCloseoutBean()).deleteAwardCloseoutItem(getLineToDelete(request));
-        
+
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
-    
-       
-    public ActionForward deleteApprovedEquipmentItem(ActionMapping mapping, ActionForm form, 
-                                        HttpServletRequest request, HttpServletResponse response) 
-                                                                        throws Exception {
-            (((AwardForm) form).getApprovedEquipmentBean()).deleteApprovedEquipmentItem(getLineToDelete(request));
-            return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+
+    public ActionForward deleteApprovedEquipmentItem(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        (((AwardForm) form).getApprovedEquipmentBean()).deleteApprovedEquipmentItem(getLineToDelete(request));
+        return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
-    public ActionForward deleteApprovedForeignTravelTrip(ActionMapping mapping, ActionForm form, 
-                                                        HttpServletRequest request, HttpServletResponse response) 
-                                                        throws Exception {
+
+    public ActionForward deleteApprovedForeignTravelTrip(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
         (((AwardForm) form).getApprovedForeignTravelBean()).deleteApprovedForeignTravelTrip(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
+
     /**
-     * 
-     * This method gets the newAwardReportTerm object from the form, evaluates the rules and adds it
-     * to the list of AwardReportTerm objects.
-     * 
+     *
+     * This method gets the newAwardReportTerm object from the form, evaluates
+     * the rules and adds it to the list of AwardReportTerm objects.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -401,21 +420,21 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      */
     public ActionForward addRecipient(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        AwardReportTermRecipient newRecipient = 
-            ((AwardForm) form).getAwardReportsBean().addAwardReportTermRecipientItem(getAwardReportTermIndex(request));
+
+        AwardReportTermRecipient newRecipient
+                = ((AwardForm) form).getAwardReportsBean().addAwardReportTermRecipientItem(getAwardReportTermIndex(request));
         if (newRecipient != null) {
-            return this.confirmSyncAction(mapping, form, request, response, AwardSyncType.ADD_SYNC, newRecipient, AWARD_REPORT_TERM_PROPERTY, null, 
+            return this.confirmSyncAction(mapping, form, request, response, AwardSyncType.ADD_SYNC, newRecipient, AWARD_REPORT_TERM_PROPERTY, null,
                     mapping.findForward(Constants.MAPPING_AWARD_BASIC));
         } else {
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
     }
-    
+
     /**
-     * 
+     *
      * This method deletes a recipient.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -423,15 +442,15 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      * @return
      * @throws Exception
      */
-    public ActionForward deleteRecipient(ActionMapping mapping, ActionForm form, 
+    public ActionForward deleteRecipient(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        AwardReportTermRecipient recipient = 
-            (((AwardForm) form).getAwardReportsBean()).deleteAwardReportTermRecipientItem(getAwardReportTermIndex(request), getLineToDelete(request));
-        return this.confirmSyncAction(mapping, form, request, response, AwardSyncType.DELETE_SYNC, recipient, 
+
+        AwardReportTermRecipient recipient
+                = (((AwardForm) form).getAwardReportsBean()).deleteAwardReportTermRecipientItem(getAwardReportTermIndex(request), getLineToDelete(request));
+        return this.confirmSyncAction(mapping, form, request, response, AwardSyncType.DELETE_SYNC, recipient,
                 AWARD_REPORT_TERM_PROPERTY, null, mapping.findForward(Constants.MAPPING_AWARD_BASIC));
     }
-    
+
 //    /**
 //     * 
 //     * This method clears the rolodex (Organization/Name) selection.
@@ -480,8 +499,9 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
 //        awardReportTermRecipient.setRolodex(null);
 //    }
     /**
-     * 
+     *
      * This method reads the reportClass from the request.
+     *
      * @param request
      * @return
      */
@@ -493,14 +513,15 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
             reportClass = Integer.parseInt(reportClassString);
         }
 
-        return new Integer(reportClass).toString();
+        return Integer.toString(reportClass);
     }
-    
+
     /**
-     * 
-     * This method reads the reportClassCodeIndex from the request.
-     * It is specified in the tag file and is used for showing the validation errors while adding
-     * a new AwardReportTerm object.
+     *
+     * This method reads the reportClassCodeIndex from the request. It is
+     * specified in the tag file and is used for showing the validation errors
+     * while adding a new AwardReportTerm object.
+     *
      * @param request
      * @return
      */
@@ -515,12 +536,13 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
 
         return reportClassIndex;
     }
-    
+
     /**
-     * 
-     * This method reads the recipientIndex from the request.
-     * It is specified in the tag file and is used for showing the validation errors while adding
-     * a new AwardReportTerm object as a recipient. 
+     *
+     * This method reads the recipientIndex from the request. It is specified in
+     * the tag file and is used for showing the validation errors while adding a
+     * new AwardReportTerm object as a recipient.
+     *
      * @param request
      * @return
      */
@@ -529,18 +551,19 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         if (StringUtils.isNotBlank(parameterName)) {
             String awardReportTermIndexString = StringUtils.substringBetween(parameterName, ".awardReportTerm", PERIOD);
-            awardReportTermIndex= Integer.parseInt(awardReportTermIndexString);
+            awardReportTermIndex = Integer.parseInt(awardReportTermIndexString);
         }
 
         return awardReportTermIndex;
     }
-    
+
     /**
-     * 
-     * This method adds a new AwardSponsorTerm object to the list of AwardSponosorTerm objects
-     * inside Award.
-     * For every added AwardReportTerm object; we are adding an empty AwardReportTerm object to
+     *
+     * This method adds a new AwardSponsorTerm object to the list of
+     * AwardSponosorTerm objects inside Award. For every added AwardReportTerm
+     * object; we are adding an empty AwardReportTerm object to
      * AwardForm.newAwardReportTermRecipients list - for recipients to be added.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -548,21 +571,22 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      * @return
      * @throws Exception
      */
-    public ActionForward addAwardSponsorTerm(ActionMapping mapping, ActionForm form, 
+    public ActionForward addAwardSponsorTerm(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardSponsorTerm newSponsorTerm = sponsorTermActionHelper.addSponsorTerm(((AwardForm) form).getSponsorTermFormHelper(), request);
         if (newSponsorTerm != null) {
-            return confirmSyncAction(mapping, form, request, response, AwardSyncType.ADD_SYNC, newSponsorTerm, "awardSponsorTerms", null, mapping.findForward(Constants.MAPPING_AWARD_BASIC));       
+            return confirmSyncAction(mapping, form, request, response, AwardSyncType.ADD_SYNC, newSponsorTerm, "awardSponsorTerms", null, mapping.findForward(Constants.MAPPING_AWARD_BASIC));
         } else {
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-        }        
+        }
     }
-    
+
     /**
-     * 
-     * This method deletes a AwardSponsorTerms from the list of AwardSponsorTerms objects.
-     * 
-     * 
+     *
+     * This method deletes a AwardSponsorTerms from the list of
+     * AwardSponsorTerms objects.
+     *
+     *
      * @param mapping
      * @param form
      * @param request
@@ -572,25 +596,28 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      */
     public ActionForward deleteAwardSponsorTerm(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
         int lineToDelete = getLineToDelete(request);
         AwardSponsorTerm awardSponsorTerm = awardDocument.getAward().getAwardSponsorTerms().get(lineToDelete);
-        awardDocument.getAward().getAwardSponsorTerms().remove(lineToDelete);       
+        awardDocument.getAward().getAwardSponsorTerms().remove(lineToDelete);
         return confirmSyncAction(mapping, form, request, response, AwardSyncType.DELETE_SYNC, awardSponsorTerm, "awardSponsorTerms", null, mapping.findForward(Constants.MAPPING_AWARD_BASIC));
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kra.award.web.struts.action.AwardAction#save(org.apache.struts.action.ActionMapping,
-     *               org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     *
+     * @see
+     * org.kuali.kra.award.web.struts.action.AwardAction#save(org.apache.struts.action.ActionMapping,
+     * org.apache.struts.action.ActionForm,
+     * javax.servlet.http.HttpServletRequest,
+     * javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
-        
+
         if (awardForm.getAwardDocument().getAward().getApprovedEquipmentItems() == null || awardForm.getAwardDocument().getAward().getApprovedEquipmentItems().isEmpty()) {
             awardForm.getAwardDocument().getAward().setApprovedEquipmentIndicator(Constants.NO_FLAG);
         } else {
@@ -606,16 +633,17 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         } else {
             awardForm.getAwardDocument().getAward().setPaymentScheduleIndicator(Constants.YES_FLAG);
         }
-        
+
         getAwardCloseoutService().updateCloseoutDueDatesBeforeSave(awardDocument.getAward());
         if (new AwardDocumentRule().processAwardReportTermBusinessRules(awardDocument) && new AwardDocumentRule().processAwardReportTermSaveRules(awardForm)) {
-            
+
             /**
-             * process AwardPaymentSchedule, if they have been updated, update the last update user, and last update date fields.
+             * process AwardPaymentSchedule, if they have been updated, update
+             * the last update user, and last update date fields.
              */
             String lastUpdateUser = GlobalVariables.getUserSession().getPerson().getName();
             Timestamp lastUpdateDate = new Timestamp(new java.util.Date().getTime());
-            
+
             for (AwardPaymentSchedule item : awardDocument.getAward().getPaymentScheduleItems()) {
                 Map primaryKey = new HashMap();
                 primaryKey.put("AWARD_PAYMENT_SCHEDULE_ID", item.getAwardPaymentScheduleId());
@@ -625,7 +653,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
                     item.setLastUpdateUser(lastUpdateUser);
                 }
             }
-            
+
             ActionForward forward = super.save(mapping, form, request, response);
             if (!awardForm.getReportTrackingsToDelete().isEmpty()) {
                 this.getBusinessObjectService().delete(awardForm.getReportTrackingsToDelete());
@@ -636,52 +664,54 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
     }
-    
-    protected AwardCloseoutService getAwardCloseoutService(){
+
+    protected AwardCloseoutService getAwardCloseoutService() {
         return KraServiceLocator.getService(AwardCloseoutService.class);
     }
-    
+
     /**
-     * 
+     *
      * This is a wrapper method for the retrieval of PersistenceService.
-     * 
+     *
      * @return
      */
-    protected PersistenceService getPersistenceService(){
+    protected PersistenceService getPersistenceService() {
         return KraServiceLocator.getService(PersistenceService.class);
     }
-    
+
     /**
-     * 
-     * This method adds all the AwardReportTermRecipient objects in the Award and does a retrieves the related Rolodex object for all of them in single 
+     *
+     * This method adds all the AwardReportTermRecipient objects in the Award
+     * and does a retrieves the related Rolodex object for all of them in single
      * transaction.
-     * 
+     *
      * @param awardForm
      * @param awardDocument
      */
     private void refreshAwardReportTermRecipients(AwardForm awardForm, AwardDocument awardDocument) {
         List<AwardReportTermRecipient> persistableObjects = new ArrayList<AwardReportTermRecipient>();
         List<String> referenceObjectNames = new ArrayList<String>();
-        
-        for(AwardReportTermRecipient awardReportTermRecipient : awardForm.getAwardReportsBean().getNewAwardReportTermRecipients()){
+
+        for (AwardReportTermRecipient awardReportTermRecipient : awardForm.getAwardReportsBean().getNewAwardReportTermRecipients()) {
             persistableObjects.add(awardReportTermRecipient);
-            referenceObjectNames.add(ROLODEX);            
+            referenceObjectNames.add(ROLODEX);
         }
-        
-        for(AwardReportTerm awardReportTerm : awardDocument.getAward().getAwardReportTermItems()){
-            for(AwardReportTermRecipient awardReportTermRecipient : awardReportTerm.getAwardReportTermRecipients()){
+
+        for (AwardReportTerm awardReportTerm : awardDocument.getAward().getAwardReportTermItems()) {
+            for (AwardReportTermRecipient awardReportTermRecipient : awardReportTerm.getAwardReportTermRecipients()) {
                 persistableObjects.add(awardReportTermRecipient);
                 referenceObjectNames.add(ROLODEX);
             }
         }
-        
-        if(persistableObjects.size()>0 && referenceObjectNames.size()>0 ){
+
+        if (persistableObjects.size() > 0 && referenceObjectNames.size() > 0) {
             getPersistenceService().retrieveReferenceObjects(persistableObjects, referenceObjectNames);
         }
     }
-    
+
     /**
      * When the user syncs an existing sponsor term.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -690,16 +720,17 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      * @throws Exception
      */
     public ActionForward syncSponsorTerm(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-        throws Exception {
+            throws Exception {
         AwardForm awardForm = (AwardForm) form;
         Award award = awardForm.getAwardDocument().getAward();
         AwardSponsorTerm awardSponsorTerm = award.getAwardSponsorTerms().get(getSelectedLine(request));
         awardForm.getAwardSyncBean().addConfirmedPendingChange(AwardSyncType.ADD_SYNC, awardSponsorTerm, "awardSponsorTerms");
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
+
     /**
      * When the user syncs an existing report.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -708,7 +739,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      * @throws Exception
      */
     public ActionForward syncAwardReportTerm(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-        throws Exception {
+            throws Exception {
         AwardForm awardForm = (AwardForm) form;
         Award award = awardForm.getAwardDocument().getAward();
         AwardReportTerm awardReportTerm = award.getAwardReportTermItems().get(getSelectedLine(request));
@@ -716,9 +747,10 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         awardForm.getAwardSyncBean().addConfirmedPendingChange(AwardSyncType.ADD_SYNC, awardReportTerm, AWARD_REPORT_TERM_PROPERTY);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
+
     /**
      * When a user syncs an existing report recipient.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -727,22 +759,22 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      * @throws Exception
      */
     public ActionForward syncRecipient(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-        throws Exception {
-        AwardForm awardForm = (AwardForm)form;
+            throws Exception {
+        AwardForm awardForm = (AwardForm) form;
         Award award = awardForm.getAwardDocument().getAward();
-        AwardReportTermRecipient recipient = 
-            award.getAwardReportTermItems().get(getAwardReportTermIndex(request)).getAwardReportTermRecipients().get(getSelectedLine(request));
+        AwardReportTermRecipient recipient
+                = award.getAwardReportTermItems().get(getAwardReportTermIndex(request)).getAwardReportTermRecipients().get(getSelectedLine(request));
         awardForm.getAwardSyncBean().addConfirmedPendingChange(AwardSyncType.ADD_SYNC, recipient, AWARD_REPORT_TERM_PROPERTY);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
+
     public ActionForward regenerateReports(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         Award award = awardForm.getAwardDocument().getAward();
         this.getReportTrackingService().generateReportTrackingAndSave(award, true);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
+
     public ActionForward selectAllMultEdit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         int awardReportTermItemsIndex = getAwardReportTermItemsIndex(request);
@@ -756,7 +788,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
+
     public ActionForward selectNoneMultiEdit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         int awardReportTermItemsIndex = getAwardReportTermItemsIndex(request);
@@ -770,21 +802,21 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
+
     public ActionForward updateMultileReportTracking(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        if(new AwardDocumentRule().processAwardReportTermSaveRules((AwardForm) form)) {
-        AwardForm awardForm = (AwardForm) form;
-        int awardReportTermItemsIndex = getAwardReportTermItemsIndex(request);
-        List<ReportTracking> reportTrackings = awardForm.getAwardDocument().getAward().getAwardReportTermItems().get(getAwardReportTermItemsIndex(request)).getReportTrackings();
-        if (reportTrackings != null) {
-        getReportTrackingService().updateMultipleReportTrackingRecords(reportTrackings, awardForm.getReportTrackingBeans().get(awardReportTermItemsIndex));
-        getReportTrackingService().setReportTrackingListSelected(reportTrackings, false);
-        }
-        awardForm.buildReportTrackingBeans();
+        if (new AwardDocumentRule().processAwardReportTermSaveRules((AwardForm) form)) {
+            AwardForm awardForm = (AwardForm) form;
+            int awardReportTermItemsIndex = getAwardReportTermItemsIndex(request);
+            List<ReportTracking> reportTrackings = awardForm.getAwardDocument().getAward().getAwardReportTermItems().get(getAwardReportTermItemsIndex(request)).getReportTrackings();
+            if (reportTrackings != null) {
+                getReportTrackingService().updateMultipleReportTrackingRecords(reportTrackings, awardForm.getReportTrackingBeans().get(awardReportTermItemsIndex));
+                getReportTrackingService().setReportTrackingListSelected(reportTrackings, false);
+            }
+            awardForm.buildReportTrackingBeans();
         }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
+
     private int getAwardReportTermItemsIndex(HttpServletRequest request) {
         final String awardReportTermItemsIndexBase = "AwardReportTermItemsIndex";
         Map paramMap = request.getParameterMap();
@@ -800,5 +832,5 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         }
         throw new IllegalArgumentException(awardReportTermItemsIndexBase + " was not found in the request, can't find the index.");
     }
-    
+
 }

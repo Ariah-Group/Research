@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.common.committee.notification;
 
@@ -25,13 +41,13 @@ import java.util.Map;
 public class MinutesCreatedNotificationRenderer extends CommitteeNotificationRenderer {
 
     private static final long serialVersionUID = -6019679826378390076L;
-    
+
     private String actionTaken;
     private CommScheduleMinuteDocBase commScheduleMinuteDoc;
 
     /**
      * Constructs an Minutes Created notification renderer.
-     * 
+     *
      * @param protocol
      * @param actionTaken
      */
@@ -52,23 +68,26 @@ public class MinutesCreatedNotificationRenderer extends CommitteeNotificationRen
     public CommScheduleMinuteDocBase getCommScheduleMinuteDoc() {
         return commScheduleMinuteDoc;
     }
-    
+
     public void setCommScheduleMinuteDoc(CommScheduleMinuteDocBase commScheduleMinuteDoc) {
         this.commScheduleMinuteDoc = commScheduleMinuteDoc;
     }
-    
+
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContext#replaceContextVariables(java.lang.String)
+     *
+     * @return
+     * @see
+     * org.kuali.kra.common.notification.NotificationContext#replaceContextVariables(java.lang.String)
      */
     @Override
     public Map<String, String> getDefaultReplacementParameters() {
         Map<String, String> params = super.getDefaultReplacementParameters();
         params.put(CommitteeReplacementParameters.LAST_ACTION_DATE, commScheduleMinuteDoc.getCommitteeSchedule().getScheduledDate().toString());
         params.put(CommitteeReplacementParameters.ACTION_TAKEN, actionTaken);
-        params.put(CommitteeReplacementParameters.OBJECT_INDEX, new Integer(commScheduleMinuteDoc.getMinuteNumber().intValue() - 1).toString());
-        params.put(CommitteeReplacementParameters.SCHEDULE_ID,commScheduleMinuteDoc.getCommitteeSchedule().getScheduleId());
+        params.put(CommitteeReplacementParameters.OBJECT_INDEX, Integer.toString(commScheduleMinuteDoc.getMinuteNumber() - 1));
+        params.put(CommitteeReplacementParameters.SCHEDULE_ID, commScheduleMinuteDoc.getCommitteeSchedule().getScheduleId());
         return params;
-    }    
+    }
 
 }
