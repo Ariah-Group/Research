@@ -96,7 +96,7 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
 
     public List<ProposalPerson> getProposalKeyPersonnel(String proposalNumber) {
         Map<String, String> keys = new HashMap<String, String>();
-        keys.put("proposalNumber", proposalNumber.toString());
+        keys.put("proposalNumber", proposalNumber);
 
         return (List<ProposalPerson>) getBusinessObjectService().findMatching(ProposalPerson.class, keys);
     }

@@ -77,7 +77,7 @@ public class CommitteeNotificationRenderer extends NotificationRendererBase {
             } else if (StringUtils.equals(key, CommitteeReplacementParameters.SEQUENCE_NUMBER)) {
                 params.put(key, committee.getSequenceNumber().toString());
             } else if (StringUtils.equals(key, CommitteeReplacementParameters.COMMITTEE_NAME)) {
-                params.put(key, committee.getCommitteeName().toString());
+                params.put(key, committee.getCommitteeName());
             }
             
         }

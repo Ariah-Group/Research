@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.impl;
 
@@ -251,27 +267,27 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 			Map<Integer, String> budgetMap) {
 	    SupplementationFromOtherSources supplementationFromOtherSources=null;
 		if (budgetMap.get(OTHER_SUPP_SOURCE) != null
-				&& budgetMap.get(OTHER_SUPP_SOURCE).toString().equals(
+				&& budgetMap.get(OTHER_SUPP_SOURCE).equals(
 						S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
 	        supplementationFromOtherSources = SupplementationFromOtherSources.Factory.newInstance();
 			if (budgetMap.get(SUPP_SOURCE) != null) {
 				supplementationFromOtherSources.setSource(budgetMap.get(
-						SUPP_SOURCE).toString());
+                                        SUPP_SOURCE));
 			}
 			if (budgetMap.get(SUPP_FUNDING_AMT) != null) {
 				supplementationFromOtherSources.setAmount(new BigDecimal(
-						budgetMap.get(SUPP_FUNDING_AMT).toString()));
+                                        budgetMap.get(SUPP_FUNDING_AMT)));
 			}else{
 			    supplementationFromOtherSources.setAmount(null);
 			}
 			if (budgetMap.get(SUPP_MONTHS) != null) {
 				supplementationFromOtherSources
 						.setNumberOfMonths(new BigDecimal(budgetMap.get(
-								SUPP_MONTHS).toString()));
+                                                        SUPP_MONTHS)));
 			}
 			if (budgetMap.get(SUPP_TYPE) != null) {
 				supplementationFromOtherSources.setType(budgetMap
-						.get(SUPP_TYPE).toString());
+                                        .get(SUPP_TYPE));
 			}
 		}
 		return supplementationFromOtherSources;
@@ -328,22 +344,22 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 			Map<Integer, String> budgetMap) {
 	    InstitutionalBaseSalary institutionalBaseSalary=null;
 		if (budgetMap.get(SENIOR_FELL) != null
-				&& budgetMap.get(SENIOR_FELL).toString().equals(
+				&& budgetMap.get(SENIOR_FELL).equals(
 						S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
 	        institutionalBaseSalary = InstitutionalBaseSalary.Factory.newInstance();
 			if (budgetMap.get(BASE_SALARY) != null) {
 				institutionalBaseSalary.setAmount(new BigDecimal(budgetMap.get(
-						BASE_SALARY).toString()));
+                                        BASE_SALARY)));
 			}else{
 			    institutionalBaseSalary.setAmount(null);
 			}
 			if (budgetMap.get(ACAD_PERIOD) != null) {
 				institutionalBaseSalary.setAcademicPeriod(AcademicPeriod.Enum
-						.forString(budgetMap.get(ACAD_PERIOD).toString()));
+						.forString(budgetMap.get(ACAD_PERIOD)));
 			}
 			if (budgetMap.get(SALARY_MONTH) != null) {
 				institutionalBaseSalary.setNumberOfMonths(new BigDecimal(
-						budgetMap.get(SALARY_MONTH).toString()));
+                                        budgetMap.get(SALARY_MONTH)));
 			}
 		}
 		return institutionalBaseSalary;

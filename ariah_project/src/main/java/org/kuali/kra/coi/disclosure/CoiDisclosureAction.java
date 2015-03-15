@@ -1083,7 +1083,7 @@ public class CoiDisclosureAction extends CoiAction {
             throws Exception {
         ActionForward forward =  super.refresh(mapping, form, request, response);
         if (request.getParameter("refreshCaller") != null
-                && request.getParameter("refreshCaller").toString().equals("kualiLookupable")) {
+                && request.getParameter("refreshCaller").equals("kualiLookupable")) {
             // Lookup field 'onchange' is not working if it is return a value from 'lookup', so do it on server side
             for (Object obj : request.getParameterMap().keySet()) {
                 if (StringUtils.indexOf((String) obj, ((CoiDisclosureForm) form).getQuestionnaireFieldStarter()) == 0) {

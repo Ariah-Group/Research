@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.impl;
 
@@ -432,7 +448,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
                         nrsaSupportType.setStartDate(s2sUtilService.convertDateStringToCalendar(kbBean3.getAnswer()));
                     }
                     if(!kbBean4.getAnswer().equals(S2SConstants.VALUE_UNKNOWN)){
-                        nrsaSupportType.setEndDate(s2sUtilService.convertDateStringToCalendar(kbBean4.getAnswer().toString()));
+                        nrsaSupportType.setEndDate(s2sUtilService.convertDateStringToCalendar(kbBean4.getAnswer()));
                     }
                     nrsaSupportType.setGrantNumber(kbBean5.getAnswer());
                     currentPriorNRSASupportList.add(nrsaSupportType);
@@ -522,16 +538,16 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
 
         if (!hmBudgetQuestions.isEmpty()) {
             if (hmBudgetQuestions.get(OTHER_SUPP_SOURCE) != null) {
-                if (hmBudgetQuestions.get(OTHER_SUPP_SOURCE).toString().toUpperCase().equals("Y")) {
+                if (hmBudgetQuestions.get(OTHER_SUPP_SOURCE).toUpperCase().equals("Y")) {
                     SupplementationFromOtherSources supplementationFromOtherSources = budget
                             .addNewSupplementationFromOtherSources();
                     if (hmBudgetQuestions.get(SUPP_SOURCE) != null) {
-                        supplementationFromOtherSources.setSource(hmBudgetQuestions.get(SUPP_SOURCE).toString());
-                        supplementationFromOtherSources.setAmount(new BigDecimal(hmBudgetQuestions.get(SUPP_FUNDING_AMT).toString()));
+                        supplementationFromOtherSources.setSource(hmBudgetQuestions.get(SUPP_SOURCE));
+                        supplementationFromOtherSources.setAmount(new BigDecimal(hmBudgetQuestions.get(SUPP_FUNDING_AMT)));
                         try {
-                            supplementationFromOtherSources.setNumberOfMonths(new BigDecimal(hmBudgetQuestions.get(SUPP_MONTHS).toString()));
+                            supplementationFromOtherSources.setNumberOfMonths(new BigDecimal(hmBudgetQuestions.get(SUPP_MONTHS)));
                         }catch (Exception ex) {}
-                        supplementationFromOtherSources.setType(hmBudgetQuestions.get(SUPP_TYPE).toString());
+                        supplementationFromOtherSources.setType(hmBudgetQuestions.get(SUPP_TYPE));
 
                     }
                 }
@@ -587,15 +603,15 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
      */
     private void getInstitutionalBaseSalary(Budget budget, Map<Integer, String> budgetMap) {
         InstitutionalBaseSalary institutionalBaseSalary = InstitutionalBaseSalary.Factory.newInstance();
-        if (budgetMap.get(SENIOR_FELL) != null && budgetMap.get(SENIOR_FELL).toString().equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
+        if (budgetMap.get(SENIOR_FELL) != null && budgetMap.get(SENIOR_FELL).equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
             if (budgetMap.get(BASE_SALARY) != null) {
-                institutionalBaseSalary.setAmount(new BigDecimal(budgetMap.get(BASE_SALARY).toString()));
+                institutionalBaseSalary.setAmount(new BigDecimal(budgetMap.get(BASE_SALARY)));
             }
             if (budgetMap.get(ACAD_PERIOD) != null) {
-                institutionalBaseSalary.setAcademicPeriod(AcademicPeriod.Enum.forString(budgetMap.get(ACAD_PERIOD).toString()));
+                institutionalBaseSalary.setAcademicPeriod(AcademicPeriod.Enum.forString(budgetMap.get(ACAD_PERIOD)));
             }
             if (budgetMap.get(SALARY_MONTHS) != null) {
-                institutionalBaseSalary.setNumberOfMonths(new BigDecimal(budgetMap.get(SALARY_MONTHS).toString()));
+                institutionalBaseSalary.setNumberOfMonths(new BigDecimal(budgetMap.get(SALARY_MONTHS)));
             }
             budget.setInstitutionalBaseSalary(institutionalBaseSalary);
         }

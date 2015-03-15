@@ -343,7 +343,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
 
     public ActionForward changeAssociationRedirector(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        String buttonClicked = request.getParameter("buttonClicked").toString();
+        String buttonClicked = request.getParameter("buttonClicked");
         /**
          * 0 is Yes 1 is no
          */

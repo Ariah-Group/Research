@@ -465,7 +465,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
                 ceValuesFinder.setBudgetCategoryTypeCode(budgetCategoryTypeCode);
                 List<KeyValue> allPersonnelCostElements = ceValuesFinder.getKeyValues();
                 for (KeyValue keyValue : allPersonnelCostElements) {
-                    if (StringUtils.isNotEmpty(keyValue.getKey().toString())) {
+                    if (StringUtils.isNotEmpty(keyValue.getKey())) {
                         resultStr += "," + keyValue.getKey() + ";" + keyValue.getValue();
                     }
                 }

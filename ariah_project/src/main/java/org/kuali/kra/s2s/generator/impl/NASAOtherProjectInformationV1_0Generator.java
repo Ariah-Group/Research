@@ -194,7 +194,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
         List<String> fiscalYearDetails = getAnswerList(FISCAL_YEAR);
         if (fteAnswerDetails.size() > FISCAL_YEAR_1) {
             FYFTE1 fyfte1 = FYFTE1.Factory.newInstance();
-            String fte = fteAnswerDetails.get(FISCAL_YEAR_1).toString();
+            String fte = fteAnswerDetails.get(FISCAL_YEAR_1);
             BigDecimal fte1 = BigDecimal.valueOf(Double.parseDouble(fte));
             fyfte1.setFTE1(fte1);
             if (fiscalYearDetails.size() > FISCAL_YEAR_1) {
@@ -208,7 +208,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
         }
         if (fteAnswerDetails.size() > FISCAL_YEAR_2) {
             FYFTE2 fyfte2 = FYFTE2.Factory.newInstance();
-            String fte = fteAnswerDetails.get(FISCAL_YEAR_2).toString();
+            String fte = fteAnswerDetails.get(FISCAL_YEAR_2);
             BigDecimal fte2 = BigDecimal.valueOf(Double.parseDouble(fte));
             fyfte2.setFTE2(fte2);
             if (fiscalYearDetails.size() > FISCAL_YEAR_2) {
@@ -220,7 +220,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
         }
         if (fteAnswerDetails.size() > FISCAL_YEAR_3) {
             FYFTE3 fyfte3 = FYFTE3.Factory.newInstance();
-            String fte = fteAnswerDetails.get(FISCAL_YEAR_3).toString();
+            String fte = fteAnswerDetails.get(FISCAL_YEAR_3);
             BigDecimal fte3 = BigDecimal.valueOf(Double.parseDouble(fte));
             fyfte3.setFTE3(fte3);
             if (fiscalYearDetails.size() > FISCAL_YEAR_3) {
@@ -232,7 +232,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
         }
         if (fteAnswerDetails.size() > FISCAL_YEAR_4) {
             FYFTE4 fyfte4 = FYFTE4.Factory.newInstance();
-            String fte = fteAnswerDetails.get(FISCAL_YEAR_4).toString();
+            String fte = fteAnswerDetails.get(FISCAL_YEAR_4);
             BigDecimal fte4 = BigDecimal.valueOf(Double.parseDouble(fte));
             fyfte4.setFTE4(fte4);
             if (fiscalYearDetails.size() > FISCAL_YEAR_4) {
@@ -244,7 +244,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
         }
         if (fteAnswerDetails.size() > FISCAL_YEAR_5) {
             FYFTE5 fyfte5 = FYFTE5.Factory.newInstance();
-            String fte = fteAnswerDetails.get(FISCAL_YEAR_5).toString();
+            String fte = fteAnswerDetails.get(FISCAL_YEAR_5);
             BigDecimal fte5 = BigDecimal.valueOf(Double.parseDouble(fte));
             fyfte5.setFTE5(fte5);
             if (fiscalYearDetails.size() > FISCAL_YEAR_5) {
@@ -256,7 +256,7 @@ public class NASAOtherProjectInformationV1_0Generator extends
         }
         if (fteAnswerDetails.size() > FISCAL_YEAR_6) {
             FYFTE6 fyfte6 = FYFTE6.Factory.newInstance();
-            String fte = fteAnswerDetails.get(FISCAL_YEAR_6).toString();
+            String fte = fteAnswerDetails.get(FISCAL_YEAR_6);
             BigDecimal fte6 = BigDecimal.valueOf(Double.parseDouble(fte));
             fyfte6.setFTE6(fte6);
             if (fiscalYearDetails.size() > FISCAL_YEAR_6) {

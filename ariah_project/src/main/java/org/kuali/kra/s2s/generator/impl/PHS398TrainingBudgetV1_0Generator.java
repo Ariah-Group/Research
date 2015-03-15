@@ -369,12 +369,12 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                                     case 96:
                                         // others full term stipend
                                         if (answer != null)
-                                            otherFullStipends = new BigDecimal(answer.toString());
+                                            otherFullStipends = new BigDecimal(answer);
                                         break;
                                     case 98:
                                         // others short term stipend
                                         if (answer != null)
-                                            otherShortStipends = new BigDecimal(answer.toString());
+                                            otherShortStipends = new BigDecimal(answer);
                                         break;
                                 }
                             }
@@ -488,14 +488,14 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
              ***********************************************************/
 
 
-            int postDocNumNonDegreeFullTime = Integer.parseInt(hmNonDegree.get("fulllevel0").toString())
-                    + Integer.parseInt(hmNonDegree.get("fulllevel1").toString())
-                    + Integer.parseInt(hmNonDegree.get("fulllevel2").toString())
-                    + Integer.parseInt(hmNonDegree.get("fulllevel3").toString())
-                    + Integer.parseInt(hmNonDegree.get("fulllevel4").toString())
-                    + Integer.parseInt(hmNonDegree.get("fulllevel5").toString())
-                    + Integer.parseInt(hmNonDegree.get("fulllevel6").toString())
-                    + Integer.parseInt(hmNonDegree.get("fulllevel7").toString());
+            int postDocNumNonDegreeFullTime = Integer.parseInt(hmNonDegree.get("fulllevel0"))
+                    + Integer.parseInt(hmNonDegree.get("fulllevel1"))
+                    + Integer.parseInt(hmNonDegree.get("fulllevel2"))
+                    + Integer.parseInt(hmNonDegree.get("fulllevel3"))
+                    + Integer.parseInt(hmNonDegree.get("fulllevel4"))
+                    + Integer.parseInt(hmNonDegree.get("fulllevel5"))
+                    + Integer.parseInt(hmNonDegree.get("fulllevel6"))
+                    + Integer.parseInt(hmNonDegree.get("fulllevel7"));
 
             phs398TrainingBudgetYearDataType.setPostdocNumNonDegreeFullTime(postDocNumNonDegreeFullTime);
 
@@ -503,14 +503,14 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
              * set post doc non degree short term total number
              ***********************************************************/
 
-            int postDocNumNonDegreeShortTerm = Integer.parseInt(hmNonDegree.get("shortlevel0").toString())
-                    + Integer.parseInt(hmNonDegree.get("shortlevel1").toString())
-                    + Integer.parseInt(hmNonDegree.get("shortlevel2").toString())
-                    + Integer.parseInt(hmNonDegree.get("shortlevel3").toString())
-                    + Integer.parseInt(hmNonDegree.get("shortlevel4").toString())
-                    + Integer.parseInt(hmNonDegree.get("shortlevel5").toString())
-                    + Integer.parseInt(hmNonDegree.get("shortlevel6").toString())
-                    + Integer.parseInt(hmNonDegree.get("shortlevel7").toString());
+            int postDocNumNonDegreeShortTerm = Integer.parseInt(hmNonDegree.get("shortlevel0"))
+                    + Integer.parseInt(hmNonDegree.get("shortlevel1"))
+                    + Integer.parseInt(hmNonDegree.get("shortlevel2"))
+                    + Integer.parseInt(hmNonDegree.get("shortlevel3"))
+                    + Integer.parseInt(hmNonDegree.get("shortlevel4"))
+                    + Integer.parseInt(hmNonDegree.get("shortlevel5"))
+                    + Integer.parseInt(hmNonDegree.get("shortlevel6"))
+                    + Integer.parseInt(hmNonDegree.get("shortlevel7"));
 
             phs398TrainingBudgetYearDataType.setPostdocNumNonDegreeShortTerm(postDocNumNonDegreeShortTerm);
 
@@ -518,31 +518,23 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             /************************************************
              * set post doc non degree level numbers
              *************************************************/
-            phs398TrainingBudgetYearDataType.setPostdocNumNonDegreeStipendLevel0(Integer.parseInt(hmNonDegree.get("fulllevel0")
-                    .toString())
-                    + Integer.parseInt(hmNonDegree.get("shortlevel0").toString()));
+            phs398TrainingBudgetYearDataType.setPostdocNumNonDegreeStipendLevel0(Integer.parseInt(hmNonDegree.get("fulllevel0"))
+                    + Integer.parseInt(hmNonDegree.get("shortlevel0")));
 
-            phs398TrainingBudgetYearDataType.setPostdocNumNonDegreeStipendLevel1(Integer.parseInt(hmNonDegree.get("fulllevel1")
-                    .toString())
-                    + Integer.parseInt(hmNonDegree.get("shortlevel1").toString()));
-            phs398TrainingBudgetYearDataType.setPostdocNumNonDegreeStipendLevel2(Integer.parseInt(hmNonDegree.get("fulllevel2")
-                    .toString())
-                    + Integer.parseInt(hmNonDegree.get("shortlevel2").toString()));
-            phs398TrainingBudgetYearDataType.setPostdocNumNonDegreeStipendLevel3(Integer.parseInt(hmNonDegree.get("fulllevel3")
-                    .toString())
-                    + Integer.parseInt(hmNonDegree.get("shortlevel3").toString()));
-            phs398TrainingBudgetYearDataType.setPostdocNumNonDegreeStipendLevel4(Integer.parseInt(hmNonDegree.get("fulllevel4")
-                    .toString())
-                    + Integer.parseInt(hmNonDegree.get("shortlevel4").toString()));
-            phs398TrainingBudgetYearDataType.setPostdocNumNonDegreeStipendLevel5(Integer.parseInt(hmNonDegree.get("fulllevel5")
-                    .toString())
-                    + Integer.parseInt(hmNonDegree.get("shortlevel5").toString()));
-            phs398TrainingBudgetYearDataType.setPostdocNumNonDegreeStipendLevel6(Integer.parseInt(hmNonDegree.get("fulllevel6")
-                    .toString())
-                    + Integer.parseInt(hmNonDegree.get("shortlevel6").toString()));
-            phs398TrainingBudgetYearDataType.setPostdocNumNonDegreeStipendLevel7(Integer.parseInt(hmNonDegree.get("fulllevel7")
-                    .toString())
-                    + Integer.parseInt(hmNonDegree.get("shortlevel7").toString()));
+            phs398TrainingBudgetYearDataType.setPostdocNumNonDegreeStipendLevel1(Integer.parseInt(hmNonDegree.get("fulllevel1"))
+                    + Integer.parseInt(hmNonDegree.get("shortlevel1")));
+            phs398TrainingBudgetYearDataType.setPostdocNumNonDegreeStipendLevel2(Integer.parseInt(hmNonDegree.get("fulllevel2"))
+                    + Integer.parseInt(hmNonDegree.get("shortlevel2")));
+            phs398TrainingBudgetYearDataType.setPostdocNumNonDegreeStipendLevel3(Integer.parseInt(hmNonDegree.get("fulllevel3"))
+                    + Integer.parseInt(hmNonDegree.get("shortlevel3")));
+            phs398TrainingBudgetYearDataType.setPostdocNumNonDegreeStipendLevel4(Integer.parseInt(hmNonDegree.get("fulllevel4"))
+                    + Integer.parseInt(hmNonDegree.get("shortlevel4")));
+            phs398TrainingBudgetYearDataType.setPostdocNumNonDegreeStipendLevel5(Integer.parseInt(hmNonDegree.get("fulllevel5"))
+                    + Integer.parseInt(hmNonDegree.get("shortlevel5")));
+            phs398TrainingBudgetYearDataType.setPostdocNumNonDegreeStipendLevel6(Integer.parseInt(hmNonDegree.get("fulllevel6"))
+                    + Integer.parseInt(hmNonDegree.get("shortlevel6")));
+            phs398TrainingBudgetYearDataType.setPostdocNumNonDegreeStipendLevel7(Integer.parseInt(hmNonDegree.get("fulllevel7"))
+                    + Integer.parseInt(hmNonDegree.get("shortlevel7")));
 
             answer = null;
 
@@ -675,43 +667,35 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             /******************************************************
              * set post doc degree seeking numbers for each level
              ******************************************************/
-            phs398TrainingBudgetYearDataType.setPostdocNumDegreeStipendLevel0(Integer.parseInt(hmDegree.get("fulllevel0")
-                    .toString())
-                    + Integer.parseInt(hmDegree.get("shortlevel0").toString()));
-            phs398TrainingBudgetYearDataType.setPostdocNumDegreeStipendLevel1(Integer.parseInt(hmDegree.get("fulllevel1")
-                    .toString())
-                    + Integer.parseInt(hmDegree.get("shortlevel1").toString()));
-            phs398TrainingBudgetYearDataType.setPostdocNumDegreeStipendLevel2(Integer.parseInt(hmDegree.get("fulllevel2")
-                    .toString())
-                    + Integer.parseInt(hmDegree.get("shortlevel2").toString()));
-            phs398TrainingBudgetYearDataType.setPostdocNumDegreeStipendLevel3(Integer.parseInt(hmDegree.get("fulllevel3")
-                    .toString())
-                    + Integer.parseInt(hmDegree.get("shortlevel3").toString()));
-            phs398TrainingBudgetYearDataType.setPostdocNumDegreeStipendLevel4(Integer.parseInt(hmDegree.get("fulllevel4")
-                    .toString())
-                    + Integer.parseInt(hmDegree.get("shortlevel4").toString()));
-            phs398TrainingBudgetYearDataType.setPostdocNumDegreeStipendLevel5(Integer.parseInt(hmDegree.get("fulllevel5")
-                    .toString())
-                    + Integer.parseInt(hmDegree.get("shortlevel5").toString()));
-            phs398TrainingBudgetYearDataType.setPostdocNumDegreeStipendLevel6(Integer.parseInt(hmDegree.get("fulllevel6")
-                    .toString())
-                    + Integer.parseInt(hmDegree.get("shortlevel6").toString()));
-            phs398TrainingBudgetYearDataType.setPostdocNumDegreeStipendLevel7(Integer.parseInt(hmDegree.get("fulllevel7")
-                    .toString())
-                    + Integer.parseInt(hmDegree.get("shortlevel7").toString()));
+            phs398TrainingBudgetYearDataType.setPostdocNumDegreeStipendLevel0(Integer.parseInt(hmDegree.get("fulllevel0"))
+                    + Integer.parseInt(hmDegree.get("shortlevel0")));
+            phs398TrainingBudgetYearDataType.setPostdocNumDegreeStipendLevel1(Integer.parseInt(hmDegree.get("fulllevel1"))
+                    + Integer.parseInt(hmDegree.get("shortlevel1")));
+            phs398TrainingBudgetYearDataType.setPostdocNumDegreeStipendLevel2(Integer.parseInt(hmDegree.get("fulllevel2"))
+                    + Integer.parseInt(hmDegree.get("shortlevel2")));
+            phs398TrainingBudgetYearDataType.setPostdocNumDegreeStipendLevel3(Integer.parseInt(hmDegree.get("fulllevel3"))
+                    + Integer.parseInt(hmDegree.get("shortlevel3")));
+            phs398TrainingBudgetYearDataType.setPostdocNumDegreeStipendLevel4(Integer.parseInt(hmDegree.get("fulllevel4"))
+                    + Integer.parseInt(hmDegree.get("shortlevel4")));
+            phs398TrainingBudgetYearDataType.setPostdocNumDegreeStipendLevel5(Integer.parseInt(hmDegree.get("fulllevel5"))
+                    + Integer.parseInt(hmDegree.get("shortlevel5")));
+            phs398TrainingBudgetYearDataType.setPostdocNumDegreeStipendLevel6(Integer.parseInt(hmDegree.get("fulllevel6"))
+                    + Integer.parseInt(hmDegree.get("shortlevel6")));
+            phs398TrainingBudgetYearDataType.setPostdocNumDegreeStipendLevel7(Integer.parseInt(hmDegree.get("fulllevel7"))
+                    + Integer.parseInt(hmDegree.get("shortlevel7")));
 
             /************************************************
              * set post doc degree seeking full time number
              **********************************************/
 
-            int postDocNumDegreeFulltime = Integer.parseInt(hmDegree.get("fulllevel0").toString())
-                    + Integer.parseInt(hmDegree.get("fulllevel1").toString())
-                    + Integer.parseInt(hmDegree.get("fulllevel2").toString())
-                    + Integer.parseInt(hmDegree.get("fulllevel3").toString())
-                    + Integer.parseInt(hmDegree.get("fulllevel4").toString())
-                    + Integer.parseInt(hmDegree.get("fulllevel5").toString())
-                    + Integer.parseInt(hmDegree.get("fulllevel6").toString())
-                    + Integer.parseInt(hmDegree.get("fulllevel7").toString());
+            int postDocNumDegreeFulltime = Integer.parseInt(hmDegree.get("fulllevel0"))
+                    + Integer.parseInt(hmDegree.get("fulllevel1"))
+                    + Integer.parseInt(hmDegree.get("fulllevel2"))
+                    + Integer.parseInt(hmDegree.get("fulllevel3"))
+                    + Integer.parseInt(hmDegree.get("fulllevel4"))
+                    + Integer.parseInt(hmDegree.get("fulllevel5"))
+                    + Integer.parseInt(hmDegree.get("fulllevel6"))
+                    + Integer.parseInt(hmDegree.get("fulllevel7"));
 
             phs398TrainingBudgetYearDataType.setPostdocNumDegreeFullTime(postDocNumDegreeFulltime);
 
@@ -719,14 +703,14 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
              *set post doc degree seeking short term number
              * ************************************************/
 
-            int postDocNumDegreeShortTerm = Integer.parseInt(hmDegree.get("shortlevel0").toString())
-                    + Integer.parseInt(hmDegree.get("shortlevel1").toString())
-                    + Integer.parseInt(hmDegree.get("shortlevel2").toString())
-                    + Integer.parseInt(hmDegree.get("shortlevel3").toString())
-                    + Integer.parseInt(hmDegree.get("shortlevel4").toString())
-                    + Integer.parseInt(hmDegree.get("shortlevel5").toString())
-                    + Integer.parseInt(hmDegree.get("shortlevel6").toString())
-                    + Integer.parseInt(hmDegree.get("shortlevel7").toString());
+            int postDocNumDegreeShortTerm = Integer.parseInt(hmDegree.get("shortlevel0"))
+                    + Integer.parseInt(hmDegree.get("shortlevel1"))
+                    + Integer.parseInt(hmDegree.get("shortlevel2"))
+                    + Integer.parseInt(hmDegree.get("shortlevel3"))
+                    + Integer.parseInt(hmDegree.get("shortlevel4"))
+                    + Integer.parseInt(hmDegree.get("shortlevel5"))
+                    + Integer.parseInt(hmDegree.get("shortlevel6"))
+                    + Integer.parseInt(hmDegree.get("shortlevel7"));
 
             phs398TrainingBudgetYearDataType.setPostdocNumDegreeShortTerm(postDocNumDegreeShortTerm);
 
