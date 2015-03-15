@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.subawardReporting.printing.xmlstream;
 
@@ -85,8 +101,7 @@ public class SubawardXmlStream implements XmlStream {
         setCompanyInfo(subcontractReports);
         if (reportParameters.get("printType").equals(SF_295_REPORT)) {
             setAdminActivity295(subcontractReports);
-        }
-        else {
+        } else {
             setAdminActivity(subcontractReports);
         }
         setContractorType(subcontractReports);
@@ -133,8 +148,7 @@ public class SubawardXmlStream implements XmlStream {
         if (months.intValue() > 0) {
             reportingPeriod.setIsMarchReport(true);
             reportingPeriod.setIsSeptReport(false);
-        }
-        else {
+        } else {
             reportingPeriod.setIsMarchReport(false);
             reportingPeriod.setIsSeptReport(true);
         }
@@ -151,8 +165,9 @@ public class SubawardXmlStream implements XmlStream {
         int yd = 12 * (calendarEnd.get(Calendar.YEAR) - calendarStart.get(Calendar.YEAR));
         int md = (calendarEnd.get(Calendar.MONTH) - calendarStart.get(Calendar.MONTH));
         int dd = (calendarEnd.get(Calendar.DAY_OF_MONTH) - calendarStart.get(Calendar.DAY_OF_MONTH));
-        if (dd >= 15)
+        if (dd >= 15) {
             md++;
+        }
         int result = yd + md;
         projectDuration = new BudgetDecimal(result);
         return projectDuration.setScale(0).bigDecimalValue();
@@ -185,7 +200,7 @@ public class SubawardXmlStream implements XmlStream {
             if (!(administrativeActivity.equalsIgnoreCase("ARMY") || administrativeActivity.equalsIgnoreCase("NAVY")
                     || administrativeActivity.equalsIgnoreCase("AIR FORCE") || administrativeActivity.equalsIgnoreCase("NASA")
                     || administrativeActivity.equalsIgnoreCase("DOE") || administrativeActivity.equalsIgnoreCase("DLA") || administrativeActivity
-                        .equalsIgnoreCase("GSA"))) {
+                    .equalsIgnoreCase("GSA"))) {
 
                 Map<String, String> sponsorMap = new HashMap<String, String>();
                 sponsorMap.put("sponsorCode", sponsorCode);
@@ -221,7 +236,7 @@ public class SubawardXmlStream implements XmlStream {
 
         SubcontractingExpenditureCategoryAmounts subcontractingExpenditureCategoryAmounts = getBusinessObjectService()
                 .findBySinglePrimaryKey(SubcontractingExpenditureCategoryAmounts.class, this.awardNumber);
-        if(subcontractingExpenditureCategoryAmounts != null){
+        if (subcontractingExpenditureCategoryAmounts != null) {
             BigDecimal totalAmount = subcontractingExpenditureCategoryAmounts.getLargeBusinessExpenditureAmount()
                     .add(subcontractingExpenditureCategoryAmounts.getSmallBusinessExpenditureAmount()).bigDecimalValue();
 
@@ -298,7 +313,7 @@ public class SubawardXmlStream implements XmlStream {
 
         Map<String, String> unitAdministratorMap = new HashMap<String, String>();
         unitAdministratorMap.put("unitNumber", "000001");
-        unitAdministratorMap.put("unitAdministratorTypeCode", "2");
+        unitAdministratorMap.put("unitAdministratorTypeCode", UnitAdministratorType.OSP_ADMINISTRATOR_TYPE_CODE);
         List<UnitAdministrator> unitAdministratorList = (List<UnitAdministrator>) businessObjectService.findMatching(
                 UnitAdministrator.class, unitAdministratorMap);
         for (UnitAdministrator unitAdministrator : unitAdministratorList) {
@@ -314,13 +329,14 @@ public class SubawardXmlStream implements XmlStream {
     public void setAdminActivity295(SubcontractReports subcontractReports) {
         List<SubcontractReportPageType> subcontractReportPageTypeList = new ArrayList<SubcontractReportPageType>();
         SubcontractingExpenditureCategoryAmountsInDateRange expenditureCategoryAmounts = null;
-       
+
         List<SubcontractingExpenditureCategoryAmountsInDateRange> expenditureCategoryAmountsList = (List<SubcontractingExpenditureCategoryAmountsInDateRange>) getBusinessObjectService()
                 .findAll(SubcontractingExpenditureCategoryAmountsInDateRange.class);
 
         for (SubcontractingExpenditureCategoryAmountsInDateRange expenditureCategoryAmount : expenditureCategoryAmountsList) {
-            if (expenditureCategoryAmount.getAwardNumber().equalsIgnoreCase(this.awardNumber))
+            if (expenditureCategoryAmount.getAwardNumber().equalsIgnoreCase(this.awardNumber)) {
                 expenditureCategoryAmounts = expenditureCategoryAmount;
+            }
         }
         populateSubcontractReportPage("ARMY", subcontractReportPageTypeList, expenditureCategoryAmounts);
         populateSubcontractReportPage("NAVY", subcontractReportPageTypeList, expenditureCategoryAmounts);
@@ -339,10 +355,10 @@ public class SubawardXmlStream implements XmlStream {
 
         subcontractReports.setSubcontractReportPageArray(subcontractReportPageTypeList.toArray(new SubcontractReportPageType[0]));
     }
-    
-    public void populateSubcontractReportPage(String administratingActivity,List<SubcontractReportPageType> subcontractReportPageTypeList,
-            SubcontractingExpenditureCategoryAmountsInDateRange expenditureCategoryAmounts){
-        
+
+    public void populateSubcontractReportPage(String administratingActivity, List<SubcontractReportPageType> subcontractReportPageTypeList,
+            SubcontractingExpenditureCategoryAmountsInDateRange expenditureCategoryAmounts) {
+
         SubcontractReportPageType subcontractReportPageType = SubcontractReportPageType.Factory.newInstance();
         subcontractReportPageType.setAdministeringActivity(administratingActivity);
         List<VendorType> vendorTypeList = new ArrayList<SubcontractReportPageType.VendorType>();
@@ -350,18 +366,17 @@ public class SubawardXmlStream implements XmlStream {
         subcontractReportPageType.setVendorTypeArray(vendorTypeList.toArray(new VendorType[0]));
         subcontractReportPageTypeList.add(subcontractReportPageType);
     }
-    
+
     public List<VendorType> populateVendorType(String sponsorGroup, SubcontractingExpenditureCategoryAmountsInDateRange sECAIDR) {
-        
-        
-        KualiDecimal largeBusinessTotal = get295AmountForSponsorGroupFirst(sponsorGroup,"LARGE BUSINESS").add(
-                get295AmountForSponsorGroupSecond(sponsorGroup,"LARGE BUSINESS"));
-        KualiDecimal smallBusinessTotal = get295AmountForSponsorGroupFirst(sponsorGroup,"SMALL BUSINESS").add(
-                get295AmountForSponsorGroupSecond(sponsorGroup,"SMALL BUSINESS"));
-        KualiDecimal totalAmount =largeBusinessTotal.add(smallBusinessTotal);
-        
-        List<VendorType> vendorTypeList = new ArrayList<SubcontractReportPageType.VendorType>();        
-        
+
+        KualiDecimal largeBusinessTotal = get295AmountForSponsorGroupFirst(sponsorGroup, "LARGE BUSINESS").add(
+                get295AmountForSponsorGroupSecond(sponsorGroup, "LARGE BUSINESS"));
+        KualiDecimal smallBusinessTotal = get295AmountForSponsorGroupFirst(sponsorGroup, "SMALL BUSINESS").add(
+                get295AmountForSponsorGroupSecond(sponsorGroup, "SMALL BUSINESS"));
+        KualiDecimal totalAmount = largeBusinessTotal.add(smallBusinessTotal);
+
+        List<VendorType> vendorTypeList = new ArrayList<SubcontractReportPageType.VendorType>();
+
         populateVendorTypeAmounts(sponsorGroup, "LARGE BUSINESS", vendorTypeList, totalAmount);
         populateVendorTypeAmounts(sponsorGroup, "SMALL BUSINESS", vendorTypeList, totalAmount);
         populateVendorTypeAmounts(sponsorGroup, "WOMAN OWNED", vendorTypeList, totalAmount);
@@ -369,21 +384,21 @@ public class SubawardXmlStream implements XmlStream {
         populateVendorTypeAmounts(sponsorGroup, "HUB", vendorTypeList, totalAmount);
         populateVendorTypeAmounts(sponsorGroup, "VET", vendorTypeList, totalAmount);
         populateVendorTypeAmounts(sponsorGroup, "SDVO", vendorTypeList, totalAmount);
-        populateVendorTypeAmounts(sponsorGroup, "HBCU", vendorTypeList, totalAmount);      
+        populateVendorTypeAmounts(sponsorGroup, "HBCU", vendorTypeList, totalAmount);
 
         return vendorTypeList;
     }
-    
-    public void populateVendorTypeAmounts(String sponsorGroup,String vendorType, List<VendorType> vendorTypeList,KualiDecimal totalAmount) {
+
+    public void populateVendorTypeAmounts(String sponsorGroup, String vendorType, List<VendorType> vendorTypeList, KualiDecimal totalAmount) {
         VendorType vendorTypes = VendorType.Factory.newInstance();
-        KualiDecimal amount = get295AmountForSponsorGroupFirst(sponsorGroup,vendorType).add(get295AmountForSponsorGroupSecond(sponsorGroup,vendorType));
+        KualiDecimal amount = get295AmountForSponsorGroupFirst(sponsorGroup, vendorType).add(get295AmountForSponsorGroupSecond(sponsorGroup, vendorType));
         vendorTypes.setTypeOfVendor(vendorType);
         vendorTypes.setActualAmount(amount.bigDecimalValue());
         vendorTypes.setActualPercent(getPct(amount.bigDecimalValue(), totalAmount.bigDecimalValue()));
         vendorTypeList.add(vendorTypes);
     }
 
-    public KualiDecimal get295AmountForSponsorGroupFirst(String sponsorGroup,String vendorType) {
+    public KualiDecimal get295AmountForSponsorGroupFirst(String sponsorGroup, String vendorType) {
 
         List<Award> awardsList = new ArrayList<Award>();
         List<Sponsor> sponsorList = new ArrayList<Sponsor>();
@@ -423,49 +438,50 @@ public class SubawardXmlStream implements XmlStream {
         for (SubcontractingExpenditureCategoryAmountsInDateRange sECAIDR : sECAIDRList) {
             boolean hasAward = false;
             for (Award award : awardList) {
-                if (award.getPrimeSponsorCode() == null)
+                if (award.getPrimeSponsorCode() == null) {
                     if (award.getAwardNumber().equalsIgnoreCase(sECAIDR.getAwardNumber())) {
                         hasAward = true;
                     }
+                }
             }
             if (hasAward) {
                 expenditureCategoryAmountsList.add(sECAIDR);
-                if(vendorType.equalsIgnoreCase("LARGE BUSINESS")){
+                if (vendorType.equalsIgnoreCase("LARGE BUSINESS")) {
                     amount = amount.add(sECAIDR.getLargeBusinessExpenditureAmount());
                 }
-                if(vendorType.equalsIgnoreCase("SMALL BUSINESS")){
+                if (vendorType.equalsIgnoreCase("SMALL BUSINESS")) {
                     amount = amount.add(sECAIDR.getSmallBusinessExpenditureAmount());
                 }
-                if(vendorType.equalsIgnoreCase("WOMAN OWNED")){
+                if (vendorType.equalsIgnoreCase("WOMAN OWNED")) {
                     amount = amount.add(sECAIDR.getWomanOwnedExpenditureAmount());
                 }
-                if(vendorType.equalsIgnoreCase("DISADVANTAGED BUSINESS")){
+                if (vendorType.equalsIgnoreCase("DISADVANTAGED BUSINESS")) {
                     amount = amount.add(sECAIDR.getEightADisadvantageExpenditureAmount());
                 }
-                if(vendorType.equalsIgnoreCase("HUB")){
+                if (vendorType.equalsIgnoreCase("HUB")) {
                     amount = amount.add(sECAIDR.getHubZoneExpenditureAmount());
                 }
-                if(vendorType.equalsIgnoreCase("VET")){
+                if (vendorType.equalsIgnoreCase("VET")) {
                     amount = amount.add(sECAIDR.getVeteranOwnedExpenditureAmount());
                 }
-                if(vendorType.equalsIgnoreCase("SDVO")){
+                if (vendorType.equalsIgnoreCase("SDVO")) {
                     amount = amount.add(sECAIDR.getServiceDisabledVeteranOwnedExpenditureAmount());
                 }
-                if(vendorType.equalsIgnoreCase("HBCU")){
+                if (vendorType.equalsIgnoreCase("HBCU")) {
                     amount = amount.add(sECAIDR.getHistoricalBlackCollegeExpenditureAmount());
-                } 
+                }
             }
         }
         return amount;
     }
 
-    public KualiDecimal get295AmountForSponsorGroupSecond(String sponsorGroup,String vendorType) {
+    public KualiDecimal get295AmountForSponsorGroupSecond(String sponsorGroup, String vendorType) {
 
         List<Award> awardsList = new ArrayList<Award>();
         List<Award> awardList = new ArrayList<Award>();
         List<Sponsor> sponsorList = new ArrayList<Sponsor>();
         List<SponsorHierarchy> sponsorHierarchyList = new ArrayList<SponsorHierarchy>();
-        List<SubcontractingExpenditureCategoryAmountsInDateRange> expenditureCategoryAmountsList = new ArrayList<SubcontractingExpenditureCategoryAmountsInDateRange>(); 
+        List<SubcontractingExpenditureCategoryAmountsInDateRange> expenditureCategoryAmountsList = new ArrayList<SubcontractingExpenditureCategoryAmountsInDateRange>();
 
         List<SubcontractingExpenditureCategoryAmountsInDateRange> expenditureCategoryAmountList = (List<SubcontractingExpenditureCategoryAmountsInDateRange>) getBusinessObjectService()
                 .findAll(SubcontractingExpenditureCategoryAmountsInDateRange.class);
@@ -488,10 +504,11 @@ public class SubawardXmlStream implements XmlStream {
         for (Award award : awardsList) {
             boolean hasSponsor = false;
             for (Sponsor sponsor : sponsorList) {
-                if (award.getPrimeSponsorCode() != null)
+                if (award.getPrimeSponsorCode() != null) {
                     if (award.getPrimeSponsorCode().equals(sponsor.getSponsorCode())) {
                         hasSponsor = true;
                     }
+                }
             }
             if (hasSponsor) {
                 awardList.add(award);
@@ -508,30 +525,30 @@ public class SubawardXmlStream implements XmlStream {
             }
             if (hasAward) {
                 expenditureCategoryAmountsList.add(expenditureCategoryAmount);
-                if(vendorType.equalsIgnoreCase("LARGE BUSINESS")){
+                if (vendorType.equalsIgnoreCase("LARGE BUSINESS")) {
                     amount = amount.add(expenditureCategoryAmount.getLargeBusinessExpenditureAmount());
                 }
-                if(vendorType.equalsIgnoreCase("SMALL BUSINESS")){
+                if (vendorType.equalsIgnoreCase("SMALL BUSINESS")) {
                     amount = amount.add(expenditureCategoryAmount.getSmallBusinessExpenditureAmount());
                 }
-                if(vendorType.equalsIgnoreCase("WOMAN OWNED")){
+                if (vendorType.equalsIgnoreCase("WOMAN OWNED")) {
                     amount = amount.add(expenditureCategoryAmount.getWomanOwnedExpenditureAmount());
                 }
-                if(vendorType.equalsIgnoreCase("DISADVANTAGED BUSINESS")){
+                if (vendorType.equalsIgnoreCase("DISADVANTAGED BUSINESS")) {
                     amount = amount.add(expenditureCategoryAmount.getEightADisadvantageExpenditureAmount());
                 }
-                if(vendorType.equalsIgnoreCase("HUB")){
+                if (vendorType.equalsIgnoreCase("HUB")) {
                     amount = amount.add(expenditureCategoryAmount.getHubZoneExpenditureAmount());
                 }
-                if(vendorType.equalsIgnoreCase("VET")){
+                if (vendorType.equalsIgnoreCase("VET")) {
                     amount = amount.add(expenditureCategoryAmount.getVeteranOwnedExpenditureAmount());
                 }
-                if(vendorType.equalsIgnoreCase("SDVO")){
+                if (vendorType.equalsIgnoreCase("SDVO")) {
                     amount = amount.add(expenditureCategoryAmount.getServiceDisabledVeteranOwnedExpenditureAmount());
                 }
-                if(vendorType.equalsIgnoreCase("HBCU")){
+                if (vendorType.equalsIgnoreCase("HBCU")) {
                     amount = amount.add(expenditureCategoryAmount.getHistoricalBlackCollegeExpenditureAmount());
-                } 
+                }
             }
         }
         return amount;
@@ -542,8 +559,7 @@ public class SubawardXmlStream implements XmlStream {
         try {
             pct = amt.divide(totAmt, 3, BigDecimal.ROUND_UP);
             pct = pct.multiply(new BigDecimal("100"));
-        }
-        catch (ArithmeticException e) {
+        } catch (ArithmeticException e) {
             pct = new BigDecimal("0");
         }
         return pct;
