@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.coi.personfinancialentity;
 
@@ -28,7 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ *
  * This class is form helper class for financial entity
  */
 public class FinancialEntityHelper implements Serializable {
@@ -58,16 +74,14 @@ public class FinancialEntityHelper implements Serializable {
     private String editCoiEntityId;
     private String reporterId;
     private BusinessObjectService businessObjectService;
-    
+
     public String getEditType() {
         return editType;
     }
 
-
     public void setEditType(String editType) {
         this.editType = editType;
     }
-
 
     public FinancialEntityHelper(FinancialEntityForm form) {
         if (StringUtils.isBlank(reporterId)) {
@@ -82,9 +96,9 @@ public class FinancialEntityHelper implements Serializable {
         activeFinancialEntities = new ArrayList<PersonFinIntDisclosure>();
         inactiveFinancialEntities = new ArrayList<PersonFinIntDisclosure>();
         finEntityRelationshipTypes = getFinancialEntityService().getFinancialEntityRelationshipTypes();
-        deletedUnits = new ArrayList<FinancialEntityReporterUnit>(); 
+        deletedUnits = new ArrayList<FinancialEntityReporterUnit>();
         newRelationDetails = getFinancialEntityService().getFinancialEntityDataMatrix();
-        editRelationDetails = new ArrayList<FinEntityDataMatrixBean>(); 
+        editRelationDetails = new ArrayList<FinEntityDataMatrixBean>();
         newFinEntityAttachment = new FinancialEntityAttachment();
         finEntityAttachmentList = new ArrayList<FinancialEntityAttachment>();
         editEntityIndex = -1;
@@ -94,13 +108,12 @@ public class FinancialEntityHelper implements Serializable {
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         this.form = form;
     }
-    
+
     public void refreshData() {
         finEntityRelationshipTypes = getFinancialEntityService().getFinancialEntityRelationshipTypes();
         newRelationDetails = getFinancialEntityService().getFinancialEntityDataMatrix();
 
     }
-
 
     public FinancialEntityForm getForm() {
         return form;
@@ -110,51 +123,41 @@ public class FinancialEntityHelper implements Serializable {
         this.form = form;
     }
 
-
     public PersonFinIntDisclosure getNewPersonFinancialEntity() {
         return newPersonFinancialEntity;
     }
-
 
     public void setNewPersonFinancialEntity(PersonFinIntDisclosure newPersonFinancialEntity) {
         this.newPersonFinancialEntity = newPersonFinancialEntity;
     }
 
-
     public int getEditEntityIndex() {
         return editEntityIndex;
     }
-
 
     public void setEditEntityIndex(int editEntityIndex) {
         this.editEntityIndex = editEntityIndex;
     }
 
-
     public List<PersonFinIntDisclosure> getActiveFinancialEntities() {
         return activeFinancialEntities;
     }
-
 
     public void setActiveFinancialEntities(List<PersonFinIntDisclosure> activeFinancialEntities) {
         this.activeFinancialEntities = activeFinancialEntities;
     }
 
-
     public List<PersonFinIntDisclosure> getInactiveFinancialEntities() {
         return inactiveFinancialEntities;
     }
-
 
     public void setInactiveFinancialEntities(List<PersonFinIntDisclosure> inactiveFinancialEntities) {
         this.inactiveFinancialEntities = inactiveFinancialEntities;
     }
 
-
     public FinancialEntityReporterUnit getNewFinancialEntityReporterUnit() {
         return newFinancialEntityReporterUnit;
     }
-
 
     public void setNewFinancialEntityReporterUnit(FinancialEntityReporterUnit newFinancialEntityReporterUnit) {
         this.newFinancialEntityReporterUnit = newFinancialEntityReporterUnit;
@@ -163,7 +166,7 @@ public class FinancialEntityHelper implements Serializable {
         this.newFinancialEntityReporterUnit.setPersonId(financialEntityReporter.getPersonId());
 
     }
-    
+
     private FinancialEntityService getFinancialEntityService() {
         return KraServiceLocator.getService(FinancialEntityService.class);
     }
@@ -171,15 +174,15 @@ public class FinancialEntityHelper implements Serializable {
     public void setVersions(PersonFinIntDisclosure personFinIntDisclosure) {
         versions = personFinIntDisclosure.getVersions();
     }
-    
+
     public List<PersonFinIntDisclosure> getVersions() {
         return versions;
     }
-    
+
     public FinancialEntityReporter getFinancialEntityReporter() {
         return financialEntityReporter;
     }
-    
+
     private void refreshFinancialEntityReporter() {
         if (StringUtils.isBlank(reporterId)) {
             reporterId = GlobalVariables.getUserSession().getPrincipalId();
@@ -188,63 +191,52 @@ public class FinancialEntityHelper implements Serializable {
         newPersonFinancialEntity.setFinancialEntityReporterId(financialEntityReporter.getFinancialEntityReporterId());
     }
 
-
     public void setFinancialEntityReporter(FinancialEntityReporter financialEntityReporter) {
         this.financialEntityReporter = financialEntityReporter;
     }
-
 
     public List<FinancialEntityReporterUnit> getDeletedUnits() {
         return deletedUnits;
     }
 
-
     public void setDeletedUnits(List<FinancialEntityReporterUnit> deletedUnits) {
         this.deletedUnits = deletedUnits;
     }
-
 
     public List<FinIntEntityRelType> getFinEntityRelationshipTypes() {
         return finEntityRelationshipTypes;
     }
 
-
     public void setFinEntityRelationshipTypes(List<FinIntEntityRelType> finEntityRelationshipTypes) {
         this.finEntityRelationshipTypes = finEntityRelationshipTypes;
     }
-
 
     public List<FinEntityDataMatrixBean> getNewRelationDetails() {
         return newRelationDetails;
     }
 
-
     public void setNewRelationDetails(List<FinEntityDataMatrixBean> newRelationDetails) {
         this.newRelationDetails = newRelationDetails;
     }
-
 
     public List<FinEntityDataMatrixBean> getEditRelationDetails() {
         return editRelationDetails;
     }
 
-
     public void setEditRelationDetails(List<FinEntityDataMatrixBean> editRelationDetails) {
         this.editRelationDetails = editRelationDetails;
     }
 
-    
     public FinancialEntityAttachment getNewFinEntityAttachment() {
         return newFinEntityAttachment;
     }
-
 
     public void setNewFinEntityAttachment(FinancialEntityAttachment newFinEntityAttachment) {
         this.newFinEntityAttachment = newFinEntityAttachment;
     }
 
     /**
-     * 
+     *
      * This method is to initiate the financial helper
      */
     public void initiate() {
@@ -266,14 +258,14 @@ public class FinancialEntityHelper implements Serializable {
         this.setNewFinancialEntityReporterUnit(new FinancialEntityReporterUnit());
         this.setFinEntityAttachmentList(new ArrayList<FinancialEntityAttachment>());
         newRelationDetails = getFinancialEntityService().getFinancialEntityDataMatrix();
-        editRelationDetails = new ArrayList<FinEntityDataMatrixBean>(); 
+        editRelationDetails = new ArrayList<FinEntityDataMatrixBean>();
         editEntityIndex = -1;
         prevSponsorCode = Constants.EMPTY_STRING;
         prevNewSponsorCode = Constants.EMPTY_STRING;
         newRolodexId = -1;
         editRolodexId = -1;
     }
-    
+
     private List<PersonFinIntDisclosure> getFinancialEntities(boolean active) {
         if (StringUtils.isBlank(reporterId)) {
             reporterId = GlobalVariables.getUserSession().getPrincipalId();
@@ -281,46 +273,38 @@ public class FinancialEntityHelper implements Serializable {
         return getFinancialEntityService().getFinancialEntities(reporterId, active);
     }
 
-
     public Integer getNewRolodexId() {
         return newRolodexId;
     }
-
 
     public void setNewRolodexId(Integer newRolodexId) {
         this.newRolodexId = newRolodexId;
     }
 
-
     public String getPrevSponsorCode() {
         return prevSponsorCode;
     }
-
 
     public void setPrevSponsorCode(String prevSponsorCode) {
         this.prevSponsorCode = prevSponsorCode;
     }
 
-
     public Integer getEditRolodexId() {
         return editRolodexId;
     }
-
 
     public void setEditRolodexId(Integer editRolodexId) {
         this.editRolodexId = editRolodexId;
     }
 
-
     public String getPrevNewSponsorCode() {
         return prevNewSponsorCode;
     }
 
-
     public void setPrevNewSponsorCode(String prevNewSponsorCode) {
         this.prevNewSponsorCode = prevNewSponsorCode;
     }
-    
+
     public void resetPrevSponsorCode() {
         if (StringUtils.equals(FinancialEntityAction.ACTIVATE_ENTITY, this.getEditType())) {
             setPrevSponsorCode(getActiveFinancialEntities().get(editEntityIndex).getSponsorCode());
@@ -329,38 +313,34 @@ public class FinancialEntityHelper implements Serializable {
         }
     }
 
-
     public String getEditCoiEntityId() {
         return editCoiEntityId;
     }
-
 
     public void setEditCoiEntityId(String editCoiEntityId) {
         this.editCoiEntityId = editCoiEntityId;
     }
 
-
     public String getReporterId() {
         return reporterId;
     }
-
 
     public void setReporterId(String reporterId) {
         this.reporterId = reporterId;
     }
 
-    
     /**
-     * Adds the "new" financialEntityAttachment to the FinancialEntity Document.  Before
-     * adding this method executes validation.  If the validation fails the attachment is not added.    
+     * Adds the "new" financialEntityAttachment to the FinancialEntity Document.
+     * Before adding this method executes validation. If the validation fails
+     * the attachment is not added.
      */
     @SuppressWarnings("unchecked")
     public void addNewFinancialEntityAttachment() {
         syncNewFile(getNewFinEntityAttachment());
-        AddFinancialEntityAttachmentEvent event = new AddFinancialEntityAttachmentEvent("financialEntityHelper.newFinEntityAttachment", newFinEntityAttachment); 
+        AddFinancialEntityAttachmentEvent event = new AddFinancialEntityAttachmentEvent("financialEntityHelper.newFinEntityAttachment", newFinEntityAttachment);
         boolean success = event.getRule().processRules(event);
         if (success) {
-            newFinEntityAttachment.setFinancialEntityId(getNewPersonFinancialEntity().getPersonFinIntDisclosureId()); 
+            newFinEntityAttachment.setFinancialEntityId(getNewPersonFinancialEntity().getPersonFinIntDisclosureId());
             newFinEntityAttachment.setSequenceNumber(getNewPersonFinancialEntity().getSequenceNumber());
             newFinEntityAttachment.updateParms();
             getFinEntityAttachmentList().add(newFinEntityAttachment);
@@ -369,7 +349,7 @@ public class FinancialEntityHelper implements Serializable {
     }
 
     /**
-     * Removes the selected attachment    
+     * Removes the selected attachment
      */
     public void removeNewFinancialEntityAttachment(int selectedLine) {
         FinancialEntityAttachment attachment = getFinEntityAttachmentList().get(selectedLine);
@@ -384,7 +364,7 @@ public class FinancialEntityHelper implements Serializable {
             AttachmentFile newFile = AttachmentFile.createFromFormFile(attachment.getNewFile());
             //setting the sequence number to the old file sequence number
             if (attachment.getAttachmentFile() != null) {
-                newFile.setSequenceNumber(new Integer(1));
+                newFile.setSequenceNumber(1);
             }
             attachment.setFile(newFile);
             // set to null, so the subsequent post will not create new file again
@@ -400,7 +380,6 @@ public class FinancialEntityHelper implements Serializable {
     public List<FinancialEntityAttachment> getFinEntityAttachmentList() {
         return finEntityAttachmentList;
     }
-
 
     public void setFinEntityAttachmentList(List<FinancialEntityAttachment> finEntityAttachmentList) {
         this.finEntityAttachmentList = finEntityAttachmentList;

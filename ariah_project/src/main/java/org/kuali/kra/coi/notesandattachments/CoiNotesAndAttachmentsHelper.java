@@ -12,9 +12,24 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.coi.notesandattachments;
-
 
 import edu.mit.irb.irbnamespace.ProtocolDocument;
 import org.apache.commons.lang.StringUtils;
@@ -47,7 +62,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.*;
 
-
 public class CoiNotesAndAttachmentsHelper {
 
     private CoiDisclosureAttachment newCoiDisclosureAttachment;
@@ -71,14 +85,14 @@ public class CoiNotesAndAttachmentsHelper {
     private boolean modifyNotepads;
     private boolean addCoiReviewerComments;
     //private List<Boolean> canDeleteUpdateNote = new ArrayList<Boolean>(); 
-    private Map<Integer, Boolean> canDeleteUpdateAttachment = new HashMap<Integer, Boolean>(); 
+    private Map<Integer, Boolean> canDeleteUpdateAttachment = new HashMap<Integer, Boolean>();
     private Map<Integer, Boolean> canDeleteUpdateNote = new HashMap<Integer, Boolean>();
-    
+
     public CoiNotesAndAttachmentsHelper(CoiDisclosureForm coiDisclosureForm) {
         this.coiDisclosureForm = coiDisclosureForm;
         this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         this.parameterService = KraServiceLocator.getService(ParameterService.class);
-        this.dateTimeService = KraServiceLocator.getService(DateTimeService.class);   
+        this.dateTimeService = KraServiceLocator.getService(DateTimeService.class);
         this.identityService = KraServiceLocator.getService(IdentityService.class);
         filesToDelete = new ArrayList<AttachmentFile>();
     }
@@ -87,12 +101,12 @@ public class CoiNotesAndAttachmentsHelper {
         if (this.newCoiDisclosureAttachment == null) {
             this.initCoiDisclosureAttachment();
         }
-        
+
         return this.newCoiDisclosureAttachment;
     }
 
     public void prepareView() {
-        this.initializePermissions();   
+        this.initializePermissions();
         initializeNotePaseUserNames(this.getCoiDisclosure().getCoiDisclosureNotepads());
     }
 
@@ -106,20 +120,20 @@ public class CoiNotesAndAttachmentsHelper {
         modifyNotepads = canMaintainCoiDisclosureNotes();
         viewRestricted = canViewRestrictedProtocolNotepads();
         addCoiReviewerComments = canAddCoiReviewerComments();
-        
+
         // initialize individual permissions for notes and attachments
         canDeleteUpdateNotes();
         canDeleteUpdateAttachments();
     }
-    
+
     protected void initializeNotePaseUserNames(List<CoiDisclosureNotepad> notepads) {
         for (CoiDisclosureNotepad notePad : notepads) {
             Person person = this.getPersonService().getPersonByPrincipalName(notePad.getUpdateUser());
-            notePad.setUpdateUserFullName(person==null?String.format(PERSON_NOT_FOUND_FORMAT_STRING, notePad.getUpdateUser()):person.getName());
-            
+            notePad.setUpdateUserFullName(person == null ? String.format(PERSON_NOT_FOUND_FORMAT_STRING, notePad.getUpdateUser()) : person.getName());
+
             if (StringUtils.isNotBlank(notePad.getCreateUser())) {
                 Person creator = this.getPersonService().getPersonByPrincipalName(notePad.getCreateUser());
-                notePad.setCreateUserFullName(creator==null?String.format(PERSON_NOT_FOUND_FORMAT_STRING, notePad.getCreateUser()):creator.getName());
+                notePad.setCreateUserFullName(creator == null ? String.format(PERSON_NOT_FOUND_FORMAT_STRING, notePad.getCreateUser()) : creator.getName());
             } else {
                 notePad.setCreateUserFullName("");
             }
@@ -145,45 +159,45 @@ public class CoiNotesAndAttachmentsHelper {
     public void setNewCoiDisclosureAttachment(CoiDisclosureAttachment coiDisclosureAttachment) {
         this.newCoiDisclosureAttachment = coiDisclosureAttachment;
     }
-    
-    private  void canDeleteUpdateNotes() {
+
+    private void canDeleteUpdateNotes() {
         List<CoiDisclosureNotepad> notes = getCoiDisclosure().getCoiDisclosureNotepads();
-        for (int i=0; i < notes.size(); i++) {
+        for (int i = 0; i < notes.size(); i++) {
             CoiDisclosureTask task = new CoiDisclosureDeleteUpdateNoteTask(TaskName.DELETE_UPDATE_NOTE, getCoiDisclosure(), notes.get(i));
-            
+
             canDeleteUpdateNote.put(i, getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
         }
     }
-    
+
     public Map<Integer, Boolean> getCanDeleteUpdateNotes() {
         return canDeleteUpdateNote;
     }
-    
-    private  void canDeleteUpdateAttachments() {
+
+    private void canDeleteUpdateAttachments() {
         List<CoiDisclosureAttachment> attachments = getCoiDisclosure().getCoiDisclosureAttachments();
-        for (int i=0; i < attachments.size(); i++) {
+        for (int i = 0; i < attachments.size(); i++) {
             CoiDisclosureTask task = new CoiDisclosureDeleteUpdateAttachmentTask(TaskName.DELETE_UPDATE_ATTACHMENT, getCoiDisclosure(), attachments.get(i));
             canDeleteUpdateAttachment.put(i, getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
         }
     }
-    
+
     public Map<Integer, Boolean> getCanDeleteUpdateNote() {
         return canDeleteUpdateNote;
     }
-    
+
     public Map<Integer, Boolean> getCanDeleteUpdateAttachment() {
         return canDeleteUpdateAttachment;
     }
-    
+
     private void initCoiDisclosureAttachment() {
-        
+
         this.setNewCoiDisclosureAttachment(new CoiDisclosureAttachment(this.getCoiDisclosure()));
         CoiDisclosure coiDisclosure = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure();
         String event = coiDisclosure.getEventTypeCode();
-        if (StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.AWARD) ||
-                StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.DEVELOPMENT_PROPOSAL) || 
-                StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL) ||
-                StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.IRB_PROTOCOL)) {
+        if (StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.AWARD)
+                || StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.DEVELOPMENT_PROPOSAL)
+                || StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL)
+                || StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.IRB_PROTOCOL)) {
             String projectId = coiDisclosure.getCoiDisclProjects().get(0).getProjectId();
             newCoiDisclosureAttachment.setProjectId(projectId);
         }
@@ -204,6 +218,7 @@ public class CoiNotesAndAttachmentsHelper {
     public void setViewRestricted(boolean viewRestricted) {
         this.viewRestricted = viewRestricted;
     }
+
     private boolean canViewRestrictedProtocolNotepads() {
         //The reporter should never be allowed to view restricted notes
         if (StringUtils.equals(getUserIdentifier(), getCoiDisclosure().getPersonId())) {
@@ -216,26 +231,28 @@ public class CoiNotesAndAttachmentsHelper {
 
     protected boolean canAddCoiDisclosureNotes() {
         CoiDisclosureTask task = new CoiDisclosureTask(TaskName.ADD_COI_DISCLOSURE_NOTES, getCoiDisclosure());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
-       
-    protected boolean canViewCoiDisclosure(){
+
+    protected boolean canViewCoiDisclosure() {
         CoiDisclosureTask task = new CoiDisclosureTask(TaskName.VIEW_COI_DISCLOSURE, getCoiDisclosure());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
-    
-    public boolean isPerformCoiDisclosureActions(){
+
+    public boolean isPerformCoiDisclosureActions() {
         CoiDisclosureTask task = new CoiDisclosureTask(TaskName.PERFORM_COI_DISCLOSURE_ACTIONS, getCoiDisclosure());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
-    
+
     /**
-     * If Assigned Reviewers create a comment in the Review Actions ==> Add Review Comment, pre-set the Note Type drop down to Reviewer Comment
+     * If Assigned Reviewers create a comment in the Review Actions ==> Add
+     * Review Comment, pre-set the Note Type drop down to Reviewer Comment
+     *
      * @return
      */
-    protected boolean canAddCoiReviewerComments() {   
-        boolean userIsCoiReviewer = false; 
-        if (canViewCoiDisclosure() && canMaintainCoiDisclosureNotes() && canMaintainCoiDisclosureAttachments() && isPerformCoiDisclosureActions()){            
+    protected boolean canAddCoiReviewerComments() {
+        boolean userIsCoiReviewer = false;
+        if (canViewCoiDisclosure() && canMaintainCoiDisclosureNotes() && canMaintainCoiDisclosureAttachments() && isPerformCoiDisclosureActions()) {
             userIsCoiReviewer = true;
         }
         return userIsCoiReviewer;
@@ -243,17 +260,17 @@ public class CoiNotesAndAttachmentsHelper {
 
     protected boolean canAddCoiDisclosureAttachments() {
         CoiDisclosureTask task = new CoiDisclosureTask(TaskName.ADD_COI_DISCLOSURE_ATTACHMENTS, getCoiDisclosure());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 
     protected boolean canMaintainCoiDisclosureNotes() {
         CoiDisclosureTask task = new CoiDisclosureTask(TaskName.MAINTAIN_COI_DISCLOSURE_NOTES, getCoiDisclosure());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 
     protected boolean canMaintainCoiDisclosureAttachments() {
         CoiDisclosureTask task = new CoiDisclosureTask(TaskName.MAINTAIN_COI_DISCLOSURE_ATTACHMENTS, getCoiDisclosure());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 
     protected TaskAuthorizationService getTaskAuthorizationService() {
@@ -263,15 +280,15 @@ public class CoiNotesAndAttachmentsHelper {
     public String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId();
     }
-    
+
     public String getCurrentUser() {
-        return ((Principal)identityService.getPrincipal(getUserIdentifier())).getPrincipalName();
+        return ((Principal) identityService.getPrincipal(getUserIdentifier())).getPrincipalName();
     }
 
-
     /**
-     * Adds the "new" coiDisclosureAttachment to the CoiDisclosure Document.  Before
-     * adding this method executes validation.  If the validation fails the attachment is not added.
+     * Adds the "new" coiDisclosureAttachment to the CoiDisclosure Document.
+     * Before adding this method executes validation. If the validation fails
+     * the attachment is not added.
      */
     public void addNewCoiDisclosureAttachment() {
         this.refreshAttachmentReferences(Collections.singletonList(this.getNewCoiDisclosureAttachment()));
@@ -280,14 +297,14 @@ public class CoiNotesAndAttachmentsHelper {
         final AddCoiDisclosureAttachmentRule rule = new AddCoiDisclosureAttachmentRuleImpl();
         final AddCoiDisclosureAttachmentEvent event = new AddCoiDisclosureAttachmentEvent(coiDisclosureForm.getDocument(), newCoiDisclosureAttachment);
 
-        assignDocumentId(Collections.singletonList(this.getNewCoiDisclosureAttachment()), 
+        assignDocumentId(Collections.singletonList(this.getNewCoiDisclosureAttachment()),
                 this.createTypeToMaxDocNumber(getCoiDisclosure().getCoiDisclosureAttachments()));
         if (rule.processAddCoiDisclosureAttachmentRules(event)) {
-            this.newCoiDisclosureAttachment.setCoiDisclosureId(getCoiDisclosure().getCoiDisclosureId()); 
+            this.newCoiDisclosureAttachment.setCoiDisclosureId(getCoiDisclosure().getCoiDisclosureId());
             newCoiDisclosureAttachment.setSequenceNumber(getCoiDisclosure().getSequenceNumber());
             newCoiDisclosureAttachment.setEventTypeCode(getCoiDisclosure().getEventTypeCode() + "");
             if (getCoiDisclosure().getCoiDisclProjects().size() > 0) {
-            	newCoiDisclosureAttachment.setProjectId(getCoiDisclosure().getCoiDisclProjects().get(0).getProjectId());
+                newCoiDisclosureAttachment.setProjectId(getCoiDisclosure().getCoiDisclProjects().get(0).getProjectId());
             }
             this.getCoiDisclosure().addAttachment(newCoiDisclosureAttachment);
             getBusinessObjectService().save(newCoiDisclosureAttachment);
@@ -333,7 +350,7 @@ public class CoiNotesAndAttachmentsHelper {
 
         for (final T attachment : attachments) {
             final Integer curMax = typeToDocNumber.get(ATTACHMENT_TYPE_CD);
-            if (curMax == null || curMax.intValue() < attachment.getDocumentId().intValue()) {
+            if (curMax == null || curMax < attachment.getDocumentId()) {
                 typeToDocNumber.put(ATTACHMENT_TYPE_CD, attachment.getDocumentId());
             }
         }
@@ -342,16 +359,19 @@ public class CoiNotesAndAttachmentsHelper {
     }
 
     /**
-     * Creates the next doc number from a passed in doc number.  If null 1 is returned.
+     * Creates the next doc number from a passed in doc number. If null 1 is
+     * returned.
+     *
      * @param docNumber the doc number to base the new number off of.
      * @return the new doc number.
      */
     private static Integer createNextDocNumber(final Integer docNumber) {
-        return docNumber == null ? NumberUtils.INTEGER_ONE : Integer.valueOf(docNumber.intValue() + 1);
+        return docNumber == null ? NumberUtils.INTEGER_ONE : docNumber + 1;
     }
 
     /**
      * This method...
+     *
      * @param attachments
      */
     private void assignDocumentId(List<CoiDisclosureAttachment> attachments, final Map<String, Integer> typeToDocNumber) {
@@ -413,11 +433,9 @@ public class CoiNotesAndAttachmentsHelper {
         syncNewFiles(getCoiDisclosure().getCoiDisclosureAttachments());
 
         /* if (this.versioningUtil.versioningRequired()) {
-            this.versioningUtil.versionExstingAttachments();
-        }*/
-
+         this.versioningUtil.versionExstingAttachments();
+         }*/
     }
-
 
     protected void syncNewFiles(List<CoiDisclosureAttachment> coiDisclosureAttachments) {
         assert coiDisclosureAttachments != null : "the attachments was null";
@@ -445,9 +463,9 @@ public class CoiNotesAndAttachmentsHelper {
     private void refreshAttachmentReferences(List<CoiDisclosureAttachment> coiDisclosureAttachments) {
         assert coiDisclosureAttachments != null : "the attachments was null";
 
-        for (final CoiDisclosureAttachment attachment : coiDisclosureAttachments) {   
+        for (final CoiDisclosureAttachment attachment : coiDisclosureAttachments) {
             if (attachment instanceof CoiDisclosureAttachment) {
-                attachment.refreshReferenceObject("status");  
+                attachment.refreshReferenceObject("status");
                 attachment.refreshReferenceObject("coiAttachmentType");
             }
 
@@ -463,7 +481,6 @@ public class CoiNotesAndAttachmentsHelper {
         this.filesToDelete = filesToDelete;
     }
 
-
     public void fixReloadedAttachments(Map parameterMap) {
         Iterator keys = parameterMap.keySet().iterator();
         while (keys.hasNext()) {
@@ -478,7 +495,9 @@ public class CoiNotesAndAttachmentsHelper {
                         int numericVal = Integer.valueOf(key.substring(fieldNameStarter.length()));
                         CoiDisclosureAttachment attachment = retrieveExistingAttachmentByType(numericVal);
                         FormFile file = attachment.getNewFile();
-                        if(file == null) return;
+                        if (file == null) {
+                            return;
+                        }
                         byte[] fileData;
                         try {
                             fileData = file.getFileData();
@@ -496,7 +515,7 @@ public class CoiNotesAndAttachmentsHelper {
 
                     }
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -513,9 +532,9 @@ public class CoiNotesAndAttachmentsHelper {
             if (note.getOriginalCoiDisclosureId() == null) {
                 note.setOriginalCoiDisclosureId(disclosure.getCoiDisclosureId());
             }
-        }        
+        }
     }
-        
+
     public boolean deleteExistingAttachmentByType(final int attachmentNumber) {
         final boolean deleted;
         deleted = deleteExistingAttachment(attachmentNumber, getCoiDisclosure().getCoiDisclosureAttachments());
@@ -547,7 +566,6 @@ public class CoiNotesAndAttachmentsHelper {
 
     }
 
-   
     /**
      * This method is called by the action class to add a new note
      */
@@ -561,7 +579,6 @@ public class CoiNotesAndAttachmentsHelper {
             addNewNotepad(newCoiDisclosureNotepad);
             initCoiDisclosureNotepad();
         }
-        
 
     }
 
@@ -573,17 +590,17 @@ public class CoiNotesAndAttachmentsHelper {
         // If disclosure is an automatic event disclosure, prepopulate the projectId so that
         // this can be displayed in the notes and attachments projectId field. We do not want
         // a drop down in this case since there is only one value.
-        if (StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.AWARD) ||
-                StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.DEVELOPMENT_PROPOSAL) || 
-                StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL) ||
-                StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.IRB_PROTOCOL)) {
+        if (StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.AWARD)
+                || StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.DEVELOPMENT_PROPOSAL)
+                || StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL)
+                || StringUtils.equalsIgnoreCase(event, CoiDisclosureEventType.IRB_PROTOCOL)) {
             String projectId = coiDisclosure.getCoiDisclProjects().get(0).getProjectId();
             notepad.setProjectId(projectId);
         }
         notepad.setEventTypeCode(event);
         notepad.setEditable(true);
         //If Assigned Reviewers create a comment in the Review Actions ==> Add Review Comment, pre-set the Note Type drop down to Reviewer Comment
-        if (canAddCoiDisclosureNotes() && coiDisclosure.isSubmitted() && addCoiReviewerComments){
+        if (canAddCoiDisclosureNotes() && coiDisclosure.isSubmitted() && addCoiReviewerComments) {
             notepad.setNoteTypeCode(CoiNoteType.REVIEWER_COMMENT_NOTE_TYPE_CODE);
         }
         setNewCoiDisclosureNotepad(notepad);
@@ -596,7 +613,7 @@ public class CoiNotesAndAttachmentsHelper {
         notepad.setEditable(false);
         notepad.setCoiDisclosureId(getCoiDisclosure().getCoiDisclosureId());
         notepad.setCoiDisclosureNumber(getCoiDisclosure().getCoiDisclosureNumber());
-        notepad.setSequenceNumber(getCoiDisclosure().getSequenceNumber());        
+        notepad.setSequenceNumber(getCoiDisclosure().getSequenceNumber());
         notepad.setEntryNumber(getNextEntryNumber());
         if (getCoiDisclosure().getCoiDisclProjects().size() > 0) {
             notepad.setProjectId(getCoiDisclosure().getCoiDisclProjects().get(0).getProjectId());
@@ -607,7 +624,7 @@ public class CoiNotesAndAttachmentsHelper {
             notepad.refreshReferenceObject("financialEntity");
         }
         getBusinessObjectService().save(notepad);
-        getCoiDisclosure().getCoiDisclosureNotepads().add(notepad);   
+        getCoiDisclosure().getCoiDisclosureNotepads().add(notepad);
 
     }
 
@@ -616,9 +633,10 @@ public class CoiNotesAndAttachmentsHelper {
         bo.setUpdateTimestamp(dateTimeService.getCurrentTimestamp());
     }
 
-
-    /** gets the next entry number based on previously generated numbers. */
-    private Integer getNextEntryNumber() {       
+    /**
+     * gets the next entry number based on previously generated numbers.
+     */
+    private Integer getNextEntryNumber() {
         return getCoiDisclosure().getCoiDisclosureNotepads().size() + 1;
     }
 
@@ -641,15 +659,15 @@ public class CoiNotesAndAttachmentsHelper {
         this.deleteNotepad(noteToDelete);
         return true;
     }
-    
+
     private void deleteNotepad(int noteToDelete) {
         this.getCoiDisclosure().getCoiDisclosureNotepads().remove(noteToDelete);
     }
-    
+
     public PersonService getPersonService() {
         return KraServiceLocator.getService(PersonService.class);
     }
-    
+
     public List<KeyValue> getProjectSelectListItems() {
         CoiDisclosureProjectValuesFinder finder = new CoiDisclosureProjectValuesFinder();
         List<KeyValue> values = finder.getKeyValues();
