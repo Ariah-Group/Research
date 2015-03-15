@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.document.authorization;
 
@@ -325,10 +341,8 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
      */
     @Override
     public boolean canBlanketApprove(Document document, Person user) {
-        boolean canBA = false;
         PermissionService permService = KraServiceLocator.getService(KimApiServiceLocator.KIM_PERMISSION_SERVICE);
-        canBA
-                = (!(isFinal(document) || isProcessed(document))
+        boolean canBA = (!(isFinal(document) || isProcessed(document))
                 && permService.hasPermission(user.getPrincipalId(), Constants.MODULE_NAMESPACE_AWARD, PermissionConstants.AWARD_BLANKET_APPROVE));
         if (!isFinal(document) && canBA) {
             // check system parameter - if Y, use default workflow behavior: allow a user with the permission
@@ -403,10 +417,8 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
 
     @Override
     public boolean canRoute(Document document, Person user) {
-        boolean canRoute = false;
         PermissionService permService = KraServiceLocator.getService(KimApiServiceLocator.KIM_PERMISSION_SERVICE);
-        canRoute
-                = (!(isFinal(document) || isProcessed(document))
+        boolean canRoute = (!(isFinal(document) || isProcessed(document))
                 && permService.hasPermission(user.getPrincipalId(), Constants.MODULE_NAMESPACE_AWARD, PermissionConstants.AWARD_SUBMIT_AWARD));
         return canRoute;
     }

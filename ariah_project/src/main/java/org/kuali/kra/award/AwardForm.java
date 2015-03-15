@@ -1302,14 +1302,12 @@ public class AwardForm extends BudgetVersionFormBase
     }
 
     private void setupLastUpdate(AwardDocument awardDocument) {
-        String createDateStr = null;
-        String updateUser = null;
+
         if (awardDocument.getUpdateTimestamp() != null) {
-            createDateStr = CoreApiServiceLocator.getDateTimeService().toString(awardDocument.getUpdateTimestamp(), "MM/dd/yy");
-            updateUser = awardDocument.getUpdateUser().length() > NUMBER_30 ? awardDocument.getUpdateUser().substring(0, NUMBER_30)
+            String createDateStr = CoreApiServiceLocator.getDateTimeService().toString(awardDocument.getUpdateTimestamp(), "MM/dd/yy");
+            String updateUser = awardDocument.getUpdateUser().length() > NUMBER_30 ? awardDocument.getUpdateUser().substring(0, NUMBER_30)
                     : awardDocument.getUpdateUser();
-            getDocInfo().add(
-                    new HeaderField(UPDATE_TIMESTAMP_DD_NAME, createDateStr + " by " + updateUser));
+            getDocInfo().add(new HeaderField(UPDATE_TIMESTAMP_DD_NAME, createDateStr + " by " + updateUser));
         } else {
             getDocInfo().add(new HeaderField(UPDATE_TIMESTAMP_DD_NAME, Constants.EMPTY_STRING));
         }

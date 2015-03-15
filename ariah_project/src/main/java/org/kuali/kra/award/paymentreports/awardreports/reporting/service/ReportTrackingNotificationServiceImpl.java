@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 
@@ -71,13 +87,12 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
     
                     // either add or subtract, based on the overdue flag the number of days specified in the notification from today
                     Calendar checkFor = Calendar.getInstance();
-                    Calendar until = null;
                     if (notification.isOverdue()) {
                         checkFor.add(Calendar.DAY_OF_MONTH, (notification.getDays()+notification.getScope())*-1);                       
                     } else {
                         checkFor.add(Calendar.DAY_OF_MONTH, notification.getDays()-notification.getScope());                                                
                     }
-                    until = (Calendar) checkFor.clone();
+                    Calendar until = (Calendar) checkFor.clone();
                     until.add(Calendar.DAY_OF_MONTH, notification.getScope());
                     clearTimeFields(checkFor);
                     clearTimeFields(until);

@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 
@@ -35,17 +51,18 @@ import java.util.Map;
  * This class provides all the objects required for printing reports. It
  * provides methods for fetching XML generator {@link XmlStream},{@link ResearchDocumentBase},
  * {@link Map} of parameters required for printing.
- * 
+ *
  * @author
- * 
+ *
  */
-public class AwardReportTracking implements Printable,Cloneable {
+public class AwardReportTracking implements Printable, Cloneable {
 
     private XmlStream xmlStream;
     private KraPersistableBusinessObjectBase printableBusinessObject;
     private Map<String, Object> reportParameters;
     private Map<String, byte[]> attachments;
     private static final Log LOG = LogFactory.getLog(AwardReportTracking.class);
+
     /**
      * @return the xmlStream
      */
@@ -54,8 +71,7 @@ public class AwardReportTracking implements Printable,Cloneable {
     }
 
     /**
-     * @param xmlStream
-     *            the xmlStream to set
+     * @param xmlStream the xmlStream to set
      */
     public void setXmlStream(XmlStream xmlStream) {
         this.xmlStream = xmlStream;
@@ -63,7 +79,7 @@ public class AwardReportTracking implements Printable,Cloneable {
 
     /**
      * Fetches the {@link ResearchDocumentBase}
-     * 
+     *
      * @return {@link ResearchDocumentBase} document
      */
     public KraPersistableBusinessObjectBase getPrintableBusinessObject() {
@@ -71,8 +87,7 @@ public class AwardReportTracking implements Printable,Cloneable {
     }
 
     /**
-     * @param printableBusinessObject
-     *            the document to set
+     * @param printableBusinessObject the document to set
      */
     public void setPrintableBusinessObject(KraPersistableBusinessObjectBase printableBusinessObject) {
         this.printableBusinessObject = printableBusinessObject;
@@ -86,8 +101,7 @@ public class AwardReportTracking implements Printable,Cloneable {
     }
 
     /**
-     * @param reportParameters
-     *            the reportParameters to set
+     * @param reportParameters the reportParameters to set
      */
     public void setReportParameters(Map<String, Object> reportParameters) {
         this.reportParameters = reportParameters;
@@ -102,19 +116,18 @@ public class AwardReportTracking implements Printable,Cloneable {
     }
 
     protected byte[] getBytes(XmlObject xmlObject) {
-        byte[] xmlBytes = null;
         String xmlString = xmlObject.xmlText();
-        xmlBytes = xmlString.getBytes();
+        byte[] xmlBytes = xmlString.getBytes();
         return xmlBytes;
     }
 
     /**
      * This method generates the XML that conforms to Delta Report XSD returns
      * it as {@link InputStream}
-     * 
+     *
      * @return {@link InputStream} of generated XML
-     * @throws PrintingException
-     *             in case of any errors occur during XML generation
+     * @throws PrintingException in case of any errors occur during XML
+     * generation
      */
     public Map<String, byte[]> renderXML() throws PrintingException {
         Map<String, byte[]> xmlStreamMap = new LinkedHashMap<String, byte[]>();
@@ -126,40 +139,45 @@ public class AwardReportTracking implements Printable,Cloneable {
         }
         return xmlStreamMap;
     }
-    
+
     /**
-     * This method should be overridden if any printable artifacts wants to send Templates with separate bookmarks.
+     * This method should be overridden if any printable artifacts wants to send
+     * Templates with separate bookmarks.
      */
-    public Map<String,Source> getXSLTemplateWithBookmarks(){
+    public Map<String, Source> getXSLTemplateWithBookmarks() {
         return null;
     }
-    public List<Source> getXSLTemplates(){
+
+    public List<Source> getXSLTemplates() {
         return null;
     }
+
     /**
      * This method for checking watermark is enable or disable
+     *
      * @see org.kuali.kra.printing.Printable#isWatermarkEnabled()
      */
-    public boolean isWatermarkEnabled(){
+    public boolean isWatermarkEnabled() {
         return false;
     }
+
     /**
-     * 
-     *This method for getting the watermark object 
-     *with respect to the appropriate document.
+     *
+     * This method for getting the watermark object with respect to the
+     * appropriate document.
      */
-    public Watermarkable getWatermarkable(){
-        if(isWatermarkEnabled()){
+    public Watermarkable getWatermarkable() {
+        if (isWatermarkEnabled()) {
             throw new RuntimeException("Watermarkable not implemented");
-        }else{
+        } else {
             return null;
         }
     }
+
     public Object clone() {
         try {
             return super.clone();
-        }
-        catch (CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             LOG.error(e.getMessage(), e);
             return null;
         }

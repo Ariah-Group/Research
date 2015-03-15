@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 
@@ -32,32 +48,31 @@ import java.text.ParseException;
 import java.util.*;
 
 /**
- * 
+ *
  * This class manages the services needed for Report Tracking.
  */
 public class ReportTrackingServiceImpl implements ReportTrackingService {
-    
+
     private static final String PENDING_STATUS_DESCRIPTION = "Pending";
-    
+
     private AwardScheduleGenerationService awardScheduleGenerationService;
     private BusinessObjectService businessObjectService;
     private AwardService awardService;
-    
+
     @Override
     public void refreshReportTracking(Award award) throws ParseException {
-        List<AwardReportTerm> awardReportTermItems = award.getAwardReportTermItems();      
+        List<AwardReportTerm> awardReportTermItems = award.getAwardReportTermItems();
         for (AwardReportTerm awardTerm : awardReportTermItems) {
-            List<java.util.Date> dates = new ArrayList<java.util.Date>();
             List<AwardReportTerm> awardReportTerms = new ArrayList<AwardReportTerm>();
             awardReportTerms.add(awardTerm);
-            dates = getAwardScheduleGenerationService().generateSchedules(award, awardReportTerms, true);
+            List<java.util.Date> dates = getAwardScheduleGenerationService().generateSchedules(award, awardReportTerms, true);
             if (awardTerm.getReportTrackings() == null) {
                 awardTerm.setReportTrackings(getReportTacking(awardTerm));
             } else {
                 awardTerm.setReportTrackings(purgePendingReports(awardTerm, awardTerm.getReportTrackings(), new ArrayList<ReportTracking>()));
             }
-            
-            if (autoRegenerateReports(award) &&  award.getPrincipalInvestigator() != null) {
+
+            if (autoRegenerateReports(award) && award.getPrincipalInvestigator() != null) {
                 runDateCalcuations(dates, award, awardTerm, new ArrayList<ReportTracking>());
             }
             Collections.sort(awardTerm.getReportTrackings());
@@ -67,39 +82,42 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
     @Override
     public void generateReportTrackingAndSave(Award award, boolean forceReportRegeneration) throws ParseException {
         if ((forceReportRegeneration || autoRegenerateReports(award)) && award.getPrincipalInvestigator() != null) {
-            
+
             List<AwardReportTerm> awardReportTermItems = award.getAwardReportTermItems();
             List<ReportTracking> reportsToSave = new ArrayList<ReportTracking>();
             List<ReportTracking> reportsToDelete = new ArrayList<ReportTracking>();
-            
+
             for (AwardReportTerm awardTerm : awardReportTermItems) {
-                List<java.util.Date> dates = new ArrayList<java.util.Date>();
-               
+
                 awardTerm.refreshReferenceObject("reportClass");
                 if (!awardTerm.getReportClass().getGenerateReportRequirements()) {
                     continue;
                 }
                 /**
-                * creating this secondary AwardReportTerm List as we need to pass a List of AwardReportTerms to the dates generation
-                * service below, and we only want to be concerned with the current item, the whole list that we are looping through.
-                */
+                 * creating this secondary AwardReportTerm List as we need to
+                 * pass a List of AwardReportTerms to the dates generation
+                 * service below, and we only want to be concerned with the
+                 * current item, the whole list that we are looping through.
+                 */
                 List<AwardReportTerm> awardReportTerms = new ArrayList<AwardReportTerm>();
                 awardReportTerms.add(awardTerm);
-                dates = getAwardScheduleGenerationService().generateSchedules(award, awardReportTerms, true);
-                
+                List<java.util.Date> dates = getAwardScheduleGenerationService().generateSchedules(award, awardReportTerms, true);
+
                 if (awardTerm.getReportTrackings() == null) {
                     //pull the report tracking items from the database.
                     awardTerm.setReportTrackings(getReportTacking(awardTerm));
                 } else {
                     /**
-                     * Purge pending reports from the already existing ReportTracking list, and mark those to be persisted.
-                     * Note, passing in reportsToDelete as any pending reports will be put in there so they are removed from the DB,
-                     * if needed.
+                     * Purge pending reports from the already existing
+                     * ReportTracking list, and mark those to be persisted.
+                     * Note, passing in reportsToDelete as any pending reports
+                     * will be put in there so they are removed from the DB, if
+                     * needed.
                      */
                     awardTerm.setReportTrackings(purgePendingReports(awardTerm, awardTerm.getReportTrackings(), reportsToDelete));
                     reportsToSave.addAll(awardTerm.getReportTrackings());
                 }
-                
+
                 runDateCalcuations(dates, award, awardTerm, reportsToSave);
 
                 deleteExtraReports(dates, award, awardTerm, reportsToDelete);
@@ -108,11 +126,13 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
             }
             this.getBusinessObjectService().delete(reportsToDelete);
             /**
-             * if any reports have been update, update the last updated user and date.
+             * if any reports have been update, update the last updated user and
+             * date.
              */
             for (ReportTracking rt : reportsToSave) {
                 /**
-                 * if the report tracking has been saved, and it's not in pending status, we need to check for updates.
+                 * if the report tracking has been saved, and it's not in
+                 * pending status, we need to check for updates.
                  */
                 if (rt.getObjectId() != null && !StringUtils.equals(rt.getStatusCode(), getPendingReportStatus().getReportStatusCode())) {
                     Map params = new HashMap();
@@ -127,11 +147,13 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
             this.getBusinessObjectService().save(reportsToSave);
         }
     }
-    
+
     /**
-     * This method deletes any reports that are outside the dates currently in the award. For example, when the projectEndDate for 
-     * an award is moved to an earlier date, this method removes the extra report tracking entries for those dates that
-     * are no longer part of the project start - end dates.
+     * This method deletes any reports that are outside the dates currently in
+     * the award. For example, when the projectEndDate for an award is moved to
+     * an earlier date, this method removes the extra report tracking entries
+     * for those dates that are no longer part of the project start - end dates.
+     *
      * @param dates
      * @param award
      * @param awardTerm
@@ -139,16 +161,16 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
      */
     protected void deleteExtraReports(List<java.util.Date> dates, Award award, AwardReportTerm awardTerm,
             List<ReportTracking> reportsToDelete) {
-        HashMap<java.util.Date, String> dateMap= new HashMap<java.util.Date, String>();
+        HashMap<java.util.Date, String> dateMap = new HashMap<java.util.Date, String>();
         for (java.util.Date date : dates) {
             dateMap.put(date, null);
         }
-        
+
         List<ReportTracking> reportTrackings = awardTerm.getReportTrackings();
         List<ReportTracking> reportTrackingsClean = new ArrayList<ReportTracking>();
 
         for (ReportTracking reportTracking : reportTrackings) {
-            if (reportTracking.getDueDate() != null && !dateMap.containsKey(reportTracking.getDueDate()) ) {
+            if (reportTracking.getDueDate() != null && !dateMap.containsKey(reportTracking.getDueDate())) {
                 reportsToDelete.add(reportTracking);
             } else {
                 reportTrackingsClean.add(reportTracking);
@@ -157,10 +179,10 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         awardTerm.setReportTrackings(reportTrackingsClean);
     }
 
-
     /**
-     * 
+     *
      * This method...
+     *
      * @param dates
      * @param award
      * @param awardTerm
@@ -172,9 +194,10 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
             awardTerm.getReportTrackings().add(rt);
         }
         /**
-         * Add a new report tracking item for each date, if that date doesn't already have a report tracking item.
+         * Add a new report tracking item for each date, if that date doesn't
+         * already have a report tracking item.
          */
-         
+
         for (java.util.Date date : dates) {
             if (!isAwardTermDateAlreadySet(awardTerm.getReportTrackings(), date)) {
                 ReportTracking rt = buildReportTracking(award, awardTerm);
@@ -186,10 +209,11 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         }
     }
 
-    
     /**
-     * 
-     * This method builds a basic report tracking item pre-populated with Award and AwardTerm data.
+     *
+     * This method builds a basic report tracking item pre-populated with Award
+     * and AwardTerm data.
+     *
      * @param award
      * @param awardTerm
      * @return
@@ -222,7 +246,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         ReportStatus pending = getPendingReportStatus();
         reportTracking.setReportStatus(pending);
         reportTracking.setStatusCode(pending.getReportStatusCode());
-        
+
         reportTracking.setSponsor(award.getSponsor());
         reportTracking.setSponsorAwardNumber(award.getSponsorAwardNumber());
         reportTracking.setSponsorCode(award.getSponsorCode());
@@ -230,16 +254,18 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         reportTracking.setBaseDate(calculateBaseDate(awardTerm));
         return reportTracking;
     }
-    
+
     /**
-     * 
-     * This method calculates the the frequency base date based on the award term's selected base code.
-     * It is a duplication of the logic on awardReportClasses.tag.
-     * If this function requires updating, you'll need to update the javascript in the tag file.
+     *
+     * This method calculates the the frequency base date based on the award
+     * term's selected base code. It is a duplication of the logic on
+     * awardReportClasses.tag. If this function requires updating, you'll need
+     * to update the javascript in the tag file.
+     *
      * @param awardTerm
      * @return
      */
-    protected Date calculateBaseDate(AwardReportTerm awardTerm) { 
+    protected Date calculateBaseDate(AwardReportTerm awardTerm) {
         Date returnDate = null;
         if (awardTerm != null && awardTerm.getFrequencyBaseCode() != null) {
             if (StringUtils.equalsIgnoreCase(awardTerm.getFrequencyBaseCode(), "1")) {
@@ -256,10 +282,11 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         }
         return returnDate;
     }
-    
+
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      * @unsupported
      */
@@ -269,11 +296,14 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         ReportStatus rs = (ReportStatus) this.getBusinessObjectService().findByPrimaryKey(ReportStatus.class, params);
         return rs;
     }
-    
+
     /**
-     * 
-     * This method purges (puts them in the deleteReportsList) and report tracking items that are pending, and come from award term
-     * that has a frequency base that allows for regeneration.  Any ReportTracking items not purges are in the NEW returning list.
+     *
+     * This method purges (puts them in the deleteReportsList) and report
+     * tracking items that are pending, and come from award term that has a
+     * frequency base that allows for regeneration. Any ReportTracking items not
+     * purges are in the NEW returning list.
+     *
      * @param awardTerm
      * @param reportListToClean
      * @param deleteReports
@@ -283,9 +313,9 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         List<ReportTracking> reportTrackingReturn = new ArrayList<ReportTracking>();
         for (ReportTracking rt : reportListToClean) {
             if (StringUtils.equals(getPendingReportStatus().getReportStatusCode(), rt.getStatusCode())
-                    && (awardTerm.getFrequencyBase() != null  
-                            && StringUtils.equals(awardTerm.getFrequencyBase().getReportRegenerationType().getDescription(),
-                                    ReportRegenerationType.REGEN.getDescription()))) {
+                    && (awardTerm.getFrequencyBase() != null
+                    && StringUtils.equals(awardTerm.getFrequencyBase().getReportRegenerationType().getDescription(),
+                            ReportRegenerationType.REGEN.getDescription()))) {
                 deleteReports.add(rt);
             } else {
                 reportTrackingReturn.add(rt);
@@ -293,22 +323,22 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         }
         return reportTrackingReturn;
     }
-    
+
     private boolean isAwardTermDateAlreadySet(List<ReportTracking> reportTrackings, java.util.Date date) {
         boolean retVal = false;
         if (date == null && reportTrackings.size() > 0) {
-            retVal =  true;
+            retVal = true;
         }
         if (!retVal) {
             for (ReportTracking rt : reportTrackings) {
                 if (rt.getDueDate() != null && rt.getDueDate().getTime() == date.getTime()) {
-                    retVal =  true;
+                    retVal = true;
                 }
             }
         }
         return retVal;
     }
-    
+
     @Override
     public List<ReportTracking> getReportTacking(AwardReportTerm awardTerm) {
         List<ReportTracking> reportTrackings = new ArrayList<ReportTracking>();
@@ -317,7 +347,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         Collection<ReportTracking> reportTrackingCollection = this.getBusinessObjectService().findMatching(ReportTracking.class, params);
         //if there are none, check to make sure this isn't due to award versioning and the id changing
         if (reportTrackingCollection != null && !reportTrackingCollection.isEmpty()) {
-            reportTrackings.addAll(reportTrackingCollection);    
+            reportTrackings.addAll(reportTrackingCollection);
         } else {
             params.clear();
             params.put("awardNumber", awardTerm.getAwardNumber());
@@ -335,7 +365,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         Collections.sort(reportTrackings);
         return reportTrackings;
     }
-    
+
     @Override
     public List<ReportTracking> getReportTacking(Award award) {
         Map params = new HashMap();
@@ -346,7 +376,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         Collections.sort(reportTrackings);
         return reportTrackings;
     }
-    
+
     @Override
     public boolean autoRegenerateReports(Award award) {
         String rootAwardNumberEnder = "-00001";
@@ -415,7 +445,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
             }
         }
     }
-    
+
     protected ReportStatus getReportStatus(String statusCode) {
         Map params = new HashMap();
         params.put("REPORT_STATUS_CODE", statusCode);
@@ -426,28 +456,30 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
     @Override
     public boolean shouldAlertReportTrackingDetailChange(Award award) {
         boolean retVal = false;
-        
+
         if (award.getAwardId() != null) {
             Award dbAward = this.getAwardService().getAward(award.getAwardId());
             if (dbAward != null) {
                 List<ReportTracking> dbReportTrackings = this.getReportTacking(dbAward);
                 if (dbReportTrackings != null && !dbReportTrackings.isEmpty()) {
-                    retVal = !dateCompare(award.getAwardExecutionDate(), dbAward.getAwardExecutionDate()) 
-                        || !dateCompare(award.getAwardEffectiveDate(), dbAward.getAwardEffectiveDate())
-                        || !dateCompare(award.getLastAwardAmountInfo().getObligationExpirationDate(), 
-                                dbAward.getLastAwardAmountInfo().getObligationExpirationDate())
-                        || !dateCompare(award.getLastAwardAmountInfo().getFinalExpirationDate(), dbAward.getLastAwardAmountInfo().getFinalExpirationDate())
-                        || !dateCompare(award.getLastAwardAmountInfo().getCurrentFundEffectiveDate(), 
-                                dbAward.getLastAwardAmountInfo().getCurrentFundEffectiveDate());
+                    retVal = !dateCompare(award.getAwardExecutionDate(), dbAward.getAwardExecutionDate())
+                            || !dateCompare(award.getAwardEffectiveDate(), dbAward.getAwardEffectiveDate())
+                            || !dateCompare(award.getLastAwardAmountInfo().getObligationExpirationDate(),
+                                    dbAward.getLastAwardAmountInfo().getObligationExpirationDate())
+                            || !dateCompare(award.getLastAwardAmountInfo().getFinalExpirationDate(), dbAward.getLastAwardAmountInfo().getFinalExpirationDate())
+                            || !dateCompare(award.getLastAwardAmountInfo().getCurrentFundEffectiveDate(),
+                                    dbAward.getLastAwardAmountInfo().getCurrentFundEffectiveDate());
                 }
             }
-}
+        }
         return retVal;
     }
-    
+
     /**
-     * 
-     * This method returns true if the two are the same, returns false otherwise.
+     *
+     * This method returns true if the two are the same, returns false
+     * otherwise.
+     *
      * @param formDate
      * @param dbDate
      * @return

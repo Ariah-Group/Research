@@ -810,9 +810,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      */
     @Override
     public boolean processRules(KraDocumentEventBaseExtension event) {
-        boolean retVal = false;
-        retVal = event.getRule().processRules(event);
-        return retVal;
+        return event.getRule().processRules(event);
     }
 
     /**
