@@ -66,23 +66,23 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 
- * This class is to generate xml stream for grants.gov form RRBudget10-V1_1
- * ref schema namespace <code> http://apply.grants.gov/forms/RR_Budget10-V1.1</code>
+ *
+ * This class is to generate xml stream for grants.gov form RRBudget10-V1_1 ref
+ * schema namespace <code> http://apply.grants.gov/forms/RR_Budget10-V1.1</code>
  */
 public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
 
     private static final Log LOG = LogFactory.getLog(RRBudget10V1_1Generator.class);
 
     /**
-     * This method returns RRBudget10Document object based on proposal development
-     * document which contains the informations such as
+     * This method returns RRBudget10Document object based on proposal
+     * development document which contains the informations such as
      * DUNSID,OrganizationName,BudgetType,BudgetYear and BudgetSummary.
-     * 
+     *
      * @return rrBudgetDocument {@link XmlObject} of type RRBudget10Document.
      */
     private RRBudget10Document getRRBudget10() {
-        
+
         deleteAutoGenNarratives();
         RRBudget10Document rrBudgetDocument = RRBudget10Document.Factory
                 .newInstance();
@@ -103,16 +103,16 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
         try {
             validateBudgetForForm(pdDoc);
             budgetperiodList = s2sBudgetCalculatorService.getBudgetPeriods(pdDoc);
-            budgetSummary = s2sBudgetCalculatorService.getBudgetInfo(pdDoc,budgetperiodList);
+            budgetSummary = s2sBudgetCalculatorService.getBudgetInfo(pdDoc, budgetperiodList);
         } catch (S2SException e) {
             LOG.error(e.getMessage(), e);
             return rrBudgetDocument;
         }
 
         rrBudget.setBudgetSummary(getBudgetSummary(budgetSummary));
-        
+
         for (BudgetPeriodInfo budgetPeriodData : budgetperiodList) {
-            setBudgetYearDataType(rrBudget,budgetPeriodData);
+            setBudgetYearDataType(rrBudget, budgetPeriodData);
         }
         AttachedFileDataType attachedFileDataType = AttachedFileDataType.Factory.newInstance();
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
@@ -129,20 +129,18 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
         return rrBudgetDocument;
     }
 
-
     /**
      * This method gets BudgetYearDataType details like
      * BudgetPeriodStartDate,BudgetPeriodEndDate,BudgetPeriod
      * KeyPersons,OtherPersonnel,TotalCompensation,Equipment,ParticipantTraineeSupportCosts,Travel,OtherDirectCosts
      * DirectCosts,IndirectCosts,CognizantFederalAgency,TotalCosts based on
      * BudgetPeriodInfo for the RRBudget10.
-     * 
-     * @param periodInfo
-     *            (BudgetPeriodInfo) budget period entry.
+     *
+     * @param periodInfo (BudgetPeriodInfo) budget period entry.
      * @return BudgetYear1DataType corresponding to the BudgetSummaryInfo
-     *         object.
+     * object.
      */
-    private void setBudgetYearDataType(RRBudget10 rrBudget,BudgetPeriodInfo periodInfo) {
+    private void setBudgetYearDataType(RRBudget10 rrBudget, BudgetPeriodInfo periodInfo) {
 
         BudgetYearDataType budgetYear = rrBudget.addNewBudgetYear();
         if (periodInfo != null) {
@@ -166,7 +164,7 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
             if (indirectCosts != null) {
                 budgetYear.setIndirectCosts(indirectCosts);
                 budgetYear.setTotalCosts(periodInfo.getDirectCostsTotal().bigDecimalValue().add(indirectCosts.getTotalIndirectCosts()));
-            }else{
+            } else {
                 budgetYear.setTotalCosts(periodInfo.getDirectCostsTotal().bigDecimalValue());
             }
             budgetYear.setCognizantFederalAgency(periodInfo
@@ -181,25 +179,24 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
      * CumulativeTrainee,CumulativeOtherDirect,CumulativeTotalFundsRequestedDirectCosts,CumulativeTotalFundsRequestedIndirectCost
      * CumulativeTotalFundsRequestedDirectIndirectCosts and CumulativeFee based
      * on BudgetSummaryInfo for the RRBudget10.
-     * 
-     * @param budgetSummaryData
-     *            (BudgetSummaryInfo) budget summary entry.
+     *
+     * @param budgetSummaryData (BudgetSummaryInfo) budget summary entry.
      * @return BudgetSummary details corresponding to the BudgetSummaryInfo
-     *         object.
+     * object.
      */
     private BudgetSummary getBudgetSummary(BudgetSummaryInfo budgetSummaryData) {
 
         BudgetSummary budgetSummary = BudgetSummary.Factory.newInstance();
         OtherDirectCostInfo otherDirectCosts = null;
-        if(budgetSummaryData!=null){  
-            if(budgetSummaryData.getOtherDirectCosts()!=null && budgetSummaryData.getOtherDirectCosts().size() > 0 ){
+        if (budgetSummaryData != null) {
+            if (budgetSummaryData.getOtherDirectCosts() != null && budgetSummaryData.getOtherDirectCosts().size() > 0) {
                 otherDirectCosts = budgetSummaryData.getOtherDirectCosts().get(0);
-            } 
-            if(otherDirectCosts!=null){   
-        
+            }
+            if (otherDirectCosts != null) {
+
                 budgetSummary.setCumulativeTotalFundsRequestedSeniorKeyPerson(BigDecimal.ZERO);
                 budgetSummary.setCumulativeTotalFundsRequestedPersonnel(BigDecimal.ZERO);
-        
+
                 if (budgetSummaryData.getCumTotalFundsForSrPersonnel() != null) {
                     budgetSummary
                             .setCumulativeTotalFundsRequestedSeniorKeyPerson(budgetSummaryData
@@ -225,10 +222,10 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
                 budgetSummary.setCumulativeDomesticTravelCosts(budgetSummaryData.getCumDomesticTravel().bigDecimalValue());
                 budgetSummary.setCumulativeForeignTravelCosts(budgetSummaryData.getCumForeignTravel().bigDecimalValue());
                 budgetSummary.setCumulativeTotalFundsRequestedTraineeCosts(budgetSummaryData.getpartOtherCost()
-                            .add(budgetSummaryData.getpartStipendCost()
-                                    .add(budgetSummaryData.getpartTravelCost()
-                                            .add(budgetSummaryData.getPartTuition()
-                                                    .add(budgetSummaryData.getPartSubsistence())))).bigDecimalValue());
+                        .add(budgetSummaryData.getpartStipendCost()
+                                .add(budgetSummaryData.getpartTravelCost()
+                                        .add(budgetSummaryData.getPartTuition()
+                                                .add(budgetSummaryData.getPartSubsistence())))).bigDecimalValue());
                 budgetSummary.setCumulativeTraineeStipends(otherDirectCosts.getPartStipends().bigDecimalValue());
                 budgetSummary.setCumulativeTraineeSubsistence(otherDirectCosts.getPartSubsistence().bigDecimalValue());
                 budgetSummary.setCumulativeTraineeTravel(otherDirectCosts.getPartTravel().bigDecimalValue());
@@ -243,23 +240,23 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
                 budgetSummary.setCumulativeSubawardConsortiumContractualCosts(otherDirectCosts.getsubAwards().bigDecimalValue());
                 budgetSummary.setCumulativeEquipmentFacilityRentalFees(otherDirectCosts.getEquipRental().bigDecimalValue());
                 budgetSummary.setCumulativeAlterationsAndRenovations(otherDirectCosts.getAlterations().bigDecimalValue());
-                List<Map<String,String>> cvOthers = otherDirectCosts.getOtherCosts();
+                List<Map<String, String>> cvOthers = otherDirectCosts.getOtherCosts();
                 for (int j = 0; j < cvOthers.size(); j++) {
                     Map<String, String> hmCosts = cvOthers.get(j);
-                    if (j==0){
+                    if (j == 0) {
                         budgetSummary.setCumulativeOther1DirectCost(new BigDecimal(hmCosts.get(S2SConstants.KEY_COST)));
-                       } else if (j==1) {
-                           budgetSummary.setCumulativeOther2DirectCost(new BigDecimal(hmCosts.get(S2SConstants.KEY_COST)));
-                       } else {
+                    } else if (j == 1) {
+                        budgetSummary.setCumulativeOther2DirectCost(new BigDecimal(hmCosts.get(S2SConstants.KEY_COST)));
+                    } else {
                         budgetSummary.setCumulativeOther3DirectCost(new BigDecimal(hmCosts.get(S2SConstants.KEY_COST)));
-                     }
+                    }
                 }
                 budgetSummary.setCumulativeTotalFundsRequestedDirectCosts(budgetSummaryData
-                                .getCumTotalDirectCosts().bigDecimalValue());
+                        .getCumTotalDirectCosts().bigDecimalValue());
                 budgetSummary.setCumulativeTotalFundsRequestedIndirectCost(budgetSummaryData
-                                .getCumTotalIndirectCosts().bigDecimalValue());
+                        .getCumTotalIndirectCosts().bigDecimalValue());
                 budgetSummary.setCumulativeTotalFundsRequestedDirectIndirectCosts(budgetSummaryData
-                                .getCumTotalCosts().bigDecimalValue());
+                        .getCumTotalCosts().bigDecimalValue());
                 if (budgetSummaryData.getCumFee() != null) {
                     budgetSummary.setCumulativeFee(budgetSummaryData.getCumFee()
                             .bigDecimalValue());
@@ -269,18 +266,15 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
         return budgetSummary;
     }
 
-
-
     /**
      * This method gets ParticipantTraineeSupportCosts details in
      * BudgetYearDataType such as TuitionFeeHealthInsurance
      * Stipends,Subsistence,Travel,Other,ParticipantTraineeNumber and TotalCost
      * based on the BudgetPeriodInfo for the RRBudget10.
-     * 
-     * @param periodInfo
-     *            (BudgetPeriodInfo) budget period entry.
+     *
+     * @param periodInfo (BudgetPeriodInfo) budget period entry.
      * @return ParticipantTraineeSupportCosts corresponding to the
-     *         BudgetPeriodInfo object.
+     * BudgetPeriodInfo object.
      */
     private ParticipantTraineeSupportCosts getParticipantTraineeSupportCosts(
             BudgetPeriodInfo periodInfo) {
@@ -300,8 +294,8 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
             traineeSupportCosts.setParticipantTraineeNumber(periodInfo
                     .getparticipantCount());
             traineeSupportCosts.setTotalCost(traineeSupportCosts.getTuitionFeeHealthInsurance()
-                            .add(traineeSupportCosts.getStipends().add(traineeSupportCosts.getTravel()
-                                 .add(traineeSupportCosts.getSubsistence().add(traineeSupportCosts.getOther().getCost())))));
+                    .add(traineeSupportCosts.getStipends().add(traineeSupportCosts.getTravel()
+                                    .add(traineeSupportCosts.getSubsistence().add(traineeSupportCosts.getOther().getCost())))));
         }
         return traineeSupportCosts;
     }
@@ -309,11 +303,10 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
     /**
      * This method gets Other type description and total cost for
      * ParticipantTraineeSupportCosts based on BudgetPeriodInfo.
-     * 
-     * @param periodInfo
-     *            (BudgetPeriodInfo) budget period entry.
+     *
+     * @param periodInfo (BudgetPeriodInfo) budget period entry.
      * @return Other other participant trainee support costs corresponding to
-     *         the BudgetPeriodInfo object.
+     * the BudgetPeriodInfo object.
      */
     private Other getOtherPTSupportCosts(BudgetPeriodInfo periodInfo) {
         Other other = Other.Factory.newInstance();
@@ -332,9 +325,8 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
      * ADPComputerServices,SubawardConsortiumContractualCosts,EquipmentRentalFee,AlterationsRenovations
      * and TotalOtherDirectCost in BudgetYearDataType based on BudgetPeriodInfo
      * for the RRBudget10.
-     * 
-     * @param periodInfo
-     *            (BudgetPeriodInfo) budget period entry.
+     *
+     * @param periodInfo (BudgetPeriodInfo) budget period entry.
      * @return OtherDirectCosts corresponding to the BudgetPeriodInfo object.
      */
     private OtherDirectCosts getOtherDirectCosts(BudgetPeriodInfo periodInfo) {
@@ -378,7 +370,7 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
                         .getOtherDirectCosts().get(0).getEquipRental()
                         .bigDecimalValue());
             }
-            setOthersForOtherDirectCosts(otherDirectCosts,periodInfo);
+            setOthersForOtherDirectCosts(otherDirectCosts, periodInfo);
             if (periodInfo.getOtherDirectCosts().get(0).gettotalOtherDirect() != null) {
                 otherDirectCosts.setTotalOtherDirectCost(periodInfo
                         .getOtherDirectCosts().get(0).gettotalOtherDirect()
@@ -392,9 +384,8 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
      * This method returns IndirectCosts details such as
      * Base,CostType,FundRequested,Rate and TotalIndirectCosts in
      * BudgetYearDataType based on BudgetPeriodInfo for the RRBudget10.
-     * 
-     * @param periodInfo
-     *            (BudgetPeriodInfo) budget period entry.
+     *
+     * @param periodInfo (BudgetPeriodInfo) budget period entry.
      * @return IndirectCosts corresponding to the BudgetPeriodInfo object.
      */
     private IndirectCosts getIndirectCosts(BudgetPeriodInfo periodInfo) {
@@ -451,10 +442,9 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
      * This method is to set Other type description and total cost
      * OtherDirectCosts details in BudgetYearDataType based on BudgetPeriodInfo
      * for the RRBudget10.
-     * 
+     *
      * @param OtherDirectCosts otherDirectCosts xmlObject
-     * @param periodInfo
-     *            (BudgetPeriodInfo) budget period entry.
+     * @param periodInfo (BudgetPeriodInfo) budget period entry.
      */
     private void setOthersForOtherDirectCosts(OtherDirectCosts otherDirectCosts, BudgetPeriodInfo periodInfo) {
         if (periodInfo != null && periodInfo.getOtherDirectCosts() != null) {
@@ -464,8 +454,8 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
                         && otherDirectCostInfo.getOtherCosts().size() > 0) {
                     other
                             .setCost(new BigDecimal(otherDirectCostInfo
-                                    .getOtherCosts().get(0).get(
-                                            S2SConstants.KEY_COST)));
+                                            .getOtherCosts().get(0).get(
+                                                    S2SConstants.KEY_COST)));
                 }
                 other.setDescription(OTHERCOST_DESCRIPTION);
             }
@@ -476,9 +466,8 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
      * This method gets Travel cost information including
      * DomesticTravelCost,ForeignTravelCost and TotalTravelCost in the
      * BudgetYearDataType based on BudgetPeriodInfo for the RRBudget10.
-     * 
-     * @param periodInfo
-     *            (BudgetPeriodInfo) budget period entry.
+     *
+     * @param periodInfo (BudgetPeriodInfo) budget period entry.
      * @return Travel costs corresponding to the BudgetPeriodInfo object.
      */
     private Travel getTravel(BudgetPeriodInfo periodInfo) {
@@ -500,11 +489,10 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
      * EquipmentItem,FundsRequested,TotalFundForAttachedEquipment, TotalFund and
      * AdditionalEquipmentsAttachment based on BudgetPeriodInfo for the
      * RRBudget10.
-     * 
-     * @param periodInfo
-     *            (BudgetPeriodInfo) budget period entry.
+     *
+     * @param periodInfo (BudgetPeriodInfo) budget period entry.
      * @return Equipment costs corresponding to the BudgetPeriodInfo object.
-     * 
+     *
      */
     private Equipment getEquipment(BudgetPeriodInfo periodInfo) {
         Equipment equipment = Equipment.Factory.newInstance();
@@ -528,7 +516,7 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
             // Evaluating Extra Equipments.
             List<CostInfo> extraEquipmentArrayList = new ArrayList<CostInfo>();
             BudgetDecimal totalExtraEquipFund = BudgetDecimal.ZERO;
-            for(CostInfo costInfo:periodInfo.getEquipment().get(0).getExtraEquipmentList()){
+            for (CostInfo costInfo : periodInfo.getEquipment().get(0).getExtraEquipmentList()) {
                 extraEquipmentArrayList.add(costInfo);
                 totalExtraEquipFund = totalExtraEquipFund.add(costInfo.getCost());
             }
@@ -540,9 +528,9 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
             if (equipmentArray.length > 0) {
                 equipment.setTotalFundForAttachedEquipment(totalExtraEquipFund.bigDecimalValue());
             }
-            extraEquipmentNarr = saveAdditionalEquipments(periodInfo,extraEquipmentArrayList);
+            extraEquipmentNarr = saveAdditionalEquipments(periodInfo, extraEquipmentArrayList);
         }
-        if(extraEquipmentNarr!=null){
+        if (extraEquipmentNarr != null) {
             AttachedFileDataType equipmentAttachment = AttachedFileDataType.Factory.newInstance();
             FileLocation fileLocation = FileLocation.Factory.newInstance();
             equipmentAttachment.setFileLocation(fileLocation);
@@ -576,11 +564,10 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
      * SecretarialClerical based on PersonnelType and also gets
      * NumberOfPersonnel, ProjectRole,Compensation OtherPersonnelTotalNumber and
      * TotalOtherPersonnelFund based on BudgetPeriodInfo for the RRBudget10.
-     * 
-     * @param periodInfo
-     *            (BudgetPeriodInfo) budget period entry.
+     *
+     * @param periodInfo (BudgetPeriodInfo) budget period entry.
      * @return OtherPersonnel details corresponding to the BudgetPeriodInfo
-     *         object.
+     * object.
      */
     private OtherPersonnel getOtherPersonnel(BudgetPeriodInfo periodInfo) {
         OtherPersonnel otherPersonnel = OtherPersonnel.Factory.newInstance();
@@ -590,7 +577,7 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
         if (periodInfo != null) {
             for (OtherPersonnelInfo otherPersonnelInfo : periodInfo
                     .getOtherPersonnel()) {
-                
+
                 if (OTHERPERSONNEL_POSTDOC.equals(otherPersonnelInfo
                         .getPersonnelType())) {
                     otherPersonnel
@@ -642,11 +629,10 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
      * This method gets the PostDocAssociates details,ProjectRole,
      * NumberOfPersonnel,Compensation based on OtherPersonnelInfo for the
      * RRBudget10,if it is a PostDocAssociates type.
-     * 
-     * @param otherPersonnel
-     *            (OtherPersonnelInfo)other personnel info entry.
+     *
+     * @param otherPersonnel (OtherPersonnelInfo)other personnel info entry.
      * @return PostDocAssociates details corresponding to the OtherPersonnelInfo
-     *         object.
+     * object.
      */
     private PostDocAssociates getPostDocAssociates(
             OtherPersonnelInfo otherPersonnel) {
@@ -666,7 +652,6 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
             postDocAssociates.setFundsRequested(sectBCompType.getFundsRequested().bigDecimalValue());
             postDocAssociates.setSummerMonths(sectBCompType.getSummerMonths().bigDecimalValue());
 
-            
         }
         return postDocAssociates;
     }
@@ -675,11 +660,10 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
      * This method gets the GraduateStudents details,ProjectRole,
      * NumberOfPersonnel,Compensation based on OtherPersonnelInfo for the
      * RRBudget10, if it is a GraduateStudents type.
-     * 
-     * @param otherPersonnel
-     *            (OtherPersonnelInfo) other personnel info entry.
+     *
+     * @param otherPersonnel (OtherPersonnelInfo) other personnel info entry.
      * @return GraduateStudents details corresponding to the OtherPersonnelInfo
-     *         object.
+     * object.
      */
     private GraduateStudents getGraduateStudents(
             OtherPersonnelInfo otherPersonnel) {
@@ -705,11 +689,10 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
      * This method is to get the UndergraduateStudents details,ProjectRole,
      * NumberOfPersonnel,Compensation based on OtherPersonnelInfo for the
      * RRBudget10,if it is a UndergraduateStudents type.
-     * 
-     * @param otherPersonnel
-     *            (OtherPersonnelInfo) other personnel info entry.
+     *
+     * @param otherPersonnel (OtherPersonnelInfo) other personnel info entry.
      * @return UndergraduateStudents details corresponding to the
-     *         OtherPersonnelInfo object.
+     * OtherPersonnelInfo object.
      */
     private UndergraduateStudents getUndergraduateStudents(
             OtherPersonnelInfo otherPersonnel) {
@@ -729,7 +712,6 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
             undergraduate.setFundsRequested(sectBCompType.getFundsRequested().bigDecimalValue());
             undergraduate.setSummerMonths(sectBCompType.getSummerMonths().bigDecimalValue());
 
-            
         }
         return undergraduate;
     }
@@ -738,11 +720,10 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
      * This method is to get the SecretarialClerical details,ProjectRole,
      * NumberOfPersonnel,Compensation based on OtherPersonnelInfo for the
      * RRBudget10,if it is a SecretarialClerical type.
-     * 
-     * @param otherPersonnel
-     *            (OtherPersonnelInfo) other personnel info entry.
+     *
+     * @param otherPersonnel (OtherPersonnelInfo) other personnel info entry.
      * @return SecretarialClerical corresponding to the OtherPersonnelInfo
-     *         object.
+     * object.
      */
     private SecretarialClerical getSecretarialClerical(
             OtherPersonnelInfo otherPersonnel) {
@@ -761,7 +742,7 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
             secretarialClerical.setCalendarMonths(sectBCompType.getCalendarMonths().bigDecimalValue());
             secretarialClerical.setFundsRequested(sectBCompType.getFundsRequested().bigDecimalValue());
             secretarialClerical.setSummerMonths(sectBCompType.getSummerMonths().bigDecimalValue());
-            
+
         }
         return secretarialClerical;
     }
@@ -771,9 +752,8 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
      * Name,ProjectRole,Compensation,TotalFundForAttachedKeyPersons
      * TotalFundForKeyPersons and AttachedKeyPersons based on BudgetPeriodInfo
      * for the RRBudget10.
-     * 
-     * @param periodInfo
-     *            (BudgetPeriodInfo) budget period entry.
+     *
+     * @param periodInfo (BudgetPeriodInfo) budget period entry.
      * @return KeyPersons details corresponding to the BudgetPeriodInfo object.
      */
     private KeyPersons getKeyPersons(BudgetPeriodInfo periodInfo) {
@@ -781,64 +761,63 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
         KeyPersons keyPersons = KeyPersons.Factory.newInstance();
         BudgetDecimal extraFunds = BudgetDecimal.ZERO;
         BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
-        BudgetDecimal baseSalaryByPeriod; 
+        BudgetDecimal baseSalaryByPeriod;
 
         if (periodInfo != null) {
             if (periodInfo.getKeyPersons() != null) {
                 List<KeyPerson> keyPersonList = new ArrayList<KeyPerson>();
                 int keyPersonCount = 0;
                 for (KeyPersonInfo keyPerson : periodInfo.getKeyPersons()) {
-                  if(keyPerson.getRole().equals(NID_PD_PI) || hasPersonnelBudget(keyPerson,periodInfo.getBudgetPeriod())){
-                    KeyPerson keyPersonDataType = KeyPerson.Factory.newInstance();
-                    keyPersonDataType.setName(globLibV20Generator
-                            .getHumanNameDataType(keyPerson));
-                    if (isSponsorNIH(pdDoc)
-                            && KEYPERSON_CO_PD_PI.equals(keyPerson.getRole())) {
-                        DevelopmentProposal developmentProposal=pdDoc.getDevelopmentProposal();     
-                        
-                        for (ProposalPerson proposalPerson : developmentProposal.getInvestigators()) {                        
-                            if(isProposalPersonEqualsKeyPerson(proposalPerson, keyPerson)){   
-                                if(proposalPerson.isMultiplePi())
-                                    keyPersonDataType.setProjectRole(NID_PD_PI);                               
-                                else 
-                                    keyPersonDataType.setProjectRole(NID_CO_PD_PI);                                                             
+                    if (keyPerson.getRole().equals(NID_PD_PI) || hasPersonnelBudget(keyPerson, periodInfo.getBudgetPeriod())) {
+                        KeyPerson keyPersonDataType = KeyPerson.Factory.newInstance();
+                        keyPersonDataType.setName(globLibV20Generator
+                                .getHumanNameDataType(keyPerson));
+                        if (isSponsorNIH(pdDoc)
+                                && KEYPERSON_CO_PD_PI.equals(keyPerson.getRole())) {
+                            DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
+
+                            for (ProposalPerson proposalPerson : developmentProposal.getInvestigators()) {
+                                if (isProposalPersonEqualsKeyPerson(proposalPerson, keyPerson)) {
+                                    if (proposalPerson.isMultiplePi()) {
+                                        keyPersonDataType.setProjectRole(NID_PD_PI);
+                                    } else {
+                                        keyPersonDataType.setProjectRole(NID_CO_PD_PI);
+                                    }
+                                }
                             }
-                        }       
-                    } else if(keyPerson.getKeyPersonRole()!=null){
-                        keyPersonDataType.setProjectRole(keyPerson.getKeyPersonRole());
-                    } else {
-                        keyPersonDataType.setProjectRole(keyPerson.getRole());
-                    }
+                        } else if (keyPerson.getKeyPersonRole() != null) {
+                            keyPersonDataType.setProjectRole(keyPerson.getKeyPersonRole());
+                        } else {
+                            keyPersonDataType.setProjectRole(keyPerson.getRole());
+                        }
                         if (pdDoc.getBudgetDocumentVersions() != null) {
                             baseSalaryByPeriod = budgetService.getBaseSalaryByPeriod(pdDoc.getBudgetDocumentVersion(0)
                                     .getBudgetVersionOverview().getBudgetId(), periodInfo.getBudgetPeriod(), keyPerson);
                             if (baseSalaryByPeriod != null) {
                                 keyPersonDataType.setBaseSalary(baseSalaryByPeriod.bigDecimalValue());
-                            }
-                            else {
+                            } else {
                                 if (keyPerson.getBaseSalary() != null) {
                                     keyPersonDataType.setBaseSalary(keyPerson.getBaseSalary().bigDecimalValue());
                                 }
                             }
 
-                        }
-                        else {
+                        } else {
                             if (keyPerson.getBaseSalary() != null) {
                                 keyPersonDataType.setBaseSalary(keyPerson.getBaseSalary().bigDecimalValue());
                             }
                         }
-                    keyPersonDataType.setRequestedSalary(keyPerson.getRequestedSalary().bigDecimalValue());
-                    keyPersonDataType.setFringeBenefits(keyPerson.getFringe().bigDecimalValue());
-                    keyPersonDataType.setAcademicMonths(keyPerson.getAcademicMonths().bigDecimalValue());
-                    keyPersonDataType.setCalendarMonths(keyPerson.getCalendarMonths().bigDecimalValue());
-                    keyPersonDataType.setFundsRequested(keyPerson.getFundsRequested().bigDecimalValue());
-                    keyPersonDataType.setSummerMonths(keyPerson.getSummerMonths().bigDecimalValue());
+                        keyPersonDataType.setRequestedSalary(keyPerson.getRequestedSalary().bigDecimalValue());
+                        keyPersonDataType.setFringeBenefits(keyPerson.getFringe().bigDecimalValue());
+                        keyPersonDataType.setAcademicMonths(keyPerson.getAcademicMonths().bigDecimalValue());
+                        keyPersonDataType.setCalendarMonths(keyPerson.getCalendarMonths().bigDecimalValue());
+                        keyPersonDataType.setFundsRequested(keyPerson.getFundsRequested().bigDecimalValue());
+                        keyPersonDataType.setSummerMonths(keyPerson.getSummerMonths().bigDecimalValue());
 
-                    keyPersonList.add(keyPersonDataType);
-                    keyPersonCount++;
-                    LOG.info("keyPersonCount:" + keyPersonCount);
+                        keyPersonList.add(keyPersonDataType);
+                        keyPersonCount++;
+                        LOG.info("keyPersonCount:" + keyPersonCount);
+                    }
                 }
-            }
                 keyPersons.setKeyPersonArray(keyPersonList.toArray(new KeyPerson[0]));
             }
             if (periodInfo.getTotalFundsKeyPersons() != null) {
@@ -851,7 +830,7 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
         }
         keyPersons.setTotalFundForAttachedKeyPersons(extraFunds.bigDecimalValue());
         Narrative extraKeyPersonNarr = saveExtraKeyPersons(periodInfo);
-        if(extraKeyPersonNarr!=null){
+        if (extraKeyPersonNarr != null) {
             AttachedFileDataType attachedKeyPersons = AttachedFileDataType.Factory.newInstance();
             FileLocation fileLocation = FileLocation.Factory.newInstance();
             attachedKeyPersons.setFileLocation(fileLocation);
@@ -867,10 +846,10 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
             if (extraKeyPersonNarr.getNarrativeAttachmentList() != null
                     && extraKeyPersonNarr.getNarrativeAttachmentList().size() > 0) {
                 narrativeContent = extraKeyPersonNarr
-                .getNarrativeAttachmentList().get(0).getContent();
-                
+                        .getNarrativeAttachmentList().get(0).getContent();
+
             }
-            if(narrativeContent != null && narrativeContent.length > 0){
+            if (narrativeContent != null && narrativeContent.length > 0) {
                 attachedKeyPersons.setHashValue(getHashValue(narrativeContent));
                 attachmentData.setContent(narrativeContent);
                 attachmentData.setContentId(contentId);
@@ -885,15 +864,17 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
     }
 
     /**
-     * This method creates {@link XmlObject} of type {@link RRBudget10Document} by
-     * populating data from the given {@link ProposalDevelopmentDocument}
-     * 
-     * @param proposalDevelopmentDocument
-     *            for which the {@link XmlObject} needs to be created
+     * This method creates {@link XmlObject} of type {@link RRBudget10Document}
+     * by populating data from the given {@link ProposalDevelopmentDocument}
+     *
+     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs
+     * to be created
      * @return {@link XmlObject} which is generated using the given
-     *         {@link ProposalDevelopmentDocument}
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+     * {@link ProposalDevelopmentDocument}
+     * @see
+     * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
      */
+    @Override
     public XmlObject getFormObject(
             ProposalDevelopmentDocument proposalDevelopmentDocument) {
         this.pdDoc = proposalDevelopmentDocument;
@@ -903,12 +884,12 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
     /**
      * This method typecasts the given {@link XmlObject} to the required
      * generator type and returns back the document of that generator type.
-     * 
-     * @param xmlObject
-     *            which needs to be converted to the document type of the
-     *            required generator
+     *
+     * @param xmlObject which needs to be converted to the document type of the
+     * required generator
      * @return {@link XmlObject} document of the required generator type
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
+     * @see
+     * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
      */
     public XmlObject getFormObject(XmlObject xmlObject) {
         RRBudget10 rrBudget = (RRBudget10) xmlObject;

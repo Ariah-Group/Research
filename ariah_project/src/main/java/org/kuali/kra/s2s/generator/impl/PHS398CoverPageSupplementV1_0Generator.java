@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.impl;
 
@@ -39,97 +55,98 @@ import java.util.List;
  * Class for generating the XML object for grants.gov
  * PHS398CoverPageSupplementV1_0. Form is generated using XMLBean classes and is
  * based on PHS398CoverPageSupplement schema.
- * 
+ *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class PHS398CoverPageSupplementV1_0Generator extends
-		PHS398CoverPageSupplementBaseGenerator {
-    
+        PHS398CoverPageSupplementBaseGenerator {
+
     List<AnswerHeader> answerHeaders;
-	/**
-	 * 
-	 * This method gives information of Cover Page Supplement such as PDPI
-	 * details,Clinical Trail information,Contact person information.
-	 * 
-	 * @return coverPageSupplementDocument {@link XmlObject} of type
-	 *         PHS398CoverPageSupplementDocument.
-	 */
-	private PHS398CoverPageSupplementDocument getCoverPageSupplement() {
 
-		PHS398CoverPageSupplementDocument coverPageSupplementDocument = PHS398CoverPageSupplementDocument.Factory
-				.newInstance();
-		PHS398CoverPageSupplement coverPageSupplement = PHS398CoverPageSupplement.Factory
-				.newInstance();
-		answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
-		coverPageSupplement.setFormVersion(S2SConstants.FORMVERSION_1_0);
-		coverPageSupplement.setPDPI(getPDPI());
-		coverPageSupplement.setClinicalTrial(getClinicalTrial());
-		coverPageSupplement.setContactPersonInfo(getContactPersonInfo(pdDoc));
-		StemCells stemCells = getStemCells();
-		coverPageSupplement.setStemCells(stemCells);
-		coverPageSupplementDocument
-				.setPHS398CoverPageSupplement(coverPageSupplement);
-		return coverPageSupplementDocument;
-	}
+    /**
+     *
+     * This method gives information of Cover Page Supplement such as PDPI
+     * details,Clinical Trail information,Contact person information.
+     *
+     * @return coverPageSupplementDocument {@link XmlObject} of type
+     * PHS398CoverPageSupplementDocument.
+     */
+    private PHS398CoverPageSupplementDocument getCoverPageSupplement() {
 
-	/**
-	 * 
-	 * This method gives the personal details such as Name, New Investigator,
-	 * Degrees of Principal Investigator
-	 * 
-	 * @return PDPI object containing Principal Investigator details.
-	 */
-	private PDPI getPDPI() {
-		PDPI pdpi = PDPI.Factory.newInstance();
-		ProposalPerson PI = s2sUtilService.getPrincipalInvestigator(pdDoc);
-		pdpi.setPDPIName(globLibV10Generator.getHumanNameDataType(PI));
-		// Set default values for mandatory fields
-		pdpi.setIsNewInvestigator(YesNoDataType.NO);
+        PHS398CoverPageSupplementDocument coverPageSupplementDocument = PHS398CoverPageSupplementDocument.Factory
+                .newInstance();
+        PHS398CoverPageSupplement coverPageSupplement = PHS398CoverPageSupplement.Factory
+                .newInstance();
+        answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
+        coverPageSupplement.setFormVersion(S2SConstants.FORMVERSION_1_0);
+        coverPageSupplement.setPDPI(getPDPI());
+        coverPageSupplement.setClinicalTrial(getClinicalTrial());
+        coverPageSupplement.setContactPersonInfo(getContactPersonInfo(pdDoc));
+        StemCells stemCells = getStemCells();
+        coverPageSupplement.setStemCells(stemCells);
+        coverPageSupplementDocument
+                .setPHS398CoverPageSupplement(coverPageSupplement);
+        return coverPageSupplementDocument;
+    }
 
-		if (PI != null) {
-			ProposalYnq proposalYnq = getProposalYnQ(IS_NEW_INVESTIGATOR);
-			if (proposalYnq != null) {
-				YesNoDataType.Enum answer = null;
-				if (proposalYnq.getAnswer() != null) {
-					answer = (proposalYnq.getAnswer().equals(
-							S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.YES
-							: YesNoDataType.NO);
-					pdpi.setIsNewInvestigator(answer);
-				}
-			}
-			String[] degreeArr = null;
-			if (PI.getProposalPersonDegrees() != null) {
-				degreeArr = new String[PI.getProposalPersonDegrees().size()];
-			}
-			int size = 0;
-			for (ProposalPersonDegree personDegree : PI
-					.getProposalPersonDegrees()) {
-				// Degrees: 0...3
-				if (size > MAX_NUMBER_OF_DEGREES) {
-					break;
-				}
-				if (personDegree.getDegree() != null) {
-					if (personDegree.getDegree().length() > PERSON_DEGREE_MAX_LENGTH) {
-						degreeArr[size] = personDegree.getDegree().substring(0,
-								PERSON_DEGREE_MAX_LENGTH);
-					} else {
-						degreeArr[size] = personDegree.getDegree();
-					}
-					size++;
-				}
-			}
-			pdpi.setDegreesArray(degreeArr);
-		}
-		return pdpi;
-	}
+    /**
+     *
+     * This method gives the personal details such as Name, New Investigator,
+     * Degrees of Principal Investigator
+     *
+     * @return PDPI object containing Principal Investigator details.
+     */
+    private PDPI getPDPI() {
+        PDPI pdpi = PDPI.Factory.newInstance();
+        ProposalPerson PI = s2sUtilService.getPrincipalInvestigator(pdDoc);
+        pdpi.setPDPIName(globLibV10Generator.getHumanNameDataType(PI));
+        // Set default values for mandatory fields
+        pdpi.setIsNewInvestigator(YesNoDataType.NO);
 
-	/**
-	 * 
-	 * This method is used to get Clinical Trial information
-	 * 
-	 * @return ClinicalTrial object containing Clinical Trail Details.
-	 */
-	private ClinicalTrial getClinicalTrial() {
+        if (PI != null) {
+            ProposalYnq proposalYnq = getProposalYnQ(IS_NEW_INVESTIGATOR);
+            if (proposalYnq != null) {
+                YesNoDataType.Enum answer = null;
+                if (proposalYnq.getAnswer() != null) {
+                    answer = (proposalYnq.getAnswer().equals(
+                            S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.YES
+                                    : YesNoDataType.NO);
+                    pdpi.setIsNewInvestigator(answer);
+                }
+            }
+            String[] degreeArr = null;
+            if (PI.getProposalPersonDegrees() != null) {
+                degreeArr = new String[PI.getProposalPersonDegrees().size()];
+            }
+            int size = 0;
+            for (ProposalPersonDegree personDegree : PI
+                    .getProposalPersonDegrees()) {
+                // Degrees: 0...3
+                if (size > MAX_NUMBER_OF_DEGREES) {
+                    break;
+                }
+                if (personDegree.getDegree() != null) {
+                    if (personDegree.getDegree().length() > PERSON_DEGREE_MAX_LENGTH) {
+                        degreeArr[size] = personDegree.getDegree().substring(0,
+                                PERSON_DEGREE_MAX_LENGTH);
+                    } else {
+                        degreeArr[size] = personDegree.getDegree();
+                    }
+                    size++;
+                }
+            }
+            pdpi.setDegreesArray(degreeArr);
+        }
+        return pdpi;
+    }
+
+    /**
+     *
+     * This method is used to get Clinical Trial information
+     *
+     * @return ClinicalTrial object containing Clinical Trail Details.
+     */
+    private ClinicalTrial getClinicalTrial() {
 
         ClinicalTrial clinicalTrial = ClinicalTrial.Factory.newInstance();
         String answer = null;
@@ -143,9 +160,9 @@ public class PHS398CoverPageSupplementV1_0Generator extends
                     if (subAnswer != null) {
                         if (!subAnswer.equals(NOT_ANSWERED)) {
                             if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(subAnswer)) {
-                                clinicalTrial.setIsPhaseIIIClinicalTrial(YesNoDataType.YES);   
+                                clinicalTrial.setIsPhaseIIIClinicalTrial(YesNoDataType.YES);
                             } else {
-                                clinicalTrial.setIsPhaseIIIClinicalTrial(YesNoDataType.NO);   
+                                clinicalTrial.setIsPhaseIIIClinicalTrial(YesNoDataType.NO);
                             }
 
                         }
@@ -158,85 +175,84 @@ public class PHS398CoverPageSupplementV1_0Generator extends
         return clinicalTrial;
     }
 
-	/**
-	 * 
-	 * This method gives the Contact person information such as contact
-	 * Name,Phone,Fax,EmailAddress,Title,Address.
-	 * 
-	 * @return ContactPersonInfo object containing contact person details.
-	 */
-	private ContactPersonInfo getContactPersonInfo(
-			ProposalDevelopmentDocument pdDoc) {
-		ContactPersonInfo contactPersonInfo = ContactPersonInfo.Factory
-				.newInstance();
-		DepartmentalPerson contactPerson = s2sUtilService.getContactPerson(pdDoc);
-		if (contactPerson != null) {
-			contactPersonInfo.setContactName(globLibV10Generator
-					.getHumanNameDataType(contactPerson));
-			contactPersonInfo.setContactPhone(contactPerson.getOfficePhone());
-			if (contactPerson.getFaxNumber() != null
-					&& !contactPerson.getFaxNumber().equals("")) {
-				contactPersonInfo.setContactFax(contactPerson.getFaxNumber());
-			}
-			if (contactPerson.getEmailAddress() != null
-					&& !contactPerson.getEmailAddress().equals("")) {
-				contactPersonInfo.setContactEmail(contactPerson.getEmailAddress());
-			}
-			contactPersonInfo.setContactTitle(contactPerson.getPrimaryTitle());
-			contactPersonInfo.setContactAddress(globLibV10Generator
-					.getAddressRequireCountryDataType(contactPerson));
-		}
-		return contactPersonInfo;
-	}
+    /**
+     *
+     * This method gives the Contact person information such as contact
+     * Name,Phone,Fax,EmailAddress,Title,Address.
+     *
+     * @return ContactPersonInfo object containing contact person details.
+     */
+    private ContactPersonInfo getContactPersonInfo(
+            ProposalDevelopmentDocument pdDoc) {
+        ContactPersonInfo contactPersonInfo = ContactPersonInfo.Factory
+                .newInstance();
+        DepartmentalPerson contactPerson = s2sUtilService.getContactPerson(pdDoc);
+        if (contactPerson != null) {
+            contactPersonInfo.setContactName(globLibV10Generator
+                    .getHumanNameDataType(contactPerson));
+            contactPersonInfo.setContactPhone(contactPerson.getOfficePhone());
+            if (contactPerson.getFaxNumber() != null
+                    && !contactPerson.getFaxNumber().equals("")) {
+                contactPersonInfo.setContactFax(contactPerson.getFaxNumber());
+            }
+            if (contactPerson.getEmailAddress() != null
+                    && !contactPerson.getEmailAddress().equals("")) {
+                contactPersonInfo.setContactEmail(contactPerson.getEmailAddress());
+            }
+            contactPersonInfo.setContactTitle(contactPerson.getPrimaryTitle());
+            contactPersonInfo.setContactAddress(globLibV10Generator
+                    .getAddressRequireCountryDataType(contactPerson));
+        }
+        return contactPersonInfo;
+    }
 
-	/**
-	 * 
-	 * This method is used to get information of Stem Cells for the form
-	 * PHS398CoverPage
-	 * 
-	 * @return StemCells object containing information about Human stem Cells
-	 *         involvement.
-	 */
-	private StemCells getStemCells() {
+    /**
+     *
+     * This method is used to get information of Stem Cells for the form
+     * PHS398CoverPage
+     *
+     * @return StemCells object containing information about Human stem Cells
+     * involvement.
+     */
+    private StemCells getStemCells() {
 
-	    StemCells stemCells = StemCells.Factory.newInstance();	
-	    Enum answers = YesNoDataType.NO;
-	    String childAnswer = null;  
-	    String answer = getAnswer(IS_HUMAN_STEM_CELLS_INVOLVED);
-	    if (answer != null) {
-	        if (!answer.equals(NOT_ANSWERED)) {
-	            answers = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(getAnswer(IS_HUMAN_STEM_CELLS_INVOLVED)) ? YesNoDataType.YES : YesNoDataType.NO;
-	            if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
-	                stemCells.setIsHumanStemCellsInvolved(YesNoDataType.YES);
-	                String subAnswer = getAnswer(SPECIFIC_STEM_CELL_LINE);
-	                if (subAnswer != null) {
-	                    if(!subAnswer.equals(NOT_ANSWERED)) {
-	                        if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(subAnswer)) {
-	                            stemCells.setStemCellsIndicator(YesNoDataType.NO);
-	                            childAnswer = getAnswers(REGISTRATION_NUMBER);
-	                        }
-	                        else {
-	                            stemCells.setStemCellsIndicator(YesNoDataType.YES);
-	                        }
-	                    }
-	                }
-	                if (childAnswer != null) {
-	                    if (S2SConstants.VALUE_UNKNOWN.equalsIgnoreCase(childAnswer)) {
-	                        stemCells.setStemCellsIndicator(answers);
-	                    } else {
-	                        List<String> cellLines = getCellLines(childAnswer);
-	                        if (cellLines.size() > 0) {
-	                            stemCells.setCellLinesArray(cellLines.toArray(new String[0]));
-	                        }
-	                    }
-	                }
-	            } else {
-	                stemCells.setIsHumanStemCellsInvolved(YesNoDataType.NO); 
-	            }
-	        }
-	    }
-	    return stemCells;
-	}
+        StemCells stemCells = StemCells.Factory.newInstance();
+        Enum answers = YesNoDataType.NO;
+        String childAnswer = null;
+        String answer = getAnswer(IS_HUMAN_STEM_CELLS_INVOLVED);
+        if (answer != null) {
+            if (!answer.equals(NOT_ANSWERED)) {
+                answers = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(getAnswer(IS_HUMAN_STEM_CELLS_INVOLVED)) ? YesNoDataType.YES : YesNoDataType.NO;
+                if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
+                    stemCells.setIsHumanStemCellsInvolved(YesNoDataType.YES);
+                    String subAnswer = getAnswer(SPECIFIC_STEM_CELL_LINE);
+                    if (subAnswer != null) {
+                        if (!subAnswer.equals(NOT_ANSWERED)) {
+                            if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(subAnswer)) {
+                                stemCells.setStemCellsIndicator(YesNoDataType.NO);
+                                childAnswer = getAnswers(REGISTRATION_NUMBER);
+                            } else {
+                                stemCells.setStemCellsIndicator(YesNoDataType.YES);
+                            }
+                        }
+                    }
+                    if (childAnswer != null) {
+                        if (S2SConstants.VALUE_UNKNOWN.equalsIgnoreCase(childAnswer)) {
+                            stemCells.setStemCellsIndicator(answers);
+                        } else {
+                            List<String> cellLines = getCellLines(childAnswer);
+                            if (cellLines.size() > 0) {
+                                stemCells.setCellLinesArray(cellLines.toArray(new String[0]));
+                            }
+                        }
+                    }
+                } else {
+                    stemCells.setIsHumanStemCellsInvolved(YesNoDataType.NO);
+                }
+            }
+        }
+        return stemCells;
+    }
 
     /*
      * This method will get the Answer for sub question
@@ -254,7 +270,7 @@ public class PHS398CoverPageSupplementV1_0Generator extends
                 }
             }
         }
-        return answer;   
+        return answer;
     }
 
     /*
@@ -284,39 +300,42 @@ public class PHS398CoverPageSupplementV1_0Generator extends
         }
         return childAnswer;
     }
-	/**
-	 * This method creates {@link XmlObject} of type
-	 * {@link PHS398CoverPageSupplementDocument} by populating data from the
-	 * given {@link ProposalDevelopmentDocument}
-	 * 
-	 * @param proposalDevelopmentDocument
-	 *            for which the {@link XmlObject} needs to be created
-	 * @return {@link XmlObject} which is generated using the given
-	 *         {@link ProposalDevelopmentDocument}
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
-	 */
-	public XmlObject getFormObject(
-			ProposalDevelopmentDocument proposalDevelopmentDocument) {
-		this.pdDoc = proposalDevelopmentDocument;
-		return getCoverPageSupplement();
-	}
 
-	/**
-	 * This method typecasts the given {@link XmlObject} to the required
-	 * generator type and returns back the document of that generator type.
-	 * 
-	 * @param xmlObject
-	 *            which needs to be converted to the document type of the
-	 *            required generator
-	 * @return {@link XmlObject} document of the required generator type
-	 * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
-	 */
-	public XmlObject getFormObject(XmlObject xmlObject) {
-		PHS398CoverPageSupplement phsCoverPageSupplement = (PHS398CoverPageSupplement) xmlObject;
-		PHS398CoverPageSupplementDocument phsCoverPageSupplementDocument = PHS398CoverPageSupplementDocument.Factory
-				.newInstance();
-		phsCoverPageSupplementDocument
-				.setPHS398CoverPageSupplement(phsCoverPageSupplement);
-		return phsCoverPageSupplementDocument;
-	}
+    /**
+     * This method creates {@link XmlObject} of type
+     * {@link PHS398CoverPageSupplementDocument} by populating data from the
+     * given {@link ProposalDevelopmentDocument}
+     *
+     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs
+     * to be created
+     * @return {@link XmlObject} which is generated using the given
+     * {@link ProposalDevelopmentDocument}
+     * @see
+     * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+     */
+    @Override
+    public XmlObject getFormObject(
+            ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        this.pdDoc = proposalDevelopmentDocument;
+        return getCoverPageSupplement();
+    }
+
+    /**
+     * This method typecasts the given {@link XmlObject} to the required
+     * generator type and returns back the document of that generator type.
+     *
+     * @param xmlObject which needs to be converted to the document type of the
+     * required generator
+     * @return {@link XmlObject} document of the required generator type
+     * @see
+     * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
+     */
+    public XmlObject getFormObject(XmlObject xmlObject) {
+        PHS398CoverPageSupplement phsCoverPageSupplement = (PHS398CoverPageSupplement) xmlObject;
+        PHS398CoverPageSupplementDocument phsCoverPageSupplementDocument = PHS398CoverPageSupplementDocument.Factory
+                .newInstance();
+        phsCoverPageSupplementDocument
+                .setPHS398CoverPageSupplement(phsCoverPageSupplement);
+        return phsCoverPageSupplementDocument;
+    }
 }

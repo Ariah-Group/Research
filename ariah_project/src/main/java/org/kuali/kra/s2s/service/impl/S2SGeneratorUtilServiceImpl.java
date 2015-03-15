@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.service.impl;
 
@@ -38,7 +54,7 @@ import java.sql.Date;
 import java.util.*;
 
 /**
- * 
+ *
  * This class has many helper methods which can be used in stream generators.
  */
 public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
@@ -52,7 +68,7 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
     private static final String DATE_FORMAT = "MM/dd/yyyy";
 
     /**
-     * 
+     *
      * Constructs a S2SGeneratorUtilServiceImpl.java.
      */
     public S2SGeneratorUtilServiceImpl() {
@@ -60,8 +76,11 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
 
     /**
      * Returns submission type for a proposal document.
-     * @see org.kuali.kra.s2s.service.S2SGeneratorUtilService#getSubmissionType(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     *
+     * @see
+     * org.kuali.kra.s2s.service.S2SGeneratorUtilService#getSubmissionType(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
+    @Override
     public Map<String, String> getSubmissionType(ProposalDevelopmentDocument pdDoc) {
         Map<String, String> submissionInfo = new HashMap<String, String>();
         S2sOpportunity opportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
@@ -84,8 +103,11 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
 
     /**
      * Fetch Rolodex record for the organization attached to the Proposal.
-     * @see org.kuali.kra.s2s.service.S2SGeneratorUtilService#getDepartmentalPerson(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     *
+     * @see
+     * org.kuali.kra.s2s.service.S2SGeneratorUtilService#getDepartmentalPerson(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
+    @Override
     public DepartmentalPerson getDepartmentalPerson(ProposalDevelopmentDocument pdDoc) {
         int count = 0;
         DepartmentalPerson depPerson = new DepartmentalPerson();
@@ -127,8 +149,7 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
                 depPerson.setPersonId(Integer.toString(rolodex.getRolodexId()));
                 depPerson.setDirDept(organization.getOrganizationName());
             }
-        }
-        else {
+        } else {
             // proposal has been submitted
             // TODO fetched SIGNED_BY from PROPOSAL_ADMIN_DETAILS after implementation and complete the remaining logic
 
@@ -138,8 +159,11 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
 
     /**
      * Returns questions for End of state review
-     * @see org.kuali.kra.s2s.service.S2SGeneratorUtilService#getEOStateReview(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     *
+     * @see
+     * org.kuali.kra.s2s.service.S2SGeneratorUtilService#getEOStateReview(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
+    @Override
     public Map<String, String> getEOStateReview(ProposalDevelopmentDocument pdDoc) {
         Map<String, String> stateReview = new HashMap<String, String>();
         for (ProposalYnq proposalYnq : pdDoc.getDevelopmentProposal().getProposalYnqs()) {
@@ -159,31 +183,38 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
 
     /**
      * This should be implemented after implementing Institute proposal.
-     * @see org.kuali.kra.s2s.service.S2SGeneratorUtilService#getFederalId(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     *
+     * @see
+     * org.kuali.kra.s2s.service.S2SGeneratorUtilService#getFederalId(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
+    @Override
     public String getFederalId(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         // TODO Implement it after institute proposal development is completed
         return null;
     }
 
     /**
-     * 
+     *
      * This method fetches system constant parameters
-     * 
+     *
      * @param parameter String for which value must be fetched
      * @return String
      */
+    @Override
     public String getParameterValue(String parameter) {
-        return this.parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,parameter);
+        return this.parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, parameter);
     }
 
     /**
      * Create country code data type
-     * @see org.kuali.kra.s2s.service.S2SGeneratorUtilService#getCountryCodeDataType(java.lang.String)
+     *
+     * @see
+     * org.kuali.kra.s2s.service.S2SGeneratorUtilService#getCountryCodeDataType(java.lang.String)
      */
+    @Override
     public CountryCodeDataType.Enum getCountryCodeDataType(String countryCode) {
         CountryCodeDataType.Enum countryCodeDataType = null;
-        
+
         Country country = getCountryService().getCountryByAlternateCode(countryCode);
         if (country != null) {
             countryCodeDataType = CountryCodeDataType.Enum.forString(country.getAlternateCode() + ": " + country.getName().toUpperCase());
@@ -191,35 +222,39 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
 
         return countryCodeDataType;
     }
-    
+
     protected static CountryService getCountryService() {
         return KraServiceLocator.getService(CountryService.class);
     }
 
     /**
      * Create State code data type
-     * @see org.kuali.kra.s2s.service.S2SGeneratorUtilService#getStateCodeDataType(java.lang.String)
+     *
+     * @see
+     * org.kuali.kra.s2s.service.S2SGeneratorUtilService#getStateCodeDataType(java.lang.String)
      */
+    @Override
     public StateCodeDataType.Enum getStateCodeDataType(String stateName) {
         StateCodeDataType.Enum stateCodeDataType = null;
         String countryCode = parameterService.getParameterValueAsString(KRADConstants.KNS_NAMESPACE,
-        KRADConstants.DetailTypes.ALL_DETAIL_TYPE, KRADConstants.SystemGroupParameterNames.DEFAULT_COUNTRY);
- 
+                KRADConstants.DetailTypes.ALL_DETAIL_TYPE, KRADConstants.SystemGroupParameterNames.DEFAULT_COUNTRY);
+
         State state = getStateService().getState(countryCode, stateName);
         if (state != null) {
             stateCodeDataType = StateCodeDataType.Enum.forString(state.getCode() + ": " + state.getName());
         }
-        
+
         return stateCodeDataType;
     }
-    
+
     protected static StateService getStateService() {
         return KraServiceLocator.getService(StateService.class);
     }
 
     /**
-     * 
+     *
      * This method is to format the date
+     *
      * @param date String
      * @param format String
      * @return formatted date string
@@ -228,9 +263,9 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
         int year = 0;
         int month = 0;
         int day = 0;
-        if (dateStr == null || formatStr == null)
+        if (dateStr == null || formatStr == null) {
             return null;
-        else {
+        } else {
             year = Integer.parseInt(dateStr.substring(0, 4));
             month = Integer.parseInt(dateStr.substring(5, 7));
             day = Integer.parseInt(dateStr.substring(8, 10));
@@ -240,8 +275,11 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
 
     /**
      * Convert the date string with YYYY-MM-DD format to calendar object
-     * @see org.kuali.kra.s2s.service.S2SGeneratorUtilService#convertDateStringToCalendar(java.lang.String)
+     *
+     * @see
+     * org.kuali.kra.s2s.service.S2SGeneratorUtilService#convertDateStringToCalendar(java.lang.String)
      */
+    @Override
     public Calendar convertDateStringToCalendar(String dateStr) {
         GregorianCalendar calendar = new GregorianCalendar();
 
@@ -258,20 +296,25 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
     }
 
     /**
-     * 
-     * @see org.kuali.kra.s2s.service.S2SGeneratorUtilService#getCurrentCalendar()
+     *
+     * @see
+     * org.kuali.kra.s2s.service.S2SGeneratorUtilService#getCurrentCalendar()
      */
+    @Override
     public Calendar getCurrentCalendar() {
         return dateTimeService.getCurrentCalendar();
     }
 
     /**
-     * 
-     * @see org.kuali.kra.s2s.service.S2SGeneratorUtilService#convertDateToCalendar(java.sql.Date)
+     *
+     * @see
+     * org.kuali.kra.s2s.service.S2SGeneratorUtilService#convertDateToCalendar(java.sql.Date)
      */
+    @Override
     public Calendar convertDateToCalendar(Date date) {
-        if (date == null)
+        if (date == null) {
             return null;
+        }
         Calendar cal = Calendar.getInstance(TimeZone.getDefault());
         cal.setTime(date);
         return cal;
@@ -279,7 +322,7 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
 
     /**
      * Sets the dateTimeService attribute value.
-     * 
+     *
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -288,7 +331,8 @@ public class S2SGeneratorUtilServiceImpl implements S2SGeneratorUtilService {
 
     /**
      * Sets the ParameterService.
-     * @param parameterService the parameter service. 
+     *
+     * @param parameterService the parameter service.
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;

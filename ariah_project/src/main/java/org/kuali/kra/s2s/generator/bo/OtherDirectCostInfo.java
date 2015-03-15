@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.bo;
 
@@ -30,7 +46,7 @@ public class OtherDirectCostInfo {
     private BudgetDecimal subAwards;
     private BudgetDecimal equipRental;
     private BudgetDecimal alterations;
-    private List<Map<String,String>> otherCosts;
+    private List<Map<String, String>> otherCosts;
     private BudgetDecimal totalOtherDirect;
 
     private BudgetDecimal domTravel;
@@ -63,35 +79,31 @@ public class OtherDirectCostInfo {
     private BudgetDecimal partSubsistenceCostSharing;
     private int particpantTotalCount;
 
-
     public OtherDirectCostInfo() {
         // otherCosts = new ArrayList<otherCosts>();
     }
 
-
     /**
      * Getter for property totalOtherDirect
-     * 
+     *
      * @return Value of property totalOtherDirect.
      */
-
     public BudgetDecimal gettotalOtherDirect() {
         return totalOtherDirect;
     }
 
     /**
      * Setter for property totalOtherDirect
-     * 
+     *
      * @param totalOtherDirect New value of property totalOtherDirect.
      */
     public void settotalOtherDirect(BudgetDecimal totalOtherDirect) {
         this.totalOtherDirect = totalOtherDirect;
     }
 
-
     /**
      * Getter for property materials
-     * 
+     *
      * @return Value of property materials.
      */
     public BudgetDecimal getmaterials() {
@@ -100,7 +112,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Setter for property materials.
-     * 
+     *
      * @param materials New value of property materials.
      */
     public void setmaterials(BudgetDecimal materials) {
@@ -109,7 +121,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Getter for property publications
-     * 
+     *
      * @return Value of property publications.
      */
     public BudgetDecimal getpublications() {
@@ -118,7 +130,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Setter for property publications.
-     * 
+     *
      * @param publications New value of property publications.
      */
     public void setpublications(BudgetDecimal publications) {
@@ -127,7 +139,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Getter for property consultants
-     * 
+     *
      * @return Value of property consultants.
      */
     public BudgetDecimal getConsultants() {
@@ -136,7 +148,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Setter for property consultants.
-     * 
+     *
      * @param consultants New value of property consultants.
      */
     public void setConsultants(BudgetDecimal consultants) {
@@ -145,7 +157,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Getter for property computer
-     * 
+     *
      * @return Value of property computer.
      */
     public BudgetDecimal getcomputer() {
@@ -154,7 +166,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Setter for property computer.
-     * 
+     *
      * @param computer New value of property computer.
      */
     public void setcomputer(BudgetDecimal computer) {
@@ -163,7 +175,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Getter for property subAwards
-     * 
+     *
      * @return Value of property subAwards.
      */
     public BudgetDecimal getsubAwards() {
@@ -172,7 +184,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Setter for property subAwards.
-     * 
+     *
      * @param subAwards New value of property subAwards.
      */
     public void setsubAwards(BudgetDecimal subAwards) {
@@ -181,7 +193,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Getter for property equipRental
-     * 
+     *
      * @return Value of property EquipRental.
      */
     public BudgetDecimal getEquipRental() {
@@ -190,7 +202,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Setter for property equipRental.
-     * 
+     *
      * @param equipRental New value of property equipRental.
      */
     public void setEquipRental(BudgetDecimal equipRental) {
@@ -199,7 +211,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Getter for property alterations
-     * 
+     *
      * @return Value of property alterations.
      */
     public BudgetDecimal getAlterations() {
@@ -208,7 +220,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Setter for property alterations.
-     * 
+     *
      * @param alterations New value of property alterations.
      */
     public void setAlterations(BudgetDecimal alterations) {
@@ -217,7 +229,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Getter for property domTravel
-     * 
+     *
      * @return Value of property domTravel.
      */
     public BudgetDecimal getDomTravel() {
@@ -226,7 +238,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Setter for property domTravel.
-     * 
+     *
      * @param domTravel New value of property domTravel.
      */
     public void setDomTravel(BudgetDecimal domTravel) {
@@ -235,7 +247,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Getter for property foreignTravel
-     * 
+     *
      * @return Value of property foreignTravel.
      */
     public BudgetDecimal getForeignTravel() {
@@ -244,7 +256,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Setter for property foreignTravel.
-     * 
+     *
      * @param foreignTravel New value of property foreignTravel.
      */
     public void setForeignTravel(BudgetDecimal foreignTravel) {
@@ -253,7 +265,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Getter for property totTravel
-     * 
+     *
      * @return Value of property totTravel.
      */
     public BudgetDecimal getTotTravel() {
@@ -262,7 +274,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Setter for property totTravel.
-     * 
+     *
      * @param totTravel New value of property totTravel.
      */
     public void setTotTravel(BudgetDecimal totTravel) {
@@ -271,25 +283,25 @@ public class OtherDirectCostInfo {
 
     /**
      * Getter for property otherCosts
-     * 
+     *
      * @return Value of property otherCosts.
      */
-    public List<Map<String,String>> getOtherCosts() {
+    public List<Map<String, String>> getOtherCosts() {
         return otherCosts;
     }
 
     /**
      * Setter for property otherCosts.
-     * 
+     *
      * @param otherCosts New value of property otherCosts.
      */
-    public void setOtherCosts(List<Map<String,String>> otherCosts) {
+    public void setOtherCosts(List<Map<String, String>> otherCosts) {
         this.otherCosts = otherCosts;
     }
 
     /**
      * Getter for property partStipends
-     * 
+     *
      * @return Value of property partStipends.
      */
     public BudgetDecimal getPartStipends() {
@@ -298,7 +310,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Setter for property partStipends.
-     * 
+     *
      * @param partStipends New value of property partStipends.
      */
     public void setPartStipends(BudgetDecimal partStipends) {
@@ -307,7 +319,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Getter for property partStipendsCount
-     * 
+     *
      * @return Value of property partStipendsCount.
      */
     // public int getPartStipendsCount() {
@@ -315,7 +327,7 @@ public class OtherDirectCostInfo {
     // }
     /**
      * Setter for property partStipendsCount.
-     * 
+     *
      * @param partStipendsCount New value of property partStipendsCount.
      */
     // public void setPartStipendsCount(int partStipendsCount) {
@@ -323,7 +335,7 @@ public class OtherDirectCostInfo {
     // }
     /**
      * Getter for property partOther
-     * 
+     *
      * @return Value of property partOther.
      */
     public BudgetDecimal getPartOther() {
@@ -332,7 +344,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Setter for property partOther.
-     * 
+     *
      * @param partOther New value of property partOther.
      */
     public void setPartOther(BudgetDecimal partOther) {
@@ -341,7 +353,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Getter for property partOtherCount
-     * 
+     *
      * @return Value of property partOtherCount.
      */
     // public int getPartOtherCount() {
@@ -349,7 +361,7 @@ public class OtherDirectCostInfo {
     // }
     /**
      * Setter for property partOtherCount.
-     * 
+     *
      * @param partOtherCount New value of property partOtherCount.
      */
     // public void setPartOtherCount(int partOtherCount) {
@@ -357,7 +369,7 @@ public class OtherDirectCostInfo {
     // }
     /**
      * Getter for property partTravel
-     * 
+     *
      * @return Value of property partTravel.
      */
     public BudgetDecimal getPartTravel() {
@@ -366,17 +378,16 @@ public class OtherDirectCostInfo {
 
     /**
      * Setter for property partTravel.
-     * 
+     *
      * @param partTravel New value of property partTravel.
      */
     public void setPartTravel(BudgetDecimal partTravel) {
         this.partTravel = partTravel;
     }
 
-
     /**
      * Getter for property partTravelCount
-     * 
+     *
      * @return Value of property partTravelCount.
      */
     // public int getPartTravelCount() {
@@ -384,7 +395,7 @@ public class OtherDirectCostInfo {
     // }
     /**
      * Setter for property partTravelCount.
-     * 
+     *
      * @param partTravelCount New value of property partTravelCount.
      */
     // public void setPartTravelCount(int partTravelCount) {
@@ -392,7 +403,7 @@ public class OtherDirectCostInfo {
     // }
     /**
      * Getter for property participantTotal
-     * 
+     *
      * @return Value of property participantTotal.
      */
     public BudgetDecimal getParticipantTotal() {
@@ -401,7 +412,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Setter for property participantTotal.
-     * 
+     *
      * @param participantTotal New value of property participantTotal.
      */
     public void setParticipantTotal(BudgetDecimal participantTotal) {
@@ -410,7 +421,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Getter for property particpantTotalCount
-     * 
+     *
      * @return Value of property particpantTotalCount.
      */
     public int getParticpantTotalCount() {
@@ -419,7 +430,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Setter for property participantTotalCount.
-     * 
+     *
      * @param participantTotalCount New value of property particpantTotalCount.
      */
     public void setParticipantTotalCount(int particpantTotalCount) {
@@ -429,7 +440,7 @@ public class OtherDirectCostInfo {
     // start add costSaring for fedNonFedBudget repport
     /**
      * Getter for property materialsCostSharing
-     * 
+     *
      * @return Value of property materialsCostSharing.
      */
     public BudgetDecimal getMaterialsCostSharing() {
@@ -438,7 +449,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Setter for property materialsCostSharing.
-     * 
+     *
      * @param materialsCostSharing New value of property materialsCostSharing.
      */
     public void setMaterialsCostSharing(BudgetDecimal materialsCostSharing) {
@@ -558,11 +569,9 @@ public class OtherDirectCostInfo {
     }
 
     // end add costSaring for fedNonFedBudget repport
-
-
     /**
      * Getter for property partTuition.
-     * 
+     *
      * @return Value of property partTuition.
      */
     public BudgetDecimal getPartTuition() {
@@ -571,7 +580,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Setter for property partTuition.
-     * 
+     *
      * @param partTuition New value of property partTuition.
      */
     public void setPartTuition(BudgetDecimal partTuition) {
@@ -580,7 +589,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Getter for property partSubsistence.
-     * 
+     *
      * @return Value of property partSubsistence.
      */
     public BudgetDecimal getPartSubsistence() {
@@ -589,7 +598,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Setter for property partSubsistence.
-     * 
+     *
      * @param partSubsistence New value of property partSubsistence.
      */
     public void setPartSubsistence(BudgetDecimal partSubsistence) {
@@ -598,7 +607,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Getter for property partTuitionCostSharing.
-     * 
+     *
      * @return Value of property partTuitionCostSharing.
      */
     public BudgetDecimal getPartTuitionCostSharing() {
@@ -607,8 +616,9 @@ public class OtherDirectCostInfo {
 
     /**
      * Setter for property partTuitionCostSharing.
-     * 
-     * @param partTuitionCostSharing New value of property partTuitionCostSharing.
+     *
+     * @param partTuitionCostSharing New value of property
+     * partTuitionCostSharing.
      */
     public void setPartTuitionCostSharing(BudgetDecimal partTuitionCostSharing) {
         this.partTuitionCostSharing = partTuitionCostSharing;
@@ -616,7 +626,7 @@ public class OtherDirectCostInfo {
 
     /**
      * Getter for property partSubsistenceCostSharing.
-     * 
+     *
      * @return Value of property partSubsistenceCostSharing.
      */
     public BudgetDecimal getPartSubsistenceCostSharing() {
@@ -625,13 +635,13 @@ public class OtherDirectCostInfo {
 
     /**
      * Setter for property partSubsistenceCostSharing.
-     * 
-     * @param partSubsistenceCostSharing New value of property partSubsistenceCostSharing.
+     *
+     * @param partSubsistenceCostSharing New value of property
+     * partSubsistenceCostSharing.
      */
     public void setPartSubsistenceCostSharing(BudgetDecimal partSubsistenceCostSharing) {
         this.partSubsistenceCostSharing = partSubsistenceCostSharing;
     }
-
 
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap hashMap = new LinkedHashMap();

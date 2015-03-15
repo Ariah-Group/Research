@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.formmapping;
 
@@ -33,22 +49,18 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.*;
 
-
-
-
 /**
- * This class is used to bind the S2SFormBinding.xml and get the information about the namespace , mainclass , stylesheet and
- * package name.
- * 
+ * This class is used to bind the S2SFormBinding.xml and get the information
+ * about the namespace , mainclass , stylesheet and package name.
+ *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-
 public class FormMappingLoader {
 
     private static Map<String, FormMappingInfo> bindings;
     private static Map<Integer, List<String>> sortedNameSpaces;
     private static final String BINDING_FILE_NAME = "/S2SFormBinding.xml";
-    private static final String BINDING_FILE_NAME_V2="/org/kuali/kra/s2s/s2sform/S2SFormBinding-V2.xml";
+    private static final String BINDING_FILE_NAME_V2 = "/org/kuali/kra/s2s/s2sform/S2SFormBinding-V2.xml";
     private static final String NAMESPACE = "namespace";
     private static final String MAIN_CLASS = "mainClass";
     private static final String STYLE_SHEET = "stylesheet";
@@ -59,40 +71,39 @@ public class FormMappingLoader {
     private static final int DEFAULT_SORT_INDEX = 1000;
     private static final Log LOG = LogFactory.getLog(FormMappingLoader.class);
 
-    
     /**
-     * 
+     *
      * This method is used to get the Form Information based on the given schema
-     * 
+     *
      * @param nameSpace {@link String} namespace URL of the form
      * @return {@link formMappingInfo}containing the namespace information
      * @throws S2SGeneratorNotFoundException
-     * 
+     *
      */
     public FormMappingInfo getFormInfo(String namespace) {
-        return getFormInfo(null,namespace);
+        return getFormInfo(null, namespace);
     }
-    
-    public FormMappingInfo getFormInfo(String proposalNumber,String namespace) {
+
+    public FormMappingInfo getFormInfo(String proposalNumber, String namespace) {
         getBindings();
         FormMappingInfo formMappingInfo = bindings.get(namespace);
         if (formMappingInfo != null) {
             return formMappingInfo;
-        }else if(proposalNumber!=null){
-            return getUserAttachedForm(proposalNumber,namespace);
-        }else{
+        } else if (proposalNumber != null) {
+            return getUserAttachedForm(proposalNumber, namespace);
+        } else {
             return null;
         }
     }
 
-    private FormMappingInfo getUserAttachedForm(String proposalNumber,String namespace) {
+    private FormMappingInfo getUserAttachedForm(String proposalNumber, String namespace) {
         Map<String, Object> fieldMap = new HashMap<String, Object>();
         fieldMap.put("proposalNumber", proposalNumber);
         fieldMap.put("namespace", namespace);
         List<S2sUserAttachedForm> formList = (List<S2sUserAttachedForm>) KraServiceLocator.getService(BusinessObjectService.class).
-                                                    findMatching(S2sUserAttachedForm.class,fieldMap);
-        if(!formList.isEmpty()){
-            S2sUserAttachedForm userAttachedForm=formList.get(0);
+                findMatching(S2sUserAttachedForm.class, fieldMap);
+        if (!formList.isEmpty()) {
+            S2sUserAttachedForm userAttachedForm = formList.get(0);
             FormMappingInfo mappingInfo = new FormMappingInfo();
             mappingInfo.setFormName(userAttachedForm.getFormName());
             mappingInfo.setMainClass("org.kuali.kra.s2s.generator.impl.UserAttachedFormGenerator");
@@ -101,40 +112,41 @@ public class FormMappingLoader {
             mappingInfo.setStyleSheet(createStylesheetName(namespace));
             mappingInfo.setUserAttachedForm(true);
             return mappingInfo;
-        }else return null;
-        
+        } else {
+            return null;
+        }
+
     }
 
     private String createStylesheetName(String namespace) {
         String[] tokens = namespace.split("/");
-        String formname = tokens[tokens.length-1];
-        String templateName = "org/kuali/kra/s2s/stylesheet/"+formname+".xsl";
+        String formname = tokens[tokens.length - 1];
+        String templateName = "org/kuali/kra/s2s/stylesheet/" + formname + ".xsl";
         return templateName;
     }
 
     /**
-     * 
+     *
      * This method is used to bind FormMappingLoader class
-     * 
+     *
      * @return {@link Map}
      */
-
     public Map<String, FormMappingInfo> getBindings() {
         if (bindings == null) {
             synchronized (FormMappingLoader.class) {
-            	bindings = new Hashtable<String, FormMappingInfo>();
+                bindings = new Hashtable<String, FormMappingInfo>();
                 sortedNameSpaces = new TreeMap<Integer, List<String>>();
                 loadBindings(BINDING_FILE_NAME);
-                if((new FormMappingLoader().getClass().getResourceAsStream(BINDING_FILE_NAME_V2))!=null)
-                loadBindings(BINDING_FILE_NAME_V2);
+                if ((new FormMappingLoader().getClass().getResourceAsStream(BINDING_FILE_NAME_V2)) != null) {
+                    loadBindings(BINDING_FILE_NAME_V2);
+                }
             }
         }
         return bindings;
     }
 
-
     /**
-     * 
+     *
      * This method is used to load the bindings from S2SFormBinding.xml file
      */
     private void loadBindings(String BindingFile) {
@@ -142,21 +154,19 @@ public class FormMappingLoader {
         Document document = null;
         DocumentBuilder builder;
         Integer defaultSortIndex = Integer.valueOf(DEFAULT_SORT_INDEX);
-        if(!sortedNameSpaces.containsKey(defaultSortIndex))
-        	sortedNameSpaces.put(defaultSortIndex, new ArrayList<String>());
+        if (!sortedNameSpaces.containsKey(defaultSortIndex)) {
+            sortedNameSpaces.put(defaultSortIndex, new ArrayList<String>());
+        }
         try {
             builder = factory.newDocumentBuilder();
             document = builder.parse(new FormMappingLoader().getClass().getResourceAsStream(BindingFile));
-        }
-        catch (ParserConfigurationException e) {
+        } catch (ParserConfigurationException e) {
             LOG.error(S2SConstants.ERROR_MESSAGE, e);
             return;
-        }
-        catch (SAXException e) {
+        } catch (SAXException e) {
             LOG.error(S2SConstants.ERROR_MESSAGE, e);
             return;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             LOG.error(S2SConstants.ERROR_MESSAGE, e);
             return;
         }
@@ -180,14 +190,12 @@ public class FormMappingLoader {
 
                 if (sortedNameSpaces.get(sortedIndex) != null) {
                     nameSpaceList = sortedNameSpaces.get(sortedIndex);
-                }
-                else {
+                } else {
                     nameSpaceList = new ArrayList<String>();
                 }
                 nameSpaceList.add(formInfo.getNameSpace());
                 sortedNameSpaces.put(sortedIndex, nameSpaceList);
-            }
-            else {
+            } else {
                 formInfo.setSortIndex(DEFAULT_SORT_INDEX);
                 nameSpaceList = sortedNameSpaces.get(defaultSortIndex);
                 nameSpaceList.add(formInfo.getNameSpace());
@@ -199,7 +207,7 @@ public class FormMappingLoader {
 
     /**
      * Gets the sortedNameSpaces attribute.
-     * 
+     *
      * @return Returns the sortedNameSpaces.
      */
     public Map<Integer, List<String>> getSortedNameSpaces() {

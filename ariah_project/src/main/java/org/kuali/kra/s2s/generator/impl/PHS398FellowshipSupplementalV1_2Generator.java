@@ -78,14 +78,14 @@ import java.math.BigDecimal;
 import java.util.*;
 
 /**
- * 
- * Class for generating the XML object for grants.gov PHS398FellowshipSupplementalV1_1 Form is generated using XMLBean classes and
+ *
+ * Class for generating the XML object for grants.gov
+ * PHS398FellowshipSupplementalV1_1 Form is generated using XMLBean classes and
  * is based on PHS398FellowshipSupplementalV1_1 schema
- * 
+ *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipSupplementalBaseGenerator {
-
 
     private static final Log LOG = LogFactory.getLog(PHS398FellowshipSupplementalV1_2Generator.class);
 
@@ -128,12 +128,13 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
 
     private static final int APPENDIX = 96;
     private static final int SPONSOR_COSPONSOR = 134;
-    
+
     private static final String ANSWER_YES = "Yes";
     private static final String ANSWER_NO = "No";
     /*
      * This method is used to get PHSFellowshipSupplemental12 XMLObject and set the data to it from DevelopmentProposal data.
      */
+
     private PHSFellowshipSupplemental12Document getPHSFellowshipSupplemental12() {
         PHSFellowshipSupplemental12Document phsFellowshipSupplementalDocument = PHSFellowshipSupplemental12Document.Factory
                 .newInstance();
@@ -145,19 +146,21 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
         setQuestionnaireData(phsFellowshipSupplemental);
         return phsFellowshipSupplementalDocument;
     }
+
     private List<Answer> getAnswers(QuestionnaireQuestion questionnaireQuestion, AnswerHeader answerHeader) {
         List<Answer> returnAnswers = new ArrayList<Answer>();
         if (answerHeader != null) {
             List<Answer> answers = answerHeader.getAnswers();
             //List<Answer> answerList = new ArrayList<Answer>();
             for (Answer answer : answers) {
-                if (answer.getQuestionnaireQuestionsIdFk().equals(questionnaireQuestion.getQuestionnaireQuestionsId())) {               
+                if (answer.getQuestionnaireQuestionsIdFk().equals(questionnaireQuestion.getQuestionnaireQuestionsId())) {
                     returnAnswers.add(answer);
                 }
             }
         }
         return returnAnswers;
     }
+
     private void setQuestionnaireData(PHSFellowshipSupplemental12 phsFellowshipSupplemental) {
         Map<Integer, String> hmBudgetQuestions = new HashMap<Integer, String>();
         List<AnswerHeader> answers = findQuestionnaireWithAnswers(pdDoc.getDevelopmentProposal());
@@ -179,222 +182,233 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
                 Integer parentQuestionNumber = questionnaireQuestion.getParentQuestionNumber();
                 Integer questionId = question.getQuestionIdAsInteger();
                 if (answer != null) {
-                        if( !answer .equalsIgnoreCase(ANSWER_YES) || !answer.equalsIgnoreCase(ANSWER_NO)) {
-                    switch (questionId) {
-                        case HUMAN:
-                            researchTrainingPlan.setHumanSubjectsIndefinite(getYesNoEnum(answer));
-                            break;
-                        case VERT:
-                            // will the inclusion of vertebrate animals use be indefinite
-                            if (answer != null)
-                                researchTrainingPlan.setVertebrateAnimalsIndefinite(getYesNoEnum(answer));
-                            break;
-                        case CLINICAL:
-                            // clinical trial
-                            if (answer != null)
-                                researchTrainingPlan.setClinicalTrial(getYesNoEnum(answer));
-                            break;
-                        case PHASE3CLINICAL:
-                            // phase 3 clinical trial
-                            if (answer != null)
-                                researchTrainingPlan.setPhase3ClinicalTrial(getYesNoEnum(answer));
-                            break;
-                        case STEMCELLS:
-                            // stem cells used
-                            if (answer != null)
-                                stemCellstype.setIsHumanStemCellsInvolved(getYesNoEnum(answer));
-                            break;
-                        case CELLLINEIND:
-                            // stem cell line indicator
-                            if (answer != null)
-                                stemCellstype.setStemCellsIndicator(getYesNoEnum(answer));
-                            break;
-                        case STEMCELLLINES:
-                            List<Answer> answerList = getAnswers(questionnaireQuestion,answerHeader);                      
-                            for (Answer questionnaireAnswerBO: answerList) {
-                                String questionnaireSubAnswer =  questionnaireAnswerBO.getAnswer();
-                                if(questionnaireSubAnswer!=null){
-                                    stemCellstype.addCellLines(questionnaireAnswerBO.getAnswer());
+                    if (!answer.equalsIgnoreCase(ANSWER_YES) || !answer.equalsIgnoreCase(ANSWER_NO)) {
+                        switch (questionId) {
+                            case HUMAN:
+                                researchTrainingPlan.setHumanSubjectsIndefinite(getYesNoEnum(answer));
+                                break;
+                            case VERT:
+                                // will the inclusion of vertebrate animals use be indefinite
+                                if (answer != null) {
+                                    researchTrainingPlan.setVertebrateAnimalsIndefinite(getYesNoEnum(answer));
                                 }
-                            }
-                            break;
-                        case DEGREE_TYPE_SOUGHT:
-                            graduateDegreeSought.setDegreeType(DegreeTypeDataType.Enum.forString(answer));
-                            break;
-                        case DEG_EXP_COMP_DATE:
-                            graduateDegreeSought.setDegreeDate(answer.substring(6, 10) + STRING_SEPRATOR + answer.substring(0, 2));
-                            break;
-                        case OTHER_MASTERS:
-                            graduateDegreeSought.setOtherDegreeTypeText(answer);
-                            graduateDegreeSought.setOtherDegreeTypeText(answer);
-                            graduateDegreeSought.setOtherDegreeTypeText(answer);
-                            break;
-                        case OTHER_DDOT:
-                            graduateDegreeSought.setDegreeType(DegreeTypeDataType.DDOT_OTHER_DOCTOR_OF_MEDICAL_DENTISTRY);
-                            graduateDegreeSought.setOtherDegreeTypeText(answer);
-                            break;
-                        case OTHER_VDOT:
-                            graduateDegreeSought.setDegreeType(DegreeTypeDataType.VDOT_OTHER_DOCTOR_OF_VETERINARY_MEDICINE);
-                            graduateDegreeSought.setOtherDegreeTypeText(answer);
-                            break;
-                        case OTHER_MDOT:
-                            graduateDegreeSought.setDegreeType(DegreeTypeDataType.MDOT_OTHER_DOCTOR_OF_MEDICINE);
-                            graduateDegreeSought.setOtherDegreeTypeText(answer);
-                            break;
-                        case BROAD_TRAINING:
-                        case FIELD_TRAINING:
-                            if (!answer.toUpperCase().equals("SUB CATEGORY NOT FOUND"))
-                                additionalInfoType.setFieldOfTraining(FieldOfTrainingDataType.Enum.forString(answer));
-                            break;
-                        case NRSA_SUPPORT:
-                            additionalInfoType.setCurrentPriorNRSASupportIndicator(getYesNoEnum(answer));
-                            break;
-                        case KIRST_START_KNOWN: 
-                        case KIRST_END_KNOWN: 
-                        case KIRST_START_DT: 
-                        case KIRST_END_DT: 
-                        case KIRST_GRANT_KNOWN: 
-                        case KIRST_GRANT_NUM: 
-                        case PRE_OR_POST: 
-                        case IND_OR_INST: 
-                            if (questionId == KIRST_START_KNOWN) {
-                                if (answer.equals("N")) {
-                                    answer = S2SConstants.VALUE_UNKNOWN;
-                                    questionId = KIRST_START_DT;
-                                }else
-                                    break;
-                            }
-                            if (questionId == KIRST_END_KNOWN) {
-                                if (answer.equals("N")) {
-                                    answer = S2SConstants.VALUE_UNKNOWN;
-                                    questionId = KIRST_END_DT;
-                                }else
-                                    break;
-                            }
-                            if (questionId == KIRST_GRANT_KNOWN) {
-                                if (answer.equals("N")) {
-                                    answer = S2SConstants.VALUE_UNKNOWN;
-                                    questionId = KIRST_GRANT_NUM;
-                                }else
-                                    break;
-                            }
-                            KirschsteinBean cbKirschstein = new KirschsteinBean();
-                            cbKirschstein.setAnswer(answer);
-                            cbKirschstein.setQuestionId(questionId);
-                            cbKirschstein.setQuestionNumber(questionNumber);
-                            cbKirschstein.setParentQuestionNumber(parentQuestionNumber);
-                            cvKirsch.add(cbKirschstein);
-                            break;
-                        case SUBMITTED_DIFF_INST:
-                            additionalInfoType.setChangeOfInstitution(getYesNoEnum(answer));
-                            break;
-                        case 29:
-                            additionalInfoType.setFormerInstitution(answer);
-                            break;
-                        case SENIOR_FELL:
-                            hmBudgetQuestions.put(SENIOR_FELL, answer);
-                            break;
-                        case OTHER_SUPP_SOURCE:
-                            hmBudgetQuestions.put(OTHER_SUPP_SOURCE, answer);
-                            break;
-                        case SUPP_SOURCE:
-                            hmBudgetQuestions.put(SUPP_SOURCE, answer);
-                            break;
-                        case SUPP_FUNDING_AMT:
-                            hmBudgetQuestions.put(SUPP_FUNDING_AMT, answer);
-                            break;
-                        case SUPP_MONTHS:
-                            hmBudgetQuestions.put(SUPP_MONTHS, answer);
-                            break;
-                        case SUPP_TYPE:
-                            hmBudgetQuestions.put(SUPP_TYPE, answer);
-                            break;
-                        case SALARY_MONTHS:
-                            hmBudgetQuestions.put(SALARY_MONTHS, answer);
-                            break;
-                        case ACAD_PERIOD:
-                            hmBudgetQuestions.put(ACAD_PERIOD, answer);
-                            break;
-                        case BASE_SALARY:
-                            hmBudgetQuestions.put(BASE_SALARY, answer);
-                            break;
-                        default:
-                            break;
+                                break;
+                            case CLINICAL:
+                                // clinical trial
+                                if (answer != null) {
+                                    researchTrainingPlan.setClinicalTrial(getYesNoEnum(answer));
+                                }
+                                break;
+                            case PHASE3CLINICAL:
+                                // phase 3 clinical trial
+                                if (answer != null) {
+                                    researchTrainingPlan.setPhase3ClinicalTrial(getYesNoEnum(answer));
+                                }
+                                break;
+                            case STEMCELLS:
+                                // stem cells used
+                                if (answer != null) {
+                                    stemCellstype.setIsHumanStemCellsInvolved(getYesNoEnum(answer));
+                                }
+                                break;
+                            case CELLLINEIND:
+                                // stem cell line indicator
+                                if (answer != null) {
+                                    stemCellstype.setStemCellsIndicator(getYesNoEnum(answer));
+                                }
+                                break;
+                            case STEMCELLLINES:
+                                List<Answer> answerList = getAnswers(questionnaireQuestion, answerHeader);
+                                for (Answer questionnaireAnswerBO : answerList) {
+                                    String questionnaireSubAnswer = questionnaireAnswerBO.getAnswer();
+                                    if (questionnaireSubAnswer != null) {
+                                        stemCellstype.addCellLines(questionnaireAnswerBO.getAnswer());
+                                    }
+                                }
+                                break;
+                            case DEGREE_TYPE_SOUGHT:
+                                graduateDegreeSought.setDegreeType(DegreeTypeDataType.Enum.forString(answer));
+                                break;
+                            case DEG_EXP_COMP_DATE:
+                                graduateDegreeSought.setDegreeDate(answer.substring(6, 10) + STRING_SEPRATOR + answer.substring(0, 2));
+                                break;
+                            case OTHER_MASTERS:
+                                graduateDegreeSought.setOtherDegreeTypeText(answer);
+                                graduateDegreeSought.setOtherDegreeTypeText(answer);
+                                graduateDegreeSought.setOtherDegreeTypeText(answer);
+                                break;
+                            case OTHER_DDOT:
+                                graduateDegreeSought.setDegreeType(DegreeTypeDataType.DDOT_OTHER_DOCTOR_OF_MEDICAL_DENTISTRY);
+                                graduateDegreeSought.setOtherDegreeTypeText(answer);
+                                break;
+                            case OTHER_VDOT:
+                                graduateDegreeSought.setDegreeType(DegreeTypeDataType.VDOT_OTHER_DOCTOR_OF_VETERINARY_MEDICINE);
+                                graduateDegreeSought.setOtherDegreeTypeText(answer);
+                                break;
+                            case OTHER_MDOT:
+                                graduateDegreeSought.setDegreeType(DegreeTypeDataType.MDOT_OTHER_DOCTOR_OF_MEDICINE);
+                                graduateDegreeSought.setOtherDegreeTypeText(answer);
+                                break;
+                            case BROAD_TRAINING:
+                            case FIELD_TRAINING:
+                                if (!answer.toUpperCase().equals("SUB CATEGORY NOT FOUND")) {
+                                    additionalInfoType.setFieldOfTraining(FieldOfTrainingDataType.Enum.forString(answer));
+                                }
+                                break;
+                            case NRSA_SUPPORT:
+                                additionalInfoType.setCurrentPriorNRSASupportIndicator(getYesNoEnum(answer));
+                                break;
+                            case KIRST_START_KNOWN:
+                            case KIRST_END_KNOWN:
+                            case KIRST_START_DT:
+                            case KIRST_END_DT:
+                            case KIRST_GRANT_KNOWN:
+                            case KIRST_GRANT_NUM:
+                            case PRE_OR_POST:
+                            case IND_OR_INST:
+                                if (questionId == KIRST_START_KNOWN) {
+                                    if (answer.equals("N")) {
+                                        answer = S2SConstants.VALUE_UNKNOWN;
+                                        questionId = KIRST_START_DT;
+                                    } else {
+                                        break;
+                                    }
+                                }
+                                if (questionId == KIRST_END_KNOWN) {
+                                    if (answer.equals("N")) {
+                                        answer = S2SConstants.VALUE_UNKNOWN;
+                                        questionId = KIRST_END_DT;
+                                    } else {
+                                        break;
+                                    }
+                                }
+                                if (questionId == KIRST_GRANT_KNOWN) {
+                                    if (answer.equals("N")) {
+                                        answer = S2SConstants.VALUE_UNKNOWN;
+                                        questionId = KIRST_GRANT_NUM;
+                                    } else {
+                                        break;
+                                    }
+                                }
+                                KirschsteinBean cbKirschstein = new KirschsteinBean();
+                                cbKirschstein.setAnswer(answer);
+                                cbKirschstein.setQuestionId(questionId);
+                                cbKirschstein.setQuestionNumber(questionNumber);
+                                cbKirschstein.setParentQuestionNumber(parentQuestionNumber);
+                                cvKirsch.add(cbKirschstein);
+                                break;
+                            case SUBMITTED_DIFF_INST:
+                                additionalInfoType.setChangeOfInstitution(getYesNoEnum(answer));
+                                break;
+                            case 29:
+                                additionalInfoType.setFormerInstitution(answer);
+                                break;
+                            case SENIOR_FELL:
+                                hmBudgetQuestions.put(SENIOR_FELL, answer);
+                                break;
+                            case OTHER_SUPP_SOURCE:
+                                hmBudgetQuestions.put(OTHER_SUPP_SOURCE, answer);
+                                break;
+                            case SUPP_SOURCE:
+                                hmBudgetQuestions.put(SUPP_SOURCE, answer);
+                                break;
+                            case SUPP_FUNDING_AMT:
+                                hmBudgetQuestions.put(SUPP_FUNDING_AMT, answer);
+                                break;
+                            case SUPP_MONTHS:
+                                hmBudgetQuestions.put(SUPP_MONTHS, answer);
+                                break;
+                            case SUPP_TYPE:
+                                hmBudgetQuestions.put(SUPP_TYPE, answer);
+                                break;
+                            case SALARY_MONTHS:
+                                hmBudgetQuestions.put(SALARY_MONTHS, answer);
+                                break;
+                            case ACAD_PERIOD:
+                                hmBudgetQuestions.put(ACAD_PERIOD, answer);
+                                break;
+                            case BASE_SALARY:
+                                hmBudgetQuestions.put(BASE_SALARY, answer);
+                                break;
+                            default:
+                                break;
 
+                        }
                     }
-                   }
-                   if( answer.equalsIgnoreCase(ANSWER_YES) || answer.equalsIgnoreCase(ANSWER_NO)){
-                       switch (questionId) {
-                           case HUMAN:
-                               researchTrainingPlan.setHumanSubjectsIndefinite(null);
-                               researchTrainingPlan.setHumanSubjectsInvolved(null);
-                               break;
-                           case VERT:                                                              
-                               researchTrainingPlan.setVertebrateAnimalsIndefinite(null);
-                               researchTrainingPlan.setVertebrateAnimalsUsed(null);
-                               break;
-                           case CLINICAL:                              
-                               researchTrainingPlan.setClinicalTrial(null);
-                               break;
-                           case PHASE3CLINICAL:                               
-                               if(researchTrainingPlan.getClinicalTrial()!=null){
-                                   if((researchTrainingPlan.getClinicalTrial().equals(getYesNoEnum("N"))))
-                                       researchTrainingPlan.setPhase3ClinicalTrial(getYesNoEnum(answer));
-                                   else
-                                       researchTrainingPlan.setPhase3ClinicalTrial(null);
-                               }
-                               break;
-                           case FIELD_TRAINING:                               
-                               additionalInfoType.setFieldOfTraining(null);
-                               break;
-                           case STEMCELLS:
-                              stemCellstype.setIsHumanStemCellsInvolved(null);
-                               break;
-                           case NRSA_SUPPORT:
-                               additionalInfoType.setCurrentPriorNRSASupportIndicator(null);
-                               break;
-                           default:
-                               break;
-                       }
-                   }
-                }
-                else if (answer == null ) {
+                    if (answer.equalsIgnoreCase(ANSWER_YES) || answer.equalsIgnoreCase(ANSWER_NO)) {
+                        switch (questionId) {
+                            case HUMAN:
+                                researchTrainingPlan.setHumanSubjectsIndefinite(null);
+                                researchTrainingPlan.setHumanSubjectsInvolved(null);
+                                break;
+                            case VERT:
+                                researchTrainingPlan.setVertebrateAnimalsIndefinite(null);
+                                researchTrainingPlan.setVertebrateAnimalsUsed(null);
+                                break;
+                            case CLINICAL:
+                                researchTrainingPlan.setClinicalTrial(null);
+                                break;
+                            case PHASE3CLINICAL:
+                                if (researchTrainingPlan.getClinicalTrial() != null) {
+                                    if ((researchTrainingPlan.getClinicalTrial().equals(getYesNoEnum("N")))) {
+                                        researchTrainingPlan.setPhase3ClinicalTrial(getYesNoEnum(answer));
+                                    } else {
+                                        researchTrainingPlan.setPhase3ClinicalTrial(null);
+                                    }
+                                }
+                                break;
+                            case FIELD_TRAINING:
+                                additionalInfoType.setFieldOfTraining(null);
+                                break;
+                            case STEMCELLS:
+                                stemCellstype.setIsHumanStemCellsInvolved(null);
+                                break;
+                            case NRSA_SUPPORT:
+                                additionalInfoType.setCurrentPriorNRSASupportIndicator(null);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                } else if (answer == null) {
                     switch (questionId) {
                         case HUMAN:
                             researchTrainingPlan.setHumanSubjectsIndefinite(null);
                             researchTrainingPlan.setHumanSubjectsInvolved(null);
                             break;
-                        case VERT:                           
+                        case VERT:
                             researchTrainingPlan.setVertebrateAnimalsIndefinite(null);
                             researchTrainingPlan.setVertebrateAnimalsUsed(null);
                             break;
                         case CLINICAL:
-                           researchTrainingPlan.setClinicalTrial(null);
+                            researchTrainingPlan.setClinicalTrial(null);
                             break;
                         case PHASE3CLINICAL:
-                            if(researchTrainingPlan.getClinicalTrial() == (YesNoDataType.Y_YES)) {
+                            if (researchTrainingPlan.getClinicalTrial() == (YesNoDataType.Y_YES)) {
                                 researchTrainingPlan.setPhase3ClinicalTrial(null);
                             }
-                            break; 
-                        case FIELD_TRAINING:                               
-                           additionalInfoType.setFieldOfTraining(null);
-                        break; 
+                            break;
+                        case FIELD_TRAINING:
+                            additionalInfoType.setFieldOfTraining(null);
+                            break;
                         case STEMCELLS:
-                           stemCellstype.setIsHumanStemCellsInvolved(null);
+                            stemCellstype.setIsHumanStemCellsInvolved(null);
                             break;
                         case NRSA_SUPPORT:
-                           additionalInfoType.setCurrentPriorNRSASupportIndicator(null);
+                            additionalInfoType.setCurrentPriorNRSASupportIndicator(null);
                             break;
                         default:
                             break;
-                    }                    
+                    }
                 }
             }
         }
-        if (stemCellstype != null)
+        if (stemCellstype != null) {
             additionalInfoType.setStemCells(stemCellstype);
-        if (graduateDegreeSought.getDegreeType() != null)
+        }
+        if (graduateDegreeSought.getDegreeType() != null) {
             additionalInfoType.setGraduateDegreeSought(graduateDegreeSought);
+        }
         QueryList<KirschsteinBean> cvType = new QueryList<KirschsteinBean>();
         QueryList<KirschsteinBean> cvStart = new QueryList<KirschsteinBean>();
         QueryList<KirschsteinBean> cvEnd = new QueryList<KirschsteinBean>();
@@ -444,10 +458,10 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
                     CurrentPriorNRSASupport nrsaSupportType = CurrentPriorNRSASupport.Factory.newInstance();
                     nrsaSupportType.setLevel(CurrentPriorNRSASupport.Level.Enum.forString(kbBean1.getAnswer()));
                     nrsaSupportType.setType(CurrentPriorNRSASupport.Type.Enum.forString(kbBean2.getAnswer()));
-                    if(!kbBean3.getAnswer().equals(S2SConstants.VALUE_UNKNOWN)){
+                    if (!kbBean3.getAnswer().equals(S2SConstants.VALUE_UNKNOWN)) {
                         nrsaSupportType.setStartDate(s2sUtilService.convertDateStringToCalendar(kbBean3.getAnswer()));
                     }
-                    if(!kbBean4.getAnswer().equals(S2SConstants.VALUE_UNKNOWN)){
+                    if (!kbBean4.getAnswer().equals(S2SConstants.VALUE_UNKNOWN)) {
                         nrsaSupportType.setEndDate(s2sUtilService.convertDateStringToCalendar(kbBean4.getAnswer()));
                     }
                     nrsaSupportType.setGrantNumber(kbBean5.getAnswer());
@@ -460,10 +474,9 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
         setAdditionalInformation(additionalInfoType);
     }
 
-
     /**
      * This method is to return YesNoDataType enum
-     * 
+     *
      * @param answer
      * @return
      */
@@ -474,7 +487,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
     /*
      * This method is used to get Budget XMLObject and set the data to it from ProposalYnq based on questionId and answers.
      */
-    private Budget getBudget(Map<Integer,String> budgetMap) {
+    private Budget getBudget(Map<Integer, String> budgetMap) {
         Budget budget = Budget.Factory.newInstance();
         budget.setTuitionAndFeesRequested(YesNoDataType.N_NO);
         getInstitutionalBaseSalary(budget, budgetMap);
@@ -546,7 +559,8 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
                         supplementationFromOtherSources.setAmount(new BigDecimal(hmBudgetQuestions.get(SUPP_FUNDING_AMT)));
                         try {
                             supplementationFromOtherSources.setNumberOfMonths(new BigDecimal(hmBudgetQuestions.get(SUPP_MONTHS)));
-                        }catch (Exception ex) {}
+                        } catch (Exception ex) {
+                        }
                         supplementationFromOtherSources.setType(hmBudgetQuestions.get(SUPP_TYPE));
 
                     }
@@ -591,8 +605,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
         BudgetDocument budgetDoc = null;
         try {
             budgetDoc = s2SBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
-        }
-        catch (S2SException e) {
+        } catch (S2SException e) {
             LOG.error("Error while getting Budget", e);
         }
         return budgetDoc;
@@ -618,8 +631,9 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
     }
 
     /**
-     * This method is used to set Narrative Data to ResearchTrainingPlan XMLObject based on NarrativeTypeCode.
-     * 
+     * This method is used to set Narrative Data to ResearchTrainingPlan
+     * XMLObject based on NarrativeTypeCode.
+     *
      * @param researchTrainingPlan
      */
     private void setNarrativeDataForResearchTrainingPlan(PHSFellowshipSupplemental12 phsFellowshipSupplemental,
@@ -649,7 +663,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
                         if (attachedFileDataType == null) {
                             continue;
                         }
-                        SpecificAims specificAims =SpecificAims.Factory.newInstance();
+                        SpecificAims specificAims = SpecificAims.Factory.newInstance();
                         specificAims.setAttFile(attachedFileDataType);
                         researchTrainingPlan.setSpecificAims(specificAims);
                         break;
@@ -789,14 +803,15 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
     }
 
     /**
-     * This method is used to set HumanSubjectInvoved and VertebrateAnimalUsed XMLObject Data.
-     * 
+     * This method is used to set HumanSubjectInvoved and VertebrateAnimalUsed
+     * XMLObject Data.
+     *
      * @param developmentProposal
      * @param researchTrainingPlan
      */
     private void setHumanSubjectInvolvedAndVertebrateAnimalUsed(ResearchTrainingPlan researchTrainingPlan) {
-        researchTrainingPlan.setHumanSubjectsInvolved(YesNoDataType.N_NO);       
-        researchTrainingPlan.setVertebrateAnimalsUsed(YesNoDataType.N_NO);        
+        researchTrainingPlan.setHumanSubjectsInvolved(YesNoDataType.N_NO);
+        researchTrainingPlan.setVertebrateAnimalsUsed(YesNoDataType.N_NO);
         for (ProposalSpecialReview propSpecialReview : pdDoc.getDevelopmentProposal().getPropSpecialReviews()) {
             switch (Integer.parseInt(propSpecialReview.getSpecialReviewTypeCode())) {
                 case 1:
@@ -839,7 +854,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
     private void setAdditionalInformation(AdditionalInformation additionalInformation) {
         Boolean hasInvestigator = false;
         additionalInformation.addNewFellowshipTrainingAndCareerGoals();
-        additionalInformation.addNewActivitiesPlannedUnderThisAward();    
+        additionalInformation.addNewActivitiesPlannedUnderThisAward();
         ProposalPerson principalInvestigator = s2sUtilService.getPrincipalInvestigator(pdDoc);
         for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
             if (proposalPerson.isInvestigator()) {
@@ -847,26 +862,22 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
                 CitizenshipTypes citizenShip = s2sUtilService.getCitizenship(proposalPerson);
                 if (citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.NON_U_S_CITIZEN_WITH_TEMPORARY_VISA.toString())) {
                     additionalInformation.setCitizenship(CitizenshipDataType.NON_U_S_CITIZEN_WITH_TEMPORARY_VISA);
-                }
-                else if (citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S.toString())) {
+                } else if (citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S.toString())) {
                     additionalInformation.setCitizenship(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S);
-                }
-                else if (citizenShip.getCitizenShip().trim().equals(
+                } else if (citizenShip.getCitizenShip().trim().equals(
                         CitizenshipDataType.U_S_CITIZEN_OR_NONCITIZEN_NATIONAL.toString())) {
                     additionalInformation.setCitizenship(CitizenshipDataType.U_S_CITIZEN_OR_NONCITIZEN_NATIONAL);
-                }
-                else if (citizenShip.getCitizenShip().trim().equals(
+                } else if (citizenShip.getCitizenShip().trim().equals(
                         CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S_PENDING.toString())) {
                     additionalInformation.setCitizenship(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S_PENDING);
                 }
-
 
             }
         }
         if (principalInvestigator != null && principalInvestigator.getMobilePhoneNumber() != null) {
             additionalInformation.setAlernatePhoneNumber(principalInvestigator.getMobilePhoneNumber());
         }
-        if(!hasInvestigator){
+        if (!hasInvestigator) {
             additionalInformation.setCitizenship(null);
         }
 
@@ -964,24 +975,19 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
             if (proposalTypeCode.equals(ProposalDevelopmentUtils
                     .getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_NEW_PARM))) {
                 typeOfApplication = TypeOfApplication.NEW;
-            }
-            else if (proposalTypeCode.equals(ProposalDevelopmentUtils
+            } else if (proposalTypeCode.equals(ProposalDevelopmentUtils
                     .getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_CONTINUATION_PARM))) {
                 typeOfApplication = TypeOfApplication.CONTINUATION;
-            }
-            else if (proposalTypeCode.equals(ProposalDevelopmentUtils
+            } else if (proposalTypeCode.equals(ProposalDevelopmentUtils
                     .getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_REVISION_PARM))) {
                 typeOfApplication = TypeOfApplication.REVISION;
-            }
-            else if (proposalTypeCode.equals(ProposalDevelopmentUtils
+            } else if (proposalTypeCode.equals(ProposalDevelopmentUtils
                     .getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RENEWAL_PARM))) {
                 typeOfApplication = TypeOfApplication.RENEWAL;
-            }
-            else if (proposalTypeCode.equals(ProposalDevelopmentUtils
+            } else if (proposalTypeCode.equals(ProposalDevelopmentUtils
                     .getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RESUBMISSION_PARM))) {
                 typeOfApplication = TypeOfApplication.RESUBMISSION;
-            }
-            else if (proposalTypeCode.equals(PROPOSAL_TYPE_CODE_NEW7)) {
+            } else if (proposalTypeCode.equals(PROPOSAL_TYPE_CODE_NEW7)) {
                 typeOfApplication = TypeOfApplication.NEW;
             }
         }
@@ -1041,27 +1047,35 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
     }
 
     /**
-     * This method creates {@link XmlObject} of type {@link PHSFellowshipSupplementalDocument} by populating data from the given
+     * This method creates {@link XmlObject} of type
+     * {@link PHSFellowshipSupplementalDocument} by populating data from the
+     * given {@link ProposalDevelopmentDocument}
+     *
+     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs
+     * to be created
+     * @return {@link XmlObject} which is generated using the given
      * {@link ProposalDevelopmentDocument}
-     * 
-     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs to be created
-     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocument}
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+     * @see
+     * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
      */
+    @Override
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         this.pdDoc = proposalDevelopmentDocument;
         return getPHSFellowshipSupplemental12();
     }
 
+    @Override
     public String getFormName() {
         return "PHS_Fellowship_Supplemental_1_2-V1.2";
     }
 
+    @Override
     public String getNamespace() {
         return "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_1_2-V1.2";
     }
 
     public class KirschsteinBean {
+
         String answer;
         Integer questionId;
         Integer questionNumber;
@@ -1069,7 +1083,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
 
         /**
          * Gets the answer attribute.
-         * 
+         *
          * @return Returns the answer.
          */
         public String getAnswer() {
@@ -1078,7 +1092,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
 
         /**
          * Sets the answer attribute value.
-         * 
+         *
          * @param answer The answer to set.
          */
         public void setAnswer(String answer) {
@@ -1087,7 +1101,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
 
         /**
          * Gets the questionId attribute.
-         * 
+         *
          * @return Returns the questionId.
          */
         public Integer getQuestionId() {
@@ -1096,7 +1110,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
 
         /**
          * Sets the questionId attribute value.
-         * 
+         *
          * @param questionId The questionId to set.
          */
         public void setQuestionId(Integer questionId) {
@@ -1105,7 +1119,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
 
         /**
          * Gets the questionNumber attribute.
-         * 
+         *
          * @return Returns the questionNumber.
          */
         public Integer getQuestionNumber() {
@@ -1114,7 +1128,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
 
         /**
          * Sets the questionNumber attribute value.
-         * 
+         *
          * @param questionNumber The questionNumber to set.
          */
         public void setQuestionNumber(Integer questionNumber) {
@@ -1123,7 +1137,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
 
         /**
          * Gets the parentQuestionNumber attribute.
-         * 
+         *
          * @return Returns the parentQuestionNumber.
          */
         public Integer getParentQuestionNumber() {
@@ -1132,7 +1146,7 @@ public class PHS398FellowshipSupplementalV1_2Generator extends PHS398FellowshipS
 
         /**
          * Sets the parentQuestionNumber attribute value.
-         * 
+         *
          * @param parentQuestionNumber The parentQuestionNumber to set.
          */
         public void setParentQuestionNumber(Integer parentQuestionNumber) {

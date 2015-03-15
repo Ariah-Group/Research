@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.bo;
 
@@ -21,7 +37,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BudgetSummaryInfo {
-
 
     private String proposalNumber;
     private int version;
@@ -36,7 +51,7 @@ public class BudgetSummaryInfo {
     private BudgetDecimal cumDomesticTravel = BudgetDecimal.ZERO;
     private BudgetDecimal cumForeignTravel = BudgetDecimal.ZERO;
 
-    private List<OtherDirectCostInfo> otherDirect=new ArrayList<OtherDirectCostInfo>();
+    private List<OtherDirectCostInfo> otherDirect = new ArrayList<OtherDirectCostInfo>();
 
     private BudgetDecimal partStipendCost = BudgetDecimal.ZERO;
     private BudgetDecimal partTravelCost = BudgetDecimal.ZERO;
@@ -49,7 +64,6 @@ public class BudgetSummaryInfo {
     private BudgetDecimal cumTotalIndirectCosts = BudgetDecimal.ZERO;
     private BudgetDecimal cumTotalCosts = BudgetDecimal.ZERO;
     private BudgetDecimal cumFee = BudgetDecimal.ZERO;
-
 
     private BudgetDecimal cumTotalCostSharing = BudgetDecimal.ZERO;
     private BudgetDecimal cumTotalNonFundsForSrPersonnel = BudgetDecimal.ZERO;
@@ -67,37 +81,33 @@ public class BudgetSummaryInfo {
     private BudgetDecimal cumTotalDirectCostSharing = BudgetDecimal.ZERO;
     private BudgetDecimal cumTotalIndirectCostSharing = BudgetDecimal.ZERO;
 
-
     /**
      * Default Constructor
      */
-
     public BudgetSummaryInfo() {
     }
 
     /**
      * Getter for proposalNumber.
-     * 
+     *
      * @return Value of proposalNumber.
      */
-
     public String getProposalNumber() {
         return proposalNumber;
     }
 
     /**
      * Setter for proposalNumber
-     * 
+     *
      * @param proposalNumber New value of proposalNumber.
      */
-
     public void setProposalNumber(String proposalNumber) {
         this.proposalNumber = proposalNumber;
     }
 
     /**
      * Getter for property version.
-     * 
+     *
      * @return Value of property version.
      */
     public int getVersion() {
@@ -106,7 +116,7 @@ public class BudgetSummaryInfo {
 
     /**
      * Setter for property version.
-     * 
+     *
      * @param version New value of property version.
      */
     public void setVersion(int version) {
@@ -115,7 +125,7 @@ public class BudgetSummaryInfo {
 
     /**
      * Getter for property finalVersionFlag.
-     * 
+     *
      * @return Value of property finalVersionFlag.
      */
     public String getFinalVersionFlag() {
@@ -124,7 +134,7 @@ public class BudgetSummaryInfo {
 
     /**
      * Setter for property finalVersionFlag.
-     * 
+     *
      * @param finalVersionFlag New value of property finalVersionFlag.
      */
     public void setFinalVersionFlag(String finalVersionFlag) {
@@ -133,7 +143,7 @@ public class BudgetSummaryInfo {
 
     /**
      * Getter for property budgetPeriods.
-     * 
+     *
      * @return Value of property budgetPeriods.
      */
     public List<BudgetPeriodInfo> getBudgetPeriods() {
@@ -142,17 +152,16 @@ public class BudgetSummaryInfo {
 
     /**
      * Setter for property budgetPeriods.
-     * 
+     *
      * @param budgetPeriods New value of property budgetPeriods.
      */
     public void setBudgetPeriods(List<BudgetPeriodInfo> budgetPeriods) {
         this.budgetPeriods = budgetPeriods;
     }
 
-
     /**
      * Getter for property cumTotalFundsForSrPersonnel.
-     * 
+     *
      * @return Value of property cumTotalFundsForSrPersonnel.
      */
     public BudgetDecimal getCumTotalFundsForSrPersonnel() {
@@ -161,17 +170,17 @@ public class BudgetSummaryInfo {
 
     /**
      * Setter for property cumTotalFundsForSrPersonnel.
-     * 
-     * @param cumTotalFundsForSrPersonnel New value of property cumTotalFundsForSrPersonnel.
+     *
+     * @param cumTotalFundsForSrPersonnel New value of property
+     * cumTotalFundsForSrPersonnel.
      */
     public void setCumTotalFundsForSrPersonnel(BudgetDecimal cumTotalFundsForSrPersonnel) {
         this.cumTotalFundsForSrPersonnel = cumTotalFundsForSrPersonnel;
     }
 
-
     /**
      * Getter for property cumTotalFundsForOtherPersonnel.
-     * 
+     *
      * @return Value of property cumTotalFundsForOtherPersonnel.
      */
     public BudgetDecimal getCumTotalFundsForOtherPersonnel() {
@@ -180,17 +189,17 @@ public class BudgetSummaryInfo {
 
     /**
      * Setter for property cumTotalFundsForOtherPersonnel.
-     * 
-     * @param cumTotalFundsForOtherPersonnel New value of property cumTotalFundsForOtherPersonnel.
+     *
+     * @param cumTotalFundsForOtherPersonnel New value of property
+     * cumTotalFundsForOtherPersonnel.
      */
     public void setCumTotalFundsForOtherPersonnel(BudgetDecimal cumTotalFundsForOtherPersonnel) {
         this.cumTotalFundsForOtherPersonnel = cumTotalFundsForOtherPersonnel;
     }
 
-
     /**
      * Getter for property cumTotalFundsForPersonnel.
-     * 
+     *
      * @return Value of property cumTotalFundsForPersonnel.
      */
     public BudgetDecimal getCumTotalFundsForPersonnel() {
@@ -199,17 +208,17 @@ public class BudgetSummaryInfo {
 
     /**
      * Setter for property cumTotalFundsForPersonnel.
-     * 
-     * @param cumTotalFundsForPersonnel New value of property cumTotalFundsForPersonnel.
+     *
+     * @param cumTotalFundsForPersonnel New value of property
+     * cumTotalFundsForPersonnel.
      */
     public void setCumTotalFundsForPersonnel(BudgetDecimal cumTotalFundsForPersonnel) {
         this.cumTotalFundsForPersonnel = cumTotalFundsForPersonnel;
     }
 
-
     /**
      * Getter for property cumNumOtherPersonnel.
-     * 
+     *
      * @return Value of property cumNumOtherPersonnel.
      */
     public BudgetDecimal getCumNumOtherPersonnel() {
@@ -218,17 +227,16 @@ public class BudgetSummaryInfo {
 
     /**
      * Setter for property cumNumOtherPersonnel.
-     * 
+     *
      * @param cumNumOtherPersonnel New value of property cumNumOtherPersonnel.
      */
     public void setCumNumOtherPersonnel(BudgetDecimal cumNumOtherPersonnel) {
         this.cumNumOtherPersonnel = cumNumOtherPersonnel;
     }
 
-
     /**
      * Getter for property cumEquipmentFunds.
-     * 
+     *
      * @return Value of property cumEquipmentFunds.
      */
     public BudgetDecimal getCumEquipmentFunds() {
@@ -237,17 +245,16 @@ public class BudgetSummaryInfo {
 
     /**
      * Setter for property cumEquipmentFunds.
-     * 
+     *
      * @param cumEquipmentFunds New value of property cumEquipmentFunds.
      */
     public void setCumEquipmentFunds(BudgetDecimal cumEquipmentFunds) {
         this.cumEquipmentFunds = cumEquipmentFunds;
     }
 
-
     /**
      * Getter for property cumTravel.
-     * 
+     *
      * @return Value of property cumTravel.
      */
     public BudgetDecimal getCumTravel() {
@@ -256,7 +263,7 @@ public class BudgetSummaryInfo {
 
     /**
      * Setter for property cumTravel.
-     * 
+     *
      * @param cumTravel New value of property cumTravel.
      */
     public void setCumTravel(BudgetDecimal cumTravel) {
@@ -265,7 +272,7 @@ public class BudgetSummaryInfo {
 
     /**
      * Getter for property cumDomesticTravel.
-     * 
+     *
      * @return Value of property cumDomesticTravel.
      */
     public BudgetDecimal getCumDomesticTravel() {
@@ -274,7 +281,7 @@ public class BudgetSummaryInfo {
 
     /**
      * Setter for property cumDomesticTravel.
-     * 
+     *
      * @param cumDomesticTravel New value of property cumDomesticTravel.
      */
     public void setCumDomesticTravel(BudgetDecimal cumDomesticTravel) {
@@ -283,7 +290,7 @@ public class BudgetSummaryInfo {
 
     /**
      * Getter for property cumForeignTravel.
-     * 
+     *
      * @return Value of property cumForeignTravel.
      */
     public BudgetDecimal getCumForeignTravel() {
@@ -292,17 +299,16 @@ public class BudgetSummaryInfo {
 
     /**
      * Setter for property cumForeignTravel.
-     * 
+     *
      * @param cumForeignTravel New value of property cumForeignTravel.
      */
     public void setCumForeignTravel(BudgetDecimal cumForeignTravel) {
         this.cumForeignTravel = cumForeignTravel;
     }
 
-
     /**
      * Getter for property partOtherCost.
-     * 
+     *
      * @return Value of property partOtherCost.
      */
     public BudgetDecimal getpartOtherCost() {
@@ -311,7 +317,7 @@ public class BudgetSummaryInfo {
 
     /**
      * Setter for property partOtherCost.
-     * 
+     *
      * @param partOtherCost New value of property partOtherCost.
      */
     public void setpartOtherCost(BudgetDecimal partOtherCost) {
@@ -320,7 +326,7 @@ public class BudgetSummaryInfo {
 
     /**
      * Getter for property participantCount.
-     * 
+     *
      * @return Value of property participantCount.
      */
     public int getparticipantCount() {
@@ -329,7 +335,7 @@ public class BudgetSummaryInfo {
 
     /**
      * Setter for property participantCount.
-     * 
+     *
      * @param participantCount New value of property participantCount.
      */
     public void setparticipantCount(int participantCount) {
@@ -338,7 +344,7 @@ public class BudgetSummaryInfo {
 
     /**
      * Getter for property partTravelCost.
-     * 
+     *
      * @return Value of property partTravelCost.
      */
     public BudgetDecimal getpartTravelCost() {
@@ -347,17 +353,16 @@ public class BudgetSummaryInfo {
 
     /**
      * Setter for property partTravelCost.
-     * 
+     *
      * @param partTravelCost New value of property partTravelCost.
      */
     public void setpartTravelCost(BudgetDecimal partTravelCost) {
         this.partTravelCost = partTravelCost;
     }
 
-
     /**
      * Getter for property partStipendCost.
-     * 
+     *
      * @return Value of property partStipendCost.
      */
     public BudgetDecimal getpartStipendCost() {
@@ -366,17 +371,17 @@ public class BudgetSummaryInfo {
 
     /**
      * Setter for property partStipendCost.
-     * 
+     *
      * @param partStipendCost New value of property partStipendCost.
      */
     public void setpartStipendCost(BudgetDecimal partStipendCost) {
         this.partStipendCost = partStipendCost;
     }
 
-
     /**
-     * Getter for property otherDirect. which is a Vector of otherDirectCostBeans
-     * 
+     * Getter for property otherDirect. which is a Vector of
+     * otherDirectCostBeans
+     *
      * @return Value of property otherDirect.
      */
     public List<OtherDirectCostInfo> getOtherDirectCosts() {
@@ -385,17 +390,16 @@ public class BudgetSummaryInfo {
 
     /**
      * Setter for property otherDirect.
-     * 
+     *
      * @param otherDirect New value of property otherDirect.
      */
     public void setOtherDirectCosts(List<OtherDirectCostInfo> otherDirect) {
         this.otherDirect = otherDirect;
     }
 
-
     /**
      * Getter for property cumTotalDirectCosts.
-     * 
+     *
      * @return Value of property cumTotalDirectCosts.
      */
     public BudgetDecimal getCumTotalDirectCosts() {
@@ -404,17 +408,16 @@ public class BudgetSummaryInfo {
 
     /**
      * Setter for property cumTotalDirectCosts.
-     * 
+     *
      * @param cumTotalDirectCosts New value of property cumTotalDirectCosts.
      */
     public void setCumTotalDirectCosts(BudgetDecimal cumTotalDirectCosts) {
         this.cumTotalDirectCosts = cumTotalDirectCosts;
     }
 
-
     /**
      * Getter for property cumTotalIndirectCosts.
-     * 
+     *
      * @return Value of property cumTotalIndirectCosts.
      */
     public BudgetDecimal getCumTotalIndirectCosts() {
@@ -423,17 +426,16 @@ public class BudgetSummaryInfo {
 
     /**
      * Setter for property cumTotalIndirectCosts.
-     * 
+     *
      * @param cumTotalIndirectCosts New value of property cumTotalIndirectCosts.
      */
     public void setCumTotalIndirectCosts(BudgetDecimal cumTotalIndirectCosts) {
         this.cumTotalIndirectCosts = cumTotalIndirectCosts;
     }
 
-
     /**
      * Getter for property cumTotalCosts.
-     * 
+     *
      * @return Value of property cumTotalCosts.
      */
     public BudgetDecimal getCumTotalCosts() {
@@ -442,17 +444,16 @@ public class BudgetSummaryInfo {
 
     /**
      * Setter for property cumTotalCosts.
-     * 
+     *
      * @param cumTotalCosts New value of property cumTotalCosts.
      */
     public void setCumTotalCosts(BudgetDecimal cumTotalCosts) {
         this.cumTotalCosts = cumTotalCosts;
     }
 
-
     /**
      * Getter for property cumFee.
-     * 
+     *
      * @return Value of property cumFee.
      */
     public BudgetDecimal getCumFee() {
@@ -461,13 +462,12 @@ public class BudgetSummaryInfo {
 
     /**
      * Setter for property cumFee.
-     * 
+     *
      * @param cumFee New value of property cumFee.
      */
     public void setCumFee(BudgetDecimal cumFee) {
         this.cumFee = cumFee;
     }
-
 
     public BudgetDecimal getCumTotalCostSharing() {
         return cumTotalCostSharing;
@@ -575,7 +575,7 @@ public class BudgetSummaryInfo {
 
     /**
      * Getter for property partSubsistence.
-     * 
+     *
      * @return Value of property partSubsistence.
      */
     public BudgetDecimal getPartSubsistence() {
@@ -584,7 +584,7 @@ public class BudgetSummaryInfo {
 
     /**
      * Setter for property partSubsistence.
-     * 
+     *
      * @param partSubsistence New value of property partSubsistence.
      */
     public void setPartSubsistence(BudgetDecimal partSubsistence) {
@@ -593,7 +593,7 @@ public class BudgetSummaryInfo {
 
     /**
      * Getter for property partTuition.
-     * 
+     *
      * @return Value of property partTuition.
      */
     public BudgetDecimal getPartTuition() {
@@ -602,7 +602,7 @@ public class BudgetSummaryInfo {
 
     /**
      * Setter for property partTuition.
-     * 
+     *
      * @param partTuition New value of property partTuition.
      */
     public void setPartTuition(BudgetDecimal partTuition) {
@@ -611,7 +611,7 @@ public class BudgetSummaryInfo {
 
     /**
      * Getter for property partSubsistenceCostSharing.
-     * 
+     *
      * @return Value of property partSubsistenceCostSharing.
      */
     public BudgetDecimal getPartSubsistenceCostSharing() {
@@ -620,8 +620,9 @@ public class BudgetSummaryInfo {
 
     /**
      * Setter for property partSubsistenceCostSharing.
-     * 
-     * @param partSubsistenceCostSharing New value of property partSubsistenceCostSharing.
+     *
+     * @param partSubsistenceCostSharing New value of property
+     * partSubsistenceCostSharing.
      */
     public void setPartSubsistenceCostSharing(BudgetDecimal partSubsistenceCostSharing) {
         this.partSubsistenceCostSharing = partSubsistenceCostSharing;
@@ -629,7 +630,7 @@ public class BudgetSummaryInfo {
 
     /**
      * Getter for property partTuitionCostSharing.
-     * 
+     *
      * @return Value of property partTuitionCostSharing.
      */
     public BudgetDecimal getPartTuitionCostSharing() {
@@ -638,8 +639,9 @@ public class BudgetSummaryInfo {
 
     /**
      * Setter for property partTuitionCostSharing.
-     * 
-     * @param partTuitionCostSharing New value of property partTuitionCostSharing.
+     *
+     * @param partTuitionCostSharing New value of property
+     * partTuitionCostSharing.
      */
     public void setPartTuitionCostSharing(BudgetDecimal partTuitionCostSharing) {
         this.partTuitionCostSharing = partTuitionCostSharing;

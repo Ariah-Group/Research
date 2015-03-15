@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.bo;
 
@@ -30,17 +46,15 @@ public class EquipmentInfo {
     private BudgetDecimal totalNonFund = BudgetDecimal.ZERO;
     private BudgetDecimal totalExtraNonFund = BudgetDecimal.ZERO;
 
-
     public EquipmentInfo() {
         cvEquipmentList = new ArrayList<CostInfo>();
         cvExtraEquipmentList = new ArrayList<CostInfo>();
 
     }
 
-
     /**
      * Getter for property cvEquipmentList.
-     * 
+     *
      * @return Value of property cvEquipmentList.
      */
     public List<CostInfo> getEquipmentList() {
@@ -49,17 +63,16 @@ public class EquipmentInfo {
 
     /**
      * Setter for property cvEquipmentList.
-     * 
+     *
      * @param versionNumber New value of property versionNumber.
      */
     public void setEquipmentList(List<CostInfo> cvEquipmentList) {
         this.cvEquipmentList = cvEquipmentList;
     }
 
-
     /**
      * Getter for property totalFund.
-     * 
+     *
      * @return Value of property totalFund.
      */
     public BudgetDecimal getTotalFund() {
@@ -68,13 +81,12 @@ public class EquipmentInfo {
 
     /**
      * Setter for property totalFund.
-     * 
+     *
      * @param totalFund New value of property totalFund.
      */
     public void setTotalFund(BudgetDecimal totalFund) {
         this.totalFund = totalFund;
     }
-
 
     public List<CostInfo> getExtraEquipmentList() {
         return cvExtraEquipmentList;
@@ -82,7 +94,7 @@ public class EquipmentInfo {
 
     /**
      * Setter for property cvExtraEquipmentList.
-     * 
+     *
      * @param cvExtraEquipmentList New value of property cvExtraEquipmentList.
      */
     public void setExtraEquipmentList(List<CostInfo> cvExtraEquipmentList) {
@@ -91,7 +103,7 @@ public class EquipmentInfo {
 
     /**
      * Getter for property totalExtraFund.
-     * 
+     *
      * @return Value of property totalExtraFund.
      */
     public BudgetDecimal getTotalExtraFund() {
@@ -100,7 +112,7 @@ public class EquipmentInfo {
 
     /**
      * Setter for property totalExtraFund.
-     * 
+     *
      * @param totalExtraFund New value of property totalExtraFund.
      */
     public void setTotalExtraFund(BudgetDecimal totalExtraFund) {
@@ -110,7 +122,7 @@ public class EquipmentInfo {
     // start add costSaring for fedNonFedBudget repport
     /**
      * Getter for property totalNonFund.
-     * 
+     *
      * @return Value of property totalNonFund.
      */
     public BudgetDecimal getTotalNonFund() {
@@ -119,7 +131,7 @@ public class EquipmentInfo {
 
     /**
      * Setter for property totalNonFund.
-     * 
+     *
      * @param totalNonFund New value of property totalNonFund.
      */
     public void setTotalNonFund(BudgetDecimal totalNonFund) {
@@ -128,7 +140,7 @@ public class EquipmentInfo {
 
     /**
      * Getter for property totalExtraNonFund.
-     * 
+     *
      * @return Value of property totalExtraNonFund.
      */
     public BudgetDecimal getTotalExtraNonFund() {
@@ -137,13 +149,12 @@ public class EquipmentInfo {
 
     /**
      * Setter for property totalExtraNonFund.
-     * 
+     *
      * @param totalExtraNonFund New value of property totalExtraNonFund.
      */
     public void setTotalExtraNonFund(BudgetDecimal totalExtraNonFund) {
         this.totalExtraNonFund = totalExtraNonFund;
     }
-
 
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap hashMap = new LinkedHashMap();

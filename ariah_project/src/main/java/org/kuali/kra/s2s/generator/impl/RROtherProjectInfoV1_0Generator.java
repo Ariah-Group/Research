@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.impl;
 
@@ -37,9 +53,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class for generating the XML object for grants.gov RROtherProjectInfoV1.0. Form is generated using XMLBean classes and is based
- * on RROtherProjectInfo schema.
- * 
+ * Class for generating the XML object for grants.gov RROtherProjectInfoV1.0.
+ * Form is generated using XMLBean classes and is based on RROtherProjectInfo
+ * schema.
+ *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGenerator {
@@ -47,13 +64,13 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
     private static final Log LOG = LogFactory.getLog(RROtherProjectInfoV1_0Generator.class);
     List<AnswerHeader> answerHeaders;
 
-
     /**
-     * 
-     * This method gives information about RROtherProjectInfo of proposal special reviews based on the data in the proposal
-     * development document.
-     * 
-     * @return rrOtherProjectInfoDocument {@link XmlObject} of type RRKeyPersonExpandedDocument.
+     *
+     * This method gives information about RROtherProjectInfo of proposal
+     * special reviews based on the data in the proposal development document.
+     *
+     * @return rrOtherProjectInfoDocument {@link XmlObject} of type
+     * RRKeyPersonExpandedDocument.
      */
     private RROtherProjectInfoDocument getRROtherProjectInfo() {
 
@@ -63,7 +80,7 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
         Organization organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
         rrOtherProjectInfo.setFormVersion(S2SConstants.FORMVERSION_1_0);
 
-        answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);        
+        answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
         rrOtherProjectInfo.setHumanSubjectsIndicator(YesNoDataType.NO);
         rrOtherProjectInfo.setVertebrateAnimalsIndicator(YesNoDataType.NO);
         for (ProposalSpecialReview proposalSpecialReview : pdDoc.getDevelopmentProposal().getPropSpecialReviews()) {
@@ -79,11 +96,11 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
                         if (proposalSpecialReview.getApprovalTypeCode() != null
                                 && Integer.parseInt(proposalSpecialReview.getApprovalTypeCode()) == APPROVAL_TYPE_EXCEMPT) {
                             if (proposalSpecialReview.getExemptionTypeCodes() != null) {
-                            	List<HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum> exemptionNumberList=new ArrayList<HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum>();
-                            	HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum exemptionNumberEnum = null;
+                                List<HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum> exemptionNumberList = new ArrayList<HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum>();
+                                HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum exemptionNumberEnum = null;
                                 for (SpecialReviewExemption exemption : proposalSpecialReview.getSpecialReviewExemptions()) {
-                                	exemptionNumberEnum = HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum.forInt(Integer.parseInt(exemption.getExemptionTypeCode()));
-                                	exemptionNumberList.add(exemptionNumberEnum);
+                                    exemptionNumberEnum = HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum.forInt(Integer.parseInt(exemption.getExemptionTypeCode()));
+                                    exemptionNumberList.add(exemptionNumberEnum);
                                 }
                                 exemptionNumbers.setExemptionNumberArray(exemptionNumberList.toArray(new HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum[1]));
                                 huSubjectsSupplement.setExemptionNumbers(exemptionNumbers);
@@ -91,8 +108,7 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
                         }
                         if (SPECIAL_REVIEW_HUMAN_SUBJECTS.equals(proposalSpecialReview.getApprovalTypeCode())) {
                             huSubjectsSupplement.setHumanSubjectIRBReviewIndicator(YesNoDataType.YES);
-                        }
-                        else {
+                        } else {
                             huSubjectsSupplement.setHumanSubjectIRBReviewIndicator(YesNoDataType.NO);
                             if (proposalSpecialReview.getApprovalDate() != null) {
                                 huSubjectIRBReviewDate.setCalendarValue(s2sUtilService.convertDateToCalendar(proposalSpecialReview
@@ -116,8 +132,7 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
 
                         if (SPECIAL_REVIEW_ANIMAL_USAGE.equals(proposalSpecialReview.getApprovalTypeCode())) {
                             vertebrateAnimalsSupplement.setVertebrateAnimalsIACUCReviewIndicator(YesNoDataType.YES);
-                        }
-                        else {
+                        } else {
                             vertebrateAnimalsSupplement.setVertebrateAnimalsIACUCReviewIndicator(YesNoDataType.NO);
                             if (proposalSpecialReview.getApprovalDate() != null) {
                                 veApprovalDateReviewDate.setCalendarValue(s2sUtilService
@@ -160,14 +175,14 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
          * EnvironmentalImpact is of YnQ type
          */
         String environmentalImpactAnswer = getAnswers(ENVIRONMENTAL_IMPACT_YNQ);
-       
+
         answer = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(environmentalImpactAnswer) ? YesNoDataType.YES : YesNoDataType.NO;
-        answerExplanation = getChildQuestionAnswer(ENVIRONMENTAL_IMPACT_YNQ, EXPLANATION); 
+        answerExplanation = getChildQuestionAnswer(ENVIRONMENTAL_IMPACT_YNQ, EXPLANATION);
         if (environmentalImpactAnswer != null && !environmentalImpactAnswer.equals(NOT_ANSWERED)) {
-            environmentalImpact.setEnvironmentalImpactIndicator(answer);              
-            if (YesNoDataType.YES.equals(answer) && answerExplanation != null) {           
+            environmentalImpact.setEnvironmentalImpactIndicator(answer);
+            if (YesNoDataType.YES.equals(answer) && answerExplanation != null) {
                 EnvironmentalImpact.EnvironmentalImpactExplanation environmentalImpactExplanation = EnvironmentalImpact.EnvironmentalImpactExplanation.Factory
-                    .newInstance();
+                        .newInstance();
                 environmentalImpactExplanation.setStringValue(answerExplanation);
                 environmentalImpactExplanation.setEnvironmentalImpactIndicator(answer);
                 environmentalImpact.setEnvironmentalImpactExplanation(environmentalImpactExplanation);
@@ -179,7 +194,7 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
             }
         } else {
             environmentalImpact.setEnvironmentalImpactIndicator(null);
-        }  
+        }
         if (answer.equals(YesNoDataType.YES)) {
             answerExplanation = getChildQuestionAnswer(ENVIRONMENTAL_EXEMPTION_YNQ, EXPLANATION);
             String ynqAnswer = getAnswers(ENVIRONMENTAL_EXEMPTION_YNQ);
@@ -190,15 +205,15 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
                 answer = YesNoDataType.NO;
             }
             EnvironmentalImpact.EnvironmentalExemption environmentalExemption = EnvironmentalImpact.EnvironmentalExemption.Factory
-                .newInstance();
+                    .newInstance();
             if (ynqAnswer != null && !ynqAnswer.equals(NOT_ANSWERED)) {
                 if (!S2SConstants.PROPOSAL_YNQ_ANSWER_NA.equals(ynqAnswer)) {
                     // Answer not equal to X (not-applicable)
-                    
+
                     environmentalExemption.setEnvironmentalExemptionIndicator(answer);
                     if (answerExplanation != null) {
-                        EnvironmentalImpact.EnvironmentalExemption.EnvironmentalExemptionExplanation environmentalExemptionExplanation 
-                            = EnvironmentalImpact.EnvironmentalExemption.EnvironmentalExemptionExplanation.Factory
+                        EnvironmentalImpact.EnvironmentalExemption.EnvironmentalExemptionExplanation environmentalExemptionExplanation
+                                = EnvironmentalImpact.EnvironmentalExemption.EnvironmentalExemptionExplanation.Factory
                                 .newInstance();
                         environmentalExemptionExplanation.setEnvironmentalExemptionIndicator(answer);
                         environmentalExemptionExplanation.setStringValue(answerExplanation);
@@ -213,7 +228,7 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
                 environmentalExemption.setEnvironmentalExemptionIndicator(null);
             }
         }
-        if(environmentalImpactAnswer == null || environmentalImpactAnswer.equals(NOT_ANSWERED)) {
+        if (environmentalImpactAnswer == null || environmentalImpactAnswer.equals(NOT_ANSWERED)) {
             environmentalImpact = EnvironmentalImpact.Factory.newInstance();
         }
         rrOtherProjectInfo.setEnvironmentalImpact(environmentalImpact);
@@ -223,26 +238,26 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
         String internationalActivitiesAnswer = getAnswers(INTERNATIONAL_ACTIVITIES_YNQ);
         answer = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(internationalActivitiesAnswer) ? YesNoDataType.YES : YesNoDataType.NO;
         answerExplanation = getAnswers(INTERNATIONAL_ACTIVITIES_EXPL);
-        if (internationalActivitiesAnswer != null && !internationalActivities.equals(NOT_ANSWERED)){
+        if (internationalActivitiesAnswer != null && !internationalActivities.equals(NOT_ANSWERED)) {
             internationalActivities.setInternationalActivitiesIndicator(answer);
         } else {
             internationalActivities.setInternationalActivitiesIndicator(null);
-        }        
+        }
         if (answerExplanation != null && !answerExplanation.equals(NOT_ANSWERED)) {
-            InternationalActivities.ActivitiesPartnershipsCountries activitiesPartnershipsCountries = 
-                InternationalActivities.ActivitiesPartnershipsCountries.Factory.newInstance();
-            
+            InternationalActivities.ActivitiesPartnershipsCountries activitiesPartnershipsCountries
+                    = InternationalActivities.ActivitiesPartnershipsCountries.Factory.newInstance();
+
             activitiesPartnershipsCountries.setInternationalActivitiesIndicator(answer);
             activitiesPartnershipsCountries.setStringValue(answerExplanation);
             internationalActivities.setActivitiesPartnershipsCountries(activitiesPartnershipsCountries);
-            if (getChildQuestionAnswer(INTERNATIONAL_ACTIVITIES_YNQ,EXPLANATION) != null) {
-                internationalActivities.setInternationalActivitiesExplanation(getChildQuestionAnswer(INTERNATIONAL_ACTIVITIES_YNQ,EXPLANATION));
+            if (getChildQuestionAnswer(INTERNATIONAL_ACTIVITIES_YNQ, EXPLANATION) != null) {
+                internationalActivities.setInternationalActivitiesExplanation(getChildQuestionAnswer(INTERNATIONAL_ACTIVITIES_YNQ, EXPLANATION));
             }
         }
         if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(internationalActivitiesAnswer) && answerExplanation == null) {
             internationalActivities.setActivitiesPartnershipsCountries(null);
         }
-        if(internationalActivitiesAnswer == null){
+        if (internationalActivitiesAnswer == null) {
             internationalActivities = InternationalActivities.Factory.newInstance();
         }
         rrOtherProjectInfo.setInternationalActivities(internationalActivities);
@@ -257,44 +272,40 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
                 if (Integer.parseInt(narrative.getNarrativeTypeCode()) == EQUIPMENT_ATTACHMENT) {
                     // EQUIPMENT
                     attachedFileDataType = getAttachedFileType(narrative);
-                    if(attachedFileDataType == null){
+                    if (attachedFileDataType == null) {
                         continue;
                     }
                     EquipmentAttachments equipmentAttachments = EquipmentAttachments.Factory.newInstance();
                     equipmentAttachments.setEquipmentAttachment(attachedFileDataType);
                     rrOtherProjectInfo.setEquipmentAttachments(equipmentAttachments);
-                }
-                else if (Integer.parseInt(narrative.getNarrativeTypeCode()) == FACILITIES_ATTACHMENT) {
+                } else if (Integer.parseInt(narrative.getNarrativeTypeCode()) == FACILITIES_ATTACHMENT) {
                     // facilities
                     attachedFileDataType = getAttachedFileType(narrative);
-                    if(attachedFileDataType == null){
+                    if (attachedFileDataType == null) {
                         continue;
                     }
                     FacilitiesAttachments facilitiesAttachments = FacilitiesAttachments.Factory.newInstance();
                     facilitiesAttachments.setFacilitiesAttachment(attachedFileDataType);
                     rrOtherProjectInfo.setFacilitiesAttachments(facilitiesAttachments);
-                }
-                else if (Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVE_ATTACHMENT) {
+                } else if (Integer.parseInt(narrative.getNarrativeTypeCode()) == NARRATIVE_ATTACHMENT) {
                     // NARRATIVE
                     attachedFileDataType = getAttachedFileType(narrative);
-                    if(attachedFileDataType != null){
+                    if (attachedFileDataType != null) {
                         projectNarrativeAttachments.setProjectNarrativeAttachment(attachedFileDataType);
                     }
-                }
-                else if (Integer.parseInt(narrative.getNarrativeTypeCode()) == BIBLIOGRAPHY_ATTACHMENT) {
+                } else if (Integer.parseInt(narrative.getNarrativeTypeCode()) == BIBLIOGRAPHY_ATTACHMENT) {
                     // BIBLIOGRAPHY
                     attachedFileDataType = getAttachedFileType(narrative);
-                    if(attachedFileDataType == null){
+                    if (attachedFileDataType == null) {
                         continue;
                     }
                     BibliographyAttachments bibliographyAttachments = BibliographyAttachments.Factory.newInstance();
                     bibliographyAttachments.setBibliographyAttachment(attachedFileDataType);
                     rrOtherProjectInfo.setBibliographyAttachments(bibliographyAttachments);
-                }
-                else if (Integer.parseInt(narrative.getNarrativeTypeCode()) == ABSTRACT_PROJECT_SUMMARY_ATTACHMENT) {
+                } else if (Integer.parseInt(narrative.getNarrativeTypeCode()) == ABSTRACT_PROJECT_SUMMARY_ATTACHMENT) {
                     // ABSTRACT - PROJECT SUMMARY
                     attachedFileDataType = getAttachedFileType(narrative);
-                    if(attachedFileDataType != null){
+                    if (attachedFileDataType != null) {
                         abstractAttachments.setAbstractAttachment(attachedFileDataType);
                     }
                 }
@@ -306,20 +317,19 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
         OtherAttachments otherAttachments = OtherAttachments.Factory.newInstance();
         otherAttachments.setOtherAttachmentArray(getAttachedFileDataTypes());
         rrOtherProjectInfo.setOtherAttachments(otherAttachments);
-        
+
         rrOtherProjectInfoDocument.setRROtherProjectInfo(rrOtherProjectInfo);
         return rrOtherProjectInfoDocument;
     }
-    
+
     /**
-     * 
-     * This method is used to get the answer for a particular Questionnaire question
-     * question based on the question id.
-     * 
-     * @param questionId
-     *            the question id to be passed.
-     * @return returns the answer for a particular
-     *         question based on the question id passed.
+     *
+     * This method is used to get the answer for a particular Questionnaire
+     * question question based on the question id.
+     *
+     * @param questionId the question id to be passed.
+     * @return returns the answer for a particular question based on the
+     * question id passed.
      */
     private String getAnswers(String questionId) {
         String answer = null;
@@ -334,28 +344,26 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
                 }
             }
         }
-        return answer;        
+        return answer;
     }
-    
+
     /**
-     * 
-     * This method is used to get the answer for a particular Questionnaire question
-     * question based on the question id and parentQuestionId.
-     * 
-     * @param questionId
-     *            the question id to be passed.
-     * @param parentQuestionId
-     *            the parentQuestionId to be passed.
-     * @return returns the answer for a particular
-     *         question based on the question id passed.
+     *
+     * This method is used to get the answer for a particular Questionnaire
+     * question question based on the question id and parentQuestionId.
+     *
+     * @param questionId the question id to be passed.
+     * @param parentQuestionId the parentQuestionId to be passed.
+     * @return returns the answer for a particular question based on the
+     * question id passed.
      */
-    private String getChildQuestionAnswer(String parentQuestionId,String questionId) {
+    private String getChildQuestionAnswer(String parentQuestionId, String questionId) {
         String answer = null;
-        for (AnswerHeader answerHeader:answerHeaders) {            
+        for (AnswerHeader answerHeader : answerHeaders) {
             List<Answer> answerDetails = answerHeader.getAnswers();
-            for (Answer answers:answerDetails) {
+            for (Answer answers : answerDetails) {
                 if (answers.getParentAnswer() != null) {
-                    Answer parentAnswer =  answers.getParentAnswer().get(0);
+                    Answer parentAnswer = answers.getParentAnswer().get(0);
                     if (questionId.equals(answers.getQuestion().getQuestionId()) && parentAnswer.getQuestion().getQuestionId().equals(parentQuestionId)) {
                         answer = answers.getAnswer();
                         return answer;
@@ -363,16 +371,18 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
                 }
             }
         }
-        
+
         return answer;
-        
+
     }
 
     /**
-     * 
-     * This method is used to get List of Other attachments from NarrativeAttachmentList
-     * 
-     * @return attachedFileDataTypes(AttachedFileDataType[]) Array of other attachments based on narrative type code.
+     *
+     * This method is used to get List of Other attachments from
+     * NarrativeAttachmentList
+     *
+     * @return attachedFileDataTypes(AttachedFileDataType[]) Array of other
+     * attachments based on narrative type code.
      */
     private AttachedFileDataType[] getAttachedFileDataTypes() {
         LOG.info("Getting AttachedFileDataType ");
@@ -382,10 +392,10 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
             if (narrative.getNarrativeTypeCode() != null
                     && (Integer.parseInt(narrative.getNarrativeTypeCode()) == OTHER_ATTACHMENT || Integer.parseInt(narrative
                             .getNarrativeTypeCode()) == SUPPLIMENTARY_ATTACHMENT)) {
-            	attachedFileDataType = getAttachedFileType(narrative);
-            	if(attachedFileDataType != null){
-            		attachedFileDataTypeList.add(attachedFileDataType);
-            	}
+                attachedFileDataType = getAttachedFileType(narrative);
+                if (attachedFileDataType != null) {
+                    attachedFileDataTypeList.add(attachedFileDataType);
+                }
                 LOG.info("Attachmentcount" + attachedFileDataTypeList.size());
             }
         }
@@ -393,25 +403,32 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
     }
 
     /**
-     * This method creates {@link XmlObject} of type {@link RROtherProjectInfoDocument} by populating data from the given
+     * This method creates {@link XmlObject} of type
+     * {@link RROtherProjectInfoDocument} by populating data from the given
      * {@link ProposalDevelopmentDocument}
-     * 
-     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs to be created
-     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocument}
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+     *
+     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs
+     * to be created
+     * @return {@link XmlObject} which is generated using the given
+     * {@link ProposalDevelopmentDocument}
+     * @see
+     * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
      */
+    @Override
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         this.pdDoc = proposalDevelopmentDocument;
         return getRROtherProjectInfo();
     }
 
     /**
-     * This method typecasts the given {@link XmlObject} to the required generator type and returns back the document of that
-     * generator type.
-     * 
-     * @param xmlObject which needs to be converted to the document type of the required generator
+     * This method typecasts the given {@link XmlObject} to the required
+     * generator type and returns back the document of that generator type.
+     *
+     * @param xmlObject which needs to be converted to the document type of the
+     * required generator
      * @return {@link XmlObject} document of the required generator type
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
+     * @see
+     * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
      */
     public XmlObject getFormObject(XmlObject xmlObject) {
         RROtherProjectInfo rrOtherProjectInfo = (RROtherProjectInfo) xmlObject;

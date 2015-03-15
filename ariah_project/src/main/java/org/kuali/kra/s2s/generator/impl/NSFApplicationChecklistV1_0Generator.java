@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.impl;
 
@@ -25,20 +41,23 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 /**
- * 
- * This class is used to generate XML Document object for grants.gov NSFApplicationChecklistV1.0. This form is generated using
- * XMLBean classes and is based on NSF_ApplicationChecklist-V1.0 schema.
- * 
+ *
+ * This class is used to generate XML Document object for grants.gov
+ * NSFApplicationChecklistV1.0. This form is generated using XMLBean classes and
+ * is based on NSF_ApplicationChecklist-V1.0 schema.
+ *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class NSFApplicationChecklistV1_0Generator extends NSFApplicationChecklistBaseGenerator {
 
     /**
-     * 
-     * This method returns NSFApplicationChecklistDocument object based on proposal development document which contains the
+     *
+     * This method returns NSFApplicationChecklistDocument object based on
+     * proposal development document which contains the
      * NSFApplicationChecklistDocument information for a particular proposal
-     * 
-     * @return nsfChecklistDocument {@link XmlObject} of type NSFApplicationChecklistDocument.
+     *
+     * @return nsfChecklistDocument {@link XmlObject} of type
+     * NSFApplicationChecklistDocument.
      */
     private NSFApplicationChecklistDocument getNSFApplicationChecklist() {
         NSFApplicationChecklistDocument nsfChecklistDocument = NSFApplicationChecklistDocument.Factory.newInstance();
@@ -61,9 +80,10 @@ public class NSFApplicationChecklistV1_0Generator extends NSFApplicationChecklis
     }
 
     /**
-     * 
-     * This method gets NSF Cover information such as NSF Deviation authorization, Do not include, NSF FLL, NSF unit.
-     * 
+     *
+     * This method gets NSF Cover information such as NSF Deviation
+     * authorization, Do not include, NSF FLL, NSF unit.
+     *
      * @return NSFCover object containing nsf cover details.
      */
     private NSFCover getNSFCover() {
@@ -79,9 +99,10 @@ public class NSFApplicationChecklistV1_0Generator extends NSFApplicationChecklis
     }
 
     /**
-     * 
-     * This method returns RRBudget,RRBudgetJustification and Cost sharing information for the RRBudget type.
-     * 
+     *
+     * This method returns RRBudget,RRBudgetJustification and Cost sharing
+     * information for the RRBudget type.
+     *
      * @return RRBudget object containing RRbudget related information.
      */
     private RRBudget getRRBudget() {
@@ -93,10 +114,11 @@ public class NSFApplicationChecklistV1_0Generator extends NSFApplicationChecklis
     }
 
     /**
-     * 
-     * This method returns CoverSheet,Renewal,Full Application,Type of application and Application certification information for the
-     * CoverSheet type.
-     * 
+     *
+     * This method returns CoverSheet,Renewal,Full Application,Type of
+     * application and Application certification information for the CoverSheet
+     * type.
+     *
      * @return CoverSheet object containing cover sheet information details.
      */
     private CoverSheet getCoverSheet() {
@@ -110,12 +132,14 @@ public class NSFApplicationChecklistV1_0Generator extends NSFApplicationChecklis
     }
 
     /**
-     * 
-     * This method checks for the informations like Does narrative include merit review criteria, URL's should not be included in
-     * the narrative Does narrative include info regarding prior support,HR Info that is mandatory for renewals from academic
-     * institutions
-     * 
-     * @return ProjectNarrative object containing project narrative information details.
+     *
+     * This method checks for the informations like Does narrative include merit
+     * review criteria, URL's should not be included in the narrative Does
+     * narrative include info regarding prior support,HR Info that is mandatory
+     * for renewals from academic institutions
+     *
+     * @return ProjectNarrative object containing project narrative information
+     * details.
      */
     private ProjectNarrative getProjectNarrative() {
         ProjectNarrative projectNarrative = ProjectNarrative.Factory.newInstance();
@@ -128,10 +152,10 @@ public class NSFApplicationChecklistV1_0Generator extends NSFApplicationChecklis
     }
 
     /**
-     * 
-     * This method gets informations like attachment of Equipments,Supplementary information,Additional items relevant to NSF
-     * Program complete.
-     * 
+     *
+     * This method gets informations like attachment of Equipments,Supplementary
+     * information,Additional items relevant to NSF Program complete.
+     *
      * @return Equipment object containing equipment information details.
      */
     private Equipment getEquipment() {
@@ -143,9 +167,10 @@ public class NSFApplicationChecklistV1_0Generator extends NSFApplicationChecklis
     }
 
     /**
-     * 
-     * This method returns CurrentPendingSupport, BioSketch and RRSeniorProfile information for the the RRSrProfile type.
-     * 
+     *
+     * This method returns CurrentPendingSupport, BioSketch and RRSeniorProfile
+     * information for the the RRSrProfile type.
+     *
      * @return RRSrProfile object containing profile details.
      */
     private RRSrProfile getRRSrProfile() {
@@ -156,27 +181,33 @@ public class NSFApplicationChecklistV1_0Generator extends NSFApplicationChecklis
         return rrSrProfile;
     }
 
-
     /**
-     * This method creates {@link XmlObject} of type {@link NSFApplicationChecklistDocument} by populating data from the given
+     * This method creates {@link XmlObject} of type
+     * {@link NSFApplicationChecklistDocument} by populating data from the given
      * {@link ProposalDevelopmentDocument}
-     * 
-     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs to be created
-     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocument}
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+     *
+     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs
+     * to be created
+     * @return {@link XmlObject} which is generated using the given
+     * {@link ProposalDevelopmentDocument}
+     * @see
+     * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
      */
+    @Override
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         this.pdDoc = proposalDevelopmentDocument;
         return getNSFApplicationChecklist();
     }
 
     /**
-     * This method typecasts the given {@link XmlObject} to the required generator type and returns back the document of that
-     * generator type.
-     * 
-     * @param xmlObject which needs to be converted to the document type of the required generator
+     * This method typecasts the given {@link XmlObject} to the required
+     * generator type and returns back the document of that generator type.
+     *
+     * @param xmlObject which needs to be converted to the document type of the
+     * required generator
      * @return {@link XmlObject} document of the required generator type
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
+     * @see
+     * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
      */
     public XmlObject getFormObject(XmlObject xmlObject) {
         NSFApplicationChecklist nsfChecklist = (NSFApplicationChecklist) xmlObject;

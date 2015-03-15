@@ -5,7 +5,6 @@
  * 77 Massachusetts Avenue, Cambridge, MA 02139-4307
  * All rights reserved.
  */
-
 package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.phs398TrainingBudgetV10.PHS398TrainingBudgetDocument;
@@ -55,9 +54,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 /**
- * 
+ *
  * This class is for generating PHS398TrainingBudgetV1_0
  */
 public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
@@ -82,24 +80,26 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     private BusinessObjectService businessObjectService;
     private static final int PHS_TRAINING_BUDGET_BUDGETJUSTIFICATION_130 = 130;
 
-    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD1 = { 2, 5, 8, 11, 53, 54, 56 };
-    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD2 = { 59, 60, 63, 66, 108, 109, 111 };
-    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD3 = { 114, 115, 118, 121, 164, 165, 167 };
-    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD4 = { 170, 171, 174, 177, 219, 220, 222 };
-    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD5 = { 225, 226, 229, 232, 274, 275, 277 };
+    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD1 = {2, 5, 8, 11, 53, 54, 56};
+    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD2 = {59, 60, 63, 66, 108, 109, 111};
+    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD3 = {114, 115, 118, 121, 164, 165, 167};
+    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD4 = {170, 171, 174, 177, 219, 220, 222};
+    private static final Integer[] PREDOC_PARENT_QUESTION_IDS_PERIOD5 = {225, 226, 229, 232, 274, 275, 277};
 
-    private static final Integer[] POSTDOC_PARENT_QUESTION_IDS_PERIOD1 = { 17, 26, 35, 44 };
-    private static final Integer[] POSTDOC_PARENT_QUESTION_IDS_PERIOD2 = { 72, 81, 90, 99 };
-    private static final Integer[] POSTDOC_PARENT_QUESTION_IDS_PERIOD3 = { 127, 136, 146, 155 };
-    private static final Integer[] POSTDOC_PARENT_QUESTION_IDS_PERIOD4 = { 183, 192, 201, 210 };
-    private static final Integer[] POSTDOC_PARENT_QUESTION_IDS_PERIOD5 = { 238, 247, 256, 265 };
+    private static final Integer[] POSTDOC_PARENT_QUESTION_IDS_PERIOD1 = {17, 26, 35, 44};
+    private static final Integer[] POSTDOC_PARENT_QUESTION_IDS_PERIOD2 = {72, 81, 90, 99};
+    private static final Integer[] POSTDOC_PARENT_QUESTION_IDS_PERIOD3 = {127, 136, 146, 155};
+    private static final Integer[] POSTDOC_PARENT_QUESTION_IDS_PERIOD4 = {183, 192, 201, 210};
+    private static final Integer[] POSTDOC_PARENT_QUESTION_IDS_PERIOD5 = {238, 247, 256, 265};
     private static final int FN_INDEX = 0;
     private static final int SN_INDEX = 1;
     private static final int FD_INDEX = 2;
     private static final int SD_INDEX = 3;
     private static final int ZERO = 0;
 
-    /** Creates a new instance of PHS398TrainingBudgetV1_0Generator */
+    /**
+     * Creates a new instance of PHS398TrainingBudgetV1_0Generator
+     */
     public PHS398TrainingBudgetV1_0Generator() {
         s2sBudgetCalculatorService = KraServiceLocator.getService(S2SBudgetCalculatorService.class);
         dateTimeService = KraServiceLocator.getService(DateTimeService.class);
@@ -107,13 +107,14 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
     }
 
+    @Override
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
         PHS398TrainingBudgetDocument trainingBudgetTypeDocument = PHS398TrainingBudgetDocument.Factory.newInstance();
         trainingBudgetTypeDocument.setPHS398TrainingBudget(getPHS398TrainingBudget(proposalDevelopmentDocument));
         return trainingBudgetTypeDocument;
     }
 
-    private PHS398TrainingBudget getPHS398TrainingBudget(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException{
+    private PHS398TrainingBudget getPHS398TrainingBudget(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
         BudgetDocument<DevelopmentProposal> budgetDocument = s2sBudgetCalculatorService.getFinalBudgetVersion(proposalDevelopmentDocument);
         PHS398TrainingBudget trainingBudgetType = PHS398TrainingBudget.Factory.newInstance();
@@ -123,11 +124,9 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             trainingBudgetType.setFormVersion(S2SConstants.FORMVERSION_1_0);
             trainingBudgetType.setBudgetType(BudgetType.PROJECT);
             setOrganizationData(trainingBudgetType, developmentProposal);
-        }
-        else {
+        } else {
             return trainingBudgetType;
         }
-
 
         HashMap hmbudgetinfo = new HashMap();
 
@@ -138,53 +137,61 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         BigDecimal stipendAmountPreSingFull = new BigDecimal("0"), stipendAmountPreDualFull = new BigDecimal("0");
         BigDecimal stipendAmountPreSingShort = new BigDecimal("0"), stipendAmountPreDualShort = new BigDecimal("0");
         BigDecimal stipendAmount0 = new BigDecimal("0"), stipendAmount1 = new BigDecimal("0"), stipendAmount2 = new BigDecimal("0"), stipendAmount3 = new BigDecimal(
-            "0"), stipendAmount4 = new BigDecimal("0");
+                "0"), stipendAmount4 = new BigDecimal("0");
         BigDecimal stipendAmount5 = new BigDecimal("0"), stipendAmount6 = new BigDecimal("0"), stipendAmount7 = new BigDecimal("0");
         BigDecimal stipendAmountDeg0 = new BigDecimal("0"), stipendAmountDeg1 = new BigDecimal("0"), stipendAmountDeg2 = new BigDecimal(
-            "0"), stipendAmountDeg3 = new BigDecimal("0"), stipendAmountDeg4 = new BigDecimal("0");
+                "0"), stipendAmountDeg3 = new BigDecimal("0"), stipendAmountDeg4 = new BigDecimal("0");
         BigDecimal stipendAmountDeg5 = new BigDecimal("0"), stipendAmountDeg6 = new BigDecimal("0"), stipendAmountDeg7 = new BigDecimal(
-            "0");
+                "0");
         BigDecimal stipendAmountNonDeg0 = new BigDecimal("0"), stipendAmountNonDeg1 = new BigDecimal("0"), stipendAmountNonDeg2 = new BigDecimal(
-            "0"), stipendAmountNonDeg3 = new BigDecimal("0"), stipendAmountNonDeg4 = new BigDecimal("0");
+                "0"), stipendAmountNonDeg3 = new BigDecimal("0"), stipendAmountNonDeg4 = new BigDecimal("0");
         BigDecimal stipendAmountNonDeg5 = new BigDecimal("0"), stipendAmountNonDeg6 = new BigDecimal("0"), stipendAmountNonDeg7 = new BigDecimal(
-            "0");
+                "0");
 
-        /***** cumulative stipends **/
+        /**
+         * *** cumulative stipends *
+         */
         BigDecimal cumUndergradStipends = new BigDecimal("0"), cumPreDocSingleStipends = new BigDecimal("0"), cumPreDocDualStipends = new BigDecimal(
-            "0"), cumPreDocTotalStipends = new BigDecimal("0");
+                "0"), cumPreDocTotalStipends = new BigDecimal("0");
         BigDecimal cumPostDocNonDegStipends = new BigDecimal("0"), cumPostDocDegStipends = new BigDecimal("0"), cumPostDocTotalStipends = new BigDecimal(
-            "0");
+                "0");
         BigDecimal cumOtherStipends = new BigDecimal("0");
 
-        /***** cumulative tuition **/
+        /**
+         * *** cumulative tuition *
+         */
         BigDecimal cumUndergradTuition = new BigDecimal("0"), cumPreDocSingleTuition = new BigDecimal("0"), cumPreDocDualTuition = new BigDecimal(
-            "0"), cumPreDocTotalTuition = new BigDecimal("0");
+                "0"), cumPreDocTotalTuition = new BigDecimal("0");
         BigDecimal cumPostDocNonDegTuition = new BigDecimal("0"), cumPostDocDegTuition = new BigDecimal("0"), cumPostDocTotalTuition = new BigDecimal(
-            "0");
+                "0");
         BigDecimal cumOtherTuition = new BigDecimal("0");
 
-        /********** cumulative costs **/
+        /**
+         * ******** cumulative costs *
+         */
         BigDecimal cumTrainingCosts = new BigDecimal("0"), cumTravelCosts = new BigDecimal("0"), cumConsCosts = new BigDecimal("0");
         BigDecimal cumResearchTotalDirectCosts = new BigDecimal("0"), cumTotalOtherDirectCosts = new BigDecimal("0"), cumTotalDirectCosts = new BigDecimal(
-            "0");
+                "0");
         BigDecimal cumTotalIndCosts1 = new BigDecimal("0"), cumTotalIndCosts2 = new BigDecimal("0"), cumTotalIndCosts = new BigDecimal(
-            "0");
+                "0");
         BigDecimal cumTotalDirectAndIndCosts = new BigDecimal("0");
 
         BigDecimal researchDirectCosts = new BigDecimal("0");
         BigDecimal totalOtherDirectCostsRequested = new BigDecimal("0");
-        /********************************
+        /**
+         * ******************************
          * get budget periods
-         *********************************/
+         ********************************
+         */
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
             hmbudgetinfo = new HashMap();
             PHS398TrainingBudgetYearDataType phs398TrainingBudgetYearDataType = trainingBudgetType.addNewBudgetYear();
-            BudgetDecimal trainingTraveCost = getBudgetPeriodCost(budgetPeriod,TRAINEE_TRAVEL_COST_ELEMENTS);
+            BudgetDecimal trainingTraveCost = getBudgetPeriodCost(budgetPeriod, TRAINEE_TRAVEL_COST_ELEMENTS);
             phs398TrainingBudgetYearDataType.setTraineeTravelRequested(trainingTraveCost.bigDecimalValue());
-            BudgetDecimal trainingCost = getBudgetPeriodCost(budgetPeriod,TRAINING_REL_COST_ELEMENTS);
+            BudgetDecimal trainingCost = getBudgetPeriodCost(budgetPeriod, TRAINING_REL_COST_ELEMENTS);
             phs398TrainingBudgetYearDataType.setTrainingRelatedExpensesRequested(trainingCost.bigDecimalValue());
-            BudgetDecimal consTrainingCost = getBudgetPeriodCost(budgetPeriod,SUBCONTRACT_COST_ELEMENTS);
+            BudgetDecimal consTrainingCost = getBudgetPeriodCost(budgetPeriod, SUBCONTRACT_COST_ELEMENTS);
             phs398TrainingBudgetYearDataType.setConsortiumTrainingCostsRequested(consTrainingCost.bigDecimalValue());
 
             phs398TrainingBudgetYearDataType.setPostdocNonDegreeTuitionAndFeesRequested(getBudgetPeriodCost(budgetPeriod,
@@ -203,10 +210,11 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             phs398TrainingBudgetYearDataType.setPeriodEndDate(dateTimeService.getCalendar(budgetPeriod.getEndDate()));
             phs398TrainingBudgetYearDataType.setPeriodStartDate(dateTimeService.getCalendar(budgetPeriod.getStartDate()));
 
-
-            /******************************
+            /**
+             * ****************************
              * add to cumulative amounts for tuition and costs
-             ******************************/
+             *****************************
+             */
             cumUndergradTuition = cumUndergradTuition.add(phs398TrainingBudgetYearDataType
                     .getUndergraduateTuitionAndFeesRequested());
             cumPreDocSingleTuition = cumPreDocSingleTuition.add(phs398TrainingBudgetYearDataType
@@ -224,10 +232,11 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             cumTravelCosts = cumTravelCosts.add(phs398TrainingBudgetYearDataType.getTraineeTravelRequested());
             cumConsCosts = cumConsCosts.add(phs398TrainingBudgetYearDataType.getConsortiumTrainingCostsRequested());
 
-            /************************
+            /**
+             * **********************
              * getting first two indirect cost type
-             ************************/
-
+             ***********************
+             */
             IndirectCostInfo indirectCostInfo = s2sBudgetCalculatorService.getIndirectCosts(budgetPeriod.getBudget(), budgetPeriod);
             List<IndirectCostDetails> cvIndirectCost = indirectCostInfo.getIndirectCostDetails();
             BigDecimal totIndCosts = new BigDecimal("0");
@@ -240,14 +249,14 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                         phs398TrainingBudgetYearDataType.setIndirectCostBase1(indireCost.getBase().bigDecimalValue());
                         phs398TrainingBudgetYearDataType.setIndirectCostFundsRequested1(indireCost.getFunds().bigDecimalValue());
                         phs398TrainingBudgetYearDataType.setIndirectCostRate1(indireCost.getRate().bigDecimalValue());
-                        cumTotalIndCosts1 =  cumTotalIndCosts1.add(phs398TrainingBudgetYearDataType.getIndirectCostFundsRequested1());
+                        cumTotalIndCosts1 = cumTotalIndCosts1.add(phs398TrainingBudgetYearDataType.getIndirectCostFundsRequested1());
                         break;
                     case (1):
                         phs398TrainingBudgetYearDataType.setIndirectCostType1(indireCost.getCostType());
                         phs398TrainingBudgetYearDataType.setIndirectCostBase2(indireCost.getBase().bigDecimalValue());
                         phs398TrainingBudgetYearDataType.setIndirectCostFundsRequested2(indireCost.getFunds().bigDecimalValue());
                         phs398TrainingBudgetYearDataType.setIndirectCostRate2(indireCost.getRate().bigDecimalValue());
-                        cumTotalIndCosts2 =  cumTotalIndCosts2.add(phs398TrainingBudgetYearDataType.getIndirectCostFundsRequested2());
+                        cumTotalIndCosts2 = cumTotalIndCosts2.add(phs398TrainingBudgetYearDataType.getIndirectCostFundsRequested2());
                         break;
                     default:
                         break;
@@ -256,12 +265,11 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             }
             phs398TrainingBudgetYearDataType.setTotalIndirectCostsRequested(totIndCosts);
 
-
             int numPostDocLevel0, numPostDocLevel1, numPostDocLevel2, numPostDocLevel3, numPostDocLevel4 = 0;
             int numPostDocLevel5, numPostDocLevel6, numPostDocLevel7 = 0;
 
-            Map<String,String> hmNonDegree = new HashMap<String,String>();
-            Map<String,String> hmDegree = new HashMap<String,String>();
+            Map<String, String> hmNonDegree = new HashMap<String, String>();
+            Map<String, String> hmDegree = new HashMap<String, String>();
 
             hmNonDegree.put("fulllevel0", "0");
             hmNonDegree.put("fulllevel1", "0");
@@ -280,17 +288,17 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             hmNonDegree.put("shortlevel6", "0");
             hmNonDegree.put("shortlevel7", "0");
 
-
-            /********************************************************
+            /**
+             * ******************************************************
              * get questionnaire answers for undergrads and predocs and others
-             ********************************************************/
-
+             *******************************************************
+             */
             String answer = null;
             int preDocCountFull = 0, preDocCountShort = 0;
             int undergradFirstYearNum = 0, undergradJrNum = 0;
             BigDecimal otherShortStipends = new BigDecimal("0"), otherFullStipends = new BigDecimal("0");
             List<AnswerHeader> answerHeaders = findQuestionnaireWithAnswers(developmentProposal, budgetPeriod.getBudgetPeriod());
-            if (answerHeaders != null){
+            if (answerHeaders != null) {
                 for (AnswerHeader answerHeader : answerHeaders) {
                     Questionnaire questionnaire = answerHeader.getQuestionnaire();
                     List<QuestionnaireQuestion> questionnaireQuestions = questionnaire.getQuestionnaireQuestions();
@@ -302,79 +310,86 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                             int answerIntVal = 0;
                             try {
                                 answerIntVal = Integer.parseInt(answer);
-                            }
-                            catch (NumberFormatException ex) {
+                            } catch (NumberFormatException ex) {
                             }
                             if (isPreDocParentQuestionFromPeriodExists(questionnaireQuestion, budgetPeriod)) {
                                 switch (question.getQuestionIdAsInteger()) {
                                     case 72:
-                                        if (answer != null)
+                                        if (answer != null) {
                                             phs398TrainingBudgetYearDataType.setUndergraduateNumFullTime(answerIntVal);
+                                        }
                                         break;
                                     case 73:
                                         // short term undergrad
-                                        if (answer != null)
+                                        if (answer != null) {
                                             phs398TrainingBudgetYearDataType.setUndergraduateNumShortTerm(answerIntVal);
+                                        }
                                         break;
                                     case 74:
                                         // stipends first year
-                                        if (answer != null)
+                                        if (answer != null) {
                                             undergradFirstYearNum = undergradFirstYearNum + answerIntVal;
+                                        }
 
                                         break;
                                     case 75:
                                         // stipends junior
-                                        if (answer != null)
+                                        if (answer != null) {
                                             undergradJrNum = undergradJrNum + answerIntVal;
+                                        }
 
                                         break;
                                     case 77:
                                         // full time single degree predoc
                                         if (answer != null) {
                                             phs398TrainingBudgetYearDataType.setPredocSingleDegreeNumFullTime(answerIntVal);
-                                            preDocCountFull = preDocCountFull+ phs398TrainingBudgetYearDataType.getPredocSingleDegreeNumFullTime();
+                                            preDocCountFull = preDocCountFull + phs398TrainingBudgetYearDataType.getPredocSingleDegreeNumFullTime();
                                         }
                                         break;
                                     case 78:
                                         // short term single degree predoc
                                         if (answer != null) {
                                             phs398TrainingBudgetYearDataType.setPredocSingleDegreeNumShortTerm(answerIntVal);
-                                            preDocCountShort = preDocCountShort+ phs398TrainingBudgetYearDataType.getPredocSingleDegreeNumShortTerm();
+                                            preDocCountShort = preDocCountShort + phs398TrainingBudgetYearDataType.getPredocSingleDegreeNumShortTerm();
                                         }
                                         break;
                                     case 79:
                                         // full term dual degree predoc
                                         if (answer != null) {
                                             phs398TrainingBudgetYearDataType.setPredocDualDegreeNumFullTime(answerIntVal);
-                                            preDocCountFull = preDocCountFull+ phs398TrainingBudgetYearDataType.getPredocDualDegreeNumFullTime();
+                                            preDocCountFull = preDocCountFull + phs398TrainingBudgetYearDataType.getPredocDualDegreeNumFullTime();
                                         }
                                         break;
                                     case 80:
                                         // short term dual degree predoc
                                         if (answer != null) {
                                             phs398TrainingBudgetYearDataType.setPredocDualDegreeNumShortTerm(answerIntVal);
-                                            preDocCountShort = preDocCountShort+ phs398TrainingBudgetYearDataType.getPredocDualDegreeNumShortTerm();
+                                            preDocCountShort = preDocCountShort + phs398TrainingBudgetYearDataType.getPredocDualDegreeNumShortTerm();
                                         }
                                         break;
                                     case 95:
                                         // others full term
-                                        if (answer != null)
+                                        if (answer != null) {
                                             phs398TrainingBudgetYearDataType.setOtherNumFullTime(answerIntVal);
+                                        }
                                         break;
                                     case 97:
                                         // others short term
-                                        if (answer != null)
+                                        if (answer != null) {
                                             phs398TrainingBudgetYearDataType.setOtherNumShortTerm(answerIntVal);
+                                        }
                                         break;
                                     case 96:
                                         // others full term stipend
-                                        if (answer != null)
+                                        if (answer != null) {
                                             otherFullStipends = new BigDecimal(answer);
+                                        }
                                         break;
                                     case 98:
                                         // others short term stipend
-                                        if (answer != null)
+                                        if (answer != null) {
                                             otherShortStipends = new BigDecimal(answer);
+                                        }
                                         break;
                                 }
                             }
@@ -382,43 +397,51 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                                 switch (question.getQuestionIdAsInteger()) {
                                     case 86:
                                         // trainees at stipend level 0
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmNonDegree.put("fulllevel0", answer);
+                                        }
                                         break;
                                     case 87:
                                         // trainees at stipend level 1
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmNonDegree.put("fulllevel1", answer);
+                                        }
                                         break;
                                     case 88:
                                         // trainees at stipend level 2
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmNonDegree.put("fulllevel2", answer);
+                                        }
                                         break;
                                     case 89:
                                         // trainees at stipend level 3
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmNonDegree.put("fulllevel3", answer);
+                                        }
                                         break;
                                     case 90:
                                         // trainees at stipend level 4
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmNonDegree.put("fulllevel4", answer);
+                                        }
                                         break;
                                     case 91:
                                         // trainees at stipend level 5
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmNonDegree.put("fulllevel5", answer);
+                                        }
                                         break;
                                     case 92:
                                         // trainees at stipend level 6
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmNonDegree.put("fulllevel6", answer);
+                                        }
                                         break;
                                     case 93:
                                         // trainees at stipend level 7
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmNonDegree.put("fulllevel7", answer);
+                                        }
                                         break;
                                     default:
                                         break;
@@ -428,43 +451,51 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                                 switch (question.getQuestionIdAsInteger()) {
                                     case 86:
                                         // trainees at stipend level 0
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmNonDegree.put("shortlevel0", answer);
+                                        }
                                         break;
                                     case 87:
                                         // trainees at stipend level 1
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmNonDegree.put("shortlevel1", answer);
+                                        }
                                         break;
                                     case 88:
                                         // trainees at stipend level 2
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmNonDegree.put("shortlevel2", answer);
+                                        }
                                         break;
                                     case 89:
                                         // trainees at stipend level 3
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmNonDegree.put("shortlevel3", answer);
+                                        }
                                         break;
                                     case 90:
                                         // trainees at stipend level 4
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmNonDegree.put("shortlevel4", answer);
+                                        }
                                         break;
                                     case 91:
                                         // trainees at stipend level 5
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmNonDegree.put("shortlevel5", answer);
+                                        }
                                         break;
                                     case 92:
                                         // trainees at stipend level 6
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmNonDegree.put("shortlevel6", answer);
+                                        }
                                         break;
                                     case 93:
                                         // trainees at stipend level 7
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmNonDegree.put("shortlevel7", answer);
+                                        }
                                         break;
                                     default:
                                         break;
@@ -482,12 +513,11 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             phs398TrainingBudgetYearDataType.setPredocTotalNumFullTime(preDocCountFull);
             cumOtherStipends = cumOtherStipends.add(phs398TrainingBudgetYearDataType.getOtherStipendsRequested());
 
-
-            /***********************************************************
+            /**
+             * *********************************************************
              * set post doc non degree full time total number
-             ***********************************************************/
-
-
+             **********************************************************
+             */
             int postDocNumNonDegreeFullTime = Integer.parseInt(hmNonDegree.get("fulllevel0"))
                     + Integer.parseInt(hmNonDegree.get("fulllevel1"))
                     + Integer.parseInt(hmNonDegree.get("fulllevel2"))
@@ -499,10 +529,11 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
 
             phs398TrainingBudgetYearDataType.setPostdocNumNonDegreeFullTime(postDocNumNonDegreeFullTime);
 
-            /***********************************************************
+            /**
+             * *********************************************************
              * set post doc non degree short term total number
-             ***********************************************************/
-
+             **********************************************************
+             */
             int postDocNumNonDegreeShortTerm = Integer.parseInt(hmNonDegree.get("shortlevel0"))
                     + Integer.parseInt(hmNonDegree.get("shortlevel1"))
                     + Integer.parseInt(hmNonDegree.get("shortlevel2"))
@@ -514,10 +545,11 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
 
             phs398TrainingBudgetYearDataType.setPostdocNumNonDegreeShortTerm(postDocNumNonDegreeShortTerm);
 
-
-            /************************************************
+            /**
+             * **********************************************
              * set post doc non degree level numbers
-             *************************************************/
+             ************************************************
+             */
             phs398TrainingBudgetYearDataType.setPostdocNumNonDegreeStipendLevel0(Integer.parseInt(hmNonDegree.get("fulllevel0"))
                     + Integer.parseInt(hmNonDegree.get("shortlevel0")));
 
@@ -554,7 +586,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             hmDegree.put("shortlevel5", "0");
             hmDegree.put("shortlevel6", "0");
             hmDegree.put("shortlevel7", "0");
-            if (answerHeaders != null){
+            if (answerHeaders != null) {
                 for (AnswerHeader answerHeader : answerHeaders) {
                     Questionnaire questionnaire = answerHeader.getQuestionnaire();
                     List<QuestionnaireQuestion> questionnaireQuestions = questionnaire.getQuestionnaireQuestions();
@@ -564,48 +596,59 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                         Question question = questionnaireQuestion.getQuestion();
                         if (answer != null) {
                             int answerIntVal = 0;
-                            try {answerIntVal = Integer.parseInt(answer);}catch (NumberFormatException ex) {}
+                            try {
+                                answerIntVal = Integer.parseInt(answer);
+                            } catch (NumberFormatException ex) {
+                            }
                             if (isPostDocParentQuestionFromPeriodExists(questionnaireQuestion, budgetPeriod, FD_INDEX)) {
                                 switch (question.getQuestionIdAsInteger()) {
                                     case 86:
                                         // trainees at stipend level 0
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmDegree.put("fulllevel0", answer);
+                                        }
                                         break;
                                     case 87:
                                         // trainees at stipend level 1
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmDegree.put("fulllevel1", answer);
+                                        }
                                         break;
                                     case 88:
                                         // trainees at stipend level 2
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmDegree.put("fulllevel2", answer);
+                                        }
                                         break;
                                     case 89:
                                         // trainees at stipend level 3
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmDegree.put("fulllevel3", answer);
+                                        }
                                         break;
                                     case 90:
                                         // trainees at stipend level 4
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmDegree.put("fulllevel4", answer);
+                                        }
                                         break;
                                     case 91:
                                         // trainees at stipend level 5
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmDegree.put("fulllevel5", answer);
+                                        }
                                         break;
                                     case 92:
                                         // trainees at stipend level 6
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmDegree.put("fulllevel6", answer);
+                                        }
                                         break;
                                     case 93:
                                         // trainees at stipend level 7
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmDegree.put("fulllevel7", answer);
+                                        }
                                         break;
                                     default:
                                         break;
@@ -616,43 +659,51 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                                 switch (question.getQuestionIdAsInteger()) {
                                     case 86:
                                         // trainees at stipend level 0
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmDegree.put("shortlevel0", answer);
+                                        }
                                         break;
                                     case 87:
                                         // trainees at stipend level 1
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmDegree.put("shortlevel1", answer);
+                                        }
                                         break;
                                     case 88:
                                         // trainees at stipend level 2
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmDegree.put("shortlevel2", answer);
+                                        }
                                         break;
                                     case 89:
                                         // trainees at stipend level 3
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmDegree.put("shortlevel3", answer);
+                                        }
                                         break;
                                     case 90:
                                         // trainees at stipend level 4
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmDegree.put("shortlevel4", answer);
+                                        }
                                         break;
                                     case 91:
                                         // trainees at stipend level 5
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmDegree.put("shortlevel5", answer);
+                                        }
                                         break;
                                     case 92:
                                         // trainees at stipend level 6
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmDegree.put("shortlevel6", answer);
+                                        }
                                         break;
                                     case 93:
                                         // trainees at stipend level 7
-                                        if (answer != null)
+                                        if (answer != null) {
                                             hmDegree.put("shortlevel7", answer);
+                                        }
                                         break;
                                     default:
                                         break;
@@ -663,10 +714,11 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                 }
             }
 
-
-            /******************************************************
+            /**
+             * ****************************************************
              * set post doc degree seeking numbers for each level
-             ******************************************************/
+             *****************************************************
+             */
             phs398TrainingBudgetYearDataType.setPostdocNumDegreeStipendLevel0(Integer.parseInt(hmDegree.get("fulllevel0"))
                     + Integer.parseInt(hmDegree.get("shortlevel0")));
             phs398TrainingBudgetYearDataType.setPostdocNumDegreeStipendLevel1(Integer.parseInt(hmDegree.get("fulllevel1"))
@@ -684,10 +736,11 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             phs398TrainingBudgetYearDataType.setPostdocNumDegreeStipendLevel7(Integer.parseInt(hmDegree.get("fulllevel7"))
                     + Integer.parseInt(hmDegree.get("shortlevel7")));
 
-            /************************************************
+            /**
+             * **********************************************
              * set post doc degree seeking full time number
-             **********************************************/
-
+             *********************************************
+             */
             int postDocNumDegreeFulltime = Integer.parseInt(hmDegree.get("fulllevel0"))
                     + Integer.parseInt(hmDegree.get("fulllevel1"))
                     + Integer.parseInt(hmDegree.get("fulllevel2"))
@@ -699,10 +752,11 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
 
             phs398TrainingBudgetYearDataType.setPostdocNumDegreeFullTime(postDocNumDegreeFulltime);
 
-            /***********************************************
-             *set post doc degree seeking short term number
-             * ************************************************/
-
+            /**
+             * *********************************************
+             * set post doc degree seeking short term number
+             * ***********************************************
+             */
             int postDocNumDegreeShortTerm = Integer.parseInt(hmDegree.get("shortlevel0"))
                     + Integer.parseInt(hmDegree.get("shortlevel1"))
                     + Integer.parseInt(hmDegree.get("shortlevel2"))
@@ -749,30 +803,30 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                     .getPostdocNumNonDegreeStipendLevel7()
                     + phs398TrainingBudgetYearDataType.getPostdocNumDegreeStipendLevel7());
 
-
-            /******************************************************
+            /**
+             * ****************************************************
              * get stipend amounts
-             ******************************************************/
-
+             *****************************************************
+             */
             // undergrad
             numPeople = phs398TrainingBudgetYearDataType.getUndergraduateNumFirstYearSophomoreStipends();
-            stipendAmountF = getStipendAmount(budgetPeriod,UNDERGRADS, 0,numPeople);
+            stipendAmountF = getStipendAmount(budgetPeriod, UNDERGRADS, 0, numPeople);
             numPeople = phs398TrainingBudgetYearDataType.getUndergraduateNumJuniorSeniorStipends();
-            stipendAmountJ = getStipendAmount(budgetPeriod,UNDERGRADS, 1,numPeople);
+            stipendAmountJ = getStipendAmount(budgetPeriod, UNDERGRADS, 1, numPeople);
             phs398TrainingBudgetYearDataType.setUndergraduateStipendsRequested(stipendAmountF.add(stipendAmountJ));
 
             cumUndergradStipends = cumUndergradStipends.add(phs398TrainingBudgetYearDataType.getUndergraduateStipendsRequested());
 
             // predoc
             numPeople = phs398TrainingBudgetYearDataType.getPredocSingleDegreeNumFullTime();
-            stipendAmountPreSingFull = getStipendAmount(budgetPeriod,PREDOC, 0,numPeople);
+            stipendAmountPreSingFull = getStipendAmount(budgetPeriod, PREDOC, 0, numPeople);
             numPeople = phs398TrainingBudgetYearDataType.getPredocDualDegreeNumFullTime();
-            stipendAmountPreDualFull = getStipendAmount(budgetPeriod,PREDOC, 0,numPeople);
+            stipendAmountPreDualFull = getStipendAmount(budgetPeriod, PREDOC, 0, numPeople);
 
             numPeople = phs398TrainingBudgetYearDataType.getPredocSingleDegreeNumShortTerm();
-            stipendAmountPreSingShort = getStipendAmount(budgetPeriod,PREDOC, 0,numPeople);
+            stipendAmountPreSingShort = getStipendAmount(budgetPeriod, PREDOC, 0, numPeople);
             numPeople = phs398TrainingBudgetYearDataType.getPredocDualDegreeNumShortTerm();
-            stipendAmountPreDualShort = getStipendAmount(budgetPeriod,PREDOC, 0,numPeople);
+            stipendAmountPreDualShort = getStipendAmount(budgetPeriod, PREDOC, 0, numPeople);
 
             phs398TrainingBudgetYearDataType.setPredocSingleDegreeStipendsRequested(stipendAmountPreSingFull.add(stipendAmountPreSingShort));
             phs398TrainingBudgetYearDataType.setPredocDualDegreeStipendsRequested(stipendAmountPreDualFull.add(stipendAmountPreDualShort));
@@ -786,46 +840,45 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             cumPreDocTotalTuition = cumPreDocDualTuition.add(cumPreDocSingleTuition);
 
             // postdoc
-
             numPostDocLevel0 = phs398TrainingBudgetYearDataType.getPostdocNumNonDegreeStipendLevel0();
-            stipendAmountNonDeg0 = getStipendAmount(budgetPeriod,POSTDOC, 0,numPostDocLevel0);
+            stipendAmountNonDeg0 = getStipendAmount(budgetPeriod, POSTDOC, 0, numPostDocLevel0);
             numPostDocLevel0 = phs398TrainingBudgetYearDataType.getPostdocNumDegreeStipendLevel0();
-            stipendAmountDeg0 = getStipendAmount(budgetPeriod,POSTDOC, 0,numPostDocLevel0);
+            stipendAmountDeg0 = getStipendAmount(budgetPeriod, POSTDOC, 0, numPostDocLevel0);
 
             numPostDocLevel1 = phs398TrainingBudgetYearDataType.getPostdocNumNonDegreeStipendLevel1();
-            stipendAmountNonDeg1 = getStipendAmount(budgetPeriod,POSTDOC, 1,numPostDocLevel1);
+            stipendAmountNonDeg1 = getStipendAmount(budgetPeriod, POSTDOC, 1, numPostDocLevel1);
             numPostDocLevel1 = phs398TrainingBudgetYearDataType.getPostdocNumDegreeStipendLevel1();
-            stipendAmountDeg1 = getStipendAmount(budgetPeriod,POSTDOC, 1,numPostDocLevel1);
+            stipendAmountDeg1 = getStipendAmount(budgetPeriod, POSTDOC, 1, numPostDocLevel1);
 
             numPostDocLevel2 = phs398TrainingBudgetYearDataType.getPostdocNumNonDegreeStipendLevel2();
-            stipendAmountNonDeg2 = getStipendAmount(budgetPeriod,POSTDOC, 2,numPostDocLevel2);
+            stipendAmountNonDeg2 = getStipendAmount(budgetPeriod, POSTDOC, 2, numPostDocLevel2);
             numPostDocLevel2 = phs398TrainingBudgetYearDataType.getPostdocNumDegreeStipendLevel2();
-            stipendAmountDeg2 = getStipendAmount(budgetPeriod,POSTDOC, 2,numPostDocLevel2);
+            stipendAmountDeg2 = getStipendAmount(budgetPeriod, POSTDOC, 2, numPostDocLevel2);
 
             numPostDocLevel3 = phs398TrainingBudgetYearDataType.getPostdocNumNonDegreeStipendLevel3();
-            stipendAmountNonDeg3 = getStipendAmount(budgetPeriod,POSTDOC, 3,numPostDocLevel3);
+            stipendAmountNonDeg3 = getStipendAmount(budgetPeriod, POSTDOC, 3, numPostDocLevel3);
             numPostDocLevel3 = phs398TrainingBudgetYearDataType.getPostdocNumDegreeStipendLevel3();
-            stipendAmountDeg3 = getStipendAmount(budgetPeriod,POSTDOC, 3,numPostDocLevel3);
+            stipendAmountDeg3 = getStipendAmount(budgetPeriod, POSTDOC, 3, numPostDocLevel3);
 
             numPostDocLevel4 = phs398TrainingBudgetYearDataType.getPostdocNumNonDegreeStipendLevel4();
-            stipendAmountNonDeg4 = getStipendAmount(budgetPeriod,POSTDOC, 4,numPostDocLevel4);
+            stipendAmountNonDeg4 = getStipendAmount(budgetPeriod, POSTDOC, 4, numPostDocLevel4);
             numPostDocLevel4 = phs398TrainingBudgetYearDataType.getPostdocNumDegreeStipendLevel4();
-            stipendAmountDeg4 = getStipendAmount(budgetPeriod,POSTDOC, 4,numPostDocLevel4);
+            stipendAmountDeg4 = getStipendAmount(budgetPeriod, POSTDOC, 4, numPostDocLevel4);
 
             numPostDocLevel5 = phs398TrainingBudgetYearDataType.getPostdocNumNonDegreeStipendLevel5();
-            stipendAmountNonDeg5 = getStipendAmount(budgetPeriod,POSTDOC, 5,numPostDocLevel5);
+            stipendAmountNonDeg5 = getStipendAmount(budgetPeriod, POSTDOC, 5, numPostDocLevel5);
             numPostDocLevel5 = phs398TrainingBudgetYearDataType.getPostdocNumDegreeStipendLevel5();
-            stipendAmountDeg5 = getStipendAmount(budgetPeriod,POSTDOC, 5,numPostDocLevel5);
+            stipendAmountDeg5 = getStipendAmount(budgetPeriod, POSTDOC, 5, numPostDocLevel5);
 
             numPostDocLevel6 = phs398TrainingBudgetYearDataType.getPostdocNumNonDegreeStipendLevel6();
-            stipendAmountNonDeg6 = getStipendAmount(budgetPeriod,POSTDOC, 6,numPostDocLevel6);
+            stipendAmountNonDeg6 = getStipendAmount(budgetPeriod, POSTDOC, 6, numPostDocLevel6);
             numPostDocLevel6 = phs398TrainingBudgetYearDataType.getPostdocNumDegreeStipendLevel6();
-            stipendAmountDeg6 = getStipendAmount(budgetPeriod,POSTDOC, 6,numPostDocLevel6);
+            stipendAmountDeg6 = getStipendAmount(budgetPeriod, POSTDOC, 6, numPostDocLevel6);
 
             numPostDocLevel7 = phs398TrainingBudgetYearDataType.getPostdocNumNonDegreeStipendLevel7();
-            stipendAmountNonDeg7 = getStipendAmount(budgetPeriod,POSTDOC, 7,numPostDocLevel7);
+            stipendAmountNonDeg7 = getStipendAmount(budgetPeriod, POSTDOC, 7, numPostDocLevel7);
             numPostDocLevel7 = phs398TrainingBudgetYearDataType.getPostdocNumDegreeStipendLevel7();
-            stipendAmountDeg7 = getStipendAmount(budgetPeriod,POSTDOC, 7,numPostDocLevel7);
+            stipendAmountDeg7 = getStipendAmount(budgetPeriod, POSTDOC, 7, numPostDocLevel7);
 
             phs398TrainingBudgetYearDataType.setPostdocDegreeStipendsRequested(stipendAmountDeg0.add(stipendAmountDeg1).add(
                     stipendAmountDeg2).add(stipendAmountDeg3).add(stipendAmountDeg4).add(stipendAmountDeg5).add(stipendAmountDeg6)
@@ -839,11 +892,11 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                     .getPostdocNonDegreeStipendsRequested().add(
                             phs398TrainingBudgetYearDataType.getPostdocDegreeStipendsRequested()));
 
-
-            /******************************************************
+            /**
+             * ****************************************************
              * set total amounts
-             ******************************************************/
-
+             *****************************************************
+             */
             phs398TrainingBudgetYearDataType.setPostdocTotalTuitionAndFeesRequested(phs398TrainingBudgetYearDataType
                     .getPostdocDegreeTuitionAndFeesRequested().add(
                             phs398TrainingBudgetYearDataType.getPostdocNonDegreeTuitionAndFeesRequested()));
@@ -869,24 +922,23 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
 
             // the total tdirect costs from r and r budget line, which is RESEARCH_DIRECT_COST, has to have the
             // total stipends and tuition subtracted from it.
-
             researchDirectCosts = budgetPeriod.getTotalDirectCost().subtract(trainingCost).
-                                    subtract(trainingTraveCost).subtract(consTrainingCost).bigDecimalValue();
+                    subtract(trainingTraveCost).subtract(consTrainingCost).bigDecimalValue();
             researchDirectCosts = researchDirectCosts.subtract(phs398TrainingBudgetYearDataType.getTotalStipendsAndTuitionFeesRequested());
             phs398TrainingBudgetYearDataType.setResearchDirectCostsRequested(researchDirectCosts);
             if (phs398TrainingBudgetYearDataType.getResearchDirectCostsRequested() != null) {
                 Double researchDirectCostValue = phs398TrainingBudgetYearDataType.getResearchDirectCostsRequested().doubleValue();
                 if (researchDirectCostValue < ZERO) {
                     String researchDirectCostValueStipend = researchDirectCostValue.toString();
-                    String budgetYear = budgetPeriod.getBudgetPeriod().toString(); 
+                    String budgetYear = budgetPeriod.getBudgetPeriod().toString();
                     AuditError stipendError = new AuditError(Constants.NO_FIELD, S2SConstants.GRANTS_GOV_STIPEND_ERROR_MESSAGE, Constants.GRANTS_GOV_PAGE + "."
-                            + Constants.GRANTS_GOV_PANEL_ANCHOR );
+                            + Constants.GRANTS_GOV_PANEL_ANCHOR);
                     String errorMessage = stipendError.getMessageKey();
                     errorMessage = errorMessage.replace(STIPEND_AMOUNT, researchDirectCostValueStipend);
                     errorMessage = errorMessage.replace(BUDGET_PERIOD, budgetYear);
                     stipendError.setMessageKey(errorMessage);
                     getAuditErrors().add(stipendError);
-                }    
+                }
             }
 
             totalOtherDirectCostsRequested = budgetPeriod.getTotalDirectCost().bigDecimalValue();
@@ -901,11 +953,11 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             phs398TrainingBudgetYearDataType.setTotalDirectAndIndirectCostsRequested(phs398TrainingBudgetYearDataType
                     .getTotalDirectCostsRequested().add(phs398TrainingBudgetYearDataType.getTotalIndirectCostsRequested()));
 
-
-            /******************************************************
+            /**
+             * ****************************************************
              * add to cumulative amounts
-             ******************************************************/
-
+             *****************************************************
+             */
             cumPostDocNonDegStipends = cumPostDocNonDegStipends.add(phs398TrainingBudgetYearDataType.getPostdocNonDegreeStipendsRequested());
             cumPostDocDegStipends = cumPostDocDegStipends.add(phs398TrainingBudgetYearDataType.getPostdocDegreeStipendsRequested());
             cumPostDocTotalStipends = cumPostDocNonDegStipends.add(cumPostDocDegStipends);
@@ -943,7 +995,6 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         trainingBudgetType.setCumulativeTotalStipendsAndTuitionFeesRequested(trainingBudgetType
                 .getCumulativeTotalStipendsRequested().add(trainingBudgetType.getCumulativeTuitionAndFeesRequested()));
 
-
         trainingBudgetType.setCumulativeConsortiumTrainingCostsRequested(cumConsCosts);
         trainingBudgetType.setCumulativeResearchDirectCostsRequested(cumResearchTotalDirectCosts);
 
@@ -955,25 +1006,25 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
                 .getCumulativeTotalDirectCostsRequested().add(cumTotalIndCosts1.add(cumTotalIndCosts2)));
         trainingBudgetType.setCumulativeTraineeTravelRequested(cumTravelCosts);
         trainingBudgetType.setCumulativeTrainingRelatedExpensesRequested(cumTrainingCosts);
-    
-       AttachedFileDataType attachedFileDataType = null;        
-       for (Narrative narrative : developmentProposal.getNarratives()) {            
-           if (narrative.getNarrativeTypeCode() != null) {                
-               if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PHS_TRAINING_BUDGET_BUDGETJUSTIFICATION_130) {                    
-                   attachedFileDataType = getAttachedFileType(narrative);                    
-                   if (attachedFileDataType == null) {                        
-                       continue;                    
-                       }else{                        
-                           break;                    
-                           }                
-                   }            
-               }        
-           }        
-       if(attachedFileDataType == null){            
-           attachedFileDataType = AttachedFileDataType.Factory.newInstance();        
-           }        
-       trainingBudgetType.setBudgetJustification(attachedFileDataType);
-       
+
+        AttachedFileDataType attachedFileDataType = null;
+        for (Narrative narrative : developmentProposal.getNarratives()) {
+            if (narrative.getNarrativeTypeCode() != null) {
+                if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PHS_TRAINING_BUDGET_BUDGETJUSTIFICATION_130) {
+                    attachedFileDataType = getAttachedFileType(narrative);
+                    if (attachedFileDataType == null) {
+                        continue;
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
+        if (attachedFileDataType == null) {
+            attachedFileDataType = AttachedFileDataType.Factory.newInstance();
+        }
+        trainingBudgetType.setBudgetJustification(attachedFileDataType);
+
         return trainingBudgetType;
     }
 
@@ -1079,22 +1130,23 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
     }
 
     private boolean isPreDocParentQuestionFromPeriodExists(QuestionnaireQuestion questionnaireQuestion, BudgetPeriod budgetPeriod) {
-          return Arrays.asList(getPreDocParentQuestionsForPeriod(budgetPeriod)).contains(questionnaireQuestion.getParentQuestionNumber());
+        return Arrays.asList(getPreDocParentQuestionsForPeriod(budgetPeriod)).contains(questionnaireQuestion.getParentQuestionNumber());
     }
+
     private BigDecimal getStipendAmount(BudgetPeriod budgetPeriod, String careerLevel, int experienceLevel, int numPeople) {
         BudgetDecimal stipendCost = BudgetDecimal.ZERO;
-        List<TrainingStipendRate> trainingStipendRates = (List<TrainingStipendRate>)businessObjectService.findAll(TrainingStipendRate.class);
+        List<TrainingStipendRate> trainingStipendRates = (List<TrainingStipendRate>) businessObjectService.findAll(TrainingStipendRate.class);
         QueryList<TrainingStipendRate> trainingStipendRatesQueryList = new QueryList<TrainingStipendRate>(trainingStipendRates);
-        Equals eqStartDate = new Equals("effectiveDate",budgetPeriod.getStartDate());
-        LesserThan ltStartDate = new LesserThan("effectiveDate",budgetPeriod.getStartDate());
-        Or lessThanOrEqualsStartDate = new Or(eqStartDate,ltStartDate);
+        Equals eqStartDate = new Equals("effectiveDate", budgetPeriod.getStartDate());
+        LesserThan ltStartDate = new LesserThan("effectiveDate", budgetPeriod.getStartDate());
+        Or lessThanOrEqualsStartDate = new Or(eqStartDate, ltStartDate);
         QueryList<TrainingStipendRate> filteredTrainingStipendRates = trainingStipendRatesQueryList.filter(lessThanOrEqualsStartDate);
-        Equals eqCareerLevel = new Equals("careerLevel",careerLevel);
-        Equals eqExperienceLevel = new Equals("experienceLevel",experienceLevel);
-        And eqCareerLevelAndeqExperienceLevel = new And(eqCareerLevel,eqExperienceLevel);
+        Equals eqCareerLevel = new Equals("careerLevel", careerLevel);
+        Equals eqExperienceLevel = new Equals("experienceLevel", experienceLevel);
+        And eqCareerLevelAndeqExperienceLevel = new And(eqCareerLevel, eqExperienceLevel);
         filteredTrainingStipendRates = filteredTrainingStipendRates.filter(eqCareerLevelAndeqExperienceLevel);
-        if(!filteredTrainingStipendRates.isEmpty()){
-            filteredTrainingStipendRates.sort("effectiveDate",false);
+        if (!filteredTrainingStipendRates.isEmpty()) {
+            filteredTrainingStipendRates.sort("effectiveDate", false);
             TrainingStipendRate trainingStipendRate = filteredTrainingStipendRates.get(0);
             stipendCost = trainingStipendRate.getStipendRate().multiply(new BudgetDecimal(numPeople));
         }

@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.impl;
 
@@ -29,11 +45,13 @@ import org.kuali.kra.service.Sponsorable;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
- * This abstract class has methods that are common to all the versions of RRSF424 form.
- * 
+ * This abstract class has methods that are common to all the versions of
+ * RRSF424 form.
+ *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
+
     protected S2SUtilService s2sUtilService;
     protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
     private static final String PROPOSAL_CONTACT_TYPE = "PROPOSAL_CONTACT_TYPE";
@@ -51,16 +69,16 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
     protected static final int PRIMARY_TITLE_MAX_LENGTH = 45;
     protected static final int DIRECTORY_TITLE_MAX_LENGTH = 45;
     protected static final int DEPARTMENT_NAME_MAX_LENGTH = 30;
-    protected static final int ANSWER_EXPLANATION_MAX_LENGTH = 20; 
+    protected static final int ANSWER_EXPLANATION_MAX_LENGTH = 20;
     protected static final int SFLLL_OTHEREXPLANATORY = 86;
     protected static final String ANSWER_128 = "128";
-    protected static final String ANSWER_111 = "111"; 
+    protected static final String ANSWER_111 = "111";
     protected static final String NOT_ANSWERED = "No";
     protected static final String SPONSOR_GROUPS = "Sponsor Groups";
     protected static final String SPONSOR_NIH = "NIH";
 
     /**
-     * 
+     *
      * Constructs a RRSF424BaseGenerator.java.
      */
     public RRSF424BaseGenerator() {
@@ -69,9 +87,9 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
     }
 
     /**
-     * 
+     *
      * This method returns the type of contact person for a proposal
-     * 
+     *
      * @return String contact type for the proposal
      */
     protected String getContactType() {
@@ -81,37 +99,39 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
         }
         return contactType;
     }
+
     /**
-     * 
+     *
      * This method is used to get the details of Contact person
-     * 
-     * @param pdDoc(ProposalDevelopmentDocument)
-     *            proposal development document.
-     * @param contactType(String)
-     *            for which the DepartmentalPerson has to be found.
+     *
+     * @param pdDoc(ProposalDevelopmentDocument) proposal development document.
+     * @param contactType(String) for which the DepartmentalPerson has to be
+     * found.
      * @return depPerson(DepartmentalPerson) corresponding to the contact type.
      */
     protected DepartmentalPerson getContactPerson(
             ProposalDevelopmentDocument pdDoc) {
         return s2sUtilService.getContactPerson(pdDoc);
     }
-    
+
     /**
-     * This method tests whether a document's sponsor is in a given sponsor hierarchy.
+     * This method tests whether a document's sponsor is in a given sponsor
+     * hierarchy.
+     *
      * @param sponsorable
      * @param sponsorHierarchy The name of a sponsor hierarchy
-     * @param level1 
+     * @param level1
      * @return
      */
-    public boolean isSponsorInHierarchy(Sponsorable sponsorable, String sponsorHierarchy,String level1) {
+    public boolean isSponsorInHierarchy(Sponsorable sponsorable, String sponsorHierarchy, String level1) {
         Map<String, String> valueMap = new HashMap<String, String>();
         valueMap.put("sponsorCode", sponsorable.getSponsorCode());
         valueMap.put("hierarchyName", sponsorHierarchy);
         valueMap.put("level1", level1);
         int matchingHierarchies = KraServiceLocator.getService(BusinessObjectService.class)
                 .countMatching(SponsorHierarchy.class, valueMap);
-        
+
         return matchingHierarchies > 0;
     }
-    
+
 }

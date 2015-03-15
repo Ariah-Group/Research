@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.impl;
 
@@ -29,17 +45,19 @@ import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 /**
- * Class for generating the XML object for grants.gov EDcertificationDebarmentV1_1. Form is generated using XMLBean classes and is
+ * Class for generating the XML object for grants.gov
+ * EDcertificationDebarmentV1_1. Form is generated using XMLBean classes and is
  * based on EDCertificationDebarment schema.
- * 
+ *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class EDCertificationDebarmentV1_1Generator extends S2SBaseFormGenerator {
+
     private static final int ED_CERTIFICATION_DEBARMENT = 58;
     S2SUtilService s2sUtilService;
 
     /**
-     * 
+     *
      * Constructs a EDCertificationDebarmentV1_1Generator.java.
      */
     public EDCertificationDebarmentV1_1Generator() {
@@ -47,12 +65,14 @@ public class EDCertificationDebarmentV1_1Generator extends S2SBaseFormGenerator 
     }
 
     /**
-     * 
-     * This method is used to get CertificationDebarment information such as Organization Name,Authorized Representative
-     * Title,Authorized Representative Name,Signature and Attachment for this form.
-     * 
-     * @return certificationDebarmentDocument(CertificationDebarmentDocument){@link XmlObject} of type
-     *         CertificationDebarmentDocument.
+     *
+     * This method is used to get CertificationDebarment information such as
+     * Organization Name,Authorized Representative Title,Authorized
+     * Representative Name,Signature and Attachment for this form.
+     *
+     * @return
+     * certificationDebarmentDocument(CertificationDebarmentDocument){@link XmlObject}
+     * of type CertificationDebarmentDocument.
      */
     private CertificationDebarmentDocument getCertificationDebarment() {
 
@@ -66,8 +86,7 @@ public class EDCertificationDebarmentV1_1Generator extends S2SBaseFormGenerator 
         if (organization != null && organization.getOrganizationName() != null) {
             if (organization.getOrganizationName().length() > 60) {
                 certificationDebarment.setOrganizationName(organization.getOrganizationName().substring(0, 60));
-            }
-            else {
+            } else {
                 certificationDebarment.setOrganizationName(organization.getOrganizationName());
             }
         }
@@ -79,8 +98,7 @@ public class EDCertificationDebarmentV1_1Generator extends S2SBaseFormGenerator 
             if (departmentalPerson.getPrimaryTitle() != null && !departmentalPerson.getPrimaryTitle().equals("")) {
                 if (departmentalPerson.getPrimaryTitle().length() > 45) {
                     authorizedRepresentativeTitle = departmentalPerson.getPrimaryTitle().substring(0, 45);
-                }
-                else {
+                } else {
                     authorizedRepresentativeTitle = departmentalPerson.getPrimaryTitle();
                 }
             }
@@ -99,9 +117,9 @@ public class EDCertificationDebarmentV1_1Generator extends S2SBaseFormGenerator 
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == ED_CERTIFICATION_DEBARMENT) {
                 attachedFileDataType = getAttachedFileType(narrative);
-                if(attachedFileDataType != null){
-                	certificationDebarment.setAttachment(attachedFileDataType);
-                	break;
+                if (attachedFileDataType != null) {
+                    certificationDebarment.setAttachment(attachedFileDataType);
+                    break;
                 }
             }
         }
@@ -110,25 +128,32 @@ public class EDCertificationDebarmentV1_1Generator extends S2SBaseFormGenerator 
     }
 
     /**
-     * This method creates {@link XmlObject} of type {@link CertificationDebarmentDocument} by populating data from the given
+     * This method creates {@link XmlObject} of type
+     * {@link CertificationDebarmentDocument} by populating data from the given
      * {@link ProposalDevelopmentDocument}
-     * 
-     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs to be created
-     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocument}
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+     *
+     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs
+     * to be created
+     * @return {@link XmlObject} which is generated using the given
+     * {@link ProposalDevelopmentDocument}
+     * @see
+     * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
      */
+    @Override
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         this.pdDoc = proposalDevelopmentDocument;
         return getCertificationDebarment();
     }
 
     /**
-     * This method typecasts the given {@link XmlObject} to the required generator type and returns back the document of that
-     * generator type.
-     * 
-     * @param xmlObject which needs to be converted to the document type of the required generator
+     * This method typecasts the given {@link XmlObject} to the required
+     * generator type and returns back the document of that generator type.
+     *
+     * @param xmlObject which needs to be converted to the document type of the
+     * required generator
      * @return {@link XmlObject} document of the required generator type
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
+     * @see
+     * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
      */
     public XmlObject getFormObject(XmlObject xmlObject) {
 

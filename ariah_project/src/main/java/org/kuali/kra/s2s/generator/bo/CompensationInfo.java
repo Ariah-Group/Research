@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.bo;
 
@@ -32,13 +48,12 @@ public class CompensationInfo {
     private BudgetDecimal fringeCostSharing = BudgetDecimal.ZERO;
     private BudgetDecimal nonFundsRequested = BudgetDecimal.ZERO;
 
-
     public CompensationInfo() {
     }
 
     /**
      * Getter for property calendarMonths.
-     * 
+     *
      * @return Value of property calendarMonths.
      */
     public BudgetDecimal getCalendarMonths() {
@@ -47,7 +62,7 @@ public class CompensationInfo {
 
     /**
      * Setter for property calendarMonths.
-     * 
+     *
      * @param calendarMonths New value of property calendarMonths.
      */
     public void setCalendarMonths(BudgetDecimal calendarMonths) {
@@ -56,7 +71,7 @@ public class CompensationInfo {
 
     /**
      * Getter for property academicMonths.
-     * 
+     *
      * @return Value of property academicMonths.
      */
     public BudgetDecimal getAcademicMonths() {
@@ -65,7 +80,7 @@ public class CompensationInfo {
 
     /**
      * Setter for property academicMonths.
-     * 
+     *
      * @param academicMonths New value of property academicMonths.
      */
     public void setAcademicMonths(BudgetDecimal academicMonths) {
@@ -74,7 +89,7 @@ public class CompensationInfo {
 
     /**
      * Getter for property summerMonths.
-     * 
+     *
      * @return Value of property summerMonths.
      */
     public BudgetDecimal getSummerMonths() {
@@ -83,7 +98,7 @@ public class CompensationInfo {
 
     /**
      * Setter for property summerMonths.
-     * 
+     *
      * @param summerMonths New value of property summerMonths.
      */
     public void setSummerMonths(BudgetDecimal summerMonths) {
@@ -92,7 +107,7 @@ public class CompensationInfo {
 
     /**
      * Getter for property requestedSalary.
-     * 
+     *
      * @return Value of property requestedSalary.
      */
     public BudgetDecimal getRequestedSalary() {
@@ -101,7 +116,7 @@ public class CompensationInfo {
 
     /**
      * Setter for property requestedSalary.
-     * 
+     *
      * @param requestedSalary New value of property requestedSalary.
      */
     public void setRequestedSalary(BudgetDecimal requestedSalary) {
@@ -110,7 +125,7 @@ public class CompensationInfo {
 
     /**
      * Getter for property fringe.
-     * 
+     *
      * @return Value of property fringe.
      */
     public BudgetDecimal getFringe() {
@@ -119,7 +134,7 @@ public class CompensationInfo {
 
     /**
      * Setter for property fringe.
-     * 
+     *
      * @param fringe New value of property fringe.
      */
     public void setFringe(BudgetDecimal fringe) {
@@ -128,7 +143,7 @@ public class CompensationInfo {
 
     /**
      * Getter for property fundsRequested.
-     * 
+     *
      * @return Value of property fundsRequested.
      */
     public BudgetDecimal getFundsRequested() {
@@ -137,7 +152,7 @@ public class CompensationInfo {
 
     /**
      * Setter for property fundsRequested.
-     * 
+     *
      * @param fundsRequested New value of property fundsRequested.
      */
     public void setFundsRequested(BudgetDecimal fundsRequested) {
@@ -146,7 +161,7 @@ public class CompensationInfo {
 
     /**
      * Getter for property baseSalary.
-     * 
+     *
      * @return Value of property baseSalary.
      */
     public BudgetDecimal getBaseSalary() {
@@ -155,7 +170,7 @@ public class CompensationInfo {
 
     /**
      * Setter for property baseSalary.
-     * 
+     *
      * @param baseSalary New value of property baseSalary.
      */
     public void setBaseSalary(BudgetDecimal baseSalary) {
@@ -186,7 +201,6 @@ public class CompensationInfo {
     public void setFringeCostSharing(BudgetDecimal fringeCostSharing) {
         this.fringeCostSharing = fringeCostSharing;
     }
-
 
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap hashMap = new LinkedHashMap();

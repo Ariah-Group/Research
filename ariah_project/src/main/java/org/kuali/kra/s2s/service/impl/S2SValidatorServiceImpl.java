@@ -11,6 +11,22 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
+ * limitations under the License
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
  * limitations under the License.
  */
 package org.kuali.kra.s2s.service.impl;
@@ -29,22 +45,26 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * 
+ *
  * This class validates a XML document passed as XMLObject
- * 
+ *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class S2SValidatorServiceImpl implements S2SValidatorService {
 
     /**
-     * This method receives an XMLObject and validates it against its schema and returns the validation result. It also receives a
-     * list in which upon validation failure, populates it with XPaths of the error nodes.
-     * 
+     * This method receives an XMLObject and validates it against its schema and
+     * returns the validation result. It also receives a list in which upon
+     * validation failure, populates it with XPaths of the error nodes.
+     *
      * @param formObject XML document as {@link}XMLObject
      * @param errors List list of XPaths of the error nodes.
      * @return validation result true if valid false otherwise.
-     * @see org.kuali.kra.s2s.service.S2SValidatorService#validate(org.apache.xmlbeans.XmlObject, java.util.List)
+     * @see
+     * org.kuali.kra.s2s.service.S2SValidatorService#validate(org.apache.xmlbeans.XmlObject,
+     * java.util.List)
      */
+    @Override
     public boolean validate(XmlObject formObject, List<AuditError> errors) {
 
         List<String> formErrors = new ArrayList<String>();
@@ -58,12 +78,12 @@ public class S2SValidatorServiceImpl implements S2SValidatorService {
         return result;
     }
 
-
     /**
-     * 
-     * This method receives an XMLObject and validates it against its schema and returns the validation result. It also receives a
-     * list in which upon validation failure, populates it with XPaths of the error nodes
-     * 
+     *
+     * This method receives an XMLObject and validates it against its schema and
+     * returns the validation result. It also receives a list in which upon
+     * validation failure, populates it with XPaths of the error nodes
+     *
      * @param formObject XML document as {@link}XMLObject
      * @param errors List list of XPaths of the error nodes.
      * @return validation result true if valid false otherwise.
@@ -90,18 +110,18 @@ public class S2SValidatorServiceImpl implements S2SValidatorService {
     }
 
     /**
-     * 
-     * This method receives a node, fetches its name, and recurses up to its parent node, until it reaches the document node, thus
-     * creating the XPath of the node passed and returns it as String
-     * 
+     *
+     * This method receives a node, fetches its name, and recurses up to its
+     * parent node, until it reaches the document node, thus creating the XPath
+     * of the node passed and returns it as String
+     *
      * @param node for which Document node has to found.
      * @return String which represents XPath of the node
      */
     protected String getXPath(Node node) {
-        if (node==null || node.getNodeType() == Node.DOCUMENT_NODE) {
+        if (node == null || node.getNodeType() == Node.DOCUMENT_NODE) {
             return "";
-        }
-        else {
+        } else {
             return getXPath(node.getParentNode()) + "/" + node.getNodeName();
         }
     }

@@ -115,6 +115,7 @@ public class PrintServiceImpl implements PrintService {
      * org.kuali.kra.s2s.service.PrintService#printProposalSponsorForms(java.lang.String,
      * java.util.List)
      */
+    @Override
     public byte[] printProposalSponsorForms(String proposalNumber,
             List<SponsorFormTemplate> sponsorFormTemplates) throws S2SException {
         throw new RuntimeException("Unsupported functionality");
@@ -134,6 +135,7 @@ public class PrintServiceImpl implements PrintService {
      * @see
      * org.kuali.kra.s2s.service.PrintService#printForm(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
+    @Override
     public org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource printForm(
             ProposalDevelopmentDocument pdDoc) throws S2SException,
             PrintingException {

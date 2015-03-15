@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.impl;
 
@@ -42,18 +58,20 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Class for generating the XML object for grants.gov RRKeyPersonV1.0. Form is generated using XMLBean classes and is based on
- * RRKeyPerson schema.
- * 
+ * Class for generating the XML object for grants.gov RRKeyPersonV1.0. Form is
+ * generated using XMLBean classes and is based on RRKeyPerson schema.
+ *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
 
     /**
-     * 
-     * This method gives details of Principal Investigator,KeyPersons and the corresponding attachments for RRKeyPerson
-     * 
-     * @return rrKeyPersonDocument {@link XmlObject} of type RRKeyPersonDocument.
+     *
+     * This method gives details of Principal Investigator,KeyPersons and the
+     * corresponding attachments for RRKeyPerson
+     *
+     * @return rrKeyPersonDocument {@link XmlObject} of type
+     * RRKeyPersonDocument.
      */
     private RRKeyPersonDocument getRRKeyPerson() {
 
@@ -81,34 +99,34 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
 //            }
             AttachedFileDataType attachedFileDataType = null;
             BioSketchsAttached bioSketchAttached = BioSketchsAttached.Factory.newInstance();
-    		for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-    			if (narrative.getNarrativeTypeCode() != null) {
-    			    switch(Integer.parseInt(narrative.getNarrativeTypeCode())){
-    			        case(BIOSKETCH_DOC_TYPE):
+            for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+                if (narrative.getNarrativeTypeCode() != null) {
+                    switch (Integer.parseInt(narrative.getNarrativeTypeCode())) {
+                        case (BIOSKETCH_DOC_TYPE):
                             attachedFileDataType = getAttachedFileType(narrative);
-                        if (attachedFileDataType != null) {
-                            bioSketchAttached.setBioSketchAttached(attachedFileDataType);
-                        }
-    			        break;
-                        case(CURRENTPENDING_DOC_TYPE):
+                            if (attachedFileDataType != null) {
+                                bioSketchAttached.setBioSketchAttached(attachedFileDataType);
+                            }
+                            break;
+                        case (CURRENTPENDING_DOC_TYPE):
                             attachedFileDataType = getAttachedFileType(narrative);
                             if (attachedFileDataType != null) {
                                 SupportsAttached supportsAttached = SupportsAttached.Factory.newInstance();
                                 supportsAttached.setSupportAttached(attachedFileDataType);
                                 rrKeyPerson.setSupportsAttached(supportsAttached);
                             }
-                        break;
-                        case(PROFILE_TYPE):
+                            break;
+                        case (PROFILE_TYPE):
                             attachedFileDataType = getAttachedFileType(narrative);
-                            if(attachedFileDataType != null){
+                            if (attachedFileDataType != null) {
                                 AdditionalProfilesAttached additionalProfilesAttached = AdditionalProfilesAttached.Factory.newInstance();
                                 additionalProfilesAttached.setAdditionalProfileAttached(attachedFileDataType);
                                 rrKeyPerson.setAdditionalProfilesAttached(additionalProfilesAttached);
                             }
-                        break;
-    			    }
-    			}
-    		}
+                            break;
+                    }
+                }
+            }
             rrKeyPerson.setBioSketchsAttached(bioSketchAttached);
         }
         rrKeyPersonDocument.setRRKeyPerson(rrKeyPerson);
@@ -116,10 +134,11 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
     }
 
     /**
-     * 
-     * This method is used to get PersonProfile details of Principal Investigator.It also gives the information about the
-     * attachments related to the principal investigator.
-     * 
+     *
+     * This method is used to get PersonProfile details of Principal
+     * Investigator.It also gives the information about the attachments related
+     * to the principal investigator.
+     *
      * @return profileDataType(PersonProfileDataType) profile of PI
      */
     private PersonProfileDataType getPersonProfilePI() {
@@ -129,16 +148,14 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
         if (PI != null) {
             if (PI.getPersonId() != null) {
                 pIPersonOrRolodexId = PI.getPersonId();
-            }
-            else if (PI.getRolodexId() != null) {
+            } else if (PI.getRolodexId() != null) {
                 pIPersonOrRolodexId = PI.getRolodexId().toString();
             }
             profile.setName(globLibV10Generator.getHumanNameDataType(PI));
             if (PI.getDirectoryTitle() != null) {
                 if (PI.getDirectoryTitle().length() > DIRECTORY_TITLE_MAX_LENGTH) {
                     profile.setTitle(PI.getDirectoryTitle().substring(0, DIRECTORY_TITLE_MAX_LENGTH));
-                }
-                else {
+                } else {
                     profile.setTitle(PI.getDirectoryTitle());
                 }
             }
@@ -151,14 +168,12 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
             if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null) {
                 profile.setOrganizationName(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());
             }
-            if(PI.getHomeUnit() != null) {
+            if (PI.getHomeUnit() != null) {
                 KcPersonService kcPersonService = KraServiceLocator.getService(KcPersonService.class);
                 KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(PI.getPersonId());
-                String departmentName =  kcPersons.getOrganizationIdentifier();
+                String departmentName = kcPersons.getOrganizationIdentifier();
                 profile.setDepartmentName(departmentName);
-            }
-            else
-            {
+            } else {
                 DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
                 profile.setDepartmentName(developmentProposal.getOwnedByUnit().getUnitName());
             }
@@ -170,7 +185,6 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
                 profile.setCredential(PI.getEraCommonsUserName());
             }
             profile.setProjectRole(ProjectRoleDataType.PD_PI);
-
 
             PersonProfileDataType.Profile.BioSketchsAttached personBioSketch = PersonProfileDataType.Profile.BioSketchsAttached.Factory
                     .newInstance();
@@ -193,11 +207,14 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
     }
 
     /**
-     * 
-     * This method returns an array of PersonProfileDataType which contains the PersonProfile details and corresponding attachments
-     * for a particular Key person. The PersonProfileDataType array will have maximum of 7 key persons.
-     * 
-     * @return personProfileDataTypeArray(PersonProfileDataType[]) array of person profiles
+     *
+     * This method returns an array of PersonProfileDataType which contains the
+     * PersonProfile details and corresponding attachments for a particular Key
+     * person. The PersonProfileDataType array will have maximum of 7 key
+     * persons.
+     *
+     * @return personProfileDataTypeArray(PersonProfileDataType[]) array of
+     * person profiles
      */
     private PersonProfileDataType[] getPersonProfileKeyPerson() {
         List<PersonProfileDataType> personProfileDataTypeList = new ArrayList<PersonProfileDataType>();
@@ -212,8 +229,7 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
                     // Don't add PI to keyperson list
                     if (keyPerson.getPersonId() != null && keyPerson.getPersonId().equals(pIPersonOrRolodexId)) {
                         continue;
-                    }
-                    else if ((keyPerson.getRolodexId() != null) && pIPersonOrRolodexId.equals(keyPerson.getRolodexId().toString())) {
+                    } else if ((keyPerson.getRolodexId() != null) && pIPersonOrRolodexId.equals(keyPerson.getRolodexId().toString())) {
                         continue;
                     }
                 }
@@ -231,14 +247,12 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
                 if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null) {
                     profileKeyPerson.setOrganizationName(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());
                 }
-                if(keyPerson.getHomeUnit() != null) {
+                if (keyPerson.getHomeUnit() != null) {
                     KcPersonService kcPersonService = KraServiceLocator.getService(KcPersonService.class);
                     KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(keyPerson.getPersonId());
-                    String departmentName =  kcPersons.getOrganizationIdentifier();
+                    String departmentName = kcPersons.getOrganizationIdentifier();
                     profileKeyPerson.setDepartmentName(departmentName);
-                }
-                else
-                {
+                } else {
                     DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
                     profileKeyPerson.setDepartmentName(developmentProposal.getOwnedByUnit().getUnitName());
                 }
@@ -250,29 +264,26 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
                     profileKeyPerson.setCredential(keyPerson.getEraCommonsUserName());
                 }
                 if (keyPerson.getProposalPersonRoleId().equals(CO_INVESTIGATOR)) {
-                    if(KraServiceLocator.getService(SponsorService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())){
+                    if (KraServiceLocator.getService(SponsorService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())) {
                         if (keyPerson.isMultiplePi()) {
                             profileKeyPerson.setProjectRole(ProjectRoleDataType.PD_PI);
                         } else {
                             profileKeyPerson.setProjectRole(ProjectRoleDataType.CO_PD_PI);
                         }
-                    }else{
+                    } else {
                         profileKeyPerson.setProjectRole(ProjectRoleDataType.CO_PD_PI);
                     }
-                }
-                else {
+                } else {
                     profileKeyPerson.setProjectRole(ProjectRoleDataType.OTHER_SPECIFY);
                     OtherProjectRoleCategory otherProjectRole = OtherProjectRoleCategory.Factory.newInstance();
                     String otherRole;
                     if (keyPerson.getProjectRole() != null) {
                         if (keyPerson.getProjectRole().length() > ROLE_DESCRIPTION_MAX_LENGTH) {
                             otherRole = keyPerson.getProjectRole().substring(0, ROLE_DESCRIPTION_MAX_LENGTH);
-                        }
-                        else {
+                        } else {
                             otherRole = keyPerson.getProjectRole();
                         }
-                    }
-                    else {
+                    } else {
                         otherRole = S2SConstants.VALUE_UNKNOWN;
                     }
                     otherProjectRole.setStringValue(otherRole);
@@ -306,13 +317,17 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
     }
 
     /**
-     * This method creates {@link XmlObject} of type {@link RRKeyPersonDocument} by populating data from the given
+     * This method creates {@link XmlObject} of type {@link RRKeyPersonDocument}
+     * by populating data from the given {@link ProposalDevelopmentDocument}
+     *
+     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs
+     * to be created
+     * @return {@link XmlObject} which is generated using the given
      * {@link ProposalDevelopmentDocument}
-     * 
-     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs to be created
-     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocument}
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+     * @see
+     * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
      */
+    @Override
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
 
         this.pdDoc = proposalDevelopmentDocument;
@@ -320,12 +335,14 @@ public class RRKeyPersonV1_0Generator extends RRKeyPersonBaseGenerator {
     }
 
     /**
-     * This method type casts the given {@link XmlObject} to the required generator type and returns back the document of that
-     * generator type.
-     * 
-     * @param xmlObject which needs to be converted to the document type of the required generator
+     * This method type casts the given {@link XmlObject} to the required
+     * generator type and returns back the document of that generator type.
+     *
+     * @param xmlObject which needs to be converted to the document type of the
+     * required generator
      * @return {@link XmlObject} document of the required generator type
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
+     * @see
+     * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
      */
     public XmlObject getFormObject(XmlObject xmlObject) {
 

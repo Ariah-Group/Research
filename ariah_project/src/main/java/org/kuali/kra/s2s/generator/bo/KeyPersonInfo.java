@@ -12,15 +12,28 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.bo;
 
-
 import java.util.LinkedHashMap;
 
-
-public class KeyPersonInfo extends CompensationInfo{
-
+public class KeyPersonInfo extends CompensationInfo {
 
     private int sortId = 0;
     private String personId = null;
@@ -36,7 +49,7 @@ public class KeyPersonInfo extends CompensationInfo{
 
     /**
      * Getter for property sortId.
-     * 
+     *
      * @return Value of property sortId.
      */
     public int getSortId() {
@@ -45,7 +58,7 @@ public class KeyPersonInfo extends CompensationInfo{
 
     /**
      * Setter for property sortId.
-     * 
+     *
      * @param personId New value of property sortId.
      */
     public void setSortId(int sortId) {
@@ -54,7 +67,7 @@ public class KeyPersonInfo extends CompensationInfo{
 
     /**
      * Getter for property personId.
-     * 
+     *
      * @return Value of property personId.
      */
     public java.lang.String getPersonId() {
@@ -63,17 +76,16 @@ public class KeyPersonInfo extends CompensationInfo{
 
     /**
      * Setter for property personId.
-     * 
+     *
      * @param personId New value of property personId.
      */
     public void setPersonId(java.lang.String personId) {
         this.personId = personId;
     }
 
-
     /**
      * Getter for property lastName.
-     * 
+     *
      * @return Value of property lastName.
      */
     public java.lang.String getLastName() {
@@ -82,7 +94,7 @@ public class KeyPersonInfo extends CompensationInfo{
 
     /**
      * Setter for property lastName.
-     * 
+     *
      * @param lastName New value of property lastName.
      */
     public void setLastName(java.lang.String lastName) {
@@ -91,7 +103,7 @@ public class KeyPersonInfo extends CompensationInfo{
 
     /**
      * Getter for property firstName.
-     * 
+     *
      * @return Value of property firstName.
      */
     public java.lang.String getFirstName() {
@@ -100,7 +112,7 @@ public class KeyPersonInfo extends CompensationInfo{
 
     /**
      * Setter for property firstName.
-     * 
+     *
      * @param firstName New value of property firstName.
      */
     public void setFirstName(java.lang.String firstName) {
@@ -109,7 +121,7 @@ public class KeyPersonInfo extends CompensationInfo{
 
     /**
      * Getter for property middleName.
-     * 
+     *
      * @return Value of property middleName.
      */
     public java.lang.String getMiddleName() {
@@ -118,17 +130,16 @@ public class KeyPersonInfo extends CompensationInfo{
 
     /**
      * Setter for property name.
-     * 
+     *
      * @param name New value of property name.
      */
     public void setMiddleName(java.lang.String middleName) {
         this.middleName = middleName;
     }
 
-
     /**
      * Getter for property role.
-     * 
+     *
      * @return Value of property role.
      */
     public java.lang.String getRole() {
@@ -137,7 +148,7 @@ public class KeyPersonInfo extends CompensationInfo{
 
     /**
      * Setter for property role.
-     * 
+     *
      * @param role New value of property role.
      */
     public void setRole(java.lang.String role) {
@@ -146,7 +157,7 @@ public class KeyPersonInfo extends CompensationInfo{
 
     /**
      * Getter for property role.
-     * 
+     *
      * @return Value of property role.
      */
     public java.lang.String getKeyPersonRole() {
@@ -155,15 +166,16 @@ public class KeyPersonInfo extends CompensationInfo{
 
     /**
      * Setter for property role.
-     * 
+     *
      * @param role New value of property role.
      */
     public void setKeyPersonRole(java.lang.String keyPersonRole) {
         this.keyPersonRole = keyPersonRole;
     }
+
     /**
      * Setter for nonMITPersonFlag.
-     * 
+     *
      * @return nonMITPersonFlag
      */
     public boolean isNonMITPersonFlag() {
@@ -172,15 +184,15 @@ public class KeyPersonInfo extends CompensationInfo{
 
     /**
      * Getter for nonMITPersonFlag
-     * 
+     *
      * @param nonMITPersonFlag
      */
     public void setNonMITPersonFlag(boolean nonMITPersonFlag) {
         this.nonMITPersonFlag = nonMITPersonFlag;
     }
 
-
     @SuppressWarnings("unchecked")
+    @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap hashMap = new LinkedHashMap();
         hashMap.put("sortId", getSortId());
@@ -194,7 +206,8 @@ public class KeyPersonInfo extends CompensationInfo{
     }
 
     /**
-     * Gets the rolodexId attribute. 
+     * Gets the rolodexId attribute.
+     *
      * @return Returns the rolodexId.
      */
     public Integer getRolodexId() {
@@ -203,6 +216,7 @@ public class KeyPersonInfo extends CompensationInfo{
 
     /**
      * Sets the rolodexId attribute value.
+     *
      * @param rolodexId The rolodexId to set.
      */
     public void setRolodexId(Integer rolodexId) {
@@ -227,27 +241,33 @@ public class KeyPersonInfo extends CompensationInfo{
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         KeyPersonInfo other = (KeyPersonInfo) obj;
-        if (nonMITPersonFlag != other.nonMITPersonFlag)
+        if (nonMITPersonFlag != other.nonMITPersonFlag) {
             return false;
+        }
         if (personId == null) {
-            if (other.personId != null)
+            if (other.personId != null) {
                 return false;
-        }
-        else if (!personId.equals(other.personId))
+            }
+        } else if (!personId.equals(other.personId)) {
             return false;
+        }
         if (rolodexId == null) {
-            if (other.rolodexId != null)
+            if (other.rolodexId != null) {
                 return false;
-        }
-        else if (!rolodexId.equals(other.rolodexId))
+            }
+        } else if (!rolodexId.equals(other.rolodexId)) {
             return false;
+        }
         return true;
     }
 }

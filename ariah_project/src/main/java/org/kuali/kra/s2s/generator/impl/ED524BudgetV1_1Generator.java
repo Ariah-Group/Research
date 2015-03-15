@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.impl;
 
@@ -37,24 +53,26 @@ import org.kuali.kra.s2s.util.S2SConstants;
 import java.math.BigDecimal;
 
 public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
+
     private static final Log LOG = LogFactory.getLog(ED524BudgetV1_1Generator.class);
 
     /**
-     * 
-     * This method is used to get 5 Budget years information for the form ED524Budget
-     * 
-     * @return ed524BudgetDocument {@link XmlObject} of type ED524BudgetDocument.
+     *
+     * This method is used to get 5 Budget years information for the form
+     * ED524Budget
+     *
+     * @return ed524BudgetDocument {@link XmlObject} of type
+     * ED524BudgetDocument.
      */
     private ED524BudgetDocument getED524Budget() {
-        
+
         ED524BudgetDocument ed524BudgetDocument = ED524BudgetDocument.Factory.newInstance();
         ED524Budget ed524Budget = ED524Budget.Factory.newInstance();
 
         ed524Budget.setFormVersion(S2SConstants.FORMVERSION_1_1);
         if (pdDoc.getDevelopmentProposal().getApplicantOrganization() != null) {
             ed524Budget.setLEGALNAME(pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getOrganizationName());
-        }
-        else {
+        } else {
             ed524Budget.setLEGALNAME(DEFAULT_LEGAL_NAME);
         }
 
@@ -84,12 +102,10 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
         BudgetDecimal totalIndirectCostAllYrs = BudgetDecimal.ZERO;
         BudgetDecimal totalIndirectCostAllYrsCS = BudgetDecimal.ZERO;
 
-
         BudgetDocument budgetDoc = null;
         try {
             budgetDoc = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
-        }
-        catch (S2SException e) {
+        } catch (S2SException e) {
             LOG.error(e.getMessage(), e);
             return ed524BudgetDocument;
         }
@@ -128,7 +144,6 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
                 // Set to zero as it set hard coded as 0 in the procedure
                 ed524Budget.setBudgetFederalConstructionFirstYearAmount(BudgetDecimal.ZERO.bigDecimalValue());
                 ed524Budget.setBudgetNonFederalConstructionFirstYearAmount(BudgetDecimal.ZERO.bigDecimalValue());
-
 
                 // Other
                 getOtherCosts(budgetPeriod);
@@ -193,8 +208,7 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
 
                 ed524Budget.setBudgetNonFederalDirectFirstYearAmount(totalCategoryCS.bigDecimalValue());
 
-            }
-            else if (budgetPeriod.getBudgetPeriod().equals(S2SConstants.BUDGET_PERIOD_2)) {
+            } else if (budgetPeriod.getBudgetPeriod().equals(S2SConstants.BUDGET_PERIOD_2)) {
                 totalCategoryCS = BudgetDecimal.ZERO;
                 getTotalCosts(budgetPeriod);
                 ed524Budget.setBudgetFederalSecondYearAmount(totalCost.bigDecimalValue());
@@ -226,13 +240,11 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
                 ed524Budget.setBudgetFederalConstructionSecondYearAmount(BudgetDecimal.ZERO.bigDecimalValue());
                 ed524Budget.setBudgetNonFederalConstructionSecondYearAmount(BudgetDecimal.ZERO.bigDecimalValue());
 
-
                 // Other
                 getOtherCosts(budgetPeriod);
                 if (otherCost.longValue() < 0) {
                     ed524Budget.setBudgetFederalOtherSecondYearAmount(BigDecimal.ZERO);
-                }
-                else {
+                } else {
                     ed524Budget.setBudgetFederalOtherSecondYearAmount(otherCost.bigDecimalValue());
                 }
 
@@ -294,8 +306,7 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
                 totalPersonnelCS = totalPersonnelCS.add(personnelCostCS);
 
                 ed524Budget.setBudgetNonFederalDirectSecondYearAmount(totalCategoryCS.bigDecimalValue());
-            }
-            else if (budgetPeriod.getBudgetPeriod().equals(S2SConstants.BUDGET_PERIOD_3)) {
+            } else if (budgetPeriod.getBudgetPeriod().equals(S2SConstants.BUDGET_PERIOD_3)) {
                 totalCategoryCS = BudgetDecimal.ZERO;
                 getTotalCosts(budgetPeriod);
                 ed524Budget.setBudgetFederalThirdYearAmount(totalCost.bigDecimalValue());
@@ -327,13 +338,11 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
                 ed524Budget.setBudgetFederalConstructionThirdYearAmount(BudgetDecimal.ZERO.bigDecimalValue());
                 ed524Budget.setBudgetNonFederalConstructionThirdYearAmount(BudgetDecimal.ZERO.bigDecimalValue());
 
-
                 // Other
                 getOtherCosts(budgetPeriod);
                 if (otherCost.longValue() < 0) {
                     ed524Budget.setBudgetFederalOtherThirdYearAmount(BigDecimal.ZERO);
-                }
-                else {
+                } else {
                     ed524Budget.setBudgetFederalOtherThirdYearAmount(otherCost.bigDecimalValue());
                 }
                 ed524Budget.setBudgetNonFederalOtherThirdYearAmount(otherCostCS.bigDecimalValue());
@@ -394,8 +403,7 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
                 totalPersonnelCS = totalPersonnelCS.add(personnelCostCS);
 
                 ed524Budget.setBudgetNonFederalDirectThirdYearAmount(totalCategoryCS.bigDecimalValue());
-            }
-            else if (budgetPeriod.getBudgetPeriod().equals(S2SConstants.BUDGET_PERIOD_4)) {
+            } else if (budgetPeriod.getBudgetPeriod().equals(S2SConstants.BUDGET_PERIOD_4)) {
                 totalCategoryCS = BudgetDecimal.ZERO;
                 getTotalCosts(budgetPeriod);
                 ed524Budget.setBudgetFederalFourthYearAmount(totalCost.bigDecimalValue());
@@ -426,7 +434,6 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
                 // Set to zero as it set hard coded as 0 in the procedure
                 ed524Budget.setBudgetFederalConstructionFourthYearAmount(BudgetDecimal.ZERO.bigDecimalValue());
                 ed524Budget.setBudgetNonFederalConstructionFourthYearAmount(BudgetDecimal.ZERO.bigDecimalValue());
-
 
                 // Other
                 getOtherCosts(budgetPeriod);
@@ -489,8 +496,7 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
                 totalPersonnelCS = totalPersonnelCS.add(personnelCostCS);
 
                 ed524Budget.setBudgetNonFederalDirectFourthYearAmount(totalCategoryCS.bigDecimalValue());
-            }
-            else if (budgetPeriod.getBudgetPeriod().equals(S2SConstants.BUDGET_PERIOD_5)) {
+            } else if (budgetPeriod.getBudgetPeriod().equals(S2SConstants.BUDGET_PERIOD_5)) {
                 totalCategoryCS = BudgetDecimal.ZERO;
                 getTotalCosts(budgetPeriod);
                 ed524Budget.setBudgetFederalFifthYearAmount(totalCost.bigDecimalValue());
@@ -519,10 +525,8 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
 
                 // Construction
                 // Set to zero as it set hard coded as 0 in the procedure
-
                 ed524Budget.setBudgetFederalConstructionFifthYearAmount(BudgetDecimal.ZERO.bigDecimalValue());
                 ed524Budget.setBudgetNonFederalConstructionFifthYearAmount(BudgetDecimal.ZERO.bigDecimalValue());
-
 
                 // Other
                 getOtherCosts(budgetPeriod);
@@ -608,8 +612,7 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
         ed524Budget.setBudgetNonFederalTrainingTotalAmount(totalTrainingCS.bigDecimalValue());
         if (totalOther.longValue() < 0) {
             ed524Budget.setBudgetFederalOtherTotalAmount(BigDecimal.ZERO);
-        }
-        else {
+        } else {
             ed524Budget.setBudgetFederalOtherTotalAmount(totalOther.bigDecimalValue());
         }
         ed524Budget.setBudgetNonFederalOtherTotalAmount(totalOtherCS.bigDecimalValue());
@@ -623,9 +626,11 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
 
         ed524Budget.setBudgetFederalDirectTotalAmount(totalDirectCostAllYrs.bigDecimalValue());
         ed524Budget.setBudgetNonFederalTotalAmount(totalCostSharingAllYrs.bigDecimalValue());
-        /***************************************************************************************************************************
+        /**
+         * *************************************************************************************************************************
          * ** INDIRECT COST INFO
-         **************************************************************************************************************************/
+         *************************************************************************************************************************
+         */
 
         IndirectCost indirectCost = IndirectCost.Factory.newInstance();
         ApprovingFederalAgency approvingFederalAgency = ApprovingFederalAgency.Factory.newInstance();
@@ -636,8 +641,7 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
         String indirectCostRateAgreement = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getIndirectCostRateAgreement();
         if (indirectCostRateAgreement != null && indirectCostRateAgreement.equals(INDIRECT_COST_RATE_AGREEMENT_NONE)) {
             approvingFederalAgency.setIsIndirectCostRateAgreementApproved(YesNoDataType.N_NO);
-        }
-        else {
+        } else {
             fromDate.setCalendarValue(s2sUtilService.convertDateStringToCalendar(indirectCostRateAgreement));
             fromDate.setIsIndirectCostRateAgreementApproved(YesNoDataType.Y_YES);
             if (fromDate.getCalendarValue() != null) {
@@ -646,8 +650,7 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
             approvingFederalAgency.setIsIndirectCostRateAgreementApproved(YesNoDataType.Y_YES);
             if (agencyName.equals(APPROVING_FEDERAL_AGENCY_ED)) {
                 approvingFederalAgency.setStringValue(APPROVING_FEDERAL_AGENCY_ED);
-            }
-            else {
+            } else {
                 approvingFederalAgency.setStringValue(APPROVING_FEDERAL_AGENCY_OTHER);
                 otherAgency.setApprovingFederalAgency(ApprovingFederalAgency.OTHER);
                 otherAgency.setStringValue(agencyName);
@@ -665,27 +668,32 @@ public class ED524BudgetV1_1Generator extends ED524BudgetBaseGenerator {
     }
 
     /**
-     * This method creates {@link XmlObject} of type {@link ED524BudgetDocument} by populating data from the given
+     * This method creates {@link XmlObject} of type {@link ED524BudgetDocument}
+     * by populating data from the given {@link ProposalDevelopmentDocument}
+     *
+     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs
+     * to be created
+     * @return {@link XmlObject} which is generated using the given
      * {@link ProposalDevelopmentDocument}
-     * 
-     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs to be created
-     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocument}
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+     * @see
+     * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
      */
+    @Override
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
 
         this.pdDoc = proposalDevelopmentDocument;
         return getED524Budget();
     }
 
-
     /**
-     * This method typecasts the given {@link XmlObject} to the required generator type and returns back the document of that
-     * generator type.
-     * 
-     * @param xmlObject which needs to be converted to the document type of the required generator
+     * This method typecasts the given {@link XmlObject} to the required
+     * generator type and returns back the document of that generator type.
+     *
+     * @param xmlObject which needs to be converted to the document type of the
+     * required generator
      * @return {@link XmlObject} document of the required generator type
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
+     * @see
+     * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
      */
     public XmlObject getFormObject(XmlObject xmlObject) {
 

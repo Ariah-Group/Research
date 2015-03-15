@@ -12,28 +12,49 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.bo;
 
 /**
- * 
- * This class is meant to store and retrieve attachments and its associated properties
- * 
+ *
+ * This class is meant to store and retrieve attachments and its associated
+ * properties
+ *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class AttachmentData {
+
     private String fileName;
     private String contentId;
     private byte[] content;
     private String contentType;
     private String hashValue;
 
-    /** Creates a new instance of AttachmentBean */
+    /**
+     * Creates a new instance of AttachmentBean
+     */
     public AttachmentData() {
     }
 
     /**
      * Getter for property FileName.
+     *
      * @return Value of property FileName.
      */
     public java.lang.String getFileName() {
@@ -42,6 +63,7 @@ public class AttachmentData {
 
     /**
      * Setter for property FileName.
+     *
      * @param FileName New value of property FileName.
      */
     public void setFileName(java.lang.String FileName) {
@@ -50,6 +72,7 @@ public class AttachmentData {
 
     /**
      * Getter for property ContentId.
+     *
      * @return Value of property ContentId.
      */
     public java.lang.String getContentId() {
@@ -58,6 +81,7 @@ public class AttachmentData {
 
     /**
      * Setter for property contentId.
+     *
      * @param ContentId New value of property contentId.
      */
     public void setContentId(java.lang.String contentId) {
@@ -66,6 +90,7 @@ public class AttachmentData {
 
     /**
      * Getter for property Content.
+     *
      * @return Value of property Content.
      */
     public byte[] getContent() {
@@ -74,6 +99,7 @@ public class AttachmentData {
 
     /**
      * Setter for property Content.
+     *
      * @param Content New value of property Content.
      */
     public void setContent(byte[] Content) {
@@ -82,6 +108,7 @@ public class AttachmentData {
 
     /**
      * Getter for property ContentType.
+     *
      * @return Value of property ContentType.
      */
     public java.lang.String getContentType() {
@@ -90,6 +117,7 @@ public class AttachmentData {
 
     /**
      * Setter for property ContentType.
+     *
      * @param ContentType New value of property ContentType.
      */
     public void setContentType(java.lang.String ContentType) {
@@ -98,6 +126,7 @@ public class AttachmentData {
 
     /**
      * Getter for property hashValue.
+     *
      * @return Value of property hashValue.
      */
     public java.lang.String getHashValue() {
@@ -106,6 +135,7 @@ public class AttachmentData {
 
     /**
      * Setter for property hashValue.
+     *
      * @param hashValue New value of property hashValue.
      */
     public void setHashValue(java.lang.String hashValue) {

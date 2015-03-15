@@ -12,29 +12,40 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.bo;
 
 import java.util.LinkedHashMap;
 
-
-
 public class OtherPersonnelInfo {
-
 
     private String personnelType;
     private int numberPersonnel;
     private String role;
     private CompensationInfo compensation;
 
-
     public OtherPersonnelInfo() {
     }
 
-
     /**
      * Getter for property numberPersonnel.
-     * 
+     *
      * @return Value of property numberPersonnel.
      */
     public int getNumberPersonnel() {
@@ -43,7 +54,7 @@ public class OtherPersonnelInfo {
 
     /**
      * Setter for property numberPersonnel.
-     * 
+     *
      * @param numberPersonnel New value of property numberPersonnel.
      */
     public void setNumberPersonnel(int numberPersonnel) {
@@ -52,7 +63,7 @@ public class OtherPersonnelInfo {
 
     /**
      * Getter for property personnelType.
-     * 
+     *
      * @return Value of property personnelType.
      */
     public String getPersonnelType() {
@@ -61,17 +72,16 @@ public class OtherPersonnelInfo {
 
     /**
      * Setter for property personnelType.
-     * 
+     *
      * @param personnelType New value of property personnelType.
      */
     public void setPersonnelType(String personnelType) {
         this.personnelType = personnelType;
     }
 
-
     /**
      * Getter for property role.
-     * 
+     *
      * @return Value of property role.
      */
     public String getRole() {
@@ -80,7 +90,7 @@ public class OtherPersonnelInfo {
 
     /**
      * Setter for property role.
-     * 
+     *
      * @param role New value of property role.
      */
     public void setRole(String role) {
@@ -89,7 +99,7 @@ public class OtherPersonnelInfo {
 
     /**
      * Getter for property compensation.
-     * 
+     *
      * @return Value of property compensation.
      */
     public CompensationInfo getCompensation() {
@@ -98,13 +108,12 @@ public class OtherPersonnelInfo {
 
     /**
      * Setter for property compensation.
-     * 
+     *
      * @param compensation New value of property compensation.
      */
     public void setCompensation(CompensationInfo compensation) {
         this.compensation = compensation;
     }
-
 
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap hashMap = new LinkedHashMap();

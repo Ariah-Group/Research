@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.impl;
 
@@ -37,27 +53,27 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
- * Class for generating the XML object for grants.gov RRSubAwardBudgetV1.1. Form is generated using XMLBean classes and is based on
- * RRSubAwardBudget schema.
- * 
+ * Class for generating the XML object for grants.gov RRSubAwardBudgetV1.1. Form
+ * is generated using XMLBean classes and is based on RRSubAwardBudget schema.
+ *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class RRSubAwardBudgetV1_1Generator extends S2SAdobeFormAttachmentBaseGenerator {
 
-
     /**
-     * 
+     *
      * This method is to get SubAward Budget details
-     * 
-     * @return rrSubawardBudgetDocument {@link XmlObject} of type RRSubawardBudgetDocument.
+     *
+     * @return rrSubawardBudgetDocument {@link XmlObject} of type
+     * RRSubawardBudgetDocument.
      */
-    private RRSubawardBudgetDocument getRRSubAwardBudget() throws S2SException{
+    private RRSubawardBudgetDocument getRRSubAwardBudget() throws S2SException {
 
         RRSubawardBudgetDocument rrSubawardBudgetDocument = RRSubawardBudgetDocument.Factory.newInstance();
         RRSubawardBudget rrSubawardBudget = RRSubawardBudget.Factory.newInstance();
 
         BudgetAttachments budgetAttachments = BudgetAttachments.Factory.newInstance();
-        List<BudgetSubAwards> budgetSubAwardsList = getBudgetSubAwards(pdDoc,RR_BUDGET_11_NAMESPACE_URI,true);
+        List<BudgetSubAwards> budgetSubAwardsList = getBudgetSubAwards(pdDoc, RR_BUDGET_11_NAMESPACE_URI, true);
         RRBudget[] budgetList = new RRBudget[budgetSubAwardsList.size()];
         rrSubawardBudget.setFormVersion(S2SConstants.FORMVERSION_1_1);
         int attCount = 1;
@@ -114,51 +130,50 @@ public class RRSubAwardBudgetV1_1Generator extends S2SAdobeFormAttachmentBaseGen
     }
 
     /**
-     * 
+     *
      * This method is used to get RRBudget from BudgetSubAwards
-     * 
+     *
      * @param budgetSubAwards(BudgetSubAwards) budget sub awards entry.
      * @return RRBudget corresponding to the BudgetSubAwards object.
      */
-    private RRBudget getRRBudget(BudgetSubAwards budgetSubAwards) throws S2SException{
+    private RRBudget getRRBudget(BudgetSubAwards budgetSubAwards) throws S2SException {
         RRBudget rrBudget = RRBudget.Factory.newInstance();
         RRBudgetDocument rrBudgetDocument = RRBudgetDocument.Factory.newInstance();
         String subAwdXML = budgetSubAwards.getSubAwardXmlFileData();
         Document subAwdFormsDoc;
         try {
             subAwdFormsDoc = stringToDom(subAwdXML);
-        }
-        catch (S2SException e1) {
+        } catch (S2SException e1) {
             return rrBudget;
         }
         Element subAwdFormsElement = subAwdFormsDoc.getDocumentElement();
         NodeList subAwdNodeList = subAwdFormsElement.getElementsByTagNameNS(RR_BUDGET_11_NAMESPACE_URI, LOCAL_NAME);
         Node subAwdNode = null;
-        if (subAwdNodeList != null){
-            if(subAwdNodeList.getLength() == 0) {
+        if (subAwdNodeList != null) {
+            if (subAwdNodeList.getLength() == 0) {
                 return null;
             }
             subAwdNode = subAwdNodeList.item(0);
         }
         byte[] subAwdNodeBytes = null;
-        InputStream bgtIS  = null;
+        InputStream bgtIS = null;
         try {
             subAwdNodeBytes = docToBytes(nodeToDom(subAwdNode));
             bgtIS = new ByteArrayInputStream(subAwdNodeBytes);
             rrBudgetDocument = (RRBudgetDocument) XmlObject.Factory.parse(bgtIS);
             rrBudget = rrBudgetDocument.getRRBudget();
-        }
-        catch (S2SException e) {
+        } catch (S2SException e) {
             return rrBudget;
-        }
-        catch (XmlException e) {
+        } catch (XmlException e) {
             return rrBudget;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             return rrBudget;
-        }finally{
-            if(bgtIS!=null){
-                try {bgtIS.close();}catch (IOException e) {} 
+        } finally {
+            if (bgtIS != null) {
+                try {
+                    bgtIS.close();
+                } catch (IOException e) {
+                }
             }
         }
         return rrBudget;
@@ -176,28 +191,33 @@ public class RRSubAwardBudgetV1_1Generator extends S2SAdobeFormAttachmentBaseGen
 //        List<BudgetSubAwards> budgetSubAwardsList = new ArrayList<BudgetSubAwards>();
 //        return budgetSubAwardsList;
 //    }
-
-
     /**
-     * This method creates {@link XmlObject} of type {@link RRSubawardBudgetDocument} by populating data from the given
+     * This method creates {@link XmlObject} of type
+     * {@link RRSubawardBudgetDocument} by populating data from the given
      * {@link ProposalDevelopmentDocument}
-     * 
-     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs to be created
-     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocument}
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+     *
+     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs
+     * to be created
+     * @return {@link XmlObject} which is generated using the given
+     * {@link ProposalDevelopmentDocument}
+     * @see
+     * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
      */
-    public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException{
-        pdDoc=proposalDevelopmentDocument;
+    @Override
+    public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
+        pdDoc = proposalDevelopmentDocument;
         return getRRSubAwardBudget();
     }
 
     /**
-     * This method typecasts the given {@link XmlObject} to the required generator type and returns back the document of that
-     * generator type.
-     * 
-     * @param xmlObject which needs to be converted to the document type of the required generator
+     * This method typecasts the given {@link XmlObject} to the required
+     * generator type and returns back the document of that generator type.
+     *
+     * @param xmlObject which needs to be converted to the document type of the
+     * required generator
      * @return {@link XmlObject} document of the required generator type
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
+     * @see
+     * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
      */
     public XmlObject getFormObject(XmlObject xmlObject) {
         RRSubawardBudget rrSubawardBudget = (RRSubawardBudget) xmlObject;

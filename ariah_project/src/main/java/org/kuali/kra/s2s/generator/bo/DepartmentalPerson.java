@@ -12,316 +12,315 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+
  */
 package org.kuali.kra.s2s.generator.bo;
 
 /**
  * This class is a VO for caching and transferring personnel information
- * 
+ *
  */
 public class DepartmentalPerson implements java.io.Serializable {
-	private String personId;
-	private String lastName;
-	private String firstName;
-	private String middleName;
-	private String fullName;
-	private String emailAddress;
-	private String officePhone;
-	private String dirDept;
-	private String primaryTitle;
-	private String homeUnit;
-	private String address1;
-	private String address2;
-	private String address3;
-	private String city;
-	private String county;
-	private String state;
-	private String postalCode;
-	private String countryCode;
-	private String faxNumber;
 
-	/**
-	 * @return the personId
-	 */
-	public String getPersonId() {
-		return personId;
-	}
+    private String personId;
+    private String lastName;
+    private String firstName;
+    private String middleName;
+    private String fullName;
+    private String emailAddress;
+    private String officePhone;
+    private String dirDept;
+    private String primaryTitle;
+    private String homeUnit;
+    private String address1;
+    private String address2;
+    private String address3;
+    private String city;
+    private String county;
+    private String state;
+    private String postalCode;
+    private String countryCode;
+    private String faxNumber;
 
-	/**
-	 * @param personId
-	 *            the personId to set
-	 */
-	public void setPersonId(String personId) {
-		this.personId = personId;
-	}
+    /**
+     * @return the personId
+     */
+    public String getPersonId() {
+        return personId;
+    }
 
-	/**
-	 * @return the lastName
-	 */
-	public String getLastName() {
-		return lastName;
-	}
+    /**
+     * @param personId the personId to set
+     */
+    public void setPersonId(String personId) {
+        this.personId = personId;
+    }
 
-	/**
-	 * @param lastName
-	 *            the lastName to set
-	 */
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    /**
+     * @return the lastName
+     */
+    public String getLastName() {
+        return lastName;
+    }
 
-	/**
-	 * @return the firstName
-	 */
-	public String getFirstName() {
-		return firstName;
-	}
+    /**
+     * @param lastName the lastName to set
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	/**
-	 * @param firstName
-	 *            the firstName to set
-	 */
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    /**
+     * @return the firstName
+     */
+    public String getFirstName() {
+        return firstName;
+    }
 
-	/**
-	 * @return the middleName
-	 */
-	public String getMiddleName() {
-		return middleName;
-	}
+    /**
+     * @param firstName the firstName to set
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	/**
-	 * @param middleName
-	 *            the middleName to set
-	 */
-	public void setMiddleName(String middleName) {
-		this.middleName = middleName;
-	}
+    /**
+     * @return the middleName
+     */
+    public String getMiddleName() {
+        return middleName;
+    }
 
-	/**
-	 * @return the fullName
-	 */
-	public String getFullName() {
-		return fullName;
-	}
+    /**
+     * @param middleName the middleName to set
+     */
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
 
-	/**
-	 * @param fullName
-	 *            the fullName to set
-	 */
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
+    /**
+     * @return the fullName
+     */
+    public String getFullName() {
+        return fullName;
+    }
 
-	/**
-	 * @return the emailAddress
-	 */
-	public String getEmailAddress() {
-		return emailAddress;
-	}
+    /**
+     * @param fullName the fullName to set
+     */
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
 
-	/**
-	 * @param emailAddress
-	 *            the emailAddress to set
-	 */
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
-	}
+    /**
+     * @return the emailAddress
+     */
+    public String getEmailAddress() {
+        return emailAddress;
+    }
 
-	/**
-	 * @return the officePhone
-	 */
-	public String getOfficePhone() {
-		return officePhone;
-	}
+    /**
+     * @param emailAddress the emailAddress to set
+     */
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
 
-	/**
-	 * @param officePhone
-	 *            the officePhone to set
-	 */
-	public void setOfficePhone(String officePhone) {
-		this.officePhone = officePhone;
-	}
+    /**
+     * @return the officePhone
+     */
+    public String getOfficePhone() {
+        return officePhone;
+    }
 
-	/**
-	 * @return the dirDept
-	 */
-	public String getDirDept() {
-		return dirDept;
-	}
+    /**
+     * @param officePhone the officePhone to set
+     */
+    public void setOfficePhone(String officePhone) {
+        this.officePhone = officePhone;
+    }
 
-	/**
-	 * @param dirDept
-	 *            the dirDept to set
-	 */
-	public void setDirDept(String dirDept) {
-		this.dirDept = dirDept;
-	}
+    /**
+     * @return the dirDept
+     */
+    public String getDirDept() {
+        return dirDept;
+    }
 
-	/**
-	 * @return the primaryTitle
-	 */
-	public String getPrimaryTitle() {
-		return primaryTitle;
-	}
+    /**
+     * @param dirDept the dirDept to set
+     */
+    public void setDirDept(String dirDept) {
+        this.dirDept = dirDept;
+    }
 
-	/**
-	 * @param primaryTitle
-	 *            the primaryTitle to set
-	 */
-	public void setPrimaryTitle(String primaryTitle) {
-		this.primaryTitle = primaryTitle;
-	}
+    /**
+     * @return the primaryTitle
+     */
+    public String getPrimaryTitle() {
+        return primaryTitle;
+    }
 
-	/**
-	 * @return the homeUnit
-	 */
-	public String getHomeUnit() {
-		return homeUnit;
-	}
+    /**
+     * @param primaryTitle the primaryTitle to set
+     */
+    public void setPrimaryTitle(String primaryTitle) {
+        this.primaryTitle = primaryTitle;
+    }
 
-	/**
-	 * @param homeUnit
-	 *            the homeUnit to set
-	 */
-	public void setHomeUnit(String homeUnit) {
-		this.homeUnit = homeUnit;
-	}
+    /**
+     * @return the homeUnit
+     */
+    public String getHomeUnit() {
+        return homeUnit;
+    }
 
-	/**
-	 * @return the address1
-	 */
-	public String getAddress1() {
-		return address1;
-	}
+    /**
+     * @param homeUnit the homeUnit to set
+     */
+    public void setHomeUnit(String homeUnit) {
+        this.homeUnit = homeUnit;
+    }
 
-	/**
-	 * @param address1
-	 *            the address1 to set
-	 */
-	public void setAddress1(String address1) {
-		this.address1 = address1;
-	}
+    /**
+     * @return the address1
+     */
+    public String getAddress1() {
+        return address1;
+    }
 
-	/**
-	 * @return the address2
-	 */
-	public String getAddress2() {
-		return address2;
-	}
+    /**
+     * @param address1 the address1 to set
+     */
+    public void setAddress1(String address1) {
+        this.address1 = address1;
+    }
 
-	/**
-	 * @param address2
-	 *            the address2 to set
-	 */
-	public void setAddress2(String address2) {
-		this.address2 = address2;
-	}
+    /**
+     * @return the address2
+     */
+    public String getAddress2() {
+        return address2;
+    }
 
-	/**
-	 * @return the address3
-	 */
-	public String getAddress3() {
-		return address3;
-	}
+    /**
+     * @param address2 the address2 to set
+     */
+    public void setAddress2(String address2) {
+        this.address2 = address2;
+    }
 
-	/**
-	 * @param address3
-	 *            the address3 to set
-	 */
-	public void setAddress3(String address3) {
-		this.address3 = address3;
-	}
+    /**
+     * @return the address3
+     */
+    public String getAddress3() {
+        return address3;
+    }
 
-	/**
-	 * @return the city
-	 */
-	public String getCity() {
-		return city;
-	}
+    /**
+     * @param address3 the address3 to set
+     */
+    public void setAddress3(String address3) {
+        this.address3 = address3;
+    }
 
-	/**
-	 * @param city
-	 *            the city to set
-	 */
-	public void setCity(String city) {
-		this.city = city;
-	}
+    /**
+     * @return the city
+     */
+    public String getCity() {
+        return city;
+    }
 
-	/**
-	 * @return the county
-	 */
-	public String getCounty() {
-		return county;
-	}
+    /**
+     * @param city the city to set
+     */
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-	/**
-	 * @param county
-	 *            the county to set
-	 */
-	public void setCounty(String county) {
-		this.county = county;
-	}
+    /**
+     * @return the county
+     */
+    public String getCounty() {
+        return county;
+    }
 
-	/**
-	 * @return the state
-	 */
-	public String getState() {
-		return state;
-	}
+    /**
+     * @param county the county to set
+     */
+    public void setCounty(String county) {
+        this.county = county;
+    }
 
-	/**
-	 * @param state
-	 *            the state to set
-	 */
-	public void setState(String state) {
-		this.state = state;
-	}
+    /**
+     * @return the state
+     */
+    public String getState() {
+        return state;
+    }
 
-	/**
-	 * @return the postalCode
-	 */
-	public String getPostalCode() {
-		return postalCode;
-	}
+    /**
+     * @param state the state to set
+     */
+    public void setState(String state) {
+        this.state = state;
+    }
 
-	/**
-	 * @param postalCode
-	 *            the postalCode to set
-	 */
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
+    /**
+     * @return the postalCode
+     */
+    public String getPostalCode() {
+        return postalCode;
+    }
 
-	/**
-	 * @return the countryCode
-	 */
-	public String getCountryCode() {
-		return countryCode;
-	}
+    /**
+     * @param postalCode the postalCode to set
+     */
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
 
-	/**
-	 * @param countryCode
-	 *            the countryCode to set
-	 */
-	public void setCountryCode(String countryCode) {
-		this.countryCode = countryCode;
-	}
+    /**
+     * @return the countryCode
+     */
+    public String getCountryCode() {
+        return countryCode;
+    }
 
-	/**
-	 * @return the faxNumber
-	 */
-	public String getFaxNumber() {
-		return faxNumber;
-	}
+    /**
+     * @param countryCode the countryCode to set
+     */
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
 
-	/**
-	 * @param faxNumber
-	 *            the faxNumber to set
-	 */
-	public void setFaxNumber(String faxNumber) {
-		this.faxNumber = faxNumber;
-	}
+    /**
+     * @return the faxNumber
+     */
+    public String getFaxNumber() {
+        return faxNumber;
+    }
+
+    /**
+     * @param faxNumber the faxNumber to set
+     */
+    public void setFaxNumber(String faxNumber) {
+        this.faxNumber = faxNumber;
+    }
 }

@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.bo;
 
@@ -20,7 +36,6 @@ import org.kuali.kra.budget.BudgetDecimal;
 import java.util.LinkedHashMap;
 
 public class IndirectCostDetails {
-
 
     private String costType;
     private BudgetDecimal rate;
@@ -34,7 +49,7 @@ public class IndirectCostDetails {
 
     /**
      * Getter for property costType.
-     * 
+     *
      * @return Value of property costType.
      */
     public String getCostType() {
@@ -43,7 +58,7 @@ public class IndirectCostDetails {
 
     /**
      * Setter for property costType.
-     * 
+     *
      * @param costType New value of property costType.
      */
     public void setCostType(String costType) {
@@ -52,7 +67,7 @@ public class IndirectCostDetails {
 
     /**
      * Getter for property rate.
-     * 
+     *
      * @return Value of property rate.
      */
     public BudgetDecimal getRate() {
@@ -61,7 +76,7 @@ public class IndirectCostDetails {
 
     /**
      * Setter for property rate.
-     * 
+     *
      * @param rate New value of property rate.
      */
     public void setRate(BudgetDecimal rate) {
@@ -70,7 +85,7 @@ public class IndirectCostDetails {
 
     /**
      * Getter for property base.
-     * 
+     *
      * @return Value of property base.
      */
     public BudgetDecimal getBase() {
@@ -79,7 +94,7 @@ public class IndirectCostDetails {
 
     /**
      * Setter for property base.
-     * 
+     *
      * @param base New value of property base.
      */
     public void setBase(BudgetDecimal base) {
@@ -88,7 +103,7 @@ public class IndirectCostDetails {
 
     /**
      * Getter for property funds.
-     * 
+     *
      * @return Value of property funds.
      */
     public BudgetDecimal getFunds() {
@@ -97,7 +112,7 @@ public class IndirectCostDetails {
 
     /**
      * Setter for property funds.
-     * 
+     *
      * @param funds New value of property funds.
      */
     public void setFunds(BudgetDecimal funds) {
@@ -105,9 +120,8 @@ public class IndirectCostDetails {
     }
 
     // start add costSaring for fedNonFedBudget repport
-
     public BudgetDecimal getBaseCostSharing() {
-        return baseCostSharing==null?BudgetDecimal.ZERO:baseCostSharing;
+        return baseCostSharing == null ? BudgetDecimal.ZERO : baseCostSharing;
     }
 
     public void setBaseCostSharing(BudgetDecimal baseCostSharing) {
@@ -115,13 +129,12 @@ public class IndirectCostDetails {
     }
 
     public BudgetDecimal getCostSharing() {
-        return costSharing==null?BudgetDecimal.ZERO:costSharing;
+        return costSharing == null ? BudgetDecimal.ZERO : costSharing;
     }
 
     public void setCostSharing(BudgetDecimal costSharing) {
         this.costSharing = costSharing;
     }
-
 
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap hashMap = new LinkedHashMap();

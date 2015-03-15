@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.bo;
 
@@ -29,14 +45,12 @@ public class CostInfo {
     private int quantity;
     private BudgetDecimal costSharing;
 
-
     public CostInfo() {
     }
 
-
     /**
      * Getter for property budgetPeriod
-     * 
+     *
      * @return Value of property budgetPEriod.
      */
     public int getBudgetPeriod() {
@@ -45,17 +59,16 @@ public class CostInfo {
 
     /**
      * Setter for property budgetPeriod
-     * 
+     *
      * @param budgetPeriod New value of property budgetPeriod.
      */
     public void setBudgetPeriod(int budgetPeriod) {
         this.budgetPeriod = budgetPeriod;
     }
 
-
     /**
      * Getter for property cost
-     * 
+     *
      * @return Value of property cost.
      */
     public BudgetDecimal getCost() {
@@ -64,7 +77,7 @@ public class CostInfo {
 
     /**
      * Setter for property cost
-     * 
+     *
      * @param cost New value of property cost.
      */
     public void setCost(BudgetDecimal cost) {
@@ -73,7 +86,7 @@ public class CostInfo {
 
     /**
      * Getter for property category
-     * 
+     *
      * @return Value of property category.
      */
     public String getCategory() {
@@ -82,7 +95,7 @@ public class CostInfo {
 
     /**
      * Setter for property category
-     * 
+     *
      * @param category New value of property category.
      */
     public void setCategory(String category) {
@@ -91,7 +104,7 @@ public class CostInfo {
 
     /**
      * Getter for property categoryType
-     * 
+     *
      * @return Value of property categoryType.
      */
     public String getCategoryType() {
@@ -100,7 +113,7 @@ public class CostInfo {
 
     /**
      * Setter for property categoryType
-     * 
+     *
      * @param categoryType New value of property categoryType.
      */
     public void setCategoryType(String categoryType) {
@@ -109,7 +122,7 @@ public class CostInfo {
 
     /**
      * Getter for property description
-     * 
+     *
      * @return Value of property description.
      */
     public String getDescription() {
@@ -118,7 +131,7 @@ public class CostInfo {
 
     /**
      * Setter for property description
-     * 
+     *
      * @param description New value of property description.
      */
     public void setDescription(String description) {
@@ -127,7 +140,7 @@ public class CostInfo {
 
     /**
      * Getter for property quantity
-     * 
+     *
      * @return Value of property quantity.
      */
     public int getQuantity() {
@@ -136,7 +149,7 @@ public class CostInfo {
 
     /**
      * Setter for property quantity
-     * 
+     *
      * @param quantity New value of property quantity.
      */
     public void setQuantity(int quantity) {
@@ -145,13 +158,12 @@ public class CostInfo {
 
     // start add costSaring for fedNonFedBudget repport
     public BudgetDecimal getCostSharing() {
-        return costSharing==null?BudgetDecimal.ZERO:costSharing;
+        return costSharing == null ? BudgetDecimal.ZERO : costSharing;
     }
 
     public void setCostSharing(BudgetDecimal costSharing) {
         this.costSharing = costSharing;
     }
-
 
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap hashMap = new LinkedHashMap();

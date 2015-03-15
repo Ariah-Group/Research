@@ -12,9 +12,24 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.generator;
-
 
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType.FileLocation;
@@ -52,9 +67,9 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * 
+ *
  * This class defines the Base methods for the Form Generator classes
- * 
+ *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
@@ -67,15 +82,14 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     public static final String DESCRIPTION = "DESCRIPTION";
     public static final String TITLE = "TITLE";
     public static final String MODULE_NUMBER = "M";
-    public static final String AREAS_AFFECTED_ABSTRACT_TYPE_CODE="16";
+    public static final String AREAS_AFFECTED_ABSTRACT_TYPE_CODE = "16";
     private static final String NARRATIVE_ATTACHMENT_LIST = "narrativeAttachmentList";
     private static final String NARRATIVE_ATTACHMENT_FILE_LOCATION = "att:FileLocation";
-       
+
     protected static final int ORGANIZATON_NAME_MAX_LENGTH = 60;
     protected static final int DUNS_NUMBER_MAX_LENGTH = 13;
     protected static final int PRIMARY_TITLE_MAX_LENGTH = 45;
     protected static final int CONGRESSIONAL_DISTRICT_MAX_LENGTH = 6;
-
 
     protected ProposalDevelopmentDocument pdDoc = null;
     private List<AuditError> auditErrors;
@@ -89,21 +103,22 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     protected GlobalLibraryV2_0Generator globLibV20Generator = new GlobalLibraryV2_0Generator();
 
     /**
-     * Gets the list of attachments associated with a form. As the form generator fills the form data, the attachment information is
-     * stored into the instance variable
-     * 
-     * @return List<AttachementData> List of attachments associated with the the form. Returns an empty list if no attachment is
-     *         available.
+     * Gets the list of attachments associated with a form. As the form
+     * generator fills the form data, the attachment information is stored into
+     * the instance variable
+     *
+     * @return List<AttachementData> List of attachments associated with the the
+     * form. Returns an empty list if no attachment is available.
      */
-
+    @Override
     public List<AttachmentData> getAttachments() {
         return attachments;
     }
 
     /**
-     * 
+     *
      * This is for adding attachment for the forms during form generation.
-     * 
+     *
      * @param attachment - The attachment data to add.
      */
     protected void addAttachment(AttachmentData attachment) {
@@ -111,19 +126,22 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     }
 
     /**
-     * 
-     * This method is used to generate the HashValue for a particular file stream. The hashing algorithm is defined in constant
+     *
+     * This method is used to generate the HashValue for a particular file
+     * stream. The hashing algorithm is defined in constant
      * S2SConstants.HASH_ALGORITHM
-     * 
+     *
      * @param fileData - They byte[] containing the file data.
      * @return HashValue - The hash value calculated for the fileData input.
      */
     protected HashValue getHashValue(byte[] fileData) {
         return createHashValue(computeAttachmentHash(fileData));
     }
+
     /**
-     * 
+     *
      * Generates the contentId or href for narrative attachments in S2S
+     *
      * @param type
      * @param moduleNumber
      * @param desc
@@ -131,32 +149,32 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
      */
     public String createContentId(Narrative narrative) {
         String retVal = "N-" + narrative.getModuleNumber();
-        if(narrative.getNarrativeType()!=null){
+        if (narrative.getNarrativeType() != null) {
             if (narrative.getNarrativeType().getAllowMultiple() != null
-                    && narrative.getNarrativeType().getAllowMultiple().equals("Y") &&
-                    StringUtils.isNotBlank(narrative.getModuleTitle())) {
+                    && narrative.getNarrativeType().getAllowMultiple().equals("Y")
+                    && StringUtils.isNotBlank(narrative.getModuleTitle())) {
                 retVal += "_" + narrative.getModuleTitle().trim();
-            }else{
+            } else {
                 retVal += "_" + narrative.getNarrativeType().getDescription().trim();
             }
         }
         int index = getIndexOfAttachmentAlreadyAdded(retVal);
-        if(index > 0){
-            retVal+=("-"+index);
+        if (index > 0) {
+            retVal += ("-" + index);
         }
         return retVal;
     }
-    
+
     private int getIndexOfAttachmentAlreadyAdded(String contentId) {
         int index = 0;
         List<AttachmentData> attachments = getAttachments();
         for (AttachmentData attachmentData : attachments) {
             String attContentId = attachmentData.getContentId();
-            int lastIndex = attContentId.indexOf('-',6);
-            if(lastIndex!=-1){
+            int lastIndex = attContentId.indexOf('-', 6);
+            if (lastIndex != -1) {
                 attContentId = attContentId.substring(0, attContentId.lastIndexOf('-'));
             }
-            if(attContentId.equals(contentId)){
+            if (attContentId.equals(contentId)) {
                 index++;
             }
         }
@@ -165,27 +183,26 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
 
     public String createContentId(ProposalPersonBiography biography) {
         String retVal = "B-" + biography.getProposalPersonNumber() + "_" + biography.getBiographyNumber();
-        if(biography.getPropPerDocType() != null) 
+        if (biography.getPropPerDocType() != null) {
             retVal += "_" + biography.getPropPerDocType().getDescription().trim();
+        }
         if (StringUtils.isNotBlank(biography.getDescription())) {
             retVal += "_" + biography.getDescription().trim();
         }
         int index = getIndexOfAttachmentAlreadyAdded(retVal);
-        if(index > 0){
-            retVal+=index;
+        if (index > 0) {
+            retVal += index;
         }
         return retVal;
     }
 
-
-
     /**
-     * 
+     *
      * This method creates and returns Hash Value for particular form
-     * 
+     *
      * @param hashValueStr
      * @return hashValue (HashValue)
-     * 
+     *
      */
     private synchronized static HashValue createHashValue(String hashValueStr) {
         HashValue hashValue = null;
@@ -193,16 +210,15 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
         hashValue.setHashAlgorithm(S2SConstants.HASH_ALGORITHM);
         try {
             hashValue.setByteArrayValue(org.apache.xml.security.utils.Base64.decode(hashValueStr));
-        }
-        catch (Base64DecodingException e) {
+        } catch (Base64DecodingException e) {
         }
         return hashValue;
     }
 
     /**
-     * 
+     *
      * This method is used to encode the hash value based on Message Digest
-     * 
+     *
      * @param attachment
      * @return Base64.encode(rawDigest) (String)
      */
@@ -213,8 +229,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
             messageDigester = MessageDigest.getInstance(S2SConstants.HASH_ALGORITHM);
             byte[] rawDigest = messageDigester.digest(attachment);
             return Base64.encode(rawDigest);
-        }
-        catch (NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException e) {
             LOG.error(e.getMessage(), e);
             return "";
         }
@@ -224,34 +239,36 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
         AttachedFileDataType attachedFileDataType = null;
         byte[] attachementContent = null;
         narrative.refreshReferenceObject("narrativeAttachmentList");
-        if(narrative.getNarrativeAttachmentList()!= null && narrative.getNarrativeAttachmentList().size() > 0 ){
-        	attachementContent = narrative.getNarrativeAttachmentList().get(0).getContent();
+        if (narrative.getNarrativeAttachmentList() != null && narrative.getNarrativeAttachmentList().size() > 0) {
+            attachementContent = narrative.getNarrativeAttachmentList().get(0).getContent();
         }
-	    if(attachementContent != null && attachementContent.length > 0 ){
-	    	
-	        FileLocation fileLocation = FileLocation.Factory.newInstance();
-	        String contentId = createContentId(narrative);
-	        fileLocation.setHref(contentId);
-	    	
-	        attachedFileDataType = AttachedFileDataType.Factory.newInstance();
-	        attachedFileDataType.setFileLocation(fileLocation);
-	        attachedFileDataType.setFileName(narrative.getFileName());
-	        attachedFileDataType.setMimeType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
-	        narrative.refreshReferenceObject(NARRATIVE_ATTACHMENT_LIST);
-			attachedFileDataType.setHashValue(getHashValue(attachementContent));
-	        AttachmentData attachmentData = new AttachmentData();
-	        attachmentData.setContent(attachementContent);
-	        attachmentData.setContentId(contentId);
-	        attachmentData.setContentType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
-	        attachmentData.setFileName(narrative.getFileName());
-	        addAttachment(attachmentData);
-	    }
+        if (attachementContent != null && attachementContent.length > 0) {
+
+            FileLocation fileLocation = FileLocation.Factory.newInstance();
+            String contentId = createContentId(narrative);
+            fileLocation.setHref(contentId);
+
+            attachedFileDataType = AttachedFileDataType.Factory.newInstance();
+            attachedFileDataType.setFileLocation(fileLocation);
+            attachedFileDataType.setFileName(narrative.getFileName());
+            attachedFileDataType.setMimeType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
+            narrative.refreshReferenceObject(NARRATIVE_ATTACHMENT_LIST);
+            attachedFileDataType.setHashValue(getHashValue(attachementContent));
+            AttachmentData attachmentData = new AttachmentData();
+            attachmentData.setContent(attachementContent);
+            attachmentData.setContentId(contentId);
+            attachmentData.setContentType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
+            attachmentData.setFileName(narrative.getFileName());
+            addAttachment(attachmentData);
+        }
         return attachedFileDataType;
     }
+
     /**
-     * 
-     * This method is used to get List of Other attachments from NarrativeAttachmentList
-     * 
+     *
+     * This method is used to get List of Other attachments from
+     * NarrativeAttachmentList
+     *
      * @return AttachedFileDataType[] based on the narrative type code.
      */
     protected AttachedFileDataType[] getAttachedFileDataTypes(String narrativeTypeCode) {
@@ -274,10 +291,12 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
         }
         return attachedFileDataTypes;
     }
+
     /**
-     * 
-     * This method is used to get List of Other attachments from NarrativeAttachmentList
-     * 
+     *
+     * This method is used to get List of Other attachments from
+     * NarrativeAttachmentList
+     *
      * @return AttachedFileDataType[] based on the narrative type code.
      */
     protected AttachedFileDataType getAttachedFileDataType(String narrativeTypeCode) {
@@ -292,11 +311,13 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     }
 
     /**
-     * 
-     * This method fetches the attachments for {@link ProposalPerson}. For a given person or rolodex ID, it will fetch the document
-     * of required type, also passed alongside as documentType
-     * 
-     * @param pdDoc {@link ProposalDevelopmentDocument} from which the attachments are to be fetched
+     *
+     * This method fetches the attachments for {@link ProposalPerson}. For a
+     * given person or rolodex ID, it will fetch the document of required type,
+     * also passed alongside as documentType
+     *
+     * @param pdDoc {@link ProposalDevelopmentDocument} from which the
+     * attachments are to be fetched
      * @param personId ID of the proposal person
      * @param rolodexId Rolodex ID of the person
      * @param documentType type of document thats to be fetched
@@ -310,8 +331,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
                     && proposalPersonBiography.getPersonId().equals(personId)
                     && documentType.equals(proposalPersonBiography.getDocumentTypeCode())) {
                 personBiographyFound = true;
-            }
-            else if (rolodexId != null && proposalPersonBiography.getRolodexId() != null
+            } else if (rolodexId != null && proposalPersonBiography.getRolodexId() != null
                     && proposalPersonBiography.getRolodexId().toString().equals(rolodexId.toString())
                     && documentType.equals(proposalPersonBiography.getDocumentTypeCode())) {
                 personBiographyFound = true;
@@ -340,132 +360,145 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     }
 
     /**
-     * Gets the auditErrors attribute. 
+     * Gets the auditErrors attribute.
+     *
      * @return Returns the auditErrors.
      */
+    @Override
     public List<AuditError> getAuditErrors() {
         return auditErrors;
     }
 
     /**
      * Sets the auditErrors attribute value.
+     *
      * @param auditErrors The auditErrors to set.
      */
     public void setAuditErrors(List<AuditError> auditErrors) {
         this.auditErrors = auditErrors;
     }
-    
+
     protected boolean isSponsorNIH(ProposalDevelopmentDocument document) {
-		SponsorService sponsorService = KraServiceLocator
-				.getService(SponsorService.class);
-		return sponsorService.isSponsorNihMultiplePi(document.getDevelopmentProposal());
-	}
-    
-	protected Narrative saveNarrative(byte[] attachment, String narrativeTypeCode,String fileName,String comment) {
-		Narrative narrative = null;
-		narrative = new Narrative();
-		narrative.setModuleStatusCode("C");
-		narrative.setNarrativeTypeCode(narrativeTypeCode);
-		narrative.setComments(comment);
-		narrative.setModuleTitle(comment);
-		NarrativeType narrativeType = new NarrativeType();
-		narrativeType.setDescription(comment);
-		narrativeType.setSystemGenerated("Y");
-		narrativeType.setNarrativeTypeCode(narrativeTypeCode);
-		narrative.setNarrativeType(narrativeType);
-		narrative.setModuleSequenceNumber(getNextModuleSequenceNumber(pdDoc));
-		NarrativeAttachment narrativeAttachment = new NarrativeAttachment();
-		narrativeAttachment
-				.setContentType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
-		narrativeAttachment.setNarrativeData(attachment);
-		narrativeAttachment.setFileName(fileName);
-		narrative.setFileName(fileName);
-		narrative.getNarrativeAttachmentList().add(narrativeAttachment);
-		KraServiceLocator.getService(NarrativeService.class).addNarrative(
-					pdDoc, narrative);
-		return narrative;
-	}
+        SponsorService sponsorService = KraServiceLocator
+                .getService(SponsorService.class);
+        return sponsorService.isSponsorNihMultiplePi(document.getDevelopmentProposal());
+    }
+
+    protected Narrative saveNarrative(byte[] attachment, String narrativeTypeCode, String fileName, String comment) {
+        Narrative narrative = null;
+        narrative = new Narrative();
+        narrative.setModuleStatusCode("C");
+        narrative.setNarrativeTypeCode(narrativeTypeCode);
+        narrative.setComments(comment);
+        narrative.setModuleTitle(comment);
+        NarrativeType narrativeType = new NarrativeType();
+        narrativeType.setDescription(comment);
+        narrativeType.setSystemGenerated("Y");
+        narrativeType.setNarrativeTypeCode(narrativeTypeCode);
+        narrative.setNarrativeType(narrativeType);
+        narrative.setModuleSequenceNumber(getNextModuleSequenceNumber(pdDoc));
+        NarrativeAttachment narrativeAttachment = new NarrativeAttachment();
+        narrativeAttachment
+                .setContentType(S2SConstants.CONTENT_TYPE_OCTET_STREAM);
+        narrativeAttachment.setNarrativeData(attachment);
+        narrativeAttachment.setFileName(fileName);
+        narrative.setFileName(fileName);
+        narrative.getNarrativeAttachmentList().add(narrativeAttachment);
+        KraServiceLocator.getService(NarrativeService.class).addNarrative(
+                pdDoc, narrative);
+        return narrative;
+    }
+
     private Integer getNextModuleSequenceNumber(ProposalDevelopmentDocument proposaldevelopmentDocument) {
         List<Narrative> narrativeList = proposaldevelopmentDocument.getDevelopmentProposal().getNarratives();
         List<Narrative> instituteAttachmentsList = proposaldevelopmentDocument.getDevelopmentProposal().getInstituteAttachments();
         List<Narrative> mergedNarrativeList = new ArrayList<Narrative>();
         mergedNarrativeList.addAll(narrativeList);
         mergedNarrativeList.addAll(instituteAttachmentsList);
-        if(mergedNarrativeList.isEmpty()) return 1;
-        Collections.sort(mergedNarrativeList, new Comparator<Narrative>(){
-            public int compare(Narrative n1, Narrative n2) { 
-                return (n1.getModuleSequenceNumber()).compareTo(n2.getModuleSequenceNumber()); 
-              } 
+        if (mergedNarrativeList.isEmpty()) {
+            return 1;
+        }
+        Collections.sort(mergedNarrativeList, new Comparator<Narrative>() {
+            @Override
+            public int compare(Narrative n1, Narrative n2) {
+                return (n1.getModuleSequenceNumber()).compareTo(n2.getModuleSequenceNumber());
+            }
         });
-        return mergedNarrativeList.get(mergedNarrativeList.size()-1).getModuleSequenceNumber().intValue()+1;
+        return mergedNarrativeList.get(mergedNarrativeList.size() - 1).getModuleSequenceNumber().intValue() + 1;
     }
+
     /**
      * Sets the attachments attribute value.
+     *
      * @param attachments The attachments to set.
      */
     public void setAttachments(List<AttachmentData> attachments) {
         this.attachments = attachments;
     }
-   
+
     public List<AnswerHeader> getQuestionnaireAnswers(DevelopmentProposal proposal, boolean finalDoc) {
         ModuleQuestionnaireBean moduleQuestionnaireBean = new ProposalDevelopmentModuleQuestionnaireBean(pdDoc.getDevelopmentProposal());
         QuestionnaireAnswerService questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
         return questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
     }
-    
+
     /**
      * Sort the attachments.
+     *
      * @param byteArrayInputStream.
      */
-    public void sortAttachments(ByteArrayInputStream byteArrayInputStream)  {
-        List<String> attachmentNameList = new ArrayList<String> ();
+    public void sortAttachments(ByteArrayInputStream byteArrayInputStream) {
+        List<String> attachmentNameList = new ArrayList<String>();
         List<AttachmentData> attacmentList = getAttachments();
         List<AttachmentData> tempAttacmentList = new ArrayList<AttachmentData>();
-        
-        try{
+
+        try {
             DocumentBuilderFactory domParserFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder domParser = domParserFactory.newDocumentBuilder();
             Document document = domParser.parse(byteArrayInputStream);
             byteArrayInputStream.close();
-            NodeList fileLocationList = document.getElementsByTagName(NARRATIVE_ATTACHMENT_FILE_LOCATION);                       
-            
-           for(int itemLocation=0;itemLocation<fileLocationList.getLength();itemLocation++){
-               String attachmentName =fileLocationList.item(itemLocation).getAttributes().item(0).getNodeValue();
-               String[] name = attachmentName.split(KEY_VALUE_SEPARATOR);               
-               String fileName =name[name.length-1];
-               attachmentNameList.add(fileName);
-           }
-        }catch (Exception e) {
+            NodeList fileLocationList = document.getElementsByTagName(NARRATIVE_ATTACHMENT_FILE_LOCATION);
+
+            for (int itemLocation = 0; itemLocation < fileLocationList.getLength(); itemLocation++) {
+                String attachmentName = fileLocationList.item(itemLocation).getAttributes().item(0).getNodeValue();
+                String[] name = attachmentName.split(KEY_VALUE_SEPARATOR);
+                String fileName = name[name.length - 1];
+                attachmentNameList.add(fileName);
+            }
+        } catch (Exception e) {
             LOG.error(e.getMessage(), e);
         }
-        
-        for(String attachmentName :attachmentNameList){
-            for(AttachmentData attachment : attacmentList){                
-                String[] names = attachment.getContentId().split(KEY_VALUE_SEPARATOR);               
-                String fileName =names[names.length-1];
-                if(fileName.equalsIgnoreCase(attachmentName)){
+
+        for (String attachmentName : attachmentNameList) {
+            for (AttachmentData attachment : attacmentList) {
+                String[] names = attachment.getContentId().split(KEY_VALUE_SEPARATOR);
+                String fileName = names[names.length - 1];
+                if (fileName.equalsIgnoreCase(attachmentName)) {
                     tempAttacmentList.add(attachment);
                 }
             }
         }
-        if(tempAttacmentList.size() > 0){
+        if (tempAttacmentList.size() > 0) {
             attachments.clear();
-            for(AttachmentData tempAttachment :tempAttacmentList){
+            for (AttachmentData tempAttachment : tempAttacmentList) {
                 attachments.add(tempAttachment);
-            } 
+            }
         }
     }
 
     /**
-     * Gets the namespace attribute. 
+     * Gets the namespace attribute.
+     *
      * @return Returns the namespace.
      */
+    @Override
     public String getNamespace() {
         return namespace;
     }
 
     /**
      * Sets the namespace attribute value.
+     *
      * @param namespace The namespace to set.
      */
     public void setNamespace(String namespace) {

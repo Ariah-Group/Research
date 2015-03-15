@@ -162,6 +162,7 @@ public class S2SBudgetCalculatorServiceImpl implements
      * @see
      * org.kuali.kra.s2s.service.S2SBudgetCalculatorService#getBudgetInfo(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
+    @Override
     public BudgetSummaryInfo getBudgetInfo(ProposalDevelopmentDocument pdDoc, List<BudgetPeriodInfo> budgetPeriodInfos)
             throws S2SException {
         BudgetDocument budgetDocument = getFinalBudgetVersion(pdDoc);
@@ -527,6 +528,7 @@ public class S2SBudgetCalculatorServiceImpl implements
      * @see
      * org.kuali.kra.s2s.service.S2SBudgetCalculatorService#getBudgetPeriods(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
+    @Override
     public List<BudgetPeriodInfo> getBudgetPeriods(ProposalDevelopmentDocument pdDoc) throws S2SException {
         List<BudgetPeriodInfo> budgetPeriods = new ArrayList<BudgetPeriodInfo>();
         BudgetDocument budgetDocument = getFinalBudgetVersion(pdDoc);
@@ -1007,6 +1009,7 @@ public class S2SBudgetCalculatorServiceImpl implements
      * @param budgetPeriod given BudgetPeriod.
      * @return IndirectCostInfo for the corresponding BudgetPeriod object.
      */
+    @Override
     public IndirectCostInfo getIndirectCosts(Budget budget, BudgetPeriod budgetPeriod) {
         List<IndirectCostDetails> indirectCostDetailList = new ArrayList<IndirectCostDetails>();
         IndirectCostDetails indirectCostDetails;
@@ -1453,6 +1456,7 @@ public class S2SBudgetCalculatorServiceImpl implements
      * org.kuali.kra.s2s.service.S2SBudgetCalculatorService#getBudgetCategoryMapList(java.util.List,
      * java.util.List)
      */
+    @Override
     public List<BudgetCategoryMap> getBudgetCategoryMapList(List<String> filterTargetCategoryCodes, List<String> filterCategoryTypes) {
         List<BudgetCategoryMapping> budgetCategoryMappingList;
         List<BudgetCategoryMap> budgetCategoryMapList = new ArrayList<BudgetCategoryMap>();
@@ -1876,6 +1880,7 @@ public class S2SBudgetCalculatorServiceImpl implements
      * @see
      * org.kuali.kra.s2s.service.S2SBudgetCalculatorService#isPersonNonMITPerson(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
      */
+    @Override
     public boolean isPersonNonMITPerson(ProposalPerson proposalPerson) {
         return proposalPerson.getPersonId() == null;
     }
@@ -2112,6 +2117,7 @@ public class S2SBudgetCalculatorServiceImpl implements
      * @see
      * org.kuali.kra.s2s.service.S2SBudgetCalculatorService#getFinalBudgetVersion(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
+    @Override
     public BudgetDocument getFinalBudgetVersion(ProposalDevelopmentDocument pdDoc) throws S2SException {
         BudgetDocument budgetDocument = null;
         BudgetVersionOverview versionOverview = pdDoc.getFinalBudgetVersion() == null ? null : pdDoc.getFinalBudgetVersion()
@@ -2154,6 +2160,7 @@ public class S2SBudgetCalculatorServiceImpl implements
      * @return {@link BudgetDecimal} salary of proposal person
      * @throws S2SException
      */
+    @Override
     public BudgetDecimal getProposalPersonSalary(ProposalDevelopmentDocument pdDoc, ProposalPerson proposalPerson)
             throws S2SException {
         BudgetDecimal salary = BudgetDecimal.ZERO;

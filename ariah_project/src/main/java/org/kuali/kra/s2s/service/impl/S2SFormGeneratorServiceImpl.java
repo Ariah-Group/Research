@@ -71,6 +71,7 @@ public class S2SFormGeneratorServiceImpl implements S2SFormGeneratorService {
      * @see
      * org.kuali.kra.s2s.service.S2SFormGeneratorService#getS2SGenerator(java.lang.String)
      */
+    @Override
     public final S2SFormGenerator getS2SGenerator(String proposalNumber, String namespace) throws S2SException {
         FormMappingInfo formInfo = new FormMappingLoader().getFormInfo(proposalNumber, namespace);
         S2SFormGenerator formGenerator;
@@ -92,6 +93,7 @@ public class S2SFormGeneratorServiceImpl implements S2SFormGeneratorService {
         return formGenerator;
     }
 
+    @Override
     public XmlOptions getXmlOptionsPrefixes() {
         XmlOptions xmlOptions = new XmlOptions();
         Map<String, String> prefixMap = new HashMap<String, String>();

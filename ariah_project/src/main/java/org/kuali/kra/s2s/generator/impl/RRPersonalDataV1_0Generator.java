@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.impl;
 
@@ -27,19 +43,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class for generating the XML object for grants.gov RRPersonalDataV1.0. Form is generated using XMLBean classes and is based on
- * RRPersonalData schema.
- * 
+ * Class for generating the XML object for grants.gov RRPersonalDataV1.0. Form
+ * is generated using XMLBean classes and is based on RRPersonalData schema.
+ *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class RRPersonalDataV1_0Generator extends RRPersonalDataBaseGenerator {
 
-
     /**
-     * 
-     * This method gives the personal information of ProjectDirector and CoProjectDirector
-     * 
-     * @return rrPersonalDataDocument {@link XmlObject} of type RRPersonalDataDocument.
+     *
+     * This method gives the personal information of ProjectDirector and
+     * CoProjectDirector
+     *
+     * @return rrPersonalDataDocument {@link XmlObject} of type
+     * RRPersonalDataDocument.
      */
     private RRPersonalDataDocument getRRPersonalData() {
         RRPersonalDataDocument rrPersonalDataDocument = RRPersonalDataDocument.Factory.newInstance();
@@ -52,9 +69,9 @@ public class RRPersonalDataV1_0Generator extends RRPersonalDataBaseGenerator {
     }
 
     /**
-     * 
+     *
      * This method is used to get Personal details of Principal Investigator
-     * 
+     *
      * @return DirectorType principal investigator details.
      */
     private DirectorType getProjectDirectorType() {
@@ -68,9 +85,9 @@ public class RRPersonalDataV1_0Generator extends RRPersonalDataBaseGenerator {
     }
 
     /**
-     * 
+     *
      * This method is used to get List of Personal details of Co-Investigator
-     * 
+     *
      * @return DirectorType[] Array of director types.
      */
     private DirectorType[] getCoProjectDirectoryType() {
@@ -94,25 +111,32 @@ public class RRPersonalDataV1_0Generator extends RRPersonalDataBaseGenerator {
     }
 
     /**
-     * This method creates {@link XmlObject} of type {@link RRPersonalDataDocument} by populating data from the given
+     * This method creates {@link XmlObject} of type
+     * {@link RRPersonalDataDocument} by populating data from the given
      * {@link ProposalDevelopmentDocument}
-     * 
-     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs to be created
-     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocument}
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+     *
+     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs
+     * to be created
+     * @return {@link XmlObject} which is generated using the given
+     * {@link ProposalDevelopmentDocument}
+     * @see
+     * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
      */
+    @Override
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         this.pdDoc = proposalDevelopmentDocument;
         return getRRPersonalData();
     }
 
     /**
-     * This method typecasts the given {@link XmlObject} to the required generator type and returns back the document of that
-     * generator type.
-     * 
-     * @param xmlObject which needs to be converted to the document type of the required generator
+     * This method typecasts the given {@link XmlObject} to the required
+     * generator type and returns back the document of that generator type.
+     *
+     * @param xmlObject which needs to be converted to the document type of the
+     * required generator
      * @return {@link XmlObject} document of the required generator type
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
+     * @see
+     * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
      */
     public XmlObject getFormObject(XmlObject xmlObject) {
         RRPersonalData rrPersonalData = (RRPersonalData) xmlObject;

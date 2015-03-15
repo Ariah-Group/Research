@@ -12,18 +12,36 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.polling;
 
 import java.util.List;
 
 /**
- * 
- * This class stores all information related to a task that is meant to be scheduled to run periodically.
- * 
+ *
+ * This class stores all information related to a task that is meant to be
+ * scheduled to run periodically.
+ *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class PollingInfo implements TaskInfo {
+
     private String taskId;
     private long pollingInterval;
     private long delayToStart;
@@ -39,19 +57,19 @@ public class PollingInfo implements TaskInfo {
     public PollingInfo() {
     }
 
-
     /**
      * Getter for property grpId.
-     * 
+     *
      * @return Value of property grpId.
      */
+    @Override
     public java.lang.String getTaskId() {
         return taskId;
     }
 
     /**
      * Setter for property grpId.
-     * 
+     *
      * @param grpId New value of property grpId.
      */
     public void setTaskId(java.lang.String taskId) {
@@ -60,7 +78,7 @@ public class PollingInfo implements TaskInfo {
 
     /**
      * Getter for property statuses.
-     * 
+     *
      * @return Value of property statuses.
      */
     public StatusInfo[] getStatuses() {
@@ -69,7 +87,7 @@ public class PollingInfo implements TaskInfo {
 
     /**
      * Setter for property statuses.
-     * 
+     *
      * @param statuses New value of property statuses.
      */
     public void setStatuses(StatusInfo[] statuses) {
@@ -78,7 +96,7 @@ public class PollingInfo implements TaskInfo {
 
     /**
      * Setter for property pollInterval.
-     * 
+     *
      * @param pollInterval New value of property pollInterval.
      */
     public void setPollingInterval(java.lang.String pollingInterval) {
@@ -86,16 +104,17 @@ public class PollingInfo implements TaskInfo {
     }
 
     /**
-     * 
+     *
      * @see org.kuali.kra.s2s.polling.TaskInfo#getPollingInterval()
      */
+    @Override
     public long getPollingInterval() {
         return this.pollingInterval;
     }
 
     /**
      * Getter for property mailInterval.
-     * 
+     *
      * @return Value of property mailInterval.
      */
     public long getMailInterval() {
@@ -104,7 +123,7 @@ public class PollingInfo implements TaskInfo {
 
     /**
      * Setter for property mailInterval.
-     * 
+     *
      * @param mailInterval New value of property mailInterval.
      */
     public void setMailInterval(java.lang.String mailInterval) {
@@ -113,7 +132,7 @@ public class PollingInfo implements TaskInfo {
 
     /**
      * Getter for property terminate.
-     * 
+     *
      * @return Value of property terminate.
      */
     public boolean isTerminate() {
@@ -122,7 +141,7 @@ public class PollingInfo implements TaskInfo {
 
     /**
      * Setter for property terminate.
-     * 
+     *
      * @param terminate New value of property terminate.
      */
     public void setTerminate(boolean terminate) {
@@ -131,7 +150,7 @@ public class PollingInfo implements TaskInfo {
 
     /**
      * Getter for property stopPollInterval.
-     * 
+     *
      * @return Value of property stopPollInterval.
      */
     public int getStopPollInterval() {
@@ -140,7 +159,7 @@ public class PollingInfo implements TaskInfo {
 
     /**
      * Setter for property stopPollInterval.
-     * 
+     *
      * @param stopPollInterval New value of property stopPollInterval.
      */
     public void setStopPollInterval(String stopPollInterval) {
@@ -152,16 +171,17 @@ public class PollingInfo implements TaskInfo {
     }
 
     /**
-     * 
+     *
      * @see org.kuali.kra.s2s.polling.TaskInfo#getDelayToStart()
      */
+    @Override
     public long getDelayToStart() {
         return delayToStart;
     }
 
     /**
      * Setter for property delayToStart.
-     * 
+     *
      * @param delayToStart New value of property delayToStart.
      */
     public void setDelayToStart(long delayToStart) {
@@ -170,7 +190,7 @@ public class PollingInfo implements TaskInfo {
 
     /**
      * Setter for property mailInfoList.
-     * 
+     *
      * @param mailInfoList New value of property mailInfoList.
      */
     public List<MailInfo> getMailInfoList() {

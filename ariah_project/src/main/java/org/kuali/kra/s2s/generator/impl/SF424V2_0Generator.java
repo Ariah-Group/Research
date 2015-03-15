@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.impl;
 
@@ -58,9 +74,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This Class is used to generate XML object for grants.gov SF424V2.0. This form is generated using XMLBean classes and is based on
- * SF424-V2.0 schema.
- * 
+ * This Class is used to generate XML object for grants.gov SF424V2.0. This form
+ * is generated using XMLBean classes and is based on SF424-V2.0 schema.
+ *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class SF424V2_0Generator extends SF424BaseGenerator {
@@ -74,12 +90,12 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
     private String strReview = null;
     private static final String ORGANIZATION_YNQ_ANSWER_YES = "Y";
 
-
     /**
-     * 
-     * This method returns SF424Document object based on proposal development document which contains the SF424Document information
-     * for a particular proposal
-     * 
+     *
+     * This method returns SF424Document object based on proposal development
+     * document which contains the SF424Document information for a particular
+     * proposal
+     *
      * @param proposalDevelopmentDocument (ProposalDevelopmentDocument)
      * @return SF424Document {@link XmlObject} of type SF424Document.
      */
@@ -90,10 +106,11 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
     }
 
     /**
-     * 
-     * This method gets SF424 information for the form which includes informations regarding SubmissionTypeCode
+     *
+     * This method gets SF424 information for the form which includes
+     * informations regarding SubmissionTypeCode
      * ApplicationType,RevisionType,AgencyName,ApplicantID,CFDANumber,FederalEntityIdentifier,AuthorizedRepresentative.
-     * 
+     *
      * @param proposalDevelopmentDocument (ProposalDevelopmentDocument)
      * @return sf424V2 object containing applicant and application details.
      */
@@ -111,20 +128,20 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             ApplicationType.Enum applicationTypeEnum = null;
             if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null) {
                 String proposalTypeCode = pdDoc.getDevelopmentProposal().getProposalTypeCode();
-                if(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
-                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_NEW_PARM).equals(proposalTypeCode)){
-					applicationTypeEnum = ApplicationType.NEW;
-                }else if(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
-                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RESUBMISSION_PARM).equals(proposalTypeCode)){
-					applicationTypeEnum = ApplicationType.REVISION;
-                }else if(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
-                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RENEWAL_PARM).equals(proposalTypeCode)){
+                if (ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_NEW_PARM).equals(proposalTypeCode)) {
+                    applicationTypeEnum = ApplicationType.NEW;
+                } else if (ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RESUBMISSION_PARM).equals(proposalTypeCode)) {
+                    applicationTypeEnum = ApplicationType.REVISION;
+                } else if (ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RENEWAL_PARM).equals(proposalTypeCode)) {
                     applicationTypeEnum = ApplicationType.CONTINUATION;
-                }else if(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
-                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_CONTINUATION_PARM).equals(proposalTypeCode)){
+                } else if (ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_CONTINUATION_PARM).equals(proposalTypeCode)) {
                     applicationTypeEnum = ApplicationType.CONTINUATION;
-                }else if(ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
-                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_REVISION_PARM).equals(proposalTypeCode)){
+                } else if (ProposalDevelopmentUtils.getProposalDevelopmentDocumentParameter(
+                        ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_REVISION_PARM).equals(proposalTypeCode)) {
                     applicationTypeEnum = ApplicationType.REVISION;
                 }
             }
@@ -134,29 +151,21 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
                 RevisionType.Enum revType = null;
                 if (revisionType.equals(INCREASE_AWARD_CODE)) {
                     revType = RevisionType.A_INCREASE_AWARD;
-                }
-                else if (revisionType.equals(DECREASE_AWARD_CODE)) {
+                } else if (revisionType.equals(DECREASE_AWARD_CODE)) {
                     revType = RevisionType.B_DECREASE_AWARD;
-                }
-                else if (revisionType.equals(INCREASE_DURATION_CODE)) {
+                } else if (revisionType.equals(INCREASE_DURATION_CODE)) {
                     revType = RevisionType.C_INCREASE_DURATION;
-                }
-                else if (revisionType.equals(DECREASE_DURATION_CODE)) {
+                } else if (revisionType.equals(DECREASE_DURATION_CODE)) {
                     revType = RevisionType.D_DECREASE_DURATION;
-                }
-                else if (revisionType.equals(INCREASE_AWARD_DECREASE_DURATION_CODE)) {
+                } else if (revisionType.equals(INCREASE_AWARD_DECREASE_DURATION_CODE)) {
                     revType = RevisionType.AD_INCREASE_AWARD_DECREASE_DURATION;
-                }
-                else if (revisionType.equals(INCREASE_AWARD_INCREASE_DURATION_CODE)) {
+                } else if (revisionType.equals(INCREASE_AWARD_INCREASE_DURATION_CODE)) {
                     revType = RevisionType.AC_INCREASE_AWARD_INCREASE_DURATION;
-                }
-                else if (revisionType.equals(DECREASE_AWARD_DECREASE_DURATION_CODE)) {
+                } else if (revisionType.equals(DECREASE_AWARD_DECREASE_DURATION_CODE)) {
                     revType = RevisionType.BD_DECREASE_AWARD_DECREASE_DURATION;
-                }
-                else if (revisionType.equals(DECREASE_AWARD_INCREASE_DURATION_CODE)) {
+                } else if (revisionType.equals(DECREASE_AWARD_INCREASE_DURATION_CODE)) {
                     revType = RevisionType.BC_DECREASE_AWARD_INCREASE_DURATION;
-                }
-                else if (revisionType.equals(OTHER_SPECIFY_CODE)) {
+                } else if (revisionType.equals(OTHER_SPECIFY_CODE)) {
                     revType = RevisionType.E_OTHER_SPECIFY;
                 }
 
@@ -170,10 +179,10 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         }
         sf424V2.setDateReceived(s2sUtilService.getCurrentCalendar());
         sf424V2.setApplicantID(pdDoc.getDevelopmentProposal().getProposalNumber());
-		String federalId = s2sUtilService.getFederalId(pdDoc);
-		if (federalId != null) {
-        	sf424V2.setFederalEntityIdentifier(federalId);
-		}
+        String federalId = s2sUtilService.getFederalId(pdDoc);
+        if (federalId != null) {
+            sf424V2.setFederalEntityIdentifier(federalId);
+        }
 
         Organization organization = null;
         organization = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization();
@@ -182,8 +191,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             sf424V2.setEmployerTaxpayerIdentificationNumber(organization.getFedralEmployerId());
             sf424V2.setDUNSNumber(organization.getDunsNumber());
             sf424V2.setOrganizationAffiliation(organization.getOrganizationName());
-        }
-        else {
+        } else {
             sf424V2.setOrganizationName(null);
             sf424V2.setEmployerTaxpayerIdentificationNumber(null);
             sf424V2.setDUNSNumber(null);
@@ -198,8 +206,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         if (departmentName != null) {
             if (departmentName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
                 sf424V2.setDepartmentName(departmentName.substring(0, DEPARTMENT_NAME_MAX_LENGTH));
-            }
-            else {
+            } else {
                 sf424V2.setDepartmentName(departmentName);
             }
         }
@@ -218,8 +225,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
                 sf424V2.setFax(personInfo.getFaxNumber());
             }
             sf424V2.setEmail(personInfo.getEmailAddress());
-        }
-        else {
+        } else {
             sf424V2.setPhoneNumber(null);
             sf424V2.setEmail(null);
         }
@@ -229,33 +235,31 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         if (pdDoc.getDevelopmentProposal().getSponsor() != null) {
             sf424V2.setAgencyName(pdDoc.getDevelopmentProposal().getSponsor().getSponsorName());
         }
-        if(pdDoc.getDevelopmentProposal().getCfdaNumber()!=null){
+        if (pdDoc.getDevelopmentProposal().getCfdaNumber() != null) {
             sf424V2.setCFDANumber(pdDoc.getDevelopmentProposal().getCfdaNumber());
         }
         if (pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle() != null) {
             String announcementTitle;
             if (pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle().length() > PROGRAM_ANNOUNCEMENT_TITLE_LENGTH) {
                 announcementTitle = pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle().substring(0, PROGRAM_ANNOUNCEMENT_TITLE_LENGTH);
-            }
-            else {
+            } else {
                 announcementTitle = pdDoc.getDevelopmentProposal().getProgramAnnouncementTitle();
             }
             sf424V2.setCFDAProgramTitle(announcementTitle);
         }
         if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null) {
-        	sf424V2.setFundingOpportunityNumber(pdDoc.getDevelopmentProposal()
-					.getS2sOpportunity().getOpportunityId());
-			if (pdDoc.getDevelopmentProposal().getS2sOpportunity()
-					.getOpportunityTitle() != null) {
-				sf424V2.setFundingOpportunityTitle(pdDoc
-						.getDevelopmentProposal().getS2sOpportunity()
-						.getOpportunityTitle());
-			}
-			if (pdDoc.getDevelopmentProposal().getS2sOpportunity().getCompetetionId() != null) {
+            sf424V2.setFundingOpportunityNumber(pdDoc.getDevelopmentProposal()
+                    .getS2sOpportunity().getOpportunityId());
+            if (pdDoc.getDevelopmentProposal().getS2sOpportunity()
+                    .getOpportunityTitle() != null) {
+                sf424V2.setFundingOpportunityTitle(pdDoc
+                        .getDevelopmentProposal().getS2sOpportunity()
+                        .getOpportunityTitle());
+            }
+            if (pdDoc.getDevelopmentProposal().getS2sOpportunity().getCompetetionId() != null) {
                 sf424V2.setCompetitionIdentificationNumber(pdDoc.getDevelopmentProposal().getS2sOpportunity().getCompetetionId());
             }
-        }
-        else {
+        } else {
             sf424V2.setFundingOpportunityTitle(null);
         }
         String areasAffected = null;
@@ -265,8 +269,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
                 areasAffected = proposalAbstract.getAbstractDetails();
                 if (areasAffected != null && areasAffected.length() > AREAS_AFFECTED_MAX_LENGTH) {
                     sf424V2.setAffectedAreas(areasAffected.substring(0, AREAS_AFFECTED_MAX_LENGTH));
-                }
-                else {
+                } else {
                     sf424V2.setAffectedAreas(areasAffected);
                 }
             }
@@ -279,8 +282,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
                 .getCongressionalDistrict();
         if (congressionalDistrict.length() > CONGRESSIONAL_DISTRICT_MAX_LENGTH) {
             sf424V2.setCongressionalDistrictApplicant(congressionalDistrict.substring(0, CONGRESSIONAL_DISTRICT_MAX_LENGTH));
-        }
-        else {
+        } else {
             sf424V2.setCongressionalDistrictApplicant(congressionalDistrict);
         }
         ProposalSite perfOrganization = pdDoc.getDevelopmentProposal().getPerformingOrganization();
@@ -289,8 +291,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
                     : perfOrganization.getFirstCongressionalDistrictName();
             if (congDistrictProject.length() > CONGRESSIONAL_DISTRICT_MAX_LENGTH) {
                 sf424V2.setCongressionalDistrictProgramProject(congDistrictProject.substring(0, CONGRESSIONAL_DISTRICT_MAX_LENGTH));
-            }
-            else {
+            } else {
                 sf424V2.setCongressionalDistrictProgramProject(congDistrictProject);
             }
         }
@@ -298,30 +299,28 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == CONGRESSIONAL_DISTRICTS_ATTACHMENT) {
                 AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
-                if(attachedFileDataType != null){
-                	sf424V2.setAdditionalCongressionalDistricts(attachedFileDataType);
-                	break;
+                if (attachedFileDataType != null) {
+                    sf424V2.setAdditionalCongressionalDistricts(attachedFileDataType);
+                    break;
                 }
             }
         }
         if (pdDoc.getDevelopmentProposal().getRequestedStartDateInitial() != null) {
             sf424V2.setProjectStartDate(s2sUtilService.convertDateToCalendar(pdDoc.getDevelopmentProposal().getRequestedStartDateInitial()));
-        }
-        else {
+        } else {
             sf424V2.setProjectStartDate(null);
         }
         if (pdDoc.getDevelopmentProposal().getRequestedEndDateInitial() != null) {
             sf424V2.setProjectEndDate(s2sUtilService.convertDateToCalendar(pdDoc.getDevelopmentProposal().getRequestedEndDateInitial()));
-        }
-        else {
+        } else {
             sf424V2.setProjectEndDate(null);
         }
 
         Budget budget = null;
         try {
             BudgetDocument budgetDocument = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
-            budget = budgetDocument==null?null:budgetDocument.getBudget();
-        }catch (S2SException e) {
+            budget = budgetDocument == null ? null : budgetDocument.getBudget();
+        } catch (S2SException e) {
             LOG.error(e.getMessage(), e);
             return sf424V2;
 
@@ -337,17 +336,17 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
                 for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
                     hasBudgetLineItem = true;
                     if (budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag()) {
-                        costSharingAmount =  costSharingAmount.add(lineItem.getCostSharingAmount());
+                        costSharingAmount = costSharingAmount.add(lineItem.getCostSharingAmount());
                         List<BudgetLineItemCalculatedAmount> calculatedAmounts = lineItem.getBudgetCalculatedAmounts();
                         for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : calculatedAmounts) {
-                             costSharingAmount =  costSharingAmount.add(budgetLineItemCalculatedAmount.getCalculatedCostSharing());
+                            costSharingAmount = costSharingAmount.add(budgetLineItemCalculatedAmount.getCalculatedCostSharing());
                         }
-                        
+
                     }
                 }
             }
-            if(!hasBudgetLineItem && budget.getSubmitCostSharingFlag()){
-                costSharingAmount = budget.getCostSharingAmount();      
+            if (!hasBudgetLineItem && budget.getSubmitCostSharingFlag()) {
+                costSharingAmount = budget.getCostSharingAmount();
             }
             fedNonFedCost = fedNonFedCost.add(costSharingAmount);
             sf424V2.setApplicantEstimatedFunding(costSharingAmount.bigDecimalValue());
@@ -364,8 +363,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             totalEstimatedAmount = totalEstimatedAmount.add(costSharingAmount);
             totalEstimatedAmount = totalEstimatedAmount.add(new BudgetDecimal(projectIncome));
             sf424V2.setTotalEstimatedFunding(totalEstimatedAmount.bigDecimalValue());
-        }
-        else {
+        } else {
             sf424V2.setFederalEstimatedFunding(BigDecimal.ZERO);
             sf424V2.setApplicantEstimatedFunding(BigDecimal.ZERO);
             sf424V2.setProgramIncomeEstimatedFunding(BigDecimal.ZERO);
@@ -389,8 +387,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
                     if (orgYnqanswer != null) {
                         if (orgYnqanswer.equalsIgnoreCase(ORGANIZATION_YNQ_ANSWER_YES)) {
                             yesNo = YesNoDataType.Y_YES;
-                        }
-                        else {
+                        } else {
                             yesNo = YesNoDataType.N_NO;
                         }
                     }
@@ -407,12 +404,10 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         if (aorInfo.getPrimaryTitle() != null) {
             if (aorInfo.getPrimaryTitle().length() > PRIMARY_TITLE_MAX_LENGTH) {
                 sf424V2.setAuthorizedRepresentativeTitle(aorInfo.getPrimaryTitle().substring(0, PRIMARY_TITLE_MAX_LENGTH));
-            }
-            else {
+            } else {
                 sf424V2.setAuthorizedRepresentativeTitle(aorInfo.getPrimaryTitle());
             }
-        }
-        else {
+        } else {
             sf424V2.setAuthorizedRepresentativeTitle(null);
         }
         sf424V2.setAuthorizedRepresentativePhoneNumber(aorInfo.getOfficePhone());
@@ -516,9 +511,10 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
     }
 
     /**
-     * 
-     * This method returns StateReviewCode status for the application.StateReviewCode can be Not covered,Not reviewed
-     * 
+     *
+     * This method returns StateReviewCode status for the
+     * application.StateReviewCode can be Not covered,Not reviewed
+     *
      * @param proposalDevelopmentDocument (ProposalDevelopmentDocument)
      * @return stateType (StateReview.Enum) corresponding to state review code.
      */
@@ -546,11 +542,13 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
     }
 
     /**
-     * 
-     * This method is used to get List of project title attachments from NarrativeAttachmentList
-     * 
+     *
+     * This method is used to get List of project title attachments from
+     * NarrativeAttachmentList
+     *
      * @param proposalDevelopmentDocument(ProposalDevelopmentDocument)
-     * @return AttachedFileDataType[] array of attachments for project title attachment type.
+     * @return AttachedFileDataType[] array of attachments for project title
+     * attachment type.
      */
     private AttachedFileDataType[] getAttachedFileDataTypes() {
         List<AttachedFileDataType> attachedFileDataTypeList = new ArrayList<AttachedFileDataType>();
@@ -559,8 +557,8 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == PROJECT_TITLE_ATTACHMENT) {
                 attachedFileDataType = getAttachedFileType(narrative);
-                if(attachedFileDataType != null){
-                	attachedFileDataTypeList.add(attachedFileDataType);
+                if (attachedFileDataType != null) {
+                    attachedFileDataTypeList.add(attachedFileDataType);
                 }
             }
         }
@@ -568,13 +566,17 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
     }
 
     /**
-     * This method creates {@link XmlObject} of type {@link SF424Document} by populating data from the given
+     * This method creates {@link XmlObject} of type {@link SF424Document} by
+     * populating data from the given {@link ProposalDevelopmentDocument}
+     *
+     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs
+     * to be created
+     * @return {@link XmlObject} which is generated using the given
      * {@link ProposalDevelopmentDocument}
-     * 
-     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs to be created
-     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocument}
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+     * @see
+     * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
      */
+    @Override
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         this.pdDoc = proposalDevelopmentDocument;
         aorInfo = s2sUtilService.getDepartmentalPerson(pdDoc);
@@ -582,12 +584,14 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
     }
 
     /**
-     * This method typecasts the given {@link XmlObject} to the required generator type and returns back the document of that
-     * generator type.
-     * 
-     * @param xmlObject which needs to be converted to the document type of the required generator
+     * This method typecasts the given {@link XmlObject} to the required
+     * generator type and returns back the document of that generator type.
+     *
+     * @param xmlObject which needs to be converted to the document type of the
+     * required generator
      * @return {@link XmlObject} document of the required generator type
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
+     * @see
+     * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
      */
     public XmlObject getFormObject(XmlObject xmlObject) {
         SF424 sf424 = (SF424) xmlObject;

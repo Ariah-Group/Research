@@ -22,22 +22,22 @@ import org.kuali.kra.s2s.service.S2SUtilService;
 /**
  * This abstract class has methods that are common to all the versions of
  * GGLobbying form.
- * 
+ *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-
 public abstract class GGLobbyingFormBaseGenerator extends S2SBaseFormGenerator {
+
     protected S2SUtilService s2sUtilService;
     protected static final String EMPTY_STRING = "";
     protected static final int ORGANIZATON_NAME_MAX_LENGTH = 120;
     protected static final int PRIMARY_TITLE_MAX_LENGTH = 45;
-    
+
     /**
-     * 
+     *
      * Constructs a GGLobbyingFormBaseGenerator.java.
      */
-    public GGLobbyingFormBaseGenerator(){
+    public GGLobbyingFormBaseGenerator() {
         s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
     }
-    
+
 }

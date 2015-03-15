@@ -123,6 +123,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      StringBuilder sb = new StringBuilder();
      for ( OpportunityInfo info : oppInfoList ) {
      */
+    @Override
     public GetOpportunitiesResponse getOpportunityList(String cfdaNumber, String opportunityId, String competitionId)
             throws S2SException {
         ApplicantWebServicesPortType port = configureApplicantIntegrationSoapPort(null, false);
@@ -158,6 +159,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      * org.kuali.kra.s2s.service.S2SConnectorService#getApplicationStatusDetail(java.lang.String,
      * java.lang.String)
      */
+    @Override
     public GetApplicationStatusDetailResponse getApplicationStatusDetail(String ggTrackingId, String proposalNumber)
             throws S2SException {
         ApplicantWebServicesPortType port = getApplicantIntegrationSoapPort(proposalNumber);
@@ -184,6 +186,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      * org.kuali.kra.s2s.service.S2SConnectorService#getApplicationList(java.lang.String,
      * java.lang.String, java.lang.String)
      */
+    @Override
     public GetApplicationListResponse getApplicationList(String opportunityId, String cfdaNumber, String proposalNumber)
             throws S2SException {
         GetApplicationListRequest applicationListRequest = new GetApplicationListRequest();
@@ -224,6 +227,7 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
      * org.kuali.kra.s2s.service.S2SConnectorService#submitApplication(java.lang.String,
      * java.util.Map, java.lang.String)
      */
+    @Override
     public SubmitApplicationResponse submitApplication(String xmlText,
             Map<String, DataHandler> attachments, String proposalNumber)
             throws S2SException {

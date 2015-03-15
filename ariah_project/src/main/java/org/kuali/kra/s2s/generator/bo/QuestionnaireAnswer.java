@@ -12,71 +12,88 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.s2s.generator.bo;
 
 public class QuestionnaireAnswer {
-	private Integer questionId;
-	private Integer questionNumber;
-	private Integer answerNumber;
-	private String answer;
-	private String questionnaireAnsHeader;
-	private String questionnaireQuestions;
-	private Integer parentQuestionNumber;
-	
-	public Integer getQuestionId() {
-		return questionId;
-	}
 
-	public void setQuestionId(Integer questionId) {
-		this.questionId = questionId;
-	}
+    private Integer questionId;
+    private Integer questionNumber;
+    private Integer answerNumber;
+    private String answer;
+    private String questionnaireAnsHeader;
+    private String questionnaireQuestions;
+    private Integer parentQuestionNumber;
 
-	public Integer getQuestionNumber() {
-		return questionNumber;
-	}
+    public Integer getQuestionId() {
+        return questionId;
+    }
 
-	public void setQuestionNumber(Integer questionNumber) {
-		this.questionNumber = questionNumber;
-	}
+    public void setQuestionId(Integer questionId) {
+        this.questionId = questionId;
+    }
 
-	public Integer getAnswerNumber() {
-		return answerNumber;
-	}
+    public Integer getQuestionNumber() {
+        return questionNumber;
+    }
 
-	public void setAnswerNumber(Integer answerNumber) {
-		this.answerNumber = answerNumber;
-	}
+    public void setQuestionNumber(Integer questionNumber) {
+        this.questionNumber = questionNumber;
+    }
 
-	public String getAnswer() {
-		return answer;
-	}
+    public Integer getAnswerNumber() {
+        return answerNumber;
+    }
 
-	public void setAnswer(String answer) {
-		this.answer = answer;
-	}
+    public void setAnswerNumber(Integer answerNumber) {
+        this.answerNumber = answerNumber;
+    }
 
-	public String getQuestionnaireAnsHeader() {
-		return questionnaireAnsHeader;
-	}
+    public String getAnswer() {
+        return answer;
+    }
 
-	public void setQuestionnaireAnsHeader(String questionnaireAnsHeader) {
-		this.questionnaireAnsHeader = questionnaireAnsHeader;
-	}
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
 
-	public String getQuestionnaireQuestions() {
-		return questionnaireQuestions;
-	}
+    public String getQuestionnaireAnsHeader() {
+        return questionnaireAnsHeader;
+    }
 
-	public void setQuestionnaireQuestions(String questionnaireQuestions) {
-		this.questionnaireQuestions = questionnaireQuestions;
-	}
+    public void setQuestionnaireAnsHeader(String questionnaireAnsHeader) {
+        this.questionnaireAnsHeader = questionnaireAnsHeader;
+    }
 
-	public Integer getParentQuestionNumber() {
-		return parentQuestionNumber;
-	}
+    public String getQuestionnaireQuestions() {
+        return questionnaireQuestions;
+    }
 
-	public void setParentQuestionNumber(Integer parentQuestionNumber) {
-		this.parentQuestionNumber = parentQuestionNumber;
-	}
+    public void setQuestionnaireQuestions(String questionnaireQuestions) {
+        this.questionnaireQuestions = questionnaireQuestions;
+    }
+
+    public Integer getParentQuestionNumber() {
+        return parentQuestionNumber;
+    }
+
+    public void setParentQuestionNumber(Integer parentQuestionNumber) {
+        this.parentQuestionNumber = parentQuestionNumber;
+    }
 }
