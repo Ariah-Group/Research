@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.awardhierarchy;
 
@@ -81,6 +97,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
      * @param targetNode
      * @return
      */
+    @Override
     public AwardHierarchy copyAwardAndAllDescendantsAsNewHierarchy(AwardHierarchy targetNode) {
         String newRootAwardNumber = awardNumberService.getNextAwardNumber();
         AwardHierarchy newRootNode = createBasicHierarchy(newRootAwardNumber);
@@ -93,18 +110,22 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         return newRootNode;
     }
 
+    @Override
     public AwardHierarchy copyAwardAndDescendantsAsChildOfAnAwardInAnotherHierarchy(AwardHierarchy sourceNode, AwardHierarchy targetParentNode){
         return copyAwardAndDescendantsAsChildOfAnotherNode(sourceNode, targetParentNode);
     }
 
+    @Override
     public AwardHierarchy copyAwardAndDescendantsAsChildOfAnAwardInCurrentHierarchy(AwardHierarchy sourceNode, AwardHierarchy targetParentNode) {
         return copyAwardAndDescendantsAsChildOfAnotherNode(sourceNode, targetParentNode);
     }
 
+    @Override
     public AwardHierarchy copyAwardAsChildOfAnAwardInAnotherHierarchy(AwardHierarchy sourceNode, AwardHierarchy targetParentNode) {
         return copyAwardAsChildOfAnotherNode(sourceNode, targetParentNode);
     }
 
+    @Override
     public AwardHierarchy copyAwardAsChildOfAnAwardInCurrentHierarchy(AwardHierarchy sourceNode, AwardHierarchy targetParentNode) {
         return copyAwardAsChildOfAnotherNode(sourceNode, targetParentNode);
     }
@@ -112,6 +133,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     /**
      * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#copyAwardAsNewHierarchy(AwardHierarchy)
      */
+    @Override
     public AwardHierarchy copyAwardAsNewHierarchy(AwardHierarchy targetNode) {
         String nextAwardNumber = awardNumberService.getNextAwardNumber();
         Award newAward = copyAward(targetNode.getAward(), nextAwardNumber);
@@ -132,10 +154,12 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     /**
      * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#createBasicHierarchy(java.lang.String)
      */
+    @Override
     public AwardHierarchy createBasicHierarchy(String awardNumber){
         return new AwardHierarchy(awardNumber, Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT, awardNumber, awardNumber);
     }
 
+    @Override
     public AwardHierarchy createNewAwardBasedOnAnotherAwardInHierarchy(AwardHierarchy nodeToCopyFrom, AwardHierarchy targetParentNode) {
         return copyAwardAsChildOfAnotherNode(nodeToCopyFrom, targetParentNode);
     }
@@ -166,6 +190,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
      * @param targetNode
      * @return
      */
+    @Override
     public AwardHierarchy createNewAwardBasedOnParent(AwardHierarchy targetNode) {
         String nextAwardNumber = targetNode.generateNextAwardNumberInSequence();
         Award newAward = copyAward(targetNode.getAward(), nextAwardNumber);
@@ -193,6 +218,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         copy.getAwardAmountInfos().add(awardAmountInfo);
     }
 
+    @Override
     public AwardHierarchy createNewChildAward(AwardHierarchy targetNode) {
         //copy dates when child is not a copy of parent.
         Award newAward = new Award();
@@ -210,6 +236,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     /**
      * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#loadAwardHierarchy(java.lang.String)
      */
+    @Override
     public AwardHierarchy loadAwardHierarchy(String awardNumber) {
         return awardNumber == null || awardNumber.equals(Award.DEFAULT_AWARD_NUMBER) ? null : loadAwardHierarchyBranch(awardNumber);
     }
@@ -217,11 +244,13 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     /**
      * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#loadAwardHierarchy(java.lang.String)
      */
+    @Override
     public AwardHierarchy loadAwardHierarchyBranch(String awardNumber) {
         Map<String, AwardHierarchy> hierarchy = getAwardHierarchy(awardNumber, new ArrayList<String>());
         return hierarchy.get(awardNumber);
     }
     
+    @Override
     public Map<String, AwardHierarchy> getAwardHierarchy(AwardHierarchy anyNode, List<String> order) {
         Map<String, AwardHierarchy> result = new HashMap<String, AwardHierarchy>();
         if (anyNode == null) {
@@ -265,6 +294,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     /**
      * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#getAwardHierarchy(java.lang.String, java.util.List)
      */
+    @Override
     public Map<String, AwardHierarchy> getAwardHierarchy(String awardNumber, List<String> order) {
         return getAwardHierarchy(loadSingleAwardHierarchyNode(awardNumber), order);
     }
@@ -272,6 +302,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     /**
      * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#loadFullHierarchyFromAnyNode(java.lang.String)
      */
+    @Override
     public AwardHierarchy loadFullHierarchyFromAnyNode(String awardNumber) {
         List<String> order = new ArrayList<String>();
         Map<String, AwardHierarchy> hierarchy = getAwardHierarchy(awardNumber, order);
@@ -285,6 +316,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     /**
      * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#loadPlaceholderDocument()
      */
+    @Override
     public AwardDocument loadPlaceholderDocument() {
         DocumentHeader header = findPlaceholderDocumentHeader();
         try {
@@ -297,6 +329,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     /**
      * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#persistAwardHierarchy(org.kuali.kra.award.awardhierarchy.AwardHierarchy)
      */
+    @Override
     public void persistAwardHierarchy(AwardHierarchy node) {
         if(node.isNew()) {            // only save new nodes; no updates or deletes
             businessObjectService.save(node);
@@ -306,6 +339,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     /**
      * @param rootNodes
      */
+    @Override
     public void persistAwardHierarchies(Collection<AwardHierarchy> rootNodes) {
         if(rootNodes == null || rootNodes.size() == 0) {
             return;
@@ -318,6 +352,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     /**
      * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#persistAwardHierarchy(org.kuali.kra.award.awardhierarchy.AwardHierarchy, boolean)
      */
+    @Override
     public void persistAwardHierarchy(AwardHierarchy branchNode, boolean recurse) {
         AwardDocument placeholderDocument = loadPlaceholderDocument();
         if(placeholderDocument != null) { // should only be null in unit test because we can't new AwardDocument
@@ -578,6 +613,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
      * @throws WorkflowException 
      * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#populateAwardHierarchyNodes(java.util.Map, java.util.Map)
      */
+    @Override
     public void populateAwardHierarchyNodes(Map<String, AwardHierarchy> awardHierarchyItems, Map<String, AwardHierarchyNode> awardHierarchyNodes, String currentAwardNumber, String currentSequenceNumber) {
         AwardHierarchyNode awardHierarchyNode;
         String tmpAwardNumber = null;
@@ -592,6 +628,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         }  
     }
     
+    @Override
     public AwardHierarchyNode createAwardHierarchyNode(AwardHierarchy awardHierarchy, String currentAwardNumber, String currentSequenceNumber) {
         String awardNumber = awardHierarchy.getAwardNumber();
         AwardHierarchyNode awardHierarchyNode = new AwardHierarchyNode();
@@ -652,6 +689,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
      * @throws WorkflowException 
      * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#populateAwardHierarchyNodes(java.util.Map, java.util.Map)
      */
+    @Override
     public void populateAwardHierarchyNodesForTandMDoc(Map<String, AwardHierarchy> awardHierarchyItems, Map<String, AwardHierarchyNode> awardHierarchyNodes, String currentAwardNumber, String currentSequenceNumber, TimeAndMoneyDocument timeAndMoneyDocument) {
         AwardHierarchyNode awardHierarchyNode;
         String tmpAwardNumber = null;
@@ -716,6 +754,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         return awardVersionService;
     }
     
+    @Override
     public void createNodeMapsOnFormForSummaryPanel(Map<String, AwardHierarchyNode> awardHierarchyNodes, Map<String, String> previousNodeMap, Map<String, String> nextNodeMap) {
         List <AwardHierarchy> sortedList = new ArrayList<AwardHierarchy>();
         AwardHierarchy rootNode = loadFullHierarchyFromAnyNode(getRootNode(awardHierarchyNodes).getAwardNumber());

@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.service.impl;
 
@@ -38,6 +54,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     /**
      * @see org.kuali.kra.service.OrganizationService#getOrganizationName(java.lang.String)
      */
+    @Override
     public String getOrganizationName(String organizationId) {
         String organizationName = null;
         Organization organization = getOrganization(organizationId);
@@ -50,6 +67,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     /**
      * @see org.kuali.kra.service.OrganizationService#getOrganization(java.lang.String)
      */
+    @Override
     public Organization getOrganization(String organizationId) {
         Organization organization = null;
         if (StringUtils.isNotEmpty(organizationId)) {
@@ -65,6 +83,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      * @see org.kuali.kra.service.OrganizationService#retrieveOrganizationCorrespondentByOrganizationId(java.lang.String)
      */
     @SuppressWarnings("unchecked")
+    @Override
     public List<OrganizationCorrespondent> retrieveOrganizationCorrespondentsByOrganizationId(String organizationId) {
         this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> queryMap = new HashMap<String, String>();
@@ -78,6 +97,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      * @see org.kuali.kra.service.OrganizationService#retrieveIacucOrganizationCorrespondentByOrganizationId(java.lang.String)
      */
     @SuppressWarnings("unchecked")
+    @Override
     public List<IacucOrganizationCorrespondent> retrieveIacucOrganizationCorrespondentsByOrganizationId(String organizationId) {
         this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> queryMap = new HashMap<String, String>();

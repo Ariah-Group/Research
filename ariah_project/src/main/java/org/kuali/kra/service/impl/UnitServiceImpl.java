@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.service.impl;
 
@@ -49,6 +65,7 @@ public class UnitServiceImpl implements UnitService {
     /**
      * @see org.kuali.kra.service.UnitService#getUnitCaseInsensitive(java.lang.String)
      */
+    @Override
     public Unit getUnitCaseInsensitive(String unitNumber){
         Unit unit = null;
         if (StringUtils.isNotEmpty(unitNumber)) {
@@ -62,6 +79,7 @@ public class UnitServiceImpl implements UnitService {
     /**
      * @see org.kuali.kra.service.UnitService#getUnitName(java.lang.String)
      */
+    @Override
     public String getUnitName(String unitNumber) {
         String unitName = null;
         Map<String, String> primaryKeys = new HashMap<String, String>();
@@ -79,6 +97,7 @@ public class UnitServiceImpl implements UnitService {
     /**
      * @see org.kuali.kra.service.UnitService#getUnits()
      */
+    @Override
     public Collection<Unit> getUnits() {
         return businessObjectService.findAll(Unit.class);
     }
@@ -86,6 +105,7 @@ public class UnitServiceImpl implements UnitService {
     /**
      * @see org.kuali.kra.service.UnitService#getUnit(java.lang.String)
      */
+    @Override
     public Unit getUnit(String unitNumber) {
         Unit unit = null;
 
@@ -101,6 +121,7 @@ public class UnitServiceImpl implements UnitService {
     /**
      * @see org.kuali.kra.service.UnitService#getSubUnits(java.lang.String)
      */
+    @Override
     public List<Unit> getSubUnits(String unitNumber) {
         List<Unit> units = new ArrayList<Unit>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -112,6 +133,7 @@ public class UnitServiceImpl implements UnitService {
     /**
      * @see org.kuali.kra.service.UnitService#getAllSubUnits(java.lang.String)
      */
+    @Override
     public List<Unit> getAllSubUnits(String unitNumber) {
         List<Unit> units = new ArrayList<Unit>();
         List<Unit> subUnits = getSubUnits(unitNumber);
@@ -127,6 +149,7 @@ public class UnitServiceImpl implements UnitService {
      * 
      * @see org.kuali.kra.service.UnitService#getUnitHierarchyForUnit(java.lang.String)
      */
+    @Override
     public List<Unit> getUnitHierarchyForUnit(String unitNumber) {
         List<Unit> units = new ArrayList<Unit>();
         Unit thisUnit = this.getUnit(unitNumber);
@@ -174,6 +197,7 @@ public class UnitServiceImpl implements UnitService {
      * 
      * @see org.kuali.kra.service.UnitService#getSubUnitsForTreeView(java.lang.String)
      */
+    @Override
     public String getSubUnitsForTreeView(String unitNumber) {
         // unitNumber will be like "<table width="600"><tr><td width="70%">BL-BL : BLOOMINGTON CAMPUS"
         String subUnits = null;
@@ -193,6 +217,7 @@ public class UnitServiceImpl implements UnitService {
     /**
      * @see org.kuali.kra.service.UnitService#getTopUnit()
      */
+    @Override
     public Unit getTopUnit() {
         Unit topUnit = null;
 
@@ -215,6 +240,7 @@ public class UnitServiceImpl implements UnitService {
      * Basic data structure : Get the Top node to display.
      * The node data is like following : 'parentidx-unitNumber : unitName' and separated by ';1;'
      */
+    @Override
     public String getInitialUnitsForUnitHierarchy() {
         Unit instituteUnit = getTopUnit();
         int parentIdx = 0;
@@ -234,6 +260,7 @@ public class UnitServiceImpl implements UnitService {
         
     }
     
+    @Override
     public String getInitialUnitsForUnitHierarchy(int depth) {
         Unit instituteUnit = getTopUnit();
         int parentIdx = 0;
@@ -268,6 +295,7 @@ public class UnitServiceImpl implements UnitService {
     }
     
     @SuppressWarnings("unchecked")
+    @Override
     public List<UnitAdministrator> retrieveUnitAdministratorsByUnitNumber(String unitNumber) {
         this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> queryMap = new HashMap<String, String>();
@@ -281,6 +309,7 @@ public class UnitServiceImpl implements UnitService {
      * 
      * @see org.kuali.kra.service.UnitService#getMaxUnitTreeDepth()
      */
+    @Override
     public int getMaxUnitTreeDepth() {
         /**
          * This function returns a higher number than the actual depth of the hirearchy tree.  This does not cause any problem as of yet.
@@ -304,6 +333,7 @@ public class UnitServiceImpl implements UnitService {
      * @see org.kuali.kra.service.UnitService#retrieveUnitCorrespondentByUnitNumber(java.lang.String)
      */
     @SuppressWarnings("unchecked")
+    @Override
     public List<UnitCorrespondent> retrieveUnitCorrespondentsByUnitNumber(String unitNumber) {
         this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> queryMap = new HashMap<String, String>();
@@ -317,6 +347,7 @@ public class UnitServiceImpl implements UnitService {
      * @see org.kuali.kra.service.UnitService#retrieveIacucUnitCorrespondentByUnitNumber(java.lang.String)
      */
     @SuppressWarnings("unchecked")
+    @Override
     public List<IacucUnitCorrespondent> retrieveIacucUnitCorrespondentsByUnitNumber(String unitNumber) {
         this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> queryMap = new HashMap<String, String>();

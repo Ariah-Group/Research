@@ -60,6 +60,7 @@ public class PersonTrainingLookupableHelperServiceImpl extends KualiLookupableHe
     private static final long serialVersionUID = 749587517623905557L;
 
     @SuppressWarnings("unchecked")
+    @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
         htmlDataList = super.getCustomActionUrls(businessObject, pkNames);

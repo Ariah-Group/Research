@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.service.impl;
 
@@ -69,6 +85,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
     /**
      * @see org.kuali.kra.proposaldevelopment.service.SponsorService#getSponsorName(java.lang.String)
      */
+    @Override
     public String getSponsorName(String sponsorCode) {
         String sponsorName = null;
 
@@ -87,6 +104,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
     /**
      * @see org.kuali.kra.service.SponsorService#getSponsor(java.lang.String)
      */
+    @Override
     public Sponsor getSponsor(String sponsorCode) {
         Map<String, String> primaryKeys = new HashMap<String, String>();
         if (StringUtils.isNotEmpty(sponsorCode)) {
@@ -102,6 +120,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
      * 
      * @see org.kuali.kra.service.SponsorService#getTopSponsorHierarchy()
      */
+    @Override
     public String getTopSponsorHierarchy() {
 
        // KraServiceLocator.getService(UserRoleService.class).getUserRoles("abc", "abc");
@@ -119,6 +138,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         return topSponsorHierarchy;
     }
 
+    @Override
     public Collection getTopSponsorHierarchyList() {
 
          Iterator sponsorHierarchyList = sponsorHierarchyDao.getTopSponsorHierarchy();
@@ -134,6 +154,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
          return sponsorHierarchies;
      }
     
+    @Override
     public String getSubSponsorHierarchiesForTreeView(String hierarchyName, String depth, String groups) {
 
         String returnSponsorHierarchy = null;
@@ -240,6 +261,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
 
     
     
+    @Override
     public void copySponsorHierarchy(SponsorHierarchyForm sponsorHierarchyForm) {
         Map fieldValues = new HashMap();
         fieldValues.put(Constants.HIERARCHY_NAME, sponsorHierarchyForm.getSelectedSponsorHierarchy());
@@ -254,6 +276,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         businessObjectService.save(newSponsors);
     }
     
+    @Override
     public void deleteSponsorHierarchy(SponsorHierarchyForm sponsorHierarchyForm) {
         Map fieldValues = new HashMap();
         fieldValues.put(Constants.HIERARCHY_NAME, sponsorHierarchyForm.getSelectedSponsorHierarchy());
@@ -295,6 +318,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         this.sponsorHierarchyDao = sponsorHierarchyDao;
     }
 
+    @Override
     public String loadToSponsorHierachyMt(String hierarchyName) {
 
         String sponsorCodes=Constants.EMPTY_STRING;
@@ -307,6 +331,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         return sponsorCodes;
     }
 
+    @Override
     public String getSponsorCodes(String hierarchyName, String depth, String groups) {
 
         String sponsorCodes=Constants.EMPTY_STRING;
@@ -315,6 +340,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         return getSponsorCodesForDeletedGroup(hierarchyName,Integer.parseInt(depth)+1, ascendantList);
     }
     
+    @Override
     public void updateSponsorCodes(String sponsorCodes) {
 
         if (GlobalVariables.getUserSession().retrieveObject("sponsorCodes") != null) {
@@ -323,6 +349,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         GlobalVariables.getUserSession().addObject("sponsorCodes", (Object)sponsorCodes);
     }
     
+    @Override
     public void insertSponsor(String hierarchyName, String[] sponsorCodes, String[] levels,
             Integer[] sortIds) {
         for (String sponsorCode : sponsorCodes) {
@@ -336,6 +363,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         }
     }
     
+    @Override
     public void deleteSponsor(String hierarchyName, String sponsorCode, String[] levels) {
         SponsorAction newAction = new SponsorAction();
         newAction.actionType = SponsorActionType.DELETE;
@@ -345,6 +373,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         addActionToBeSaved(newAction); 
     }
     
+    @Override
     public void updateGroupName(String hierarchyName, Integer levelToChange, String oldGroupName, String newGroupName, String[] levels) {
         SponsorAction newAction = new SponsorAction();
         newAction.actionType = SponsorActionType.UPDATE_NAME;
@@ -356,6 +385,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         addActionToBeSaved(newAction); 
     }
     
+    @Override
     public void changeSponsorSortOrder(String hierarchyName, Integer levelToChange, Boolean moveDown, String[] levels) {
         SponsorAction newAction = new SponsorAction();
         newAction.actionType = SponsorActionType.UPDATE_SORT;
@@ -377,6 +407,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         actions.add(action);
     }
     
+    @Override
     public void executeActions() {
         List<SponsorAction> actions = (List)GlobalVariables.getUserSession().retrieveObject(sessionKey);
         if (actions != null) {
@@ -476,15 +507,18 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         return fieldValues;
     }
     
+    @Override
     public void clearCurrentActions() {
         GlobalVariables.getUserSession().removeObject(sessionKey);
     }
 
 
+    @Override
     public boolean isSponsorNihMultiplePi(Sponsorable sponsorable) {
         return isSponsorInHierarchy(sponsorable, Constants.SPONSOR_HIERARCHY_NIH_MULT_PI);
     }
     
+    @Override
     public boolean isSponsorNihOsc(Sponsorable sponsorable) {
         return isSponsorInHierarchy(sponsorable, Constants.SPONSOR_HIERARCHY_NIH_OSC);
     }
@@ -508,12 +542,14 @@ public class SponsorServiceImpl implements SponsorService, Constants {
      * 
      * @see org.kuali.kra.service.SponsorService#getUniqueGroupingNames(java.lang.String, java.lang.Integer)
      */
+    @Override
     public List<String> getUniqueGroupingNames(String hierarchyName, Integer level) {
        List<String> result = getSponsorHierarchyDao().getUniqueNamesAtLevel(hierarchyName, level);
        Collections.sort(result);
        return result;
     }
     
+    @Override
     public boolean validateSponsor(Sponsor sponsor) {
         boolean valid = true;
         if (sponsor == null || !sponsor.isActive()) {

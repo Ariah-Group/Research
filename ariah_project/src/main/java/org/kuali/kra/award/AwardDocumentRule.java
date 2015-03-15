@@ -151,6 +151,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRule
      * #processAwardApprovedEquipmentBusinessRules(org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipmentRuleEvent)
      */
+    @Override
     public boolean processAwardApprovedEquipmentBusinessRules(AwardApprovedEquipmentRuleEvent event) {
         return processApprovedEquipmentBusinessRules(GlobalVariables.getMessageMap(), event.getAwardDocument());
     }
@@ -163,6 +164,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRule
      * #processAwardApprovedForeignTravelBusinessRules(org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravelRuleEvent)
      */
+    @Override
     public boolean processAwardApprovedForeignTravelBusinessRules(AwardApprovedForeignTravelRuleEvent event) {
         return processApprovedForeignTravelBusinessRules(GlobalVariables.getMessageMap(), event.getAwardDocument());
     }
@@ -173,6 +175,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRule#processAwardPaymentScheduleBusinessRules(
      * org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRuleEvent)
      */
+    @Override
     public boolean processAwardPaymentScheduleBusinessRules(AwardPaymentScheduleRuleEvent event) {
         return processPaymentScheduleBusinessRules(GlobalVariables.getMessageMap(), event.getAwardDocument());
     }
@@ -183,6 +186,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentScheduleRule#processAddAwardPaymentScheduleBusinessRules(
      * org.kuali.kra.award.paymentreports.paymentschedule.AddAwardPaymentScheduleRuleEvent)
      */
+    @Override
     public boolean processAddAwardPaymentScheduleBusinessRules(AddAwardPaymentScheduleRuleEvent event) {
         return processAddPaymentScheduleBusinessRules(GlobalVariables.getMessageMap(), event);
     }
@@ -192,6 +196,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRule#processAddAwardTransferringSponsorEvent
      * (org.kuali.kra.award.rule.event.AddAwardTransferringSponsorEvent)
      */
+    @Override
     public boolean processAddAwardTransferringSponsorEvent(AddAwardTransferringSponsorEvent addAwardTransferringSponsorEvent) {
         return new AwardDetailsAndDatesRuleImpl().processAddAwardTransferringSponsorEvent(addAwardTransferringSponsorEvent);
     }
@@ -210,6 +215,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * org.kuali.kra.award.paymentreports.closeout.AwardCloseoutRule#processAddAwardCloseoutBusinessRules(
      * org.kuali.kra.award.paymentreports.closeout.AddAwardCloseoutRuleEvent)
      */
+    @Override
     public boolean processAddAwardCloseoutBusinessRules(AddAwardCloseoutRuleEvent addAwardCloseoutRuleEvent) {
         return new AwardCloseoutRuleImpl().processAddAwardCloseoutBusinessRules(addAwardCloseoutRuleEvent);
     }
@@ -220,6 +226,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * org.kuali.kra.award.paymentreports.closeout.AwardCloseoutRule#processAwardCloseoutBusinessRules(
      * org.kuali.kra.award.paymentreports.closeout.AwardCloseoutRuleEvent)
      */
+    @Override
     public boolean processAwardCloseoutBusinessRules(AwardCloseoutRuleEvent awardCloseoutRuleEvent) {
         return new AwardCloseoutRuleImpl().processAwardCloseoutBusinessRules(awardCloseoutRuleEvent);
     }
@@ -228,6 +235,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * @see org.kuali.kra.award.contacts.AwardProjectPersonsSaveRule
      * #processSaveAwardProjectPersonsBusinessRules(org.kuali.kra.award.contacts.SaveAwardProjectPersonsRuleEvent)
      */
+    @Override
     public boolean processSaveAwardProjectPersonsBusinessRules(SaveAwardProjectPersonsRuleEvent event) {
         return processSaveAwardProjectPersonsBusinessRules(GlobalVariables.getMessageMap(), (AwardDocument) event.getDocument());
     }
@@ -250,6 +258,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * org.kuali.core.document.Document, java.util.List,
      * org.kuali.kra.common.permissions.bo.PermissionsUser)
      */
+    @Override
     public boolean processAddPermissionsUserBusinessRules(Document document, List<User> users, PermissionsUser newUser) {
         return new AwardPermissionsRule().processAddPermissionsUserBusinessRules(document, users, newUser);
     }
@@ -260,6 +269,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * org.kuali.kra.common.permissions.rule.PermissionsRule#processDeletePermissionsUserBusinessRules(
      * org.kuali.core.document.Document, java.util.List, int)
      */
+    @Override
     public boolean processDeletePermissionsUserBusinessRules(Document document, List<User> users, int index) {
         return new AwardPermissionsRule().processDeletePermissionsUserBusinessRules(document, users, index);
     }
@@ -271,6 +281,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * org.kuali.core.document.Document, java.util.List,
      * org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles)
      */
+    @Override
     public boolean processEditPermissionsUserRolesBusinessRules(Document document, List<User> users,
             PermissionsUserEditRoles editRoles) {
         return new AwardPermissionsRule().processEditPermissionsUserRolesBusinessRules(document, users, editRoles);
@@ -280,6 +291,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * @see
      * org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRule#processSaveAwardDetailsAndDates(org.kuali.kra.award.detailsdates.AwardDetailsAndDatesSaveEvent)
      */
+    @Override
     public boolean processSaveAwardDetailsAndDates(AwardDetailsAndDatesSaveEvent awardDetailsAndDatesSaveEvent) {
         return new AwardDetailsAndDatesRuleImpl().processSaveAwardDetailsAndDates(awardDetailsAndDatesSaveEvent);
     }
@@ -443,6 +455,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         return processAwardCommentsBusinessRules(ruleEvent);
     }
 
+    @Override
     public boolean processAwardCommentsBusinessRules(AwardCommentsRuleEvent ruleEvent) {
         return new AwardCommentsRuleImpl().processAwardCommentsBusinessRules(ruleEvent);
     }
@@ -514,6 +527,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(
      * org.kuali.rice.krad.document.Document)
      */
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean retval = true;
 
@@ -541,6 +555,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * processAddFandaRateBusinessRules(
      * org.kuali.kra.award.commitments.AddAwardFandaRateEvent)
      */
+    @Override
     public boolean processAddFandaRateBusinessRules(AddAwardFandaRateEvent addAwardFandaRateEvent) {
         return new AwardFandaRateRule().processAddFandaRateBusinessRules(
                 addAwardFandaRateEvent);
@@ -610,6 +625,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRule#processAwardReportTermBusinessRules(
      * org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRuleEvent)
      */
+    @Override
     public boolean processAwardReportTermBusinessRules(AwardReportTermRuleEvent event) {
         return new AwardReportTermRuleImpl().processAwardReportTermBusinessRules(event);
     }
@@ -657,6 +673,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRule#processAddAwardReportTermBusinessRules(
      * org.kuali.kra.award.paymentreports.awardreports.AddAwardReportTermRuleEvent)
      */
+    @Override
     public boolean processAddAwardReportTermBusinessRules(AddAwardReportTermRuleEvent event) {
         return new AwardReportTermRuleImpl().processAddAwardReportTermBusinessRules(event);
     }
@@ -667,6 +684,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipientRule#processAwardReportTermRecipientBusinessRules(
      * org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipientRuleEvent)
      */
+    @Override
     public boolean processAwardReportTermRecipientBusinessRules(AwardReportTermRecipientRuleEvent event) {
         return new AwardReportTermRecipientRuleImpl().processAwardReportTermRecipientBusinessRules(event);
     }
@@ -677,6 +695,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipientRule#processAddAwardReportTermRecipientBusinessRules(
      * org.kuali.kra.award.paymentreports.awardreports.AddAwardReportTermRecipientRuleEvent)
      */
+    @Override
     public boolean processAddAwardReportTermRecipientBusinessRules(AddAwardReportTermRecipientRuleEvent event) {
         return new AwardReportTermRecipientRuleImpl().processAddAwardReportTermRecipientBusinessRules(event);
     }
@@ -714,6 +733,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         return success;
     }
 
+    @Override
     public boolean processAwardTemplateSyncRules(AwardTemplateSyncEvent awardTemplateSyncEvent) {
         return new AwardTemplateSyncRuleImpl().processAwardTemplateSyncRules(awardTemplateSyncEvent);
     }
@@ -788,6 +808,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * @see
      * org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
      */
+    @Override
     public boolean processRules(KraDocumentEventBaseExtension event) {
         boolean retVal = false;
         retVal = event.getRule().processRules(event);
@@ -798,6 +819,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * @see
      * org.kuali.kra.award.rule.AddAwardAttachmentRule#processsAddAttachmentRule(org.kuali.kra.award.rule.event.AddAwardAttachmentEvent)
      */
+    @Override
     public boolean processsAddAttachmentRule(AddAwardAttachmentEvent event) {
         boolean valid = true;
 

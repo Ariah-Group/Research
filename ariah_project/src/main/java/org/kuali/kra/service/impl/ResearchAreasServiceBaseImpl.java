@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.service.impl;
 
@@ -75,6 +91,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
      *
      * @see org.kuali.kra.irb.service.ResearchAreasService#getSubResearchAreasForTreeView(java.lang.String)
      */
+    @Override
     public String getSubResearchAreasForTreeView(String researchAreaCode, boolean activeOnly) {
         String researchAreas = "<h3>";
         for (ResearchAreaBase researchArea : getSubResearchAreas(researchAreaCode, activeOnly)) {
@@ -104,6 +121,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
      * 
      * @see org.kuali.kra.irb.service.ResearchAreasService#isResearchAreaExist(java.lang.String, java.lang.String)
      */
+    @Override
     public boolean isResearchAreaExist(String researchAreaCode, String researchAreas) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(RESEARCH_AREA_CODE, researchAreaCode);
@@ -130,6 +148,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
      * @see org.kuali.kra.irb.service.ResearchAreasService#checkResearchAreaAndDescendantsNotReferenced(java.lang.String)
      * TODO: optimize by checking only active descendants? Could use the getSubResearchAreas method above
      */  
+    @Override
     public boolean checkResearchAreaAndDescendantsNotReferenced(String researchAreaCode) {
         boolean retValue = true;
         ResearchAreaBase researchArea = getBusinessObjectService().findBySinglePrimaryKey(getResearchAreaBOClassHook(), researchAreaCode);
@@ -177,6 +196,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
     /**
      * @see org.kuali.kra.irb.service.ResearchAreasService#deleteResearchAreaAndDescendants(java.lang.String)
      */
+    @Override
     public void deleteResearchAreaAndDescendants(String researchAreaCode) {
         ResearchAreaBase researchArea = getBusinessObjectService().findBySinglePrimaryKey(getResearchAreaBOClassHook(), researchAreaCode);
         if (researchArea != null) {
@@ -286,6 +306,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
      * 
      * @see org.kuali.kra.irb.service.ResearchAreasService#saveResearchAreas(java.lang.String)
      */
+    @Override
     public void saveResearchAreas(String raChangeXML) throws ParserConfigurationException, IOException, SAXException {
         InputSource is = new InputSource();
         is.setCharacterStream(new StringReader(raChangeXML));
@@ -389,6 +410,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
     /**
      * @see org.kuali.kra.irb.service.ResearchAreasService#getCurrentProtocolReferencingResearchArea(java.lang.String)
      */
+    @Override
     public ProtocolBase getCurrentProtocolReferencingResearchArea(String researchAreaCode) {
         ProtocolBase retValue = null;
         // get the collection of all ProtocolResearchAreaBase instances that have the given research area code
@@ -430,6 +452,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
     /**
      * @see org.kuali.kra.irb.service.ResearchAreasService#getCurrentCommitteeReferencingResearchArea(java.lang.String)
      */
+    @Override
     public CommitteeBase getCurrentCommitteeReferencingResearchArea(String researchAreaCode) {
         CommitteeBase retValue = null;
         // get the collection of all CommitteeResearchAreaBase instances that have the given research area code
@@ -455,6 +478,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
     /**
      * @see org.kuali.kra.irb.service.ResearchAreasService#getCurrentCommitteeMembershipReferencingResearchArea(java.lang.String)
      */
+    @Override
     public CommitteeMembershipBase getCurrentCommitteeMembershipReferencingResearchArea(String researchAreaCode) {
         CommitteeMembershipBase retValue = null;
         // get the collection of all CommitteeMembershipExpertise instances that have the given research area code
@@ -503,6 +527,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
     /**
      * @see org.kuali.kra.irb.service.ResearchAreasService#deactivateResearchAreaAndDescendants(java.lang.String)
      */
+    @Override
     public void deactivateResearchAreaAndDescendants(String researchAreaCode) throws Exception {
         ResearchAreaBase researchArea = businessObjectService.findBySinglePrimaryKey(getResearchAreaBOClassHook(), researchAreaCode);
         if (researchArea != null) {
@@ -516,6 +541,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
      * @see org.kuali.kra.irb.service.ResearchAreasService#getAnyCurrentReferencerForResearchAreaOrDescendant(java.lang.String)
      */
     @SuppressWarnings("unchecked")
+    @Override
     public ResearchAreaCurrentReferencerHolderBase getAnyCurrentReferencerForResearchAreaOrDescendant(String researchAreaCode) {
         ResearchAreaCurrentReferencerHolderBase retValue = ResearchAreaCurrentReferencerHolderBase.NO_REFERENCER;
         ProtocolBase referencingProtocol = this.getCurrentProtocolReferencingResearchArea(researchAreaCode);

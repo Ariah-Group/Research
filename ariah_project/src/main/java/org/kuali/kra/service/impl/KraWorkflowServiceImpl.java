@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.service.impl;
 
@@ -68,6 +84,7 @@ public class KraWorkflowServiceImpl implements KraWorkflowService {
     /**
      * @see org.kuali.kra.service.KraWorkflowService#hasWorkflowPermission(java.lang.String, org.kuali.rice.krad.document.Document)
      */
+    @Override
     public boolean hasWorkflowPermission(String userId, Document doc) {
         boolean hasPermission = false;
         WorkflowDocument workflowDoc = getWorkflowDocument(doc);
@@ -81,6 +98,7 @@ public class KraWorkflowServiceImpl implements KraWorkflowService {
     /**
      * @see org.kuali.kra.service.KraWorkflowService#isClosed(org.kuali.rice.krad.document.Document)
      */
+    @Override
     public boolean isClosed(Document doc) {
         boolean isClosed = false;
         WorkflowDocument workflowDoc = getWorkflowDocument(doc);
@@ -96,6 +114,7 @@ public class KraWorkflowServiceImpl implements KraWorkflowService {
     /**
      * @see org.kuali.kra.service.KraWorkflowService#isEnRoute(org.kuali.rice.krad.document.Document)
      */
+    @Override
     public boolean isEnRoute(Document doc) {
         boolean isEnRoute = false;
         WorkflowDocument workflowDoc = getWorkflowDocument(doc);
@@ -108,6 +127,7 @@ public class KraWorkflowServiceImpl implements KraWorkflowService {
     /**
      * @see org.kuali.kra.service.KraWorkflowService#isInWorkflow(org.kuali.rice.krad.document.Document)
      */
+    @Override
     public boolean isInWorkflow(Document doc) {
         boolean isInWorkflow = false;
         WorkflowDocument workflowDoc = getWorkflowDocument(doc);
@@ -155,6 +175,7 @@ public class KraWorkflowServiceImpl implements KraWorkflowService {
     /**
      * @see org.kuali.kra.service.KraWorkflowService#isUserApprovalRequested(org.kuali.rice.krad.document.Document, java.lang.String)
      */
+    @Override
     public boolean isUserApprovalRequested(Document doc, String principalId) {
         boolean hasApprovalRequest = false;
         WorkflowDocument workDoc = getWorkflowDocument(doc,principalId);
@@ -167,6 +188,7 @@ public class KraWorkflowServiceImpl implements KraWorkflowService {
     /**
      * @see org.kuali.kra.service.KraWorkflowService#isUserApprovalRequested(org.kuali.rice.krad.document.Document, java.lang.String)
      */
+    @Override
     public boolean isUserActionRequested(Document doc, String principalId) {
         boolean hasActionRequest = false;
         WorkflowDocument workDoc = getWorkflowDocument(doc,principalId);
@@ -179,6 +201,7 @@ public class KraWorkflowServiceImpl implements KraWorkflowService {
     /**
      * @see org.kuali.kra.service.KraWorkflowService#isDocumentOnNode(org.kuali.rice.krad.document.Document, java.lang.String)
      */
+    @Override
     public boolean isDocumentOnNode(Document document,String nodeName) {
         boolean result = false;
         try {
@@ -193,6 +216,7 @@ public class KraWorkflowServiceImpl implements KraWorkflowService {
     /**
      * @see org.kuali.kra.service.KraWorkflowService#isCurrentNode(org.kuali.rice.krad.document.Document, java.lang.String)
      */
+    @Override
     public boolean isCurrentNode(Document document, String nodeName){
         boolean result = false;
         try {
@@ -204,6 +228,7 @@ public class KraWorkflowServiceImpl implements KraWorkflowService {
         }
     }
 
+    @Override
     public boolean isUserAdHocRequestRecipient(Document document, String principalId, String nodeName) {
         try {
             List<ActionRequest> actionRequestsForCurrentUser = workflowDocumentService.getActionRequestsForPrincipalAtNode(document.getDocumentNumber(), nodeName, principalId);
@@ -219,6 +244,7 @@ public class KraWorkflowServiceImpl implements KraWorkflowService {
         return false;
     }
     
+    @Override
     public boolean isUserRouteRespRequestRecipient(Document document, String principalId, String nodeName) {
         try {
             List<ActionRequest> actionRequestsForCurrentUser = workflowDocumentService.getActionRequestsForPrincipalAtNode(document.getDocumentNumber(), nodeName, principalId);
@@ -235,7 +261,8 @@ public class KraWorkflowServiceImpl implements KraWorkflowService {
     }    
     
     
-public ProposalDevelopmentApproverViewDO populateApproverViewDO (ProposalDevelopmentForm proposalDevelopmentForm) {
+    @Override
+    public ProposalDevelopmentApproverViewDO populateApproverViewDO (ProposalDevelopmentForm proposalDevelopmentForm) {
         
         ProposalDevelopmentApproverViewDO approverViewDO = new ProposalDevelopmentApproverViewDO();
         DevelopmentProposal proposal = proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposalList().get(0);
@@ -299,6 +326,7 @@ public ProposalDevelopmentApproverViewDO populateApproverViewDO (ProposalDevelop
     }
 
     /* Check to see if the current user can perform workflow action in proposal development document */
+    @Override
     public boolean canPerformWorkflowAction(ProposalDevelopmentDocument document) {
         
         // Not from the doc handler, don't show the approver view
@@ -322,6 +350,7 @@ public ProposalDevelopmentApproverViewDO populateApproverViewDO (ProposalDevelop
      * 
      * @see org.kuali.kra.service.KraWorkflowService#isFinalApproval(org.kuali.rice.kew.api.WorkflowDocument)
      */
+    @Override
     public boolean isFinalApproval(WorkflowDocument workflowDoc) {       
         RoutingReportCriteria.Builder reportCriteriaBuilder = RoutingReportCriteria.Builder.createByDocumentId(workflowDoc.getDocumentId());
         Set<String> approvalNodes = new HashSet<String>();
@@ -350,6 +379,7 @@ public ProposalDevelopmentApproverViewDO populateApproverViewDO (ProposalDevelop
      * 
      * @see org.kuali.kra.service.KraWorkflowService#requestAlreadyApproved(org.kuali.rice.kew.api.WorkflowDocument, org.kuali.rice.kew.api.action.ActionRequest)
      */
+    @Override
     public boolean requestAlreadyApproved(WorkflowDocument workflowDoc, ActionRequest actionRequest) {
         boolean result = false;
         for (ActionRequest childRequest : actionRequest.getChildRequests()) {
@@ -410,6 +440,7 @@ public ProposalDevelopmentApproverViewDO populateApproverViewDO (ProposalDevelop
         approvalCodes.add("A");
     }
     
+    @Override
     public boolean hasPendingApprovalRequests(WorkflowDocument workflowDoc) {
         return !actionListService.getActionItems(workflowDoc.getDocumentId(), approvalCodes).isEmpty();
     }

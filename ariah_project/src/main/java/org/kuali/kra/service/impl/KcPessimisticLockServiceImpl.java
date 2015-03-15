@@ -95,6 +95,7 @@ public class KcPessimisticLockServiceImpl implements KcPessimisticLockService {
      * @see org.kuali.kra.service.KcPessimisticLockService#clearExpiredLocks()
      */
     @Transactional
+    @Override
     public void clearExpiredLocks() {
         long now = getCurrentTime();
         long expirationAgeMillis = getExpirationAgeMillis();

@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.service.impl;
 
@@ -38,6 +54,7 @@ public class AwardCommentServiceImpl implements AwardCommentService {
     private String AWARD_ID = "awardId";
 
     @SuppressWarnings("unchecked")
+    @Override
     public List<CommentType> retrieveCommentTypes() {
         Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put(AWARD_COMMENT_SCREEN_FLAG, CommentType.SCREENFLAG_TRUE);
@@ -52,6 +69,7 @@ public class AwardCommentServiceImpl implements AwardCommentService {
      * button on the panel.   
      * @return
      */
+    @Override
     public List<String> retrieveCommentHistoryFlags(String awardNumber) {
         this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> queryMap = new HashMap<String, String>();
@@ -101,6 +119,7 @@ public class AwardCommentServiceImpl implements AwardCommentService {
     }
     
     @SuppressWarnings("unchecked")
+    @Override
     public List<AwardComment> retrieveCommentHistoryByType(String awardCommentTypeCode, String awardId) {
         this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         Award award = getAward(awardId);

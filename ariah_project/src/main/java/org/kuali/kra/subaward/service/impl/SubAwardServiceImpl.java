@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.subaward.service.impl;
 
@@ -59,6 +75,7 @@ public class SubAwardServiceImpl implements SubAwardService {
      * @param subAwardDocument
      * @return newSubAwardDocument the newSubAwardDocument
      */
+    @Override
     public SubAwardDocument createNewSubAwardVersion(
     SubAwardDocument subAwardDocument) throws
     VersionException, WorkflowException {
@@ -170,6 +187,7 @@ public class SubAwardServiceImpl implements SubAwardService {
 	}
 
 	/** {@inheritDoc} */
+    @Override
     public String getNextSubAwardCode() {
  Long nextAwardNumber = sequenceAccessorService.
  getNextAvailableSequenceNumber(Constants.SUBAWARD_SEQUENCE_SUBAWARD_CODE);
@@ -190,6 +208,7 @@ public class SubAwardServiceImpl implements SubAwardService {
      * @param subAward
      * @return subAward
      */
+    @Override
     public SubAward getAmountInfo(SubAward subAward) {
 
         List<SubAwardAmountInfo> subAwardAmountInfoList = subAward.getSubAwardAmountInfoList();
@@ -246,6 +265,7 @@ public class SubAwardServiceImpl implements SubAwardService {
      *
      * @return followupDateRange
      */
+    @Override
     public String getFollowupDateDefaultLength() {
         String namespaceCode = "KC-SUBAWARD";
         String componentCode = "Document";
@@ -259,6 +279,7 @@ public class SubAwardServiceImpl implements SubAwardService {
      * @param baseDate
      * @return retDate
      */
+    @Override
     public Date getCalculatedFollowupDate(Date baseDate) {
         Date retDate =
         new Date(DateUtils.addDays(baseDate, getFollowupDateDefaultLengthInDays()).getTime());
@@ -293,6 +314,7 @@ public class SubAwardServiceImpl implements SubAwardService {
      * this method is for gettingFollowUpDates
      * @return returnAmount
      */
+    @Override
     public int getFollowupDateDefaultLengthInDays() {
         String followupDateRange = getFollowupDateDefaultLength();
         String rangeUnit = followupDateRange.substring(
@@ -313,6 +335,7 @@ public class SubAwardServiceImpl implements SubAwardService {
         return returnAmount;
     }
     
+    @Override
     public SubAward getActiveSubAward(Long subAwardId) {
         Map<String, Object> values = new HashMap<String, Object>();
         values.put("subAwardId", subAwardId);

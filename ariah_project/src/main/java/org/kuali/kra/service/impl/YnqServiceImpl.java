@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.service.impl;
 
@@ -41,6 +57,7 @@ public class YnqServiceImpl implements YnqService {
      * @see org.kuali.kra.proposaldevelopment.service.YnqService#getYnqExplanationTypes()
      */
     @SuppressWarnings("unchecked")
+    @Override
     public List<YnqExplanationType> getYnqExplanationTypes() {
         Collection<YnqExplanationType> allTypes = new ArrayList();
         allTypes = businessObjectService.findAll(YnqExplanationType.class);
@@ -56,6 +73,7 @@ public class YnqServiceImpl implements YnqService {
      * @see org.kuali.kra.proposaldevelopment.service.YnqService#getYnq(java.lang.String)
      */
     @SuppressWarnings("unchecked")
+    @Override
     public List<Ynq> getYnq(String questionType) {
         Map<String, String> questionTypeMap = new HashMap<String, String>();
         /* filter by question type */
@@ -77,6 +95,7 @@ public class YnqServiceImpl implements YnqService {
      */
     protected class GroupNameComparator implements Comparator<Ynq> {
 
+        @Override
         public int compare(Ynq o1, Ynq o2) {
             int comparator;
             
@@ -95,6 +114,7 @@ public class YnqServiceImpl implements YnqService {
      * @param proposalPerson
      * @return ProposalPerson
      */
+    @Override
     public ProposalPerson getPersonYNQ(ProposalPerson proposalPerson, ProposalDevelopmentDocument document) {
         /* get YNQ for person */
         boolean certificationRequired = false;
@@ -213,6 +233,7 @@ public class YnqServiceImpl implements YnqService {
      * @see org.kuali.kra.proposaldevelopment.service.YnqService#populateQuestions()
      */
     /* get YNQ for proposal */
+    @Override
     public void populateProposalQuestions(List<ProposalYnq> proposalYnqs, List<YnqGroupName> ynqGroupNames, ProposalDevelopmentDocument document) {
         String questionType = Constants.QUESTION_TYPE_PROPOSAL;
         List<Ynq> ynqs = new ArrayList<Ynq>();

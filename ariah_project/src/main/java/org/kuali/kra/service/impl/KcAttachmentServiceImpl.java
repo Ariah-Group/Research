@@ -58,6 +58,7 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
      * so more advanced file type detection can be implemented if necessary.
      * @see org.kuali.kra.service.KcAttachmentService#getFileTypeIcon(org.kuali.kra.bo.KcAttachment)
      */
+    @Override
     public String getFileTypeIcon(KcAttachment attachment) {
         String iconPath = getMimeTypeIcons().get(attachment.getType());
         if (iconPath == null) {
@@ -84,6 +85,7 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
     }
     
     
+    @Override
     public String getInvalidCharacters(String text) {
         if (ObjectUtils.isNotNull(text)) {
             
@@ -104,6 +106,7 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
      * This method checks string for invalid characters and replaces with underscores.
      * @see org.kuali.kra.service.KcAttachmentService#checkAndReplaceInvalidCharacters(java.lang.String)
      */
+    @Override
     public String checkAndReplaceInvalidCharacters(String text) {     
         String cleanText = text;
         if (ObjectUtils.isNotNull(text)) {
@@ -117,6 +120,7 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
         return cleanText;
     }
     
+    @Override
     public boolean getSpecialCharacter(String text) {
         if (ObjectUtils.isNotNull(text)) {
             Pattern pattern = Pattern.compile(REGEX_TITLE_SPECIAL_CHARACTER_PATTERN);
@@ -128,6 +132,7 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
         return false;    
     }   
     
+    @Override
     public String checkAndReplaceSpecialCharacters(String text) {     
         String cleanText = text;
         if (ObjectUtils.isNotNull(text)) {

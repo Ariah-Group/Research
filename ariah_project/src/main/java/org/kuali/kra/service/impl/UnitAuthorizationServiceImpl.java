@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.service.impl;
 
@@ -71,6 +87,7 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
     /**
      * @see org.kuali.kra.service.UnitAuthorizationService#hasPermission(java.lang.String, java.lang.String, java.lang.String)
      */
+    @Override
     public boolean hasPermission(String userId, String unitNumber, String namespaceCode, String permissionName) {
         boolean userHasPermission = false;
         Map<String, String> permissionAttributes = PermissionAttributes.getAttributes(permissionName);
@@ -91,6 +108,7 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
     /**
      * @see org.kuali.kra.service.UnitAuthorizationService#hasPermission(java.lang.String, java.lang.String)
      */
+    @Override
     public boolean hasPermission(String userId, String namespaceCode, String permissionName) {
         boolean userHasPermission = false;
         Map<String, String> permissionAttributes = PermissionAttributes.getAttributes(permissionName);
@@ -102,6 +120,7 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
     }
     
     
+    @Override
     public boolean hasMatchingQualifiedUnits(String userId, String namespaceCode, String permissionName, String unitNumber) {
         List<String> roleIds = new ArrayList<String>();
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
@@ -123,6 +142,7 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
     /**
      * @see org.kuali.kra.service.UnitAuthorizationService#getUnits(java.lang.String, java.lang.String)
      */
+    @Override
     public List<Unit> getUnits(String userId, String namespaceCode, String permissionName) {
         Set<Unit> units = new LinkedHashSet<Unit>();
         // Start by getting all of the Qualified Roles that the person is in.  For each

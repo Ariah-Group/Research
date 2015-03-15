@@ -77,6 +77,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
      * @see
      * org.kuali.kra.service.AwardHierarchyUIService#getRootAwardNode(java.lang.String)
      */
+    @Override
     public String getRootAwardNode(String awardNumber, String currentAwardNumber, String currentSequenceNumber) throws ParseException {
         AwardHierarchyNode awardNode;
         if (canUseExistingTMSessionObject(awardNumber)) {
@@ -94,6 +95,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         return "[" + buildJavascriptRecord(awardNumber, awardNode) + "]";
     }
 
+    @Override
     public AwardHierarchyNode getRootAwardNode(Award award) {
         String awardNumber = award.getAwardNumber();
         AwardHierarchy hierarchy = awardHierarchyService.loadAwardHierarchy(awardNumber);
@@ -215,6 +217,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
      * @see
      * org.kuali.kra.service.AwardHierarchyUIService#getAwardRecord(org.kuali.kra.award.home.Award)
      */
+    @Override
     public String getAwardRecord(Award award) throws ParseException {
 
         String awardNumber = award.getAwardNumber();
@@ -287,6 +290,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         }
     }
 
+    @Override
     public String getSubAwardHierarchiesForTreeView(String awardNumber, String currentAwardNumber, String currentSequenceNumber) throws ParseException {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
@@ -303,6 +307,7 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         return sb.toString();
     }
 
+    @Override
     public String getSubAwardHierarchiesForTreeViewTandM(String awardNumber, String currentAwardNumber, String currentSequenceNumber) throws ParseException {
         StringBuilder sb = new StringBuilder();
         sb.append("[");

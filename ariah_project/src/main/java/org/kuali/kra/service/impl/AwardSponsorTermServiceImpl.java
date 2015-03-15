@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.service.impl;
 
@@ -37,6 +53,7 @@ public class AwardSponsorTermServiceImpl implements AwardSponsorTermService {
      * 
      * @param
      */
+    @Override
     public List<KeyValue> retrieveSponsorTermTypesToAwardFormForPanelHeaderDisplay(){
         PersistableBusinessObjectValuesFinder persistableBusinessObjectValuesFinder = new PersistableBusinessObjectValuesFinder();
         persistableBusinessObjectValuesFinder.setBusinessObjectClass(SponsorTermType.class);
@@ -52,6 +69,7 @@ public class AwardSponsorTermServiceImpl implements AwardSponsorTermService {
      * @param awardForm
      * @param reportClasses
      */
+    @Override
     public List<SponsorTerm> getEmptyNewSponsorTerms(List<KeyValue> sponsorTermTypes){
         List<SponsorTerm> sponsorTerms = new ArrayList<SponsorTerm>();
         for(int i=0;i<sponsorTermTypes.size();i++){

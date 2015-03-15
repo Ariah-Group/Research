@@ -649,6 +649,7 @@ public class AwardForm extends BudgetVersionFormBase
      *
      * @return Returns the awardPermissionsHelper.
      */
+    @Override
     public PermissionsHelper getPermissionsHelper() {
         return permissionsHelper;
     }
@@ -680,6 +681,7 @@ public class AwardForm extends BudgetVersionFormBase
      * @see
      * org.kuali.kra.common.customattributes.CustomDataForm#getCustomDataHelper()
      */
+    @Override
     public CustomDataHelper getCustomDataHelper() {
         return customDataHelper;
     }
@@ -1103,6 +1105,7 @@ public class AwardForm extends BudgetVersionFormBase
      * @param source
      * @param altText
      */
+    @Override
     protected void addExtraButton(String property, String source, String altText) {
 
         ExtraButton newButton = new ExtraButton();

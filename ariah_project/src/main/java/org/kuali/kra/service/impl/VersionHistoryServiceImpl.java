@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.service.impl;
 
@@ -47,6 +63,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         return versionHistory;
     }
     
+    @Override
     public VersionHistory updateVersionHistory(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner, VersionStatus versionStatus, String userId) {
         VersionHistory currentVersion = getVersionHistory(sequenceOwner.getClass(), getVersionName(sequenceOwner), sequenceOwner.getSequenceNumber());
         if (currentVersion == null) {
@@ -92,6 +109,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
      * @see org.kuali.kra.service.VersionHistoryService#findActiveVersion(java.lang.Class, java.lang.String)
      */
     @SuppressWarnings("unchecked")
+    @Override
     public VersionHistory findActiveVersion(Class<? extends SequenceOwner> klass, String versionName) {
         List<VersionHistory> histories = new ArrayList<VersionHistory>(bos.findMatching(VersionHistory.class, buildFieldValueMapForActiveVersionHistory(klass, versionName)));
         
@@ -109,6 +127,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
      * @see org.kuali.kra.service.VersionHistoryService#loadVersionHistory(java.lang.Class, java.lang.String)
      */
     @SuppressWarnings("unchecked")
+    @Override
     public List<VersionHistory> loadVersionHistory(Class<? extends SequenceOwner> klass, String versionName) {
         List<VersionHistory> histories = findVersionHistory(klass, versionName);
         if(histories.size() > 0) {
@@ -136,6 +155,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public VersionHistory findPendingVersion(Class<? extends SequenceOwner> klass, String versionName, String sequenceNumber) {
         VersionHistory pendingVersionHistory = null;
         
@@ -154,6 +174,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
     }
     
     @SuppressWarnings("unchecked")
+    @Override
     public VersionHistory findPendingVersion(Class<? extends SequenceOwner> klass, String versionName) {
         VersionHistory pendingVersionHistory = null;
         
@@ -246,6 +267,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         }
     }
     
+    @Override
     public VersionHistory getActiveOrNewestVersion(Class<? extends SequenceOwner> klass, String versionName) {
         List<VersionHistory> versions = findVersionHistory(klass, versionName);
         VersionHistory history = null;

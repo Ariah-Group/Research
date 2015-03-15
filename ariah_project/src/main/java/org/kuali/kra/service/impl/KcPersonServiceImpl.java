@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.service.impl;
 
@@ -46,6 +62,7 @@ public class KcPersonServiceImpl implements KcPersonService {
      * Modifies field values so that different field keys can be used for a lookup.
      * @param fieldValues the field values to modify
      */
+    @Override
     public void modifyFieldValues(final Map<String, String> fieldValues) {
         boolean multiCampusEnabled = parameterService.getParameterValueAsBoolean(
                 Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
@@ -77,6 +94,7 @@ public class KcPersonServiceImpl implements KcPersonService {
     }
     
     /** {@inheritDoc} */
+    @Override
     public KcPerson getKcPersonByUserName(final String userName) {
         KcPerson person = null;
         
@@ -105,6 +123,7 @@ public class KcPersonServiceImpl implements KcPersonService {
     }
     
     /** {@inheritDoc} */
+    @Override
     public KcPerson getKcPersonByPersonId(final String personId) {
         if (StringUtils.isEmpty(personId)) {
             throw new IllegalArgumentException("the personId is null or empty");
@@ -113,6 +132,7 @@ public class KcPersonServiceImpl implements KcPersonService {
         return KcPerson.fromEntityAndPersonId(this.identityService.getEntityByPrincipalId(personId), personId);
     }
     
+    @Override
     public List<KcPerson> createKcPersonsFromPeople(List<Person> people) {
         List<KcPerson> persons = new ArrayList<KcPerson>();
         
