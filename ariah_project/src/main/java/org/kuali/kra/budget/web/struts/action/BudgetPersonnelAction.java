@@ -577,7 +577,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
               j=0;
               budgetLineItems = budgetPeriod.getBudgetLineItems();
               for(BudgetLineItem budgetLineItem: budgetLineItems){
-                  if (budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equals("P")) {
+                  if (budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equals(Constants.BUDGET_CATEGORY_PERSONNEL)) {
                       valid &= budgetPersonnelDetailsCheck(budgetDocument, i, j);
                   }
                   j++;

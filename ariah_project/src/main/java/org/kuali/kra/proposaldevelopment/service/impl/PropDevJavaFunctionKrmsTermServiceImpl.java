@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
@@ -63,15 +79,16 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-
 public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTermServiceBase implements PropDevJavaFunctionKrmsTermService {
+
     private static final int INT_PERMANENT_RESIDENT_OF_U_S_PENDING = 4;
     private DateTimeService dateTimeService;
     private static final Log LOG = LogFactory.getLog(PropDevJavaFunctionKrmsTermServiceImpl.class);
-    
+
     /**
-     * 
+     *
      * This method checks if the formName is included in the given proposal
+     *
      * @param developmentProposal
      * @return 'true' if true
      */
@@ -83,17 +100,18 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         for (int i = 0; i < formNamesArray.length; i++) {
             String formName = formNamesArray[i].trim();
             for (S2sOppForms s2sOppForm : s2sOppForms) {
-                if(s2sOppForm.getInclude() && s2sOppForm.getFormName().equals(formName)){
+                if (s2sOppForm.getInclude() && s2sOppForm.getFormName().equals(formName)) {
                     return Boolean.TRUE;
                 }
             }
         }
         return Boolean.FALSE;
     }
-    
+
     /**
-     * This method checks if the proposal has multiple PIs set.
-     * see FN_MULTIPI_RULE.
+     * This method checks if the proposal has multiple PIs set. see
+     * FN_MULTIPI_RULE.
+     *
      * @param developmentProposal
      * @return 'true' if true
      */
@@ -106,45 +124,51 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
             }
         }
         return FALSE;
-        
+
     }
+
     /**
-     * 
-     * This method checks if the passed in forms are included.
-     * see FN_S2S_BUDGET_RULE.
+     *
+     * This method checks if the passed in forms are included. see
+     * FN_S2S_BUDGET_RULE.
+     *
      * @param developmentProposal
      * @param formName a comma delimited list of s2s forms to check against.
      * @return 'true' if true
      */
     @Override
-    public String s2sBudgetRule(DevelopmentProposal developmentProposal, String formNames){
+    public String s2sBudgetRule(DevelopmentProposal developmentProposal, String formNames) {
         /**
-         * F.FORM_NAME in ('RR Budget V1-1','RR SubAward Budget V1.2','RR_FedNonFed_SubawardBudget-V1.2',
-         * 'RR_FedNonFed_SubawardBudget-V1.1','RR SubAward Budget V1.1','PHS398 Modular Budget V1-1', 'PHS398 Modular Budget V1-2')
+         * F.FORM_NAME in ('RR Budget V1-1','RR SubAward Budget
+         * V1.2','RR_FedNonFed_SubawardBudget-V1.2',
+         * 'RR_FedNonFed_SubawardBudget-V1.1','RR SubAward Budget V1.1','PHS398
+         * Modular Budget V1-1', 'PHS398 Modular Budget V1-2')
          */
         String[] formNamesArray = buildArrayFromCommaList(formNames);
         int li_count_bud = 0;
         for (String formName : formNamesArray) {
-            for(S2sOppForms form: developmentProposal.getS2sOppForms()) {
+            for (S2sOppForms form : developmentProposal.getS2sOppForms()) {
                 if (StringUtils.equalsIgnoreCase(formName, form.getFormName()) && form.getInclude()) {
                     li_count_bud++;
                 }
             }
         }
         int li_count_s2s = developmentProposal.getS2sOpportunity() != null ? 1 : 0;
-        
+
         if (li_count_bud != 0 && li_count_s2s <= 0) {
             return TRUE;
         }
         return FALSE;
     }
-    
+
     /**
-     * 
-     * This method checks if the proposal is associated with one of monitored sponsored hierarchies. 
-     * see FN_COI_MONITORED_SPONSOR_RULE.
+     *
+     * This method checks if the proposal is associated with one of monitored
+     * sponsored hierarchies. see FN_COI_MONITORED_SPONSOR_RULE.
+     *
      * @param developmentProposal
-     * @param monitoredSponsorHirearchies a comma delimited list of sponsored hirearchies.
+     * @param monitoredSponsorHirearchies a comma delimited list of sponsored
+     * hirearchies.
      * @return 'true' if true
      */
     @Override
@@ -162,14 +186,16 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
                 return TRUE;
             }
         }
-        
+
         return FALSE;
     }
-    
+
     /**
-     * 
-     * This method determines if the proposal has more than the maximum number of attachments of the types provided in the narativeTypes list.
-     * see FN_S2S_RESPLAN_RULE.
+     *
+     * This method determines if the proposal has more than the maximum number
+     * of attachments of the types provided in the narativeTypes list. see
+     * FN_S2S_RESPLAN_RULE.
+     *
      * @param developmentProposal.
      * @param narativeTypes a comma delimited list of narrative types.
      * @param maxNumber the maximum number to check.
@@ -195,29 +221,31 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         }
         return FALSE;
     }
-    
+
     /**
-     * 
-     * This method checks if the proposal is associated the grants form passed in. 
-     * see FN_GG_FORM_RULE.
+     *
+     * This method checks if the proposal is associated the grants form passed
+     * in. see FN_GG_FORM_RULE.
+     *
      * @param developmentProposal
      * @param formName the grants form to check against.
      * @return 'true' if true
      */
     @Override
     public String grantsFormRule(DevelopmentProposal developmentProposal, String formName) {
-        for(S2sOppForms form: developmentProposal.getS2sOppForms()) {
+        for (S2sOppForms form : developmentProposal.getS2sOppForms()) {
             if (StringUtils.equalsIgnoreCase(formName, form.getFormName())) {
                 return TRUE;
             }
         }
         return FALSE;
     }
-    
+
     /**
-     * 
-     * This method checks to see if the biosketch file names contain any restricted special characters.
-     * See  fn_prop_pers_att_name_rule 
+     *
+     * This method checks to see if the biosketch file names contain any
+     * restricted special characters. See fn_prop_pers_att_name_rule
+     *
      * @param developmentProposal
      * @return 'true' if no special characters are found.
      */
@@ -231,15 +259,17 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
             }
         }
         return TRUE;
-        
+
     }
-    
+
     /**
-     * 
-     * This method checks to see if the OSP administrator is also a personal person.
-     * See  FN_OSP_ADMIN_IS_PERSON 
+     *
+     * This method checks to see if the OSP administrator is also a personal
+     * person. See FN_OSP_ADMIN_IS_PERSON
+     *
      * @param developmentProposal
-     * @return 'true' if the OSP admin is also a proposal person, otherwise 'false'
+     * @return 'true' if the OSP admin is also a proposal person, otherwise
+     * 'false'
      */
     @Override
     public String ospAdminPropPersonRule(DevelopmentProposal developmentProposal) {
@@ -255,16 +285,19 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         }
         return FALSE;
     }
-    
+
     /**
-     * 
-     * This method is used to check if , in any period of the given version of budget, the given cost element has crossed the given limit or not.
-     * See  fn_cost_element_ver_per_limit  AND fn_cost_element_limit_in_ver
+     *
+     * This method is used to check if , in any period of the given version of
+     * budget, the given cost element has crossed the given limit or not. See
+     * fn_cost_element_ver_per_limit AND fn_cost_element_limit_in_ver
+     *
      * @param developmentProposal
      * @param versionNumber the version number to be checked
      * @param costElementName the cost element to be checked
      * @param limit the amount limit to be checked
-     * @return 'true' - if the total cost of the CE crossed the limit in any one of the period, otherwise 'false'
+     * @return 'true' - if the total cost of the CE crossed the limit in any one
+     * of the period, otherwise 'false'
      */
     @Override
     public String costElementVersionLimit(DevelopmentProposal developmentProposal, String versionNumber, String costElementName, String limit) {
@@ -297,11 +330,12 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         }
         return FALSE;
     }
-    
+
     /**
-     * 
-     * This method is used to CHECK IF a proposal's division code field  is  null
-     * See  fn_agency_divcode_is_null_rule 
+     *
+     * This method is used to CHECK IF a proposal's division code field is null
+     * See fn_agency_divcode_is_null_rule
+     *
      * @param developmentProposal
      * @return 'true' - if the division field is null, otherwise return false.
      */
@@ -309,13 +343,15 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     public String divisionCodeRule(DevelopmentProposal developmentProposal) {
         return StringUtils.isEmpty(developmentProposal.getAgencyDivisionCode()) ? TRUE : FALSE;
     }
-    
+
     /**
-     * 
-     * This method is used to CHECK IF THIS PROPOSAL IS FOR A FELLOWSHIP.  Typically 3 or 7 is a fellowship code.
-     * See  FN_IS_FELLOWSHIP 
+     *
+     * This method is used to CHECK IF THIS PROPOSAL IS FOR A FELLOWSHIP.
+     * Typically 3 or 7 is a fellowship code. See FN_IS_FELLOWSHIP
+     *
      * @param developmentProposal
-     * @return 'true' - if the division field is a fellowship code, otherwise return false.
+     * @return 'true' - if the division field is a fellowship code, otherwise
+     * return false.
      */
     @Override
     public String divisionCodeIsFellowship(DevelopmentProposal developmentProposal, String fellowshipCodes) {
@@ -327,13 +363,15 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         }
         return FALSE;
     }
-    
+
     /**
-     * 
-     * This method is used to check if a budget sub award organization name contains special characters.  
-     * See  fn_sub_awd_org_name_rule  
+     *
+     * This method is used to check if a budget sub award organization name
+     * contains special characters. See fn_sub_awd_org_name_rule
+     *
      * @param developmentProposal
-     * @return 'true' - if it does not contain special characters.  If it does have special characters, otherwise returns 'false'.
+     * @return 'true' - if it does not contain special characters. If it does
+     * have special characters, otherwise returns 'false'.
      */
     @Override
     public String budgetSubawardOrganizationnameRule(DevelopmentProposal developmentProposal) {
@@ -356,13 +394,15 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         }
         return TRUE;
     }
-    
+
     /**
-     * 
-     * This method is used to check if the passed in personId, is among the proposal people.  
-     * See FN_CHECK_PROPOSAL_KEY_PERSON   
+     *
+     * This method is used to check if the passed in personId, is among the
+     * proposal people. See FN_CHECK_PROPOSAL_KEY_PERSON
+     *
      * @param developmentProposal
-     * @return 'true' - if the logged in user is a proposal person, otherwise returns 'false'.
+     * @return 'true' - if the logged in user is a proposal person, otherwise
+     * returns 'false'.
      */
     @Override
     public String checkProposalPerson(DevelopmentProposal developmentProposal, String personId) {
@@ -373,23 +413,26 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         }
         return FALSE;
     }
-    
+
     /**
-     * 
-     * This method is a rule to CHECK IF a proposal's agency program code field  is  null  
-     * See fn_ag_progcode_is_null_rule   
+     *
+     * This method is a rule to CHECK IF a proposal's agency program code field
+     * is null See fn_ag_progcode_is_null_rule
+     *
      * @param developmentProposal
-     * @return 'true' - if the agency program code is NULL, otherwise returns 'false'.
+     * @return 'true' - if the agency program code is NULL, otherwise returns
+     * 'false'.
      */
     @Override
-    public String agencyProgramCodeNullRule(DevelopmentProposal developmentProposal){
+    public String agencyProgramCodeNullRule(DevelopmentProposal developmentProposal) {
         return StringUtils.isEmpty(developmentProposal.getAgencyProgramCode()) ? TRUE : FALSE;
     }
-    
+
     /**
-     * 
-     * This method returns 'true', and is implemented because the original function existed.  
-     * See FN_ALL_PROPOSALS_RULE   
+     *
+     * This method returns 'true', and is implemented because the original
+     * function existed. See FN_ALL_PROPOSALS_RULE
+     *
      * @param developmentProposal
      * @return 'true' always
      */
@@ -397,14 +440,16 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     public String allProposalsRule(DevelopmentProposal developmentProposal) {
         return TRUE;
     }
-    
+
     /**
-     * 
-     * This method checks to see if the proposal lead unit is in the unit hierarchy of the passed in unit.  
-     * See FN_LEAD_UNIT_BELOW   
+     *
+     * This method checks to see if the proposal lead unit is in the unit
+     * hierarchy of the passed in unit. See FN_LEAD_UNIT_BELOW
+     *
      * @param developmentProposal
      * @param unitNumberToCheck
-     * @return 'true' if the lead unit is in the unit hiearchy of the passed in unit, otherwise returns 'false'.
+     * @return 'true' if the lead unit is in the unit hiearchy of the passed in
+     * unit, otherwise returns 'false'.
      */
     @Override
     public String proposalLeadUnitInHierarchy(DevelopmentProposal developmentProposal, String unitNumberToCheck) {
@@ -422,32 +467,35 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         }
         return FALSE;
     }
-    
+
     /**
-     * 
-     * This method verifies that there is not both a restricted set of RR forms along with PHS forms.  
-     * See FN_S2S_SUBAWARD_RULE   
+     *
+     * This method verifies that there is not both a restricted set of RR forms
+     * along with PHS forms. See FN_S2S_SUBAWARD_RULE
+     *
      * @param developmentProposal
      * @param rrFormNames
      * @param phsFromNames
-     * @return 'true' if there are RR forms and PHS forms, otherwise returns 'false'.
+     * @return 'true' if there are RR forms and PHS forms, otherwise returns
+     * 'false'.
      */
     @Override
     public String s2sSubawardRule(DevelopmentProposal developmentProposal, String rrFormNames, String phsFromNames) {
-        
+
         /**
-         * And     F.FORM_NAME in ('RR SubAward Budget V1.2','RR_FedNonFed_SubawardBudget-V1.2',
+         * And F.FORM_NAME in ('RR SubAward Budget
+         * V1.2','RR_FedNonFed_SubawardBudget-V1.2',
          * 'RR_FedNonFed_SubawardBudget-V1.1','RR SubAward Budget V1.1')
-         * 
-         * And     F.FORM_NAME in ('PHS398 Modular Budget V1-1','PHS398 Modular Budget V1-0', 'PHS398 Modular Budget V1-2')
+         *
+         * And F.FORM_NAME in ('PHS398 Modular Budget V1-1','PHS398 Modular
+         * Budget V1-0', 'PHS398 Modular Budget V1-2')
          */
-        
         boolean foundRRforms = false;
         boolean foundPHSforms = false;
-        String[] rrFormNamesArray =  buildArrayFromCommaList(rrFormNames);
-        String[] phsFromNamesArray =  buildArrayFromCommaList(phsFromNames);
-        
-        for(S2sOppForms form: developmentProposal.getS2sOppForms()) {
+        String[] rrFormNamesArray = buildArrayFromCommaList(rrFormNames);
+        String[] phsFromNamesArray = buildArrayFromCommaList(phsFromNames);
+
+        for (S2sOppForms form : developmentProposal.getS2sOppForms()) {
             if (form.getInclude()) {
                 for (String formName : rrFormNamesArray) {
                     if (StringUtils.equalsIgnoreCase(formName, form.getFormName())) {
@@ -463,31 +511,34 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         }
         return foundRRforms && foundPHSforms ? TRUE : FALSE;
     }
-    
+
     /**
-     * 
-     * This method verifies that there are grans.gov submissions.  
-     * See FN_IS_GG_RULE   
+     *
+     * This method verifies that there are grans.gov submissions. See
+     * FN_IS_GG_RULE
+     *
      * @param developmentProposal
-     * @return 'true' if there are grants.gov submssion, otherwise returns 'false'.
+     * @return 'true' if there are grants.gov submssion, otherwise returns
+     * 'false'.
      */
     @Override
     public String proposalGrantsRule(DevelopmentProposal developmentProposal) {
-        return developmentProposal.getS2sOpportunity()!=null ? TRUE : FALSE;
+        return developmentProposal.getS2sOpportunity() != null ? TRUE : FALSE;
     }
-    
+
     /**
-     * 
-     * This method verifies that the activity type is specified.  
-     * See FN_NARRATIVE_TYPE_RULE   
+     *
+     * This method verifies that the activity type is specified. See
+     * FN_NARRATIVE_TYPE_RULE
+     *
      * @param developmentProposal
      * @return 'true' if there an activity type, otherwise returns 'false'.
      */
     @Override
-    public String narrativeTypeRule(DevelopmentProposal developmentProposal,String narrativeTypeCode) {
+    public String narrativeTypeRule(DevelopmentProposal developmentProposal, String narrativeTypeCode) {
         List<Narrative> narratives = developmentProposal.getNarratives();
         for (Narrative narrative : narratives) {
-            if(narrative.getNarrativeTypeCode().equals(narrativeTypeCode)){
+            if (narrative.getNarrativeTypeCode().equals(narrativeTypeCode)) {
                 return TRUE;
             }
         }
@@ -543,8 +594,8 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
             Map<String, Object> values = new HashMap<String, Object>();
             values.put("costElement", costElement);
             values.put("budgetId", budgetVersion.getBudgetVersionOverview().getBudgetId());
-            List<BudgetLineItem> matchingLineItems = 
-                (List<BudgetLineItem>) getBusinessObjectService().findMatching(BudgetLineItem.class, values);
+            List<BudgetLineItem> matchingLineItems
+                    = (List<BudgetLineItem>) getBusinessObjectService().findMatching(BudgetLineItem.class, values);
             if (matchingLineItems != null && !matchingLineItems.isEmpty()) {
                 return TRUE;
             }
@@ -592,7 +643,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
             return FALSE;
         }
     }
-    
+
     protected Budget getBudgetVersion(DevelopmentProposal developmentProposal, String versionNumber) {
         Integer versionNumberLong = Integer.valueOf(versionNumber);
         for (BudgetDocumentVersion bdv : developmentProposal.getProposalDocument().getBudgetDocumentVersions()) {
@@ -602,7 +653,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         }
         return null;
     }
-    
+
     protected boolean mtdcDeviationInBudget(Budget budget) {
         if (budget != null) {
             return StringUtils.equals(budget.getOhRateClassCode(), "1");
@@ -613,7 +664,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
 
     @Override
     public String nonFacultyPi(DevelopmentProposal developmentProposal) {
-        if (developmentProposal.getPrincipalInvestigator()!=null && developmentProposal.getPrincipalInvestigator().getFacultyFlag()) {
+        if (developmentProposal.getPrincipalInvestigator() != null && developmentProposal.getPrincipalInvestigator().getFacultyFlag()) {
             return FALSE;
         } else {
             return TRUE;
@@ -670,7 +721,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
             for (ProposalSpecialReview specialReview : developmentProposal.getPropSpecialReviews()) {
                 if (specialReview.getApprovalTypeCode() == SpecialReviewApprovalType.EXEMPT
                         && specialReview.getSpecialReviewTypeCode() == SpecialReviewType.HUMAN_SUBJECTS) {
-                    if (specialReview.getComments() == null 
+                    if (specialReview.getComments() == null
                             || !specialReview.getComments().matches("\\w*E[1-6](\\w*,\\w*E[1-6])*[\\w,]*")) {
                         return FALSE;
                     }
@@ -719,7 +770,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
                 }
                 if (neededAttachmentCount < 1) {
                     return FALSE;
-                }                
+                }
             }
         }
         return TRUE;
@@ -784,15 +835,17 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         }
         return FALSE;
     }
-    
+
     /**
-     * 
-     * This method is used to verify PHS Cover letter narrative(39) is attached, must include s2s cover letter form.
-     * See  FN_S2S_398COVER_RULE 
+     *
+     * This method is used to verify PHS Cover letter narrative(39) is attached,
+     * must include s2s cover letter form. See FN_S2S_398COVER_RULE
+     *
      * @param developmentProposal
      * @param PHSCoverLetters PHS Cover letter names, comma separated list
      * @param narrativeTypeCode The narrative type code to check.
-     * @return 'false' if the passed in narrative type is used, and a PHS cover letter is not attached, otherwise returns 'true'
+     * @return 'false' if the passed in narrative type is used, and a PHS cover
+     * letter is not attached, otherwise returns 'true'
      */
     @Override
     public String s2s398CoverRule(DevelopmentProposal developmentProposal, String PHSCoverLetters, String narrativeTypeCode) {
@@ -820,13 +873,15 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         }
         return TRUE;
     }
-    
+
     /**
-     * 
-     * This method is used to verify no special characters are used.
-     * See  fn_narrative_file_name_rule  
+     *
+     * This method is used to verify no special characters are used. See
+     * fn_narrative_file_name_rule
+     *
      * @param developmentProposal
-     * @return 'false' if there is a special character in the file name, otherwise returns 'true'
+     * @return 'false' if there is a special character in the file name,
+     * otherwise returns 'true'
      */
     @Override
     public String narrativeFileName(DevelopmentProposal developmentProposal) {
@@ -839,19 +894,21 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
                     && StringUtils.equals(FALSE, specialCharacterRule(narrative.getModuleTitle()))) {
                 return FALSE;
             }
-            
+
         }
         return TRUE;
     }
-    
+
     /**
-     * 
-     * This method is used to verify that a cost element is used in the specified version of the proposal.
-     * See  fn_cost_element_in_version  
+     *
+     * This method is used to verify that a cost element is used in the
+     * specified version of the proposal. See fn_cost_element_in_version
+     *
      * @param developmentProposal
      * @param versionNumber
      * @param costElement
-     * @return 'false' if the cost element is not in the version of the proposal, otherwise returns 'true'
+     * @return 'false' if the cost element is not in the version of the
+     * proposal, otherwise returns 'true'
      */
     @Override
     public String costElementInVersion(DevelopmentProposal developmentProposal, String versionNumber, String costElement) {
@@ -877,20 +934,22 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         }
         return FALSE;
     }
-    
+
     /**
-     * 
-     * This method is used to verify that each investigator and key person are certified
-     * See  FN_IS_EPS_PROP_INVKEY_CERT  
+     *
+     * This method is used to verify that each investigator and key person are
+     * certified See FN_IS_EPS_PROP_INVKEY_CERT
+     *
      * @param developmentProposal
-     * @return 'true' if all the investigators and key person have completed their questionaires, otherwise return 'false'
+     * @return 'true' if all the investigators and key person have completed
+     * their questionaires, otherwise return 'false'
      */
     @Override
     public String investigatorKeyPersonCertificationRule(DevelopmentProposal developmentProposal) {
         QuestionnaireAnswerService questionnaireService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
         for (ProposalPerson person : developmentProposal.getProposalPersons()) {
-            ProposalPersonModuleQuestionnaireBean moduleQuestionnaireBean = 
-                new ProposalPersonModuleQuestionnaireBean(developmentProposal, person);
+            ProposalPersonModuleQuestionnaireBean moduleQuestionnaireBean
+                    = new ProposalPersonModuleQuestionnaireBean(developmentProposal, person);
             List<AnswerHeader> answerHeaders = questionnaireService.getQuestionnaireAnswer(moduleQuestionnaireBean);
             for (AnswerHeader ah : answerHeaders) {
                 if (!ah.getCompleted()) {
@@ -921,9 +980,10 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     }
 
     /**
-     * This method is to CHECK  PI citizenship type
-     * Check if the citizenship type of the Principal Investigator equal to the specified value
+     * This method is to CHECK PI citizenship type Check if the citizenship type
+     * of the Principal Investigator equal to the specified value
      * FN_PI_CITIZENSHIP_TYPE_RULE
+     *
      * @param developmentProposal
      * @param citizenshipTypeToCheck
      * @return
@@ -933,31 +993,31 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         ProposalPerson principalInvestigator = developmentProposal.getPrincipalInvestigator();
         char citizenType = citizenshipTypeToCheck != null ? citizenshipTypeToCheck.charAt(0) : '0';
         Integer citizenshipTypeCode = principalInvestigator.getProposalPersonExtendedAttributes().getCitizenshipTypeCode();
-        switch(citizenType){
-            case 'A' :
-                if(citizenshipTypeCode.equals(CitizenshipDataType.INT_NON_U_S_CITIZEN_WITH_TEMPORARY_VISA)) {
+        switch (citizenType) {
+            case 'A':
+                if (citizenshipTypeCode.equals(CitizenshipDataType.INT_NON_U_S_CITIZEN_WITH_TEMPORARY_VISA)) {
                     RETURN_VALUE = TRUE;
                 }
                 break;
-            case 'C' :
-                if(citizenshipTypeCode.equals(CitizenshipDataType.INT_U_S_CITIZEN_OR_NONCITIZEN_NATIONAL)) {
+            case 'C':
+                if (citizenshipTypeCode.equals(CitizenshipDataType.INT_U_S_CITIZEN_OR_NONCITIZEN_NATIONAL)) {
                     RETURN_VALUE = TRUE;
                 }
                 break;
-            case 'N' :
-                if(citizenshipTypeCode.equals(CitizenshipDataType.INT_PERMANENT_RESIDENT_OF_U_S)) {
+            case 'N':
+                if (citizenshipTypeCode.equals(CitizenshipDataType.INT_PERMANENT_RESIDENT_OF_U_S)) {
                     RETURN_VALUE = TRUE;
                 }
                 break;
-            case 'P' :
-                if(citizenshipTypeCode.equals(INT_PERMANENT_RESIDENT_OF_U_S_PENDING)) {
+            case 'P':
+                if (citizenshipTypeCode.equals(INT_PERMANENT_RESIDENT_OF_U_S_PENDING)) {
                     RETURN_VALUE = TRUE;
                 }
                 break;
-            default :
-                Collection<String> citizenshipTypeParams = getParameterService().getParameterValuesAsString(ProposalDevelopmentDocument.class, 
+            default:
+                Collection<String> citizenshipTypeParams = getParameterService().getParameterValuesAsString(ProposalDevelopmentDocument.class,
                         ProposalDevelopmentUtils.PROPOSAL_PI_CITIZENSHIP_TYPE_PARM);
-                if(ObjectUtils.isNotNull(citizenshipTypeParams) && citizenshipTypeParams.contains(citizenshipTypeToCheck)) {
+                if (ObjectUtils.isNotNull(citizenshipTypeParams) && citizenshipTypeParams.contains(citizenshipTypeToCheck)) {
                     RETURN_VALUE = TRUE;
                 }
                 break;
@@ -968,17 +1028,18 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     /**
      * This method is to check if the PI or any multi-PI has PI status
      * FN_PI_APPOINTMENT_TYPE_RULE
+     *
      * @param developmentProposal
      * @return
      */
     public String piAppointmentTypeRule(DevelopmentProposal developmentProposal) {
         List<ProposalPerson> people = developmentProposal.getProposalPersons();
-        List<AppointmentType> appointmentTypes = (List<AppointmentType>)getBusinessObjectService().findAll(AppointmentType.class);
+        List<AppointmentType> appointmentTypes = (List<AppointmentType>) getBusinessObjectService().findAll(AppointmentType.class);
         for (ProposalPerson person : people) {
             if ((person.isInvestigator() && person.getRole().isPrincipalInvestigatorRole()) || (person.isMultiplePi())) {
                 List<PersonAppointment> appointments = person.getProposalPersonExtendedAttributes().getPersonAppointments();
-                for(PersonAppointment personAppointment : appointments) {
-                    if(isAppointmentTypeEqualsJobTitle(appointmentTypes, personAppointment.getJobTitle())) {
+                for (PersonAppointment personAppointment : appointments) {
+                    if (isAppointmentTypeEqualsJobTitle(appointmentTypes, personAppointment.getJobTitle())) {
                         return TRUE;
                     }
                 }
@@ -986,20 +1047,20 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         }
         return FALSE;
     }
-    
+
     private boolean isAppointmentTypeEqualsJobTitle(List<AppointmentType> appointmentTypes, String jobTitle) {
-        for(AppointmentType appointmentType : appointmentTypes) {
-            if(appointmentType.getDescription().equalsIgnoreCase(jobTitle)) {
+        for (AppointmentType appointmentType : appointmentTypes) {
+            if (appointmentType.getDescription().equalsIgnoreCase(jobTitle)) {
                 return true;
             }
         }
         return false;
     }
-    
+
     /**
-     * This method is to check campus
-     * Check if the lead unit of the Proposal belong to campus
-     * FN_PROPOSAL_CAMPUS_RULE
+     * This method is to check campus Check if the lead unit of the Proposal
+     * belong to campus FN_PROPOSAL_CAMPUS_RULE
+     *
      * @param developmentProposal
      * @param a2SCampusCode
      * @return
@@ -1007,32 +1068,33 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     public String proposalCampusRule(DevelopmentProposal developmentProposal, String a2SCampusCode) {
         for (ProposalPerson person : developmentProposal.getProposalPersons()) {
             for (ProposalPersonUnit unit : person.getUnits()) {
-                if(unit.isLeadUnit() && StringUtils.equals(unit.getUnitNumber().substring(1, 3), a2SCampusCode)) {
-                        return TRUE;
+                if (unit.isLeadUnit() && StringUtils.equals(unit.getUnitNumber().substring(1, 3), a2SCampusCode)) {
+                    return TRUE;
                 }
             }
         }
         return FALSE;
     }
-    
+
     /**
-     * This method is to check document in routing
-     * Check if the proposal has been approved or rejected by OSP
-     * FN_ROUTED_TO_OSP_RULE
+     * This method is to check document in routing Check if the proposal has
+     * been approved or rejected by OSP FN_ROUTED_TO_OSP_RULE
+     *
      * @param developmentProposal
      * @return
      */
     public String routedToOSPRule(DevelopmentProposal developmentProposal) {
-        if(developmentProposal.getProposalDocument().getDocumentHeader().getWorkflowDocument().isApproved() ||
-                developmentProposal.getProposalDocument().getDocumentHeader().getWorkflowDocument().isDisapproved()) {
+        if (developmentProposal.getProposalDocument().getDocumentHeader().getWorkflowDocument().isApproved()
+                || developmentProposal.getProposalDocument().getDocumentHeader().getWorkflowDocument().isDisapproved()) {
             return TRUE;
         }
         return FALSE;
     }
-    
+
     /**
-     * This method to check submit user
-     * Check if the submit/given user is the PI of the proposal
+     * This method to check submit user Check if the submit/given user is the PI
+     * of the proposal
+     *
      * @param developmentProposal
      * @return
      */
@@ -1043,9 +1105,9 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     }
 
     /**
-     * This method is to check units
-     * Check if any proposal unit is below a specified unit in the hierarchy
-     * FN_PROPOSAL_UNIT_BELOW
+     * This method is to check units Check if any proposal unit is below a
+     * specified unit in the hierarchy FN_PROPOSAL_UNIT_BELOW
+     *
      * @param developmentProposal
      * @param unitNumberToCheck
      * @return
@@ -1067,49 +1129,49 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     }
 
     /**
-     * This method is to check rolodex person
-     * Check if the proposal involves a specific rolodex id
-     * FN_USES_ROLODEX
+     * This method is to check rolodex person Check if the proposal involves a
+     * specific rolodex id FN_USES_ROLODEX
+     *
      * @param developmentProposal
      * @param rolodexId
      * @return
      */
     public String usesRolodex(DevelopmentProposal developmentProposal, Integer rolodexId) {
         for (ProposalPerson person : developmentProposal.getProposalPersons()) {
-            if(ObjectUtils.isNotNull(person.getRolodexId()) && person.getRolodexId().equals(rolodexId)) {
+            if (ObjectUtils.isNotNull(person.getRolodexId()) && person.getRolodexId().equals(rolodexId)) {
                 return TRUE;
             }
         }
         return FALSE;
     }
-    
+
     /**
-     * This method is to check s2s competition id
-     * FN_COMPETITION_ID_RULE
+     * This method is to check s2s competition id FN_COMPETITION_ID_RULE
+     *
      * @param developmentProposal
      * @param competitionId
      * @return
      */
     public String competitionIdRule(DevelopmentProposal developmentProposal, String competitionId) {
-        if(developmentProposal.getS2sOpportunity().getCompetetionId().equals(competitionId)) {
+        if (developmentProposal.getS2sOpportunity().getCompetetionId().equals(competitionId)) {
             return TRUE;
         }
         return FALSE;
     }
-    
+
     /**
-     * This method is to check if proposal Animal or Human Special review approval date 
-     * is in the future
-     * FN_SPECIAL_REV_DATE_RULE
+     * This method is to check if proposal Animal or Human Special review
+     * approval date is in the future FN_SPECIAL_REV_DATE_RULE
+     *
      * @param developmentProposal
      * @return
      */
     public String specialReviewDateRule(DevelopmentProposal developmentProposal) {
         Date currentDate = getDateTimeService().getCurrentSqlDateMidnight();
         for (ProposalSpecialReview proposalSpecialReview : developmentProposal.getPropSpecialReviews()) {
-            if(proposalSpecialReview.getSpecialReviewTypeCode().equals(SpecialReviewType.HUMAN_SUBJECTS) || 
-                    proposalSpecialReview.getSpecialReviewTypeCode().equals(SpecialReviewType.ANIMAL_USAGE)) {
-                if(proposalSpecialReview.getApplicationDate().after(currentDate)) {
+            if (proposalSpecialReview.getSpecialReviewTypeCode().equals(SpecialReviewType.HUMAN_SUBJECTS)
+                    || proposalSpecialReview.getSpecialReviewTypeCode().equals(SpecialReviewType.ANIMAL_USAGE)) {
+                if (proposalSpecialReview.getApplicationDate().after(currentDate)) {
                     return TRUE;
                 }
             }
@@ -1118,44 +1180,46 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     }
 
     /**
-     * This method is to check if the proposal's deadline date is before a specified date.
-     * @param developmentProposal
-     * FN_DEADLINE_DATE
+     * This method is to check if the proposal's deadline date is before a
+     * specified date.
+     *
+     * @param developmentProposal FN_DEADLINE_DATE
      * @param deadlineDate
      * @return
      */
     public String deadlineDateRule(DevelopmentProposal developmentProposal, String deadlineDate) {
         try {
             Date checkDeadLineDate = getDateTimeService().convertToSqlDate(deadlineDate);
-            if(developmentProposal.getDeadlineDate().before(checkDeadLineDate)) {
+            if (developmentProposal.getDeadlineDate().before(checkDeadLineDate)) {
                 return TRUE;
             }
-        }catch(Exception ex) {
+        } catch (Exception ex) {
             LOG.error(ex.getMessage());
         }
         return FALSE;
     }
 
     /**
-     * This method is to check if the proposal is being routed for the first time.
-     * FN_ROUTING_SEQ_RULE
+     * This method is to check if the proposal is being routed for the first
+     * time. FN_ROUTING_SEQ_RULE
+     *
      * @param developmentProposal
      * @return
      */
     public String routingSequenceRule(DevelopmentProposal developmentProposal) {
         List<ActionRequest> actionRequests = developmentProposal.getProposalDocument().getDocumentHeader().getWorkflowDocument().getDocumentDetail().getActionRequests();
         int submitCount = 0;
-        for(ActionRequest actionRequest : actionRequests) {
-            if(actionRequest.getNodeName().equals(Constants.PD_INITIATED_ROUTE_NODE_NAME)) {
+        for (ActionRequest actionRequest : actionRequests) {
+            if (actionRequest.getNodeName().equals(Constants.PD_INITIATED_ROUTE_NODE_NAME)) {
                 submitCount++;
             }
-            if(submitCount > 1) {
+            if (submitCount > 1) {
                 return FALSE;
             }
         }
         return TRUE;
     }
-    
+
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }

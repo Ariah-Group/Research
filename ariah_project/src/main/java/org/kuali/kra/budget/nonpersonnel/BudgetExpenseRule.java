@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.budget.nonpersonnel;
 
@@ -26,10 +42,11 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
 import java.util.List;
+import org.kuali.kra.infrastructure.Constants;
 
 public class BudgetExpenseRule {
+
     private static final double MAX_BUDGET_DECIMAL_VALUE = 9999999999.00;
-    private static final String PERSONNEL_CATEGORY = "P";
 
     public BudgetExpenseRule() {
     }
@@ -54,34 +71,33 @@ public class BudgetExpenseRule {
 
         MessageMap errorMap = GlobalVariables.getMessageMap();
 
-
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudget().getBudgetPeriods();
         BudgetLineItem prevBudgetLineItem = currentBudgetLineItem;
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
-            if (budgetPeriod.getBudgetPeriod() <= currentBudgetPeriod.getBudgetPeriod())
+            if (budgetPeriod.getBudgetPeriod() <= currentBudgetPeriod.getBudgetPeriod()) {
                 continue;
+            }
             QueryList<BudgetLineItem> currentBudgetPeriodLineItems = new QueryList<BudgetLineItem>(budgetPeriod
                     .getBudgetLineItems());
             for (BudgetLineItem budgetLineItemToBeApplied : currentBudgetPeriodLineItems) {
                 if (prevBudgetLineItem.getLineItemNumber().equals(budgetLineItemToBeApplied.getBasedOnLineItem())) {
-                    if (budgetLineItemToBeApplied.getBudgetCategory().getBudgetCategoryTypeCode().equals(PERSONNEL_CATEGORY)
+                    if (budgetLineItemToBeApplied.getBudgetCategory().getBudgetCategoryTypeCode().equals(Constants.BUDGET_CATEGORY_PERSONNEL)
                             && (!budgetLineItemToBeApplied.getBudgetPersonnelDetailsList().isEmpty() || !prevBudgetLineItem
-                                    .getBudgetPersonnelDetailsList().isEmpty())) {
+                            .getBudgetPersonnelDetailsList().isEmpty())) {
                         errorMap.putError("document.budgetPeriod[" + (currentBudgetLineItem.getBudgetPeriod() - 1)
                                 + "].budgetLineItem[" + selectedLineItem + "].costElement",
                                 KeyConstants.ERROR_APPLY_TO_LATER_PERIODS, budgetLineItemToBeApplied.getBudgetPeriod().toString());
                         return false;
                     }
-                }
-                else if (StringUtils.equals(currentBudgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode(),
-                        PERSONNEL_CATEGORY)) {
+                } else if (StringUtils.equals(currentBudgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode(),
+                        Constants.BUDGET_CATEGORY_PERSONNEL)) {
                     // Additional Check for Personnel Source Line Item
                     if (StringUtils.equals(currentBudgetLineItem.getCostElement(), budgetLineItemToBeApplied.getCostElement())
                             && StringUtils.equals(currentBudgetLineItem.getGroupName(), budgetLineItemToBeApplied.getGroupName())) {
                         errorMap.putError("document.budgetPeriod[" + (currentBudgetLineItem.getBudgetPeriod() - 1)
                                 + "].budgetLineItem[" + selectedLineItem + "].costElement",
                                 KeyConstants.ERROR_PERSONNELLINEITEM_APPLY_TO_LATER_PERIODS, budgetLineItemToBeApplied
-                                        .getBudgetPeriod().toString());
+                                .getBudgetPeriod().toString());
                         return false;
                     }
 
@@ -90,13 +106,13 @@ public class BudgetExpenseRule {
             }
         }
 
-
         return true;
     }
 
     /**
-     * This method is checks line item start and end dates for validity and proper ordering in the entire budget document
-     * 
+     * This method is checks line item start and end dates for validity and
+     * proper ordering in the entire budget document
+     *
      * @param budgetDocument the BudgetDocument
      * @return true if the dates are valid, false otherwise
      */
@@ -114,10 +130,10 @@ public class BudgetExpenseRule {
         return valid;
     }
 
-
     /**
-     * This method is checks individual line item start and end dates for validity and proper ordering.
-     * 
+     * This method is checks individual line item start and end dates for
+     * validity and proper ordering.
+     *
      * @param currentBudgetPeriod the period containing the line item
      * @param selectedLineItem the number of the line item
      * @return true if the dates are valid, false otherwise
@@ -139,8 +155,9 @@ public class BudgetExpenseRule {
             valid = false;
         }
 
-        if (!valid)
+        if (!valid) {
             return valid;
+        }
 
         if (budgetLineItem.getEndDate().compareTo(budgetLineItem.getStartDate()) < 0) {
             errorMap.putError("document.budgetPeriod[" + (currentBudgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem["
@@ -150,33 +167,33 @@ public class BudgetExpenseRule {
 
         if (currentBudgetPeriod.getEndDate().compareTo(budgetLineItem.getEndDate()) < 0) {
             errorMap.putError("document.budgetPeriod[" + (currentBudgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem["
-                    + selectedLineItem + "].endDate", KeyConstants.ERROR_LINE_ITEM_END_DATE, new String[] { "can not be after",
-                    "end date" });
+                    + selectedLineItem + "].endDate", KeyConstants.ERROR_LINE_ITEM_END_DATE, new String[]{"can not be after",
+                        "end date"});
             valid = false;
         }
         if (currentBudgetPeriod.getStartDate().compareTo(budgetLineItem.getEndDate()) > 0) {
             errorMap.putError("document.budgetPeriod[" + (currentBudgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem["
-                    + selectedLineItem + "].endDate", KeyConstants.ERROR_LINE_ITEM_END_DATE, new String[] { "can not be before",
-                    "start date" });
+                    + selectedLineItem + "].endDate", KeyConstants.ERROR_LINE_ITEM_END_DATE, new String[]{"can not be before",
+                        "start date"});
             valid = false;
         }
         if (currentBudgetPeriod.getStartDate().compareTo(budgetLineItem.getStartDate()) > 0) {
             errorMap.putError("document.budgetPeriod[" + (currentBudgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem["
-                    + selectedLineItem + "].startDate", KeyConstants.ERROR_LINE_ITEM_START_DATE, new String[] {
-                    "can not be before", "start date" });
+                    + selectedLineItem + "].startDate", KeyConstants.ERROR_LINE_ITEM_START_DATE, new String[]{
+                        "can not be before", "start date"});
             valid = false;
         }
         if (currentBudgetPeriod.getEndDate().compareTo(budgetLineItem.getStartDate()) < 0) {
             errorMap.putError("document.budgetPeriod[" + (currentBudgetPeriod.getBudgetPeriod() - 1) + "].budgetLineItem["
-                    + selectedLineItem + "].startDate", KeyConstants.ERROR_LINE_ITEM_START_DATE, new String[] { "can not be after",
-                    "end date" });
+                    + selectedLineItem + "].startDate", KeyConstants.ERROR_LINE_ITEM_START_DATE, new String[]{"can not be after",
+                        "end date"});
             valid = false;
         }
 
         return valid;
     }
 
-    public boolean processBudgetFormulatedCostValidations(BudgetFormulatedCostDetail budgetFormulatedCost,int budgetPeriod,int lineItemNumber,String errorKey) {
+    public boolean processBudgetFormulatedCostValidations(BudgetFormulatedCostDetail budgetFormulatedCost, int budgetPeriod, int lineItemNumber, String errorKey) {
         boolean valid = true;
         MessageMap errorMap = GlobalVariables.getMessageMap();
 
@@ -184,15 +201,15 @@ public class BudgetExpenseRule {
         BudgetDecimal count = new BudgetDecimal(budgetFormulatedCost.getCount());
         BudgetDecimal frequency = new BudgetDecimal(budgetFormulatedCost.getFrequency());
         BudgetDecimal calculatedExpense = unitCost.multiply(count).multiply(frequency);
-        if(unitCost.isGreaterThan(new BudgetDecimal(MAX_BUDGET_DECIMAL_VALUE))){
+        if (unitCost.isGreaterThan(new BudgetDecimal(MAX_BUDGET_DECIMAL_VALUE))) {
             valid = false;
-            errorMap.putError(errorKey+".unitCost", KeyConstants.ERROR_FORMULATED_UNIT_COST);
-            
+            errorMap.putError(errorKey + ".unitCost", KeyConstants.ERROR_FORMULATED_UNIT_COST);
+
         }
-        if(calculatedExpense.isGreaterThan(new BudgetDecimal(MAX_BUDGET_DECIMAL_VALUE))){
+        if (calculatedExpense.isGreaterThan(new BudgetDecimal(MAX_BUDGET_DECIMAL_VALUE))) {
             valid = false;
-            errorMap.putError(errorKey+".calculatedExpenses", KeyConstants.ERROR_FORMULATED_CALCULATED_EXPENSES);
-            
+            errorMap.putError(errorKey + ".calculatedExpenses", KeyConstants.ERROR_FORMULATED_CALCULATED_EXPENSES);
+
         }
         return valid;
     }
