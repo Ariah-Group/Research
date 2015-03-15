@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.budget.core;
 
@@ -70,11 +86,9 @@ public class Budget extends BudgetVersionOverview {
      */
     private static final long serialVersionUID = -252470308729741085L;
 
-
     private static final String FALSE_FLAG = "N";
 
     private static final String TRUE_FLAG = "Y";
-
 
     private static final Log LOG = LogFactory.getLog(Budget.class);
 
@@ -102,7 +116,6 @@ public class Budget extends BudgetVersionOverview {
 
     private boolean rateClassTypesReloaded = false;
     private String budgetAdjustmentDocumentNumber;
-
 
     private List<BudgetPersonnelDetails> budgetPersonnelDetailsList;
 
@@ -165,7 +178,7 @@ public class Budget extends BudgetVersionOverview {
         budgetCategoryTypeCodes = new ArrayList<KeyValue>();
         budgetPrintForms = new ArrayList<BudgetPrintForm>();
         budgetSubAwards = new ArrayList<BudgetSubAwards>();
-        setOnOffCampusFlag("D");
+        setOnOffCampusFlag(Constants.DEFAULT_CAMPUS_FLAG);
     }
 
     public Boolean getFinalVersionFlag() {
@@ -174,7 +187,8 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * Looks up and returns the ParameterService.
-     * @return the parameter service. 
+     *
+     * @return the parameter service.
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
@@ -184,11 +198,13 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-     * This method handles the database relationship between {@link BudgetPeriod BudgetPeriods}
-     * and {@link BudgetProjectIncome BudgetProjectIncomes}.  This method is needed to ensure
-     * that a database constraint is not violated where a budget period needs to be deleted
-     * but a budget project income still exists referencing that period.  This relationship
-     * is not handled by our O/R M solution; therefore, it is handled here, manually.
+     * This method handles the database relationship between
+     * {@link BudgetPeriod BudgetPeriods} and
+     * {@link BudgetProjectIncome BudgetProjectIncomes}. This method is needed
+     * to ensure that a database constraint is not violated where a budget
+     * period needs to be deleted but a budget project income still exists
+     * referencing that period. This relationship is not handled by our O/R M
+     * solution; therefore, it is handled here, manually.
      */
     public void handlePeriodToProjectIncomeRelationship() {
         final Collection<Long> periodIncomesToDelete = new ArrayList<Long>();
@@ -202,8 +218,9 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-     * Checks if this budget document contains a budget period with a specific period id.
-     * 
+     * Checks if this budget document contains a budget period with a specific
+     * period id.
+     *
      * @param periodId the budget period id
      * @return true if it contains the budget period with the matching id.
      */
@@ -226,22 +243,24 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-     * Gets all persisted {@link BudgetPeriod BudgetPeriods} for the current proposal
-     * as an immutable collection.
-     * 
-     * @return {@link BudgetPeriod BudgetPeriods} if no periods are found this method returns
-     * an empty {@link Collection Collection}
+     * Gets all persisted {@link BudgetPeriod BudgetPeriods} for the current
+     * proposal as an immutable collection.
+     *
+     * @return {@link BudgetPeriod BudgetPeriods} if no periods are found this
+     * method returns an empty {@link Collection Collection}
      */
     private Collection<BudgetPeriod> getPersistedBudgetPeriods() {
         final BusinessObjectService service = getService(BusinessObjectService.class);
         final Map<String, Object> matchCriteria = new HashMap<String, Object>();
         matchCriteria.put("budgetId", this.getBudgetId());
-        @SuppressWarnings("unchecked") final Collection<BudgetPeriod> periods = service.findMatching(BudgetPeriod.class, matchCriteria);
+        @SuppressWarnings("unchecked")
+        final Collection<BudgetPeriod> periods = service.findMatching(BudgetPeriod.class, matchCriteria);
         return periods != null ? Collections.unmodifiableCollection(periods) : Collections.<BudgetPeriod>emptyList();
     }
 
     /**
-     * Deletes the {@link BudgetProjectIncome BudgetProjectIncomes} matching the passed in period ids from the database.
+     * Deletes the {@link BudgetProjectIncome BudgetProjectIncomes} matching the
+     * passed in period ids from the database.
      */
     private void deletePersistedProjectIncomes(final Collection<Long> periodIds) {
         assert periodIds != null : "the periodIds are null";
@@ -255,14 +274,15 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-     * Deletes the {@link BudgetProjectIncome BudgetProjectIncomes} matching the passed in period ids from local budget document.
+     * Deletes the {@link BudgetProjectIncome BudgetProjectIncomes} matching the
+     * passed in period ids from local budget document.
      */
     private void deleteLocalProjectIncomes(final Collection<Long> periodIds) {
         assert periodIds != null : "the periodIds are null";
         if (periodIds.isEmpty()) {
             return;
         }
-        for (final Iterator<BudgetProjectIncome> i = this.getBudgetProjectIncomes().iterator(); i.hasNext(); ) {
+        for (final Iterator<BudgetProjectIncome> i = this.getBudgetProjectIncomes().iterator(); i.hasNext();) {
             final BudgetProjectIncome budgetProjectIncome = i.next();
             if (periodIds.contains(budgetProjectIncome.getBudgetPeriodId())) {
                 i.remove();
@@ -272,7 +292,9 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method does what its name says
-     * @return List of project totals for each budget period, where budget period 1 total is stored in list's 0th element
+     *
+     * @return List of project totals for each budget period, where budget
+     * period 1 total is stored in list's 0th element
      */
     public List<KualiDecimal> getProjectIncomePeriodTotalsForEachBudgetPeriod() {
         Map<Integer, KualiDecimal> incomes = mapProjectIncomeTotalsToBudgetPeriodNumbers();
@@ -281,6 +303,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method does what its name says
+     *
      * @return
      */
     public List<FiscalYearSummary> getFiscalYearCostShareTotals() {
@@ -290,6 +313,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method does what its name says
+     *
      * @return
      */
     public List<FiscalYearSummary> getFiscalYearUnrecoveredFandATotals() {
@@ -299,6 +323,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method reveals applicability of Cost Sharing to this budget
+     *
      * @return
      */
     public Boolean isCostSharingApplicable() {
@@ -307,6 +332,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method reveals enforcement of Cost Sharing to this budget
+     *
      * @return
      */
     public Boolean isCostSharingEnforced() {
@@ -315,6 +341,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method reveals availability of Cost Sharing in this budget
+     *
      * @return
      */
     public boolean isCostSharingAvailable() {
@@ -342,6 +369,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method does what its name says
+     *
      * @return
      */
     public BudgetDecimal getAllocatedCostSharing() {
@@ -356,6 +384,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method does what its name says
+     *
      * @return
      */
     public BudgetDecimal getAllocatedUnrecoveredFandA() {
@@ -370,6 +399,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method does what its name says
+     *
      * @return
      */
     public KualiDecimal getProjectIncomeTotal() {
@@ -406,7 +436,8 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-     * Gets the BudgetSummary attribute. 
+     * Gets the BudgetSummary attribute.
+     *
      * @return Returns the BudgetSummary.
      */
     public BudgetSummaryService getBudgetSummaryService() {
@@ -485,12 +516,14 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method checks if any BudgetPeriod LineItem's have Justification
+     *
      * @param budgetDocument
      * @return
      */
     public boolean areLineItemJustificationsPresent() {
         boolean justificationFound = false;
-        OUTER: for (BudgetPeriod budgetPeriod : getBudgetPeriods()) {
+        OUTER:
+        for (BudgetPeriod budgetPeriod : getBudgetPeriods()) {
             for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
                 justificationFound = !StringUtils.isEmpty(lineItem.getBudgetJustification());
                 if (justificationFound) {
@@ -503,7 +536,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * Gets index i from the budgetPeriods list.
-     * 
+     *
      * @param index
      * @return Budget Period at index i
      */
@@ -533,7 +566,8 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-     * Gets the budgetRates attribute. 
+     * Gets the budgetRates attribute.
+     *
      * @return Returns the budgetRates.
      */
     public List<BudgetRate> getBudgetRates() {
@@ -542,6 +576,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * Sets the budgetRates attribute value.
+     *
      * @param budgetRates The budgetRates to set.
      */
     public void setBudgetRates(List<BudgetRate> budgetRates) {
@@ -549,7 +584,8 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-     * Gets the budgetLaRates attribute. 
+     * Gets the budgetLaRates attribute.
+     *
      * @return Returns the budgetLaRates.
      */
     public List<BudgetLaRate> getBudgetLaRates() {
@@ -558,6 +594,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * Sets the budgetLaRates attribute value.
+     *
      * @param budgetLaRates The budgetLaRates to set.
      */
     public void setBudgetLaRates(List<BudgetLaRate> budgetLaRates) {
@@ -565,7 +602,8 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-     * Gets the activityTypeCode attribute. 
+     * Gets the activityTypeCode attribute.
+     *
      * @return Returns the activityTypeCode.
      */
     public String getActivityTypeCode() {
@@ -574,6 +612,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * Sets the activityTypeCode attribute value.
+     *
      * @param activityTypeCode The activityTypeCode to set.
      */
     public void setActivityTypeCode(String activityTypeCode) {
@@ -589,7 +628,8 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-     * Gets the BudgetRates attribute. 
+     * Gets the BudgetRates attribute.
+     *
      * @return Returns the BudgetRates.
      */
     public BudgetRatesService getBudgetRatesService() {
@@ -624,6 +664,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method does what its name says
+     *
      * @return
      */
     public int getBudgetProjectIncomeCount() {
@@ -635,10 +676,11 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-    * This method...
-    * @param index
-    * @return
-    */
+     * This method...
+     *
+     * @param index
+     * @return
+     */
     public BudgetProjectIncome getBudgetProjectIncome(int index) {
         while (getBudgetProjectIncomes().size() <= index) {
             getBudgetProjectIncomes().add(new BudgetProjectIncome());
@@ -652,6 +694,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method adds an item to its collection
+     *
      * @param budgetCostShare
      */
     public void add(BudgetCostShare budgetCostShare) {
@@ -660,6 +703,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method adds an item to its collection
+     *
      * @param budgetProjectIncome
      */
     public void add(BudgetProjectIncome budgetProjectIncome) {
@@ -682,6 +726,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method adds an item to its collection
+     *
      * @param budgetRate
      */
     public void add(BudgetRate budgetRate) {
@@ -692,6 +737,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method adds an item to its collection
+     *
      * @param budgetLaRate
      */
     public void add(BudgetLaRate budgetLaRate) {
@@ -702,6 +748,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method adds an item to its collection
+     *
      * @return
      */
     public void add(BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
@@ -718,7 +765,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * Gets index i from the budgetPeriods list.
-     * 
+     *
      * @param index
      * @return Budget Period at index i
      */
@@ -735,6 +782,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method adds an item to its collection
+     *
      * @return
      */
     public void add(BudgetPeriod budgetPeriod) {
@@ -743,6 +791,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method does what its name says
+     *
      * @param index
      * @return Object reference that was deleted
      */
@@ -752,6 +801,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method does what its name says
+     *
      * @param index
      * @return Object reference that was deleted
      */
@@ -761,6 +811,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method does what its name says
+     *
      * @param index
      * @return Object reference that was deleted
      */
@@ -777,10 +828,11 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-    * This method...
-    * @param index
-    * @return
-    */
+     * This method...
+     *
+     * @param index
+     * @return
+     */
     public BudgetCostShare getBudgetCostShare(int index) {
         while (getBudgetCostShares().size() <= index) {
             getBudgetCostShares().add(new BudgetCostShare());
@@ -790,6 +842,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method does what its name says
+     *
      * @return
      */
     public List<BudgetCostShare> getBudgetCostShares() {
@@ -798,6 +851,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method does what its name says
+     *
      * @return
      */
     public int getBudgetCostShareCount() {
@@ -805,10 +859,11 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-    * This method...
-    * @param index
-    * @return
-    */
+     * This method...
+     *
+     * @param index
+     * @return
+     */
     public BudgetUnrecoveredFandA getBudgetUnrecoveredFandA(int index) {
         while (getBudgetUnrecoveredFandAs().size() <= index) {
             getBudgetUnrecoveredFandAs().add(new BudgetUnrecoveredFandA());
@@ -818,6 +873,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method does what its name says
+     *
      * @return
      */
     public List<BudgetUnrecoveredFandA> getBudgetUnrecoveredFandAs() {
@@ -826,6 +882,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method does what its name says
+     *
      * @return
      */
     public int getBudgetUnrecoveredFandACount() {
@@ -854,6 +911,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method does what its name says
+     *
      * @return
      */
     public BudgetDecimal getAvailableCostSharing() {
@@ -868,6 +926,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method does what its name says
+     *
      * @return
      */
     public BudgetDecimal getAvailableUnrecoveredFandA() {
@@ -882,6 +941,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method does what its name says
+     *
      * @param fiscalYear
      * @return
      */
@@ -899,6 +959,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method does what its name says
+     *
      * @param fiscalYear
      * @return
      */
@@ -915,19 +976,23 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-     * This method loads the fiscal year start from the database. Protected to allow mocking out service call
+     * This method loads the fiscal year start from the database. Protected to
+     * allow mocking out service call
+     *
      * @return
      */
     public Date loadFiscalYearStart() {
         return createDateFromString(getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CURRENT_FISCAL_YEAR));
     }
-    
-    public boolean getSalaryInflationEnabled(){
+
+    public boolean getSalaryInflationEnabled() {
         return getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.ENABLE_SALARY_INFLATION_ANNIV_DATE).equals(PARAM_VALUE_ENABLED);
     }
-    
+
     /**
-     * This method loads the cost sharing applicability flag from the database. Protected to allow mocking out service call
+     * This method loads the cost sharing applicability flag from the database.
+     * Protected to allow mocking out service call
+     *
      * @return
      */
     protected Boolean loadCostSharingApplicability() {
@@ -935,7 +1000,9 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-     * This method loads the unrecovered F&A applicability flag from the database. Protected to allow mocking out service call
+     * This method loads the unrecovered F&A applicability flag from the
+     * database. Protected to allow mocking out service call
+     *
      * @return
      */
     protected Boolean loadUnrecoveredFandAApplicability() {
@@ -943,7 +1010,9 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-     * This method loads the cost sharing enforcement flag from the database. Protected to allow mocking out service call
+     * This method loads the cost sharing enforcement flag from the database.
+     * Protected to allow mocking out service call
+     *
      * @return
      */
     protected Boolean loadCostSharingEnforcement() {
@@ -951,7 +1020,9 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-     * This method loads the unrecovered F&A enforcement flag from the database. Protected to allow mocking out service call
+     * This method loads the unrecovered F&A enforcement flag from the database.
+     * Protected to allow mocking out service call
+     *
      * @return
      */
     protected Boolean loadUnrecoveredFandAEnforcement() {
@@ -959,8 +1030,9 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-     * 
+     *
      * This method should be in DateUtils, but wasn't found there
+     *
      * @param budgetFiscalYearStart
      * @return
      */
@@ -977,7 +1049,9 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-     * This method adds a BudgetDistributionAndIncomeComponent to the specified list after setting its key field values
+     * This method adds a BudgetDistributionAndIncomeComponent to the specified
+     * list after setting its key field values
+     *
      * @param distributionAndIncomeComponents
      * @param distributionAndIncomeComponent
      */
@@ -998,6 +1072,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method does what its name says
+     *
      * @param fiscalYear
      * @return
      */
@@ -1014,6 +1089,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method does what its name says
+     *
      * @param fiscalYear
      * @param unrecoveredFandARateClassCode
      * @param findOnCampusRate
@@ -1032,6 +1108,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method does what its name says
+     *
      * @param budgetPeriodFiscalYears
      * @return
      */
@@ -1052,6 +1129,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method does what its name says
+     *
      * @param incomes
      * @return
      */
@@ -1068,7 +1146,9 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-     * This method returns a collection if the collection is not null; otherwise, zero is returned 
+     * This method returns a collection if the collection is not null;
+     * otherwise, zero is returned
+     *
      * @param collection
      * @return
      */
@@ -1078,8 +1158,9 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-     * This method returns the fiscalYearStart, loading it from the database if needed
-     *  
+     * This method returns the fiscalYearStart, loading it from the database if
+     * needed
+     *
      * @return
      */
     private Date getFiscalYearStart() {
@@ -1088,6 +1169,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method looks up the applicability flag
+     *
      * @param parmName
      * @return
      */
@@ -1103,6 +1185,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method does what its name says
+     *
      * @return
      */
     private Map<Integer, KualiDecimal> mapProjectIncomeTotalsToBudgetPeriodNumbers() {
@@ -1118,6 +1201,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * This method does what its name says
+     *
      * @return
      */
     private Map<Integer, List<BudgetPeriod>> mapBudgetPeriodsToFiscalYears() {
@@ -1148,6 +1232,7 @@ public class Budget extends BudgetVersionOverview {
 
         /**
          * Constructs a FiscalYearApplicableRate.java.
+         *
          * @param fiscalYear
          * @param onCampusApplicableRate
          * @param offCampusApplicableRate
@@ -1159,8 +1244,9 @@ public class Budget extends BudgetVersionOverview {
         }
 
         /**
-         * 
+         *
          * This method...
+         *
          * @return
          */
         public Integer getFiscalYear() {
@@ -1168,8 +1254,9 @@ public class Budget extends BudgetVersionOverview {
         }
 
         /**
-         * 
+         *
          * This method...
+         *
          * @return
          */
         public RateDecimal getOnCampusApplicableRate() {
@@ -1177,8 +1264,9 @@ public class Budget extends BudgetVersionOverview {
         }
 
         /**
-         * 
+         *
          * This method...
+         *
          * @return
          */
         public RateDecimal getOffCampusApplicableRate() {
@@ -1187,7 +1275,9 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-     * This class wraps the fiscal year, assignedBudgetPeriod, fiscl year applicable rate, and the fiscal year totals for cost share and unrecovered
+     * This class wraps the fiscal year, assignedBudgetPeriod, fiscl year
+     * applicable rate, and the fiscal year totals for cost share and
+     * unrecovered
      */
     public static class FiscalYearSummary {
 
@@ -1202,8 +1292,9 @@ public class Budget extends BudgetVersionOverview {
         private FiscalYearApplicableRate fiscalYearRates;
 
         /**
-         * 
+         *
          * Constructs a FiscalYearSummary.
+         *
          * @param assignedBudgetPeriod
          * @param fiscalYear
          * @param costShare
@@ -1220,8 +1311,9 @@ public class Budget extends BudgetVersionOverview {
         }
 
         /**
-         * 
+         *
          * This method...
+         *
          * @return
          */
         public int getFiscalYear() {
@@ -1229,8 +1321,9 @@ public class Budget extends BudgetVersionOverview {
         }
 
         /**
-         * 
+         *
          * This method...
+         *
          * @return
          */
         public BudgetPeriod getAssignedBudgetPeriod() {
@@ -1238,8 +1331,9 @@ public class Budget extends BudgetVersionOverview {
         }
 
         /**
-         * 
+         *
          * This method...
+         *
          * @return
          */
         public BudgetDecimal getCostShare() {
@@ -1247,8 +1341,9 @@ public class Budget extends BudgetVersionOverview {
         }
 
         /**
-         * 
+         *
          * This method...
+         *
          * @return
          */
         public FiscalYearApplicableRate getFiscalYearRates() {
@@ -1256,8 +1351,9 @@ public class Budget extends BudgetVersionOverview {
         }
 
         /**
-         * 
+         *
          * This method...
+         *
          * @return
          */
         public BudgetDecimal getUnrecoveredFandA() {
@@ -1294,15 +1390,17 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-    * Gets the budgetLineItemDeleted attribute. 
-    * @return Returns the budgetLineItemDeleted.
-    */
+     * Gets the budgetLineItemDeleted attribute.
+     *
+     * @return Returns the budgetLineItemDeleted.
+     */
     public boolean isBudgetLineItemDeleted() {
         return budgetLineItemDeleted;
     }
 
     /**
      * Sets the budgetLineItemDeleted attribute value.
+     *
      * @param budgetLineItemDeleted The budgetLineItemDeleted to set.
      */
     public void setBudgetLineItemDeleted(boolean budgetLineItemDeleted) {
@@ -1310,7 +1408,8 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-     * Gets the budgetPrintForms attribute. 
+     * Gets the budgetPrintForms attribute.
+     *
      * @return Returns the budgetPrintForms.
      */
     public List<BudgetPrintForm> getBudgetPrintForms() {
@@ -1319,6 +1418,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * Sets the budgetPrintForms attribute value.
+     *
      * @param budgetPrintForms The budgetPrintForms to set.
      */
     public void setBudgetPrintForms(List<BudgetPrintForm> budgetPrintForms) {
@@ -1407,6 +1507,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * Gets the Underreovery Amount for all budget periods.
+     *
      * @return the amount.
      */
     public final BudgetDecimal getSumUnderreoveryAmountFromPeriods() {
@@ -1419,6 +1520,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * Gets the sum of the CostSharing Amount for all budget periods.
+     *
      * @return the amount
      */
     public final BudgetDecimal getSumCostSharingAmountFromPeriods() {
@@ -1431,6 +1533,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * Gets the sum of the Direct Cost Amount for all budget periods.
+     *
      * @return the amount
      */
     public BudgetDecimal getSumDirectCostAmountFromPeriods() {
@@ -1443,6 +1546,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * Gets the sum of the Indirect Cost Amount for all budget periods.
+     *
      * @return the amount
      */
     public final BudgetDecimal getSumIndirectCostAmountFromPeriods() {
@@ -1455,6 +1559,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * Gets the sum of the Total Cost Amount for all budget periods.
+     *
      * @return the amount
      */
     public final BudgetDecimal getSumTotalCostAmountFromPeriods() {
@@ -1466,7 +1571,8 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-     * Gets the budgetDocument attribute. 
+     * Gets the budgetDocument attribute.
+     *
      * @return Returns the budgetDocument.
      */
     public BudgetDocument getBudgetDocument() {
@@ -1475,6 +1581,7 @@ public class Budget extends BudgetVersionOverview {
 
     /**
      * Sets the budgetDocument attribute value.
+     *
      * @param budgetDocument The budgetDocument to set.
      */
     public void setBudgetDocument(BudgetDocument budgetDocument) {
@@ -1483,7 +1590,8 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-     * Gets the ohRatesNonEditable attribute. 
+     * Gets the ohRatesNonEditable attribute.
+     *
      * @return Returns the ohRatesNonEditable.
      */
     public boolean getOhRatesNonEditable() {
@@ -1491,7 +1599,8 @@ public class Budget extends BudgetVersionOverview {
     }
 
     /**
-     * Gets the ebRatesNonEditable attribute. 
+     * Gets the ebRatesNonEditable attribute.
+     *
      * @return Returns the ebRatesNonEditable.
      */
     public boolean getEbRatesNonEditable() {
@@ -1558,103 +1667,235 @@ public class Budget extends BudgetVersionOverview {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!super.equals(obj)) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         Budget other = (Budget) obj;
         if (activityTypeCode == null) {
-            if (other.activityTypeCode != null) return false;
-        } else if (!activityTypeCode.equals(other.activityTypeCode)) return false;
+            if (other.activityTypeCode != null) {
+                return false;
+            }
+        } else if (!activityTypeCode.equals(other.activityTypeCode)) {
+            return false;
+        }
         if (budgetCategoryTypeCodes == null) {
-            if (other.budgetCategoryTypeCodes != null) return false;
-        } else if (!budgetCategoryTypeCodes.equals(other.budgetCategoryTypeCodes)) return false;
+            if (other.budgetCategoryTypeCodes != null) {
+                return false;
+            }
+        } else if (!budgetCategoryTypeCodes.equals(other.budgetCategoryTypeCodes)) {
+            return false;
+        }
         if (budgetCostShares == null) {
-            if (other.budgetCostShares != null) return false;
-        } else if (!budgetCostShares.equals(other.budgetCostShares)) return false;
+            if (other.budgetCostShares != null) {
+                return false;
+            }
+        } else if (!budgetCostShares.equals(other.budgetCostShares)) {
+            return false;
+        }
         if (budgetDocument == null) {
-            if (other.budgetDocument != null) return false;
-        } else if (!budgetDocument.equals(other.budgetDocument)) return false;
+            if (other.budgetDocument != null) {
+                return false;
+            }
+        } else if (!budgetDocument.equals(other.budgetDocument)) {
+            return false;
+        }
         if (budgetJustification == null) {
-            if (other.budgetJustification != null) return false;
-        } else if (!budgetJustification.equals(other.budgetJustification)) return false;
+            if (other.budgetJustification != null) {
+                return false;
+            }
+        } else if (!budgetJustification.equals(other.budgetJustification)) {
+            return false;
+        }
         if (budgetLaRates == null) {
-            if (other.budgetLaRates != null) return false;
-        } else if (!budgetLaRates.equals(other.budgetLaRates)) return false;
-        if (budgetLineItemDeleted != other.budgetLineItemDeleted) return false;
+            if (other.budgetLaRates != null) {
+                return false;
+            }
+        } else if (!budgetLaRates.equals(other.budgetLaRates)) {
+            return false;
+        }
+        if (budgetLineItemDeleted != other.budgetLineItemDeleted) {
+            return false;
+        }
         if (budgetPeriods == null) {
-            if (other.budgetPeriods != null) return false;
-        } else if (!budgetPeriods.equals(other.budgetPeriods)) return false;
+            if (other.budgetPeriods != null) {
+                return false;
+            }
+        } else if (!budgetPeriods.equals(other.budgetPeriods)) {
+            return false;
+        }
         if (budgetPersonnelDetailsList == null) {
-            if (other.budgetPersonnelDetailsList != null) return false;
-        } else if (!budgetPersonnelDetailsList.equals(other.budgetPersonnelDetailsList)) return false;
+            if (other.budgetPersonnelDetailsList != null) {
+                return false;
+            }
+        } else if (!budgetPersonnelDetailsList.equals(other.budgetPersonnelDetailsList)) {
+            return false;
+        }
         if (budgetPersons == null) {
-            if (other.budgetPersons != null) return false;
-        } else if (!budgetPersons.equals(other.budgetPersons)) return false;
+            if (other.budgetPersons != null) {
+                return false;
+            }
+        } else if (!budgetPersons.equals(other.budgetPersons)) {
+            return false;
+        }
         if (budgetPrintForms == null) {
-            if (other.budgetPrintForms != null) return false;
-        } else if (!budgetPrintForms.equals(other.budgetPrintForms)) return false;
+            if (other.budgetPrintForms != null) {
+                return false;
+            }
+        } else if (!budgetPrintForms.equals(other.budgetPrintForms)) {
+            return false;
+        }
         if (budgetProjectIncomes == null) {
-            if (other.budgetProjectIncomes != null) return false;
-        } else if (!budgetProjectIncomes.equals(other.budgetProjectIncomes)) return false;
+            if (other.budgetProjectIncomes != null) {
+                return false;
+            }
+        } else if (!budgetProjectIncomes.equals(other.budgetProjectIncomes)) {
+            return false;
+        }
         if (budgetRates == null) {
-            if (other.budgetRates != null) return false;
-        } else if (!budgetRates.equals(other.budgetRates)) return false;
+            if (other.budgetRates != null) {
+                return false;
+            }
+        } else if (!budgetRates.equals(other.budgetRates)) {
+            return false;
+        }
         if (budgetSubAwards == null) {
-            if (other.budgetSubAwards != null) return false;
-        } else if (!budgetSubAwards.equals(other.budgetSubAwards)) return false;
+            if (other.budgetSubAwards != null) {
+                return false;
+            }
+        } else if (!budgetSubAwards.equals(other.budgetSubAwards)) {
+            return false;
+        }
         if (budgetSummaryTotals == null) {
-            if (other.budgetSummaryTotals != null) return false;
-        } else if (!budgetSummaryTotals.equals(other.budgetSummaryTotals)) return false;
+            if (other.budgetSummaryTotals != null) {
+                return false;
+            }
+        } else if (!budgetSummaryTotals.equals(other.budgetSummaryTotals)) {
+            return false;
+        }
         if (budgetUnrecoveredFandAs == null) {
-            if (other.budgetUnrecoveredFandAs != null) return false;
-        } else if (!budgetUnrecoveredFandAs.equals(other.budgetUnrecoveredFandAs)) return false;
+            if (other.budgetUnrecoveredFandAs != null) {
+                return false;
+            }
+        } else if (!budgetUnrecoveredFandAs.equals(other.budgetUnrecoveredFandAs)) {
+            return false;
+        }
         if (calculatedExpenseTotals == null) {
-            if (other.calculatedExpenseTotals != null) return false;
-        } else if (!calculatedExpenseTotals.equals(other.calculatedExpenseTotals)) return false;
+            if (other.calculatedExpenseTotals != null) {
+                return false;
+            }
+        } else if (!calculatedExpenseTotals.equals(other.calculatedExpenseTotals)) {
+            return false;
+        }
         if (instituteLaRates == null) {
-            if (other.instituteLaRates != null) return false;
-        } else if (!instituteLaRates.equals(other.instituteLaRates)) return false;
+            if (other.instituteLaRates != null) {
+                return false;
+            }
+        } else if (!instituteLaRates.equals(other.instituteLaRates)) {
+            return false;
+        }
         if (instituteRates == null) {
-            if (other.instituteRates != null) return false;
-        } else if (!instituteRates.equals(other.instituteRates)) return false;
+            if (other.instituteRates != null) {
+                return false;
+            }
+        } else if (!instituteRates.equals(other.instituteRates)) {
+            return false;
+        }
         if (nonPersonnelCalculatedExpenseTotals == null) {
-            if (other.nonPersonnelCalculatedExpenseTotals != null) return false;
-        } else if (!nonPersonnelCalculatedExpenseTotals.equals(other.nonPersonnelCalculatedExpenseTotals)) return false;
+            if (other.nonPersonnelCalculatedExpenseTotals != null) {
+                return false;
+            }
+        } else if (!nonPersonnelCalculatedExpenseTotals.equals(other.nonPersonnelCalculatedExpenseTotals)) {
+            return false;
+        }
         if (objectCodeListByBudgetCategoryType == null) {
-            if (other.objectCodeListByBudgetCategoryType != null) return false;
-        } else if (!objectCodeListByBudgetCategoryType.equals(other.objectCodeListByBudgetCategoryType)) return false;
+            if (other.objectCodeListByBudgetCategoryType != null) {
+                return false;
+            }
+        } else if (!objectCodeListByBudgetCategoryType.equals(other.objectCodeListByBudgetCategoryType)) {
+            return false;
+        }
         if (objectCodePersonnelFringeTotals == null) {
-            if (other.objectCodePersonnelFringeTotals != null) return false;
-        } else if (!objectCodePersonnelFringeTotals.equals(other.objectCodePersonnelFringeTotals)) return false;
+            if (other.objectCodePersonnelFringeTotals != null) {
+                return false;
+            }
+        } else if (!objectCodePersonnelFringeTotals.equals(other.objectCodePersonnelFringeTotals)) {
+            return false;
+        }
         if (objectCodePersonnelList == null) {
-            if (other.objectCodePersonnelList != null) return false;
-        } else if (!objectCodePersonnelList.equals(other.objectCodePersonnelList)) return false;
+            if (other.objectCodePersonnelList != null) {
+                return false;
+            }
+        } else if (!objectCodePersonnelList.equals(other.objectCodePersonnelList)) {
+            return false;
+        }
         if (objectCodePersonnelSalaryTotals == null) {
-            if (other.objectCodePersonnelSalaryTotals != null) return false;
-        } else if (!objectCodePersonnelSalaryTotals.equals(other.objectCodePersonnelSalaryTotals)) return false;
+            if (other.objectCodePersonnelSalaryTotals != null) {
+                return false;
+            }
+        } else if (!objectCodePersonnelSalaryTotals.equals(other.objectCodePersonnelSalaryTotals)) {
+            return false;
+        }
         if (objectCodeTotals == null) {
-            if (other.objectCodeTotals != null) return false;
-        } else if (!objectCodeTotals.equals(other.objectCodeTotals)) return false;
+            if (other.objectCodeTotals != null) {
+                return false;
+            }
+        } else if (!objectCodeTotals.equals(other.objectCodeTotals)) {
+            return false;
+        }
         if (personnelCalculatedExpenseTotals == null) {
-            if (other.personnelCalculatedExpenseTotals != null) return false;
-        } else if (!personnelCalculatedExpenseTotals.equals(other.personnelCalculatedExpenseTotals)) return false;
+            if (other.personnelCalculatedExpenseTotals != null) {
+                return false;
+            }
+        } else if (!personnelCalculatedExpenseTotals.equals(other.personnelCalculatedExpenseTotals)) {
+            return false;
+        }
         if (rateClass == null) {
-            if (other.rateClass != null) return false;
-        } else if (!rateClass.equals(other.rateClass)) return false;
+            if (other.rateClass != null) {
+                return false;
+            }
+        } else if (!rateClass.equals(other.rateClass)) {
+            return false;
+        }
         if (rateClassTypes == null) {
-            if (other.rateClassTypes != null) return false;
-        } else if (!rateClassTypes.equals(other.rateClassTypes)) return false;
-        if (rateClassTypesReloaded != other.rateClassTypesReloaded) return false;
+            if (other.rateClassTypes != null) {
+                return false;
+            }
+        } else if (!rateClassTypes.equals(other.rateClassTypes)) {
+            return false;
+        }
+        if (rateClassTypesReloaded != other.rateClassTypesReloaded) {
+            return false;
+        }
         if (rateClasses == null) {
-            if (other.rateClasses != null) return false;
-        } else if (!rateClasses.equals(other.rateClasses)) return false;
-        if (rateSynced != other.rateSynced) return false;
+            if (other.rateClasses != null) {
+                return false;
+            }
+        } else if (!rateClasses.equals(other.rateClasses)) {
+            return false;
+        }
+        if (rateSynced != other.rateSynced) {
+            return false;
+        }
         if (summaryPeriodEndDate == null) {
-            if (other.summaryPeriodEndDate != null) return false;
-        } else if (!summaryPeriodEndDate.equals(other.summaryPeriodEndDate)) return false;
+            if (other.summaryPeriodEndDate != null) {
+                return false;
+            }
+        } else if (!summaryPeriodEndDate.equals(other.summaryPeriodEndDate)) {
+            return false;
+        }
         if (summaryPeriodStartDate == null) {
-            if (other.summaryPeriodStartDate != null) return false;
-        } else if (!summaryPeriodStartDate.equals(other.summaryPeriodStartDate)) return false;
+            if (other.summaryPeriodStartDate != null) {
+                return false;
+            }
+        } else if (!summaryPeriodStartDate.equals(other.summaryPeriodStartDate)) {
+            return false;
+        }
         return true;
     }
 
@@ -1665,11 +1906,11 @@ public class Budget extends BudgetVersionOverview {
     public boolean isCostSharingSubmissionEnabled() {
         return getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.ENABLE_COST_SHARE_SUBMIT).equals(PARAM_VALUE_ENABLED);
     }
-    
+
     public String getSummaryNumberOfMonths() {
         return String.valueOf(this.getProposalBudgetNumberOfMonthsService().getNumberOfMonth(this.getSummaryPeriodStartDate(), this.getSummaryPeriodEndDate()));
     }
-    
+
     protected ProposalBudgetNumberOfMonthsService getProposalBudgetNumberOfMonthsService() {
         return KraServiceLocator.getService(ProposalBudgetNumberOfMonthsService.class);
     }

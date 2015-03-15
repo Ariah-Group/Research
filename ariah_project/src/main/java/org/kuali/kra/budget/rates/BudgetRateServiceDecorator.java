@@ -56,6 +56,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
+import org.kuali.kra.infrastructure.Constants;
 
 public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRatesServiceImpl<T> {
     
@@ -174,11 +175,11 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
         if (awardInstituteRate.getInstituteRate()==null) { 
             awardInstituteRate.setInstituteRate(applicableRate);
         }
-        String awardFnArateTypeCode = awardFnARate.getFandaRateTypeCode().toString();
+        String awardFnArateTypeCode = awardFnARate.getFandaRateTypeCode();
         awardInstituteRate.setRateTypeCode(awardFnArateTypeCode);
         awardInstituteRate.setRateType(awardFnARate.getFandaRateType());
         awardInstituteRate.setRateClassCode(awardFnARate.getFandaRateType().getRateClassCode());
-        Boolean onCampusFlag = awardFnARate.getOnCampusFlag().equals("N");
+        Boolean onCampusFlag = awardFnARate.getOnCampusFlag().equals(Constants.ON_CAMPUS_FLAG);
         awardInstituteRate.setOnOffCampusFlag(onCampusFlag);
         awardInstituteRate.setNonEditableRateFlag(true);
         awardInstituteRate.refreshReferenceObject("rateClass");
@@ -188,7 +189,7 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
     private InstituteRate filterInstituteRate(AwardFandaRate awardFnARate, Award award,Collection<InstituteRate> instituteRates) {
         QueryList<InstituteRate> qlInstituteRates = new QueryList<InstituteRate>(instituteRates);
         Equals eqActivityType = new Equals("activityTypeCode",award.getActivityTypeCode());
-        Equals eqCampusFlag = new Equals("onOffCampusFlag", awardFnARate.getOnCampusFlag().equals("N"));
+        Equals eqCampusFlag = new Equals("onOffCampusFlag", awardFnARate.getOnCampusFlag().equals(Constants.ON_CAMPUS_FLAG));
         Equals eqRateClassCode = new Equals("rateClassCode",awardFnARate.getFandaRateType().getRateClassCode());
         Equals eqRateTypeCode = new Equals("rateTypeCode",awardFnARate.getFandaRateTypeCode());
         And campFlagAndActTypeAndUnitNum = new And(eqActivityType,eqCampusFlag);
@@ -213,6 +214,7 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
         return rateType;
     }
 
+    @Override
     public void syncAllBudgetRates(BudgetDocument<T> budgetDocument) {
         if(isAwardBudget(budgetDocument) ){
             if(isOutOfSyncAwardRates(budgetDocument.getBudget())){
@@ -224,6 +226,7 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
         }
     }
     
+    @Override
     public void syncParentDocumentRates(BudgetDocument<T> budgetDocument) {
         if (isAwardBudget(budgetDocument)) {
             if (!hasNoRatesFromParent(budgetDocument.getBudget())

@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.commitments;
 
@@ -31,25 +47,26 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 
+ *
  * This is the implementation of <code>AwardFandaRateService</code> interface.
  */
 public class AwardFandaRateServiceImpl implements AwardFandaRateService {
-    
+
     public static final int FOUR_DIGIT_YEAR_LENGTH = 4;
-    
+
     protected static final String F_AND_A_RATE_CLASS_TYPE_CODE = "O";
-    
+
     protected BusinessObjectService businessObjectService;
     private FiscalYearMonthService fiscalYearMonthService;
-    
+
     /**
-     * 
-     * @see org.kuali.kra.award.commitments.AwardFandaRateService#getStartAndEndDatesBasedOnFiscalYear(java.lang.String)
+     *
+     * @see
+     * org.kuali.kra.award.commitments.AwardFandaRateService#getStartAndEndDatesBasedOnFiscalYear(java.lang.String)
      */
-    public List<String> getStartAndEndDatesBasedOnFiscalYear(String fiscalYear){
+    public List<String> getStartAndEndDatesBasedOnFiscalYear(String fiscalYear) {
         List<String> listDates = new ArrayList<String>();
-        if (StringUtils.isNotEmpty(fiscalYear) && fiscalYear.length()==FOUR_DIGIT_YEAR_LENGTH) {
+        if (StringUtils.isNotEmpty(fiscalYear) && fiscalYear.length() == FOUR_DIGIT_YEAR_LENGTH) {
             DateFormat dateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
             Integer fy = Integer.parseInt(fiscalYear);
             listDates.add(dateFormat.format(new Date(this.getFiscalYearMonthService().getFiscalYearStartDate(fy).getTimeInMillis())));
@@ -57,13 +74,13 @@ public class AwardFandaRateServiceImpl implements AwardFandaRateService {
         }
         return listDates;
     }
-    
+
     public List<ValidRates> getValidRates(AwardFandaRate awardFandaRate) {
         if (ObjectUtils.isNull(awardFandaRate)) {
             return new ArrayList<ValidRates>();
         }
         Map<String, Object> criteria = new HashMap<String, Object>();
-        if (awardFandaRate.getOnCampusFlag().equalsIgnoreCase("N")) {
+        if (awardFandaRate.getOnCampusFlag().equalsIgnoreCase(Constants.ON_CAMPUS_FLAG)) {
             criteria.put("onCampusRate", awardFandaRate.getApplicableFandaRate());
         } else {
             criteria.put("offCampusRate", awardFandaRate.getApplicableFandaRate());
@@ -72,17 +89,17 @@ public class AwardFandaRateServiceImpl implements AwardFandaRateService {
         List<ValidRates> rates = new ArrayList<ValidRates>(businessObjectService.findMatching(ValidRates.class, criteria));
         return rates;
     }
-   
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
     public FiscalYearMonthService getFiscalYearMonthService() {
         return this.fiscalYearMonthService;
     }
-    
+
     public void setFiscalYearMonthService(FiscalYearMonthService fiscalYearMonthService) {
         this.fiscalYearMonthService = fiscalYearMonthService;
     }
-   
+
 }

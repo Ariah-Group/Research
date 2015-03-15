@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.commitments;
 
@@ -30,7 +46,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 
+ *
  * This class represents the AwardFandaRate Business Object.
  */
 public class AwardFandaRate extends AwardAssociate {
@@ -61,15 +77,16 @@ public class AwardFandaRate extends AwardAssociate {
     private Date endDate;
 
     /**
-     * 
+     *
      * Constructs a AwardFandaRate.java.
      */
     public AwardFandaRate() {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public Long getAwardFandaRateId() {
@@ -77,8 +94,9 @@ public class AwardFandaRate extends AwardAssociate {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param awardFandaRateId
      */
     public void setAwardFandaRateId(Long awardFandaRateId) {
@@ -86,8 +104,9 @@ public class AwardFandaRate extends AwardAssociate {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public KualiDecimal getApplicableFandaRate() {
@@ -102,8 +121,9 @@ public class AwardFandaRate extends AwardAssociate {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param applicableFandaRate
      */
     public void setApplicableFandaRate(KualiDecimal applicableFandaRate) {
@@ -111,8 +131,9 @@ public class AwardFandaRate extends AwardAssociate {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public String getFandaRateTypeCode() {
@@ -120,8 +141,9 @@ public class AwardFandaRate extends AwardAssociate {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param fandaRateTypeCode
      */
     public void setFandaRateTypeCode(String fandaRateTypeCode) {
@@ -129,8 +151,9 @@ public class AwardFandaRate extends AwardAssociate {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public String getFiscalYear() {
@@ -138,8 +161,9 @@ public class AwardFandaRate extends AwardAssociate {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param fiscalYear
      */
     public void setFiscalYear(String fiscalYear) {
@@ -147,8 +171,9 @@ public class AwardFandaRate extends AwardAssociate {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public String getOnCampusFlag() {
@@ -156,12 +181,13 @@ public class AwardFandaRate extends AwardAssociate {
     }
 
     public Boolean getOnOffCampusFlag() {
-        return onCampusFlag.equals("N");
+        return onCampusFlag.equals(Constants.ON_CAMPUS_FLAG);
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param onCampusFlag
      */
     public void setOnCampusFlag(String onCampusFlag) {
@@ -169,21 +195,23 @@ public class AwardFandaRate extends AwardAssociate {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public KualiDecimal getUnderrecoveryOfIndirectCost() {
         return underrecoveryOfIndirectCost;
     }
-    
+
     public long getUnderrecoveryOfIndirectCostLongValue() {
         return underrecoveryOfIndirectCost != null ? underrecoveryOfIndirectCost.longValue() : 0;
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param underrecoveryOfIndirectCost
      */
     public void setUnderrecoveryOfIndirectCost(KualiDecimal underrecoveryOfIndirectCost) {
@@ -191,8 +219,9 @@ public class AwardFandaRate extends AwardAssociate {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public String getSourceAccount() {
@@ -200,8 +229,9 @@ public class AwardFandaRate extends AwardAssociate {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param sourceAccount
      */
     public void setSourceAccount(String sourceAccount) {
@@ -209,8 +239,9 @@ public class AwardFandaRate extends AwardAssociate {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public String getDestinationAccount() {
@@ -218,8 +249,9 @@ public class AwardFandaRate extends AwardAssociate {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param destinationAccount
      */
     public void setDestinationAccount(String destinationAccount) {
@@ -227,8 +259,9 @@ public class AwardFandaRate extends AwardAssociate {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public Date getStartDate() {
@@ -236,8 +269,9 @@ public class AwardFandaRate extends AwardAssociate {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param startDate
      */
     public void setStartDate(Date startDate) {
@@ -245,8 +279,9 @@ public class AwardFandaRate extends AwardAssociate {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public Date getEndDate() {
@@ -254,8 +289,9 @@ public class AwardFandaRate extends AwardAssociate {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param endDate
      */
     public void setEndDate(Date endDate) {
@@ -299,8 +335,9 @@ public class AwardFandaRate extends AwardAssociate {
     }
 
     /**
-     * 
+     *
      * Convenience method to check equality of another AwardFandaRate
+     *
      * @param awardFandaRate
      * @return
      */
@@ -414,7 +451,8 @@ public class AwardFandaRate extends AwardAssociate {
     }
 
     /**
-     * Gets the fandaRateType attribute. 
+     * Gets the fandaRateType attribute.
+     *
      * @return Returns the fandaRateType.
      */
     public RateType getFandaRateType() {
