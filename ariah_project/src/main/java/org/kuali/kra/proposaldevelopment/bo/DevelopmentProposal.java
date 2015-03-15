@@ -2181,7 +2181,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
             if (srcSpecialReview.getExemptionTypeCodes() != null) {
                 List<String> exemptionCodeCopy = new ArrayList<String>();
                 for (String s : srcSpecialReview.getExemptionTypeCodes()) {
-                    exemptionCodeCopy.add(new String(s));
+                    exemptionCodeCopy.add(s);
                 }
                 dstSpecialReview.setExemptionTypeCodes(exemptionCodeCopy);
             }
