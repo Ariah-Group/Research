@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.questionnaire;
 
@@ -36,12 +52,13 @@ import java.util.Iterator;
  * This class is used for question look in Questionnaire maintenance
  */
 public class QuestionLookupAction extends KualiAction {
+
     private static final String PFP = "#f#";
     private static final String PQP = "#q#";
     private static final String SINGLE_LOOKUP = "singleLookup";
     private static final String MULTI_LOOKUP = "multiLookup";
     private static final String REPLACE_LOOKUP = "replaceLookup";
-    
+
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -50,7 +67,7 @@ public class QuestionLookupAction extends KualiAction {
         String questions = Constants.EMPTY_STRING;
         if (questionLookupForm.getLookupResultsBOClassName() != null && questionLookupForm.getLookupResultsSequenceNumber() != null) {
             String lookupResultsSequenceNumber = questionLookupForm.getLookupResultsSequenceNumber();
-            
+
             @SuppressWarnings("unchecked")
             Class<BusinessObject> lookupResultsBOClass = (Class<BusinessObject>) Class.forName(questionLookupForm.getLookupResultsBOClassName());
 
@@ -69,14 +86,13 @@ public class QuestionLookupAction extends KualiAction {
                 // need to deal with '"' in question's description
                 // This '"' caused trouble for document.getElementById("selectedQuestions").value;
                 // It only getvalue up to '"', so not the whole string is returned
-                if (desc.indexOf("\"") > 0) {
+                if (desc.indexOf('"') > 0) {
                     desc = desc.replace("\"", "&#034;");
                 }
                 if (StringUtils.isBlank(questions)) {
                     questions = question.getQuestionRefId() + PFP + desc + PFP + question.getQuestionTypeId() + PFP
                             + question.getSequenceNumber();
-                }
-                else {
+                } else {
                     questions = questions + PQP + question.getQuestionRefId() + PFP + desc + PFP
                             + question.getQuestionTypeId() + PFP + question.getSequenceNumber();
 
@@ -90,11 +106,9 @@ public class QuestionLookupAction extends KualiAction {
         if (questionLookupForm.getNodeIndex() >= 0) {
             // when single lookup return, this refresh will be called too
             forward = mapping.findForward(SINGLE_LOOKUP);
-        }
-        else if (questionLookupForm.getNodeIndex() == -2) {
+        } else if (questionLookupForm.getNodeIndex() == -2) {
             forward = mapping.findForward(REPLACE_LOOKUP);
-        }
-        else {
+        } else {
             forward = mapping.findForward(MULTI_LOOKUP);
         }
         return forward;
@@ -105,11 +119,10 @@ public class QuestionLookupAction extends KualiAction {
         String retString = "";
         if (question.getQuestionTypeId().equals(new Integer(6))) {
             String className = question.getLookupClass();
-            className = className.substring(className.lastIndexOf(".") + 1);
+            className = className.substring(className.lastIndexOf('.') + 1);
             retString = className + PFP + question.getMaxAnswers() + PFP + question.getLookupReturn();
 
-        }
-        else {
+        } else {
             retString = question.getDisplayedAnswers() + PFP + question.getMaxAnswers() + PFP + question.getAnswerMaxLength();
         }
         return retString;
@@ -123,11 +136,9 @@ public class QuestionLookupAction extends KualiAction {
         if (StringUtils.isNotBlank(lookupType)) {
             if (lookupType.equals("single")) {
                 forward = mapping.findForward(SINGLE_LOOKUP);
-            }
-            else if (lookupType.equals("multivalue")) {
+            } else if (lookupType.equals("multivalue")) {
                 forward = mapping.findForward(MULTI_LOOKUP);
-            }
-            else if (lookupType.equals("replace")) {
+            } else if (lookupType.equals("replace")) {
                 forward = mapping.findForward(REPLACE_LOOKUP);
             }
         }

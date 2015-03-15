@@ -393,7 +393,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     }
 
     private String createXMLFileName(BudgetSubAwards subAward) {
-        return subAward.getSubAwardXfdFileName().substring(0, subAward.getSubAwardXfdFileName().lastIndexOf(".") + 1) + XML_FILE_EXTENSION;
+        return subAward.getSubAwardXfdFileName().substring(0, subAward.getSubAwardXfdFileName().lastIndexOf('.') + 1) + XML_FILE_EXTENSION;
     }
     
     private Integer generateSubAwardNumber(BudgetDocument budgetDocument) {

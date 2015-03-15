@@ -1387,7 +1387,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             }
             idx = methodToCallAttribute.indexOf("&activePanelName=");
             if (idx > 0) {
-                activePanelName = methodToCallAttribute.substring(methodToCallAttribute.indexOf("=", idx) + 1, methodToCallAttribute.indexOf(".", idx));
+                activePanelName = methodToCallAttribute.substring(methodToCallAttribute.indexOf('=', idx) + 1, methodToCallAttribute.indexOf('.', idx));
             }
         }
 

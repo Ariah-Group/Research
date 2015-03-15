@@ -903,7 +903,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
                 baseSalary = baseSalary + salaryDetails.getBaseSalary() + ",";
             }
 
-            baseSalary = baseSalary.substring(0, baseSalary.lastIndexOf(","));
+            baseSalary = baseSalary.substring(0, baseSalary.lastIndexOf(','));
         }
         return baseSalary;
     }

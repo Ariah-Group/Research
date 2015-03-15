@@ -68,7 +68,7 @@ public class LookupableBoValuesFinder extends UifKeyValuesFinderBase {
     	        String label = StringUtils.removeEnd(businessObjectEntry.getLookupDefinition().getTitle().trim()," Lookup");
     	        
     	        if (labelCounts.get(label) > 1){
-    	            label = label + " (" + key.substring(key.lastIndexOf(".") + 1) + ")";
+    	            label = label + " (" + key.substring(key.lastIndexOf('.') + 1) + ")";
     	        }
 
         		KeyValue KeyValue = new ConcreteKeyValue(key, label);
