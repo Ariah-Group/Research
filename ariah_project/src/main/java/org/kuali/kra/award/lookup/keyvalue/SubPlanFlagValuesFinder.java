@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.lookup.keyvalue;
 
@@ -23,26 +39,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ *
  * This class is a values finder for subPlanFlag of Award business object.
  */
 @SuppressWarnings("unchecked")
 public class SubPlanFlagValuesFinder extends UifKeyValuesFinderBase {
-    
+
     /**
-     * This method adds 3 pre-determined values to a key values pair and returns it.
-     * 
+     * This method adds 3 pre-determined values to a key values pair and returns
+     * it.
+     *
      */
     @Override
     public List<KeyValue> getKeyValues() {
-        
+
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        
-        keyValues.add(new ConcreteKeyValue("U", new String("Unknown")));
-        keyValues.add(new ConcreteKeyValue("Y", new String("Required")));
-        keyValues.add(new ConcreteKeyValue("N", new String("Not Required")));
-                
+
+        keyValues.add(new ConcreteKeyValue("U", "Unknown"));
+        keyValues.add(new ConcreteKeyValue("Y", "Required"));
+        keyValues.add(new ConcreteKeyValue("N", "Not Required"));
+
         return keyValues;
     }
-   
+
 }
