@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.notification;
 
@@ -27,18 +43,18 @@ public class AwardReportTrackingNotificationRenderer extends AwardNotificationRe
     private static final long serialVersionUID = -2035058699415467934L;
     private static final String START_REPEAT_SECTION = "{BEGIN_REPEAT_SECTION}";
     private static final String END_REPEAT_SECTION = "{END_REPEAT_SECTION}";
-    
+
     private List<ReportTracking> reports;
-    
+
     public AwardReportTrackingNotificationRenderer() {
         super();
     }
-    
+
     public AwardReportTrackingNotificationRenderer(List<ReportTracking> reports) {
         super();
         this.reports = reports;
     }
-    
+
     protected Map<String, String> getReportReplacementParameters(ReportTracking report) {
         Map<String, String> result = getAwardReplacementParameters(report.getAward());
         SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
@@ -51,7 +67,7 @@ public class AwardReportTrackingNotificationRenderer extends AwardNotificationRe
         result.put(END_REPEAT_SECTION, "");
         return result;
     }
-    
+
     @Override
     public String render(String text) {
         int startIndex = StringUtils.indexOf(text, START_REPEAT_SECTION);
@@ -59,7 +75,7 @@ public class AwardReportTrackingNotificationRenderer extends AwardNotificationRe
         String startStr = text.substring(0, startIndex);
         String repeatedStr = text.substring(startIndex, endIndex);
         String endStr = text.substring(endIndex);
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append(startStr);
         for (ReportTracking report : reports) {
             buffer.append(this.render(repeatedStr, getReportReplacementParameters(report)));
