@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.coi.lookup.dao.ojb;
 
@@ -58,24 +74,28 @@ public class CoiDisclosureUndisclosedEventsDaoOjb extends PlatformAwareDaoBaseOj
     private static final String FUNDING_SOURCE_COLLECTION = "protocol.protocolFundingSources";
     
     @SuppressWarnings("unchecked")
+    @Override
     public List<ProposalPerson> getDevelopmentProposalPersons(Map<String, String> fieldValues) {
         QueryByCriteria query = QueryFactory.newQuery(ProposalPerson.class, getSearchCriteria(fieldValues, DEV_PROPOSAL_SAVE_DATE, DEV_PROPOSAL_SPONSOR_CODE));
         return (List<ProposalPerson>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public List<InstitutionalProposalPerson> getInstituteProposalPersons(Map<String, String> fieldValues) {
         QueryByCriteria query = QueryFactory.newQuery(InstitutionalProposalPerson.class, getSearchCriteria(fieldValues, INST_PROPOSAL_SAVE_DATE, INST_PROPOSAL_SPONSOR_CODE));
         return (List<InstitutionalProposalPerson>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public List<AwardPerson> getAwardPersons(Map<String, String> fieldValues) {
         QueryByCriteria query = QueryFactory.newQuery(AwardPerson.class, getSearchCriteria(fieldValues, AWARD_SAVE_DATE, AWARD_SPONSOR_CODE));
         return (List<AwardPerson>) getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public List<IacucProtocolPerson> getIacucProtocolPersons(Map<String, String> fieldValues) {
         Criteria searchCriteria = getSearchCriteria(fieldValues, IACUC_PROTOCOL_SAVE_DATE);
         String sponsorCode = getSponsorCriteria(fieldValues);
@@ -88,6 +108,7 @@ public class CoiDisclosureUndisclosedEventsDaoOjb extends PlatformAwareDaoBaseOj
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public List<ProtocolPerson> getIrbProtocolPersons(Map<String, String> fieldValues) {
         Criteria searchCriteria = getSearchCriteria(fieldValues, IRB_PROTOCOL_SAVE_DATE);
         String sponsorCode = getSponsorCriteria(fieldValues);

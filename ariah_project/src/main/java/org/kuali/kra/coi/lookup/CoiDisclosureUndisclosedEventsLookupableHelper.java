@@ -60,6 +60,7 @@ public class CoiDisclosureUndisclosedEventsLookupableHelper extends KraLookupabl
 
     private CoiDisclosureService coiDisclosureService;
 
+    @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         List<CoiDisclosureUndisclosedEvents> undisclosedEvents = new ArrayList<CoiDisclosureUndisclosedEvents>();
         validateSearchParameters(fieldValues);

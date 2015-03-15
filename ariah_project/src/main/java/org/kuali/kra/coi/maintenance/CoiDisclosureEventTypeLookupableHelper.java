@@ -29,6 +29,7 @@ public class CoiDisclosureEventTypeLookupableHelper extends KualiLookupableHelpe
     /**
      * new url goes to the custom coi disclosure event type maintenance action 
      */
+    @Override
     protected String getActionUrlHref(BusinessObject businessObject, String methodToCall, List pkNames) {
         String originalURL = super.getActionUrlHref(businessObject, methodToCall, pkNames);
         return originalURL.replace(MAINTENANCE, NEW_MAINTENANCE);

@@ -52,6 +52,7 @@ public class CoiDispositionStatusDocumentRule extends KraMaintenanceDocumentRule
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.rice.kns.document.MaintenanceDocument)
      */
 
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         return isDocumentValidForSave(document);
     }
@@ -78,6 +79,7 @@ public class CoiDispositionStatusDocumentRule extends KraMaintenanceDocumentRule
      * 
      * @see org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase#isDocumentValidForSave(org.kuali.rice.kns.document.MaintenanceDocument)
      */
+    @Override
     public boolean isDocumentValidForSave(MaintenanceDocument document) {
         boolean result = super.isDocumentValidForSave(document);
         final CoiDispositionStatus coiDispositionStatus = (CoiDispositionStatus) document.getNewMaintainableObject().getDataObject();

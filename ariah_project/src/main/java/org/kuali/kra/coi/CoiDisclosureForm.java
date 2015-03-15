@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.coi;
 
@@ -45,7 +61,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implements Auditable, QuestionableFormInterface  {
+public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implements Auditable, QuestionableFormInterface {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -55,17 +72,17 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
     private boolean auditActivated;
     private transient CoiNotesAndAttachmentsHelper coiNotesAndAttachmentsHelper;
     private transient NotificationHelper<CoiNotificationContext> notificationHelper;
-    private transient DisclosureQuestionnaireHelper disclosureQuestionnaireHelper; 
+    private transient DisclosureQuestionnaireHelper disclosureQuestionnaireHelper;
     private transient ScreeningQuestionnaireHelper screeningQuestionnaireHelper;
 
     //TODO : coiDisclosureStatusCode : this is just a quick set up here for 'approve' action to test 'master disclosure'
     // this should be moved to disclosureactionhelper when 'action' is really implemented
-    private String coiDispositionCode; 
+    private String coiDispositionCode;
     private String coiDisclosureStatusCode;
-    
+
     //for admin person search
     private String personId;
-    
+
     public CoiDisclosureForm() {
         super();
         initialize();
@@ -75,49 +92,49 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
      * This method initialize all form variables
      */
     public void initialize() {
-       setDisclosureHelper(new DisclosureHelper(this));
-       
-       setCoiNotesAndAttachmentsHelper(new CoiNotesAndAttachmentsHelper(this));
-       //coiNotesAndAttachmentsHelper.prepareView();
+        setDisclosureHelper(new DisclosureHelper(this));
 
-       setDisclosureActionHelper(new DisclosureActionHelper(this));
-       disclosureActionHelper.prepareView();
-       setNotificationHelper(new NotificationHelper<CoiNotificationContext>());
+        setCoiNotesAndAttachmentsHelper(new CoiNotesAndAttachmentsHelper(this));
+        //coiNotesAndAttachmentsHelper.prepareView();
+
+        setDisclosureActionHelper(new DisclosureActionHelper(this));
+        disclosureActionHelper.prepareView();
+        setNotificationHelper(new NotificationHelper<CoiNotificationContext>());
     }
 
-   public void setCoiNotesAndAttachmentsHelper(CoiNotesAndAttachmentsHelper coiNotesAndAttachmentsHelper) {
+    public void setCoiNotesAndAttachmentsHelper(CoiNotesAndAttachmentsHelper coiNotesAndAttachmentsHelper) {
         this.coiNotesAndAttachmentsHelper = coiNotesAndAttachmentsHelper;
-        
-    }
-   
-   public CoiNotesAndAttachmentsHelper getCoiNotesAndAttachmentsHelper() {
-       return coiNotesAndAttachmentsHelper;
-    }
-   
-   public DisclosureQuestionnaireHelper getDisclosureQuestionnaireHelper() {
-       //lazy init questionnaire helper to make sure the document and dislosure are current
-       if (disclosureQuestionnaireHelper == null) {
-           disclosureQuestionnaireHelper = new DisclosureQuestionnaireHelper(this.getCoiDisclosureDocument().getCoiDisclosure());
-       }
-       return disclosureQuestionnaireHelper;
-   }
 
-   public void setDisclosureQuestionnaireHelper(DisclosureQuestionnaireHelper disclosureQuestionnaireHelper) {
-       this.disclosureQuestionnaireHelper = disclosureQuestionnaireHelper;
-   }
-   
-   public ScreeningQuestionnaireHelper getScreeningQuestionnaireHelper() {
-       if (screeningQuestionnaireHelper == null) {
-           screeningQuestionnaireHelper = new ScreeningQuestionnaireHelper(this.getCoiDisclosureDocument().getCoiDisclosure());
-       }
-       return screeningQuestionnaireHelper;
-   }
+    }
 
-   public void setScreeningQuestionnaireHelper(ScreeningQuestionnaireHelper screeningQuestionnaireHelper) {
-       this.screeningQuestionnaireHelper = screeningQuestionnaireHelper;
-   }   
-    
-   @Override
+    public CoiNotesAndAttachmentsHelper getCoiNotesAndAttachmentsHelper() {
+        return coiNotesAndAttachmentsHelper;
+    }
+
+    public DisclosureQuestionnaireHelper getDisclosureQuestionnaireHelper() {
+        //lazy init questionnaire helper to make sure the document and dislosure are current
+        if (disclosureQuestionnaireHelper == null) {
+            disclosureQuestionnaireHelper = new DisclosureQuestionnaireHelper(this.getCoiDisclosureDocument().getCoiDisclosure());
+        }
+        return disclosureQuestionnaireHelper;
+    }
+
+    public void setDisclosureQuestionnaireHelper(DisclosureQuestionnaireHelper disclosureQuestionnaireHelper) {
+        this.disclosureQuestionnaireHelper = disclosureQuestionnaireHelper;
+    }
+
+    public ScreeningQuestionnaireHelper getScreeningQuestionnaireHelper() {
+        if (screeningQuestionnaireHelper == null) {
+            screeningQuestionnaireHelper = new ScreeningQuestionnaireHelper(this.getCoiDisclosureDocument().getCoiDisclosure());
+        }
+        return screeningQuestionnaireHelper;
+    }
+
+    public void setScreeningQuestionnaireHelper(ScreeningQuestionnaireHelper screeningQuestionnaireHelper) {
+        this.screeningQuestionnaireHelper = screeningQuestionnaireHelper;
+    }
+
+    @Override
     protected String getDefaultDocumentTypeName() {
         // TODO Auto-generated method stub
         return "CoiDisclosureDocument";
@@ -131,16 +148,18 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
     @Override
     protected void setSaveDocumentControl(Map editMode) {
         // TODO Auto-generated method stub
-        
+
     }
 
+    @Override
     public boolean isAuditActivated() {
         return this.auditActivated;
     }
 
+    @Override
     public void setAuditActivated(boolean auditActivated) {
         this.auditActivated = auditActivated;
-        
+
     }
 
     public DisclosureHelper getDisclosureHelper() {
@@ -152,20 +171,22 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
     }
 
     public CoiDisclosureDocument getCoiDisclosureDocument() {
-        return (CoiDisclosureDocument)this.getDocument();
+        return (CoiDisclosureDocument) this.getDocument();
     }
 
     protected TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
-    
+
     protected String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId();
     }
-    
+
     /**
      * for approved disclosure, only display "Disclosure" page tab
-     * @see org.kuali.rice.kns.web.struts.form.KualiForm#getHeaderNavigationTabs()
+     *
+     * @see
+     * org.kuali.rice.kns.web.struts.form.KualiForm#getHeaderNavigationTabs()
      */
     @Override
     public HeaderNavigation[] getHeaderNavigationTabs() {
@@ -175,59 +196,54 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         List<HeaderNavigation> resultList = new ArrayList<HeaderNavigation>();
         // Adding disapproved disclosures to this because they are also displayed in the disclosures list in the
         // master disclosure
-        CoiDisclosure disclosure = this.getCoiDisclosureDocument().getCoiDisclosure(); 
+        CoiDisclosure disclosure = this.getCoiDisclosureDocument().getCoiDisclosure();
         for (HeaderNavigation nav : navigation) {
-            if (((!disclosure.isApprovedDisclosure() 
-                    && (!disclosure.isDisapprovedDisclosure())) 
-                    && !StringUtils.equals("viewMasterDisclosure", this.getMethodToCall())) 
+            if (((!disclosure.isApprovedDisclosure()
+                    && (!disclosure.isDisapprovedDisclosure()))
+                    && !StringUtils.equals("viewMasterDisclosure", this.getMethodToCall()))
                     || StringUtils.equals(nav.getHeaderTabNavigateTo(), "disclosure")) {
                 // disable "disclosure" tab if we are trying to view the master but there is none yet
-                nav.setDisabled(StringUtils.equals("viewMasterDisclosure",this.getMethodToCall()) && disclosure.getCoiDisclosureId() == null);
+                nav.setDisabled(StringUtils.equals("viewMasterDisclosure", this.getMethodToCall()) && disclosure.getCoiDisclosureId() == null);
                 resultList.add(nav);
             }
             if (StringUtils.equalsIgnoreCase("disclosureActions", nav.getHeaderTabNavigateTo())) {
                 CoiDisclosureTask task = new CoiDisclosureTask(TaskName.VIEW_COI_DISCLOSURE_ACTIONS, getCoiDisclosureDocument().getCoiDisclosure());
-                    // if not coi admin, remove the actions tab completely
-                    if (!getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task)) {
-                        resultList.remove(nav);
-                    }
+                // if not coi admin, remove the actions tab completely
+                if (!getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task)) {
+                    resultList.remove(nav);
                 }
+            }
         }
 
         HeaderNavigation[] result = new HeaderNavigation[resultList.size()];
         resultList.toArray(result);
         return result;
     }
-   
-
 
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
         CoiDisclosureDocument document = this.getCoiDisclosureDocument();
         CoiDisclosure disclosure = document.getCoiDisclosure();
-        List<HeaderField>newDocInfo = new ArrayList<HeaderField>();
-        
+        List<HeaderField> newDocInfo = new ArrayList<HeaderField>();
 
         // document id/number
         newDocInfo.add(getDocumentIdHeaderField(workflowDocument));
-        
+
         // document status
 //        CoiDisclosureStatus status = disclosure.getCoiDisclosureStatus();
 //        String disclosureStatus = status != null ? status.getDescription() : "NEW";
 //        HeaderField headerStatus = new HeaderField("DataDictionary.CoiDisclosureStatus.attributes.description", disclosureStatus);
 //        newDocInfo.add(headerStatus);
-        
         // document status - review status
         CoiDisclosureStatus status = disclosure.getCoiDisclosureStatus();
         String disclosureStatus = status != null ? status.getDescription() : "NEW";
-        
+
         String reviewStatus = disclosure.getCoiReviewStatus() != null ? disclosure.getCoiReviewStatus().getDescription() : "";
         String disclosureAndReviewStatus = disclosureStatus + " : " + reviewStatus;
         HeaderField headerStatus = new HeaderField("DataDictionary.CoiDisclosure.attributes.disclosureStatusReviewStatus", disclosureAndReviewStatus);
         newDocInfo.add(headerStatus);
-        
-        
+
         // document disposition
         CoiDispositionStatus disposition = disclosure.getCoiDispositionStatus();
         String disclosureDisposition = disposition != null ? disposition.getDescription() : "NEW";
@@ -235,7 +251,7 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         newDocInfo.add(headerDisposition);
 
         newDocInfo.add(getReporterAndCreatedHeaderField(workflowDocument));
-        
+
         // last updated 
         Timestamp timeStamp = document.getUpdateTimestamp();
         if (timeStamp == null) {
@@ -243,16 +259,17 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         }
         String lastUpdatedDateStr = CoreApiServiceLocator.getDateTimeService().toString(timeStamp, "hh:mm a MM/dd/yyyy");
         newDocInfo.add(new HeaderField("DataDictionary.CoiDisclosure.attributes.updateTimestamp", lastUpdatedDateStr));
-        
+
         // disclosure number
         String disclosureNumber = disclosure.getCoiDisclosureNumber();
         newDocInfo.add(new HeaderField("DataDictionary.CoiDisclosure.attributes.coiDisclosureNumber", disclosureNumber));
-        
+
         setDocInfo(newDocInfo);
     }
-    
+
     /**
      * This method is to get document id/number field
+     *
      * @param workflowDocument
      * @return
      */
@@ -264,10 +281,11 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         }
         return new HeaderField("DataDictionary.CoiDisclosureDocument.attributes.documentNumber", documentId);
     }
-    
+
     /**
-     * This method is to get reporter and the created field put together
-     * to display in document header
+     * This method is to get reporter and the created field put together to
+     * display in document header
+     *
      * @param workflowDocument
      * @return
      */
@@ -283,7 +301,7 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
             // creation date 
             creationMsecs = workflowDocument.getDateCreated().getMillis();
         }
-        
+
         if (reporter != null) {
             reporter = KcPerson.fromPersonId(reporter).getUserName();
         } else {
@@ -291,7 +309,7 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         }
         String disclosureCreated = CoreApiServiceLocator.getDateTimeService().toString(new Date(creationMsecs), "MM/dd/yyyy");
         reporterCreated = reporter + Constants.COLON + disclosureCreated;
-        
+
         return new HeaderField("DataDictionary.CoiDisclosure.attributes.reporterCreated", reporterCreated);
     }
 
@@ -331,17 +349,18 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
     public String getQuestionnaireFieldStarter() {
         return "disclosureQuestionnaireHelper.answerHeaders[";
     }
-    
+
     @Override
     public String getQuestionnaireFieldMiddle() {
         return DEFAULT_MIDDLE;
     }
-    
+
     @Override
     public String getQuestionnaireFieldEnd() {
         return DEFAULT_END;
     }
-    
+
+    @Override
     public String getQuestionnaireExpression() {
         return ".*[Qq]uestionnaireHelper\\.answerHeaders\\[\\d+\\]\\.answers\\[\\d+\\]\\.answer";
     }
@@ -353,5 +372,5 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
     public void setPersonId(String personId) {
         this.personId = personId;
     }
-    
+
 }

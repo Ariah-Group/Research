@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.coi.notesandattachments.attachments;
 
@@ -96,9 +112,11 @@ public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate i
         this.financialEntity = financialEntity;
     }
 
+    @Override
     public Timestamp getUpdateTimestamp() {
         return updateTimestamp;
     }
+    @Override
     public void setUpdateTimestamp(Timestamp updateTimestamp) {
         this.updateTimestamp = updateTimestamp;
     }
@@ -160,9 +178,11 @@ public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate i
     public void setUpdateUserFullName(String updateUserFullName) {
         this.updateUserFullName = updateUserFullName;
     }
+    @Override
     public Long getPersonFinIntDisclosureId() {
         return personFinIntDisclosureId;
     }
+    @Override
     public void setPersonFinIntDisclosureId(Long personFinIntDisclosureId) {
         this.personFinIntDisclosureId = personFinIntDisclosureId;
     }
@@ -179,6 +199,7 @@ public class FinancialEntityAttachment extends PersonFinIntDisclosureAssociate i
         return statusCode;
     }
 
+    @Override
     public void setUpdateUser(String updateUser) {
         if (updateUser == null || getUpdateUser() == null  ) {
         super.setUpdateUser(updateUser);

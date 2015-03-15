@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.coi.notification;
 
@@ -31,12 +47,13 @@ import java.util.Map;
 public class CoiNotificationRenderer extends NotificationRendererBase {
 
     private CoiDisclosure coiDisclosure;
-    
+
     private transient BusinessObjectService businessObjectService;
     private transient KcPersonService kcPersonService;
-    
+
     /**
      * Constructs an IRB notification renderer.
+     *
      * @param CoiDisclosure
      */
     public CoiNotificationRenderer(CoiDisclosure coiDisclosure) {
@@ -45,11 +62,14 @@ public class CoiNotificationRenderer extends NotificationRendererBase {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationRenderer#getReplacementParameters()
+     *
+     * @see
+     * org.kuali.kra.common.notification.NotificationRenderer#getReplacementParameters()
      */
+    @Override
     public Map<String, String> getDefaultReplacementParameters() {
         String[] replacementParameters = CoiReplacementParameters.REPLACEMENT_PARAMETERS;
-        
+
         Map<String, String> params = super.getDefaultReplacementParameters();
         coiDisclosure.refreshReferenceObject("coiDisclosureEventType");
 
@@ -59,17 +79,17 @@ public class CoiNotificationRenderer extends NotificationRendererBase {
             if (StringUtils.equals(key, CoiReplacementParameters.SEQUENCE_NUMBER)) {
                 params.put(key, getCoiDisclosure().getSequenceNumber().toString());
             } else if (StringUtils.equals(key, CoiReplacementParameters.DISCLOSURE_TYPE)) {
-                params.put(key, coiDisclosure.getCoiDisclosureEventType().getDescription());            	
+                params.put(key, coiDisclosure.getCoiDisclosureEventType().getDescription());
             } else if (StringUtils.equals(key, CoiReplacementParameters.DOCUMENT_NUMBER)) {
                 params.put(key, getCoiDisclosure().getCoiDisclosureDocument().getDocumentNumber());
             } else if (StringUtils.equals(key, CoiReplacementParameters.DISCLOSURE_ID)) {
-                params.put(key,getCoiDisclosure().getCoiDisclosureId().toString());
+                params.put(key, getCoiDisclosure().getCoiDisclosureId().toString());
             } else if (StringUtils.equals(key, CoiReplacementParameters.DISCLOSURE_NUMBER)) {
-                params.put(key,getCoiDisclosure().getCoiDisclosureNumber());
+                params.put(key, getCoiDisclosure().getCoiDisclosureNumber());
             } else if (StringUtils.equals(key, CoiReplacementParameters.DISCLOSURE_REPORTER)) {
-                params.put(key,getCoiDisclosure().getDisclosureReporter().getAuthorPersonName());
+                params.put(key, getCoiDisclosure().getDisclosureReporter().getAuthorPersonName());
             } else if (StringUtils.equals(key, CoiReplacementParameters.DISCLOSURE_STATUS)) {
-                params.put(key,getCoiDisclosure().getCoiDisclosureStatus().getDescription());
+                params.put(key, getCoiDisclosure().getCoiDisclosureStatus().getDescription());
             }
         }
         return params;
@@ -82,7 +102,7 @@ public class CoiNotificationRenderer extends NotificationRendererBase {
     public void setCoiDisclosure(CoiDisclosure coiDisclosure) {
         this.coiDisclosure = coiDisclosure;
     }
-    
+
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
             businessObjectService = KRADServiceLocator.getBusinessObjectService();
@@ -94,6 +114,7 @@ public class CoiNotificationRenderer extends NotificationRendererBase {
         this.businessObjectService = businessObjectService;
     }
 
+    @Override
     public KcPersonService getKcPersonService() {
         if (kcPersonService == null) {
             kcPersonService = KraServiceLocator.getService(KcPersonService.class);
@@ -101,6 +122,7 @@ public class CoiNotificationRenderer extends NotificationRendererBase {
         return kcPersonService;
     }
 
+    @Override
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
     }

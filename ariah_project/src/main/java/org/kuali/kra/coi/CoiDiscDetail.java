@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.coi;
 
@@ -22,52 +38,51 @@ import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 
-public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements Comparable<CoiDiscDetail> { 
-    
+public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements Comparable<CoiDiscDetail> {
 
     private static final long serialVersionUID = 779054686380799255L;
-    private Long coiDiscDetailId; 
-    private Long coiDisclosureId; 
+    private Long coiDiscDetailId;
+    private Long coiDisclosureId;
     private Long coiDisclProjectId;
-    private String coiDisclosureNumber; 
-    private Integer sequenceNumber; 
-    private Integer coiDiscDetailNumber; 
-    private String moduleCode; 
-    private String moduleItemKey; 
+    private String coiDisclosureNumber;
+    private Integer sequenceNumber;
+    private Integer coiDiscDetailNumber;
+    private String moduleCode;
+    private String moduleItemKey;
     // TODO : since the synthetic key 'personFinIntDisclosureId' is added.  ok to remove entitynumber/entitysequence ?
-    private String entityNumber; 
-    private Integer entitySequenceNumber; 
-    private Integer entityDispositionCode; 
+    private String entityNumber;
+    private Integer entitySequenceNumber;
+    private Integer entityDispositionCode;
     // Future: keeping track of old entity status, for when we track who changes it during reviews
-    private Integer oldEntityDispositionCode; 
-    private String description; 
-    private String comments; 
+    private Integer oldEntityDispositionCode;
+    private String description;
+    private String comments;
     private Long personFinIntDisclosureId;
     // for master disclosure.  if this is not null, then it is copied from previous master disclosure
-    private Long copiedCoiDiscDetailId; 
+    private Long copiedCoiDiscDetailId;
     private PersonFinIntDisclosure personFinIntDisclosure;
-    private CoiDispositionStatus coiEntityDispositionStatus; 
-    private CoiDisclosure coiDisclosure; 
+    private CoiDispositionStatus coiEntityDispositionStatus;
+    private CoiDisclosure coiDisclosure;
     // originalxxxx is for master disclosure ui bean
     private Long originalCoiDisclosureId;
     @SkipVersioning
-    private CoiDisclosure originalCoiDisclosure; 
+    private CoiDisclosure originalCoiDisclosure;
     private CoiDisclProject coiDisclProject;
     // TODO : in general this projectType is same as disclosure eventtypecode. Can this be replaced by modulecode ?
     // the only exception is annual event which may have several project type.
     // this is also used for sorting, so annual discl cSan be in proper order, then they can be moved to 
     // eventbo.
-    private String projectType; 
+    private String projectType;
     // fk to projects.  easire to retrieve project, especially projects are versioned.  moduleitemkey is not enough
-    private String projectIdFk; 
+    private String projectIdFk;
     // transient data for UI
     // TODO : investigate to come up with super class/interface for disclose projects (PD/PROTOCOL/AWD) purpose ?
-    
-    public CoiDiscDetail() { 
 
-    } 
-    
-    public CoiDiscDetail(PersonFinIntDisclosure personFinIntDisclosure) { 
+    public CoiDiscDetail() {
+
+    }
+
+    public CoiDiscDetail(PersonFinIntDisclosure personFinIntDisclosure) {
         this.setPersonFinIntDisclosureId(personFinIntDisclosure.getPersonFinIntDisclosureId());
         this.setPersonFinIntDisclosure(personFinIntDisclosure);
         this.setEntityNumber(personFinIntDisclosure.getEntityNumber());
@@ -76,7 +91,7 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
         Long nextNumber = KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_COI_DISC_DETAILS_ID");
         this.setCoiDiscDetailNumber(nextNumber.intValue());
 
-    } 
+    }
 
     public Long getCoiDiscDetailId() {
         return coiDiscDetailId;
@@ -222,18 +237,17 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
         this.personFinIntDisclosure = personFinIntDisclosure;
     }
 
+    @Override
     public int compareTo(CoiDiscDetail other) {
         int result = 0;
         if (other != null) {
             if (StringUtils.equals(projectType, other.getProjectType())) {
                 if (StringUtils.equals(moduleItemKey, other.getModuleItemKey())) {
                     result = personFinIntDisclosureId.compareTo(other.getPersonFinIntDisclosureId());
-                }
-                else {
+                } else {
                     result = moduleItemKey.compareTo(other.getModuleItemKey());
                 }
-            }
-            else {
+            } else {
                 result = projectType.compareTo(other.getProjectType());
             }
         }
@@ -251,15 +265,15 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
     public boolean isProposalEvent() {
         return StringUtils.equals(CoiDisclosureEventType.DEVELOPMENT_PROPOSAL, this.projectType);
     }
-    
+
     public boolean isInstitutionalProposalEvent() {
         return StringUtils.equals(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, this.projectType);
     }
-    
+
     public boolean isAwardEvent() {
         return StringUtils.equals(CoiDisclosureEventType.AWARD, this.projectType);
     }
-    
+
     public boolean isProtocolEvent() {
         return StringUtils.equals(CoiDisclosureEventType.IRB_PROTOCOL, this.projectType);
     }
@@ -283,7 +297,6 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
     public boolean isManualIacucProtocolEvent() {
         return StringUtils.equals(CoiDisclosureEventType.MANUAL_IACUC_PROTOCOL, this.projectType);
     }
-
 
     public boolean isManualEvent() {
         return isManualAwardEvent() || isManualProposalEvent() || isManualProtocolEvent();
@@ -314,7 +327,7 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
     }
 
     public CoiDisclosure getOriginalCoiDisclosure() {
-        if (originalCoiDisclosureId != null && originalCoiDisclosure ==null) {
+        if (originalCoiDisclosureId != null && originalCoiDisclosure == null) {
             this.refreshReferenceObject("originalCoiDisclosure");
         }
         return originalCoiDisclosure;
@@ -331,6 +344,5 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
     public void setCoiDisclProject(CoiDisclProject coiDisclProject) {
         this.coiDisclProject = coiDisclProject;
     }
-
 
 }

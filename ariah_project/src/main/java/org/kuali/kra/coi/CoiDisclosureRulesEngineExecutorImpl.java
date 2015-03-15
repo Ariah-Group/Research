@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+
  */
 package org.kuali.kra.coi;
 
@@ -30,8 +31,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CoiDisclosureRulesEngineExecutorImpl  extends KcRulesEngineExecuter {
-    
+public class CoiDisclosureRulesEngineExecutorImpl extends KcRulesEngineExecuter {
+
+    @Override
     public EngineResults performExecute(RouteContext routeContext, Engine engine) {
         Map<String, String> contextQualifiers = new HashMap<String, String>();
         contextQualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_COIDISCLOSURE);
@@ -40,7 +42,7 @@ public class CoiDisclosureRulesEngineExecutorImpl  extends KcRulesEngineExecuter
         // extract facts from routeContext
         String docContent = routeContext.getDocument().getDocContent();
         String unitNumber = getElementValue(docContent, "//document/coiDisclosureList[1]/org.kuali.kra.coi.CoiDisclosure[1]/disclosurePersons[1]/org.kuali.kra.coi.disclosure.DisclosurePerson[1]/disclosurePersonUnits[1]/org.kuali.kra.coi.disclosure.DisclosurePersonUnit[1]/unitNumber[1]");
-        
+
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers,
                 Collections.singletonMap("Unit Number", unitNumber));
 

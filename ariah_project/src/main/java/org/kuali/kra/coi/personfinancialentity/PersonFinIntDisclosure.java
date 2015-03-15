@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.coi.personfinancialentity;
 
@@ -30,10 +46,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ *
  * This class is bo of person Int. FE disclosure
  */
-public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase implements SequenceOwner<PersonFinIntDisclosure> { 
+public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase implements SequenceOwner<PersonFinIntDisclosure> {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -74,22 +90,21 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase imp
     private String facilityUse;
 
     private transient DateTimeService dateTimeService;
-    
+
     // @SkipVersioning
     private FinancialEntityReporter financialEntityReporter;
-    
+
     // foe FE history version display
     @SkipVersioning
     private List<PersonFinIntDisclosure> versions;
 
-
-    public PersonFinIntDisclosure() { 
+    public PersonFinIntDisclosure() {
         super();
         finEntityContactInfos = new ArrayList<FinancialEntityContactInfo>();
         finEntityContactInfos.add(new FinancialEntityContactInfo());
         finEntityAttachments = new ArrayList<FinancialEntityAttachment>();
-    } 
-    
+    }
+
     public String getPersonId() {
         return personId;
     }
@@ -110,6 +125,7 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase imp
         this.entityNumber = entityNumber;
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
@@ -243,6 +259,7 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase imp
     public void setSponsor(Sponsor sponsor) {
         this.sponsor = sponsor;
     }
+
     public List<FinIntEntityYnq> getFinIntEntityYnqs() {
         return finIntEntityYnqs;
     }
@@ -258,7 +275,6 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase imp
     public void setCurrentFlag(boolean currentFlag) {
         this.currentFlag = currentFlag;
     }
-
 
     public Long getFinancialEntityReporterId() {
         return financialEntityReporterId;
@@ -292,31 +308,37 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase imp
         this.perFinIntDisclDetails = perFinIntDisclDetails;
     }
 
+    @Override
     public void setSequenceOwner(PersonFinIntDisclosure newlyVersionedOwner) {
         // TODO Auto-generated method stub
-        
+
     }
 
+    @Override
     public PersonFinIntDisclosure getSequenceOwner() {
         // TODO Auto-generated method stub
         return this;
     }
 
+    @Override
     public void resetPersistenceState() {
         this.personFinIntDisclosureId = null;
-        
+
     }
 
+    @Override
     public void incrementSequenceNumber() {
-        this.sequenceNumber++; 
-                
+        this.sequenceNumber++;
+
     }
 
+    @Override
     public Integer getOwnerSequenceNumber() {
         // TODO Auto-generated method stub
         return null;
     }
 
+    @Override
     public String getVersionNameField() {
         // TODO Auto-generated method stub
         return "entityNumber";
@@ -369,7 +391,7 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase imp
             super.setUpdateTimestamp(updateTimestamp);
         }
     }
-    
+
     public boolean isStatusActive() {
         return StringUtils.equals(FinIntEntityStatus.ACTIVE, this.statusCode.toString());
     }

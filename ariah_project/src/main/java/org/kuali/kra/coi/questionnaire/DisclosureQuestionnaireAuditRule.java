@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.coi.questionnaire;
 
@@ -47,6 +63,7 @@ public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule
     private static final String DISCLOSURE_QUESTIONNAIRE_PANEL_KEY = "coiQuestionnaireKey";
     protected static final String MASTER_DISCLOSURE_PROJECT_QUESTIONNAIRE_KEY = "disclosureHelper.masterDisclosureBean.%s[%s].projectQuestionnaireHelper.answerHeaders";
     protected static final String AUDIT_ERROR_LABEL;
+
     static {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(Constants.COI_DISCLOSURE_DISCLOSURE_PAGE);
@@ -57,8 +74,9 @@ public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule
 
     private boolean requestSubmission;
 
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
-        CoiDisclosure coiDisclosure = ((CoiDisclosureDocument) document).getCoiDisclosure();  
+        CoiDisclosure coiDisclosure = ((CoiDisclosureDocument) document).getCoiDisclosure();
 
         boolean isValid = true;
         DisclosureModuleQuestionnaireBean disclosureModuleQuestionnaireBean = new DisclosureModuleQuestionnaireBean(coiDisclosure);
@@ -67,27 +85,27 @@ public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule
         if (headers != null) {
             isValid &= checkAnswerHeaders(headers, DISCLOSURE_QUESTIONNAIRE_KEY);
         }
-        
+
         headers = getQuestionnaireAnswerService().getQuestionnaireAnswer(new DisclosureModuleQuestionnaireBean(coiDisclosure, CoeusSubModule.COI_SCREENING_SUBMODULE));
         if (headers != null) {
             isValid &= checkAnswerHeaders(headers, SCREENING_QUESTIONNAIRE_KEY);
         }
-        
+
         MasterDisclosureBean masterBean = new MasterDisclosureBean();
-        
+
         for (CoiDisclProject project : coiDisclosure.getCoiDisclProjects()) {
             //if this project is on this disclosure then the questionnaire will always be blank because
             //the questionnaire is on the disclosure, not the project, but if this project is not from this
             //disclosure then this is likely an annual or update and the questionnaire will be attached
             //to the project and will need to be validated.
-            if (project.getOriginalCoiDisclosureId() != null && !ObjectUtils.equals(project.getOriginalCoiDisclosureId(), coiDisclosure.getCoiDisclosureId())) {            
+            if (project.getOriginalCoiDisclosureId() != null && !ObjectUtils.equals(project.getOriginalCoiDisclosureId(), coiDisclosure.getCoiDisclosureId())) {
                 CoiDisclosureProjectBean projectBean = new CoiDisclosureProjectBean();
                 projectBean.setCoiDisclProject(project);
                 projectBean.populateAnswers(coiDisclosure);
                 masterBean.addProject(projectBean, projectBean.getCoiDisclProject().getDisclosureEventType());
             }
         }
-        
+
         isValid &= checkProjects(masterBean.getManualAwardProjects(), "manualAwardProjects");
         isValid &= checkProjects(masterBean.getManualIacucProtocolProjects(), "manualIacucProtocolProjects");
         isValid &= checkProjects(masterBean.getManualProposalProjects(), "manualProposalProjects");
@@ -98,9 +116,9 @@ public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule
         isValid &= checkProjects(masterBean.getProposalProjects(), "proposalProjects");
         isValid &= checkProjects(masterBean.getProtocolProjects(), "protocolProjects");
 
-        return isValid;    
+        return isValid;
     }
-    
+
     protected boolean checkProjects(List<CoiDisclosureProjectBean> projects, String listName) {
         boolean result = true;
         for (int i = 0; i < projects.size(); i++) {
@@ -112,7 +130,7 @@ public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule
 
     protected boolean checkAnswerHeaders(List<AnswerHeader> answerHeaders, String messageKey) {
         boolean isValid = true;
-        for (int i = 0;i < answerHeaders.size();i++) {
+        for (int i = 0; i < answerHeaders.size(); i++) {
             AnswerHeader header = answerHeaders.get(i);
             QuestionnaireUsage usage = header.getQuestionnaire().getHighestVersionUsageFor(header.getModuleItemCode(), header.getModuleSubItemCode());
             if ((usage != null) && (usage.isMandatory()) && (!header.getCompleted()) && (header.isActiveQuestionnaire())) {
@@ -126,7 +144,8 @@ public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule
         }
         return isValid;
     }
-    
+
+    @Override
     protected List<Integer> getIncompleteMandatoryQuestionnaire(CoiDisclosureDocument coiDisclosureDocument) {
         CoiDisclosure coiDisclosure = coiDisclosureDocument.getCoiDisclosure();
         ModuleQuestionnaireBean moduleQuestionnaireBean = new DisclosureModuleQuestionnaireBean(coiDisclosure);
@@ -141,9 +160,10 @@ public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule
     }
 
     /**
-     * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List<AuditError>}</code>
-     * to the auditErrorMap.
-     * 
+     * This method should only be called if an audit error is intending to be
+     * added because it will actually add a
+     * <code>{@link List<AuditError>}</code> to the auditErrorMap.
+     *
      * @return List of AuditError instances
      */
     @SuppressWarnings("unchecked")
@@ -153,17 +173,17 @@ public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule
 
         if (!KNSGlobalVariables.getAuditErrorMap().containsKey(key)) {
             KNSGlobalVariables.getAuditErrorMap().put(key, new AuditCluster("Questionnaire", auditErrors, Constants.AUDIT_ERRORS));
-        }
-        else {
-            auditErrors = ((AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(key)).getAuditErrorList();
+        } else {
+            auditErrors = ((AuditCluster) KNSGlobalVariables.getAuditErrorMap().get(key)).getAuditErrorList();
         }
 
         return auditErrors;
     }
+
     public boolean isMandatorySubmissionQuestionnaireComplete(List<AnswerHeader> answerHeaders) {
         boolean isValid = true;
         for (AnswerHeader answerHeader : answerHeaders) {
-            if (getQuestionnaireUsage(CoeusModule.COI_DISCLOSURE_MODULE_CODE, CoeusSubModule.COI_ANNUAL_DISCL_SUBMODULE, answerHeader.getQuestionnaire().getQuestionnaireUsages()).isMandatory() 
+            if (getQuestionnaireUsage(CoeusModule.COI_DISCLOSURE_MODULE_CODE, CoeusSubModule.COI_ANNUAL_DISCL_SUBMODULE, answerHeader.getQuestionnaire().getQuestionnaireUsages()).isMandatory()
                     && !getQuestionnaireAnswerService().isQuestionnaireAnswerComplete(answerHeader.getAnswers())) {
                 isValid = false;
                 break;
@@ -171,11 +191,11 @@ public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule
         }
         return isValid;
     }
-    
+
     /**
      * Creates and adds the AuditCluster to the Global AuditErrorMap.
      */
-
+    @Override
     protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
         return KraServiceLocator.getService(QuestionnaireAnswerService.class);
     }
@@ -199,5 +219,5 @@ public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule
     public void setRequestSubmittion(boolean requestSubmission) {
         this.requestSubmission = requestSubmission;
     }
-    
+
 }

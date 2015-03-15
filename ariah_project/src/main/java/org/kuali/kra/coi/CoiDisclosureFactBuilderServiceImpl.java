@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.coi;
 
@@ -35,35 +51,39 @@ import javax.xml.xpath.XPathConstants;
 import java.io.ByteArrayInputStream;
 
 public class CoiDisclosureFactBuilderServiceImpl extends KcKrmsFactBuilderServiceHelper {
-    
+
     private BusinessObjectService businessObjectService;
-    private DocumentService documentService;;
+    private DocumentService documentService;
+
+    ;
     
+    @Override
     public void addFacts(Facts.Builder factsBuilder, String docContent) {
         String documentNumber = getElementValue(docContent, "//documentNumber");
         try {
             CoiDisclosureDocument disclosureDocument = (CoiDisclosureDocument) getDocumentService().getByDocumentHeaderId(documentNumber);
             addFacts(factsBuilder, disclosureDocument);
-        }catch (WorkflowException e) {
+        } catch (WorkflowException e) {
             throw new RuntimeException(e);
         }
     }
-    
-    public void addFacts(Builder factsBuilder, ResearchDocumentBase document){
-        CoiDisclosureDocument disclosureDocument = (CoiDisclosureDocument)document;
+
+    @Override
+    public void addFacts(Builder factsBuilder, ResearchDocumentBase document) {
+        CoiDisclosureDocument disclosureDocument = (CoiDisclosureDocument) document;
         CoiDisclosure coiDisclosure = disclosureDocument.getCoiDisclosure();
-        addObjectMembersAsFacts(factsBuilder,coiDisclosure,KcKrmsConstants.CoiDisclosure.COI_DISCLOSURE_CONTEXT_ID,Constants.MODULE_NAMESPACE_COIDISCLOSURE);
+        addObjectMembersAsFacts(factsBuilder, coiDisclosure, KcKrmsConstants.CoiDisclosure.COI_DISCLOSURE_CONTEXT_ID, Constants.MODULE_NAMESPACE_COIDISCLOSURE);
         factsBuilder.addFact(KcKrmsConstants.CoiDisclosure.COI_DISCLOSURE, coiDisclosure);
 
         // Functions
         // Is person under campus code
         // Person campus code
-    
         // Questionnaire Prereqs
         factsBuilder.addFact("moduleCode", CoeusModule.COI_DISCLOSURE_MODULE_CODE);
         factsBuilder.addFact("moduleItemKey", coiDisclosure.getCoiDisclosureNumber());
     }
-    
+
+    @Override
     protected String getElementValue(String docContent, String xpathExpression) {
         try {
             Document document = XmlHelper.trimXml(new ByteArrayInputStream(docContent.getBytes()));

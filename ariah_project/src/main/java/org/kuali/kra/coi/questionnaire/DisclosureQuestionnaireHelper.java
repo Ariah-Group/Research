@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.coi.questionnaire;
 
@@ -32,10 +48,10 @@ public class DisclosureQuestionnaireHelper extends QuestionnaireHelperBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -8685872555239368202L;
-    
+
     private CoiDisclosure coiDisclosure;
     private boolean questionnairesLoaded;
-    
+
     public DisclosureQuestionnaireHelper(CoiDisclosure coiDisclosure) {
         this.setAnswerHeaders(new ArrayList<AnswerHeader>());
         this.coiDisclosure = coiDisclosure;
@@ -50,13 +66,12 @@ public class DisclosureQuestionnaireHelper extends QuestionnaireHelperBase {
     public ModuleQuestionnaireBean getModuleQnBean() {
         return new DisclosureModuleQuestionnaireBean(getCoiDisclosure());
     }
-    
-    
+
     public void prepareView(boolean reload) {
         initializePermissions(getCoiDisclosure());
         this.populateQuestionnaires(reload);
     }
-    
+
     /*
      * authorization check.
      */
@@ -64,36 +79,36 @@ public class DisclosureQuestionnaireHelper extends QuestionnaireHelperBase {
         CoiDisclosureTask task = new CoiDisclosureTask(TaskName.ANSWER_COI_DISCLOSURE_QUESTIONNAIRE, CoiDisclosure);
         setAnswerQuestionnaire(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
     }
-    
-    
+
     protected void populateQuestionnaires(boolean reload) {
         boolean refreshed = false;
-        if(!questionnairesLoaded || reload) {
+        if (!questionnairesLoaded || reload) {
             populateAnswers();
             refreshed = true;
-        } 
+        }
         // have to update the child indicator, otherwise, the questionnaire may be hidden
         if (!refreshed && !CollectionUtils.isEmpty(this.getAnswerHeaders())) {
             for (AnswerHeader answerHeader : this.getAnswerHeaders()) {
-                    getQuestionnaireAnswerService().setupChildAnswerIndicator(answerHeader);
-                }
+                getQuestionnaireAnswerService().setupChildAnswerIndicator(answerHeader);
+            }
 
         }
     }
-    
+
+    @Override
     public void populateAnswers() {
         super.populateAnswers();
         questionnairesLoaded = true;
     }
-    
+
     public CoiDisclosure getCoiDisclosure() {
         return coiDisclosure;
     }
-    
+
     public void setCoiDisclosure(CoiDisclosure coiDisclosure) {
         this.coiDisclosure = coiDisclosure;
     }
-    
+
     @Override
     public void preSave() {
         for (AnswerHeader answerHeader : this.getAnswerHeaders()) {

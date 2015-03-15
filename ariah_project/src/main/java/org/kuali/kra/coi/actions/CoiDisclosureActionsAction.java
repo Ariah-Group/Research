@@ -34,6 +34,7 @@ import java.sql.Date;
 
 public class CoiDisclosureActionsAction extends CoiNoteAndAttachmentAction {
     
+    @Override
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         String disclosureStatus = CoiDisclosureStatus.APPROVED;
@@ -61,6 +62,7 @@ public class CoiDisclosureActionsAction extends CoiNoteAndAttachmentAction {
         }
     }
     
+    @Override
     public ActionForward disapprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         String disclosureStatus = CoiDisclosureStatus.DISAPPROVED;

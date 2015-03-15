@@ -63,6 +63,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
      * @see org.kuali.kra.coi.personfinancialentity.FinancialEntityService#getFinancialEntities(java.lang.String, boolean)
      */
     @SuppressWarnings("unchecked")
+    @Override
     public List<PersonFinIntDisclosure> getFinancialEntities(String personId, boolean active) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("personId", personId);
@@ -85,6 +86,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
      * get all financial entities with the same entity number
      */
     @SuppressWarnings("unchecked")
+    @Override
     public List<PersonFinIntDisclosure> getFinDisclosureVersions(String entityNumber) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("entityNumber", entityNumber);
@@ -93,6 +95,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
     }
     
     @SuppressWarnings("unchecked")
+    @Override
     public List<FinIntEntityRelType> getFinancialEntityRelationshipTypes() {
         // TODO : consider to add sort_id for sorting purposes
         Map<String, String> fieldValues = new HashMap<String, String>();
@@ -105,6 +108,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
      * @see org.kuali.kra.coi.personfinancialentity.FinancialEntityService#getFinancialEntityDataMatrix()
      */
     @SuppressWarnings("unchecked")
+    @Override
     public List<FinEntityDataMatrixBean> getFinancialEntityDataMatrix() {
         List<FinIntEntityRelType> relationshipTypes = getFinancialEntityRelationshipTypes();
         List<FinEntityDataMatrixBean> dataMatrixs = new ArrayList<FinEntityDataMatrixBean>();
@@ -146,6 +150,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
      * 
      * @see org.kuali.kra.coi.personfinancialentity.FinancialEntityService#getFinDisclosureDetails(java.util.List, java.lang.String, java.lang.Integer)
      */
+    @Override
     public List<PersonFinIntDisclDet> getFinDisclosureDetails(List<FinEntityDataMatrixBean> dataMatrixs, String entityNumber, Integer sequenceNumber) {
         List<PersonFinIntDisclDet>  disclosureDetails = new ArrayList<PersonFinIntDisclDet>();
         for (FinEntityDataMatrixBean dataRow : dataMatrixs) {
@@ -174,6 +179,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
      * 
      * @see org.kuali.kra.coi.personfinancialentity.FinancialEntityService#getFinancialEntityDataMatrixForEdit(java.util.List)
      */
+    @Override
     public List<FinEntityDataMatrixBean> getFinancialEntityDataMatrixForEdit(List<PersonFinIntDisclDet> disclosureDetails) {
         // TODO : be aware this is not efficient.  investigate if there is more efficient approach
         List<FinEntityDataMatrixBean> dataMatrixs = getFinancialEntityDataMatrix();
@@ -235,6 +241,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
      * @see org.kuali.kra.coi.personfinancialentity.FinancialEntityService#getFinancialEntityReporter(java.lang.String)
      */
     @SuppressWarnings("unchecked")
+    @Override
     public FinancialEntityReporter getFinancialEntityReporter(String personId) {
         // TODO : this reporterroleid is filed.  may be changed
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -301,6 +308,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
      * @param entityId
      * @return null when input parameter is null; otherwise list of FinancialEntityAttachment objects 
      */   
+    @Override
     public List<FinancialEntityAttachment> retrieveFinancialEntityAttachmentsFor(Long entityId) {
         List<FinancialEntityAttachment> attachments = null;
         if (ObjectUtils.isNotNull(entityId)) {
@@ -314,6 +322,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
     /**
      * As part of the versioning process, the FE row presently seen as current/active will be made non-current/inactive.
      */
+    @Override
     public PersonFinIntDisclosure versionPersonFinintDisclosure(PersonFinIntDisclosure personFinIntDisclosure, 
                                                                 List<FinEntityDataMatrixBean> newRelationDetails,
                                                                 List<FinancialEntityAttachment> newFinancialEntityAttachments) throws VersionException {
@@ -345,6 +354,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
 
     }
     
+    @Override
     public PersonFinIntDisclosure getCurrentFinancialEntities(String entityNumber) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("entityNumber", entityNumber);
@@ -358,6 +368,7 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
      * 
      * @see org.kuali.kra.coi.personfinancialentity.FinancialEntityService#getNextEntityNumber()
      */
+    @Override
     public String getNextEntityNumber() {
         return sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_ENTITY_NUMBER_S").toString(); // sequence #
 

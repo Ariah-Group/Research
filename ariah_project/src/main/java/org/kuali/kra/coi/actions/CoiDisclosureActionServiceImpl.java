@@ -67,6 +67,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
      * @throws WorkflowException 
      * @see org.kuali.kra.coi.actions.CoiDisclosureActionService#approveDisclosure(org.kuali.kra.coi.CoiDisclosure, java.lang.String)
      */
+    @Override
     public void approveDisclosure(CoiDisclosure coiDisclosure, String coiDispositionCode) throws WorkflowException {
         CoiDisclosure masterCoiDisclosure = getMasterDisclosure(coiDisclosure.getCoiDisclosureNumber());
         List<KraPersistableBusinessObjectBase> disclosures = new ArrayList<KraPersistableBusinessObjectBase>();
@@ -109,6 +110,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
      * This disapproves the document and sets the disclosure and disposition statuses.
      * @see org.kuali.kra.coi.actions.CoiDisclosureActionService#disapproveDisclosure(org.kuali.kra.coi.CoiDisclosure, java.lang.String)
      */
+    @Override
     public void disapproveDisclosure(CoiDisclosure coiDisclosure, String coiDispositionCode) throws Exception {
         
         coiDisclosure.setDisclosureDispositionCode(coiDispositionCode);
@@ -133,6 +135,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         this.kcNotificationService = kcNotificationService;
     }
 
+    @Override
     public ActionForward addCoiUserRole(ActionMapping mapping, ActionForm form, CoiDisclosure coiDisclosure, CoiUserRole coiUserRole) {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
 
@@ -142,6 +145,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         return sendNotification(mapping, form, forward, coiUserRole, "Assigned");
     }
     
+    @Override
     public ActionForward deleteCoiUserRole(ActionMapping mapping, ActionForm form, CoiDisclosure coiDisclosure, int index) {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
 
@@ -350,6 +354,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
      * @param coiDisclosureDocument
      * @param submitDisclosureAction
      */
+    @Override
      public void submitToWorkflow(CoiDisclosureDocument coiDisclosureDocument, CoiDisclosureForm coiDisclosureForm, SubmitDisclosureAction submitDisclosureAction) {
          CoiDisclosure disclosure = coiDisclosureDocument.getCoiDisclosure();
          setDisclosureReviewStatus(disclosure, CoiReviewStatus.SUBMITTED_FOR_REVIEW);
@@ -362,6 +367,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         }
     }
 
+    @Override
     public ActionForward sendCertificationNotifications(CoiDisclosureDocument coiDisclosureDocument, CoiDisclosureForm coiDisclosureForm, SubmitDisclosureAction submitDisclosureAction, ActionMapping mapping) {
         DisclosureCertifiedNotificationRenderer renderer = new DisclosureCertifiedNotificationRenderer(coiDisclosureDocument.getCoiDisclosure(), CoiDisclosure.CERTIFIED);
         DisclosureCertifiedNotificationRequestBean disclosureCertifiedNotificationBean = getDisclosureCertifiedRequestBean(coiDisclosureDocument.getCoiDisclosure(), submitDisclosureAction.getReviewers());
@@ -401,6 +407,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         return documentService;
     }
 
+    @Override
     public void updateCoiDisclProjectStatus(CoiDisclosure coiDisclosure, String disclosureStatus) {
         List<CoiDisclProject> disclProjects = coiDisclosure.getCoiDisclProjects();
         
@@ -412,6 +419,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         }      
     }
     
+    @Override
     public void updateCoiDisclProjectDisposition(CoiDisclosure coiDisclosure, String dispositionCode) {
         List<CoiDisclProject> disclProjects = coiDisclosure.getCoiDisclProjects();
         Integer dispositionStatus = Integer.valueOf(dispositionCode);
@@ -610,6 +618,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         }
     }
 
+    @Override
     public void tagUserRolesToCompleteReview(List<CoiUserRole> completeUserRoles) {
         String loggedInUser = GlobalVariables.getUserSession().getPerson().getPrincipalId();
         for(CoiUserRole coiUserRole : completeUserRoles) {
@@ -619,6 +628,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         }
     }
 
+    @Override
     public void completeCoiReview(CoiDisclosure disclosure) {
         List<CoiUserRole> coiUserRoles = disclosure.getCoiUserRoles();
         String reviewStatus = CoiReviewStatus.ASSIGNED_REVIEW_COMPLETE;
@@ -656,11 +666,13 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         businessObjectService.save(disclosure);
     }
 
+    @Override
     public void updateDisclosureReviewStatus(CoiDisclosure coiDisclosure) {
         businessObjectService.save(coiDisclosure);
         coiDisclosure.refreshReferenceObject("coiReviewStatus");
     }
     
+    @Override
     public boolean isDisclosureReviewComplete(List<CoiUserRole> completeUserRoles) {
         boolean allReviewsComplete = true;
         for(CoiUserRole coiUserRole : completeUserRoles) {

@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.coi.auth;
 
@@ -39,6 +55,7 @@ public class CoiDisclosureDocumentAuthorizer extends KcTransactionalDocumentAuth
     /**
      * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
      */
+    @Override
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
         
@@ -84,6 +101,7 @@ public class CoiDisclosureDocumentAuthorizer extends KcTransactionalDocumentAuth
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.api.identity.Person)
      */
+    @Override
     public boolean canInitiate(String documentTypeName, Person user) {
         return canCreateCoiDisclosure(user);
     }
@@ -91,6 +109,7 @@ public class CoiDisclosureDocumentAuthorizer extends KcTransactionalDocumentAuth
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
+    @Override
     public boolean canOpen(Document document, Person user) {
         CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument) document;
         if (coiDisclosureDocument.getCoiDisclosure().getCoiDisclosureId() == null) {
@@ -179,6 +198,7 @@ public class CoiDisclosureDocumentAuthorizer extends KcTransactionalDocumentAuth
     /*
      * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canReload(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
+    @Override
     public boolean canReload(Document document, Person user) {
         CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument) document;
         return ((coiDisclosureDocument.getCoiDisclosure().getCoiDisclosureId() != null) ||
@@ -206,6 +226,7 @@ public class CoiDisclosureDocumentAuthorizer extends KcTransactionalDocumentAuth
         return false;
     }
     
+    @Override
     protected Set<String> getDocumentActions(Document document, Person user) {
         Set<String> documentActions = super.getDocumentActions(document, user);
         

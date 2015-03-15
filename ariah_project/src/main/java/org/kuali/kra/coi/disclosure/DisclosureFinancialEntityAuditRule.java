@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.coi.disclosure;
 
@@ -39,29 +55,30 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
     private static final String FINANCIAL_ENTITY_AUDIT_ERRORS = "financialEntityDiscAuditErrors";
     private static final String NEW_TAG = "disclosureHelper.newCoiDisclProject.finEntityStatusMissing";
     private List<AuditError> auditErrors;
-    
+
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean isValid = true;
         CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument) document;
         auditErrors = new ArrayList<AuditError>();
-        
+
         // TODO : Once the normalize is done, then the audit rule will be simpler, and we don't
         // need these event check, all events will be the same.
         if (coiDisclosureDocument.getCoiDisclosure().isManualEvent()) {
             isValid = isConflictValueSelectedForManual(coiDisclosureDocument.getCoiDisclosure());
-            
+
         } else if (coiDisclosureDocument.getCoiDisclosure().isAnnualEvent() && !coiDisclosureDocument.getCoiDisclosure().isAnnualUpdate()) {
             isValid = isConflictValueSelectedForAnnual(coiDisclosureDocument.getCoiDisclosure());
-            
+
         } else if (coiDisclosureDocument.getCoiDisclosure().isUpdateEvent() || (coiDisclosureDocument.getCoiDisclosure().isAnnualEvent() && coiDisclosureDocument.getCoiDisclosure().isAnnualUpdate())) {
             isValid = isConflictValueSelectedForUpdate(coiDisclosureDocument.getCoiDisclosure());
-            
+
         } else {
             isValid = isConflictValueSelected(coiDisclosureDocument.getCoiDisclosure());
         }
 
         reportAndCreateAuditCluster();
-        
+
         return isValid;
     }
 
@@ -70,17 +87,17 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
         stringBuilder.append(Constants.COI_DISCLOSURE_DISCLOSURE_PAGE);
         stringBuilder.append(".");
         stringBuilder.append(anchor);
-        auditErrors.add(new AuditError(String.format(errorKey, index), error, stringBuilder.toString()));   
+        auditErrors.add(new AuditError(String.format(errorKey, index), error, stringBuilder.toString()));
     }
-    
+
     protected void addErrorToAuditErrors(int index, int index1, String errorKey) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(Constants.COI_DISCLOSURE_DISCLOSURE_PAGE);
         stringBuilder.append(".");
         stringBuilder.append(Constants.DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR);
         auditErrors.add(new AuditError(String.format(errorKey, index, index1),
-                                        KeyConstants.ERROR_COI_FINANCIAL_ENTITY_STATUS_REQUIRED,
-                                        stringBuilder.toString()));   
+                KeyConstants.ERROR_COI_FINANCIAL_ENTITY_STATUS_REQUIRED,
+                stringBuilder.toString()));
     }
 
     protected void addErrorToAuditErrors(String property, int index, int index1, String errorKey) {
@@ -89,8 +106,8 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
         stringBuilder.append(".");
         stringBuilder.append(Constants.DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR);
         auditErrors.add(new AuditError(String.format(errorKey, property, index, index1),
-                                        KeyConstants.ERROR_COI_FINANCIAL_ENTITY_STATUS_REQUIRED,
-                                        stringBuilder.toString()));   
+                KeyConstants.ERROR_COI_FINANCIAL_ENTITY_STATUS_REQUIRED,
+                stringBuilder.toString()));
     }
 
     protected boolean isConflictValueSelected(CoiDisclosure coiDisclosure) {
@@ -98,17 +115,17 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
         int i = 0;
         for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDisclProjects().get(0).getCoiDiscDetails()) {
             if (coiDiscDetail.getEntityDispositionCode() == null) {
-                addErrorToAuditErrors(i, 
-                                        Constants.DISCLOSURE_FINANCIAL_ENTITY_KEY2,
-                                        Constants.DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR,
-                                        KeyConstants.ERROR_COI_FINANCIAL_ENTITY_STATUS_REQUIRED);
+                addErrorToAuditErrors(i,
+                        Constants.DISCLOSURE_FINANCIAL_ENTITY_KEY2,
+                        Constants.DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR,
+                        KeyConstants.ERROR_COI_FINANCIAL_ENTITY_STATUS_REQUIRED);
                 isSelected = false;
             }
             i++;
         }
         return isSelected;
     }
-    
+
     protected boolean isConflictValueSelectedForAnnual(CoiDisclosure coiDisclosure) {
         boolean isSelected = true;
         int i = 0;
@@ -136,11 +153,10 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
         int i = 0;
         // Missing project. There should be a project linked to all manual and event disclosures
         if (coiDisclosure.getCoiDisclProjects().isEmpty()) {
-            addErrorToAuditErrors(i, Constants.DISCLOSURE_MANUAL_FINANCIAL_ENTITY_KEY, 
+            addErrorToAuditErrors(i, Constants.DISCLOSURE_MANUAL_FINANCIAL_ENTITY_KEY,
                     Constants.DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR, KeyConstants.ERROR_COI_PROJECT_REQUIRED);
             isSelected = false;
-        }
-        else {
+        } else {
             if (!coiDisclosure.getCoiDisclosureEventType().isExcludeFinancialEntities()) {
                 for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDisclProjects().get(0).getCoiDiscDetails()) {
                     if (coiDiscDetail.getEntityDispositionCode() == null) {
@@ -156,7 +172,7 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
 
     protected void reportAndCreateAuditCluster() {
         if (auditErrors.size() > 0) {
-            KNSGlobalVariables.getAuditErrorMap().put(FINANCIAL_ENTITY_AUDIT_ERRORS, 
+            KNSGlobalVariables.getAuditErrorMap().put(FINANCIAL_ENTITY_AUDIT_ERRORS,
                     new AuditCluster(Constants.COI_DISCLOSURE_DISCLOSURE_PANEL_NAME, auditErrors, Constants.AUDIT_ERRORS));
         }
     }
@@ -194,15 +210,14 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
 
     }
 
-
     private CoiDisclosureService getCoiDisclosureService() {
         return KraServiceLocator.getService(CoiDisclosureService.class);
     }
-    
+
     private boolean isEventExcludedFE(String eventTypeCode) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("eventTypeCode", eventTypeCode);
-        CoiDisclosureEventType CoiDisclosureEventType =  KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(CoiDisclosureEventType.class, fieldValues);
-        return CoiDisclosureEventType.isExcludeFinancialEntities();        
+        CoiDisclosureEventType CoiDisclosureEventType = KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(CoiDisclosureEventType.class, fieldValues);
+        return CoiDisclosureEventType.isExcludeFinancialEntities();
     }
 }

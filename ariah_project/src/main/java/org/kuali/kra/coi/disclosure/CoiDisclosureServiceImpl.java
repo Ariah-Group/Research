@@ -139,6 +139,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getDisclosureReporter(java.lang.String, java.lang.Long)
      */
     @SuppressWarnings("rawtypes")
+    @Override
     public DisclosurePerson getDisclosureReporter(String personId, Long coiDisclosureId) {
         List<DisclosurePerson> reporters = new ArrayList<DisclosurePerson>();
         if (coiDisclosureId != null) {
@@ -177,6 +178,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * 
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#addDisclosureReporterUnit(org.kuali.kra.coi.DisclosureReporter, org.kuali.kra.coi.DisclosureReporterUnit)
      */
+    @Override
     public void addDisclosureReporterUnit(DisclosureReporter disclosureReporter , DisclosureReporterUnit newDisclosureReporterUnit) {
         
         List<DisclosureReporterUnit> disclosureReporterUnits = (List<DisclosureReporterUnit>)disclosureReporter.getDisclosureReporterUnits();
@@ -191,6 +193,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * 
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#deleteDisclosureReporterUnit(org.kuali.kra.coi.DisclosureReporter, java.util.List, int)
      */
+    @Override
     public void deleteDisclosureReporterUnit(DisclosureReporter disclosureReporter,List<? extends DisclosureReporterUnit> deletedUnits, int unitIndex) {
         
         List<DisclosureReporterUnit> disclosureReporterUnits = (List<DisclosureReporterUnit>)disclosureReporter.getDisclosureReporterUnits();
@@ -209,6 +212,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * 
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#resetLeadUnit(org.kuali.kra.coi.DisclosureReporter)
      */
+    @Override
     public void resetLeadUnit(DisclosureReporter disclosureReporter) {
         List<? extends DisclosureReporterUnit> disclosureReporterUnits = disclosureReporter.getDisclosureReporterUnits();
         if (CollectionUtils.isNotEmpty(disclosureReporterUnits)) {
@@ -217,6 +221,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
     }
 
+    @Override
     public boolean setDisclProjectForSave(CoiDisclosure coiDisclosure, MasterDisclosureBean masterDisclosureBean) {
         coiDisclosure.setCoiDisclProjects(new ArrayList<CoiDisclProject>());
         // reset disclosure's disclprojects from master disclosure bean
@@ -264,6 +269,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * 
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#initializeDisclosureDetails(org.kuali.kra.coi.CoiDisclosure)
      */
+    @Override
     public void initializeDisclosureDetails(CoiDisclosure coiDisclosure) {
         // When creating a disclosure. the detail will be created at first
         //  this method should only for annual.  
@@ -434,6 +440,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * 
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#initializeDisclosureDetails(org.kuali.kra.coi.CoiDisclProject)
      */
+    @Override
     public void initializeDisclosureDetails(CoiDisclProject coiDisclProject) {
         List<CoiDiscDetail> disclosureDetails = new ArrayList<CoiDiscDetail>();
         List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(coiDisclProject.getCoiDisclosure().getPersonId(), true);
@@ -630,6 +637,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * 
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#updateDisclosureDetails(org.kuali.kra.coi.CoiDisclProject)
      */
+    @Override
     public void updateDisclosureDetails(CoiDisclProject coiDisclProject) {
         // When creating a disclosure. the detail will be created at first
         // TODO : what if FE is deactivate
@@ -697,6 +705,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * 
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getProtocols(java.lang.String)
      */
+    @Override
     public List<Protocol> getProtocols(String personId) {
         return getProtocols(getProtocolPersons(personId));    
     }
@@ -726,6 +735,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * 
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getProtocols(java.lang.String)
      */
+    @Override
     public List<IacucProtocol> getIacucProtocols(String personId) {
         return getIacucProtocols(getIacucProtocolPersons(personId));
     }
@@ -755,6 +765,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * 
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getProposals(java.lang.String)
      */
+    @Override
     public List<DevelopmentProposal> getProposals(String personId) {
         return getProposals(getProposalPersons(personId));
     }
@@ -784,6 +795,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getInstitutionalProposals(java.lang.String)
      */
     @SuppressWarnings("unchecked")
+    @Override
     public List<InstitutionalProposal> getInstitutionalProposals(String personId) {
         return getInstitutionalProposals(getInstituteProposalPersons(personId));
     }
@@ -830,6 +842,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * 
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getAwards(java.lang.String)
      */
+    @Override
     public List<Award> getAwards(String personId) {
         return getAwards(getAwardPersons(personId));
     }
@@ -914,6 +927,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * 
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#versionCoiDisclosure()
      */
+    @Override
     public CoiDisclosure versionCoiDisclosure() throws VersionException {
         Map fieldValues = new HashMap();
         fieldValues.put("personId", GlobalVariables.getUserSession().getPrincipalId());
@@ -1103,6 +1117,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return isAllSponsors;
     }
 
+    @Override
     public boolean isReporter() {
         // TODO : this is the initial implementation to check if a user need to report
         // more condition may be added
@@ -1124,6 +1139,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * 
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getMasterDisclosureDetail(org.kuali.kra.coi.CoiDisclosure)
      */
+    @Override
     public MasterDisclosureBean getMasterDisclosureDetail(CoiDisclosure coiDisclosure) {
         MasterDisclosureBean masterDisclosureBean = new MasterDisclosureBean();
         String moduleItemKey = Constants.EMPTY_STRING;
@@ -1193,6 +1209,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     /**
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#createDisclosuresGroupedByEvent(org.kuali.kra.coi.disclosure.MasterDisclosureBean)
      */
+    @Override
     public void createDisclosuresGroupedByEvent(MasterDisclosureBean masterDisclosureBean) {
         List<CoiGroupedMasterDisclosureBean> disclosuresGroupedByEvent = new ArrayList<CoiGroupedMasterDisclosureBean>();
         for(CoiDisclosureProjectBean coiDisclosureProjectBean : masterDisclosureBean.getAllDisclosureProjects()) {
@@ -1219,6 +1236,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     /**
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getUndisclosedProjectsGroupedByEvent(java.util.List)
      */
+    @Override
     public List<CoiGroupedMasterDisclosureBean> getUndisclosedProjectsGroupedByEvent(List<CoiDisclProject> coiDisclProjects) {
         List<CoiGroupedMasterDisclosureBean> disclosuresGroupedByEvent = new ArrayList<CoiGroupedMasterDisclosureBean>();
         for(CoiDisclProject coiDisclProject : coiDisclProjects) {
@@ -1237,6 +1255,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     /**
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getUndisclosedProjectsGroupedByFinancialEntity(java.util.List)
      */
+    @Override
     public List<CoiGroupedMasterDisclosureBean> getUndisclosedProjectsGroupedByFinancialEntity(List<CoiDisclProject> coiDisclProjects) {
         List<CoiGroupedMasterDisclosureBean> disclosureGroupedByFinancialEntity = new ArrayList<CoiGroupedMasterDisclosureBean>();
         String personId = coiDisclProjects.get(0).getCoiDiscDetails().get(0).getPersonFinIntDisclosure().getPersonId();
@@ -1264,6 +1283,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     /**
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#createDisclosuresGroupedByFinancialEntity(org.kuali.kra.coi.CoiDisclosure, org.kuali.kra.coi.disclosure.MasterDisclosureBean)
      */
+    @Override
     public void createDisclosuresGroupedByFinancialEntity(CoiDisclosure coiDisclosure, MasterDisclosureBean masterDisclosureBean) {
         List<CoiGroupedMasterDisclosureBean> disclosureGroupedByFinancialEntity = new ArrayList<CoiGroupedMasterDisclosureBean>();
         String personId = coiDisclosure.getPersonId();
@@ -1469,6 +1489,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return disclosureProjectBean;
     }
     
+    @Override
     public List<CoiDispositionStatus> getDispositionStatuses(String disclosureStatusCode) {
         List<CoiDispositionStatus> coiDispositionStatuses  = new ArrayList<CoiDispositionStatus>();
         if (ObjectUtils.isNotNull(disclosureStatusCode)) {
@@ -1482,6 +1503,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     
     
     
+    @Override
     public void initDisclosureFromMasterDisclosure(CoiDisclosure coiDisclosure) {
         CoiDisclosure masterDisclosure = getCurrentDisclosure();
         coiDisclosure.setCoiDisclProjects(new ArrayList<CoiDisclProject>());
@@ -1493,6 +1515,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     /*
      * Return current disclosure, ie, the master disclosure
      */
+    @Override
     public CoiDisclosure getCurrentDisclosure() {
         Map fieldValues = new HashMap();
         fieldValues.put("personId", GlobalVariables.getUserSession().getPrincipalId());
@@ -1615,6 +1638,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * Called during a "Report Coi" instance for System Events.  This method assumes a 1:1 disclosure to project relationship
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#initializeDisclosureProject(org.kuali.kra.coi.CoiDisclosure, java.lang.String)
      */
+    @Override
     public void initializeDisclosureProject(CoiDisclosure coiDisclosure, String projectId) {
         List<CoiDisclProject> coiDisclProjects = coiDisclosure.getCoiDisclProjects();
         if (CollectionUtils.isEmpty(coiDisclProjects)) {
@@ -1818,6 +1842,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     /**
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#populateProposalsAndAwardToCompleteDisclosure(java.lang.String, org.kuali.kra.coi.disclosure.DisclosureHelper)
      */
+    @Override
     public void populateProposalsAndAwardToCompleteDisclosure(String userId, DisclosureHelper disclosureHelper) {
         List<DevelopmentProposal> initDevProposalsToCompleteDiscl = getProposals(userId);
         List<InstitutionalProposal> initInstProposalsToCompleteDiscl = getInstitutionalProposals(userId);
@@ -2057,6 +2082,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     /**
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getUndisclosedEvents(java.util.Map)
      */
+    @Override
     public List<CoiDisclosureUndisclosedEvents> getUndisclosedEvents(Map<String, String> searchCriteria) {
         List<CoiDisclosureUndisclosedEvents>  undisclosedEvents = new ArrayList<CoiDisclosureUndisclosedEvents>();
         String eventType = searchCriteria.get(CoiDisclosureUndisclosedEvents.SEARCH_CRITERIA_EVENT_TYPE);
@@ -2629,6 +2655,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         this.coiDisclosureUndisclosedEventsDao = coiDisclosureUndisclosedEventsDao;
     }
     
+    @Override
     public List<CoiDisclosure> getAllDisclosuresForUser(String personId) {
         Map fieldValues = new HashMap();
         fieldValues.put("personId", personId);
@@ -2637,6 +2664,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return disclosures;
     }
 
+    @Override
     public boolean checkScreeningQuestionnaireRule(CoiDisclosureDocument coiDisclosureDocument) {
         String krmsRuleId = parameterService.getParameterValueAsString(CoiDisclosureDocument.class, Constants.COI_SCREENING_QUESTIONNAIRE_KRMS_RULE);
         if (StringUtils.isNotBlank(krmsRuleId)) {
@@ -2694,10 +2722,12 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return retval;
     }
     
+    @Override
     public CoiDispositionStatus calculateMaximumDispositionStatus(CoiDisclosure coiDisclosure) {
         return businessObjectService.findBySinglePrimaryKey(CoiDispositionStatus.class, calculateMaximumDispositionStatusCode(coiDisclosure));
     }
     
+    @Override
     public void updateDisclosureAndProjectDisposition(CoiDisclosure coiDisclosure) {
         CoiDispositionStatus disposition = calculateMaximumDispositionStatus(coiDisclosure);
         coiDisclosure.setDisclosureDispositionCode(disposition.getCoiDispositionCode());
