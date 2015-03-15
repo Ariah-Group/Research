@@ -617,7 +617,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     protected boolean isValidReportCode(AwardReportTerm awardReportTerm, List<KeyValue> reportCodes) {
         boolean isValid = false;
         for (KeyValue KeyValue : reportCodes) {
-            if (StringUtils.equalsIgnoreCase(KeyValue.getKey().toString(),
+            if (StringUtils.equalsIgnoreCase(KeyValue.getKey(),
                     awardReportTerm.getReportCode())) {
                 isValid = true;
             }
@@ -630,7 +630,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         boolean isValid = false;
 
         for (KeyValue KeyValue : frequencyBaseCodes) {
-            if (StringUtils.equalsIgnoreCase(KeyValue.getKey().toString(),
+            if (StringUtils.equalsIgnoreCase(KeyValue.getKey(),
                     awardReportTerm.getFrequencyBaseCode())) {
                 isValid = true;
             }

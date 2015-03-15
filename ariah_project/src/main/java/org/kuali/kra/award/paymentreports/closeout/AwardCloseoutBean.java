@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.paymentreports.closeout;
 
@@ -30,13 +46,13 @@ import java.util.List;
 /**
  * This class supports the AwardForm class.
  */
-public class AwardCloseoutBean implements Serializable {    
-    
+public class AwardCloseoutBean implements Serializable {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 7888151034323714279L;
-    
+
     private AwardCloseout newAwardCloseout;
     private transient KualiRuleService ruleService;
     private AwardForm form;
@@ -47,25 +63,26 @@ public class AwardCloseoutBean implements Serializable {
     private String closeoutReportTypeProperty;
     private String closeoutReportTypeInvoice;
     private transient ParameterService parameterService;
-   
+
     /**
      * Constructs an AwardCloseoutBean.
+     *
      * @param parent
      */
     public AwardCloseoutBean(AwardForm form) {
         this.form = form;
         initializeAwardCloseoutSystemParams();
     }
-    
+
     /**
-     * 
+     *
      * Constructs a AwardCloseoutBean.java.
-     
-    public AwardCloseoutBean() {
-        
-    }*/
-    
-    private void initializeAwardCloseoutSystemParams(){
+     *
+     * public AwardCloseoutBean() {
+     *
+     * }
+     */
+    private void initializeAwardCloseoutSystemParams() {
         setCloseoutReportTypeUserDefined(getParameterService().getParameterValueAsString(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_USER_DEFINED));
         setCloseoutReportTypeFinancialReport(getParameterService().getParameterValueAsString(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT));
         setCloseoutReportTypeTechnical(getParameterService().getParameterValueAsString(AwardDocument.class, KeyConstants.CLOSE_OUT_REPORT_TYPE_TECHNICAL));
@@ -75,9 +92,10 @@ public class AwardCloseoutBean implements Serializable {
         getAward().setAwardCloseoutItems(getAward().getAwardCloseoutItems());
         setNewAwardCloseout(new AwardCloseout());
     }
-    
+
     /**
      * This method is called when adding a new Award Closeout item.
+     *
      * @param formHelper
      * @return
      */
@@ -85,7 +103,7 @@ public class AwardCloseoutBean implements Serializable {
         AddAwardCloseoutRuleEvent event = generateAddEvent();
         boolean success = getRuleService().applyRules(event);
         getNewAwardCloseout().setCloseoutReportCode(this.getCloseoutReportTypeUserDefined());
-        if(success){
+        if (success) {
             getAward().add(getNewAwardCloseout());
             init();
         }
@@ -93,40 +111,42 @@ public class AwardCloseoutBean implements Serializable {
     }
 
     /**
-     * 
+     *
      * This method deletes an award closeout item.
+     *
      * @param deletedItemIndex
      */
     public void deleteAwardCloseoutItem(int deletedItemIndex) {
         List<AwardCloseout> items = getAward().getAwardCloseoutItems();
         if (deletedItemIndex >= 0 && deletedItemIndex < items.size()) {
             items.remove(deletedItemIndex);
-        }        
+        }
     }
-    
+
     /**
-     * 
-     * This method adds the Award Closeout static reports. This gets called at the time of creation of Award.
-     *   
+     *
+     * This method adds the Award Closeout static reports. This gets called at
+     * the time of creation of Award.
+     *
      * @param keyValues
      */
     public void addAwardCloseoutStaticItems(List<KeyValue> keyValues) {
         AwardCloseout awardCloseout = new AwardCloseout();
         for (KeyValue KeyValue : keyValues) {
-            awardCloseout.setCloseoutReportCode(KeyValue.getKey().toString());
+            awardCloseout.setCloseoutReportCode(KeyValue.getKey());
             awardCloseout.setCloseoutReportName(KeyValue.getValue());
             getAward().addStaticCloseout(awardCloseout);
             awardCloseout = new AwardCloseout();
         }
         getAward().orderStaticCloseOutReportItems(getAward().getAwardCloseoutItems());
     }
-    
+
     /*
      * 
      * This method generates the AddAwardCloseoutRuleEvent event. 
      * @return
      */
-    private AddAwardCloseoutRuleEvent generateAddEvent(){
+    private AddAwardCloseoutRuleEvent generateAddEvent() {
         AddAwardCloseoutRuleEvent event = new AddAwardCloseoutRuleEvent(
                 "awardCloseoutBean.newAwardCloseout",
                 getAwardDocument(),
@@ -134,7 +154,7 @@ public class AwardCloseoutBean implements Serializable {
                 getNewAwardCloseout());
         return event;
     }
-    
+
     /**
      * @return
      */
@@ -148,35 +168,36 @@ public class AwardCloseoutBean implements Serializable {
     public AwardDocument getAwardDocument() {
         return form.getAwardDocument();
     }
-    
+
     /**
      * @return
      */
     public Object getData() {
         return getNewAwardCloseout();
     }
-    
+
     /**
      * Initialize subform
      */
     public void init() {
-        newAwardCloseout = new AwardCloseout(); 
+        newAwardCloseout = new AwardCloseout();
     }
-    
+
     /**
-     * 
+     *
      * This is a helper method for the retrieval of KualiRuleService
+     *
      * @return
      */
     public KualiRuleService getRuleService() {
-        if(ruleService == null) {
-            ruleService = (KualiRuleService) KraServiceLocator.getService(KualiRuleService.class); 
+        if (ruleService == null) {
+            ruleService = (KualiRuleService) KraServiceLocator.getService(KualiRuleService.class);
         }
         return ruleService;
     }
-    
+
     /**
-     * 
+     *
      * @param ruleService
      */
     public void setRuleService(KualiRuleService ruleService) {
@@ -184,7 +205,8 @@ public class AwardCloseoutBean implements Serializable {
     }
 
     /**
-     * Gets the newAwardCloseout attribute. 
+     * Gets the newAwardCloseout attribute.
+     *
      * @return Returns the newAwardCloseout.
      */
     public AwardCloseout getNewAwardCloseout() {
@@ -193,25 +215,28 @@ public class AwardCloseoutBean implements Serializable {
 
     /**
      * Sets the newAwardCloseout attribute value.
+     *
      * @param newAwardCloseout The newAwardCloseout to set.
      */
     public void setNewAwardCloseout(AwardCloseout newAwardCloseout) {
         this.newAwardCloseout = newAwardCloseout;
     }
-    
+
     /**
      * Looks up and returns the ParameterService.
-     * @return the parameter service. 
+     *
+     * @return the parameter service.
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }
 
     /**
-     * Gets the closeoutReportTypeUserDefined attribute. 
+     * Gets the closeoutReportTypeUserDefined attribute.
+     *
      * @return Returns the closeoutReportTypeUserDefined.
      */
     public String getCloseoutReportTypeUserDefined() {
@@ -220,14 +245,17 @@ public class AwardCloseoutBean implements Serializable {
 
     /**
      * Sets the closeoutReportTypeUserDefined attribute value.
-     * @param closeoutReportTypeUserDefined The closeoutReportTypeUserDefined to set.
+     *
+     * @param closeoutReportTypeUserDefined The closeoutReportTypeUserDefined to
+     * set.
      */
     public void setCloseoutReportTypeUserDefined(String closeoutReportTypeUserDefined) {
         this.closeoutReportTypeUserDefined = closeoutReportTypeUserDefined;
     }
 
     /**
-     * Gets the closeoutReportTypeFinancialReport attribute. 
+     * Gets the closeoutReportTypeFinancialReport attribute.
+     *
      * @return Returns the closeoutReportTypeFinancialReport.
      */
     public String getCloseoutReportTypeFinancialReport() {
@@ -236,14 +264,17 @@ public class AwardCloseoutBean implements Serializable {
 
     /**
      * Sets the closeoutReportTypeFinancialReport attribute value.
-     * @param closeoutReportTypeFinancialReport The closeoutReportTypeFinancialReport to set.
+     *
+     * @param closeoutReportTypeFinancialReport The
+     * closeoutReportTypeFinancialReport to set.
      */
     public void setCloseoutReportTypeFinancialReport(String closeoutReportTypeFinancialReport) {
         this.closeoutReportTypeFinancialReport = closeoutReportTypeFinancialReport;
     }
 
     /**
-     * Gets the closeoutReportTypePatent attribute. 
+     * Gets the closeoutReportTypePatent attribute.
+     *
      * @return Returns the closeoutReportTypePatent.
      */
     public String getCloseoutReportTypePatent() {
@@ -252,6 +283,7 @@ public class AwardCloseoutBean implements Serializable {
 
     /**
      * Sets the closeoutReportTypePatent attribute value.
+     *
      * @param closeoutReportTypePatent The closeoutReportTypePatent to set.
      */
     public void setCloseoutReportTypePatent(String closeoutReportTypePatent) {
@@ -259,7 +291,8 @@ public class AwardCloseoutBean implements Serializable {
     }
 
     /**
-     * Gets the closeoutReportTypeTechnical attribute. 
+     * Gets the closeoutReportTypeTechnical attribute.
+     *
      * @return Returns the closeoutReportTypeTechnical.
      */
     public String getCloseoutReportTypeTechnical() {
@@ -268,14 +301,17 @@ public class AwardCloseoutBean implements Serializable {
 
     /**
      * Sets the closeoutReportTypeTechnical attribute value.
-     * @param closeoutReportTypeTechnical The closeoutReportTypeTechnical to set.
+     *
+     * @param closeoutReportTypeTechnical The closeoutReportTypeTechnical to
+     * set.
      */
     public void setCloseoutReportTypeTechnical(String closeoutReportTypeTechnical) {
         this.closeoutReportTypeTechnical = closeoutReportTypeTechnical;
     }
 
     /**
-     * Gets the closeoutReportTypeProperty attribute. 
+     * Gets the closeoutReportTypeProperty attribute.
+     *
      * @return Returns the closeoutReportTypeProperty.
      */
     public String getCloseoutReportTypeProperty() {
@@ -284,14 +320,16 @@ public class AwardCloseoutBean implements Serializable {
 
     /**
      * Sets the closeoutReportTypeProperty attribute value.
+     *
      * @param closeoutReportTypeProperty The closeoutReportTypeProperty to set.
      */
     public void setCloseoutReportTypeProperty(String closeoutReportTypeProperty) {
         this.closeoutReportTypeProperty = closeoutReportTypeProperty;
     }
-    
+
     /**
-     * Gets the closeoutReportTypeInvoice attribute. 
+     * Gets the closeoutReportTypeInvoice attribute.
+     *
      * @return Returns the closeoutReportTypeInvoice.
      */
     public String getCloseoutReportTypeInvoice() {
@@ -300,6 +338,7 @@ public class AwardCloseoutBean implements Serializable {
 
     /**
      * Sets the closeoutReportTypeInvoice attribute value.
+     *
      * @param closeoutReportTypeInvoice The closeoutReportTypeInvoice to set.
      */
     public void setCloseoutReportTypeInvoice(String closeoutReportTypeInvoice) {

@@ -423,7 +423,7 @@ public class AwardFandaRate extends AwardAssociate {
             if (budgetRate.getRateTypeCode() != null) {
                 return false;
             }
-        } else if (!fandaRateTypeCode.toString().equals(budgetRate.getRateTypeCode())) {
+        } else if (!fandaRateTypeCode.equals(budgetRate.getRateTypeCode())) {
             return false;
         }
         if (fiscalYear == null) {

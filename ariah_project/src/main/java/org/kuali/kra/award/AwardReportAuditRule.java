@@ -124,7 +124,7 @@ public class AwardReportAuditRule implements DocumentAuditRule {
         boolean isValid = false;
 
         for (KeyValue KeyValue : frequencyBaseCodes) {
-            if (StringUtils.equalsIgnoreCase(KeyValue.getKey().toString(),
+            if (StringUtils.equalsIgnoreCase(KeyValue.getKey(),
                     awardReportTerm.getFrequencyBaseCode())) {
                 isValid = true;
             }
@@ -135,7 +135,7 @@ public class AwardReportAuditRule implements DocumentAuditRule {
     protected boolean isValidReportCode(AwardReportTerm awardReportTerm, List<KeyValue> reportCodes) {
         boolean isValid = false;
         for (KeyValue KeyValue : reportCodes) {
-            if (StringUtils.equalsIgnoreCase(KeyValue.getKey().toString(),
+            if (StringUtils.equalsIgnoreCase(KeyValue.getKey(),
                     awardReportTerm.getReportCode())) {
                 isValid = true;
             }
@@ -155,7 +155,7 @@ public class AwardReportAuditRule implements DocumentAuditRule {
             AwardReportTerm awardReportTerm, List<KeyValue> frequencyCodes) {
         boolean isValid = false;
         for (KeyValue KeyValue : frequencyCodes) {
-            if (StringUtils.equalsIgnoreCase(KeyValue.getKey().toString(),
+            if (StringUtils.equalsIgnoreCase(KeyValue.getKey(),
                     awardReportTerm.getFrequencyCode())) {
                 isValid = true;
             }

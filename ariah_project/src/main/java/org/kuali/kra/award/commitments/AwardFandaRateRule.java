@@ -164,7 +164,7 @@ public class AwardFandaRateRule extends ResearchDocumentRuleBase implements AddF
      */
     protected boolean evaluateRuleForFandaRateTypeCode(AwardFandaRate awardFandaRate, String propertyPrefix) {
         boolean rulePassed = !(awardFandaRate.getFandaRateTypeCode() == null
-                || StringUtils.isBlank(awardFandaRate.getFandaRateTypeCode().toString()));
+                || StringUtils.isBlank(awardFandaRate.getFandaRateTypeCode()));
         if (!rulePassed) {
             reportError(propertyPrefix + ".fandaRateTypeCode", KeyConstants.ERROR_REQUIRED_INDIRECT_RATE_TYPE_CODE);
         }
@@ -406,7 +406,7 @@ public class AwardFandaRateRule extends ResearchDocumentRuleBase implements AddF
         String description = Constants.EMPTY_STRING;
         if (rateTypeCode != null) {
             Map<String, Object> rateValues = new HashMap<String, Object>();
-            rateValues.put(RATE_CLASS_TYPE_CODE, rateTypeCode.toString());
+            rateValues.put(RATE_CLASS_TYPE_CODE, rateTypeCode);
             Collection<FandaRateType> fandaRteTypes = (Collection<FandaRateType>) getKraBusinessObjectService().findMatching(FandaRateType.class, rateValues);
             if (fandaRteTypes != null && fandaRteTypes.size() > 0) {
                 for (FandaRateType fandaRateType : fandaRteTypes) {
