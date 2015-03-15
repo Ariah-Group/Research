@@ -50,7 +50,6 @@ import org.kuali.kra.proposaldevelopment.rule.event.AddKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.CalculateCreditSplitEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.ChangeKeyPersonEvent;
 import org.kuali.kra.proposaldevelopment.rule.event.SaveKeyPersonEvent;
-import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentYnqAuditRule;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;

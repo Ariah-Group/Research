@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.iacuc.species;
 
@@ -22,41 +38,39 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.IacucPainCategory;
 import org.kuali.kra.iacuc.IacucSpecies;
 import org.kuali.kra.iacuc.IacucSpeciesCountType;
-import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup;
-import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class IacucProtocolSpecies extends ProtocolAssociateBase { 
-    
+public class IacucProtocolSpecies extends ProtocolAssociateBase {
+
     private static final long serialVersionUID = 1L;
 
-    private Integer iacucProtocolSpeciesId; 
-    private Integer speciesId; 
-    private Integer speciesCode; 
-    private String speciesGroup; 
-    private boolean usdaCovered; 
-    private String strain; 
-    private Integer speciesCount; 
-    private Integer painCategoryCode; 
-    private Integer speciesCountCode; 
+    private Integer iacucProtocolSpeciesId;
+    private Integer speciesId;
+    private Integer speciesCode;
+    private String speciesGroup;
+    private boolean usdaCovered;
+    private String strain;
+    private Integer speciesCount;
+    private Integer painCategoryCode;
+    private Integer speciesCountCode;
     private boolean exceptionsPresent;
     private String procedureSummary;
-    
+
     private IacucSpecies iacucSpecies;
     private IacucSpeciesCountType iacucSpeciesCountType;
     private IacucPainCategory iacucPainCategory;
-    
-    private List<IacucProtocolException> iacucProtocolExceptions; 
-    
+
+    private List<IacucProtocolException> iacucProtocolExceptions;
+
     private transient String groupAndSpecies;
     private transient Integer oldProtocolSpeciesId;
-    
-    public IacucProtocolSpecies() { 
+
+    public IacucProtocolSpecies() {
         setIacucProtocolExceptions(new ArrayList<IacucProtocolException>());
-    } 
-    
+    }
+
     public Integer getIacucProtocolSpeciesId() {
         return iacucProtocolSpeciesId;
     }
@@ -208,7 +222,7 @@ public class IacucProtocolSpecies extends ProtocolAssociateBase {
     }
 
     public String getGroupAndSpecies() {
-        if(ObjectUtils.isNull(iacucSpecies)) {
+        if (ObjectUtils.isNull(iacucSpecies)) {
             this.refreshReferenceObject("iacucSpecies");
         }
         this.groupAndSpecies = speciesGroup.concat(" : ").concat(iacucSpecies.getSpeciesName());
@@ -218,7 +232,6 @@ public class IacucProtocolSpecies extends ProtocolAssociateBase {
     public boolean isSameGroupAs(IacucProtocolSpecies other) {
         return StringUtils.equals(this.getSpeciesGroup(), other.getSpeciesGroup());
     }
-
 
     @Override
     public int hashCode() {
@@ -257,6 +270,5 @@ public class IacucProtocolSpecies extends ProtocolAssociateBase {
     public void setOldProtocolSpeciesId(Integer oldProtocolSpeciesId) {
         this.oldProtocolSpeciesId = oldProtocolSpeciesId;
     }
-
 
 }

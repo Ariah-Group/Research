@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.document;
 
@@ -45,12 +61,12 @@ import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.rice.krad.workflow.KualiTransactionalDocumentInformation;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
+
     private static final long serialVersionUID = -1879382692835231633L;
     private static final Log LOG = LogFactory.getLog(ResearchDocumentBase.class);
 
@@ -85,8 +101,10 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
 
         //CustomAttributeService customAttributeService = this.getService(CustomAttributeService.class);
         //customAttributeService.saveCustomAttributeValues(this);
-        if (this.getVersionNumber() == null) this.setVersionNumber(new Long(0));
-        
+        if (this.getVersionNumber() == null) {
+            this.setVersionNumber(new Long(0));
+        }
+
         // Since we aren't doing optimistic locking, might need to update doc header's version number
         DocumentHeader dbDocHeader = (DocumentHeader) getService(BusinessObjectService.class).retrieve(this.getDocumentHeader());
         if (dbDocHeader != null) {
@@ -101,13 +119,14 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
 
     /**
      * Override to provide more meaningful error message
+     *
      * @param event
      */
     @Override
     public void validateBusinessRules(KualiDocumentEvent event) {
         try {
             super.validateBusinessRules(event);
-        } catch(ValidationException e) {
+        } catch (ValidationException e) {
             LOG.error(String.format("ValidationException when validating event: %s. Check log entries preceding this error for details.", event.getName()));
             throw e;
         }
@@ -115,7 +134,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
 
     public void updateDocumentDescriptions(List<BudgetDocumentVersion> budgetVersionOverviews) {
         BudgetService budgetService = this.getService(BudgetService.class);
-        for (BudgetDocumentVersion budgetDocumentVersion: budgetVersionOverviews) {
+        for (BudgetDocumentVersion budgetDocumentVersion : budgetVersionOverviews) {
             BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
             if (budgetVersion.isDescriptionUpdatable() && !StringUtils.isBlank(budgetVersion.getDocumentDescription())) {
                 budgetService.updateDocumentDescription(budgetVersion);
@@ -134,12 +153,13 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
         }
         return customAttributeDocuments;
     }
-    
+
     public abstract List<? extends DocumentCustomData> getDocumentCustomData();
 
     public Timestamp getUpdateTimestamp() {
         return updateTimestamp;
     }
+
     public void setUpdateTimestamp(Timestamp updateTimestamp) {
         this.updateTimestamp = updateTimestamp;
     }
@@ -147,6 +167,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     public String getUpdateUser() {
         return updateUser;
     }
+
     public void setUpdateUser(String updateUser) {
         this.updateUser = updateUser;
     }
@@ -163,13 +184,13 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
         Integer propNextValue = 1;
         // search for property and get the latest number - increment for next call
         for (DocumentNextvalue documentNextvalue : documentNextvalues) {
-            if(documentNextvalue.getPropertyName().equalsIgnoreCase(propertyName)) {
+            if (documentNextvalue.getPropertyName().equalsIgnoreCase(propertyName)) {
                 propNextValue = documentNextvalue.getNextValue();
                 documentNextvalue.setNextValue(propNextValue + 1);
             }
         }
         // property does not exist - set initial value and increment for next call
-        if(propNextValue == 1) {
+        if (propNextValue == 1) {
             DocumentNextvalue documentNextvalue = new DocumentNextvalue();
             documentNextvalue.setNextValue(propNextValue + 1);
             documentNextvalue.setPropertyName(propertyName);
@@ -183,7 +204,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     // TODO : this is for the attachment that save attachment only when click 'add
     public DocumentNextvalue getDocumentNextvalueBo(String propertyName) {
         for (DocumentNextvalue documentNextvalue : documentNextvalues) {
-            if(documentNextvalue.getPropertyName().equalsIgnoreCase(propertyName)) {
+            if (documentNextvalue.getPropertyName().equalsIgnoreCase(propertyName)) {
                 return documentNextvalue;
             }
         }
@@ -192,10 +213,11 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
         documentNextvalue.setNextValue(1);
         documentNextvalue.setPropertyName(propertyName);
         return documentNextvalue;
-    } 
+    }
 
     /**
      * Sets the customAttributeDocuments attribute value.
+     *
      * @param customAttributeDocuments The customAttributeDocuments to set.
      */
     public void setCustomAttributeDocuments(Map<String, CustomAttributeDocument> customAttributeDocuments) {
@@ -204,16 +226,19 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
 
     /**
      * Gets the customAttributeDocuments attribute.
+     *
      * @return Returns the customAttributeDocuments.
      */
     public CustomAttributeDocument getCustomAttributeDocument(String key) {
         return customAttributeDocuments.get(key);
     }
-    
+
     /**
-     * Wraps a document in an instance of KualiDocumentXmlMaterializer, that provides additional metadata for serialization
-     * 
-     * @see org.kuali.rice.krad.document.Document#wrapDocumentWithMetadataForXmlSerialization()
+     * Wraps a document in an instance of KualiDocumentXmlMaterializer, that
+     * provides additional metadata for serialization
+     *
+     * @see
+     * org.kuali.rice.krad.document.Document#wrapDocumentWithMetadataForXmlSerialization()
      */
     @Override
     public KualiDocumentXmlMaterializer wrapDocumentWithMetadataForXmlSerialization() {
@@ -222,13 +247,13 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
         String initiatorNetworkId = getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
         final Person initiatorUser = this.getPersonService().getPersonByPrincipalName(initiatorNetworkId);
         initiatior.setPerson(initiatorUser);
- 
+
         transInfo.setDocumentInitiator(initiatior);
-        
-        KraDocumentXMLMaterializer xmlWrapper = new KraDocumentXMLMaterializer(); 
-        xmlWrapper.setDocument(this); 
-        xmlWrapper.setKualiTransactionalDocumentInformation(transInfo); 
-        return xmlWrapper; 
+
+        KraDocumentXMLMaterializer xmlWrapper = new KraDocumentXMLMaterializer();
+        xmlWrapper.setDocument(this);
+        xmlWrapper.setKualiTransactionalDocumentInformation(transInfo);
+        return xmlWrapper;
     }
 
     /*
@@ -240,14 +265,14 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     @Override
     public String getCustomLockDescriptor(Person user) {
         String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
-       
+
         if (StringUtils.isNotEmpty(activeLockRegion)) {
-            return this.getDocumentBoNumber() + "-" + activeLockRegion + "-" + GlobalVariables.getUserSession().getPrincipalName(); 
+            return this.getDocumentBoNumber() + "-" + activeLockRegion + "-" + GlobalVariables.getUserSession().getPrincipalName();
         }
 
         return null;
     }
-    
+
     @Override
     public boolean useCustomLockDescriptors() {
         return true;
@@ -258,21 +283,23 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
      * Gets the proposalNumber, awardNumber, negotiationNumber etc.
      */
     public abstract String getDocumentBoNumber();
-    
+
     /**
-     * Get the list of roles for the document along with each of the individuals in those roles.
-     * This information will be serialized into XML for workflow routing purposes.  It is
-     * expected that this method will be overridden by derived classes.
-     * 
+     * Get the list of roles for the document along with each of the individuals
+     * in those roles. This information will be serialized into XML for workflow
+     * routing purposes. It is expected that this method will be overridden by
+     * derived classes.
+     *
      * @return the list of roles and the users in those roles for this document
      */
     protected List<RolePersons> getAllRolePersons() {
         return new ArrayList<RolePersons>();
-    } 
-    
+    }
+
     /**
-     * Lookups and returns a service class.  This method can be overriden for easier unit testing.
-     * 
+     * Lookups and returns a service class. This method can be overriden for
+     * easier unit testing.
+     *
      * @param <T> the type of service.
      * @param serviceClass the service class.
      * @return the service.
@@ -280,50 +307,57 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     protected <T> T getService(Class<T> serviceClass) {
         return KraServiceLocator.getService(serviceClass);
     }
-    
+
     public abstract String getDocumentTypeCode();
 
     public boolean isViewOnly() {
         return viewOnly;
     }
-    
+
     public void setViewOnly(boolean viewOnly) {
         this.viewOnly = viewOnly;
     }
-    
+
     /**
-     * In documents that support it, this method should answer T/F for a SplitNode question
-     * regarding routing.  The SimpleBooleanSplitNode will supply the route node name which implementations
-     * should use to answer the question.
-     * 
-     * For example, isHierarchyChild would be answered by ProposalDevelopementDocument as T if the document
-     * is a child within a proposal hierarchy and false otherwise.
-     * 
-     * If a document does not support answering the question, it should throw an UnsupportedOperationException.
-     *  
-     * The stub implementation throws an UnsupportedOperationException for any input.
-     * 
-     * @param routeNodeName The name of the routeNode as it appears in the document workflow definition.
+     * In documents that support it, this method should answer T/F for a
+     * SplitNode question regarding routing. The SimpleBooleanSplitNode will
+     * supply the route node name which implementations should use to answer the
+     * question.
+     *
+     * For example, isHierarchyChild would be answered by
+     * ProposalDevelopementDocument as T if the document is a child within a
+     * proposal hierarchy and false otherwise.
+     *
+     * If a document does not support answering the question, it should throw an
+     * UnsupportedOperationException.
+     *
+     * The stub implementation throws an UnsupportedOperationException for any
+     * input.
+     *
+     * @param routeNodeName The name of the routeNode as it appears in the
+     * document workflow definition.
      * @return boolean value representing the answer.
-     * @throws UnsupportedOperationException if the document does not support answering a split node question, or
-     * if it does not support answering the question for the supplied route name.
-     * 
+     * @throws UnsupportedOperationException if the document does not support
+     * answering a split node question, or if it does not support answering the
+     * question for the supplied route name.
+     *
      */
     public boolean answerSplitNodeQuestion(String routeNodeName) throws Exception {
-       throw new UnsupportedOperationException( "Document does not support answerSplitNodeQuestion for routeNodeName:"+routeNodeName );   
+        throw new UnsupportedOperationException("Document does not support answerSplitNodeQuestion for routeNodeName:" + routeNodeName);
     }
-    
+
     /**
      * Looks up and returns the PersonService.
-     * @return the person service. 
+     *
+     * @return the person service.
      */
     private PersonService getPersonService() {
         if (this.personService == null) {
-            this.personService = KraServiceLocator.getService(PersonService.class);        
+            this.personService = KraServiceLocator.getService(PersonService.class);
         }
         return this.personService;
     }
-    
+
     //default implementation for the permissionable interface.
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
     }
@@ -332,15 +366,17 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     public void toCopy() throws WorkflowException, IllegalStateException {
         super.toCopy();
         //Temporary workaround for fixing budget notes OptimisticLockException due to auto-added copy notes
-        for(Note note : this.getNotes()) {
+        for (Note note : this.getNotes()) {
             note.setNoteIdentifier(null);
             note.setObjectId(null);
         }
         //Temporary workaround ends here
     }
-    
+
     /**
-     * Returns whether the post-processing is considered complete for this document.
+     * Returns whether the post-processing is considered complete for this
+     * document.
+     *
      * @return true if the post-processing is complete, false otherwise
      */
     // TODO : have NOT found a consistent indicator of whether a document route is processed or not, so this is a hack

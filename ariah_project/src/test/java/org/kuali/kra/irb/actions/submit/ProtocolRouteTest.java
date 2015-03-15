@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.irb.actions.submit;
 
@@ -29,7 +45,6 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.actions.ProtocolAction;
-import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.test.ProtocolFactory;
@@ -51,16 +66,18 @@ import java.util.List;
 public class ProtocolRouteTest extends KcUnitTestBase {
 
     private static final String SUMMARY = "my test summary";
-    
-    private ProtocolSubmitActionService protocolSubmitActionService; 
+
+    private ProtocolSubmitActionService protocolSubmitActionService;
     private DocumentService documentService;
     private ProtocolAmendRenewService protocolAmendRenewService;
     private ProtocolFinderDao protocolFinder;
-    
-    private Mockery context = new JUnit4Mockery() {{
-        setImposteriser(ClassImposteriser.INSTANCE);
-    }};
-    
+
+    private Mockery context = new JUnit4Mockery() {
+        {
+            setImposteriser(ClassImposteriser.INSTANCE);
+        }
+    };
+
     @Override
     @Before
     public void setUp() throws Exception {
@@ -79,18 +96,18 @@ public class ProtocolRouteTest extends KcUnitTestBase {
         documentService = null;
         protocolAmendRenewService = null;
         protocolFinder = null;
-        
+
         super.tearDown();
     }
-    
+
     /**
-     * Test the approval of a protocol.  The protocol status and its corresponding action
-     * should be set to approved.
+     * Test the approval of a protocol. The protocol status and its
+     * corresponding action should be set to approved.
      */
     @Test
     public void runApprovedTest() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-    
+
         protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), getMockSubmitAction());
 
         documentService.routeDocument(protocolDocument, null, null);
@@ -99,61 +116,62 @@ public class ProtocolRouteTest extends KcUnitTestBase {
         WorkflowDocumentActionsService info = GlobalResourceLoader.getService("rice.kew.workflowDocumentActionsService");
         RoutingReportCriteria.Builder reportCriteriaBuilder = RoutingReportCriteria.Builder.createByDocumentId(workflowDoc.getDocumentId());
         DocumentDetail results1 = info.executeSimulation(reportCriteriaBuilder.build());
-        for(ActionRequest actionRequest : results1.getActionRequests() ){
-            if(actionRequest.isPending() && actionRequest.getActionRequested().getCode().equalsIgnoreCase(KewApiConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ)) {
+        for (ActionRequest actionRequest : results1.getActionRequests()) {
+            if (actionRequest.isPending() && actionRequest.getActionRequested().getCode().equalsIgnoreCase(KewApiConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ)) {
                 System.out.println(actionRequest.getPrincipalId() + " | " + actionRequest.getGroupId());
                 System.out.println(actionRequest.getNodeName());
             }
         }
         assertTrue(workflowDoc.isFinal());
-        
+
         //the status update is not happening within doRouteStatusChange anymore
         //assertEquals(protocolDocument.getProtocol().getProtocolStatusCode(), ProtocolStatus.ACTIVE_OPEN_TO_ENROLLMENT);
         assertTrue(protocolDocument.getProtocol().isActive());
         //verifyProtocolAction(protocolDocument.getProtocol().getProtocolId(), ProtocolActionType.APPROVED);
     }
-    
+
     /**
-     * Test the disapproval of a protocol.  The protocol status and its corresponding action
-     * should be set to disapproved.
+     * Test the disapproval of a protocol. The protocol status and its
+     * corresponding action should be set to disapproved.
      */
     @Test
     public void runDisapprovedTest() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument("0906000002");
-    
+
         protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), getMockSubmitAction());
-        
+
         documentService.routeDocument(protocolDocument, null, null);
         documentService.disapproveDocument(protocolDocument, null);
-        
+
         assertTrue(getWorkflowDocument(protocolDocument).isDisapproved());
         //assertEquals(protocolDocument.getProtocol().getProtocolStatusCode(), ProtocolStatus.DISAPPROVED);
-        
+
         //assertTrue(protocolDocument.getProtocol().isActive());
-        
         //verifyProtocolAction(protocolDocument.getProtocol().getProtocolId(), ProtocolActionType.DISAPPROVED);
     }
-    
+
     /**
-     * Test the approval of an amendment.  Verify that the sequence number has been incremented
-     * for the protocol version and that it's status has been set to approved.
+     * Test the approval of an amendment. Verify that the sequence number has
+     * been incremented for the protocol version and that it's status has been
+     * set to approved.
+     *
      * @throws Exception
      */
     @Test
     public void runAmendmentTest() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument("0906000003");
         ProtocolSubmitAction submitAction = getMockSubmitAction();
-    
+
         protocolSubmitActionService.submitToIrbForReview(protocolDocument.getProtocol(), submitAction);
-        
+
         documentService.routeDocument(protocolDocument, null, null);
         documentService.blanketApproveDocument(protocolDocument, null, null);
-        
+
         String docNbr = protocolAmendRenewService.createAmendment(protocolDocument, getMockProtocolAmendmentBean());
-        
+
         ProtocolDocument amendmentDocument = (ProtocolDocument) getDocumentService().getByDocumentHeaderId(docNbr);
         protocolSubmitActionService.submitToIrbForReview(amendmentDocument.getProtocol(), submitAction);
-        
+
         documentService.routeDocument(amendmentDocument, null, null);
 // temporarily disable unit test        
 //        documentService.blanketApproveDocument(amendmentDocument, null, null);
@@ -183,7 +201,7 @@ public class ProtocolRouteTest extends KcUnitTestBase {
      */
     @SuppressWarnings("unchecked")
     private void verifyProtocolAction(Protocol protocol, String actionTypeCode) {
-        List<ProtocolAction> actions = (List)protocol.getProtocolActions();
+        List<ProtocolAction> actions = (List) protocol.getProtocolActions();
         for (ProtocolAction action : actions) {
             if (StringUtils.equals(actionTypeCode, action.getProtocolActionTypeCode())) {
                 return;
@@ -191,9 +209,10 @@ public class ProtocolRouteTest extends KcUnitTestBase {
         }
         assertTrue(actionTypeCode + " not found", false);
     }
-    
+
     /**
      * Get the document's workflow document.
+     *
      * @param doc
      * @return
      */
@@ -204,86 +223,89 @@ public class ProtocolRouteTest extends KcUnitTestBase {
             if (header != null) {
                 try {
                     workflowDocument = header.getWorkflowDocument();
-                } 
-                catch (RuntimeException ex) {
+                } catch (RuntimeException ex) {
                     assertTrue("workflow document not found", false);
                 }
             }
         }
-        
+
         return workflowDocument;
     }
-    
+
     private ProtocolSubmitAction getMockSubmitAction() {
         final ProtocolSubmitAction action = context.mock(ProtocolSubmitAction.class);
-        
-        context.checking(new Expectations() {{
-            allowing(action).getSubmissionTypeCode();
-            will(returnValue(ProtocolSubmissionType.INITIAL_SUBMISSION));
-            
-            allowing(action).getProtocolReviewTypeCode();
-            will(returnValue(ProtocolReviewType.FULL_TYPE_CODE));
-            
-            allowing(action).getSubmissionQualifierTypeCode();
-            will(returnValue(ProtocolSubmissionQualifierType.ANNUAL_SCHEDULED_BY_IRB));
-            
-            allowing(action).getNewCommitteeId();
-            will(returnValue(Constants.EMPTY_STRING));
-            
-            allowing(action).getNewScheduleId();
-            will(returnValue(Constants.EMPTY_STRING));
-            
-            allowing(action).getReviewers();
-            will(returnValue(new ArrayList<ProtocolReviewerBean>()));
-        }});
-        
+
+        context.checking(new Expectations() {
+            {
+                allowing(action).getSubmissionTypeCode();
+                will(returnValue(ProtocolSubmissionType.INITIAL_SUBMISSION));
+
+                allowing(action).getProtocolReviewTypeCode();
+                will(returnValue(ProtocolReviewType.FULL_TYPE_CODE));
+
+                allowing(action).getSubmissionQualifierTypeCode();
+                will(returnValue(ProtocolSubmissionQualifierType.ANNUAL_SCHEDULED_BY_IRB));
+
+                allowing(action).getNewCommitteeId();
+                will(returnValue(Constants.EMPTY_STRING));
+
+                allowing(action).getNewScheduleId();
+                will(returnValue(Constants.EMPTY_STRING));
+
+                allowing(action).getReviewers();
+                will(returnValue(new ArrayList<ProtocolReviewerBean>()));
+            }
+        });
+
         return action;
     }
-    
+
     private ProtocolAmendmentBean getMockProtocolAmendmentBean() {
         final ProtocolAmendmentBean bean = context.mock(ProtocolAmendmentBean.class);
-        
-        context.checking(new Expectations() {{
-            allowing(bean).getSummary();
-            will(returnValue(SUMMARY));
-            
-            allowing(bean).getGeneralInfo();
-            will(returnValue(false));
-            
-            allowing(bean).getFundingSource();
-            will(returnValue(false));
-            
-            allowing(bean).getProtocolReferencesAndOtherIdentifiers();
-            will(returnValue(false));
-            
-            allowing(bean).getProtocolOrganizations();
-            will(returnValue(true));
-            
-            allowing(bean).getSubjects();
-            will(returnValue(false));
-            
-            allowing(bean).getAddModifyAttachments();
-            will(returnValue(true));
-            
-            allowing(bean).getAreasOfResearch();
-            will(returnValue(false));
-            
-            allowing(bean).getSpecialReview();
-            will(returnValue(false));
-            
-            allowing(bean).getProtocolPersonnel();
-            will(returnValue(false));
-            
-            allowing(bean).getOthers();
-            will(returnValue(false));
-            
-            allowing(bean).getProtocolPermissions();
-            will(returnValue(false));
-            allowing(bean).getQuestionnaire();
-            will(returnValue(false));
-        }});
-        
+
+        context.checking(new Expectations() {
+            {
+                allowing(bean).getSummary();
+                will(returnValue(SUMMARY));
+
+                allowing(bean).getGeneralInfo();
+                will(returnValue(false));
+
+                allowing(bean).getFundingSource();
+                will(returnValue(false));
+
+                allowing(bean).getProtocolReferencesAndOtherIdentifiers();
+                will(returnValue(false));
+
+                allowing(bean).getProtocolOrganizations();
+                will(returnValue(true));
+
+                allowing(bean).getSubjects();
+                will(returnValue(false));
+
+                allowing(bean).getAddModifyAttachments();
+                will(returnValue(true));
+
+                allowing(bean).getAreasOfResearch();
+                will(returnValue(false));
+
+                allowing(bean).getSpecialReview();
+                will(returnValue(false));
+
+                allowing(bean).getProtocolPersonnel();
+                will(returnValue(false));
+
+                allowing(bean).getOthers();
+                will(returnValue(false));
+
+                allowing(bean).getProtocolPermissions();
+                will(returnValue(false));
+                allowing(bean).getQuestionnaire();
+                will(returnValue(false));
+            }
+        });
+
         return bean;
     }
-    
+
 }

@@ -12,10 +12,25 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.iacuc.personnel;
 
-import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -30,7 +45,7 @@ import org.kuali.kra.service.KraAuthorizationService;
 public class IacucProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceImplBase implements IacucProtocolPersonnelService {
 
     private IacucProtocolProcedureService iacucProtocolProcedureService;
-    
+
     @Override
     protected ProtocolUnitBase createNewProtocolUnitInstanceHook() {
         return new IacucProtocolUnit();
@@ -54,8 +69,10 @@ public class IacucProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceI
     @Override
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#setPrincipalInvestigator(org.kuali.kra.protocol.personnel.ProtocolPersonBase, 
-     *                                                                                    org.kuali.kra.protocol.ProtocolBase)
+     *
+     * @see
+     * org.kuali.kra.protocol.personnel.ProtocolPersonnelService#setPrincipalInvestigator(org.kuali.kra.protocol.personnel.ProtocolPersonBase,
+     * org.kuali.kra.protocol.ProtocolBase)
      */
     public void setPrincipalInvestigator(ProtocolPersonBase newPrincipalInvestigator, ProtocolBase protocol) {
         if (protocol != null) {
@@ -65,8 +82,7 @@ public class IacucProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceI
                 newPrincipalInvestigator.setProtocolPersonRoleId(getPrincipalInvestigatorRole());
                 if (currentPrincipalInvestigator == null) {
                     protocol.getProtocolPersons().add(newPrincipalInvestigator);
-                }
-                else if (!isDuplicatePerson(protocol.getProtocolPersons(), newPrincipalInvestigator)) {
+                } else if (!isDuplicatePerson(protocol.getProtocolPersons(), newPrincipalInvestigator)) {
                     protocol.getProtocolPersons().remove(currentPrincipalInvestigator);
                     protocol.getProtocolPersons().add(newPrincipalInvestigator);
                 }
@@ -78,14 +94,13 @@ public class IacucProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceI
                     kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.IACUC_PROTOCOL_AGGREGATOR,
                             protocol);
                     kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.IACUC_PROTOCOL_APPROVER, protocol);
-                }
-                else {
+                } else {
                     personEditableService.populateContactFieldsFromRolodexId(newPrincipalInvestigator);
                 }
             }
         }
-    }    
-    
+    }
+
     @Override
     public void addProtocolPerson(ProtocolBase protocol, ProtocolPersonBase protocolPerson) {
         super.addProtocolPerson(protocol, protocolPerson);
