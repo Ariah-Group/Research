@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.home;
 
@@ -111,7 +127,8 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the templateComments attribute. 
+     * Gets the templateComments attribute.
+     *
      * @return Returns the templateComments.
      */
     public List<AwardTemplateComment> getTemplateComments() {
@@ -120,6 +137,7 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the templateComments attribute value.
+     *
      * @param templateComments The templateComments to set.
      */
     public void setTemplateComments(List<AwardTemplateComment> templateComments) {
@@ -127,14 +145,15 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the templateTerms attribute. 
+     * Gets the templateTerms attribute.
+     *
      * @return Returns the templateTerms.
      */
     @SuppressWarnings("unchecked")
     public List<AwardTemplateTerm> getTemplateTerms() {
         if (templateTerms != null) {
             Collections.sort(this.templateTerms, new Comparator() {
-                public int compare(Object o1, Object o2) {                   
+                public int compare(Object o1, Object o2) {
                     AwardTemplateTerm templateTermFirst = (AwardTemplateTerm) o1;
                     AwardTemplateTerm templateTermSecond = (AwardTemplateTerm) o2;
                     String sponsorTermTypeCodeFirst = null;
@@ -143,17 +162,17 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
                         return 0;
                     }
                     if (templateTermFirst.isNewCollectionRecord() || templateTermSecond.isNewCollectionRecord()) {
-                        return 0; 
+                        return 0;
                     }
                     if (templateTermFirst.getSponsorTerm() == null || templateTermSecond.getSponsorTerm() == null) {
-                        return 0; 
+                        return 0;
                     }
                     if (templateTermFirst.getSponsorTerm() != null) {
                         sponsorTermTypeCodeFirst = templateTermFirst.getSponsorTerm().getSponsorTermTypeCode();
-                    } 
+                    }
                     if (templateTermSecond.getSponsorTerm() != null) {
                         sponsorTermTypeCodeSecond = templateTermSecond.getSponsorTerm().getSponsorTermTypeCode();
-                    } 
+                    }
                     return sponsorTermTypeCodeFirst.compareTo(sponsorTermTypeCodeSecond);
                 }
             });
@@ -163,6 +182,7 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the templateTerms attribute value.
+     *
      * @param templateTerms The templateTerms to set.
      */
     public void setTemplateTerms(List<AwardTemplateTerm> templateTerms) {
@@ -170,7 +190,8 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the description attribute. 
+     * Gets the description attribute.
+     *
      * @return Returns the description.
      */
     public String getDescription() {
@@ -179,6 +200,7 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the description attribute value.
+     *
      * @param description The description to set.
      */
     public void setDescription(String description) {
@@ -202,7 +224,8 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the templateCode attribute. 
+     * Gets the templateCode attribute.
+     *
      * @return Returns the templateCode.
      */
     public Integer getTemplateCode() {
@@ -211,6 +234,7 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the templateCode attribute value.
+     *
      * @param templateCode The templateCode to set.
      */
     public void setTemplateCode(Integer templateCode) {
@@ -218,7 +242,8 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the primeSponsorCode attribute. 
+     * Gets the primeSponsorCode attribute.
+     *
      * @return Returns the primeSponsorCode.
      */
     public String getPrimeSponsorCode() {
@@ -227,6 +252,7 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the primeSponsorCode attribute value.
+     *
      * @param primeSponsorCode The primeSponsorCode to set.
      */
     public void setPrimeSponsorCode(String primeSponsorCode) {
@@ -234,7 +260,8 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the nonCompetingContPrpslDueCode attribute. 
+     * Gets the nonCompetingContPrpslDueCode attribute.
+     *
      * @return Returns the nonCompetingContPrpslDueCode.
      */
     public String getNonCompetingContPrpslDueCode() {
@@ -243,14 +270,17 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the nonCompetingContPrpslDueCode attribute value.
-     * @param nonCompetingContPrpslDueCode The nonCompetingContPrpslDueCode to set.
+     *
+     * @param nonCompetingContPrpslDueCode The nonCompetingContPrpslDueCode to
+     * set.
      */
     public void setNonCompetingContPrpslDueCode(String nonCompetingContPrpslDueCode) {
         this.nonCompetingContPrpslDueCode = nonCompetingContPrpslDueCode;
     }
 
     /**
-     * Gets the competingRenewalPrpslDueCode attribute. 
+     * Gets the competingRenewalPrpslDueCode attribute.
+     *
      * @return Returns the competingRenewalPrpslDueCode.
      */
     public String getCompetingRenewalPrpslDueCode() {
@@ -259,14 +289,17 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the competingRenewalPrpslDueCode attribute value.
-     * @param competingRenewalPrpslDueCode The competingRenewalPrpslDueCode to set.
+     *
+     * @param competingRenewalPrpslDueCode The competingRenewalPrpslDueCode to
+     * set.
      */
     public void setCompetingRenewalPrpslDueCode(String competingRenewalPrpslDueCode) {
         this.competingRenewalPrpslDueCode = competingRenewalPrpslDueCode;
     }
 
     /**
-     * Gets the basisOfPaymentCode attribute. 
+     * Gets the basisOfPaymentCode attribute.
+     *
      * @return Returns the basisOfPaymentCode.
      */
     public String getBasisOfPaymentCode() {
@@ -275,6 +308,7 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the basisOfPaymentCode attribute value.
+     *
      * @param basisOfPaymentCode The basisOfPaymentCode to set.
      */
     public void setBasisOfPaymentCode(String basisOfPaymentCode) {
@@ -282,7 +316,8 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the methodOfPaymentCode attribute. 
+     * Gets the methodOfPaymentCode attribute.
+     *
      * @return Returns the methodOfPaymentCode.
      */
     public String getMethodOfPaymentCode() {
@@ -291,6 +326,7 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the methodOfPaymentCode attribute value.
+     *
      * @param methodOfPaymentCode The methodOfPaymentCode to set.
      */
     public void setMethodOfPaymentCode(String methodOfPaymentCode) {
@@ -298,7 +334,8 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the awardBasisOfPayment attribute. 
+     * Gets the awardBasisOfPayment attribute.
+     *
      * @return Returns the awardBasisOfPayment.
      */
     public AwardBasisOfPayment getAwardBasisOfPayment() {
@@ -307,6 +344,7 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the awardBasisOfPayment attribute value.
+     *
      * @param awardBasisOfPayment The awardBasisOfPayment to set.
      */
     public void setAwardBasisOfPayment(AwardBasisOfPayment awardBasisOfPayment) {
@@ -314,7 +352,8 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the awardMethodOfPayment attribute. 
+     * Gets the awardMethodOfPayment attribute.
+     *
      * @return Returns the awardMethodOfPayment.
      */
     public AwardMethodOfPayment getAwardMethodOfPayment() {
@@ -323,6 +362,7 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the awardMethodOfPayment attribute value.
+     *
      * @param awardMethodOfPayment The awardMethodOfPayment to set.
      */
     public void setAwardMethodOfPayment(AwardMethodOfPayment awardMethodOfPayment) {
@@ -330,7 +370,8 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the primeSponsor attribute. 
+     * Gets the primeSponsor attribute.
+     *
      * @return Returns the primeSponsor.
      */
     public Sponsor getPrimeSponsor() {
@@ -339,6 +380,7 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the primeSponsor attribute value.
+     *
      * @param primeSponsor The primeSponsor to set.
      */
     public void setPrimeSponsor(Sponsor primeSponsor) {
@@ -374,7 +416,6 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
             tempContact.setTemplateContactId(null);
         }
         for (AwardTemplateTerm tempTerm : getTemplateTerms()) {
-            ;
             tempTerm.setAwardTemplateTermId(null);
         }
     }
