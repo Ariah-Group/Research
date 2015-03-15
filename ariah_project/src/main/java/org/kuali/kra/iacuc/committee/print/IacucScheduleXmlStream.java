@@ -38,7 +38,6 @@ import edu.mit.coeus.xml.iacuc.ScheduleType.OtherBusiness;
 import edu.mit.coeus.xml.iacuc.SubmissionDetailsType.SubmissionChecklistInfo;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.*;
-import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.meeting.CommScheduleActItemBase;

@@ -12,12 +12,27 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.paymentreports.paymentschedule;
 
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.paymentreports.ReportStatus;
-import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
@@ -25,24 +40,24 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 /**
- * 
+ *
  * This class represents the AwardPaymentSchedule business object.
  */
 /**
  * This class...
  */
-public class AwardPaymentSchedule extends AwardAssociate { 
-    
+public class AwardPaymentSchedule extends AwardAssociate {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 1387310207139506329L;
-    private Long awardPaymentScheduleId; 
-    private Date dueDate; 
-    private KualiDecimal amount; 
-    private Date submitDate; 
-    private String submittedBy; 
-    private String invoiceNumber; 
+    private Long awardPaymentScheduleId;
+    private Date dueDate;
+    private KualiDecimal amount;
+    private Date submitDate;
+    private String submittedBy;
+    private String invoiceNumber;
     private String statusDescription;
     private String status;
     private Integer overdue;
@@ -56,30 +71,29 @@ public class AwardPaymentSchedule extends AwardAssociate {
      * submittedByPerson is not persisted!
      */
     private KcPerson submittedByPerson;
-    
-    
+
     private ReportStatus reportStatus;
-    
+
     /**
-     * 
+     *
      * Constructs a AwardPaymentSchedule.java.
      */
-    public AwardPaymentSchedule() { 
+    public AwardPaymentSchedule() {
     }
-    
-    public AwardPaymentSchedule(Date dueDate, String awardNumber, Integer sequenceNumber){
+
+    public AwardPaymentSchedule(Date dueDate, String awardNumber, Integer sequenceNumber) {
         setAwardNumber(awardNumber);
         setSequenceNumber(sequenceNumber);
         this.dueDate = dueDate;
     }
-    
+
     public Long getAwardPaymentScheduleId() {
         return awardPaymentScheduleId;
     }
 
     public void setAwardPaymentScheduleId(Long awardPaymentScheduleId) {
         this.awardPaymentScheduleId = awardPaymentScheduleId;
-    }    
+    }
 
     public Date getDueDate() {
         return dueDate;
@@ -92,7 +106,7 @@ public class AwardPaymentSchedule extends AwardAssociate {
     public KualiDecimal getAmount() {
         return amount;
     }
-    
+
     /**
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
      */
@@ -137,7 +151,8 @@ public class AwardPaymentSchedule extends AwardAssociate {
     }
 
     /**
-     * Gets the status attribute. 
+     * Gets the status attribute.
+     *
      * @return Returns the status.
      */
     public String getStatus() {
@@ -146,6 +161,7 @@ public class AwardPaymentSchedule extends AwardAssociate {
 
     /**
      * Sets the status attribute value.
+     *
      * @param status The status to set.
      */
     public void setStatus(String status) {
@@ -170,21 +186,22 @@ public class AwardPaymentSchedule extends AwardAssociate {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj){
+        if (this == obj) {
             return true;
-        }   
-        if (obj == null){
+        }
+        if (obj == null) {
             return false;
-        }   
-        if (!(obj instanceof AwardPaymentSchedule)){
+        }
+        if (!(obj instanceof AwardPaymentSchedule)) {
             return false;
         }
         return equals((AwardPaymentSchedule) obj);
     }
-    
+
     /**
-     * 
+     *
      * Convenience method to check equality of another AwardPaymentSchedule
+     *
      * @param awardPaymentSchedule
      * @return
      */
@@ -192,28 +209,28 @@ public class AwardPaymentSchedule extends AwardAssociate {
         if (getAwardNumber() == null) {
             if (awardPaymentSchedule.getAwardNumber() != null) {
                 return false;
-            }   
+            }
         } else if (!getAwardNumber().equals(awardPaymentSchedule.getAwardNumber())) {
             return false;
-        }   
+        }
         if (dueDate == null) {
             if (awardPaymentSchedule.dueDate != null) {
                 return false;
-            }   
+            }
         } else if (!dueDate.equals(awardPaymentSchedule.dueDate)) {
             return false;
-        }   
+        }
         if (getSequenceNumber() == null) {
             if (awardPaymentSchedule.getSequenceNumber() != null) {
                 return false;
-            }   
+            }
         } else if (!getSequenceNumber().equals(awardPaymentSchedule.getSequenceNumber())) {
             return false;
-        }   
+        }
         return true;
     }
-    
-    public boolean checkForUpdates (AwardPaymentSchedule awardPaymentSchedule) {
+
+    public boolean checkForUpdates(AwardPaymentSchedule awardPaymentSchedule) {
         boolean retVal = true;
         if (awardPaymentSchedule == null || !objectCompare(this.getAwardPaymentScheduleId(), awardPaymentSchedule.getAwardPaymentScheduleId())) {
             throw new IllegalArgumentException("The passed in award payment schedule is null, or it has a different AwardPaymentScheduleId than this object.");
@@ -228,11 +245,14 @@ public class AwardPaymentSchedule extends AwardAssociate {
         retVal &= objectCompare(this.getSubmitDate(), awardPaymentSchedule.getSubmitDate());
         return !retVal;
     }
-    
+
     /**
-     * 
-     * This method returns true if both objects are the same.  If both objects are null, they are the same.  If both objects are not
-     * null and the object's equality method returns true, they are the same.  All other cases, they are not the same.
+     *
+     * This method returns true if both objects are the same. If both objects
+     * are null, they are the same. If both objects are not null and the
+     * object's equality method returns true, they are the same. All other
+     * cases, they are not the same.
+     *
      * @param ob1
      * @param ob2
      * @return
@@ -240,8 +260,8 @@ public class AwardPaymentSchedule extends AwardAssociate {
     private boolean objectCompare(Object ob1, Object ob2) {
         boolean retVal = false;
         if (ob1 == null && ob2 == null) {
-            retVal = true; 
-        } else  if (ob1 != null && ob2 != null && ob1.equals(ob2)) {
+            retVal = true;
+        } else if (ob1 != null && ob2 != null && ob1.equals(ob2)) {
             retVal = true;
         }
         return retVal;
@@ -286,10 +306,11 @@ public class AwardPaymentSchedule extends AwardAssociate {
     public void setSubmittedByPersonId(String submittedByPersonId) {
         this.submittedByPersonId = submittedByPersonId;
     }
-    
+
     /**
-     * 
+     *
      * This method returns a KC Person for the getSubmittedByPersonId().
+     *
      * @return
      */
     public KcPerson getSubmittedByPerson() {
@@ -298,12 +319,12 @@ public class AwardPaymentSchedule extends AwardAssociate {
         }
         return submittedByPerson;
     }
-    
+
     public String getSubmittedByPersonUsername() {
         KcPerson submitter = getSubmittedByPerson();
         return submitter == null ? "" : submitter.getUserName();
     }
-    
+
     public String getSubmittedByPersonFullname() {
         KcPerson submitter = getSubmittedByPerson();
         return submitter == null ? "" : submitter.getFullName();

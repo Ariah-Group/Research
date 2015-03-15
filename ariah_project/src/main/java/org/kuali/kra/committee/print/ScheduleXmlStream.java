@@ -49,7 +49,6 @@ import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.Subm
 import edu.mit.irb.irbnamespace.SubmissionDetailsDocument.SubmissionDetails.SubmissionChecklistInfo.Checklists;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.*;
-import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeMembershipService;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;

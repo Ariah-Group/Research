@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.customdata;
 
@@ -21,14 +37,13 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.krad.document.Document;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * The CustomDataHelper is used to manage the Custom Data tab web page.
- * It contains the data, forms, and methods needed to render the page.
+ * The CustomDataHelper is used to manage the Custom Data tab web page. It
+ * contains the data, forms, and methods needed to render the page.
  */
 /**
  * This class...
@@ -38,22 +53,23 @@ public class CustomDataHelper extends CustomDataHelperBase<AwardCustomData> {
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = -2308402022153534376L;   
-    
+    private static final long serialVersionUID = -2308402022153534376L;
+
     /**
-     * Each Helper must contain a reference to its document form
-     * so that it can access the document.
+     * Each Helper must contain a reference to its document form so that it can
+     * access the document.
      */
     private AwardForm awardForm;
-    
+
     /**
      * Constructs a CustomDataHelper.
+     *
      * @param from the awardForm
      */
     public CustomDataHelper(AwardForm awardForm) {
         this.awardForm = awardForm;
     }
-    
+
     /**
      * Get the Award.
      */
