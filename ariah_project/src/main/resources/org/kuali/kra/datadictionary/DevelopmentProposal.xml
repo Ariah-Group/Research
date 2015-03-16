@@ -105,7 +105,7 @@
 	<!-- Attribute Definitions -->
 
     <bean id="DevelopmentProposal-executiveSummary" parent="DevelopmentProposal-executiveSummary-parentBean" />
-    <bean id="DevelopmentProposal-executiveSummary-parentBean" abstract="true" parent="AttributeDefinition">
+    <bean id="DevelopmentProposal-executiveSummary-parentBean" abstract="true" parent="CustomAttributeDefinition">
         <property name="name" value="executiveSummary" />
         <property name="label" value="Executive Summary" />
         <property name="shortLabel" value="Executive Summary" />
