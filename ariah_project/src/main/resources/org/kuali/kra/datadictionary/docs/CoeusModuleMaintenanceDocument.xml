@@ -14,7 +14,7 @@
                 <value>moduleCode</value>
             </list>
         </property>
-        <property name="allowsRecordDeletion" value="true" />
+        <property name="allowsRecordDeletion" value="false" />
         <property name="documentTypeName" value="CoeusModuleMaintenanceDocument" />
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
     </bean>
@@ -27,14 +27,11 @@
         <property name="title" value="Edit Ariah Research Module" />
         <property name="maintainableItems" >
             <list>
-                <bean parent="MaintainableFieldDefinition"
-                    p:name="moduleCode"
-                    p:required="true" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:name="description"
-                    p:required="true" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
+                <bean parent="MaintainableFieldDefinition" p:name="moduleCode" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="sortOrder" p:required="false"/>                
+                <bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
             </list>
         </property>
     </bean>
