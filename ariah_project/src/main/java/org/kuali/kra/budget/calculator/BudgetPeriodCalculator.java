@@ -98,7 +98,7 @@ public class BudgetPeriodCalculator {
                     if (prevBudgetLineItem.getApplyInRateFlag()){
                     // calculate no matter what because applyinrateflag maybe changed ??
                     
-                        if (budgetLineItemToBeApplied.getBudgetCategory().getBudgetCategoryTypeCode() == KeyConstants.PERSONNEL_CATEGORY
+                        if (KeyConstants.PERSONNEL_CATEGORY.equals(budgetLineItemToBeApplied.getBudgetCategory().getBudgetCategoryTypeCode())
                                 && (!budgetLineItemToBeApplied.getBudgetPersonnelDetailsList().isEmpty())) {
                             errorMessages.add("This line item contains personnel budget details"
                                     + " and there is already a line item on period " + budgetPeriod + " based on this line item."
