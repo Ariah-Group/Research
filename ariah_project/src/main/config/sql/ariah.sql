@@ -85,8 +85,11 @@ UPDATE krcr_parm_t set VAL='Ariah Research' where PARM_NM='SCHOOL_NAME';
 
 -- Core table modifications
 alter table coeus_module add (
+   ACTIVE varchar2(1),
    SORT_ORDER NUMBER (5,0)
 ); 
+
+update coeus_module set active='Y';
 
 -- Dev Proposal DML modifications
 
@@ -96,17 +99,23 @@ SORT_ORDER NUMBER (5,0),
 help_desc varchar2(200)
 ); 
 
+update proposal_type set active='Y';
+
 alter table activity_type add (
 ACTIVE varchar2(1),
 SORT_ORDER NUMBER (5,0),
 help_desc varchar2(200)
 ); 
 
+update activity_type set active='Y';
+
 alter table deadline_type add (
 ACTIVE varchar2(1),
 SORT_ORDER NUMBER (5,0),
 help_desc varchar2(200)
 ); 
+
+update deadline_type set active='Y';
 
 alter table EPS_PROPOSAL add EXECUTIVE_SUMMARY VARCHAR2(800);
 
