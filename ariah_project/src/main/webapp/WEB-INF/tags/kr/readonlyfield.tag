@@ -12,28 +12,15 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
--------------------------------------------
-Updates made after January 1, 2015 are :
-Copyright 2015 The Ariah Group, Inc.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
 --%>
-<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"
-%><%@ attribute name="field" required="true" type="org.kuali.rice.kns.web.ui.Field" description="The field to render as read only."
-%><%@ attribute name="addHighlighting" required="false"
-              description="boolean indicating if this field should be highlighted (to indicate old/new change)"
-%><%@ attribute name="isLookup" required="false"
+<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
+
+<%@ attribute name="field" required="true" type="org.kuali.rice.kns.web.ui.Field" description="The field to render as read only." %>
+<%@ attribute name="addHighlighting" required="false"
+              description="boolean indicating if this field should be highlighted (to indicate old/new change)" %>
+<%@ attribute name="isLookup" required="false"
               description="boolean indicating if this is a Lookup Screen" %>
+
 <c:set var="result">
     <c:choose>
       <c:when test="${field.secure}">
@@ -45,17 +32,21 @@ limitations under the License.
           <c:if test="${field.propertyValue==select.key}">
             <c:if test="${!value_found}">
               <c:out value="${select.value}" />
-              <c:if test="${isLookup}"><input type="hidden" name="${field.propertyName}" value="<c:out value="${field.propertyValue}"/>" /></c:if>
+              <c:if test="${isLookup}">
+      		    <input type="hidden" name="${field.propertyName}" value="<c:out value="${field.propertyValue}"/>" />
+		      </c:if>
               <c:set var="value_found" value="true" />
             </c:if>
           </c:if>
         </c:forEach>
         <c:if test="${!value_found}">
-		<c:forEach items="${field.fieldInactiveValidValues}" var="select">
+			<c:forEach items="${field.fieldInactiveValidValues}" var="select">
 	          <c:if test="${field.propertyValue==select.key}">
 	            <c:if test="${!value_found}">
 	              <c:out value="${select.value}" />
-                      <c:if test="${isLookup}"><input type="hidden" name="${field.propertyName}" value="<c:out value="${field.propertyValue}"/>" /></c:if>
+                  <c:if test="${isLookup}">
+      		        <input type="hidden" name="${field.propertyName}" value="<c:out value="${field.propertyValue}"/>" />
+		          </c:if>
 	              <c:set var="value_found" value="true" />
 	            </c:if>
 	          </c:if>
@@ -86,12 +77,15 @@ limitations under the License.
       </c:otherwise>
     </c:choose>
 </c:set>
+
 <c:choose>
   <c:when test="${!empty field.alternateDisplayPropertyName && !field.secure}">${field.alternateDisplayPropertyValue}</c:when>
   <c:when test="${empty result}">&nbsp;</c:when>
   <c:otherwise>${result}</c:otherwise>
 </c:choose>
+
 <c:if test="${!empty field.additionalDisplayPropertyName && !field.secure}"> *-* ${field.additionalDisplayPropertyValue}</c:if>
+
 <c:if test="${addHighlighting && field.highlightField}">
    <kul:fieldShowChangedIcon />
 </c:if>
