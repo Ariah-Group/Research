@@ -55,17 +55,21 @@ public class CoeusModule extends KraPersistableBusinessObjectBase {
 
     private CoeusSubModule coeusSubModule;
 
+    private boolean active;
+
+    private int sortOrder;
+
     /* TODO : Implemented in the future 
     
-    private ProtocolRelatedProjects protocolRelatedProjects;
+     private ProtocolRelatedProjects protocolRelatedProjects;
     
-    private CustomDataElementUsage customDataElementUsage;
-    private ProtocolLinks protocolLinks;
-    private NotifActionType notifActionType;
-    private PersonRoleModule personRoleModule;
-    private NotificationType notificationType;
-    private NotificationDetails notificationDetails;
-    */
+     private CustomDataElementUsage customDataElementUsage;
+     private ProtocolLinks protocolLinks;
+     private NotifActionType notifActionType;
+     private PersonRoleModule personRoleModule;
+     private NotificationType notificationType;
+     private NotificationDetails notificationDetails;
+     */
     public CoeusModule() {
     }
 
@@ -101,62 +105,93 @@ public class CoeusModule extends KraPersistableBusinessObjectBase {
         this.coeusSubModule = coeusSubModule;
     }
 
+    /**
+     * Flag to determine if the CoeusModule is active.
+     *
+     * @return True is module is active. False otherwise.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Flag to set the CoeusModule active or inactive.
+     *
+     * @param active True to set the module active. False otherwise.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    /**
+     * @return the sortOrder
+     */
+    public int getSortOrder() {
+        return sortOrder;
+    }
+
+    /**
+     * @param sortOrder the sortOrder to set
+     */
+    public void setSortOrder(int sortOrder) {
+        this.sortOrder = sortOrder;
+    }
     /* TODO : Implemented later
-    public ProtocolRelatedProjects getProtocolRelatedProjects() {
-        return protocolRelatedProjects;
-    }
+     public ProtocolRelatedProjects getProtocolRelatedProjects() {
+     return protocolRelatedProjects;
+     }
 
-    public void setProtocolRelatedProjects(ProtocolRelatedProjects protocolRelatedProjects) {
-        this.protocolRelatedProjects = protocolRelatedProjects;
-    }
+     public void setProtocolRelatedProjects(ProtocolRelatedProjects protocolRelatedProjects) {
+     this.protocolRelatedProjects = protocolRelatedProjects;
+     }
 
-    public CustomDataElementUsage getCustomDataElementUsage() {
-        return customDataElementUsage;
-    }
+     public CustomDataElementUsage getCustomDataElementUsage() {
+     return customDataElementUsage;
+     }
 
-    public void setCustomDataElementUsage(CustomDataElementUsage customDataElementUsage) {
-        this.customDataElementUsage = customDataElementUsage;
-    }
+     public void setCustomDataElementUsage(CustomDataElementUsage customDataElementUsage) {
+     this.customDataElementUsage = customDataElementUsage;
+     }
 
-    public ProtocolLinks getProtocolLinks() {
-        return protocolLinks;
-    }
+     public ProtocolLinks getProtocolLinks() {
+     return protocolLinks;
+     }
 
-    public void setProtocolLinks(ProtocolLinks protocolLinks) {
-        this.protocolLinks = protocolLinks;
-    }
+     public void setProtocolLinks(ProtocolLinks protocolLinks) {
+     this.protocolLinks = protocolLinks;
+     }
 
-    public NotifActionType getNotifActionType() {
-        return notifActionType;
-    }
+     public NotifActionType getNotifActionType() {
+     return notifActionType;
+     }
 
-    public void setNotifActionType(NotifActionType notifActionType) {
-        this.notifActionType = notifActionType;
-    }
+     public void setNotifActionType(NotifActionType notifActionType) {
+     this.notifActionType = notifActionType;
+     }
 
-    public PersonRoleModule getPersonRoleModule() {
-        return personRoleModule;
-    }
+     public PersonRoleModule getPersonRoleModule() {
+     return personRoleModule;
+     }
 
-    public void setPersonRoleModule(PersonRoleModule personRoleModule) {
-        this.personRoleModule = personRoleModule;
-    }
+     public void setPersonRoleModule(PersonRoleModule personRoleModule) {
+     this.personRoleModule = personRoleModule;
+     }
 
-    public NotificationType getNotificationType() {
-        return notificationType;
-    }
+     public NotificationType getNotificationType() {
+     return notificationType;
+     }
 
-    public void setNotificationType(NotificationType notificationType) {
-        this.notificationType = notificationType;
-    }
+     public void setNotificationType(NotificationType notificationType) {
+     this.notificationType = notificationType;
+     }
 
-    public NotificationDetails getNotificationDetails() {
-        return notificationDetails;
-    }
+     public NotificationDetails getNotificationDetails() {
+     return notificationDetails;
+     }
 
-    public void setNotificationDetails(NotificationDetails notificationDetails) {
-        this.notificationDetails = notificationDetails;
-    }
-    */
-    
+     public void setNotificationDetails(NotificationDetails notificationDetails) {
+     this.notificationDetails = notificationDetails;
+     }
+     */
+
 }

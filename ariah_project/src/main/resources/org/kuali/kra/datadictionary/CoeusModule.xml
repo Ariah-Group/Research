@@ -14,15 +14,15 @@
  limitations under the License.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <bean id="CoeusModule" parent="CoeusModule-parentBean" />
     <bean id="CoeusModule-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.bo.CoeusModule" />
-		<property name="objectLabel" value="Research Module" />
+        <property name="objectLabel" value="Research Module" />
         <property name="inquiryDefinition" >
             <ref bean="CoeusModule-inquiryDefinition" />
         </property>
@@ -35,6 +35,8 @@
                 <ref bean="CoeusModule-moduleCode" />
                 <ref bean="CoeusModule-description" />
                 <ref bean="CoeusModule-versionNumber" />
+                <ref bean="CoeusModule-active" />
+                <ref bean="CoeusModule-sortOrder" />                   
             </list>
         </property>
     </bean>
@@ -53,19 +55,45 @@
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="3" />
+                  p:size="3" />
         </property>
         <property name="summary" value="Module Code" />
         <property name="description" value="Module Code" />
     </bean>
 
     <bean id="CoeusModule-description" parent="CoeusModule-description-parentBean" />
-  	<bean id="CoeusModule-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description"/>
+    <bean id="CoeusModule-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description"/>
 
     <bean id="CoeusModule-versionNumber" parent="CoeusModule-versionNumber-parentBean" />
     <bean id="CoeusModule-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
 
+    <bean id="CoeusModule-active" parent="CoeusModule-active-parentBean"/>
+    <bean id="CoeusModule-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean"> 
+        <property name="name" value="active" />
+        <property name="label" value="Active" />
+        <property name="shortLabel" value="Active" />
+        <property name="summary" value="Active" />
+        <property name="description" value="Active" />
+    </bean>
+
+    <bean id="CoeusModule-sortOrder" parent="CoeusModule-sortOrder-parentBean"/>
+    <bean id="CoeusModule-sortOrder-parentBean" abstract="true" parent="AttributeDefinition"> 
+        <property name="name" value="sortOrder" />
+        <property name="label" value="Sort Order" />
+        <property name="shortLabel" value="Sort Order" />
+        <property name="summary" value="Sort Order" />
+        <property name="description" value="Sort Order" />
+        <property name="maxLength" value="5" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>        
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                  p:size="4" />
+        </property>        
+    </bean>  
+    
     <!-- Business Object Inquiry Definition -->
     <bean id="CoeusModule-inquiryDefinition" parent="CoeusModule-inquiryDefinition-parentBean" />
     <bean id="CoeusModule-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
@@ -77,11 +105,9 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                p:attributeName="moduleCode" 
-                                p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                p:attributeName="description" />
+                            <bean parent="FieldDefinition" p:attributeName="moduleCode" p:forceInquiry="true" />
+                            <bean parent="FieldDefinition" p:attributeName="description" />
+                            <bean parent="FieldDefinition" p:attributeName="active" />
                         </list>
                     </property>
                 </bean>
@@ -97,24 +123,21 @@
 
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
-        </bean>
+            </bean>
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="moduleCode" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="description" />
+                <bean parent="FieldDefinition" p:attributeName="moduleCode" p:forceInquiry="true" />
+                <bean parent="FieldDefinition" p:attributeName="description" />
+                <bean parent="FieldDefinition" p:attributeName="active" />
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition"
-                    p:attributeName="moduleCode" 
-                    p:forceInquiry="true" />
-                <bean parent="FieldDefinition"
-                    p:attributeName="description" />
+                <bean parent="FieldDefinition" p:attributeName="moduleCode" p:forceInquiry="true" />
+                <bean parent="FieldDefinition" p:attributeName="description" />
+                <bean parent="FieldDefinition" p:attributeName="active" />
+                <bean parent="FieldDefinition" p:attributeName="sortOrder" />
             </list>
         </property>
     </bean>

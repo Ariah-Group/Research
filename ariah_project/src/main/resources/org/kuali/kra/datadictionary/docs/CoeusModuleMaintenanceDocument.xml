@@ -28,10 +28,10 @@
         <property name="maintainableItems" >
             <list>
                 <bean parent="MaintainableFieldDefinition" p:name="moduleCode" p:required="true" />
-                <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true" />            
+                <bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
                 <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="sortOrder" p:required="false"/>                
-                <bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
             </list>
         </property>
     </bean>
