@@ -5,7 +5,7 @@
 			<name>IacucLocationNameMaintenanceDocument</name>
 			<description>Create Location Name</description>
 			<label>Location Name Maintenance Document</label>
-			<parent>KcComplianceMaintenanceDocument</parent>
+			<parent>ArComplianceMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/iacuclocationname.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

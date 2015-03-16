@@ -5,7 +5,7 @@
 			<name>IntellectualPropertyReviewRequirementTypeMaintenanceDocument</name>
 			<description>Create a New IP Review Requirement Type</description>
 			<label>IP Review Requirement Type</label>
-			<parent>KcAwardsMaintenanceDocument</parent>
+			<parent>ArAwardsMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

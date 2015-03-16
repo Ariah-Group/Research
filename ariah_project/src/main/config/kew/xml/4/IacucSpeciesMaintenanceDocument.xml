@@ -5,7 +5,7 @@
 			<name>IacucSpeciesMaintenanceDocument</name>
 			<description>Create Species</description>
 			<label>Species Maintenance Document</label>
-			<parent>KcComplianceMaintenanceDocument</parent>
+			<parent>ArComplianceMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/iacucspecies.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

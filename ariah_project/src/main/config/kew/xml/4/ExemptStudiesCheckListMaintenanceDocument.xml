@@ -5,7 +5,7 @@
 			<name>ExemptStudiesCheckListMaintenanceDocument</name>
 			<description>Create a New Exempt Studies CheckList Item</description>
 			<label>Exempt Studies CheckList Item</label>
-			<parent>KcComplianceMaintenanceDocument</parent>
+			<parent>ArComplianceMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/exemptstudieschecklist.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

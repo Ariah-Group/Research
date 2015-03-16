@@ -5,7 +5,7 @@
 			<name>CommentTypeMaintenanceDocument</name>
 			<description>Create a New Comment Type</description>
 			<label>Comment Type</label>
-			<parent>KcAwardsMaintenanceDocument</parent>
+			<parent>ArAwardsMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/commenttype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

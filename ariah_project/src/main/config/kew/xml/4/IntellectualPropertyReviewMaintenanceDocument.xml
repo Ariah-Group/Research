@@ -5,7 +5,7 @@
 			<name>IntellectualPropertyReviewMaintenanceDocument</name>
 			<description>Maintain Intellectual Property Review</description>
 			<label>Intellectual Property Review</label>
-			<parent>KcAwardsMaintenanceDocument</parent>
+			<parent>ArAwardsMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

@@ -5,7 +5,7 @@
 			<name>IacucExceptionCategoryMaintenanceDocument</name>
 			<description>Create Exception Category</description>
 			<label>Exception Category Maintenance Document</label>
-			<parent>KcComplianceMaintenanceDocument</parent>
+			<parent>ArComplianceMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/iacucexceptioncategory.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

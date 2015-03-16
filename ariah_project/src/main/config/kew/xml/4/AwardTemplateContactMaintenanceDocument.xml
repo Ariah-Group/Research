@@ -5,7 +5,7 @@
 			<name>AwardTemplateContactMaintenanceDocument</name>
 			<description>Create a New Sponsor Template Contact</description>
 			<label>Sponsor Template Contact</label>
-			<parent>KcAwardsMaintenanceDocument</parent>
+			<parent>ArAwardsMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

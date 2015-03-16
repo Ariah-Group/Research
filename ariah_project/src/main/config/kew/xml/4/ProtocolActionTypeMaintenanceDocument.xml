@@ -5,7 +5,7 @@
 			<name>ProtocolActionTypeMaintenanceDocument</name>
 			<description>Create/Edit a Protocol Action Type</description>
 			<label>Protocol Action Type</label>
-			<parent>KcComplianceMaintenanceDocument</parent>
+			<parent>ArComplianceMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/protocolactiontype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

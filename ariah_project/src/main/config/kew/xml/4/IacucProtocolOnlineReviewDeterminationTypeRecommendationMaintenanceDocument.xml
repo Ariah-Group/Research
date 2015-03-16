@@ -5,7 +5,7 @@
             <name>IacucProtocolOnlineReviewDeterminTypeRecommendMaintDocument</name>
             <description>Create/Edit IACUC Pro Online Review Deter Type Recommendation</description>
             <label>IACUC Protocol Review Determination Type Recommendation Code</label>
-            <parent>KcComplianceMaintenanceDocument</parent>
+            <parent>ArComplianceMaintenanceDocument</parent>
             <helpDefinitionURL>default.htm?turl=Documents/protocolonlinereviewdeterminationtyperecommendationcodes.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>    

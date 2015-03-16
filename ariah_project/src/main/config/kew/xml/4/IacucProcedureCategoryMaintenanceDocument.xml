@@ -5,7 +5,7 @@
 			<name>IacucProcedureCategoryMaintenanceDocument</name>
 			<description>Create Procedure Category</description>
 			<label>Procedure Category Maintenance Document</label>
-			<parent>KcComplianceMaintenanceDocument</parent>
+			<parent>ArComplianceMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/iacucprocedurecategory.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

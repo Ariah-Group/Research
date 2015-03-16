@@ -5,7 +5,7 @@
 			<name>AwardTypeMaintenanceDocument</name>
 			<description>Create a New Award Type</description>
 			<label>Award Type</label>
-			<parent>KcAwardsMaintenanceDocument</parent>
+			<parent>ArAwardsMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

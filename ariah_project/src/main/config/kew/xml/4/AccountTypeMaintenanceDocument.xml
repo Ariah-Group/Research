@@ -5,7 +5,7 @@
 			<name>AccountTypeMaintenanceDocument</name>
 			<description>Create a New Account Type</description>
 			<label>Account Type</label>
-			<parent>KcAwardsMaintenanceDocument</parent>
+			<parent>ArAwardsMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

@@ -7,7 +7,7 @@
             <name>AwardAttachmentTypeMaintenanceDocument</name>
             <description>Create/Edit an Award Attachment Type</description>
             <label>Award Attachment Type</label>
-            <parent>KcAwardsMaintenanceDocument</parent>
+            <parent>ArAwardsMaintenanceDocument</parent>
         </documentType>
     </documentTypes>
 </data>

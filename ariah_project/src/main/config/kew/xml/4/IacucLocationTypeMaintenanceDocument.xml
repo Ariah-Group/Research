@@ -5,7 +5,7 @@
 			<name>IacucLocationTypeMaintenanceDocument</name>
 			<description>Create Location Type</description>
 			<label>Location Type Maintenance Document</label>
-			<parent>KcComplianceMaintenanceDocument</parent>
+			<parent>ArComplianceMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/iacuclocationtype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

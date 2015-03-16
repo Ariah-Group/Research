@@ -5,7 +5,7 @@
 			<name>IntellectualPropertyReviewResultTypeMaintenanceDocument</name>
 			<description>Create a New IP Review Result Type</description>
 			<label>IP Review Result Type</label>
-			<parent>KcAwardsMaintenanceDocument</parent>
+			<parent>ArAwardsMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

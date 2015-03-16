@@ -5,7 +5,7 @@
 			<name>IacucProcedureCategoryCustomDataMaintenanceDocument</name>
 			<description>Create/Edit a Procedure Category Custom Data</description>
 			<label>IacucProcedureCategoryCustomData Maintenance Document</label>
-			<parent>KcComplianceMaintenanceDocument</parent>
+			<parent>ArComplianceMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/iacucprocedurecategorycustomattribute.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

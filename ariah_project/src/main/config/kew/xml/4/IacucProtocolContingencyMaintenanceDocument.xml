@@ -5,7 +5,7 @@
             <name>IacucProtocolContingencyMaintenanceDocument</name>
             <description>Create a New IACUC Protocol Contingency</description>
             <label>IACUC Protocol Contingency</label>
-            <parent>KcComplianceMaintenanceDocument</parent>
+            <parent>ArComplianceMaintenanceDocument</parent>
             <helpDefinitionURL>default.htm?turl=Documents/iacucprotocolcontingency.htm</helpDefinitionURL>
         </documentType>
     </documentTypes>    

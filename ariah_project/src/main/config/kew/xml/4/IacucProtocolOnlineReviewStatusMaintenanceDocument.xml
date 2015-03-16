@@ -5,7 +5,7 @@
 			<name>IacucProtocolOnlineReviewStatusMaintenanceDocument</name>
 			<description>Create a New IacucProtocolOnlineReview Status</description>
 			<label>Iacuc Protocol Review Status Code</label>
-			<parent>KcAwardsMaintenanceDocument</parent>
+			<parent>ArAwardsMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/protocolonlinereviewstatuscodes.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

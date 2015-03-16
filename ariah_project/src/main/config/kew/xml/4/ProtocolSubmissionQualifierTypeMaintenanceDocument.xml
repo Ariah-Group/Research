@@ -5,7 +5,7 @@
 			<name>ProtocolSubmissionQualifierTypeMaintenanceDocument</name>
 			<description>Create a Protocol Submission Qualifier Type</description>
 			<label>Protocol Submission Qualifier Type Maintenance Document</label>
-			<parent>KcComplianceMaintenanceDocument</parent>
+			<parent>ArComplianceMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/protocolsubmissionqualifiertype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

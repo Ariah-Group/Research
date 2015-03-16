@@ -5,7 +5,7 @@
 			<name>ReportStatusMaintenanceDocument</name>
 			<description>Create a New Report Status</description>
 			<label>Report Status</label>
-			<parent>KcAwardsMaintenanceDocument</parent>
+			<parent>ArAwardsMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

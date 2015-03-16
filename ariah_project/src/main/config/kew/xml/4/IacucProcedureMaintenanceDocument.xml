@@ -5,7 +5,7 @@
 			<name>IacucProcedureMaintenanceDocument</name>
 			<description>Create Procedure</description>
 			<label>Procedure Maintenance Document</label>
-			<parent>KcComplianceMaintenanceDocument</parent>
+			<parent>ArComplianceMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/iacucprocedure.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

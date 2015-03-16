@@ -5,7 +5,7 @@
 			<name>AwardTemplateReportTermRecipientMaintenanceDocument</name>
 			<description>Create a New Sponsor Template Report Term Recipient</description>
 			<label>Sponsor Template Report Term Recipient</label>
-			<parent>KcAwardsMaintenanceDocument</parent>
+			<parent>ArAwardsMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

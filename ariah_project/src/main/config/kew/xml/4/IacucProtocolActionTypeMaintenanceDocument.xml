@@ -5,7 +5,7 @@
 			<name>IacucProtocolActionTypeMaintenanceDocument</name>
 			<description>Create/Edit a IACUC Protocol Action Type</description>
 			<label>IACUC Protocol Action Type</label>
-			<parent>KcComplianceMaintenanceDocument</parent>
+			<parent>ArComplianceMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/iacucprotocolactiontype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

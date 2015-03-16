@@ -5,7 +5,7 @@
 			<name>FrequencyBaseMaintenanceDocument</name>
 			<description>Create a New Frequency Base</description>
 			<label>Frequency Base</label>
-			<parent>KcAwardsMaintenanceDocument</parent>
+			<parent>ArAwardsMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

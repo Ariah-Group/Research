@@ -5,7 +5,7 @@
 			<name>AwardTemplateCommentMaintenanceDocument</name>
 			<description>Create a New Sponsor Template Comment</description>
 			<label>Sponsor Template Comment</label>
-			<parent>KcAwardsMaintenanceDocument</parent>
+			<parent>ArAwardsMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>

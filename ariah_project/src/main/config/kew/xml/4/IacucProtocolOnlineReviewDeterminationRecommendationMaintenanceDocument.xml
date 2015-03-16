@@ -5,7 +5,7 @@
 			<name>IacucProtocolOnlineReviewDeterminRecommendMaintenanceDocument</name>
 			<description>IACUC Protocol Online Review Determination Recommendation</description>
 			<label>Protocol Review Determination Recommendation Code</label>
-			<parent>KcAwardsMaintenanceDocument</parent>
+			<parent>ArAwardsMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/protocolonlinereviewdeterminationrecommendationcodes.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

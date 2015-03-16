@@ -5,7 +5,7 @@
 			<name>ProtocolSubmissionTypeMaintenanceDocument</name>
 			<description>Create/Edit Protocol Submission Type</description>
 			<label>Protocol Submission Type</label>
-			<parent>KcComplianceMaintenanceDocument</parent>
+			<parent>ArComplianceMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/submissiontype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

@@ -5,7 +5,7 @@
 			<name>IacucProtocolSubmissionTypeMaintenanceDocument</name>
 			<description>Create/Edit IACUC Protocol Submission Type</description>
 			<label>IACUC Protocol Submission Type</label>
-			<parent>KcComplianceMaintenanceDocument</parent>
+			<parent>ArComplianceMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/submissiontype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

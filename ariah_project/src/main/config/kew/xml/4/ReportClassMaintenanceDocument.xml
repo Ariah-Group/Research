@@ -5,7 +5,7 @@
 			<name>ReportClassMaintenanceDocument</name>
 			<description>Create a New Report Class</description>
 			<label>Report Class</label>
-			<parent>KcAwardsMaintenanceDocument</parent>
+			<parent>ArAwardsMaintenanceDocument</parent>
 		</documentType>
 	</documentTypes>	
 </data>
