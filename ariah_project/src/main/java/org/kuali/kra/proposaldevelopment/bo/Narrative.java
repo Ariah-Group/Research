@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
@@ -37,11 +53,10 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * 
+ *
  * This class is BO for narrarive
  */
 public class Narrative extends KraPersistableBusinessObjectBase implements HierarchyMaintainable, KcAttachment {
-
 
     private String proposalNumber;
 
@@ -187,10 +202,14 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
                 public int compare(Object o1, Object o2) {
                     NarrativeUserRights r1 = (NarrativeUserRights) o1;
                     NarrativeUserRights r2 = (NarrativeUserRights) o2;
-                    if (r1 == null || r2 == null) return 0;
+                    if (r1 == null || r2 == null) {
+                        return 0;
+                    }
                     String name1 = r1.getPersonName();
                     String name2 = r2.getPersonName();
-                    if (name1 == null || name2 == null) return 0;
+                    if (name1 == null || name2 == null) {
+                        return 0;
+                    }
                     return name1.compareTo(name2);
                 }
             });
@@ -204,7 +223,7 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
 
     /**
      * Gets the narrativeStatus attribute.
-     * 
+     *
      * @return Returns the narrativeStatus.
      */
     public NarrativeStatus getNarrativeStatus() {
@@ -213,7 +232,7 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
 
     /**
      * Sets the narrativeStatus attribute value.
-     * 
+     *
      * @param narrativeStatus The narrativeStatus to set.
      */
     public void setNarrativeStatus(NarrativeStatus narrativeStatus) {
@@ -245,9 +264,10 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
     }
 
     /**
-     * 
-     * This method is to return institutional attachment type.  This column does not exist in table.
-     * Basically, it is for narrativetypecode in table. 
+     *
+     * This method is to return institutional attachment type. This column does
+     * not exist in table. Basically, it is for narrativetypecode in table.
+     *
      * @return
      */
     public String getInstitutionalAttachmentTypeCode() {
@@ -255,9 +275,11 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
     }
 
     /**
-     * 
-     * This method set the institutional attachment type.  Since instituteattachmenttypecode is set as 'required' in DD.
-     * So, it is set to narrativetypecode, and hence to return narrative type code.
+     *
+     * This method set the institutional attachment type. Since
+     * instituteattachmenttypecode is set as 'required' in DD. So, it is set to
+     * narrativetypecode, and hence to return narrative type code.
+     *
      * @param institutionalAttachmentTypeCode
      */
     public void setInstitutionalAttachmentTypeCode(String institutionalAttachmentTypeCode) {
@@ -267,6 +289,7 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
 
     /**
      * Can the current user download (view) the attachment?
+     *
      * @param userId
      * @return true if the user can view the attachment; otherwise false
      */
@@ -280,6 +303,7 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
 
     /**
      * Can the current user replace the attachment?
+     *
      * @return true if the user can replace the attachment; otherwise false
      */
     public boolean getReplaceAttachment(String userId) {
@@ -292,6 +316,7 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
 
     /**
      * Can the current user delete the attachment?
+     *
      * @return true if the user can delete the attachment; otherwise false
      */
     public boolean getDeleteAttachment(String userId) {
@@ -301,13 +326,15 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
         TaskAuthorizationService taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthorizationService.isAuthorized(userId, new NarrativeTask(TaskName.DELETE_NARRATIVE, getDocument(), this));
     }
-    
+
     /**
      * Can the current user change the status of attachment?
-     * @return true if the user can modify the status of attachments; otherwise false
+     *
+     * @return true if the user can modify the status of attachments; otherwise
+     * false
      */
     public boolean getModifyAttachmentStatus(String userId) {
-        if(getNarrativeUserRights().isEmpty()) {
+        if (getNarrativeUserRights().isEmpty()) {
             refreshReferenceObject("narrativeUserRights");
         }
         TaskAuthorizationService taskAuthorizatioNService = KraServiceLocator.getService(TaskAuthorizationService.class);
@@ -316,6 +343,7 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
 
     /**
      * Can the current user modify the user rights for the attachment?
+     *
      * @return true if the user can modify the user rights; otherwise false
      */
     public boolean getModifyNarrativeRights(String userId) {
@@ -327,9 +355,9 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
     }
 
     /**
-     * Get the Proposal Development Document for the current session.  The
+     * Get the Proposal Development Document for the current session. The
      * document is within the current form.
-     * 
+     *
      * @return the current document or null if not found
      */
     private ProposalDevelopmentDocument getDocument() {
@@ -342,12 +370,15 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
     }
 
     /**
-     * 
-     * This method used to populate the attachment to narrative object by reading FormFile 
+     *
+     * This method used to populate the attachment to narrative object by
+     * reading FormFile
      */
     public void populateAttachment() {
         FormFile narrativeFile = getNarrativeFile();
-        if (narrativeFile == null) return;
+        if (narrativeFile == null) {
+            return;
+        }
         byte[] narrativeFileData;
         try {
             narrativeFileData = narrativeFile.getFileData();
@@ -383,7 +414,7 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
 
     /**
      * Gets index i from the narrativeUserRights list.
-     * 
+     *
      * @param index
      * @return Question at index i
      */
@@ -433,49 +464,107 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         Narrative other = (Narrative) obj;
         if (comments == null) {
-            if (other.comments != null) return false;
-        } else if (!comments.equals(other.comments)) return false;
+            if (other.comments != null) {
+                return false;
+            }
+        } else if (!comments.equals(other.comments)) {
+            return false;
+        }
         if (contactName == null) {
-            if (other.contactName != null) return false;
-        } else if (!contactName.equals(other.contactName)) return false;
+            if (other.contactName != null) {
+                return false;
+            }
+        } else if (!contactName.equals(other.contactName)) {
+            return false;
+        }
         if (emailAddress == null) {
-            if (other.emailAddress != null) return false;
-        } else if (!emailAddress.equals(other.emailAddress)) return false;
+            if (other.emailAddress != null) {
+                return false;
+            }
+        } else if (!emailAddress.equals(other.emailAddress)) {
+            return false;
+        }
         if (fileName == null) {
-            if (other.fileName != null) return false;
-        } else if (!fileName.equals(other.fileName)) return false;
+            if (other.fileName != null) {
+                return false;
+            }
+        } else if (!fileName.equals(other.fileName)) {
+            return false;
+        }
         if (moduleNumber == null) {
-            if (other.moduleNumber != null) return false;
-        } else if (!moduleNumber.equals(other.moduleNumber)) return false;
+            if (other.moduleNumber != null) {
+                return false;
+            }
+        } else if (!moduleNumber.equals(other.moduleNumber)) {
+            return false;
+        }
         if (moduleSequenceNumber == null) {
-            if (other.moduleSequenceNumber != null) return false;
-        } else if (!moduleSequenceNumber.equals(other.moduleSequenceNumber)) return false;
+            if (other.moduleSequenceNumber != null) {
+                return false;
+            }
+        } else if (!moduleSequenceNumber.equals(other.moduleSequenceNumber)) {
+            return false;
+        }
         if (moduleStatusCode == null) {
-            if (other.moduleStatusCode != null) return false;
-        } else if (!moduleStatusCode.equals(other.moduleStatusCode)) return false;
+            if (other.moduleStatusCode != null) {
+                return false;
+            }
+        } else if (!moduleStatusCode.equals(other.moduleStatusCode)) {
+            return false;
+        }
         if (moduleTitle == null) {
-            if (other.moduleTitle != null) return false;
-        } else if (!moduleTitle.equals(other.moduleTitle)) return false;
+            if (other.moduleTitle != null) {
+                return false;
+            }
+        } else if (!moduleTitle.equals(other.moduleTitle)) {
+            return false;
+        }
         if (narrativeStatus == null) {
-            if (other.narrativeStatus != null) return false;
-        } else if (!narrativeStatus.equals(other.narrativeStatus)) return false;
+            if (other.narrativeStatus != null) {
+                return false;
+            }
+        } else if (!narrativeStatus.equals(other.narrativeStatus)) {
+            return false;
+        }
         if (narrativeType == null) {
-            if (other.narrativeType != null) return false;
-        } else if (!narrativeType.equals(other.narrativeType)) return false;
+            if (other.narrativeType != null) {
+                return false;
+            }
+        } else if (!narrativeType.equals(other.narrativeType)) {
+            return false;
+        }
         if (narrativeTypeCode == null) {
-            if (other.narrativeTypeCode != null) return false;
-        } else if (!narrativeTypeCode.equals(other.narrativeTypeCode)) return false;
+            if (other.narrativeTypeCode != null) {
+                return false;
+            }
+        } else if (!narrativeTypeCode.equals(other.narrativeTypeCode)) {
+            return false;
+        }
         if (phoneNumber == null) {
-            if (other.phoneNumber != null) return false;
-        } else if (!phoneNumber.equals(other.phoneNumber)) return false;
+            if (other.phoneNumber != null) {
+                return false;
+            }
+        } else if (!phoneNumber.equals(other.phoneNumber)) {
+            return false;
+        }
         if (proposalNumber == null) {
-            if (other.proposalNumber != null) return false;
-        } else if (!proposalNumber.equals(other.proposalNumber)) return false;
+            if (other.proposalNumber != null) {
+                return false;
+            }
+        } else if (!proposalNumber.equals(other.proposalNumber)) {
+            return false;
+        }
         return true;
     }
 
@@ -522,7 +611,8 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
     }
 
     /**
-     * Gets the hierarchyProposalNumber attribute. 
+     * Gets the hierarchyProposalNumber attribute.
+     *
      * @return Returns the hierarchyProposalNumber.
      */
     public String getHierarchyProposalNumber() {
@@ -531,6 +621,7 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
 
     /**
      * Sets the hierarchyProposalNumber attribute value.
+     *
      * @param hierarchyProposalNumber The hierarchyProposalNumber to set.
      */
     public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
@@ -538,7 +629,8 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
     }
 
     /**
-     * Gets the hiddenInHierarchy attribute. 
+     * Gets the hiddenInHierarchy attribute.
+     *
      * @return Returns the hiddenInHierarchy.
      */
     public boolean isHiddenInHierarchy() {
@@ -547,6 +639,7 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
 
     /**
      * Sets the hiddenInHierarchy attribute value.
+     *
      * @param hiddenInHierarchy The hiddenInHierarchy to set.
      */
     public void setHiddenInHierarchy(boolean hiddenInHierarchy) {

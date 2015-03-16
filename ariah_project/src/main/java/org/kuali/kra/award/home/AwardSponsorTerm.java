@@ -35,7 +35,6 @@ import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.bo.SponsorTerm;
 
-
 /**
  * This class is business object representation of AwardSponsorTerm.
  */
@@ -60,6 +59,7 @@ public class AwardSponsorTerm extends AwardAssociate {
 
     /**
      * Constructs a AwardSponsorTerm.java.
+     *
      * @param sponsorTermId
      * @param sponsorTerm
      */
@@ -69,7 +69,8 @@ public class AwardSponsorTerm extends AwardAssociate {
     }
 
     /**
-     * Gets the awardTermId attribute. 
+     * Gets the awardTermId attribute.
+     *
      * @return Returns the awardTermId.
      */
     public Long getAwardSponsorTermId() {
@@ -78,6 +79,7 @@ public class AwardSponsorTerm extends AwardAssociate {
 
     /**
      * Sets the awardTermId attribute value.
+     *
      * @param awardSponsorTermId The awardTermId to set.
      */
     public void setAwardSponsorTermId(Long awardSponsorTermId) {
@@ -85,7 +87,8 @@ public class AwardSponsorTerm extends AwardAssociate {
     }
 
     /**
-     * Gets the sponsorTermId attribute. 
+     * Gets the sponsorTermId attribute.
+     *
      * @return Returns the sponsorTermId.
      */
     public Long getSponsorTermId() {
@@ -94,6 +97,7 @@ public class AwardSponsorTerm extends AwardAssociate {
 
     /**
      * Sets the sponsorTermId attribute value.
+     *
      * @param sponsorTermId The sponsorTermId to set.
      */
     public void setSponsorTermId(Long sponsorTermId) {
@@ -102,6 +106,7 @@ public class AwardSponsorTerm extends AwardAssociate {
 
     /**
      * This method returns sponsorTermTypeCode associated with sponsorTerm.
+     *
      * @return
      */
     public String getSponsorTermTypeCode() {
@@ -110,6 +115,7 @@ public class AwardSponsorTerm extends AwardAssociate {
 
     /**
      * This method returns sponsorTermCode associated with sponsorTerm.
+     *
      * @return
      */
     public String getSponsorTermCode() {
@@ -118,6 +124,7 @@ public class AwardSponsorTerm extends AwardAssociate {
 
     /**
      * This method returns description associated with sponsorTerm.
+     *
      * @return
      */
     public String getDescription() {
@@ -136,7 +143,8 @@ public class AwardSponsorTerm extends AwardAssociate {
     //        return businessObjectService;  
     //    }  
     /**
-     * Gets the sponsorTerm attribute. 
+     * Gets the sponsorTerm attribute.
+     *
      * @return Returns the sponsorTerm.
      */
     public SponsorTerm getSponsorTerm() {
@@ -145,6 +153,7 @@ public class AwardSponsorTerm extends AwardAssociate {
 
     /**
      * Sets the sponsorTerm attribute value.
+     *
      * @param sponsorTerm The sponsorTerm to set.
      */
     public void setSponsorTerm(SponsorTerm sponsorTerm) {
@@ -170,22 +179,40 @@ public class AwardSponsorTerm extends AwardAssociate {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         if (!super.equals(obj)) {
             return false;
         }
         final AwardSponsorTerm other = (AwardSponsorTerm) obj;
         if (awardSponsorTermId == null) {
-            if (other.awardSponsorTermId != null) return false;
-        } else if (!awardSponsorTermId.equals(other.awardSponsorTermId)) return false;
+            if (other.awardSponsorTermId != null) {
+                return false;
+            }
+        } else if (!awardSponsorTermId.equals(other.awardSponsorTermId)) {
+            return false;
+        }
         if (sponsorTerm == null) {
-            if (other.sponsorTerm != null) return false;
-        } else if (!sponsorTerm.equals(other.sponsorTerm)) return false;
+            if (other.sponsorTerm != null) {
+                return false;
+            }
+        } else if (!sponsorTerm.equals(other.sponsorTerm)) {
+            return false;
+        }
         if (sponsorTermId == null) {
-            if (other.sponsorTermId != null) return false;
-        } else if (!sponsorTermId.equals(other.sponsorTermId)) return false;
+            if (other.sponsorTermId != null) {
+                return false;
+            }
+        } else if (!sponsorTermId.equals(other.sponsorTermId)) {
+            return false;
+        }
         return true;
     }
 

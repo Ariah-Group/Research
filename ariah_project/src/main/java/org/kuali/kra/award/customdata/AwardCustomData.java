@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.customdata;
 
@@ -38,7 +54,8 @@ public class AwardCustomData extends AwardAssociate implements DocumentCustomDat
     private CustomAttribute customAttribute;
 
     /**
-     * Gets the customAttributeId attribute. 
+     * Gets the customAttributeId attribute.
+     *
      * @return Returns the customAttributeId.
      */
     public Long getCustomAttributeId() {
@@ -47,6 +64,7 @@ public class AwardCustomData extends AwardAssociate implements DocumentCustomDat
 
     /**
      * Sets the customAttributeId attribute value.
+     *
      * @param customAttributeId The customAttributeId to set.
      */
     public void setCustomAttributeId(Long customAttributeId) {
@@ -54,7 +72,8 @@ public class AwardCustomData extends AwardAssociate implements DocumentCustomDat
     }
 
     /**
-     * Gets the awardCustomDataId attribute. 
+     * Gets the awardCustomDataId attribute.
+     *
      * @return Returns the awardCustomDataId.
      */
     public Long getAwardCustomDataId() {
@@ -63,6 +82,7 @@ public class AwardCustomData extends AwardAssociate implements DocumentCustomDat
 
     /**
      * Sets the awardCustomDataId attribute value.
+     *
      * @param awardCustomDataId The awardCustomDataId to set.
      */
     public void setAwardCustomDataId(Long awardCustomDataId) {
@@ -70,7 +90,8 @@ public class AwardCustomData extends AwardAssociate implements DocumentCustomDat
     }
 
     /**
-     * Gets the value attribute. 
+     * Gets the value attribute.
+     *
      * @return Returns the value.
      */
     public String getValue() {
@@ -86,6 +107,7 @@ public class AwardCustomData extends AwardAssociate implements DocumentCustomDat
 
     /**
      * Sets the value attribute value.
+     *
      * @param value The value to set.
      */
     public void setValue(String value) {
@@ -111,27 +133,50 @@ public class AwardCustomData extends AwardAssociate implements DocumentCustomDat
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!super.equals(obj)) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         AwardCustomData other = (AwardCustomData) obj;
         if (awardCustomDataId == null) {
-            if (other.awardCustomDataId != null) return false;
-        } else if (!awardCustomDataId.equals(other.awardCustomDataId)) return false;
+            if (other.awardCustomDataId != null) {
+                return false;
+            }
+        } else if (!awardCustomDataId.equals(other.awardCustomDataId)) {
+            return false;
+        }
         if (customAttribute == null) {
-            if (other.customAttribute != null) return false;
-        } else if (!customAttribute.equals(other.customAttribute)) return false;
+            if (other.customAttribute != null) {
+                return false;
+            }
+        } else if (!customAttribute.equals(other.customAttribute)) {
+            return false;
+        }
         if (customAttributeId == null) {
-            if (other.customAttributeId != null) return false;
-        } else if (!customAttributeId.equals(other.customAttributeId)) return false;
+            if (other.customAttributeId != null) {
+                return false;
+            }
+        } else if (!customAttributeId.equals(other.customAttributeId)) {
+            return false;
+        }
         if (value == null) {
-            if (other.value != null) return false;
-        } else if (!value.equals(other.value)) return false;
+            if (other.value != null) {
+                return false;
+            }
+        } else if (!value.equals(other.value)) {
+            return false;
+        }
         return true;
     }
 
     /**
-     * Gets the customAttribute attribute. 
+     * Gets the customAttribute attribute.
+     *
      * @return Returns the customAttribute.
      */
     public CustomAttribute getCustomAttribute() {
@@ -140,6 +185,7 @@ public class AwardCustomData extends AwardAssociate implements DocumentCustomDat
 
     /**
      * Sets the customAttribute attribute value.
+     *
      * @param customAttribute The customAttribute to set.
      */
     public void setCustomAttribute(CustomAttribute customAttribute) {

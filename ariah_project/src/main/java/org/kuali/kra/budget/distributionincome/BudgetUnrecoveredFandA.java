@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.budget.distributionincome;
 
@@ -19,24 +35,25 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 
 public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent implements HierarchyMaintainable {
+
     private static final long serialVersionUID = 6614520585838685080L;
 
     public static final String DOCUMENT_COMPONENT_ID_KEY = "BUDGET_UNRECOVERED_F_AND_A_KEY";
-    
+
     private BudgetDecimal amount;
     private BudgetDecimal applicableRate;
     private String onCampusFlag;
     private Integer fiscalYear;
     private String sourceAccount;
-    
-    public static final String OFF_CAMPUS_RATE_FLAG = "N"; 
+
+    public static final String OFF_CAMPUS_RATE_FLAG = "N";
     public static final String ON_CAMPUS_RATE_FLAG = "Y";
-    
+
     private String hierarchyProposalNumber;
     private boolean hiddenInHierarchy;
-    
+
     /**
-     * 
+     *
      * Constructs a BudgetUnrecoveredFandA.java.
      */
     public BudgetUnrecoveredFandA() {
@@ -44,8 +61,9 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
     }
 
     /**
-     * 
+     *
      * Constructs a BudgetUnrecoveredFandA.java.
+     *
      * @param fiscalYear
      * @param amount
      * @param applicableRate
@@ -53,63 +71,72 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
      * @param sourceAccount
      */
     public BudgetUnrecoveredFandA(Integer fiscalYear, BudgetDecimal amount, BudgetDecimal applicableRate, String campus, String sourceAccount) {
-       super();
-       this.fiscalYear = fiscalYear;
-       this.amount = amount;
-       this.applicableRate = applicableRate;
-       this.onCampusFlag = campus;
-       this.sourceAccount = sourceAccount;
+        super();
+        this.fiscalYear = fiscalYear;
+        this.amount = amount;
+        this.applicableRate = applicableRate;
+        this.onCampusFlag = campus;
+        this.sourceAccount = sourceAccount;
     }
 
     /**
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (!(obj instanceof BudgetUnrecoveredFandA))
+        }
+        if (!(obj instanceof BudgetUnrecoveredFandA)) {
             return false;
+        }
         final BudgetUnrecoveredFandA other = (BudgetUnrecoveredFandA) obj;
         if (amount == null) {
-            if (other.amount != null)
+            if (other.amount != null) {
                 return false;
-        }
-        else if (!amount.equals(other.amount))
+            }
+        } else if (!amount.equals(other.amount)) {
             return false;
+        }
         if (applicableRate == null) {
-            if (other.applicableRate != null)
+            if (other.applicableRate != null) {
                 return false;
-        }
-        else if (!applicableRate.equals(other.applicableRate))
+            }
+        } else if (!applicableRate.equals(other.applicableRate)) {
             return false;
+        }
         if (onCampusFlag == null) {
-            if (other.onCampusFlag != null)
+            if (other.onCampusFlag != null) {
                 return false;
-        }
-        else if (!onCampusFlag.equals(other.onCampusFlag))
+            }
+        } else if (!onCampusFlag.equals(other.onCampusFlag)) {
             return false;
+        }
         if (fiscalYear == null) {
-            if (other.fiscalYear != null)
+            if (other.fiscalYear != null) {
                 return false;
-        }
-        else if (!fiscalYear.equals(other.fiscalYear))
+            }
+        } else if (!fiscalYear.equals(other.fiscalYear)) {
             return false;
+        }
         if (sourceAccount == null) {
-            if (other.sourceAccount != null)
+            if (other.sourceAccount != null) {
                 return false;
-        }
-        else if (!sourceAccount.equals(other.sourceAccount))
+            }
+        } else if (!sourceAccount.equals(other.sourceAccount)) {
             return false;
+        }
         return true;
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public BudgetDecimal getAmount() {
@@ -117,8 +144,9 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public BudgetDecimal getApplicableRate() {
@@ -126,8 +154,9 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public String getOnCampusFlag() {
@@ -135,8 +164,9 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public Integer getFiscalYear() {
@@ -144,8 +174,9 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public String getSourceAccount() {
@@ -153,7 +184,7 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
     }
 
     /**
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -169,8 +200,9 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param amount
      */
     public void setAmount(BudgetDecimal amount) {
@@ -178,8 +210,9 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param applicableRate
      */
     public void setApplicableRate(BudgetDecimal applicableRate) {
@@ -187,8 +220,9 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param campus
      */
     public void setOnCampusFlag(String campus) {
@@ -196,8 +230,9 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param fiscalYear
      */
     public void setFiscalYear(Integer fiscalYear) {
@@ -205,8 +240,9 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param sourceAccount
      */
     public void setSourceAccount(String sourceAccount) {
@@ -214,8 +250,9 @@ public class BudgetUnrecoveredFandA extends BudgetDistributionAndIncomeComponent
     }
 
     /**
-     * 
-     * @see org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeComponent#getDocumentComponentIdKey()
+     *
+     * @see
+     * org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeComponent#getDocumentComponentIdKey()
      */
     @Override
     public String getDocumentComponentIdKey() {

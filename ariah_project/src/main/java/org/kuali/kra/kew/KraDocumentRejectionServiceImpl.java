@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.kew;
 
@@ -41,71 +57,75 @@ public class KraDocumentRejectionServiceImpl implements KraDocumentRejectionServ
     protected String getWorkflowInitialNodeName(String documentType) {
         DocumentTypeService documentTypeService = KEWServiceLocator.getDocumentTypeService();
         DocumentType proposalDevDocType = documentTypeService.findByName(documentType);
-        return proposalDevDocType.getPrimaryProcess().getInitialRouteNode().getRouteNodeName();        
+        return proposalDevDocType.getPrimaryProcess().getInitialRouteNode().getRouteNodeName();
     }
 
     protected void reject(String documentNumber, String reason, String principalId, String appDocStatus) {
         try {
-            if( LOG.isDebugEnabled() )
-                LOG.debug( String.format( "Rejecting document:%s as %s with reason '%s'", documentNumber, principalId, reason ));
-            WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument(principalId, documentNumber);
-            workflowDocument.returnToPreviousNode(reason, getWorkflowInitialNodeName( workflowDocument.getDocumentTypeName()) );
-            if( appDocStatus != null ) {
-                if( LOG.isDebugEnabled() ) {
-                    LOG.debug( String.format( "Setting application document status of document %s to %s", documentNumber, appDocStatus));
-                }
-                workflowDocument.setApplicationDocumentStatus( appDocStatus );
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(String.format("Rejecting document:%s as %s with reason '%s'", documentNumber, principalId, reason));
             }
-        } catch ( Exception we ) {
-            LOG.error( String.format( "Exception generated when trying to return document %s to initial route node.  Reason:%s", documentNumber, we.getMessage()) );
-            throw new RuntimeException( String.format( "Exception generated when trying to return document %s to initial route node.  Reason:%s", documentNumber, we.getMessage()), we );
+            WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument(principalId, documentNumber);
+            workflowDocument.returnToPreviousNode(reason, getWorkflowInitialNodeName(workflowDocument.getDocumentTypeName()));
+            if (appDocStatus != null) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug(String.format("Setting application document status of document %s to %s", documentNumber, appDocStatus));
+                }
+                workflowDocument.setApplicationDocumentStatus(appDocStatus);
+            }
+        } catch (Exception we) {
+            LOG.error(String.format("Exception generated when trying to return document %s to initial route node.  Reason:%s", documentNumber, we.getMessage()));
+            throw new RuntimeException(String.format("Exception generated when trying to return document %s to initial route node.  Reason:%s", documentNumber, we.getMessage()), we);
         }
     }
 
     @Override
     public void reject(String documentNumber, String reason, String principalId) {
-        reject( documentNumber, reason, principalId, null );
+        reject(documentNumber, reason, principalId, null);
     }
 
     @Override
     public void reject(Document document, String reason, String principalId, String appDocStatus) {
         try {
-            if( LOG.isDebugEnabled() )
-                LOG.debug( String.format( "Rejecting document:%s as %s with reason '%s'", document.getDocumentNumber(), principalId, reason ));
-            WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument( principalId, document.getDocumentHeader().getWorkflowDocument().getDocumentId() );
-            workflowDocument.returnToPreviousNode(reason, getWorkflowInitialNodeName( workflowDocument.getDocumentTypeName()) );
-            if( appDocStatus != null ) {
-                if( LOG.isDebugEnabled() )
-                    LOG.debug( String.format( "Setting application document status of document %s to %s", document.getDocumentNumber(), appDocStatus));
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(String.format("Rejecting document:%s as %s with reason '%s'", document.getDocumentNumber(), principalId, reason));
+            }
+            WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument(principalId, document.getDocumentHeader().getWorkflowDocument().getDocumentId());
+            workflowDocument.returnToPreviousNode(reason, getWorkflowInitialNodeName(workflowDocument.getDocumentTypeName()));
+            if (appDocStatus != null) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug(String.format("Setting application document status of document %s to %s", document.getDocumentNumber(), appDocStatus));
+                }
                 //workflowDocument.setApplicationDocumentStatus( appDocStatus );
             }
-        } catch ( Exception we ) {
-            LOG.error( String.format( "Exception generated when trying to return document %s to initial route node.  Reason:%s", document.getDocumentNumber(), we.getMessage()) );
-            throw new RuntimeException( String.format( "Exception generated when trying to return document %s to initial route node.  Reason:%s", document.getDocumentNumber(), we.getMessage()), we );
+        } catch (Exception we) {
+            LOG.error(String.format("Exception generated when trying to return document %s to initial route node.  Reason:%s", document.getDocumentNumber(), we.getMessage()));
+            throw new RuntimeException(String.format("Exception generated when trying to return document %s to initial route node.  Reason:%s", document.getDocumentNumber(), we.getMessage()), we);
         }
     }
 
     @Override
-    public boolean isDocumentOnInitialNode(Document document)  {
+    public boolean isDocumentOnInitialNode(Document document) {
         boolean ret = false;
-        if (document!=null)
-	        ret = isDocumentOnNode(document,getWorkflowInitialNodeName(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName()));
+        if (document != null) {
+            ret = isDocumentOnNode(document, getWorkflowInitialNodeName(document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName()));
+        }
         return ret;
     }
 
     @Override
-    public boolean isDocumentOnInitialNode( String documentNumber ) {
+    public boolean isDocumentOnInitialNode(String documentNumber) {
         try {
             Document document = documentService.getByDocumentHeaderId(documentNumber);
-            return isDocumentOnInitialNode( document );
-        } catch ( WorkflowException we ) {
-            LOG.error( String.format( "WorkflowException generated when trying to return document %s to initial route node.  Reason:%s", documentNumber, we.getMessage()) );
-            throw new RuntimeException( String.format( "WorkflowException generated when trying to return document %s to initial route node.  Reason:%s", documentNumber, we.getMessage()), we );
+            return isDocumentOnInitialNode(document);
+        } catch (WorkflowException we) {
+            LOG.error(String.format("WorkflowException generated when trying to return document %s to initial route node.  Reason:%s", documentNumber, we.getMessage()));
+            throw new RuntimeException(String.format("WorkflowException generated when trying to return document %s to initial route node.  Reason:%s", documentNumber, we.getMessage()), we);
         }
     }
 
-    protected boolean isDocumentOnNode(Document document,String nodeName) {
-        if(document != null && StringUtils.isNotEmpty(nodeName)) {
+    protected boolean isDocumentOnNode(Document document, String nodeName) {
+        if (document != null && StringUtils.isNotEmpty(nodeName)) {
             String currentRouteNodeNames = workflowDocumentService.getCurrentRouteNodeNames(document.getDocumentHeader().getWorkflowDocument());
             return StringUtils.contains(currentRouteNodeNames, nodeName);
         }
@@ -115,14 +135,14 @@ public class KraDocumentRejectionServiceImpl implements KraDocumentRejectionServ
 
     @Override
     public void reject(Document document, String reason, String principalId, String appDocStatus, String nodeName) {
-        if( LOG.isDebugEnabled() ) {
-            LOG.debug( String.format( "Rejecting document %s to node %s as %s with reason '%s'", document.getDocumentNumber(), nodeName, principalId, reason ));
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(String.format("Rejecting document %s to node %s as %s with reason '%s'", document.getDocumentNumber(), nodeName, principalId, reason));
         }
-        WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument( principalId, document.getDocumentHeader().getWorkflowDocument().getDocumentId() );
-        workflowDocument.returnToPreviousNode(reason, nodeName );
-        if( appDocStatus != null ) {
-            if( LOG.isDebugEnabled() ) {
-                LOG.debug( String.format( "Setting application document status of document %s to %s", document.getDocumentNumber(), appDocStatus));
+        WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument(principalId, document.getDocumentHeader().getWorkflowDocument().getDocumentId());
+        workflowDocument.returnToPreviousNode(reason, nodeName);
+        if (appDocStatus != null) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug(String.format("Setting application document status of document %s to %s", document.getDocumentNumber(), appDocStatus));
             }
             //workflowDocument.setApplicationDocumentStatus( appDocStatus );
         }

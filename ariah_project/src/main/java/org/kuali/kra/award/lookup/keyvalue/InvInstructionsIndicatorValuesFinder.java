@@ -25,20 +25,23 @@ import java.util.List;
 
 /**
  * Values Finder for Invoice Instructions Indicator Values.
- * 
+ *
  */
 public class InvInstructionsIndicatorValuesFinder extends UifKeyValuesFinderBase {
-    
+
     private List<KeyValue> labels;
 
     @Override
     public List<KeyValue> getKeyValues() {
-        if( labels!=null ) return labels;
+        if (labels != null) {
+            return labels;
+        }
         labels = new ArrayList<KeyValue>();
-        
-        for( InvInstructionsIndicatorConstants inv : InvInstructionsIndicatorConstants.values() ) 
-            labels.add(new ConcreteKeyValue( inv.getCode(),  inv.toString()));
+
+        for (InvInstructionsIndicatorConstants inv : InvInstructionsIndicatorConstants.values()) {
+            labels.add(new ConcreteKeyValue(inv.getCode(), inv.toString()));
+        }
         return labels;
     }
-    
+
 }

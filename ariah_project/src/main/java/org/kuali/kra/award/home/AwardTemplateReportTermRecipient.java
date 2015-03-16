@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.home;
 
@@ -104,7 +120,8 @@ public class AwardTemplateReportTermRecipient extends KraPersistableBusinessObje
     }
 
     /**
-     * Gets the awardTemplateReportTerm attribute. 
+     * Gets the awardTemplateReportTerm attribute.
+     *
      * @return Returns the awardTemplateReportTerm.
      */
     public AwardTemplateReportTerm getAwardTemplateReportTerm() {
@@ -113,6 +130,7 @@ public class AwardTemplateReportTermRecipient extends KraPersistableBusinessObje
 
     /**
      * Sets the awardTemplateReportTerm attribute value.
+     *
      * @param awardTemplateReportTerm The awardTemplateReportTerm to set.
      */
     public void setAwardTemplateReportTerm(AwardTemplateReportTerm awardTemplateReportTerm) {
@@ -137,24 +155,43 @@ public class AwardTemplateReportTermRecipient extends KraPersistableBusinessObje
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!super.equals(obj)) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         AwardTemplateReportTermRecipient other = (AwardTemplateReportTermRecipient) obj;
         if (awardTemplateReportTerm == null) {
-            if (other.awardTemplateReportTerm != null) return false;
-        } else if (!awardTemplateReportTerm.equals(other.awardTemplateReportTerm)) return false;
+            if (other.awardTemplateReportTerm != null) {
+                return false;
+            }
+        } else if (!awardTemplateReportTerm.equals(other.awardTemplateReportTerm)) {
+            return false;
+        }
         if (templateReportTermId == null) {
-            if (other.templateReportTermId != null) return false;
-        } else if (!templateReportTermId.equals(other.templateReportTermId)) return false;
+            if (other.templateReportTermId != null) {
+                return false;
+            }
+        } else if (!templateReportTermId.equals(other.templateReportTermId)) {
+            return false;
+        }
         if (templateReportTermRecipientId == null) {
-            if (other.templateReportTermRecipientId != null) return false;
-        } else if (!templateReportTermRecipientId.equals(other.templateReportTermRecipientId)) return false;
+            if (other.templateReportTermRecipientId != null) {
+                return false;
+            }
+        } else if (!templateReportTermRecipientId.equals(other.templateReportTermRecipientId)) {
+            return false;
+        }
         return true;
     }
 
     /**
-     * Gets the contactTypeCode attribute. 
+     * Gets the contactTypeCode attribute.
+     *
      * @return Returns the contactTypeCode.
      */
     public String getContactTypeCode() {
@@ -163,6 +200,7 @@ public class AwardTemplateReportTermRecipient extends KraPersistableBusinessObje
 
     /**
      * Sets the contactTypeCode attribute value.
+     *
      * @param contactTypeCode The contactTypeCode to set.
      */
     public void setContactTypeCode(String contactTypeCode) {
@@ -170,7 +208,8 @@ public class AwardTemplateReportTermRecipient extends KraPersistableBusinessObje
     }
 
     /**
-     * Gets the rolodexId attribute. 
+     * Gets the rolodexId attribute.
+     *
      * @return Returns the rolodexId.
      */
     public Integer getRolodexId() {
@@ -179,6 +218,7 @@ public class AwardTemplateReportTermRecipient extends KraPersistableBusinessObje
 
     /**
      * Sets the rolodexId attribute value.
+     *
      * @param rolodexId The rolodexId to set.
      */
     public void setRolodexId(Integer rolodexId) {
@@ -186,7 +226,8 @@ public class AwardTemplateReportTermRecipient extends KraPersistableBusinessObje
     }
 
     /**
-     * Gets the numberOfCopies attribute. 
+     * Gets the numberOfCopies attribute.
+     *
      * @return Returns the numberOfCopies.
      */
     public Integer getNumberOfCopies() {
@@ -195,6 +236,7 @@ public class AwardTemplateReportTermRecipient extends KraPersistableBusinessObje
 
     /**
      * Sets the numberOfCopies attribute value.
+     *
      * @param numberOfCopies The numberOfCopies to set.
      */
     public void setNumberOfCopies(Integer numberOfCopies) {
@@ -202,7 +244,8 @@ public class AwardTemplateReportTermRecipient extends KraPersistableBusinessObje
     }
 
     /**
-     * Gets the contactType attribute. 
+     * Gets the contactType attribute.
+     *
      * @return Returns the contactType.
      */
     public ContactType getContactType() {
@@ -211,6 +254,7 @@ public class AwardTemplateReportTermRecipient extends KraPersistableBusinessObje
 
     /**
      * Sets the contactType attribute value.
+     *
      * @param contactType The contactType to set.
      */
     public void setContactType(ContactType contactType) {
@@ -218,7 +262,8 @@ public class AwardTemplateReportTermRecipient extends KraPersistableBusinessObje
     }
 
     /**
-     * Gets the rolodex attribute. 
+     * Gets the rolodex attribute.
+     *
      * @return Returns the rolodex.
      */
     public Rolodex getRolodex() {
@@ -227,6 +272,7 @@ public class AwardTemplateReportTermRecipient extends KraPersistableBusinessObje
 
     /**
      * Sets the rolodex attribute value.
+     *
      * @param rolodex The rolodex to set.
      */
     public void setRolodex(Rolodex rolodex) {

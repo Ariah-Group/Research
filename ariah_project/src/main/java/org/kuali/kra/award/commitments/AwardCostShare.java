@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.commitments;
 
@@ -53,7 +69,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
     private CostShareType costShareType;
 
     /**
-     * 
+     *
      * Constructs a AwardCostShare.java.
      */
     public AwardCostShare() {
@@ -62,6 +78,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
 
     /**
      * This method...
+     *
      * @return
      */
     public CostShareType getCostShareType() {
@@ -70,6 +87,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
 
     /**
      * This method...
+     *
      * @param costShareTypeCode
      */
     @SuppressWarnings("unchecked")
@@ -86,6 +104,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
 
     /**
      * This method returns the primary key of the Cost Share BO.
+     *
      * @return
      */
     public Integer getCostShareTypeCode() {
@@ -98,6 +117,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
 
     /**
      * This method...
+     *
      * @param costShareType
      */
     public void setCostShareType(CostShareType costShareType) {
@@ -106,6 +126,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
 
     /**
      * This method...
+     *
      * @return
      */
     public String getProjectPeriod() {
@@ -114,6 +135,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
 
     /**
      * This method...
+     *
      * @param projectPeriod
      */
     public void setProjectPeriod(String projectPeriod) {
@@ -122,6 +144,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
 
     /**
      * This method...
+     *
      * @return
      */
     public KualiDecimal getCostSharePercentage() {
@@ -130,6 +153,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
 
     /**
      * This method...
+     *
      * @param costSharePercentage
      */
     public void setCostSharePercentage(KualiDecimal costSharePercentage) {
@@ -138,6 +162,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
 
     /**
      * This method...
+     *
      * @return
      */
     public String getSource() {
@@ -146,6 +171,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
 
     /**
      * This method...
+     *
      * @param source
      */
     public void setSource(String source) {
@@ -154,6 +180,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
 
     /**
      * This method...
+     *
      * @return
      */
     public String getDestination() {
@@ -162,6 +189,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
 
     /**
      * This method...
+     *
      * @param destination
      */
     public void setDestination(String destination) {
@@ -170,6 +198,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
 
     /**
      * This method...
+     *
      * @return
      */
     public KualiDecimal getCommitmentAmount() {
@@ -178,6 +207,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
 
     /**
      * This method...
+     *
      * @param commitmentAmount
      */
     public void setCommitmentAmount(KualiDecimal commitmentAmount) {
@@ -186,6 +216,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
 
     /**
      * This method...
+     *
      * @return
      */
     public Long getAwardCostShareId() {
@@ -194,6 +225,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
 
     /**
      * This method...
+     *
      * @param awardCostShareId
      */
     public void setAwardCostShareId(Long awardCostShareId) {
@@ -202,6 +234,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
 
     /**
      * This method...
+     *
      * @return
      */
     protected BusinessObjectService getBusinessObjectService() {
@@ -239,43 +272,82 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         if (!super.equals(obj)) {
             return false;
         }
         final AwardCostShare other = (AwardCostShare) obj;
         if (awardCostShareId == null) {
-            if (other.awardCostShareId != null) return false;
-        } else if (!awardCostShareId.equals(other.awardCostShareId)) return false;
+            if (other.awardCostShareId != null) {
+                return false;
+            }
+        } else if (!awardCostShareId.equals(other.awardCostShareId)) {
+            return false;
+        }
         if (commitmentAmount == null) {
-            if (other.commitmentAmount != null) return false;
-        } else if (!commitmentAmount.equals(other.commitmentAmount)) return false;
+            if (other.commitmentAmount != null) {
+                return false;
+            }
+        } else if (!commitmentAmount.equals(other.commitmentAmount)) {
+            return false;
+        }
         if (costSharePercentage == null) {
-            if (other.costSharePercentage != null) return false;
-        } else if (!costSharePercentage.equals(other.costSharePercentage)) return false;
+            if (other.costSharePercentage != null) {
+                return false;
+            }
+        } else if (!costSharePercentage.equals(other.costSharePercentage)) {
+            return false;
+        }
         if (costShareType == null) {
-            if (other.costShareType != null) return false;
-        } else if (!costShareType.equals(other.costShareType)) return false;
+            if (other.costShareType != null) {
+                return false;
+            }
+        } else if (!costShareType.equals(other.costShareType)) {
+            return false;
+        }
         if (costShareTypeCode == null) {
-            if (other.costShareTypeCode != null) return false;
-        } else if (!costShareTypeCode.equals(other.costShareTypeCode)) return false;
+            if (other.costShareTypeCode != null) {
+                return false;
+            }
+        } else if (!costShareTypeCode.equals(other.costShareTypeCode)) {
+            return false;
+        }
         if (destination == null) {
-            if (other.destination != null) return false;
-        } else if (!destination.equals(other.destination)) return false;
+            if (other.destination != null) {
+                return false;
+            }
+        } else if (!destination.equals(other.destination)) {
+            return false;
+        }
         if (projectPeriod == null) {
-            if (other.projectPeriod != null) return false;
-        } else if (!projectPeriod.equals(other.projectPeriod)) return false;
+            if (other.projectPeriod != null) {
+                return false;
+            }
+        } else if (!projectPeriod.equals(other.projectPeriod)) {
+            return false;
+        }
         if (source == null) {
-            if (other.source != null) return false;
-        } else if (!source.equals(other.source)) return false;
+            if (other.source != null) {
+                return false;
+            }
+        } else if (!source.equals(other.source)) {
+            return false;
+        }
         return true;
     }
 
     //CHECKSTYLE_ON: NPathComplexity|MethodLength|CyclomaticComplexity|LocalFinalVariableName|JavaNCSS|NeedBraces|RightCurly  
     /**
-     * Gets the verificationDate attribute. 
+     * Gets the verificationDate attribute.
+     *
      * @return Returns the verificationDate.
      */
     public Date getVerificationDate() {
@@ -284,6 +356,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
 
     /**
      * Sets the verificationDate attribute value.
+     *
      * @param verificationDate The verificationDate to set.
      */
     public void setVerificationDate(Date verificationDate) {
@@ -291,7 +364,8 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
     }
 
     /**
-     * Gets the costShareMet attribute. 
+     * Gets the costShareMet attribute.
+     *
      * @return Returns the costShareMet.
      */
     public KualiDecimal getCostShareMet() {
@@ -300,6 +374,7 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
 
     /**
      * Sets the costShareMet attribute value.
+     *
      * @param costShareMet The costShareMet to set.
      */
     public void setCostShareMet(KualiDecimal costShareMet) {

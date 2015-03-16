@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.questionnaire.answer;
 
@@ -21,11 +37,13 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.Map;
 
-
 /**
- * This class is intend as a link between modules & questionnaire answer So, Questionnaire answer service can be shared.
- **/
+ * This class is intend as a link between modules & questionnaire answer So,
+ * Questionnaire answer service can be shared.
+ *
+ */
 public abstract class ModuleQuestionnaireBean {
+
     private String moduleItemCode;
     private String moduleSubItemCode;
     private String moduleItemKey;
@@ -40,7 +58,7 @@ public abstract class ModuleQuestionnaireBean {
         this.moduleSubItemKey = moduleSubItemKey;
         this.finalDoc = finalDoc;
     }
-    
+
     public String getModuleItemCode() {
         return moduleItemCode;
     }
@@ -80,13 +98,15 @@ public abstract class ModuleQuestionnaireBean {
     public void setModuleSubItemCode(String moduleSubItemCode) {
         this.moduleSubItemCode = moduleSubItemCode;
     }
-    
+
     /**
-     * 
-     * This method is to concate the rule evaluation results (which are referenced by the questionnaire/question
-     * The format is "ruleId:Y", and separate by "," for each rule.  This string will be set as hidden field
-     * in page as id = "ruleReferenced"
-     * This method will be called by questionnairehelper.
+     *
+     * This method is to concate the rule evaluation results (which are
+     * referenced by the questionnaire/question The format is "ruleId:Y", and
+     * separate by "," for each rule. This string will be set as hidden field in
+     * page as id = "ruleReferenced" This method will be called by
+     * questionnairehelper.
+     *
      * @return
      */
     public String getRuleResults() {
@@ -95,7 +115,6 @@ public abstract class ModuleQuestionnaireBean {
             Map<String, Boolean> ruleResults = (Map<String, Boolean>) GlobalVariables.getUserSession().retrieveObject(
                     getSessionContextKey() + "-rulereferenced");
 
-
             for (String key : ruleResults.keySet()) {
                 if (StringUtils.isNotBlank(sb.toString())) {
                     sb.append(",");
@@ -103,11 +122,10 @@ public abstract class ModuleQuestionnaireBean {
                 sb.append(key).append(":").append(ruleResults.get(key) ? "Y" : "N");
             }
         }
-        return sb.toString(); 
+        return sb.toString();
     }
 
     public abstract KrmsRulesContext getKrmsRulesContextFromBean();
-
 
     @Override
     public int hashCode() {
@@ -121,42 +139,49 @@ public abstract class ModuleQuestionnaireBean {
         return result;
     }
 
-
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         ModuleQuestionnaireBean other = (ModuleQuestionnaireBean) obj;
-        if (finalDoc != other.finalDoc)
+        if (finalDoc != other.finalDoc) {
             return false;
+        }
         if (moduleItemCode == null) {
-            if (other.moduleItemCode != null)
+            if (other.moduleItemCode != null) {
                 return false;
-        }
-        else if (!moduleItemCode.equals(other.moduleItemCode))
+            }
+        } else if (!moduleItemCode.equals(other.moduleItemCode)) {
             return false;
+        }
         if (moduleItemKey == null) {
-            if (other.moduleItemKey != null)
+            if (other.moduleItemKey != null) {
                 return false;
-        }
-        else if (!moduleItemKey.equals(other.moduleItemKey))
+            }
+        } else if (!moduleItemKey.equals(other.moduleItemKey)) {
             return false;
+        }
         if (moduleSubItemCode == null) {
-            if (other.moduleSubItemCode != null)
+            if (other.moduleSubItemCode != null) {
                 return false;
-        }
-        else if (!moduleSubItemCode.equals(other.moduleSubItemCode))
+            }
+        } else if (!moduleSubItemCode.equals(other.moduleSubItemCode)) {
             return false;
+        }
         if (moduleSubItemKey == null) {
-            if (other.moduleSubItemKey != null)
+            if (other.moduleSubItemKey != null) {
                 return false;
-        }
-        else if (!moduleSubItemKey.equals(other.moduleSubItemKey))
+            }
+        } else if (!moduleSubItemKey.equals(other.moduleSubItemKey)) {
             return false;
+        }
         return true;
     }
 

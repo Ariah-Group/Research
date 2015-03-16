@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.home;
 
@@ -53,7 +69,8 @@ public class AwardBasisOfPayment extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the validBasisMethodPayments attribute. 
+     * Gets the validBasisMethodPayments attribute.
+     *
      * @return Returns the validBasisMethodPayments.
      */
     public List<ValidBasisMethodPayment> getValidBasisMethodPayments() {
@@ -62,6 +79,7 @@ public class AwardBasisOfPayment extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the validBasisMethodPayments attribute value.
+     *
      * @param validBasisMethodPayments The validBasisMethodPayments to set.
      */
     public void setValidBasisMethodPayments(List<ValidBasisMethodPayment> validBasisMethodPayments) {
@@ -86,19 +104,37 @@ public class AwardBasisOfPayment extends KraPersistableBusinessObjectBase {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         AwardBasisOfPayment other = (AwardBasisOfPayment) obj;
         if (basisOfPaymentCode == null) {
-            if (other.basisOfPaymentCode != null) return false;
-        } else if (!basisOfPaymentCode.equals(other.basisOfPaymentCode)) return false;
+            if (other.basisOfPaymentCode != null) {
+                return false;
+            }
+        } else if (!basisOfPaymentCode.equals(other.basisOfPaymentCode)) {
+            return false;
+        }
         if (description == null) {
-            if (other.description != null) return false;
-        } else if (!description.equals(other.description)) return false;
+            if (other.description != null) {
+                return false;
+            }
+        } else if (!description.equals(other.description)) {
+            return false;
+        }
         if (validBasisMethodPayments == null) {
-            if (other.validBasisMethodPayments != null) return false;
-        } else if (!validBasisMethodPayments.equals(other.validBasisMethodPayments)) return false;
+            if (other.validBasisMethodPayments != null) {
+                return false;
+            }
+        } else if (!validBasisMethodPayments.equals(other.validBasisMethodPayments)) {
+            return false;
+        }
         return true;
     }
 }

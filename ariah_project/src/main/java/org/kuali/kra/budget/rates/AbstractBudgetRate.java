@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.budget.rates;
 
@@ -159,7 +175,8 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
     }
 
     /**
-     * Gets the budget attribute. 
+     * Gets the budget attribute.
+     *
      * @return Returns the budget.
      */
     public Budget getBudget() {
@@ -168,6 +185,7 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
 
     /**
      * Sets the budget attribute value.
+     *
      * @param budget The budget to set.
      */
     public void setBudget(Budget budget) {
@@ -175,7 +193,8 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
     }
 
     /**
-     * Gets the budgetId attribute. 
+     * Gets the budgetId attribute.
+     *
      * @return Returns the budgetId.
      */
     public Long getBudgetId() {
@@ -184,6 +203,7 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
 
     /**
      * Sets the budgetId attribute value.
+     *
      * @param budgetId The budgetId to set.
      */
     public void setBudgetId(Long budgetId) {
@@ -213,35 +233,75 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!super.equals(obj)) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         AbstractBudgetRate other = (AbstractBudgetRate) obj;
         if (affectedBudgetPeriod == null) {
-            if (other.affectedBudgetPeriod != null) return false;
-        } else if (!affectedBudgetPeriod.equals(other.affectedBudgetPeriod)) return false;
+            if (other.affectedBudgetPeriod != null) {
+                return false;
+            }
+        } else if (!affectedBudgetPeriod.equals(other.affectedBudgetPeriod)) {
+            return false;
+        }
         if (applicableRate == null) {
-            if (other.applicableRate != null) return false;
-        } else if (!applicableRate.equals(other.applicableRate)) return false;
+            if (other.applicableRate != null) {
+                return false;
+            }
+        } else if (!applicableRate.equals(other.applicableRate)) {
+            return false;
+        }
         if (budget == null) {
-            if (other.budget != null) return false;
-        } else if (!budget.equals(other.budget)) return false;
+            if (other.budget != null) {
+                return false;
+            }
+        } else if (!budget.equals(other.budget)) {
+            return false;
+        }
         if (budgetId == null) {
-            if (other.budgetId != null) return false;
-        } else if (!budgetId.equals(other.budgetId)) return false;
+            if (other.budgetId != null) {
+                return false;
+            }
+        } else if (!budgetId.equals(other.budgetId)) {
+            return false;
+        }
         if (budgetPeriod == null) {
-            if (other.budgetPeriod != null) return false;
-        } else if (!budgetPeriod.equals(other.budgetPeriod)) return false;
-        if (displayLocation != other.displayLocation) return false;
+            if (other.budgetPeriod != null) {
+                return false;
+            }
+        } else if (!budgetPeriod.equals(other.budgetPeriod)) {
+            return false;
+        }
+        if (displayLocation != other.displayLocation) {
+            return false;
+        }
         if (oldApplicableRate == null) {
-            if (other.oldApplicableRate != null) return false;
-        } else if (!oldApplicableRate.equals(other.oldApplicableRate)) return false;
+            if (other.oldApplicableRate != null) {
+                return false;
+            }
+        } else if (!oldApplicableRate.equals(other.oldApplicableRate)) {
+            return false;
+        }
         if (trackAffectedPeriod == null) {
-            if (other.trackAffectedPeriod != null) return false;
-        } else if (!trackAffectedPeriod.equals(other.trackAffectedPeriod)) return false;
+            if (other.trackAffectedPeriod != null) {
+                return false;
+            }
+        } else if (!trackAffectedPeriod.equals(other.trackAffectedPeriod)) {
+            return false;
+        }
         if (viewLocation == null) {
-            if (other.viewLocation != null) return false;
-        } else if (!viewLocation.equals(other.viewLocation)) return false;
+            if (other.viewLocation != null) {
+                return false;
+            }
+        } else if (!viewLocation.equals(other.viewLocation)) {
+            return false;
+        }
         return true;
     }
 

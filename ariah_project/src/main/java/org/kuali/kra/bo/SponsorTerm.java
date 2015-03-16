@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.bo;
 
@@ -44,7 +60,8 @@ public class SponsorTerm extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the sponsorTermId attribute. 
+     * Gets the sponsorTermId attribute.
+     *
      * @return Returns the sponsorTermId.
      */
     public Long getSponsorTermId() {
@@ -53,6 +70,7 @@ public class SponsorTerm extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the sponsorTermId attribute value.
+     *
      * @param sponsorTermId The sponsorTermId to set.
      */
     public void setSponsorTermId(Long sponsorTermId) {
@@ -60,7 +78,8 @@ public class SponsorTerm extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the sponsorTermCode attribute. 
+     * Gets the sponsorTermCode attribute.
+     *
      * @return Returns the sponsorTermCode.
      */
     public String getSponsorTermCode() {
@@ -69,6 +88,7 @@ public class SponsorTerm extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the sponsorTermCode attribute value.
+     *
      * @param sponsorTermCode The sponsorTermCode to set.
      */
     public void setSponsorTermCode(String sponsorTermCode) {
@@ -76,7 +96,8 @@ public class SponsorTerm extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the sponsorTermTypeCode attribute. 
+     * Gets the sponsorTermTypeCode attribute.
+     *
      * @return Returns the sponsorTermTypeCode.
      */
     public String getSponsorTermTypeCode() {
@@ -85,6 +106,7 @@ public class SponsorTerm extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the sponsorTermTypeCode attribute value.
+     *
      * @param sponsorTermTypeCode The sponsorTermTypeCode to set.
      */
     public void setSponsorTermTypeCode(String sponsorTermTypeCode) {
@@ -92,7 +114,8 @@ public class SponsorTerm extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the description attribute. 
+     * Gets the description attribute.
+     *
      * @return Returns the description.
      */
     public String getDescription() {
@@ -101,6 +124,7 @@ public class SponsorTerm extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the description attribute value.
+     *
      * @param description The description to set.
      */
     public void setDescription(String description) {
@@ -108,7 +132,8 @@ public class SponsorTerm extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the description attribute. 
+     * Gets the description attribute.
+     *
      * @return Returns the description.
      */
     public String getEscapedDescription() {
@@ -116,7 +141,8 @@ public class SponsorTerm extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the sponsorTermType attribute. 
+     * Gets the sponsorTermType attribute.
+     *
      * @return Returns the sponsorTermType.
      */
     public SponsorTermType getSponsorTermType() {
@@ -125,6 +151,7 @@ public class SponsorTerm extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the sponsorTermType attribute value.
+     *
      * @param sponsorTermType The sponsorTermType to set.
      */
     public void setSponsorTermType(SponsorTermType sponsorTermType) {
@@ -132,7 +159,8 @@ public class SponsorTerm extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the serialVersionUID attribute. 
+     * Gets the serialVersionUID attribute.
+     *
      * @return Returns the serialVersionUID.
      */
     public static long getSerialVersionUID() {
@@ -159,25 +187,51 @@ public class SponsorTerm extends KraPersistableBusinessObjectBase {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         SponsorTerm other = (SponsorTerm) obj;
         if (description == null) {
-            if (other.description != null) return false;
-        } else if (!description.equals(other.description)) return false;
+            if (other.description != null) {
+                return false;
+            }
+        } else if (!description.equals(other.description)) {
+            return false;
+        }
         if (sponsorTermCode == null) {
-            if (other.sponsorTermCode != null) return false;
-        } else if (!sponsorTermCode.equals(other.sponsorTermCode)) return false;
+            if (other.sponsorTermCode != null) {
+                return false;
+            }
+        } else if (!sponsorTermCode.equals(other.sponsorTermCode)) {
+            return false;
+        }
         if (sponsorTermId == null) {
-            if (other.sponsorTermId != null) return false;
-        } else if (!sponsorTermId.equals(other.sponsorTermId)) return false;
+            if (other.sponsorTermId != null) {
+                return false;
+            }
+        } else if (!sponsorTermId.equals(other.sponsorTermId)) {
+            return false;
+        }
         if (sponsorTermType == null) {
-            if (other.sponsorTermType != null) return false;
-        } else if (!sponsorTermType.equals(other.sponsorTermType)) return false;
+            if (other.sponsorTermType != null) {
+                return false;
+            }
+        } else if (!sponsorTermType.equals(other.sponsorTermType)) {
+            return false;
+        }
         if (sponsorTermTypeCode == null) {
-            if (other.sponsorTermTypeCode != null) return false;
-        } else if (!sponsorTermTypeCode.equals(other.sponsorTermTypeCode)) return false;
+            if (other.sponsorTermTypeCode != null) {
+                return false;
+            }
+        } else if (!sponsorTermTypeCode.equals(other.sponsorTermTypeCode)) {
+            return false;
+        }
         return true;
     }
 }

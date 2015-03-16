@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.home;
 
@@ -39,13 +55,13 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
      * These fields will sync when the containing class syncs.
      */
     @AwardSyncableProperty(key = true)
-    @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
+    @AwardSyncable(scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT})
     private String commentTypeCode;
 
-    @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
+    @AwardSyncable(scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT})
     private Boolean checklistPrintFlag;
 
-    @AwardSyncable(scopes = { AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT })
+    @AwardSyncable(scopes = {AwardTemplateSyncScope.CONTAINING_CLASS_INHERIT})
     @AwardSyncableProperty
     private String comments;
 
@@ -54,7 +70,7 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
     private CommentType commentType;
 
     /**
-     * 
+     *
      * Constructs a AwardComment.java.
      */
     public AwardComment() {
@@ -70,6 +86,7 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
 
     /**
      * This method...
+     *
      * @return
      */
     public Long getAwardCommentId() {
@@ -78,6 +95,7 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
 
     /**
      * This method...
+     *
      * @param awardCommentId
      */
     public void setAwardCommentId(Long awardCommentId) {
@@ -100,11 +118,19 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!super.equals(obj)) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         AwardComment other = (AwardComment) obj;
-        if (!awardCommentId.equals(other.awardCommentId)) return false;
+        if (!awardCommentId.equals(other.awardCommentId)) {
+            return false;
+        }
         return true;
     }
 
@@ -122,7 +148,8 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
     }
 
     /**
-     * Gets the commentTypeCode attribute. 
+     * Gets the commentTypeCode attribute.
+     *
      * @return Returns the commentTypeCode.
      */
     public String getCommentTypeCode() {
@@ -131,6 +158,7 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
 
     /**
      * Sets the commentTypeCode attribute value.
+     *
      * @param commentTypeCode The commentTypeCode to set.
      */
     public void setCommentTypeCode(String commentTypeCode) {
@@ -138,7 +166,8 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
     }
 
     /**
-     * Gets the checklistPrintFlag attribute. 
+     * Gets the checklistPrintFlag attribute.
+     *
      * @return Returns the checklistPrintFlag.
      */
     public Boolean getChecklistPrintFlag() {
@@ -147,6 +176,7 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
 
     /**
      * Sets the checklistPrintFlag attribute value.
+     *
      * @param checklistPrintFlag The checklistPrintFlag to set.
      */
     public void setChecklistPrintFlag(Boolean checklistPrintFlag) {
@@ -154,7 +184,8 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
     }
 
     /**
-     * Gets the comments attribute. 
+     * Gets the comments attribute.
+     *
      * @return Returns the comments.
      */
     public String getComments() {
@@ -163,6 +194,7 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
 
     /**
      * Sets the comments attribute value.
+     *
      * @param comments The comments to set.
      */
     public void setComments(String comments) {
@@ -170,7 +202,8 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
     }
 
     /**
-     * Gets the commentType attribute. 
+     * Gets the commentType attribute.
+     *
      * @return Returns the commentType.
      */
     public CommentType getCommentType() {
@@ -179,6 +212,7 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
 
     /**
      * Sets the commentType attribute value.
+     *
      * @param commentType The commentType to set.
      */
     public void setCommentType(CommentType commentType) {
@@ -195,7 +229,8 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
     }
 
     /**
-     * Gets the updateTimestampDateString attribute. 
+     * Gets the updateTimestampDateString attribute.
+     *
      * @return Returns the updateTimestampDateString.
      */
     public String getUpdateTimestampDateString() {

@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.printing.service.impl;
 
@@ -48,12 +64,13 @@ import java.util.*;
 import java.util.List;
 
 /**
- * This class provides the functionality for printing any {@link Printable} object. It uses the methods available in Printable
- * object to generate XML, fetch XSL style-sheets, then transforms the XML to a PDF after applying the style sheet.
- * 
+ * This class provides the functionality for printing any {@link Printable}
+ * object. It uses the methods available in Printable object to generate XML,
+ * fetch XSL style-sheets, then transforms the XML to a PDF after applying the
+ * style sheet.
+ *
  */
 public class PrintingServiceImpl implements PrintingService {
-
 
     private static final Log LOG = LogFactory.getLog(PrintingServiceImpl.class);
 
@@ -62,23 +79,25 @@ public class PrintingServiceImpl implements PrintingService {
 
     private ConfigurationService kualiConfigurationService;
 
-
     /**
-     * This method receives a {@link Printable} object, generates XML for it, transforms into PDF after applying style-sheet and
-     * returns the PDF bytes as {@link AttachmentDataSource}
-     * 
+     * This method receives a {@link Printable} object, generates XML for it,
+     * transforms into PDF after applying style-sheet and returns the PDF bytes
+     * as {@link AttachmentDataSource}
+     *
      * @param printableArtifact to be printed
      * @return {@link AttachmentDataSource} PDF bytes
-     * @throws PrintingException in case of any errors occur during printing process
+     * @throws PrintingException in case of any errors occur during printing
+     * process
      */
     protected Map<String, byte[]> getPrintBytes(Printable printableArtifact) throws PrintingException {
         try {
             Map<String, byte[]> streamMap = printableArtifact.renderXML();
-            try{
+            try {
                 String loggingEnable = kualiConfigurationService.getPropertyValueAsString(Constants.PRINT_LOGGING_ENABLE);
-                if (loggingEnable != null && Boolean.parseBoolean(loggingEnable))
+                if (loggingEnable != null && Boolean.parseBoolean(loggingEnable)) {
                     logPrintDetails(streamMap);
-            }catch(Exception ex){
+                }
+            } catch (Exception ex) {
                 LOG.error(ex.getMessage());
             }
 
@@ -93,14 +112,13 @@ public class PrintingServiceImpl implements PrintingService {
                 for (Source source : printableArtifact.getXSLTemplates()) {
                     xslCount++;
                     StreamSource xslt = (StreamSource) source;
-                    if(xslt.getInputStream()==null || xslt.getInputStream().available()<=0){
+                    if (xslt.getInputStream() == null || xslt.getInputStream().available() <= 0) {
                         LOG.error("Stylesheet is not available");
-                    }else{
+                    } else {
                         createPdfWithFOP(streamMap, pdfByteMap, fopFactory, xslCount, xslt, printableArtifact);
                     }
                 }
-            }
-            else if (printableArtifact.getXSLTemplateWithBookmarks() != null) {
+            } else if (printableArtifact.getXSLTemplateWithBookmarks() != null) {
                 Map<String, Source> templatesWithBookmarks = printableArtifact.getXSLTemplateWithBookmarks();
                 for (Map.Entry<String, Source> templatesWithBookmark : templatesWithBookmarks.entrySet()) {
                     StreamSource xslt = (StreamSource) templatesWithBookmark.getValue();
@@ -115,20 +133,16 @@ public class PrintingServiceImpl implements PrintingService {
                 pdfByteMap.putAll(printableArtifact.getAttachments());
             }
             return pdfByteMap;
-        }
-        catch (FOPException e) {
+        } catch (FOPException e) {
             LOG.error(e.getMessage(), e);
             throw new PrintingException(e.getMessage(), e);
-        }
-        catch (TransformerConfigurationException e) {
+        } catch (TransformerConfigurationException e) {
             LOG.error(e.getMessage(), e);
             throw new PrintingException(e.getMessage(), e);
-        }
-        catch (TransformerException e) {
+        } catch (TransformerException e) {
             LOG.error(e.getMessage(), e);
             throw new PrintingException(e.getMessage(), e);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             LOG.error(e.getMessage(), e);
             throw new PrintingException(e.getMessage(), e);
         }
@@ -137,7 +151,7 @@ public class PrintingServiceImpl implements PrintingService {
 
     /**
      * This method...
-     * 
+     *
      * @param streamMap
      * @param pdfByteMap
      * @param fopFactory
@@ -158,7 +172,7 @@ public class PrintingServiceImpl implements PrintingService {
         Transformer transformer = factory.newTransformer(xslt);
         String applicationUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY);
         FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
-        foUserAgent.setBaseURL(applicationUrl);      
+        foUserAgent.setBaseURL(applicationUrl);
         for (Map.Entry<String, byte[]> xmlData : streamMap.entrySet()) {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             ByteArrayInputStream inputStream = new ByteArrayInputStream(xmlData.getValue());
@@ -173,13 +187,12 @@ public class PrintingServiceImpl implements PrintingService {
                 pdfByteMap.put(pdfMapKey, pdfBytes);
             }
         }
-        
-        
+
     }
 
     /**
      * This method...
-     * 
+     *
      * @param xslCount
      * @param xmlData
      * @return
@@ -190,12 +203,14 @@ public class PrintingServiceImpl implements PrintingService {
     }
 
     /**
-     * This method receives a {@link Printable} object, generates XML for it, transforms into PDF after applying style-sheet and
-     * returns the PDF bytes as {@link AttachmentDataSource}
-     * 
+     * This method receives a {@link Printable} object, generates XML for it,
+     * transforms into PDF after applying style-sheet and returns the PDF bytes
+     * as {@link AttachmentDataSource}
+     *
      * @param printableArtifact to be printed
      * @return {@link AttachmentDataSource} PDF bytes
-     * @throws PrintingException in case of any errors occur during printing process
+     * @throws PrintingException in case of any errors occur during printing
+     * process
      */
     public AttachmentDataSource print(Printable printableArtifacts) throws PrintingException {
         List<Printable> printables = new ArrayList<Printable>();
@@ -204,12 +219,14 @@ public class PrintingServiceImpl implements PrintingService {
     }
 
     /**
-     * This method receives a {@link List} of {@link Printable} object, generates XML for it, transforms into PDF after applying
-     * style-sheet and returns the PDF bytes as {@link AttachmentDataSource}
-     * 
+     * This method receives a {@link List} of {@link Printable} object,
+     * generates XML for it, transforms into PDF after applying style-sheet and
+     * returns the PDF bytes as {@link AttachmentDataSource}
+     *
      * @param List of printableArtifact to be printed
      * @return {@link AttachmentDataSource} PDF bytes
-     * @throws PrintingException in case of any errors occur during printing process
+     * @throws PrintingException in case of any errors occur during printing
+     * process
      */
     public AttachmentDataSource print(List<Printable> printableArtifactList) throws PrintingException {
         return print(printableArtifactList, false);
@@ -258,8 +275,7 @@ public class PrintingServiceImpl implements PrintingService {
         try {
             new PdfReader(pdfBytes);
             return true;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             return false;
         }
     }
@@ -275,7 +291,6 @@ public class PrintingServiceImpl implements PrintingService {
      * @return
      * @throws PrintingException
      */
-
     protected byte[] mergePdfBytes(List<byte[]> pdfBytesList, List<String> bookmarksList, boolean headerFooterRequired)
             throws PrintingException {
         Document document = null;
@@ -292,8 +307,7 @@ public class PrintingServiceImpl implements PrintingService {
                 pdfReaderArr[pdfReaderCount] = reader;
                 pdfReaderCount = pdfReaderCount + 1;
                 totalNumOfPages += reader.getNumberOfPages();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 LOG.error(e.getMessage(), e);
             }
         }
@@ -321,8 +335,7 @@ public class PrintingServiceImpl implements PrintingService {
             if (reader == null) {
                 LOG.debug("Empty PDF byetes found for " + bookmarksList.get(count));
                 continue;
-            }
-            else {
+            } else {
                 nop = reader.getNumberOfPages();
             }
 
@@ -331,8 +344,7 @@ public class PrintingServiceImpl implements PrintingService {
                         : new com.lowagie.text.Document();
                 try {
                     writer = PdfWriter.getInstance(document, mergedPdfReport);
-                }
-                catch (DocumentException e) {
+                } catch (DocumentException e) {
                     LOG.error(e.getMessage(), e);
                     throw new PrintingException(e.getMessage(), e);
                 }
@@ -355,7 +367,6 @@ public class PrintingServiceImpl implements PrintingService {
 
                 cb.addTemplate(page, 1, 0, 0, 1, 0, 0);
 
-
                 PdfOutline root = cb.getRootOutline();
                 if (pageCount == 1) {
                     String pageName = bookmarksList.get(count);
@@ -367,14 +378,12 @@ public class PrintingServiceImpl implements PrintingService {
             try {
                 document.close();
                 return mergedPdfReport.toByteArray();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 LOG.error("Exception occured because the generated PDF document has no pages", e);
             }
         }
         return null;
     }
-
 
     protected String formateCalendar(Calendar calendar) {
         DateFormat dateFormat = new SimpleDateFormat("M/d/yy h:mm a");
@@ -396,7 +405,6 @@ public class PrintingServiceImpl implements PrintingService {
     // this.streamData = streamData;
     // }
     // }
-
     /**
      * @return the dateTimeService
      */
@@ -425,7 +433,7 @@ public class PrintingServiceImpl implements PrintingService {
         String loggingDirectory = kualiConfigurationService.getPropertyValueAsString(Constants.PRINT_LOGGING_DIRECTORY);
         Iterator<String> it = xmlStreamMap.keySet().iterator();
         if (loggingDirectory != null) {
-            BufferedWriter out=null;
+            BufferedWriter out = null;
             try {
                 while (it.hasNext()) {
                     String key = (String) it.next();
@@ -435,25 +443,23 @@ public class PrintingServiceImpl implements PrintingService {
                     String reportName = StringUtils.deleteWhitespace(key);
                     String createdTime = StringUtils.replaceChars(StringUtils.deleteWhitespace(dateString), ":", "_");
                     File dir = new File(loggingDirectory);
-                    if(!dir.exists() || !dir.isDirectory()){
+                    if (!dir.exists() || !dir.isDirectory()) {
                         dir.mkdirs();
                     }
-                    File file = new File(dir , reportName + createdTime + ".xml");
+                    File file = new File(dir, reportName + createdTime + ".xml");
 
                     out = new BufferedWriter(new FileWriter(file));
                     out.write(xmlString);
                 }
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 LOG.error(e.getMessage(), e);
-            }finally{
+            } finally {
                 try {
-                    if(out!=null){
+                    if (out != null) {
                         out.flush();
                         out.close();
                     }
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     LOG.error(e.getMessage(), e);
                 }
             }
@@ -470,7 +476,7 @@ public class PrintingServiceImpl implements PrintingService {
 
     /**
      * Gets the watermarkService attribute.
-     * 
+     *
      * @return Returns the watermarkService.
      */
     public WatermarkService getWatermarkService() {
@@ -479,7 +485,7 @@ public class PrintingServiceImpl implements PrintingService {
 
     /**
      * Sets the watermarkService attribute value.
-     * 
+     *
      * @param watermarkService The watermarkService to set.
      */
     public void setWatermarkService(WatermarkService watermarkService) {

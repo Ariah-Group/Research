@@ -160,7 +160,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private transient String lookupUnitNumber;
     private transient String lookupPersonNumber;
     private transient FiscalYearMonthService fiscalYearMonthService;
-    
+
     private transient boolean allowUpdateTimestampToBeReset = true;
 
     public InstitutionalProposal() {
@@ -171,9 +171,10 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     }
 
     /**
-     * 
-     * This method sets the default values for initial persistence as part of skeleton. As various panels are developed;
-     * corresponding field initializations should be removed from this method.
+     *
+     * This method sets the default values for initial persistence as part of
+     * skeleton. As various panels are developed; corresponding field
+     * initializations should be removed from this method.
      */
     private void initializeInstitutionalProposalWithDefaultValues() {
         setSequenceNumber(1);
@@ -236,13 +237,14 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public boolean isActiveVersion() {
         return this.getProposalSequenceStatus().equals(VersionStatus.ACTIVE.toString());
     }
-    
+
     public boolean isCancelled() {
         return this.getProposalSequenceStatus().equals(VersionStatus.CANCELED.toString());
     }
 
     /**
      * Is this Proposal funded by the given Award number and version?
+     *
      * @param awardNumber String
      * @param awardSequence Integer
      * @return boolean
@@ -258,19 +260,20 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     }
 
     /**
-     * This method calculates fiscal Month and fiscal Year fields. It also adds leading 0 to Month if needed.
+     * This method calculates fiscal Month and fiscal Year fields. It also adds
+     * leading 0 to Month if needed.
      */
     private void calculateFiscalMonthAndYearFields() {
         /*
-        Calendar cl = Calendar.getInstance();
-        cl.add(Calendar.MONTH, 6);
-        String monthString = Integer.toString(cl.get(Calendar.MONTH) + 1);
-        if (monthString.length() == 1) {
-            monthString = "0" + monthString;
-        }
-        setFiscalMonth(monthString);
-        setFiscalYear(Integer.toString(cl.get(Calendar.YEAR)));
-        */
+         Calendar cl = Calendar.getInstance();
+         cl.add(Calendar.MONTH, 6);
+         String monthString = Integer.toString(cl.get(Calendar.MONTH) + 1);
+         if (monthString.length() == 1) {
+         monthString = "0" + monthString;
+         }
+         setFiscalMonth(monthString);
+         setFiscalYear(Integer.toString(cl.get(Calendar.YEAR)));
+         */
         String monthString = this.getFiscalYearMonthService().getCurrentFiscalMonthForDisplay().toString();
         if (monthString.length() == 1) {
             monthString = "0" + monthString;
@@ -278,9 +281,10 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         setFiscalMonth(monthString);
         setFiscalYear(this.getFiscalYearMonthService().getCurrentFiscalYear().toString());
     }
-    
+
     /**
-     * Gets the institutionalProposalDocument attribute. 
+     * Gets the institutionalProposalDocument attribute.
+     *
      * @return Returns the institutionalProposalDocument.
      */
     public InstitutionalProposalDocument getInstitutionalProposalDocument() {
@@ -292,7 +296,9 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     /**
      * Sets the institutionalProposalDocument attribute value.
-     * @param institutionalProposalDocument The institutionalProposalDocument to set.
+     *
+     * @param institutionalProposalDocument The institutionalProposalDocument to
+     * set.
      */
     public void setInstitutionalProposalDocument(InstitutionalProposalDocument institutionalProposalDocument) {
         this.institutionalProposalDocument = institutionalProposalDocument;
@@ -300,10 +306,11 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     /**
      * Add an AwardFundingProposal
-     * 
-     * The Award "owns" the relationship, so this method should not be called directly. Instead, this method will be called when an
+     *
+     * The Award "owns" the relationship, so this method should not be called
+     * directly. Instead, this method will be called when an
      * InstitutionalProposal is linked to an Award from Award maintenance.
-     * 
+     *
      * @param afp
      */
     public void add(AwardFundingProposal afp) {
@@ -312,6 +319,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     /**
      * This method...
+     *
      * @param institutionaProposalNotepad
      */
     public void add(InstitutionalProposalNotepad institutionalProposalNotepad) {
@@ -323,6 +331,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     /**
      * This method...
+     *
      * @param institutionalProposalCostShare
      */
     public void add(InstitutionalProposalCostShare institutionalProposalCostShare) {
@@ -332,6 +341,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     /**
      * This method...
+     *
      * @param institutionalProposalUnrecoveredFandA
      */
     public void add(InstitutionalProposalUnrecoveredFandA institutionalProposalUnrecoveredFandA) {
@@ -340,7 +350,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     }
 
     /**
-     * This method 
+     * This method
+     *
      * @return
      */
     public KualiDecimal getTotalInitialCost() {
@@ -352,7 +363,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     /**
      * This method
-     * 
+     *
      * @return
      */
     public KualiDecimal getTotalCost() {
@@ -364,7 +375,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     /**
      * This method calculates the total value of a list of ValuableItems
-     * 
+     *
      * @param valuableItems
      * @return The total value
      */
@@ -378,8 +389,9 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     }
 
     /**
-     * This method calls getTotalAmount to calculate the total of all Commitment Amounts.
-     * 
+     * This method calls getTotalAmount to calculate the total of all Commitment
+     * Amounts.
+     *
      * @return
      */
     public KualiDecimal getTotalCostShareAmount() {
@@ -387,8 +399,9 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     }
 
     /**
-     * This method calls getTotalAmount to calculate the total of all Unrecovered FandAs.
-     * 
+     * This method calls getTotalAmount to calculate the total of all
+     * Unrecovered FandAs.
+     *
      * @return
      */
     public KualiDecimal getTotalUnrecoveredFandAAmount() {
@@ -397,7 +410,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     /**
      * Gets the specialReviews attribute.
-     * 
+     *
      * @return Returns the specialReviews.
      */
     public List<InstitutionalProposalSpecialReview> getSpecialReviews() {
@@ -406,7 +419,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     /**
      * Sets the specialReviews attribute value.
-     * 
+     *
      * @param specialReviews The specialReviews to set.
      */
     public void setSpecialReviews(List<InstitutionalProposalSpecialReview> specialReviews) {
@@ -415,16 +428,16 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     /**
      * Gets the institutionalProposalCustomDataList attribute.
-     * 
+     *
      * @return Returns the institutionalProposalCustomDataList.
      */
     public List<InstitutionalProposalCustomData> getInstitutionalProposalCustomDataList() {
         return institutionalProposalCustomDataList;
     }
 
-
     /**
-     * Gets the institutionalProposalNotepads attribute. 
+     * Gets the institutionalProposalNotepads attribute.
+     *
      * @return Returns the institutionalProposalNotepads.
      */
     public List<InstitutionalProposalNotepad> getInstitutionalProposalNotepads() {
@@ -437,24 +450,27 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     /**
      * Sets the institutionalProposalNotepads attribute value.
-     * @param institutionalProposalNotepads The institutionalProposalNotepads to set.
+     *
+     * @param institutionalProposalNotepads The institutionalProposalNotepads to
+     * set.
      */
     public void setInstitutionalProposalNotepads(List<InstitutionalProposalNotepad> institutionalProposalNotepads) {
         this.institutionalProposalNotepads = institutionalProposalNotepads;
     }
 
-
     /**
      * Sets the institutionalProposalCustomDataList attribute value.
-     * @param institutionalProposalCustomDataList The institutionalProposalCustomDataList to set.
+     *
+     * @param institutionalProposalCustomDataList The
+     * institutionalProposalCustomDataList to set.
      */
     public void setInstitutionalProposalCustomDataList(List<InstitutionalProposalCustomData> institutionalProposalCustomDataList) {
         this.institutionalProposalCustomDataList = institutionalProposalCustomDataList;
     }
 
-
     /**
-     * Gets the institutionalProposalScienceKeywords attribute. 
+     * Gets the institutionalProposalScienceKeywords attribute.
+     *
      * @return Returns the institutionalProposalScienceKeywords.
      */
     public List<InstitutionalProposalScienceKeyword> getInstitutionalProposalScienceKeywords() {
@@ -463,7 +479,9 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     /**
      * Sets the institutionalProposalScienceKeywords attribute value.
-     * @param institutionalProposalScienceKeywords The institutionalProposalScienceKeywords to set.
+     *
+     * @param institutionalProposalScienceKeywords The
+     * institutionalProposalScienceKeywords to set.
      */
     public void setInstitutionalProposalScienceKeywords(
             List<InstitutionalProposalScienceKeyword> institutionalProposalScienceKeywords) {
@@ -472,6 +490,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     /**
      * This method adds a Project Person to the institutionalProposal
+     *
      * @param projectPerson
      */
     public void add(InstitutionalProposalPerson projectPerson) {
@@ -481,6 +500,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     /**
      * Add an Institutional Proposal Unit or Central Administration contact
+     *
      * @param awardUnitContact
      */
     public void add(InstitutionalProposalUnitContact institutionalProposalUnitContact) {
@@ -636,6 +656,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     /**
      * Sets the leadUnit attribute value.
+     *
      * @param leadUnit The leadUnit to set.
      */
     public void setLeadUnit(Unit leadUnit) {
@@ -681,8 +702,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setTotalDirectCostInitial(KualiDecimal totalDirectCostInitial) {
         if (totalDirectCostInitial == null) {
             this.totalDirectCostInitial = KualiDecimal.ZERO;
-        }
-        else {
+        } else {
             this.totalDirectCostInitial = totalDirectCostInitial;
         }
     }
@@ -694,8 +714,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setTotalDirectCostTotal(KualiDecimal totalDirectCostTotal) {
         if (totalDirectCostTotal == null) {
             this.totalDirectCostTotal = KualiDecimal.ZERO;
-        }
-        else {
+        } else {
             this.totalDirectCostTotal = totalDirectCostTotal;
         }
     }
@@ -707,8 +726,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setTotalIndirectCostInitial(KualiDecimal totalIndirectCostInitial) {
         if (totalIndirectCostInitial == null) {
             this.totalIndirectCostInitial = KualiDecimal.ZERO;
-        }
-        else {
+        } else {
             this.totalIndirectCostInitial = totalIndirectCostInitial;
         }
     }
@@ -720,8 +738,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void setTotalIndirectCostTotal(KualiDecimal totalIndirectCostTotal) {
         if (totalIndirectCostTotal == null) {
             this.totalIndirectCostTotal = KualiDecimal.ZERO;
-        }
-        else {
+        } else {
             this.totalIndirectCostTotal = totalIndirectCostTotal;
         }
     }
@@ -786,9 +803,9 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         this.mailAccountNumber = mailAccountNumber;
     }
 
-
     /**
-     * Gets the mailDescription attribute. 
+     * Gets the mailDescription attribute.
+     *
      * @return Returns the mailDescription.
      */
     public String getMailDescription() {
@@ -797,6 +814,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     /**
      * Sets the mailDescription attribute value.
+     *
      * @param mailDescription The mailDescription to set.
      */
     public void setMailDescription(String mailDescription) {
@@ -876,13 +894,13 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     }
 
     public String getIpReviewActivityIndicator() {
-System.err.println("\ngetIpReviewActivityIndicator() called, returning \"" + ipReviewActivityIndicator + "\"");
+        System.err.println("\ngetIpReviewActivityIndicator() called, returning \"" + ipReviewActivityIndicator + "\"");
         return ipReviewActivityIndicator;
     }
 
     public void setIpReviewActivityIndicator(String ipReviewActivityIndicator) {
-System.err.println("\nsetIpReviewActivityIndicator() called, setting to \"" + ipReviewActivityIndicator + "\"");
-Thread.dumpStack();
+        System.err.println("\nsetIpReviewActivityIndicator() called, setting to \"" + ipReviewActivityIndicator + "\"");
+        Thread.dumpStack();
         this.ipReviewActivityIndicator = ipReviewActivityIndicator;
     }
 
@@ -957,12 +975,13 @@ Thread.dumpStack();
     }
 
     /**
-     * This method violates our policy of not calling a service in a getter. This will only call the service once to set a sponsor
-     * when a sponsor code exists, but no sponsor was fetched
-     * 
-     * Seems like a persistence design issue to me. Why wouldn't Sponsor:Award be a 1:M relationship handled automagically by the
-     * persistence framework?
-     * 
+     * This method violates our policy of not calling a service in a getter.
+     * This will only call the service once to set a sponsor when a sponsor code
+     * exists, but no sponsor was fetched
+     *
+     * Seems like a persistence design issue to me. Why wouldn't Sponsor:Award
+     * be a 1:M relationship handled automagically by the persistence framework?
+     *
      * @return
      */
     public Sponsor getSponsor() {
@@ -988,6 +1007,7 @@ Thread.dumpStack();
 
     /**
      * checks if a sponsor code needs refreshing.
+     *
      * @param code the code
      * @param spon the sponsor to refresh
      * @return true if needs refreshing
@@ -1054,6 +1074,7 @@ Thread.dumpStack();
 
     /**
      * Get the list of only Active AwardFundingProposals.
+     *
      * @return List<AwardFundingProposal> the list.
      */
     public List<AwardFundingProposal> getActiveAwardFundingProposals() {
@@ -1071,7 +1092,8 @@ Thread.dumpStack();
     }
 
     /**
-     * Gets the fiscalMonth attribute. 
+     * Gets the fiscalMonth attribute.
+     *
      * @return Returns the fiscalMonth.
      */
     public String getFiscalMonth() {
@@ -1080,6 +1102,7 @@ Thread.dumpStack();
 
     /**
      * Sets the fiscalMonth attribute value.
+     *
      * @param fiscalMonth The fiscalMonth to set.
      */
     public void setFiscalMonth(String fiscalMonth) {
@@ -1087,7 +1110,8 @@ Thread.dumpStack();
     }
 
     /**
-     * Gets the fiscalYear attribute. 
+     * Gets the fiscalYear attribute.
+     *
      * @return Returns the fiscalYear.
      */
     public String getFiscalYear() {
@@ -1096,6 +1120,7 @@ Thread.dumpStack();
 
     /**
      * Sets the fiscalYear attribute value.
+     *
      * @param fiscalYear The fiscalYear to set.
      */
     public void setFiscalYear(String fiscalYear) {
@@ -1104,6 +1129,7 @@ Thread.dumpStack();
 
     /**
      * This method finds the lead unit number, if any
+     *
      * @return
      */
     public String getUnitNumber() {
@@ -1112,6 +1138,7 @@ Thread.dumpStack();
 
     /**
      * Sets the unitNumber attribute value.
+     *
      * @param unitNumber The unitNumber to set.
      */
     public void setUnitNumber(String unitNumber) {
@@ -1127,6 +1154,7 @@ Thread.dumpStack();
 
     /**
      * This method...
+     *
      * @param unitNumber
      */
     public void setLeadUnitNumber(String unitNumber) {
@@ -1163,63 +1191,52 @@ Thread.dumpStack();
      * public void setAwardFundingProposals(AwardFundingProposals awardFundingProposals) { this.awardFundingProposals =
      * awardFundingProposals; }
      */
-
     /**
-     * Gets the projectPersons attribute. 
+     * Gets the projectPersons attribute.
+     *
      * @return Returns the projectPersons.
      */
     @SuppressWarnings("unchecked")
-    public List<InstitutionalProposalPerson> getProjectPersons() 
-    {   if(CollectionUtils.isNotEmpty(projectPersons)) {    
+    public List<InstitutionalProposalPerson> getProjectPersons() {
+        if (CollectionUtils.isNotEmpty(projectPersons)) {
             Collections.sort(projectPersons, new ProjectPersonComparator());
         }
-        return projectPersons; 
-    }
-    
-    
-    @SuppressWarnings("rawtypes")
-    class ProjectPersonComparator implements Comparator 
-    {
-        
-        public int compare(Object obj1, Object obj2) 
-        {
-            InstitutionalProposalPerson ipp1 = (InstitutionalProposalPerson) obj1;
-            InstitutionalProposalPerson ipp2 = (InstitutionalProposalPerson) obj2;
-            String lastName1 = ipp1.getContact() != null ? ipp1.getContact().getLastName() != null ? ipp1.getContact().getLastName().toUpperCase() : "" : "";  
-            String lastName2 = ipp2.getContact() != null ? ipp2.getContact().getLastName() != null ? ipp2.getContact().getLastName().toUpperCase() : "" : "";  
-            String contactRoleCode1 = ipp1.getContactRole() != null ? ipp1.getContactRole().getRoleCode() : "";
-            String contactRoleCode2 = ipp2.getContactRole() != null ? ipp2.getContactRole().getRoleCode() : "";
-                
-            if (contactRoleCode1.equals(contactRoleCode2))
-            {
-                return lastName1.compareTo(lastName2);
-            }
-            else 
-            {
-                if (contactRoleCode1.equals(ContactRole.PI_CODE))
-                {
-                    return -1;
-                }
-                if (contactRoleCode2.equals(ContactRole.PI_CODE))
-                {
-                    return 1;
-                }
-                if (contactRoleCode1.equals(ContactRole.COI_CODE)) 
-                {
-                    return -1;
-                }
-                else 
-                {
-                    return 1;
-                }              
-            }
-        }
-        
+        return projectPersons;
     }
 
-    
+    @SuppressWarnings("rawtypes")
+    class ProjectPersonComparator implements Comparator {
+
+        public int compare(Object obj1, Object obj2) {
+            InstitutionalProposalPerson ipp1 = (InstitutionalProposalPerson) obj1;
+            InstitutionalProposalPerson ipp2 = (InstitutionalProposalPerson) obj2;
+            String lastName1 = ipp1.getContact() != null ? ipp1.getContact().getLastName() != null ? ipp1.getContact().getLastName().toUpperCase() : "" : "";
+            String lastName2 = ipp2.getContact() != null ? ipp2.getContact().getLastName() != null ? ipp2.getContact().getLastName().toUpperCase() : "" : "";
+            String contactRoleCode1 = ipp1.getContactRole() != null ? ipp1.getContactRole().getRoleCode() : "";
+            String contactRoleCode2 = ipp2.getContactRole() != null ? ipp2.getContactRole().getRoleCode() : "";
+
+            if (contactRoleCode1.equals(contactRoleCode2)) {
+                return lastName1.compareTo(lastName2);
+            } else {
+                if (contactRoleCode1.equals(ContactRole.PI_CODE)) {
+                    return -1;
+                }
+                if (contactRoleCode2.equals(ContactRole.PI_CODE)) {
+                    return 1;
+                }
+                if (contactRoleCode1.equals(ContactRole.COI_CODE)) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            }
+        }
+
+    }
+
     /**
      * Sets the projectPersons attribute value.
+     *
      * @param projectPersons The projectPersons to set.
      */
     public void setProjectPersons(List<InstitutionalProposalPerson> projectPersons) {
@@ -1255,8 +1272,8 @@ Thread.dumpStack();
     }
 
     public void setIntellectualPropertyReview(IntellectualPropertyReview intellectualPropertyReview) {
-System.err.println("\nsetIntellectualPropertyReview() called, review = " + intellectualPropertyReview.getReviewResult().getDescription());        
-Thread.dumpStack();
+        System.err.println("\nsetIntellectualPropertyReview() called, review = " + intellectualPropertyReview.getReviewResult().getDescription());
+        Thread.dumpStack();
         this.intellectualPropertyReview = intellectualPropertyReview;
     }
 
@@ -1280,7 +1297,8 @@ Thread.dumpStack();
     }
 
     /**
-     * Gets the institutionalProposalCostShares attribute. 
+     * Gets the institutionalProposalCostShares attribute.
+     *
      * @return Returns the institutionalProposalCostShares.
      */
     public List<InstitutionalProposalCostShare> getInstitutionalProposalCostShares() {
@@ -1289,14 +1307,17 @@ Thread.dumpStack();
 
     /**
      * Sets the institutionalProposalCostShares attribute value.
-     * @param institutionalProposalCostShares The institutionalProposalCostShares to set.
+     *
+     * @param institutionalProposalCostShares The
+     * institutionalProposalCostShares to set.
      */
     public void setInstitutionalProposalCostShares(List<InstitutionalProposalCostShare> institutionalProposalCostShares) {
         this.institutionalProposalCostShares = institutionalProposalCostShares;
     }
 
     /**
-     * Gets the institutionalProposalUnrecoveredFandAs attribute. 
+     * Gets the institutionalProposalUnrecoveredFandAs attribute.
+     *
      * @return Returns the institutionalProposalUnrecoveredFandAs.
      */
     public List<InstitutionalProposalUnrecoveredFandA> getInstitutionalProposalUnrecoveredFandAs() {
@@ -1305,7 +1326,9 @@ Thread.dumpStack();
 
     /**
      * Sets the institutionalProposalUnrecoveredFandAs attribute value.
-     * @param institutionalProposalUnrecoveredFandAs The institutionalProposalUnrecoveredFandAs to set.
+     *
+     * @param institutionalProposalUnrecoveredFandAs The
+     * institutionalProposalUnrecoveredFandAs to set.
      */
     public void setInstitutionalProposalUnrecoveredFandAs(
             List<InstitutionalProposalUnrecoveredFandA> institutionalProposalUnrecoveredFandAs) {
@@ -1313,7 +1336,8 @@ Thread.dumpStack();
     }
 
     /**
-     * Gets the createTimeStamp attribute. 
+     * Gets the createTimeStamp attribute.
+     *
      * @return Returns the createTimeStamp.
      */
     public Date getCreateTimeStamp() {
@@ -1322,6 +1346,7 @@ Thread.dumpStack();
 
     /**
      * Sets the createTimeStamp attribute value.
+     *
      * @param createTimeStamp The createTimeStamp to set.
      */
     public void setCreateTimeStamp(Date createTimeStamp) {
@@ -1352,7 +1377,6 @@ Thread.dumpStack();
     // public void setUpdateUser(String updateUser) {
     // super.setUpdateUser(updateUser);
     // }
-
     public String getProposalSequenceStatus() {
         return proposalSequenceStatus;
     }
@@ -1372,7 +1396,8 @@ Thread.dumpStack();
     }
 
     /**
-     * Gets the keywords attribute. 
+     * Gets the keywords attribute.
+     *
      * @return Returns the keywords.
      */
     @Override
@@ -1382,6 +1407,7 @@ Thread.dumpStack();
 
     /**
      * Sets the keywords attribute value.
+     *
      * @param keywords The keywords to set.
      */
     public void setKeywords(List<InstitutionalProposalScienceKeyword> institutionalProposalScienceKeywords) {
@@ -1390,16 +1416,19 @@ Thread.dumpStack();
 
     /**
      * Add selected science keyword to award science keywords list.
-     * @see org.kuali.kra.document.KeywordsManager#addKeyword(org.kuali.kra.bo.ScienceKeyword)
+     *
+     * @see
+     * org.kuali.kra.document.KeywordsManager#addKeyword(org.kuali.kra.bo.ScienceKeyword)
      */
     public void addKeyword(ScienceKeyword scienceKeyword) {
         InstitutionalProposalScienceKeyword institutionalProposalScienceKeyword = new InstitutionalProposalScienceKeyword(this,
-            scienceKeyword);
+                scienceKeyword);
         getKeywords().add(institutionalProposalScienceKeyword);
     }
 
     /**
      * It returns the ScienceKeyword object from keywords list
+     *
      * @see org.kuali.kra.document.KeywordsManager#getKeyword(int)
      */
     public InstitutionalProposalScienceKeyword getKeyword(int index) {
@@ -1428,7 +1457,8 @@ Thread.dumpStack();
     }
 
     /**
-     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
+     * @see
+     * org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
      */
     public void setSequenceOwner(InstitutionalProposal newOwner) {
         // no-op
@@ -1436,9 +1466,10 @@ Thread.dumpStack();
 
     /**
      * This method removes an AwardFundingProposal
-     * 
-     * Since Award "owns" the relationship, this method should not be called except from Award
-     * 
+     *
+     * Since Award "owns" the relationship, this method should not be called
+     * except from Award
+     *
      * @param afp
      */
     public void remove(AwardFundingProposal afp) {
@@ -1468,8 +1499,7 @@ Thread.dumpStack();
         super.postPersist();
         updateProposalIpReviewJoin();
         // This method links the institutional proposal with the merged proposal log
-        if (proposalId != null && proposalNumber != null)
-        {
+        if (proposalId != null && proposalNumber != null) {
             KraServiceLocator.getService(ProposalLogService.class).updateMergedInstProposal(proposalId, proposalNumber);
         }
     }
@@ -1485,13 +1515,13 @@ Thread.dumpStack();
     protected void updateProposalIpReviewJoin() {
         ProposalIpReviewJoin proposalIpReviewJoin = this.getProposalIpReviewJoin();
         if (ObjectUtils.isNotNull(proposalIpReviewJoin.getProposalIpReviewJoinId())) {
-System.err.println("\nupdateProposalIpReviewJoin(), join = " + proposalIpReviewJoin);
-System.err.println("\n     review = " + proposalIpReviewJoin.getIntellectualPropertyReview());
-if (proposalIpReviewJoin.getIntellectualPropertyReview() != null) 
- System.err.println("\n     code = " + proposalIpReviewJoin.getIntellectualPropertyReview().getIpReviewRequirementTypeCode());
+            System.err.println("\nupdateProposalIpReviewJoin(), join = " + proposalIpReviewJoin);
+            System.err.println("\n     review = " + proposalIpReviewJoin.getIntellectualPropertyReview());
+            if (proposalIpReviewJoin.getIntellectualPropertyReview() != null) {
+                System.err.println("\n     code = " + proposalIpReviewJoin.getIntellectualPropertyReview().getIpReviewRequirementTypeCode());
+            }
             proposalIpReviewJoin.setProposalIpReviewJoinId(null);
-        }
-        else {
+        } else {
             IntellectualPropertyReview ipReview = new IntellectualPropertyReview();
             ipReview.setSequenceNumber(0);
             ipReview.setProposalNumber(this.getProposalNumber());
@@ -1505,9 +1535,9 @@ if (proposalIpReviewJoin.getIntellectualPropertyReview() != null)
         this.setProposalIpReviewJoin(proposalIpReviewJoin);
     }
 
-
     /**
      * This method lazy inits ActivityType
+     *
      * @return
      */
     public ActivityType getActivityTypeFromCode() {
@@ -1523,6 +1553,7 @@ if (proposalIpReviewJoin.getIntellectualPropertyReview() != null)
 
     /**
      * This method lazy inits ProposalType
+     *
      * @return
      */
     public ProposalType getProposalTypeFromCode() {
@@ -1537,8 +1568,9 @@ if (proposalIpReviewJoin.getIntellectualPropertyReview() != null)
     }
 
     /**
-     * Populate properties on this InstitutionalProposal with the respective properties from ProposalLog.
-     * 
+     * Populate properties on this InstitutionalProposal with the respective
+     * properties from ProposalLog.
+     *
      * @param proposalLog ProposalLog
      */
     public void doProposalLogDataFeed(ProposalLog proposalLog) {
@@ -1546,7 +1578,8 @@ if (proposalIpReviewJoin.getIntellectualPropertyReview() != null)
         this.setDeadlineDate(proposalLog.getDeadlineDate());
         this.setDeadlineTime(proposalLog.getDeadlineTime());
         /**
-         * per KRACOEUS-4647 we don't want to pull the log's month/year, we want to calculate it fresh.
+         * per KRACOEUS-4647 we don't want to pull the log's month/year, we want
+         * to calculate it fresh.
          */
         this.calculateFiscalMonthAndYearFields();
         //this.setFiscalMonth(proposalLog.getFiscalMonth().toString());
@@ -1561,8 +1594,7 @@ if (proposalIpReviewJoin.getIntellectualPropertyReview() != null)
         InstitutionalProposalPerson ipPerson = new InstitutionalProposalPerson();
         if (StringUtils.isNotBlank(proposalLog.getPiId()) && proposalLog.getPerson() != null) {
             ipPerson.setPerson(proposalLog.getPerson());
-        }
-        else if (proposalLog.getRolodexId() != null && proposalLog.getRolodex() != null) {
+        } else if (proposalLog.getRolodexId() != null && proposalLog.getRolodex() != null) {
             ipPerson.setRolodex(proposalLog.getRolodex());
         }
         initializeDefaultPrincipalInvestigator(ipPerson);
@@ -1605,8 +1637,7 @@ if (proposalIpReviewJoin.getIntellectualPropertyReview() != null)
         if (!StringUtils.isBlank(this.getInitialContractAdmin())) {
             try {
                 return this.getKcPersonService().getKcPersonByPersonId(this.getInitialContractAdmin());
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 // TODO temp unit test fix
             }
         }
@@ -1614,7 +1645,6 @@ if (proposalIpReviewJoin.getIntellectualPropertyReview() != null)
     }
 
     /* Comments methods. ORM treats comments as a list, so we lazy-copy them to a map for faster access from the getters. */
-
     public InstitutionalProposalComment getSummaryComment() {
         return getInstitutionalProposalCommentByType(Constants.PROPOSAL_SUMMARY_COMMENT_TYPE_CODE, true);
     }
@@ -1660,7 +1690,7 @@ if (proposalIpReviewJoin.getIntellectualPropertyReview() != null)
         }
         return commentMap;
     }
-    
+
     public void setLookupUnit(Unit lookupUnit) {
         this.lookupUnit = lookupUnit;
     }
@@ -1700,29 +1730,30 @@ if (proposalIpReviewJoin.getIntellectualPropertyReview() != null)
     public boolean getShowReturnLink() {
         return showReturnLink;
     }
-    
-    public String getInstProposalNumber(){
+
+    public String getInstProposalNumber() {
         //retrieveInstProposalNumberFromDB()
-        if(instProposalNumber == null){
+        if (instProposalNumber == null) {
             instProposalNumber = proposalNumber;
         }
         return instProposalNumber;
     }
-    
-    public void setInstProposalNumber(String instProposalNumber){
+
+    public void setInstProposalNumber(String instProposalNumber) {
         this.instProposalNumber = instProposalNumber;
     }
-   
 
     /**
-     * This method returns the combined number of units for all project personnel.
-     * 
+     * This method returns the combined number of units for all project
+     * personnel.
+     *
      * @return
      */
     public int getTotalUnitCount() {
         int count = 0;
-        for (InstitutionalProposalPerson person : projectPersons)
+        for (InstitutionalProposalPerson person : projectPersons) {
             count += person.getUnits().size();
+        }
         return count;
     }
 
@@ -1739,7 +1770,7 @@ if (proposalIpReviewJoin.getIntellectualPropertyReview() != null)
         String name = getLeadUnit() == null ? EMPTY_STRING : getLeadUnit().getUnitName();
         return name;
     }
-    
+
     @Override
     public String getPiName() {
         return getPiEmployeeName();
@@ -1776,7 +1807,7 @@ if (proposalIpReviewJoin.getIntellectualPropertyReview() != null)
     public String getSubAwardOrganizationName() {
         return EMPTY_STRING;
     }
-    
+
     @Override
     public List<NegotiationPersonDTO> getProjectPeople() {
         List<NegotiationPersonDTO> kcPeople = new ArrayList<NegotiationPersonDTO>();
@@ -1790,7 +1821,7 @@ if (proposalIpReviewJoin.getIntellectualPropertyReview() != null)
     public String getAssociatedDocumentId() {
         return getProposalNumber();
     }
-    
+
     @Override
     public String getNegotiableProposalTypeCode() {
         if (getProposalTypeCode() != null) {
@@ -1824,21 +1855,24 @@ if (proposalIpReviewJoin.getIntellectualPropertyReview() != null)
     public String getSubAwardRequisitionerId() {
         return EMPTY_STRING;
     }
-    
+
     public FiscalYearMonthService getFiscalYearMonthService() {
         if (this.fiscalYearMonthService == null) {
             this.fiscalYearMonthService = KraServiceLocator.getService(FiscalYearMonthService.class);
         }
         return this.fiscalYearMonthService;
     }
-    
+
     public boolean isAllowUpdateTimestampToBeReset() {
         return allowUpdateTimestampToBeReset;
     }
-    
+
     /**
-     * 
-     * Setting this value to false will prevent the update timestamp field from being upddate just once.  After that, the update timestamp field will update as regular.
+     *
+     * Setting this value to false will prevent the update timestamp field from
+     * being upddate just once. After that, the update timestamp field will
+     * update as regular.
+     *
      * @param allowUpdateTimestampToBeReset
      */
     public void setAllowUpdateTimestampToBeReset(boolean allowUpdateTimestampToBeReset) {

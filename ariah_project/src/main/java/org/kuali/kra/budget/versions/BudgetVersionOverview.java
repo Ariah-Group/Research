@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.budget.versions;
 
@@ -28,9 +44,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Class representation of a Budget Overview Business Object.  This BO maps to
+ * Class representation of a Budget Overview Business Object. This BO maps to
  * the BudgetDocument table but excludes most references.
- * 
+ *
  * @author kra-developers-l@indiana.edu
  */
 public class BudgetVersionOverview extends KraPersistableBusinessObjectBase implements Comparable<BudgetVersionOverview> {
@@ -94,7 +110,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     private String printBudgetCommentFlag;
 
     private Boolean submitCostSharingFlag = Boolean.TRUE;
-    
+
     private RateClass urRateClass;
 
     public Integer getBudgetVersionNumber() {
@@ -291,7 +307,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     }
 
     /**
-     * 
+     *
      * @see java.lang.Comparable
      */
     public int compareTo(BudgetVersionOverview otherVersion) {
@@ -299,7 +315,8 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     }
 
     /**
-     * Gets the budgetId attribute. 
+     * Gets the budgetId attribute.
+     *
      * @return Returns the budgetId.
      */
     public Long getBudgetId() {
@@ -308,6 +325,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
 
     /**
      * Sets the budgetId attribute value.
+     *
      * @param budgetId The budgetId to set.
      */
     public void setBudgetId(Long budgetId) {
@@ -315,7 +333,8 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     }
 
     /**
-     * Gets the modularBudgetFlag attribute. 
+     * Gets the modularBudgetFlag attribute.
+     *
      * @return Returns the modularBudgetFlag.
      */
     public Boolean getModularBudgetFlag() {
@@ -324,6 +343,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
 
     /**
      * Sets the modularBudgetFlag attribute value.
+     *
      * @param modularBudgetFlag The modularBudgetFlag to set.
      */
     public void setModularBudgetFlag(Boolean modularBudgetFlag) {
@@ -331,7 +351,8 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     }
 
     /**
-     * Gets the urRateClassCode attribute. 
+     * Gets the urRateClassCode attribute.
+     *
      * @return Returns the urRateClassCode.
      */
     public String getUrRateClassCode() {
@@ -340,6 +361,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
 
     /**
      * Sets the urRateClassCode attribute value.
+     *
      * @param urRateClassCode The urRateClassCode to set.
      */
     public void setUrRateClassCode(String urRateClassCode) {
@@ -347,7 +369,8 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     }
 
     /**
-     * Gets the onOffCampusFlag attribute. 
+     * Gets the onOffCampusFlag attribute.
+     *
      * @return Returns the onOffCampusFlag.
      */
     public String getOnOffCampusFlag() {
@@ -356,6 +379,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
 
     /**
      * Sets the onOffCampusFlag attribute value.
+     *
      * @param onOffCampusFlag The onOffCampusFlag to set.
      */
     public void setOnOffCampusFlag(String onOffCampusFlag) {
@@ -401,83 +425,182 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         BudgetVersionOverview other = (BudgetVersionOverview) obj;
         if (budgetId == null) {
-            if (other.budgetId != null) return false;
-        } else if (!budgetId.equals(other.budgetId)) return false;
+            if (other.budgetId != null) {
+                return false;
+            }
+        } else if (!budgetId.equals(other.budgetId)) {
+            return false;
+        }
         if (budgetStatus == null) {
-            if (other.budgetStatus != null) return false;
-        } else if (!budgetStatus.equals(other.budgetStatus)) return false;
+            if (other.budgetStatus != null) {
+                return false;
+            }
+        } else if (!budgetStatus.equals(other.budgetStatus)) {
+            return false;
+        }
         if (budgetVersionNumber == null) {
-            if (other.budgetVersionNumber != null) return false;
-        } else if (!budgetVersionNumber.equals(other.budgetVersionNumber)) return false;
+            if (other.budgetVersionNumber != null) {
+                return false;
+            }
+        } else if (!budgetVersionNumber.equals(other.budgetVersionNumber)) {
+            return false;
+        }
         if (comments == null) {
-            if (other.comments != null) return false;
-        } else if (!comments.equals(other.comments)) return false;
+            if (other.comments != null) {
+                return false;
+            }
+        } else if (!comments.equals(other.comments)) {
+            return false;
+        }
         if (costSharingAmount == null) {
-            if (other.costSharingAmount != null) return false;
-        } else if (!costSharingAmount.equals(other.costSharingAmount)) return false;
-        if (descriptionUpdatable != other.descriptionUpdatable) return false;
+            if (other.costSharingAmount != null) {
+                return false;
+            }
+        } else if (!costSharingAmount.equals(other.costSharingAmount)) {
+            return false;
+        }
+        if (descriptionUpdatable != other.descriptionUpdatable) {
+            return false;
+        }
         if (documentDescription == null) {
-            if (other.documentDescription != null) return false;
-        } else if (!documentDescription.equals(other.documentDescription)) return false;
+            if (other.documentDescription != null) {
+                return false;
+            }
+        } else if (!documentDescription.equals(other.documentDescription)) {
+            return false;
+        }
         if (documentNumber == null) {
-            if (other.documentNumber != null) return false;
-        } else if (!documentNumber.equals(other.documentNumber)) return false;
+            if (other.documentNumber != null) {
+                return false;
+            }
+        } else if (!documentNumber.equals(other.documentNumber)) {
+            return false;
+        }
         if (endDate == null) {
-            if (other.endDate != null) return false;
-        } else if (!endDate.equals(other.endDate)) return false;
-        if (finalVersionFlag != other.finalVersionFlag) return false;
+            if (other.endDate != null) {
+                return false;
+            }
+        } else if (!endDate.equals(other.endDate)) {
+            return false;
+        }
+        if (finalVersionFlag != other.finalVersionFlag) {
+            return false;
+        }
         if (modularBudgetFlag == null) {
-            if (other.modularBudgetFlag != null) return false;
-        } else if (!modularBudgetFlag.equals(other.modularBudgetFlag)) return false;
+            if (other.modularBudgetFlag != null) {
+                return false;
+            }
+        } else if (!modularBudgetFlag.equals(other.modularBudgetFlag)) {
+            return false;
+        }
         if (name == null) {
-            if (other.name != null) return false;
-        } else if (!name.equals(other.name)) return false;
+            if (other.name != null) {
+                return false;
+            }
+        } else if (!name.equals(other.name)) {
+            return false;
+        }
         if (ohRateClassCode == null) {
-            if (other.ohRateClassCode != null) return false;
-        } else if (!ohRateClassCode.equals(other.ohRateClassCode)) return false;
+            if (other.ohRateClassCode != null) {
+                return false;
+            }
+        } else if (!ohRateClassCode.equals(other.ohRateClassCode)) {
+            return false;
+        }
         if (ohRateTypeCode == null) {
-            if (other.ohRateTypeCode != null) return false;
-        } else if (!ohRateTypeCode.equals(other.ohRateTypeCode)) return false;
+            if (other.ohRateTypeCode != null) {
+                return false;
+            }
+        } else if (!ohRateTypeCode.equals(other.ohRateTypeCode)) {
+            return false;
+        }
         if (onOffCampusFlag == null) {
-            if (other.onOffCampusFlag != null) return false;
-        } else if (!onOffCampusFlag.equals(other.onOffCampusFlag)) return false;
+            if (other.onOffCampusFlag != null) {
+                return false;
+            }
+        } else if (!onOffCampusFlag.equals(other.onOffCampusFlag)) {
+            return false;
+        }
         if (rateClass == null) {
-            if (other.rateClass != null) return false;
-        } else if (!rateClass.equals(other.rateClass)) return false;
+            if (other.rateClass != null) {
+                return false;
+            }
+        } else if (!rateClass.equals(other.rateClass)) {
+            return false;
+        }
         if (residualFunds == null) {
-            if (other.residualFunds != null) return false;
-        } else if (!residualFunds.equals(other.residualFunds)) return false;
+            if (other.residualFunds != null) {
+                return false;
+            }
+        } else if (!residualFunds.equals(other.residualFunds)) {
+            return false;
+        }
         if (startDate == null) {
-            if (other.startDate != null) return false;
-        } else if (!startDate.equals(other.startDate)) return false;
+            if (other.startDate != null) {
+                return false;
+            }
+        } else if (!startDate.equals(other.startDate)) {
+            return false;
+        }
         if (totalCost == null) {
-            if (other.totalCost != null) return false;
-        } else if (!totalCost.equals(other.totalCost)) return false;
+            if (other.totalCost != null) {
+                return false;
+            }
+        } else if (!totalCost.equals(other.totalCost)) {
+            return false;
+        }
         if (totalCostLimit == null) {
-            if (other.totalCostLimit != null) return false;
-        } else if (!totalCostLimit.equals(other.totalCostLimit)) return false;
+            if (other.totalCostLimit != null) {
+                return false;
+            }
+        } else if (!totalCostLimit.equals(other.totalCostLimit)) {
+            return false;
+        }
         if (totalDirectCost == null) {
-            if (other.totalDirectCost != null) return false;
-        } else if (!totalDirectCost.equals(other.totalDirectCost)) return false;
+            if (other.totalDirectCost != null) {
+                return false;
+            }
+        } else if (!totalDirectCost.equals(other.totalDirectCost)) {
+            return false;
+        }
         if (totalIndirectCost == null) {
-            if (other.totalIndirectCost != null) return false;
-        } else if (!totalIndirectCost.equals(other.totalIndirectCost)) return false;
+            if (other.totalIndirectCost != null) {
+                return false;
+            }
+        } else if (!totalIndirectCost.equals(other.totalIndirectCost)) {
+            return false;
+        }
         if (underrecoveryAmount == null) {
-            if (other.underrecoveryAmount != null) return false;
-        } else if (!underrecoveryAmount.equals(other.underrecoveryAmount)) return false;
+            if (other.underrecoveryAmount != null) {
+                return false;
+            }
+        } else if (!underrecoveryAmount.equals(other.underrecoveryAmount)) {
+            return false;
+        }
         if (urRateClassCode == null) {
-            if (other.urRateClassCode != null) return false;
-        } else if (!urRateClassCode.equals(other.urRateClassCode)) return false;
+            if (other.urRateClassCode != null) {
+                return false;
+            }
+        } else if (!urRateClassCode.equals(other.urRateClassCode)) {
+            return false;
+        }
         return true;
     }
 
     /**
-     * Gets the totalDirectCostLimit attribute. 
+     * Gets the totalDirectCostLimit attribute.
+     *
      * @return Returns the totalDirectCostLimit.
      */
     public BudgetDecimal getTotalDirectCostLimit() {
@@ -486,6 +609,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
 
     /**
      * Sets the totalDirectCostLimit attribute value.
+     *
      * @param totalDirectCostLimit The totalDirectCostLimit to set.
      */
     public void setTotalDirectCostLimit(BudgetDecimal totalDirectCostLimit) {
@@ -501,7 +625,8 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     }
 
     /**
-     * Gets the submitCostSharingFlag attribute. 
+     * Gets the submitCostSharingFlag attribute.
+     *
      * @return Returns the submitCostSharingFlag.
      */
     public Boolean getSubmitCostSharingFlag() {
@@ -510,6 +635,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
 
     /**
      * Sets the submitCostSharingFlag attribute value.
+     *
      * @param submitCostSharingFlag The submitCostSharingFlag to set.
      */
     public void setSubmitCostSharingFlag(Boolean submitCostSharingFlag) {
@@ -517,7 +643,8 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
     }
 
     /**
-     * Gets the urRateClass attribute. 
+     * Gets the urRateClass attribute.
+     *
      * @return Returns the urRateClass.
      */
     public RateClass getUrRateClass() {
@@ -526,6 +653,7 @@ public class BudgetVersionOverview extends KraPersistableBusinessObjectBase impl
 
     /**
      * Sets the urRateClass attribute value.
+     *
      * @param urRateClass The urRateClass to set.
      */
     public void setUrRateClass(RateClass urRateClass) {

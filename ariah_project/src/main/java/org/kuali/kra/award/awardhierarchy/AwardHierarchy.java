@@ -42,8 +42,9 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import java.util.*;
 
 /**
- * AwardHierarchy is version agnostic. It should always reference the active version of the Award if one is present. If not present, it will reference the one
- * and only pending Award matching the AwardHierarchy awardNumber.
+ * AwardHierarchy is version agnostic. It should always reference the active
+ * version of the Award if one is present. If not present, it will reference the
+ * one and only pending Award matching the AwardHierarchy awardNumber.
  */
 public class AwardHierarchy extends KraPersistableBusinessObjectBase implements Cloneable {
 
@@ -86,6 +87,7 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
 
     /**
      * C'tor
+     *
      * @param rootNode
      * @param parentNode
      * @param awardNumber
@@ -115,7 +117,7 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
     }
 
     /**
-     * 
+     *
      * @param rootAwardNumber
      * @param parentAwardNumber
      * @param awardNumber
@@ -126,6 +128,7 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
 
     /**
      * Factory method for creating a root node from an Award
+     *
      * @param award
      * @return
      */
@@ -137,6 +140,7 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
 
     /**
      * Factory method for creating a root node from an awardNumber
+     *
      * @param awardNumber
      * @return
      */
@@ -149,19 +153,37 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (!(obj instanceof AwardHierarchy)) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof AwardHierarchy)) {
+            return false;
+        }
         AwardHierarchy other = (AwardHierarchy) obj;
         if (awardNumber == null) {
-            if (other.awardNumber != null) return false;
-        } else if (!awardNumber.equals(other.awardNumber)) return false;
+            if (other.awardNumber != null) {
+                return false;
+            }
+        } else if (!awardNumber.equals(other.awardNumber)) {
+            return false;
+        }
         if (parentAwardNumber == null) {
-            if (other.parentAwardNumber != null) return false;
-        } else if (!parentAwardNumber.equals(other.parentAwardNumber)) return false;
+            if (other.parentAwardNumber != null) {
+                return false;
+            }
+        } else if (!parentAwardNumber.equals(other.parentAwardNumber)) {
+            return false;
+        }
         if (rootAwardNumber == null) {
-            if (other.rootAwardNumber != null) return false;
-        } else if (!rootAwardNumber.equals(other.rootAwardNumber)) return false;
+            if (other.rootAwardNumber != null) {
+                return false;
+            }
+        } else if (!rootAwardNumber.equals(other.rootAwardNumber)) {
+            return false;
+        }
         return true;
     }
 
@@ -177,6 +199,7 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
 
     /**
      * Method here for future JPA use
+     *
      * @return
      */
     public Long getAwardHierarchyId() {
@@ -192,6 +215,7 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
 
     /**
      * Gets the children attribute.
+     *
      * @return Returns the children.
      */
     public List<AwardHierarchy> getChildren() {
@@ -204,6 +228,7 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
 
     /**
      * Gets the parent attribute.
+     *
      * @return Returns the parent.
      */
     public AwardHierarchy getParent() {
@@ -219,6 +244,7 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
 
     /**
      * Gets the root attribute.
+     *
      * @return Returns the root.
      */
     public AwardHierarchy getRoot() {
@@ -247,6 +273,7 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
 
     /**
      * This method dtermines if children are present
+     *
      * @return
      */
     public boolean hasChildren() {
@@ -268,6 +295,7 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
 
     /**
      * Node is root if the awardNumber === rootAwardNumber
+     *
      * @return
      */
     public boolean isRootNode() {
@@ -308,6 +336,7 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
 
     /**
      * Method here for future JPA use
+     *
      * @param awardHierarchyId
      */
     public void setAwardHierarchyId(Long awardHierarchyId) {
@@ -323,6 +352,7 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
 
     /**
      * Sets the children attribute value.
+     *
      * @param children The children to set.
      */
     public void setChildren(List<AwardHierarchy> children) {
@@ -335,6 +365,7 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
 
     /**
      * Sets the parent attribute value.
+     *
      * @param parent The parent to set.
      */
     public void setParent(AwardHierarchy parent) {
@@ -348,6 +379,7 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
 
     /**
      * Sets the root attribute value.
+     *
      * @param root The root to set.
      */
     public void setRoot(AwardHierarchy root) {
@@ -425,7 +457,7 @@ public class AwardHierarchy extends KraPersistableBusinessObjectBase implements 
     }
 
     private AwardHierarchy findAwardHierarchyMatchingAwardNumber(String searchAwardNumber) {
-        Map map = ServiceHelper.getInstance().buildCriteriaMap(new String[] { "awardNumber", "active" }, new Object[] { searchAwardNumber, Boolean.TRUE });
+        Map map = ServiceHelper.getInstance().buildCriteriaMap(new String[]{"awardNumber", "active"}, new Object[]{searchAwardNumber, Boolean.TRUE});
         Collection c = getBusinessObjectService().findMatching(AwardHierarchy.class, map);
         return c.size() == 1 ? (AwardHierarchy) c.iterator().next() : null;
     }

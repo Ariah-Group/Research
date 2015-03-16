@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.budget.document;
 
@@ -47,18 +63,18 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krms.api.engine.Facts.Builder;
 
-@NAMESPACE(namespace=Constants.MODULE_NAMESPACE_AWARD_BUDGET)
-@COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
+@NAMESPACE(namespace = Constants.MODULE_NAMESPACE_AWARD_BUDGET)
+@COMPONENT(component = ParameterConstants.DOCUMENT_COMPONENT)
 public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home.Award> {
 
     private static final String AWARD_BUDGET_DOCUMENT_TYPE_CODE = "ABGT";
     private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AwardBudgetDocument.class);
-    
+
     private BudgetDecimal obligatedTotal;
 
     private transient BudgetParentDocument<Award> newestBudgetParentDocument;
     private transient AwardBudgetService awardBudgetService;
-    private Award  currentAward;
+    private Award currentAward;
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -71,11 +87,12 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
         AwardBudgetExt awardBudget = getAwardBudget();
         awardBudget.setObligatedTotal(new BudgetDecimal(award.getBudgetTotalCostLimit().bigDecimalValue()));
         List<BudgetRate> budgetRates = awardBudget.getBudgetRates();
-        populateBudgetRateTypes(awardBudget,budgetRates);
+        populateBudgetRateTypes(awardBudget, budgetRates);
     }
-    
+
     /**
-     * Gets the parentDocument attribute. 
+     * Gets the parentDocument attribute.
+     *
      * @return Returns the parentDocument.
      */
     @Override
@@ -91,9 +108,10 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
         }
         return newestBudgetParentDocument;
     }
-    
+
     /**
-     * Gets the currentAward attribute. 
+     * Gets the currentAward attribute.
+     *
      * @return Returns the currentAward.
      */
     public Award getCurrentAward() {
@@ -102,6 +120,7 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
 
     /**
      * Sets the currentAward attribute value.
+     *
      * @param currentAward The currentAward to set.
      */
     public void setCurrentAward(Award currentAward) {
@@ -117,28 +136,30 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
     }
 
     /**
-     * 
-     * This method returns Budget object. Creates new budget instance if the budgets list is empty
+     *
+     * This method returns Budget object. Creates new budget instance if the
+     * budgets list is empty
+     *
      * @return Budget
      */
-    public Budget getBudget(){
-        if(getBudgets().isEmpty()){
+    public Budget getBudget() {
+        if (getBudgets().isEmpty()) {
             getBudgets().add(new AwardBudgetExt());
         }
         Budget budget = getBudgets().get(0);
-        return budget; 
+        return budget;
     }
-    
-    private void populateBudgetRateTypes(Budget budget,List<BudgetRate> budgetRates) {
+
+    private void populateBudgetRateTypes(Budget budget, List<BudgetRate> budgetRates) {
         for (BudgetRate budgetRate : budgetRates) {
-            if(RateClassType.OVERHEAD.getRateClassType().equals(budgetRate.getRateClassType())){
+            if (RateClassType.OVERHEAD.getRateClassType().equals(budgetRate.getRateClassType())) {
                 budgetRate.setBudget(budget);
-                if(budgetRate.getNonEditableRateFlag()){
+                if (budgetRate.getNonEditableRateFlag()) {
                     budgetRate.setRateType(createAwardRateType(budgetRate));
                 }
             }
         }
-        
+
     }
 
     private RateType createAwardRateType(BudgetRate rate) {
@@ -154,12 +175,13 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
 
-    public AwardBudgetExt getAwardBudget(){
-        return (AwardBudgetExt)getBudget();
+    public AwardBudgetExt getAwardBudget() {
+        return (AwardBudgetExt) getBudget();
     }
 
     /**
-     * Gets the obligatedAmount attribute. 
+     * Gets the obligatedAmount attribute.
+     *
      * @return Returns the obligatedAmount.
      */
     public BudgetDecimal getObligatedTotal() {
@@ -168,15 +190,19 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
 
     /**
      * Sets the obligatedAmount attribute value.
+     *
      * @param obligatedAmount The obligatedAmount to set.
      */
     public void setObligatedTotal(BudgetDecimal obligatedTotal) {
         this.obligatedTotal = obligatedTotal;
     }
-    
+
     /**
-     * Added mthod to enable change of status when the document changes KEW status.
-     * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange)
+     * Added mthod to enable change of status when the document changes KEW
+     * status.
+     *
+     * @see
+     * org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange)
      */
     public void doRouteStatusChange(DocumentRouteStatusChange dto) {
         super.doRouteStatusChange(dto);
@@ -184,75 +210,74 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
         String oldStatus = dto.getOldRouteStatus();
         boolean changeStatus = false;
         this.setCurrentAward(getParentDocument().getBudgetParent());
-      
-        if( LOG.isDebugEnabled() )
-            LOG.debug(String.format( "Route status change on AwardBudgetDocument #%s from %s to %s.", getDocumentNumber(), oldStatus, newStatus ));
-        
+
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(String.format("Route status change on AwardBudgetDocument #%s from %s to %s.", getDocumentNumber(), oldStatus, newStatus));
+        }
+
         //Only know what to do with disapproved right now, left the
-        if( StringUtils.equals( newStatus, KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD )) {
-            getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_DISAPPROVED );
-        } else if( StringUtils.equals( newStatus, KewApiConstants.ROUTE_HEADER_CANCEL_CD ) ) {
-            getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_CANCELLED );
-        } else if( StringUtils.equals( newStatus, KewApiConstants.ROUTE_HEADER_FINAL_CD )) {
+        if (StringUtils.equals(newStatus, KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
+            getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_DISAPPROVED);
+        } else if (StringUtils.equals(newStatus, KewApiConstants.ROUTE_HEADER_CANCEL_CD)) {
+            getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_CANCELLED);
+        } else if (StringUtils.equals(newStatus, KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
             getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_TO_BE_POSTED);
             changeStatus = true;
         }
-        
-        if( changeStatus ) {
+
+        if (changeStatus) {
             try {
                 KraServiceLocator.getService(DocumentService.class).saveDocument(this);
+            } catch (WorkflowException e) {
+                throw new RuntimeException("Could not save award document on action  taken.");
             }
-            catch (WorkflowException e) {
-                throw new RuntimeException( "Could not save award document on action  taken.");
-            }
-        }  
+        }
     }
-    
-    
+
     /**
-     * Added method to detect when the document is being approved from the initial node.  In this case
-     * the document is actually being re-submitted after a rejection.  The award budget status then 
-     * changes back to In Progress.
-     * @see org.kuali.rice.krad.document.DocumentBase#doActionTaken(org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent)
+     * Added method to detect when the document is being approved from the
+     * initial node. In this case the document is actually being re-submitted
+     * after a rejection. The award budget status then changes back to In
+     * Progress.
+     *
+     * @see
+     * org.kuali.rice.krad.document.DocumentBase#doActionTaken(org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent)
      */
     public void doActionTaken(ActionTakenEvent event) {
         super.doActionTaken(event);
         ActionTaken actionTaken = event.getActionTaken();
         KraDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KraDocumentRejectionService.class);
-        if( LOG.isDebugEnabled() ) {
-            LOG.debug( String.format( "Action taken on document %s: event code %s, action taken is %s"  , getDocumentNumber(), event.getDocumentEventCode(), actionTaken.getActionTaken().getCode()) );
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(String.format("Action taken on document %s: event code %s, action taken is %s", getDocumentNumber(), event.getDocumentEventCode(), actionTaken.getActionTaken().getCode()));
         }
-        if( StringUtils.equals( KewApiConstants.ACTION_TAKEN_APPROVED_CD, actionTaken.getActionTaken().getCode()) && documentRejectionService.isDocumentOnInitialNode(this) ) {
+        if (StringUtils.equals(KewApiConstants.ACTION_TAKEN_APPROVED_CD, actionTaken.getActionTaken().getCode()) && documentRejectionService.isDocumentOnInitialNode(this)) {
             //the document is being approved from the initial node.
             //this means it was rejected and is now being approved by the initiator.
             //set the status back to in progress
-            getAwardBudget().setAwardBudgetStatusCode( Constants.BUDGET_STATUS_CODE_IN_PROGRESS);
+            getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_IN_PROGRESS);
             try {
                 KraServiceLocator.getService(DocumentService.class).saveDocument(this);
-            }
-            catch (WorkflowException e) {
-                throw new RuntimeException( "Could not save award document on action  taken.");
+            } catch (WorkflowException e) {
+                throw new RuntimeException("Could not save award document on action  taken.");
             }
         }
-        
-      
+
     }
 
-    
     /**
-     * @see org.kuali.kra.budget.document.BudgetDocument#documentHasBeenRejected(java.lang.String)
+     * @see
+     * org.kuali.kra.budget.document.BudgetDocument#documentHasBeenRejected(java.lang.String)
      */
     @Override
-    public void documentHasBeenRejected( String reason ) {
+    public void documentHasBeenRejected(String reason) {
         this.getAwardBudget().setAwardBudgetStatusCode(Constants.BUDGET_STATUS_CODE_REJECTED);
         try {
             KraServiceLocator.getService(DocumentService.class).saveDocument(this);
+        } catch (WorkflowException e) {
+            throw new RuntimeException("Could not save award document on action  taken.");
         }
-        catch (WorkflowException e) {
-            throw new RuntimeException( "Could not save award document on action  taken.");
-        }
-    } 
-    
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -277,12 +302,13 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
     public void setAwardBudgetService(AwardBudgetService awardBudgetService) {
         this.awardBudgetService = awardBudgetService;
     }
- 
+
     @Override
     public void populateContextQualifiers(Map<String, String> qualifiers) {
         qualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_AWARD_BUDGET);
         qualifiers.put("name", KcKrmsConstants.AwardBudget.BUDGET_CONTEXT);
     }
+
     @Override
     public void addFacts(Builder factsBuilder) {
         KcKrmsFactBuilderServiceHelper fbService = KraServiceLocator.getService("awardBudgetFactBuilderService");

@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.budget.distributionincome;
 
@@ -19,13 +35,14 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 
 /**
- * 
+ *
  */
 public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implements HierarchyMaintainable {
+
     private static final long serialVersionUID = 6199797319981907016L;
 
     public static final String DOCUMENT_COMPONENT_ID_KEY = "BUDGET_COST_SHARE_KEY";
-    
+
     private Integer projectPeriod;
     private BudgetDecimal shareAmount;
     private BudgetDecimal sharePercentage;
@@ -36,16 +53,17 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
     private boolean hiddenInHierarchy;
 
     /**
-     * 
+     *
      * Constructs a BudgetCostShare.java.
      */
     public BudgetCostShare() {
         super();
     }
-    
+
     /**
-     * 
+     *
      * Constructs a BudgetCostShare.java.
+     *
      * @param projectPeriod
      * @param shareAmount
      * @param sharePercentage
@@ -60,50 +78,58 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
     }
 
     /**
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (!(obj instanceof BudgetCostShare))
+        }
+        if (!(obj instanceof BudgetCostShare)) {
             return false;
+        }
         final BudgetCostShare other = (BudgetCostShare) obj;
         if (projectPeriod == null) {
-            if (other.projectPeriod != null)
+            if (other.projectPeriod != null) {
                 return false;
-        }
-        else if (!projectPeriod.equals(other.projectPeriod))
+            }
+        } else if (!projectPeriod.equals(other.projectPeriod)) {
             return false;
+        }
         if (shareAmount == null) {
-            if (other.shareAmount != null)
+            if (other.shareAmount != null) {
                 return false;
-        }
-        else if (!shareAmount.equals(other.shareAmount))
+            }
+        } else if (!shareAmount.equals(other.shareAmount)) {
             return false;
+        }
         if (sourceAccount == null) {
-            if (other.sourceAccount != null)
+            if (other.sourceAccount != null) {
                 return false;
-        }
-        else if (!sourceAccount.equals(other.sourceAccount))
+            }
+        } else if (!sourceAccount.equals(other.sourceAccount)) {
             return false;
+        }
         return true;
     }
 
     /**
-     * 
-     * @see org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeComponent#getDocumentComponentIdKey()
+     *
+     * @see
+     * org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeComponent#getDocumentComponentIdKey()
      */
     public String getDocumentComponentIdKey() {
         return DOCUMENT_COMPONENT_ID_KEY;
     }
-    
+
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public Integer getProjectPeriod() {
@@ -111,17 +137,19 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public BudgetDecimal getShareAmount() {
-         return BudgetDecimal.returnZeroIfNull(shareAmount);
+        return BudgetDecimal.returnZeroIfNull(shareAmount);
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public BudgetDecimal getSharePercentage() {
@@ -129,18 +157,17 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public String getSourceAccount() {
         return sourceAccount;
     }
-    
-    
 
     /**
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -154,8 +181,9 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param projectPeriod
      */
     public void setProjectPeriod(Integer projectPeriod) {
@@ -163,8 +191,9 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param shareAmount
      */
     public void setShareAmount(BudgetDecimal shareAmount) {
@@ -172,8 +201,9 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param sharePercentage
      */
     public void setSharePercentage(BudgetDecimal sharePercentage) {
@@ -181,14 +211,15 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param sourceAcocunt
      */
     public void setSourceAccount(String sourceAcocunt) {
         this.sourceAccount = sourceAcocunt;
     }
-    
+
     public String getSourceUnit() {
         return sourceUnit;
     }
@@ -196,7 +227,7 @@ public class BudgetCostShare extends BudgetDistributionAndIncomeComponent implem
     public void setSourceUnit(String sourceUnit) {
         this.sourceUnit = sourceUnit;
     }
- 
+
     public String getHierarchyProposalNumber() {
         return hierarchyProposalNumber;
     }

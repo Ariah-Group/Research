@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.home;
 
@@ -76,7 +92,8 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
     }
 
     /**
-     * Gets the awardTemplateReportTermRecipients attribute. 
+     * Gets the awardTemplateReportTermRecipients attribute.
+     *
      * @return Returns the awardTemplateReportTermRecipients.
      */
     public List<AwardTemplateReportTermRecipient> getAwardTemplateReportTermRecipients() {
@@ -85,14 +102,17 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
 
     /**
      * Sets the awardTemplateReportTermRecipients attribute value.
-     * @param awardTemplateReportTermRecipients The awardTemplateReportTermRecipients to set.
+     *
+     * @param awardTemplateReportTermRecipients The
+     * awardTemplateReportTermRecipients to set.
      */
     public void setAwardTemplateReportTermRecipients(List<AwardTemplateReportTermRecipient> awardTemplateReportTermRecipients) {
         this.awardTemplateReportTermRecipients = awardTemplateReportTermRecipients;
     }
 
     /**
-     * Gets the reportClassCode attribute. 
+     * Gets the reportClassCode attribute.
+     *
      * @return Returns the reportClassCode.
      */
     public String getReportClassCode() {
@@ -101,6 +121,7 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
 
     /**
      * Sets the reportClassCode attribute value.
+     *
      * @param reportClassCode The reportClassCode to set.
      */
     public void setReportClassCode(String reportClassCode) {
@@ -108,7 +129,8 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
     }
 
     /**
-     * Gets the reportCode attribute. 
+     * Gets the reportCode attribute.
+     *
      * @return Returns the reportCode.
      */
     public String getReportCode() {
@@ -117,6 +139,7 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
 
     /**
      * Sets the reportCode attribute value.
+     *
      * @param reportCode The reportCode to set.
      */
     public void setReportCode(String reportCode) {
@@ -124,7 +147,8 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
     }
 
     /**
-     * Gets the frequencyCode attribute. 
+     * Gets the frequencyCode attribute.
+     *
      * @return Returns the frequencyCode.
      */
     public String getFrequencyCode() {
@@ -133,6 +157,7 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
 
     /**
      * Sets the frequencyCode attribute value.
+     *
      * @param frequencyCode The frequencyCode to set.
      */
     public void setFrequencyCode(String frequencyCode) {
@@ -140,7 +165,8 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
     }
 
     /**
-     * Gets the frequencyBaseCode attribute. 
+     * Gets the frequencyBaseCode attribute.
+     *
      * @return Returns the frequencyBaseCode.
      */
     public String getFrequencyBaseCode() {
@@ -149,6 +175,7 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
 
     /**
      * Sets the frequencyBaseCode attribute value.
+     *
      * @param frequencyBaseCode The frequencyBaseCode to set.
      */
     public void setFrequencyBaseCode(String frequencyBaseCode) {
@@ -156,7 +183,8 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
     }
 
     /**
-     * Gets the ospDistributionCode attribute. 
+     * Gets the ospDistributionCode attribute.
+     *
      * @return Returns the ospDistributionCode.
      */
     public String getOspDistributionCode() {
@@ -165,6 +193,7 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
 
     /**
      * Sets the ospDistributionCode attribute value.
+     *
      * @param ospDistributionCode The ospDistributionCode to set.
      */
     public void setOspDistributionCode(String ospDistributionCode) {
@@ -172,7 +201,8 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
     }
 
     /**
-     * Gets the dueDate attribute. 
+     * Gets the dueDate attribute.
+     *
      * @return Returns the dueDate.
      */
     public Date getDueDate() {
@@ -181,6 +211,7 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
 
     /**
      * Sets the dueDate attribute value.
+     *
      * @param dueDate The dueDate to set.
      */
     public void setDueDate(Date dueDate) {
@@ -188,7 +219,8 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
     }
 
     /**
-     * Gets the distribution attribute. 
+     * Gets the distribution attribute.
+     *
      * @return Returns the distribution.
      */
     public Distribution getDistribution() {
@@ -197,6 +229,7 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
 
     /**
      * Sets the distribution attribute value.
+     *
      * @param distribution The distribution to set.
      */
     public void setDistribution(Distribution distribution) {
@@ -204,7 +237,8 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
     }
 
     /**
-     * Gets the frequency attribute. 
+     * Gets the frequency attribute.
+     *
      * @return Returns the frequency.
      */
     public Frequency getFrequency() {
@@ -213,6 +247,7 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
 
     /**
      * Sets the frequency attribute value.
+     *
      * @param frequency The frequency to set.
      */
     public void setFrequency(Frequency frequency) {
@@ -220,7 +255,8 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
     }
 
     /**
-     * Gets the frequencyBase attribute. 
+     * Gets the frequencyBase attribute.
+     *
      * @return Returns the frequencyBase.
      */
     public FrequencyBase getFrequencyBase() {
@@ -229,6 +265,7 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
 
     /**
      * Sets the frequencyBase attribute value.
+     *
      * @param frequencyBase The frequencyBase to set.
      */
     public void setFrequencyBase(FrequencyBase frequencyBase) {
@@ -236,7 +273,8 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
     }
 
     /**
-     * Gets the report attribute. 
+     * Gets the report attribute.
+     *
      * @return Returns the report.
      */
     public Report getReport() {
@@ -245,6 +283,7 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
 
     /**
      * Sets the report attribute value.
+     *
      * @param report The report to set.
      */
     public void setReport(Report report) {
@@ -252,7 +291,8 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
     }
 
     /**
-     * Gets the reportClass attribute. 
+     * Gets the reportClass attribute.
+     *
      * @return Returns the reportClass.
      */
     public ReportClass getReportClass() {
@@ -261,6 +301,7 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
 
     /**
      * Sets the reportClass attribute value.
+     *
      * @param reportClass The reportClass to set.
      */
     public void setReportClass(ReportClass reportClass) {
@@ -268,7 +309,8 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
     }
 
     /**
-     * Gets the awardReportTermRecipients attribute. 
+     * Gets the awardReportTermRecipients attribute.
+     *
      * @return Returns the awardReportTermRecipients.
      */
     public List getAwardReportTermRecipients() {
@@ -276,7 +318,8 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
     }
 
     /**
-     * Gets the awardTemplate attribute. 
+     * Gets the awardTemplate attribute.
+     *
      * @return Returns the awardTemplate.
      */
     public AwardTemplate getAwardTemplate() {
@@ -285,6 +328,7 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
 
     /**
      * Sets the awardTemplate attribute value.
+     *
      * @param awardTemplate The awardTemplate to set.
      */
     public void setAwardTemplate(AwardTemplate awardTemplate) {
@@ -320,50 +364,110 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         AwardTemplateReportTerm other = (AwardTemplateReportTerm) obj;
-        if (!awardTemplate.equals(other.awardTemplate)) return false;
+        if (!awardTemplate.equals(other.awardTemplate)) {
+            return false;
+        }
         if (awardTemplateReportTermRecipients == null) {
-            if (other.awardTemplateReportTermRecipients != null) return false;
-        } else if (!awardTemplateReportTermRecipients.equals(other.awardTemplateReportTermRecipients)) return false;
+            if (other.awardTemplateReportTermRecipients != null) {
+                return false;
+            }
+        } else if (!awardTemplateReportTermRecipients.equals(other.awardTemplateReportTermRecipients)) {
+            return false;
+        }
         if (distribution == null) {
-            if (other.distribution != null) return false;
-        } else if (!distribution.equals(other.distribution)) return false;
+            if (other.distribution != null) {
+                return false;
+            }
+        } else if (!distribution.equals(other.distribution)) {
+            return false;
+        }
         if (dueDate == null) {
-            if (other.dueDate != null) return false;
-        } else if (!dueDate.equals(other.dueDate)) return false;
+            if (other.dueDate != null) {
+                return false;
+            }
+        } else if (!dueDate.equals(other.dueDate)) {
+            return false;
+        }
         if (frequency == null) {
-            if (other.frequency != null) return false;
-        } else if (!frequency.equals(other.frequency)) return false;
+            if (other.frequency != null) {
+                return false;
+            }
+        } else if (!frequency.equals(other.frequency)) {
+            return false;
+        }
         if (frequencyBase == null) {
-            if (other.frequencyBase != null) return false;
-        } else if (!frequencyBase.equals(other.frequencyBase)) return false;
+            if (other.frequencyBase != null) {
+                return false;
+            }
+        } else if (!frequencyBase.equals(other.frequencyBase)) {
+            return false;
+        }
         if (frequencyBaseCode == null) {
-            if (other.frequencyBaseCode != null) return false;
-        } else if (!frequencyBaseCode.equals(other.frequencyBaseCode)) return false;
+            if (other.frequencyBaseCode != null) {
+                return false;
+            }
+        } else if (!frequencyBaseCode.equals(other.frequencyBaseCode)) {
+            return false;
+        }
         if (frequencyCode == null) {
-            if (other.frequencyCode != null) return false;
-        } else if (!frequencyCode.equals(other.frequencyCode)) return false;
+            if (other.frequencyCode != null) {
+                return false;
+            }
+        } else if (!frequencyCode.equals(other.frequencyCode)) {
+            return false;
+        }
         if (ospDistributionCode == null) {
-            if (other.ospDistributionCode != null) return false;
-        } else if (!ospDistributionCode.equals(other.ospDistributionCode)) return false;
+            if (other.ospDistributionCode != null) {
+                return false;
+            }
+        } else if (!ospDistributionCode.equals(other.ospDistributionCode)) {
+            return false;
+        }
         if (report == null) {
-            if (other.report != null) return false;
-        } else if (!report.equals(other.report)) return false;
+            if (other.report != null) {
+                return false;
+            }
+        } else if (!report.equals(other.report)) {
+            return false;
+        }
         if (reportClass == null) {
-            if (other.reportClass != null) return false;
-        } else if (!reportClass.equals(other.reportClass)) return false;
+            if (other.reportClass != null) {
+                return false;
+            }
+        } else if (!reportClass.equals(other.reportClass)) {
+            return false;
+        }
         if (reportClassCode == null) {
-            if (other.reportClassCode != null) return false;
-        } else if (!reportClassCode.equals(other.reportClassCode)) return false;
+            if (other.reportClassCode != null) {
+                return false;
+            }
+        } else if (!reportClassCode.equals(other.reportClassCode)) {
+            return false;
+        }
         if (reportCode == null) {
-            if (other.reportCode != null) return false;
-        } else if (!reportCode.equals(other.reportCode)) return false;
+            if (other.reportCode != null) {
+                return false;
+            }
+        } else if (!reportCode.equals(other.reportCode)) {
+            return false;
+        }
         if (templateReportTermId == null) {
-            if (other.templateReportTermId != null) return false;
-        } else if (!templateReportTermId.equals(other.templateReportTermId)) return false;
+            if (other.templateReportTermId != null) {
+                return false;
+            }
+        } else if (!templateReportTermId.equals(other.templateReportTermId)) {
+            return false;
+        }
         return true;
     }
 
@@ -377,8 +481,10 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
     }
 
     /**
-     * Unlike <CODE>equals(Object)</CODE>, this method only compares the fields a user has to fill in in order to add
-     * a new <CODE>AwardReportTerm</CODE>: Report Type, Frequency, Frequency Base, OSP File Copy, and Due Date.
+     * Unlike <CODE>equals(Object)</CODE>, this method only compares the fields
+     * a user has to fill in in order to add a new <CODE>AwardReportTerm</CODE>:
+     * Report Type, Frequency, Frequency Base, OSP File Copy, and Due Date.
+     *
      * @param otherReportTerm
      * @return
      */

@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.proposaldevelopment.printing.xmlstream;
 
@@ -92,14 +108,14 @@ import java.util.*;
  * This class generates XML that confirms with the RaR XSD related to Proposal
  * Submission Report or Sponsor Report. The data for XML is derived from
  * {@link ResearchDocumentBase} and {@link Map} of details passed to the class.
- * 
- * 
+ *
+ *
  */
 public class NIHResearchAndRelatedXmlStream extends
-AbstractResearchAndRelatedStream {
+        AbstractResearchAndRelatedStream {
 
     private static final Log LOG = LogFactory
-    .getLog(NIHResearchAndRelatedXmlStream.class);
+            .getLog(NIHResearchAndRelatedXmlStream.class);
 
     private static final String ORGANIZATION_QUESTION_ID_H5 = "H5";
     private static final String ORGANIZATION_QUESTION_ID_I8 = "I8";
@@ -143,11 +159,9 @@ AbstractResearchAndRelatedStream {
      * Report. It uses data passed in {@link ResearchDocumentBase} for
      * populating the XML nodes. The XMl once generated is returned as
      * {@link XmlObject}
-     * 
-     * @param printableBusinessObject
-     *            using which XML is generated
-     * @param reportParameters
-     *            parameters related to XML generation
+     *
+     * @param printableBusinessObject using which XML is generated
+     * @param reportParameters parameters related to XML generation
      * @return {@link XmlObject} representing the XML
      */
     public Map<String, XmlObject> generateXmlStream(
@@ -155,10 +169,10 @@ AbstractResearchAndRelatedStream {
         DevelopmentProposal developmentProposal = (DevelopmentProposal) printableBusinessObject;
         Budget budget = getBudget(developmentProposal.getProposalDocument());
         ResearchAndRelatedProjectDocument researchAndRelatedProjectDocument = ResearchAndRelatedProjectDocument.Factory
-        .newInstance();
+                .newInstance();
         researchAndRelatedProjectDocument
-        .setResearchAndRelatedProject(getResearchAndRelatedProject(
-                developmentProposal, budget));
+                .setResearchAndRelatedProject(getResearchAndRelatedProject(
+                                developmentProposal, budget));
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
         xmlObjectList.put(REPORT_NAME, researchAndRelatedProjectDocument);
         return xmlObjectList;
@@ -171,7 +185,7 @@ AbstractResearchAndRelatedStream {
      * keyPerson.
      */
     private ResearchAndRelatedProject getResearchAndRelatedProject(
-            DevelopmentProposal developmentProposal,Budget budget) {
+            DevelopmentProposal developmentProposal, Budget budget) {
         ResearchAndRelatedProject researchAndRelatedProject = ResearchAndRelatedProject.Factory.newInstance();
         researchAndRelatedProject.setProjectDescription(getProjectDescription(developmentProposal));
         researchAndRelatedProject.setOrgAssurances(getOrgAssurances(developmentProposal));
@@ -182,18 +196,18 @@ AbstractResearchAndRelatedStream {
         researchAndRelatedProject.setNSFProjectDuration(getNSFProjectDuration(developmentProposal));
         researchAndRelatedProject.setNihInventions(getNihInventions(developmentProposal));
         Award award = null;
-        if(developmentProposal.getCurrentAwardNumber()!=null){
+        if (developmentProposal.getCurrentAwardNumber() != null) {
             award = getAward(developmentProposal.getCurrentAwardNumber());
         }
         if (award != null) {
             AwardAmountInfo amountInfo = getMaxAwardAmountInfo(award);
-            if(amountInfo!=null){
-                if(amountInfo.getCurrentFundEffectiveDate()!=null){
+            if (amountInfo != null) {
+                if (amountInfo.getCurrentFundEffectiveDate() != null) {
                     Calendar totalProjectStartDate = Calendar.getInstance();
                     totalProjectStartDate.setTime(amountInfo.getCurrentFundEffectiveDate());
                     researchAndRelatedProject.setTotalProjectStartDt(totalProjectStartDate);
                 }
-                if(amountInfo.getFinalExpirationDate()!=null){
+                if (amountInfo.getFinalExpirationDate() != null) {
                     Calendar totalProjectEndDate = Calendar.getInstance();
                     totalProjectEndDate.setTime(amountInfo.getFinalExpirationDate());
                     researchAndRelatedProject.setTotalProjectEndDt(totalProjectEndDate);
@@ -206,28 +220,29 @@ AbstractResearchAndRelatedStream {
         } catch (ParseException e) {
             LOG.error("Unable to parse String date", e);
         }
-        researchAndRelatedProject.setBudgetSummary(getBudgetSummary(budget,developmentProposal));
+        researchAndRelatedProject.setBudgetSummary(getBudgetSummary(budget, developmentProposal));
         return researchAndRelatedProject;
     }
-    protected boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
-        String proposalTypeCodeRenewal = 
-            parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
-        String proposalTypeCodeRevision = 
-            parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
-        String proposalTypeCodeContinuation = 
-            parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
 
-        return !StringUtils.isEmpty(proposalTypeCode) &&
-        (proposalTypeCode.equals(proposalTypeCodeRenewal) ||
-                proposalTypeCode.equals(proposalTypeCodeRevision) ||
-                proposalTypeCode.equals(proposalTypeCodeContinuation));
-    }  
+    protected boolean isProposalTypeRenewalRevisionContinuation(String proposalTypeCode) {
+        String proposalTypeCodeRenewal
+                = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
+        String proposalTypeCodeRevision
+                = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
+        String proposalTypeCodeContinuation
+                = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
+
+        return !StringUtils.isEmpty(proposalTypeCode)
+                && (proposalTypeCode.equals(proposalTypeCodeRenewal)
+                || proposalTypeCode.equals(proposalTypeCodeRevision)
+                || proposalTypeCode.equals(proposalTypeCodeContinuation));
+    }
 
     private void setNIHDeatils(
             ResearchAndRelatedProject researchAndRelatedProject,
             DevelopmentProposal developmentProposal) {
         String proposalTypeCode = developmentProposal.getProposalTypeCode();
-        String federalId  = getS2SUtilService().getFederalId(developmentProposal.getProposalDocument());
+        String federalId = getS2SUtilService().getFederalId(developmentProposal.getProposalDocument());
         researchAndRelatedProject.setNihPriorGrantNumber(federalId);
         //		if (ProposalType.RESUBMISSION_TYPE_CODE.equals(proposalTypeCode)) {
         //			InstitutionalProposal institutionalProposal = getMaxInstitutionalProposal(developmentProposal);
@@ -239,13 +254,13 @@ AbstractResearchAndRelatedStream {
 
         if (isProposalTypeRenewalRevisionContinuation(proposalTypeCode)) {
             String federalIdComesFromAwardStr = parameterService
-            .getParameterValueAsString(ProposalDevelopmentDocument.class,"FEDERAL_ID_COMES_FROM_CURRENT_AWARD");
+                    .getParameterValueAsString(ProposalDevelopmentDocument.class, "FEDERAL_ID_COMES_FROM_CURRENT_AWARD");
             if ("Y".equalsIgnoreCase(federalIdComesFromAwardStr)) {
                 String currentAwardNumber = developmentProposal.getCurrentAwardNumber();
                 Award award = getAward(currentAwardNumber);
-                if(award!=null){
+                if (award != null) {
                     String sponsorAwardNumber = award.getSponsorAwardNumber(); // setNihPriorGrantNumber
-                    if(sponsorAwardNumber!=null && sponsorAwardNumber.length()>5){
+                    if (sponsorAwardNumber != null && sponsorAwardNumber.length() > 5) {
                         String activityCode = sponsorAwardNumber.substring(2, 5); // setNihActivityCode
                         String awardType = sponsorAwardNumber.substring(0, 1); // setNihApplicationTypeCode
                         researchAndRelatedProject.setNihActivityCode(activityCode);
@@ -285,10 +300,8 @@ AbstractResearchAndRelatedStream {
     }
 
     /**
-     * @param Start
-     *            Date
-     * @param End
-     *            Date
+     * @param Start Date
+     * @param End Date
      * @return Difference of the Months of the Dates.
      */
     private BigDecimal getMonthsBetweenDates(Date pFrom, Date pTo) {
@@ -297,10 +310,12 @@ AbstractResearchAndRelatedStream {
         calendarStart.setTimeInMillis(pFrom.getTime());
         Calendar calendarEnd = Calendar.getInstance();
         calendarEnd.setTimeInMillis(pTo.getTime());
-        int yd = 12*( calendarEnd.get(Calendar.YEAR) - calendarStart.get(Calendar.YEAR));
-        int md = (calendarEnd.get( Calendar.MONTH ) - calendarStart.get( Calendar.MONTH ));
-        int dd = (calendarEnd.get( Calendar.DAY_OF_MONTH ) - calendarStart.get( Calendar.DAY_OF_MONTH ));
-        if(dd>=15) md++;
+        int yd = 12 * (calendarEnd.get(Calendar.YEAR) - calendarStart.get(Calendar.YEAR));
+        int md = (calendarEnd.get(Calendar.MONTH) - calendarStart.get(Calendar.MONTH));
+        int dd = (calendarEnd.get(Calendar.DAY_OF_MONTH) - calendarStart.get(Calendar.DAY_OF_MONTH));
+        if (dd >= 15) {
+            md++;
+        }
         int result = yd + md;
         projectDuration = new BudgetDecimal(result);
         return projectDuration.setScale(0).bigDecimalValue();
@@ -351,7 +366,7 @@ AbstractResearchAndRelatedStream {
             DevelopmentProposal developmentProposal, Budget budget) {
         List<ProposalPersonType> proposalPersonTypeList = new ArrayList<ProposalPersonType>();
         List<ProposalPerson> proposalPersons = developmentProposal
-        .getProposalPersons();
+                .getProposalPersons();
         for (ProposalPerson proposalPerson : proposalPersons) {
             proposalPersonTypeList.add(getProposalPersonTypeWithValues(
                     developmentProposal, proposalPerson, budget));
@@ -363,18 +378,18 @@ AbstractResearchAndRelatedStream {
             DevelopmentProposal developmentProposal,
             ProposalPerson proposalPerson, Budget budget) {
         ProposalPersonType proposalPersonType = ProposalPersonType.Factory
-        .newInstance();
+                .newInstance();
         String degree = getDegree(proposalPerson);
         proposalPersonType.setDegree(degree);
         proposalPersonType.setEmail(proposalPerson.getEmailAddress());
         proposalPersonType
-        .setName(getProposalPersonFullNameType(proposalPerson));
+                .setName(getProposalPersonFullNameType(proposalPerson));
         proposalPersonType.setPhone(proposalPerson.getPhoneNumber());
-        if(PROJECT_ROLE_PI.equals(proposalPerson.getProposalPersonRoleId())){
+        if (PROJECT_ROLE_PI.equals(proposalPerson.getProposalPersonRoleId())) {
             proposalPersonType.setProjectRole(ProjectRoleType.PI_PD);
-        }else if(PROJECT_ROLE_COI.equals(proposalPerson.getProposalPersonRoleId())){
+        } else if (PROJECT_ROLE_COI.equals(proposalPerson.getProposalPersonRoleId())) {
             proposalPersonType.setProjectRole(ProjectRoleType.CO_PI_PD);
-        }else{
+        } else {
             proposalPersonType.setProjectRole(ProjectRoleType.KEY_PERSON);
         }
 
@@ -386,7 +401,7 @@ AbstractResearchAndRelatedStream {
         BudgetDecimal calendarMonths = BudgetDecimal.ZERO;
         BudgetDecimal academicMonths = BudgetDecimal.ZERO;
         BudgetDecimal summerMonths = BudgetDecimal.ZERO;
-        if(budget!=null)
+        if (budget != null) {
             for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
                 if (budgetPeriod.getBudgetPeriod().intValue() == 1) {
                     for (BudgetLineItem lineItem : budgetPeriod
@@ -398,26 +413,29 @@ AbstractResearchAndRelatedStream {
                                 proposalPersonType.setRequestedCost(budgetPersonnelDetails.getSalaryRequested().bigDecimalValue());
                                 if (ACADEMIC_PERIOD.equals(budgetPersonnelDetails.getPeriodTypeCode())) {
                                     academicMonths = academicMonths.add(budgetPersonnelDetails.getPercentEffort().multiply(new BudgetDecimal("0.01"))
-                                            .multiply(getNumberOfMonths(budgetPersonnelDetails.getStartDate(),budgetPersonnelDetails.getEndDate())));
+                                            .multiply(getNumberOfMonths(budgetPersonnelDetails.getStartDate(), budgetPersonnelDetails.getEndDate())));
                                 } else if (CALENDAR_PERIOD.equals(budgetPersonnelDetails.getPeriodTypeCode())) {
                                     calendarMonths = calendarMonths.add(budgetPersonnelDetails.getPercentEffort().multiply(new BudgetDecimal("0.01"))
-                                            .multiply(getNumberOfMonths(budgetPersonnelDetails.getStartDate(),budgetPersonnelDetails.getEndDate())));
-                                } else
+                                            .multiply(getNumberOfMonths(budgetPersonnelDetails.getStartDate(), budgetPersonnelDetails.getEndDate())));
+                                } else {
                                     summerMonths = summerMonths.add(budgetPersonnelDetails.getPercentEffort().multiply(new BudgetDecimal("0.01"))
-                                            .multiply(getNumberOfMonths(budgetPersonnelDetails.getStartDate(),budgetPersonnelDetails.getEndDate())));
+                                            .multiply(getNumberOfMonths(budgetPersonnelDetails.getStartDate(), budgetPersonnelDetails.getEndDate())));
+                                }
                             }
                         }
                     }
                 }
             }
+        }
         proposalPersonType.setAcademicFundingMonths(academicMonths.bigDecimalValue().setScale(2));
-        proposalPersonType.setSummerFundingMonths(summerMonths.bigDecimalValue().setScale(2));		
+        proposalPersonType.setSummerFundingMonths(summerMonths.bigDecimalValue().setScale(2));
         proposalPersonType.setFundingMonths(calendarMonths.bigDecimalValue().setScale(2, RoundingMode.HALF_UP));
         return proposalPersonType;
     }
 
     /**
      * This method...
+     *
      * @param proposalPerson
      * @return
      */
@@ -425,21 +443,19 @@ AbstractResearchAndRelatedStream {
         List<ProposalPersonDegree> proposalPersonDegress = proposalPerson.getProposalPersonDegrees();
         String degree = null;
         for (ProposalPersonDegree proposalPersonDegree : proposalPersonDegress) {
-            degree = degree==null?proposalPersonDegree.getDegree():degree+","+proposalPersonDegree.getDegree(); 
+            degree = degree == null ? proposalPersonDegree.getDegree() : degree + "," + proposalPersonDegree.getDegree();
         }
         return degree;
     }
 
     /**
-     * 
+     *
      * This method computes the number of months between any 2 given
      * {@link Date} objects
-     * 
-     * @param dateStart
-     *            starting date.
-     * @param dateEnd
-     *            end date.
-     * 
+     *
+     * @param dateStart starting date.
+     * @param dateEnd end date.
+     *
      * @return number of months between the start date and end date.
      */
     private BudgetDecimal getNumberOfMonths(Date dateStart, Date dateEnd) {
@@ -465,17 +481,17 @@ AbstractResearchAndRelatedStream {
             return BudgetDecimal.ZERO;
         }
         int startMonthDays = startDate.getActualMaximum(Calendar.DATE)
-        - startDate.get(Calendar.DATE);
+                - startDate.get(Calendar.DATE);
         startMonthDays++;
         int startMonthMaxDays = startDate.getActualMaximum(Calendar.DATE);
         BudgetDecimal startMonthFraction = new BudgetDecimal(startMonthDays)
-        .divide(new BudgetDecimal(startMonthMaxDays));
+                .divide(new BudgetDecimal(startMonthMaxDays));
 
         int endMonthDays = endDate.get(Calendar.DATE);
         int endMonthMaxDays = endDate.getActualMaximum(Calendar.DATE);
 
         BudgetDecimal endMonthFraction = new BudgetDecimal(endMonthDays)
-        .divide(new BudgetDecimal(endMonthMaxDays));
+                .divide(new BudgetDecimal(endMonthMaxDays));
 
         startDate.set(Calendar.DATE, 1);
         endDate.set(Calendar.DATE, 1);
@@ -493,7 +509,7 @@ AbstractResearchAndRelatedStream {
     private PersonFullNameType getProposalPersonFullNameType(
             ProposalPerson proposalPerson) {
         PersonFullNameType personFullNameType = PersonFullNameType.Factory
-        .newInstance();
+                .newInstance();
         personFullNameType.setFirstName(proposalPerson.getFirstName());
         personFullNameType.setLastName(proposalPerson.getLastName());
         personFullNameType.setMiddleName(proposalPerson.getMiddleName());
@@ -522,9 +538,9 @@ AbstractResearchAndRelatedStream {
         sortKeyPersonWithName(propKeyPersons);
         sortKeyPersonWithName(propInvestigators);
         List<KeyPersonType> keyPersonPIList = getKeyPersonForPropInvestigator(
-                developmentProposal, propPIs,true);
+                developmentProposal, propPIs, true);
         List<KeyPersonType> keyPersonInvestigatorList = getKeyPersonForPropInvestigator(
-                developmentProposal, propInvestigators,false);
+                developmentProposal, propInvestigators, false);
         List<KeyPersonType> keyPersonKeyPersonList = getKeyPersonForPropKeyPerson(
                 developmentProposal, propKeyPersons);
         List<KeyPersonType> allKeyPersonList = new ArrayList<KeyPersonType>();
@@ -534,7 +550,7 @@ AbstractResearchAndRelatedStream {
         return allKeyPersonList.toArray(new KeyPersonType[0]);
     }
 
-    private List<KeyPersonType> getKeyPersonForPropKeyPerson(DevelopmentProposal developmentProposal,List<ProposalPerson> proposalKeyPersons) {
+    private List<KeyPersonType> getKeyPersonForPropKeyPerson(DevelopmentProposal developmentProposal, List<ProposalPerson> proposalKeyPersons) {
         List<KeyPersonType> keyPersonlist = new ArrayList<KeyPersonType>();
         for (ProposalPerson proposalPerson : proposalKeyPersons) {
             KeyPersonType keyPersonType = KeyPersonType.Factory.newInstance();
@@ -553,15 +569,14 @@ AbstractResearchAndRelatedStream {
             keyPersonType.setOrganizationName(organization.getOrganizationName());
             if (proposalPerson.getPrimaryTitle() != null) {
                 keyPersonType
-                .setPositionTitle(proposalPerson.getPrimaryTitle());
+                        .setPositionTitle(proposalPerson.getPrimaryTitle());
             }
-            setBiographicalSketch(proposalPerson,keyPersonType);
+            setBiographicalSketch(proposalPerson, keyPersonType);
             keyPersonType.setOrganizationDivision(getMajorSubDivision(getLeadUnit(developmentProposal)));
             setDegree(proposalPerson, keyPersonType);
             if (proposalPerson.getEraCommonsUserName() == null) {
                 keyPersonType.setAccountIdentifier("Unknown");
-            }
-            else {
+            } else {
                 keyPersonType.setAccountIdentifier(proposalPerson.getEraCommonsUserName());
             }
 
@@ -588,7 +603,7 @@ AbstractResearchAndRelatedStream {
         UnitService unitService = KraServiceLocator.getService(UnitService.class);
         List<Unit> units = unitService.getAllSubUnits("000001");
         for (Unit unit : units) {
-            if(unit.getUnitNumber().equals(leadUnit)){
+            if (unit.getUnitNumber().equals(leadUnit)) {
                 return unit.getParentUnitNumber();
             }
         }
@@ -606,7 +621,7 @@ AbstractResearchAndRelatedStream {
      */
     private List<KeyPersonType> getKeyPersonForPropInvestigator(
             DevelopmentProposal developmentProposal,
-            List<ProposalPerson> proposalPersonList,boolean piFlag) {
+            List<ProposalPerson> proposalPersonList, boolean piFlag) {
         List<KeyPersonType> keyPersonTypeList = new ArrayList<KeyPersonType>();
         for (ProposalPerson proposalPerson : proposalPersonList) {
             KeyPersonType keyPersonType = KeyPersonType.Factory.newInstance();
@@ -616,7 +631,7 @@ AbstractResearchAndRelatedStream {
             keyPersonType.setContactInformation(contactInfoType);
             setBiographicalSketch(proposalPerson, keyPersonType);
             KeyPersonFlag keyPersonFlag = getKeyPersonFlag(proposalPerson);
-            if(piFlag){
+            if (piFlag) {
                 keyPersonFlag.setKeyPersonFlagDesc("PI");
             }
             keyPersonType.setKeyPersonFlag(keyPersonFlag);
@@ -631,15 +646,14 @@ AbstractResearchAndRelatedStream {
             keyPersonType.setOrganizationDivision(getMajorSubDivision(getLeadUnit(developmentProposal)));
             if (proposalPerson.getPrimaryTitle() != null) {
                 keyPersonType
-                .setPositionTitle(proposalPerson.getPrimaryTitle());
+                        .setPositionTitle(proposalPerson.getPrimaryTitle());
             }
-            setBiographicalSketch(proposalPerson,keyPersonType);
+            setBiographicalSketch(proposalPerson, keyPersonType);
             keyPersonType.setOrganizationDivision(getMajorSubDivision(getLeadUnit(developmentProposal)));
             setDegree(proposalPerson, keyPersonType);
             if (proposalPerson.getEraCommonsUserName() == null) {
                 keyPersonType.setAccountIdentifier("Unknown");
-            }
-            else {
+            } else {
                 keyPersonType.setAccountIdentifier(proposalPerson.getEraCommonsUserName());
             }
 
@@ -653,16 +667,16 @@ AbstractResearchAndRelatedStream {
      * BudgetSummaryType from budget and budgetPeriod which having final
      * versionFlag enable.
      */
-    private BudgetSummaryType getBudgetSummary(Budget budget,DevelopmentProposal developmentProposal) {
+    private BudgetSummaryType getBudgetSummary(Budget budget, DevelopmentProposal developmentProposal) {
         BudgetSummaryType budgetSummaryType = BudgetSummaryType.Factory.newInstance();
         if (budget != null) {
             BudgetPeriod budgetPeriod = budget.getBudgetPeriod(0);
             budgetSummaryType.setInitialBudgetTotals(getBudgetTotals(budgetPeriod.getTotalCost(), budgetPeriod.getCostSharingAmount()));
             budgetSummaryType.setAllBudgetTotals(getBudgetTotals(budget.getTotalCost(), budget.getCostSharingAmount()));
             budgetSummaryType.setBudgetIndirectCostsTotal(budget.getTotalIndirectCost().bigDecimalValue());
-            budgetSummaryType.setBudgetPeriodArray(getBudgetPeriodArray(developmentProposal,budget.getBudgetPeriods()));
+            budgetSummaryType.setBudgetPeriodArray(getBudgetPeriodArray(developmentProposal, budget.getBudgetPeriods()));
             budgetSummaryType.setBudgetJustification(getBudgetJustification(developmentProposal.getProposalNumber()));
-            setAllNSFSeniorPersonnels(developmentProposal,budget,budgetSummaryType);
+            setAllNSFSeniorPersonnels(developmentProposal, budget, budgetSummaryType);
             budgetSummaryType.setModularBudgetQuestion(budget.getModularBudgetFlag());
             budgetSummaryType.setBudgetCostsTotal(budget.getTotalCost().bigDecimalValue());
             budgetSummaryType.setBudgetDirectCostsTotal(budget.getTotalDirectCost().bigDecimalValue());
@@ -679,7 +693,7 @@ AbstractResearchAndRelatedStream {
 
         for (KeyPersonInfo keyPersonInfo : nsfSeniorPersons) {
             NSFSeniorPersonnelType nsfSeniorPersonnel = budgetSummaryType.addNewNSFSeniorPersonnel();
-            setNSFSeniorPersonnel(keyPersonInfo, nsfSeniorPersonnel,rowNumber++);
+            setNSFSeniorPersonnel(keyPersonInfo, nsfSeniorPersonnel, rowNumber++);
             totalFringe = totalFringe.add(keyPersonInfo.getFringe());
             totalSalary = totalSalary.add(keyPersonInfo.getRequestedSalary());
         }
@@ -700,13 +714,13 @@ AbstractResearchAndRelatedStream {
                 noAgreement.setAgencyName(getS2SUtilService().getCognizantFedAgency(developmentProposal));
                 if (orgBean.getIndirectCostRateAgreement() == null) {
                     noAgreement
-                    .setAgreementDate(getDateTimeService().getCalendar(getDateTimeService().convertToDate("1900-01-01")));
-                }
-                else
+                            .setAgreementDate(getDateTimeService().getCalendar(getDateTimeService().convertToDate("1900-01-01")));
+                } else {
                     noAgreement.setAgreementDate(getDateTimeService().getCalendar(
                             getDateTimeService().convertToDate(orgBean.getIndirectCostRateAgreement())));
+                }
                 indirectCost.setNoDHHSAgreement(noAgreement);
-            }else {
+            } else {
                 // agreement is with DHHS
                 // check agreement date . If there is no date, assume that negotiations are in process,
                 // and take the agency with whom negotiations are being conducted from the rolodex entry of the
@@ -714,53 +728,55 @@ AbstractResearchAndRelatedStream {
                 if (orgBean.getIndirectCostRateAgreement() != null) {
                     indirectCost.setDHHSAgreementDate(getDateTimeService().getCalendar(
                             getDateTimeService().convertToDate(orgBean.getIndirectCostRateAgreement())));
-                }else {
+                } else {
                     indirectCost.setDHHSAgreementNegotiationOffice(getS2SUtilService().getCognizantFedAgency(developmentProposal));
                 }
             }
-        }catch (ParseException e) {
+        } catch (ParseException e) {
             LOG.error(e);
         }
         return indirectCost;
     }
 
     private int setNSFSeniorPersonnels(DevelopmentProposal developmentProposal, BudgetPeriod budgetPeriod,
-            gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod  BudgetPeriodType) {
+            gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod BudgetPeriodType) {
         List<KeyPersonInfo> nsfSeniorPersons = getBudgetPersonsForCategoryMap(developmentProposal, budgetPeriod, "01", "NSF_PRINTING");
         int rowNumber = 0;
         int period = budgetPeriod.getBudgetPeriod();
         for (KeyPersonInfo keyPersonInfo : nsfSeniorPersons) {
-             setNSFSeniorPersonnel(keyPersonInfo, BudgetPeriodType.addNewNSFSeniorPersonnel(),rowNumber++,period);
+            setNSFSeniorPersonnel(keyPersonInfo, BudgetPeriodType.addNewNSFSeniorPersonnel(), rowNumber++, period);
         }
         return rowNumber;
     }
-    public void setNSFSeniorPersonnel(KeyPersonInfo seniorPersonnelBean,NSFSeniorPersonnelType nsfSeniorPersonnelType, int rowNumber,int period){
-        if(period <= BUDGET_PERIOD_5){
-        cumulativeCalendarMonthsFunded = cumulativeCalendarMonthsFunded.add(seniorPersonnelBean.getCalendarMonths());
+
+    public void setNSFSeniorPersonnel(KeyPersonInfo seniorPersonnelBean, NSFSeniorPersonnelType nsfSeniorPersonnelType, int rowNumber, int period) {
+        if (period <= BUDGET_PERIOD_5) {
+            cumulativeCalendarMonthsFunded = cumulativeCalendarMonthsFunded.add(seniorPersonnelBean.getCalendarMonths());
         }
         nsfSeniorPersonnelType.setFullName(getFullName(seniorPersonnelBean));
-        nsfSeniorPersonnelType.setTitle(seniorPersonnelBean.getRole());      
-        nsfSeniorPersonnelType.setAcademicMonthsFunded( seniorPersonnelBean.getAcademicMonths().bigDecimalValue());     
-        nsfSeniorPersonnelType.setCalendarMonthsFunded( seniorPersonnelBean.getCalendarMonths().bigDecimalValue());         
-        nsfSeniorPersonnelType.setSummerMonthsFunded(seniorPersonnelBean.getSummerMonths().bigDecimalValue()); 
+        nsfSeniorPersonnelType.setTitle(seniorPersonnelBean.getRole());
+        nsfSeniorPersonnelType.setAcademicMonthsFunded(seniorPersonnelBean.getAcademicMonths().bigDecimalValue());
+        nsfSeniorPersonnelType.setCalendarMonthsFunded(seniorPersonnelBean.getCalendarMonths().bigDecimalValue());
+        nsfSeniorPersonnelType.setSummerMonthsFunded(seniorPersonnelBean.getSummerMonths().bigDecimalValue());
         nsfSeniorPersonnelType.setFundsRequested(seniorPersonnelBean.getRequestedSalary().bigDecimalValue());
         nsfSeniorPersonnelType.setPersonID(seniorPersonnelBean.getPersonId());
         nsfSeniorPersonnelType.setRownumber(BigInteger.valueOf(rowNumber));
     }
-    
-    public void setNSFSeniorPersonnel(KeyPersonInfo seniorPersonnelBean,NSFSeniorPersonnelType nsfSeniorPersonnelType, int rowNumber){
+
+    public void setNSFSeniorPersonnel(KeyPersonInfo seniorPersonnelBean, NSFSeniorPersonnelType nsfSeniorPersonnelType, int rowNumber) {
         nsfSeniorPersonnelType.setFullName(getFullName(seniorPersonnelBean));
-        nsfSeniorPersonnelType.setTitle(seniorPersonnelBean.getRole());      
-        nsfSeniorPersonnelType.setAcademicMonthsFunded( seniorPersonnelBean.getAcademicMonths().bigDecimalValue()); 
-        nsfSeniorPersonnelType.setCalendarMonthsFunded(seniorPersonnelBean.getCalendarMonths().bigDecimalValue());           
-        nsfSeniorPersonnelType.setSummerMonthsFunded(seniorPersonnelBean.getSummerMonths().bigDecimalValue()); 
+        nsfSeniorPersonnelType.setTitle(seniorPersonnelBean.getRole());
+        nsfSeniorPersonnelType.setAcademicMonthsFunded(seniorPersonnelBean.getAcademicMonths().bigDecimalValue());
+        nsfSeniorPersonnelType.setCalendarMonthsFunded(seniorPersonnelBean.getCalendarMonths().bigDecimalValue());
+        nsfSeniorPersonnelType.setSummerMonthsFunded(seniorPersonnelBean.getSummerMonths().bigDecimalValue());
         nsfSeniorPersonnelType.setFundsRequested(seniorPersonnelBean.getRequestedSalary().bigDecimalValue());
         nsfSeniorPersonnelType.setPersonID(seniorPersonnelBean.getPersonId());
         nsfSeniorPersonnelType.setRownumber(BigInteger.valueOf(rowNumber));
         cumulativeCalendarMonthsFunded = BudgetDecimal.ZERO;
     }
+
     private String getFullName(KeyPersonInfo seniorPersonnelBean) {
-        return seniorPersonnelBean.getLastName() + ", "+seniorPersonnelBean.getFirstName();
+        return seniorPersonnelBean.getLastName() + ", " + seniorPersonnelBean.getFirstName();
     }
 
     /*
@@ -768,72 +784,75 @@ AbstractResearchAndRelatedStream {
      * BudgetPeriodType data from budgetPeriod data
      */
     private gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod[] getBudgetPeriodArray(
-            DevelopmentProposal developmentProposal,List<BudgetPeriod> budgetPeriodList) {
-        List<gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod> budgetPeriods = 
-            new ArrayList<gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod>();
+            DevelopmentProposal developmentProposal, List<BudgetPeriod> budgetPeriodList) {
+        List<gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod> budgetPeriods
+                = new ArrayList<gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod>();
         for (BudgetPeriod budgetPeriod : budgetPeriodList) {
             Budget budget = budgetPeriod.getBudget();
             if (budgetPeriod.getBudgetPeriod() != null) {
                 List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
-                gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod budgetPeriodType = 
-                    gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod.Factory.newInstance();
+                gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod budgetPeriodType
+                        = gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod.Factory.newInstance();
                 budgetPeriodType.setBudgetPeriodID(BigInteger.valueOf(budgetPeriod.getBudgetPeriod()));
                 budgetPeriodType.setStartDate(getDateTimeService().getCalendar(budgetPeriod.getStartDate()));
                 budgetPeriodType.setEndDate(getDateTimeService().getCalendar(budgetPeriod.getEndDate()));
                 budgetPeriodType.setFee(new BigDecimal(0));
-                setSalaryAndWages(developmentProposal,budget,budgetPeriod,budgetPeriodType);
+                setSalaryAndWages(developmentProposal, budget, budgetPeriod, budgetPeriodType);
                 //				budgetPeriodType.setSalariesWagesTotal(getSalaryWagesTotal(budgetLineItems));
                 //				budgetPeriodType.setSalariesAndWagesArray(getSalaryAndWages(developmentProposal,budget,budgetPeriod));
                 budgetPeriodType.setEquipmentTotal(getEquipmentTotal(budgetLineItems));
                 budgetPeriodType.setEquipmentCostsArray(getEquipmentCosts(budgetLineItems));
-                budgetPeriodType.setOtherDirectCostsArray(getOtherDirectCosts(developmentProposal,budgetLineItems));
-                setNonPersonnelLACost(budgetLineItems,budgetPeriodType);
+                budgetPeriodType.setOtherDirectCostsArray(getOtherDirectCosts(developmentProposal, budgetLineItems));
+                setNonPersonnelLACost(budgetLineItems, budgetPeriodType);
                 budgetPeriodType.setOtherDirectTotal(getOtherDirectTotal(budgetLineItems));
                 budgetPeriodType.setTravelCostsArray(getTravelCosts(budgetLineItems));
                 budgetPeriodType.setTravelTotal(getTravelTotal(budgetLineItems));
-                budgetPeriodType.setParticipantPatientCostsArray(getParticipantPatientCost(developmentProposal,budgetLineItems));
+                budgetPeriodType.setParticipantPatientCostsArray(getParticipantPatientCost(developmentProposal, budgetLineItems));
                 budgetPeriodType.setParticipantPatientTotal(getParticipantPatientTotal(budgetLineItems));
                 budgetPeriodType.setNumberOfParticipants(BigInteger.valueOf(budgetPeriod.getNumberOfParticipants() == null ? 0 : budgetPeriod.getNumberOfParticipants()));
                 budgetPeriodType.setPeriodDirectCostsTotal(budgetPeriod.getTotalDirectCost().bigDecimalValue());
                 budgetPeriodType.setIndirectCostsTotal(budgetPeriod.getTotalIndirectCost().bigDecimalValue());
-                setIndirectCostDetails(budgetPeriod,budgetPeriodType);
+                setIndirectCostDetails(budgetPeriod, budgetPeriodType);
                 budgetPeriodType.setPeriodCostsTotal(budgetPeriod.getTotalCost().bigDecimalValue());
                 budgetPeriodType.setProgramIncome(new BigDecimal(0));
-                budgetPeriodType.setConsortiumCosts(getConsortiumCosts(developmentProposal,budgetPeriod));
+                budgetPeriodType.setConsortiumCosts(getConsortiumCosts(developmentProposal, budgetPeriod));
                 int count = setNSFSeniorPersonnels(developmentProposal, budgetPeriod, budgetPeriodType);
                 budgetPeriodType.setNSFTotalSeniorPersonnel(BigInteger.valueOf(count));
-                setNSFOtherPersonnels(developmentProposal,budgetPeriod,budgetPeriodType);
-                setSalarySubTotals(budgetPeriod,budgetPeriodType);
-                setProgramIncome(budgetPeriod,budgetPeriodType);
+                setNSFOtherPersonnels(developmentProposal, budgetPeriod, budgetPeriodType);
+                setSalarySubTotals(budgetPeriod, budgetPeriodType);
+                setProgramIncome(budgetPeriod, budgetPeriodType);
 
                 budgetPeriods.add(budgetPeriodType);
             }
         }
         return budgetPeriods.toArray(new gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod[0]);
     }
-    class IndirectCostDetailsBean{
+
+    class IndirectCostDetailsBean {
+
         private BudgetDecimal baseAmount = BudgetDecimal.ZERO;
         private BudgetDecimal rate = BudgetDecimal.ZERO;
         private BudgetDecimal fund = BudgetDecimal.ZERO;
         private String rateTypeDescription;
     }
+
     private void setIndirectCostDetails(BudgetPeriod budgetPeriod,
             gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod budgetPeriodType) {
         Budget budget = budgetPeriod.getBudget();
-        Map<String,IndirectCostDetailsBean> ohAmountsMap = new HashMap<String,IndirectCostDetailsBean>();
-        if(budget.getModularBudgetFlag()){
+        Map<String, IndirectCostDetailsBean> ohAmountsMap = new HashMap<String, IndirectCostDetailsBean>();
+        if (budget.getModularBudgetFlag()) {
             BudgetModular budgetModular = budgetPeriod.getBudgetModular();
             List<BudgetModularIdc> budgetModularIdcs = budgetModular.getBudgetModularIdcs();
             for (BudgetModularIdc budgetModularIdc : budgetModularIdcs) {
-                String key = budgetModularIdc.getDescription()+budgetModularIdc.getIdcRate();
-                if(ohAmountsMap.get(key)==null){
+                String key = budgetModularIdc.getDescription() + budgetModularIdc.getIdcRate();
+                if (ohAmountsMap.get(key) == null) {
                     IndirectCostDetailsBean indcost = new IndirectCostDetailsBean();
                     indcost.rate = budgetModularIdc.getIdcRate();
                     indcost.baseAmount = budgetModularIdc.getIdcBase();
                     indcost.fund = budgetModularIdc.getFundsRequested();
                     indcost.rateTypeDescription = budgetModularIdc.getDescription();
                     ohAmountsMap.put(key, indcost);
-                }else{
+                } else {
                     IndirectCostDetailsBean indcost = ohAmountsMap.get(key);
                     indcost.rate = indcost.rate.add(budgetModularIdc.getIdcRate());
                     indcost.baseAmount = indcost.baseAmount.add(budgetModularIdc.getIdcBase());
@@ -843,23 +862,23 @@ AbstractResearchAndRelatedStream {
 
             }
 
-        }else{
+        } else {
             List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
             for (BudgetLineItem budgetLineItem : budgetLineItems) {
                 //                List<BudgetPersonnelDetails> budgetPersonnelLineItems = budgetLineItem.getBudgetPersonnelDetailsList();
                 //                if(budgetPersonnelLineItems.isEmpty()){
                 List<BudgetRateAndBase> budgetRateAndBases = budgetLineItem.getBudgetRateAndBaseList();
                 for (BudgetRateAndBase budgetRateAndBase : budgetRateAndBases) {
-                    String key = budgetRateAndBase.getRateClassCode()+budgetRateAndBase.getRateTypeCode();
-                    if(budgetRateAndBase.getRateClass().getRateClassType().equals(RateClassType.OVERHEAD.getRateClassType())){
-                        if(ohAmountsMap.get(key)==null){
+                    String key = budgetRateAndBase.getRateClassCode() + budgetRateAndBase.getRateTypeCode();
+                    if (budgetRateAndBase.getRateClass().getRateClassType().equals(RateClassType.OVERHEAD.getRateClassType())) {
+                        if (ohAmountsMap.get(key) == null) {
                             IndirectCostDetailsBean indcost = new IndirectCostDetailsBean();
                             indcost.rate = budgetRateAndBase.getAppliedRate();
                             indcost.baseAmount = budgetRateAndBase.getBaseCost().add(budgetRateAndBase.getBaseCostSharing());
                             indcost.fund = budgetRateAndBase.getCalculatedCost().add(budgetRateAndBase.getCalculatedCostSharing());
                             indcost.rateTypeDescription = budgetRateAndBase.getRateClass().getRateClassTypeDescription();
                             ohAmountsMap.put(key, indcost);
-                        }else{
+                        } else {
                             IndirectCostDetailsBean indcost = ohAmountsMap.get(key);
                             indcost.baseAmount = indcost.baseAmount.add(budgetRateAndBase.getBaseCost()).add(budgetRateAndBase.getBaseCostSharing());
                             indcost.fund = indcost.fund.add(budgetRateAndBase.getCalculatedCost()).add(budgetRateAndBase.getCalculatedCostSharing());
@@ -867,7 +886,7 @@ AbstractResearchAndRelatedStream {
                     }
                 }
                 //                }else{
-                    //                    for (BudgetPersonnelDetails budgetPersonnelDetails : budgetPersonnelLineItems) {
+                //                    for (BudgetPersonnelDetails budgetPersonnelDetails : budgetPersonnelLineItems) {
                 //                        List<BudgetPersonnelRateAndBase> budgetRateAndBases = budgetPersonnelDetails.getBudgetPersonnelRateAndBaseList();
                 //                        for (BudgetPersonnelRateAndBase budgetRateAndBase : budgetRateAndBases) {
                 //                            String key = budgetRateAndBase.getRateClassCode()+budgetRateAndBase.getRateTypeCode();
@@ -895,8 +914,8 @@ AbstractResearchAndRelatedStream {
             String key = iterator.next();
             IndirectCostDetailsBean indirectCostDetailBean = ohAmountsMap.get(key);
             IndirectCostDetails indDetailsType = budgetPeriodType.addNewIndirectCostDetails();
-            indDetailsType.setCostType( indirectCostDetailBean.rateTypeDescription == null ? "UNKNOWN" :
-                indirectCostDetailBean.rateTypeDescription);
+            indDetailsType.setCostType(indirectCostDetailBean.rateTypeDescription == null ? "UNKNOWN"
+                    : indirectCostDetailBean.rateTypeDescription);
             indDetailsType.setBaseAmount(indirectCostDetailBean.baseAmount.bigDecimalValue());
             indDetailsType.setRate(indirectCostDetailBean.rate.bigDecimalValue());
             indDetailsType.setFundsRequested(indirectCostDetailBean.fund.bigDecimalValue());
@@ -909,7 +928,7 @@ AbstractResearchAndRelatedStream {
         List<BudgetProjectIncome> programIncomes = budget.getBudgetProjectIncomes();
         KualiDecimal totalProgIncome = KualiDecimal.ZERO;
         for (BudgetProjectIncome budgetProjectIncome : programIncomes) {
-            if(budgetProjectIncome.getBudgetPeriodNumber().equals(budgetPeriod.getBudgetPeriod())){
+            if (budgetProjectIncome.getBudgetPeriodNumber().equals(budgetPeriod.getBudgetPeriod())) {
                 ProgramIncomeDetails progIncDetailsType = budgetPeriodType.addNewProgramIncomeDetails();
                 progIncDetailsType.setAnticipatedAmount(budgetProjectIncome.getProjectIncome().bigDecimalValue());
                 totalProgIncome = totalProgIncome.add(budgetProjectIncome.getProjectIncome());
@@ -918,17 +937,18 @@ AbstractResearchAndRelatedStream {
         }
         budgetPeriodType.setProgramIncome(totalProgIncome.bigDecimalValue());
     }
-    private ConsortiumCosts getConsortiumCosts(DevelopmentProposal developmentProposal,BudgetPeriod budgetPeriod) {
-        ProposalDevelopmentBudgetExt budget = (ProposalDevelopmentBudgetExt)budgetPeriod.getBudget();
+
+    private ConsortiumCosts getConsortiumCosts(DevelopmentProposal developmentProposal, BudgetPeriod budgetPeriod) {
+        ProposalDevelopmentBudgetExt budget = (ProposalDevelopmentBudgetExt) budgetPeriod.getBudget();
         BudgetDecimal consortiumDirectCost = BudgetDecimal.ZERO;
         BudgetDecimal consortiumIndirectCosts = BudgetDecimal.ZERO;
         ConsortiumCosts consortiumCost = ConsortiumCosts.Factory.newInstance();
-        if(budget.getModularBudgetFlag()){
+        if (budget.getModularBudgetFlag()) {
             BudgetModular budgetModular = budgetPeriod.getBudgetModular();
             consortiumDirectCost = budgetModular.getConsortiumFna();
-        }else{
+        } else {
             boolean isNih = sponsorService.isSponsorNihOsc(developmentProposal) || sponsorService.isSponsorNihMultiplePi(developmentProposal);
-            String mappingName = isNih?"NIH_PRINTING":"NSF_PRINTING";
+            String mappingName = isNih ? "NIH_PRINTING" : "NSF_PRINTING";
 
             String fnaGt25KParamValue = getParameterService().getParameterValueAsString(BudgetDocument.class, "SUBCONTRACTOR_F_AND_A_GT_25K");
             String fnaLt25KParamValue = getParameterService().getParameterValueAsString(BudgetDocument.class, "SUBCONTRACTOR_F_AND_A_LT_25K");
@@ -939,19 +959,20 @@ AbstractResearchAndRelatedStream {
             List<BudgetCategoryMapping> budgetCategoryList = getBudgetCategoryMappings(categoryMap);
             for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
                 for (BudgetCategoryMapping categoryMapping : budgetCategoryList) {
-                    if (categoryMapping.getBudgetCategoryCode().equals(lineItem.getBudgetCategoryCode()))
+                    if (categoryMapping.getBudgetCategoryCode().equals(lineItem.getBudgetCategoryCode())) {
                         consortiumDirectCost = consortiumDirectCost.add(lineItem.getLineItemCost());
-                    if((lineItem.getCostElement().equals(fnaGt25KParamValue) ||
-                            lineItem.getCostElement().equals(fnaLt25KParamValue) ||
-                            lineItem.getCostElement().equals(fnaBroadParamValue))) {
+                    }
+                    if ((lineItem.getCostElement().equals(fnaGt25KParamValue)
+                            || lineItem.getCostElement().equals(fnaLt25KParamValue)
+                            || lineItem.getCostElement().equals(fnaBroadParamValue))) {
                         consortiumIndirectCosts = consortiumIndirectCosts.add(lineItem.getLineItemCost());
                     }
                 }
-            }	        
+            }
 
         }
         consortiumCost.setDirectCosts(consortiumDirectCost.subtract(consortiumIndirectCosts).bigDecimalValue());
-        consortiumCost.setIndirectCosts(consortiumIndirectCosts.bigDecimalValue()); 
+        consortiumCost.setIndirectCosts(consortiumIndirectCosts.bigDecimalValue());
         return consortiumCost;
     }
 
@@ -962,12 +983,12 @@ AbstractResearchAndRelatedStream {
             List<BudgetLineItemCalculatedAmount> calcAmounts = budgetLineItem.getBudgetCalculatedAmounts();
             for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : calcAmounts) {
                 budgetLineItemCalculatedAmount.refreshNonUpdateableReferences();
-                if(budgetLineItemCalculatedAmount.getRateClass().getRateClassType().equals(RateClassType.LAB_ALLOCATION.getRateClassType())){
+                if (budgetLineItemCalculatedAmount.getRateClass().getRateClassType().equals(RateClassType.LAB_ALLOCATION.getRateClassType())) {
                     amount = amount.add(budgetLineItemCalculatedAmount.getCalculatedCost());
                 }
             }
-        } 
-        if(amount.isGreaterThan(BudgetDecimal.ZERO)){
+        }
+        if (amount.isGreaterThan(BudgetDecimal.ZERO)) {
             OtherDirectCosts otherDirectCost = budgetPeriodType.addNewOtherDirectCosts();
             otherDirectCost.setCost(amount.bigDecimalValue());
             otherDirectCost.setDescription("LA M&S and Utilities");
@@ -983,65 +1004,76 @@ AbstractResearchAndRelatedStream {
         budgetPeriodType.setSalarySubtotals(salSubTotals);
 
     }
-    class OtherPersonInfo{
+
+    class OtherPersonInfo {
+
         BudgetDecimal fund = BudgetDecimal.ZERO;
         int count = 0;
+
         /**
-         * Gets the salary attribute. 
+         * Gets the salary attribute.
+         *
          * @return Returns the salary.
          */
         public BudgetDecimal getFund() {
             return fund;
         }
+
         /**
          * Sets the salary attribute value.
+         *
          * @param salary The salary to set.
          */
         public void setFund(BudgetDecimal fund) {
             this.fund = fund;
         }
+
         /**
-         * Gets the count attribute. 
+         * Gets the count attribute.
+         *
          * @return Returns the count.
          */
         public int getCount() {
             return count;
         }
+
         /**
          * Sets the count attribute value.
+         *
          * @param count The count to set.
          */
         public void setCount(int count) {
             this.count = count;
         }
     }
+
     private void setNSFOtherPersonnels(DevelopmentProposal developmentProposal, BudgetPeriod budgetPeriod,
             gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod budgetPeriodType) {
-        NSFOtherPersonnelType otherPersonnelType  = budgetPeriodType.addNewNSFOtherPersonnel();
+        NSFOtherPersonnelType otherPersonnelType = budgetPeriodType.addNewNSFOtherPersonnel();
         boolean isNih = sponsorService.isSponsorNihOsc(developmentProposal) || sponsorService.isSponsorNihMultiplePi(developmentProposal);
-        String mappingName = isNih?"NIH_PRINTING":"NSF_PRINTING";
+        String mappingName = isNih ? "NIH_PRINTING" : "NSF_PRINTING";
 
-        OtherPersonInfo otherPersonInfo = getOtherPersonInfo(developmentProposal,budgetPeriod,mappingName,"01-Secretarial");
+        OtherPersonInfo otherPersonInfo = getOtherPersonInfo(developmentProposal, budgetPeriod, mappingName, "01-Secretarial");
         otherPersonnelType.setClericalCount(BigInteger.valueOf(otherPersonInfo.getCount()));
         otherPersonnelType.setClericalFunds(otherPersonInfo.getFund().bigDecimalValue());
 
-        otherPersonInfo = getOtherPersonInfo(developmentProposal,budgetPeriod,mappingName,"01-Graduates");
+        otherPersonInfo = getOtherPersonInfo(developmentProposal, budgetPeriod, mappingName, "01-Graduates");
         otherPersonnelType.setGradCount(BigInteger.valueOf(otherPersonInfo.getCount()));
         otherPersonnelType.setGradFunds(otherPersonInfo.getFund().bigDecimalValue());
 
-        otherPersonInfo = getOtherPersonInfo(developmentProposal,budgetPeriod,mappingName,"01-Other Profs");
+        otherPersonInfo = getOtherPersonInfo(developmentProposal, budgetPeriod, mappingName, "01-Other Profs");
         otherPersonnelType.setOtherProfCount(BigInteger.valueOf(otherPersonInfo.getCount()));
         otherPersonnelType.setOtherProfFunds(otherPersonInfo.getFund().bigDecimalValue());
 
-        otherPersonInfo = getOtherPersonInfo(developmentProposal,budgetPeriod,mappingName,"01-Undergrads");
+        otherPersonInfo = getOtherPersonInfo(developmentProposal, budgetPeriod, mappingName, "01-Undergrads");
         otherPersonnelType.setUnderGradCount(BigInteger.valueOf(otherPersonInfo.getCount()));
         otherPersonnelType.setUnderGradFunds(otherPersonInfo.getFund().bigDecimalValue());
 
-        otherPersonInfo = getOtherPersonInfo(developmentProposal,budgetPeriod,mappingName,"01-Other");
+        otherPersonInfo = getOtherPersonInfo(developmentProposal, budgetPeriod, mappingName, "01-Other");
         otherPersonnelType.setOtherCount(BigInteger.valueOf(otherPersonInfo.getCount()));
         otherPersonnelType.setOtherFunds(otherPersonInfo.getFund().bigDecimalValue());
 
-        otherPersonInfo = getOtherPersonInfo(developmentProposal,budgetPeriod,mappingName,"01-PostDocs");
+        otherPersonInfo = getOtherPersonInfo(developmentProposal, budgetPeriod, mappingName, "01-PostDocs");
         otherPersonnelType.setPostDocCount(BigInteger.valueOf(otherPersonInfo.getCount()));
         otherPersonnelType.setPostDocFunds(otherPersonInfo.getFund().bigDecimalValue());
 
@@ -1054,19 +1086,19 @@ AbstractResearchAndRelatedStream {
         List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
         for (BudgetLineItem budgetLineItem : budgetLineItems) {
             if (budgetLineItem.getBudgetCategoryCode().equals(OTHER_PERSONNEL_CATEGORY_CODE)) {
-            List<BudgetLineItemCalculatedAmount> calcAmounts = budgetLineItem.getBudgetLineItemCalculatedAmounts();
-            for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : calcAmounts) {
-                budgetLineItemCalculatedAmount.refreshNonUpdateableReferences();
-                if(RateClassType.LA_SALARIES.getRateClassType().equals(budgetLineItemCalculatedAmount.getRateClass().getRateClassType())){
-                    laAmount = laAmount.add(budgetLineItemCalculatedAmount.getCalculatedCost());
+                List<BudgetLineItemCalculatedAmount> calcAmounts = budgetLineItem.getBudgetLineItemCalculatedAmounts();
+                for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : calcAmounts) {
+                    budgetLineItemCalculatedAmount.refreshNonUpdateableReferences();
+                    if (RateClassType.LA_SALARIES.getRateClassType().equals(budgetLineItemCalculatedAmount.getRateClass().getRateClassType())) {
+                        laAmount = laAmount.add(budgetLineItemCalculatedAmount.getCalculatedCost());
+                    }
                 }
             }
-            }           
         }
         return laAmount.bigDecimalValue();
     }
 
-    private OtherPersonInfo getOtherPersonInfo(DevelopmentProposal developmentProposal,BudgetPeriod budgetPeriod, String categoryMappingName, String categoryCode) {
+    private OtherPersonInfo getOtherPersonInfo(DevelopmentProposal developmentProposal, BudgetPeriod budgetPeriod, String categoryMappingName, String categoryCode) {
         Map<String, String> categoryMap = new HashMap<String, String>();
         categoryMap.put(KEY_TARGET_CATEGORY_CODE, categoryCode);
         categoryMap.put(KEY_MAPPING_NAME, categoryMappingName);
@@ -1083,31 +1115,32 @@ AbstractResearchAndRelatedStream {
             }
             if (lineItemMatchesCategory) {
                 List<BudgetPersonnelDetails> budgetPersonnelDetailsList = lineItem.getBudgetPersonnelDetailsList();
-                if(budgetPersonnelDetailsList.size()>0){
+                if (budgetPersonnelDetailsList.size() > 0) {
                     for (BudgetPersonnelDetails budgetPersonnelDetails : budgetPersonnelDetailsList) {
-                        if(!isPersonExistsInProposal(developmentProposal,budgetPersonnelDetails)){
+                        if (!isPersonExistsInProposal(developmentProposal, budgetPersonnelDetails)) {
                             otherPersonInfo.setFund(otherPersonInfo.getFund().add(budgetPersonnelDetails.getSalaryRequested()));
-                            if (budgetPersonnelDetails.getQuantity()!=null){
-                                quantity = budgetPersonnelDetails.getQuantity(); 
+                            if (budgetPersonnelDetails.getQuantity() != null) {
+                                quantity = budgetPersonnelDetails.getQuantity();
                             }
-                            otherPersonInfo.setCount(otherPersonInfo.getCount()+quantity.intValue());
+                            otherPersonInfo.setCount(otherPersonInfo.getCount() + quantity.intValue());
                         }
                     }
-                }else{
+                } else {
                     otherPersonInfo.setFund(otherPersonInfo.getFund().add(lineItem.getLineItemCost()));
-                    otherPersonInfo.setCount(otherPersonInfo.getCount()+lineItem.getQuantity().intValue());
+                    otherPersonInfo.setCount(otherPersonInfo.getCount() + lineItem.getQuantity().intValue());
                 }
             }
         }
         return otherPersonInfo;
     }
 
-    private boolean isPersonExistsInProposal(DevelopmentProposal developmentProposal, 
+    private boolean isPersonExistsInProposal(DevelopmentProposal developmentProposal,
             BudgetPersonnelDetails budgetPersonnelDetails) {
         List<ProposalPerson> proposalPersons = developmentProposal.getProposalPersons();
         for (ProposalPerson proposalPerson : proposalPersons) {
-            if(getS2SUtilService().proposalPersonEqualsBudgetPerson(proposalPerson, budgetPersonnelDetails))
+            if (getS2SUtilService().proposalPersonEqualsBudgetPerson(proposalPerson, budgetPersonnelDetails)) {
                 return true;
+            }
         }
         return false;
     }
@@ -1115,9 +1148,9 @@ AbstractResearchAndRelatedStream {
     /*
      * This method gets arrays of SalaryAndWagesType XMLObject
      */
-    private void setSalaryAndWages(DevelopmentProposal developmentProposal,Budget budget,
+    private void setSalaryAndWages(DevelopmentProposal developmentProposal, Budget budget,
             BudgetPeriod budgetPeriod,
-            gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod budgetPeriodType ) {
+            gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod budgetPeriodType) {
         List<SalariesAndWagesType> salariesAndWagesTypeList = new ArrayList<SalariesAndWagesType>();
         List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
         BudgetDecimal totalSalary = BudgetDecimal.ZERO;
@@ -1128,14 +1161,14 @@ AbstractResearchAndRelatedStream {
                 BudgetPerson budgetPerson = budgetPersDetails.getBudgetPerson();
                 if (budgetPerson != null) {
                     SalariesAndWagesType salariesAndWagesType = getSalariesAndWagesType(
-                            developmentProposal,budget,budgetPersDetails, budgetPerson);
+                            developmentProposal, budget, budgetPersDetails, budgetPerson);
                     totalSalary = totalSalary.add(new BudgetDecimal(salariesAndWagesType.getSalaryAndFringeTotal()));
                     salariesAndWagesTypeList.add(salariesAndWagesType);
                 }
             }
         }
-        SalariesAndWagesType laSalariesAndWagesType = getLAAmmountsAsSalaryRecord(developmentProposal,budget,budgetPeriod);
-        if(laSalariesAndWagesType!=null){
+        SalariesAndWagesType laSalariesAndWagesType = getLAAmmountsAsSalaryRecord(developmentProposal, budget, budgetPeriod);
+        if (laSalariesAndWagesType != null) {
             totalSalary = totalSalary.add(new BudgetDecimal(laSalariesAndWagesType.getSalaryAndFringeTotal()));
             salariesAndWagesTypeList.add(laSalariesAndWagesType);
         }
@@ -1151,22 +1184,22 @@ AbstractResearchAndRelatedStream {
         for (BudgetLineItem budgetLineItem : budgetLineItems) {
             List<BudgetLineItemCalculatedAmount> budgetLineItemCalcAmounts = budgetLineItem.getBudgetCalculatedAmounts();
             for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : budgetLineItemCalcAmounts) {
-                if(budgetLineItemCalculatedAmount.getRateClass().getRateClassType().equals(RateClassType.LA_SALARIES.getRateClassType())){
+                if (budgetLineItemCalculatedAmount.getRateClass().getRateClassType().equals(RateClassType.LA_SALARIES.getRateClassType())) {
                     salaryRequested = salaryRequested.add(budgetLineItemCalculatedAmount.getCalculatedCost());
                 }
-                if((budgetLineItemCalculatedAmount.getRateClass().getRateClassType().equals(RateClassType.EMPLOYEE_BENEFITS.getRateClassType()) && 
-                        budgetLineItemCalculatedAmount.getRateTypeCode().equals("3")) || 
-                        (budgetLineItemCalculatedAmount.getRateClass().getRateClassType().equals(RateClassType.VACATION.getRateClassType())) && 
-                        budgetLineItemCalculatedAmount.getRateTypeCode().equals("2")){
+                if ((budgetLineItemCalculatedAmount.getRateClass().getRateClassType().equals(RateClassType.EMPLOYEE_BENEFITS.getRateClassType())
+                        && budgetLineItemCalculatedAmount.getRateTypeCode().equals("3"))
+                        || (budgetLineItemCalculatedAmount.getRateClass().getRateClassType().equals(RateClassType.VACATION.getRateClassType()))
+                        && budgetLineItemCalculatedAmount.getRateTypeCode().equals("2")) {
                     fringe = fringe.add(budgetLineItemCalculatedAmount.getCalculatedCost());
                 }
             }
         }
-        if(salaryRequested.isZero()){
+        if (salaryRequested.isZero()) {
             return null;
         }
         SalariesAndWagesType salariesAndWagesType = SalariesAndWagesType.Factory.newInstance();
-        salariesAndWagesType.setName(getContactPersonFullName("Lab Allocation","",""));
+        salariesAndWagesType.setName(getContactPersonFullName("Lab Allocation", "", ""));
         salariesAndWagesType.setRequestedCost(salaryRequested.bigDecimalValue());
         salariesAndWagesType.setFringeCost(fringe.bigDecimalValue());
         salariesAndWagesType.setSalaryAndFringeTotal(salaryRequested.add(fringe).bigDecimalValue());
@@ -1177,34 +1210,34 @@ AbstractResearchAndRelatedStream {
      * This method computes the salaries and wages details of a BudgetPerson and
      * populates SalariesAndWagesType
      */
-    private SalariesAndWagesType getSalariesAndWagesType(DevelopmentProposal developmentProposal,Budget budget,
+    private SalariesAndWagesType getSalariesAndWagesType(DevelopmentProposal developmentProposal, Budget budget,
             BudgetPersonnelDetails budgetPersDetails, BudgetPerson budgetPerson) {
         SalariesAndWagesType salariesAndWagesType = SalariesAndWagesType.Factory
-        .newInstance();
+                .newInstance();
         salariesAndWagesType.setAppointmentType(budgetPerson
                 .getAppointmentTypeCode() == null ? Constants.EMPTY_STRING
                         : budgetPerson.getAppointmentTypeCode());
         salariesAndWagesType.setAppointmentMonths(new BigDecimal(budgetPerson
                 .getAppointmentTypeCode() == null ? Constants.EMPTY_STRING
                         : budgetPerson.getAppointmentTypeCode()));
-        salariesAndWagesType.setSummerFundingMonths(calculateFundingMonths(developmentProposal,budgetPersDetails, 
+        salariesAndWagesType.setSummerFundingMonths(calculateFundingMonths(developmentProposal, budgetPersDetails,
                 BUDGET_PERIOD_TYPE_4).bigDecimalValue());
-        salariesAndWagesType.setAcademicFundingMonths(calculateFundingMonths(developmentProposal,budgetPersDetails, 
+        salariesAndWagesType.setAcademicFundingMonths(calculateFundingMonths(developmentProposal, budgetPersDetails,
                 BUDGET_PERIOD_TYPE_2).bigDecimalValue());
-        salariesAndWagesType.setFundingMonths(calculateFundingMonths(developmentProposal,budgetPersDetails, 
+        salariesAndWagesType.setFundingMonths(calculateFundingMonths(developmentProposal, budgetPersDetails,
                 BUDGET_PERIOD_TYPE_3).bigDecimalValue());
-        try{
+        try {
             KcPerson person = budgetPerson.getPerson();
             salariesAndWagesType.setName(getContactPersonFullName(person
                     .getLastName(), person.getFirstName(), person.getMiddleName()));
-        }
-        catch(IllegalArgumentException ie){
+        } catch (IllegalArgumentException ie) {
             Rolodex rolodex = budgetPerson.getRolodex();
-            if(rolodex != null){
-                salariesAndWagesType.setName(getContactPersonFullName(rolodex.getLastName(), 
-                        rolodex.getFirstName(), rolodex.getMiddleName()));}
+            if (rolodex != null) {
+                salariesAndWagesType.setName(getContactPersonFullName(rolodex.getLastName(),
+                        rolodex.getFirstName(), rolodex.getMiddleName()));
+            }
         }
-        salariesAndWagesType.setProjectRole(getProjectRoleType(developmentProposal,budgetPerson));
+        salariesAndWagesType.setProjectRole(getProjectRoleType(developmentProposal, budgetPerson));
         salariesAndWagesType.setProjectRoleDescription(budgetPerson.getRole());
         salariesAndWagesType.setSalariesTotal(budgetPersDetails
                 .getSalaryRequested().bigDecimalValue());
@@ -1225,48 +1258,48 @@ AbstractResearchAndRelatedStream {
      */
     private ResearchCoverPage getResearchCoverPage(
             DevelopmentProposal developmentProposal, Budget budget)
-    throws ParseException {
+            throws ParseException {
         ResearchCoverPage researchCoverPage = ResearchCoverPage.Factory
-        .newInstance();
+                .newInstance();
         developmentProposal.refreshNonUpdateableReferences();
         researchCoverPage
-        .setSubmissionCategory(getSubmissionCategoryForResearchCoverPage(
-                developmentProposal.getActivityType().getDescription(),
-                developmentProposal.getProposalStateTypeCode()));
+                .setSubmissionCategory(getSubmissionCategoryForResearchCoverPage(
+                                developmentProposal.getActivityType().getDescription(),
+                                developmentProposal.getProposalStateTypeCode()));
         researchCoverPage
-        .setApplicationCategory(getApplicationCategoryForResearchCoverPage(developmentProposal
-                .getProposalType().getDescription()));
-        setApplicantSubmissionQualifiersForResearchCoverPage(developmentProposal,researchCoverPage.addNewApplicantSubmissionQualifiers());
-        setFederalAgencyReceiptQualifiersForResearchCoverPage(developmentProposal,researchCoverPage.addNewFederalAgencyReceiptQualifiers());
-        setStateReceiptQualifiersForResearchCoverPage(developmentProposal,researchCoverPage.addNewStateReceiptQualifiers());
-        setStateIntergovernmentalReviewForResearchCoverPage(developmentProposal,researchCoverPage.addNewStateIntergovernmentalReview());
-        setFederalDebtDelinquencyQuestionForResearchCoverPage(developmentProposal,researchCoverPage.addNewFederalDebtDelinquencyQuestions());
+                .setApplicationCategory(getApplicationCategoryForResearchCoverPage(developmentProposal
+                                .getProposalType().getDescription()));
+        setApplicantSubmissionQualifiersForResearchCoverPage(developmentProposal, researchCoverPage.addNewApplicantSubmissionQualifiers());
+        setFederalAgencyReceiptQualifiersForResearchCoverPage(developmentProposal, researchCoverPage.addNewFederalAgencyReceiptQualifiers());
+        setStateReceiptQualifiersForResearchCoverPage(developmentProposal, researchCoverPage.addNewStateReceiptQualifiers());
+        setStateIntergovernmentalReviewForResearchCoverPage(developmentProposal, researchCoverPage.addNewStateIntergovernmentalReview());
+        setFederalDebtDelinquencyQuestionForResearchCoverPage(developmentProposal, researchCoverPage.addNewFederalDebtDelinquencyQuestions());
         researchCoverPage.setProjectDates(getProjectDatesForResearchCoverPage(
                 developmentProposal.getRequestedStartDateInitial(),
                 developmentProposal.getRequestedEndDateInitial()));
         researchCoverPage
-        .setBudgetTotals(getBudgetTotalsForResearchCoverPage(budget));
+                .setBudgetTotals(getBudgetTotalsForResearchCoverPage(budget));
         researchCoverPage
-        .setProjectTitle(developmentProposal.getTitle() == null ? DEFAULT_VALUE_UNKNOWN
-                : developmentProposal.getTitle());
+                .setProjectTitle(developmentProposal.getTitle() == null ? DEFAULT_VALUE_UNKNOWN
+                                : developmentProposal.getTitle());
         researchCoverPage
-        .setOtherAgencyQuestions(getOtherAgencyQuestionsForResearchCoverPage(developmentProposal));
+                .setOtherAgencyQuestions(getOtherAgencyQuestionsForResearchCoverPage(developmentProposal));
         researchCoverPage
-        .setApplicantOrganization(getApplicantOrganizationForResearchCoverPage(developmentProposal));
+                .setApplicantOrganization(getApplicantOrganizationForResearchCoverPage(developmentProposal));
         researchCoverPage
-        .setPrimaryProjectSite(getProjectSiteForResearchCoverPage(developmentProposal));
+                .setPrimaryProjectSite(getProjectSiteForResearchCoverPage(developmentProposal));
         researchCoverPage
-        .setProgramDirectorPrincipalInvestigator(getProgramDirectorPrincipalInvestigatorForResearchCoverPage(developmentProposal));
+                .setProgramDirectorPrincipalInvestigator(getProgramDirectorPrincipalInvestigatorForResearchCoverPage(developmentProposal));
         researchCoverPage
-        .setFundingOpportunityDetails(getFundingOpportunityDetailsForResearchCoverPage(developmentProposal));
+                .setFundingOpportunityDetails(getFundingOpportunityDetailsForResearchCoverPage(developmentProposal));
         researchCoverPage
-        .setAuthorizedOrganizationalRepresentative(getAuthorizedOrganizationalRepresentative(developmentProposal));
-        setAlternateProjectSites(developmentProposal,researchCoverPage);
+                .setAuthorizedOrganizationalRepresentative(getAuthorizedOrganizationalRepresentative(developmentProposal));
+        setAlternateProjectSites(developmentProposal, researchCoverPage);
 
         return researchCoverPage;
     }
 
-    private void setAlternateProjectSites(DevelopmentProposal developmentProposal,ResearchCoverPage researchCoverPage) {
+    private void setAlternateProjectSites(DevelopmentProposal developmentProposal, ResearchCoverPage researchCoverPage) {
         List<ProposalSite> otherOrganizations = developmentProposal.getOtherOrganizations();
         setPerformanceSites(researchCoverPage, otherOrganizations);
         List<ProposalSite> proposalSites = developmentProposal.getPerformanceSites();
@@ -1275,40 +1308,42 @@ AbstractResearchAndRelatedStream {
 
     /**
      * This method...
+     *
      * @param researchCoverPage
      * @param proposalSites
      */
     private void setPerformanceSites(ResearchCoverPage researchCoverPage, List<ProposalSite> proposalSites) {
         for (ProposalSite proposalSite : proposalSites) {
-            ProjectSiteType projectSiteType= researchCoverPage.addNewAlternateProjectSites();
+            ProjectSiteType projectSiteType = researchCoverPage.addNewAlternateProjectSites();
             Rolodex rolodexBean = proposalSite.getRolodex();
-            if(rolodexBean==null){
+            if (rolodexBean == null) {
                 rolodexBean = proposalSite.getOrganization().getRolodex();
             }
             projectSiteType.setOrganizationName(rolodexBean.getOrganization());
-            setPostalAddressInfo(rolodexBean,projectSiteType);
+            setPostalAddressInfo(rolodexBean, projectSiteType);
             List<CongressionalDistrict> congressionalDistricts = proposalSite.getCongressionalDistricts();
             String congrDistName = null;
             for (CongressionalDistrict congressionalDistrict : congressionalDistricts) {
-                congrDistName= congrDistName==null?congressionalDistrict.getCongressionalDistrict():
-                    congrDistName+","+congressionalDistrict.getCongressionalDistrict();
+                congrDistName = congrDistName == null ? congressionalDistrict.getCongressionalDistrict()
+                        : congrDistName + "," + congressionalDistrict.getCongressionalDistrict();
             }
-            projectSiteType.setCongressionalDistrict(congrDistName);  
+            projectSiteType.setCongressionalDistrict(congrDistName);
         }
     }
 
-    private void setPostalAddressInfo(Rolodex rolodexBean,ProjectSiteType projectSiteType) {
+    private void setPostalAddressInfo(Rolodex rolodexBean, ProjectSiteType projectSiteType) {
         PostalAddressType postalAddressType = projectSiteType.addNewPostalAddress();
         postalAddressType
-        .setCity((rolodexBean.getCity() == null || rolodexBean.getCity().trim().equals("")) ? "Unknown"
-                : rolodexBean.getCity());
+                .setCity((rolodexBean.getCity() == null || rolodexBean.getCity().trim().equals("")) ? "Unknown"
+                                : rolodexBean.getCity());
         postalAddressType.setPostalCode((rolodexBean.getPostalCode() == null || rolodexBean.getPostalCode()
                 .trim().equals("")) ? "Unknown" : rolodexBean.getPostalCode());
         postalAddressType.setCountry((rolodexBean.getCountryCode() == null || rolodexBean.getCountryCode()
                 .trim().equals("")) ? "Unknown" : rolodexBean.getCountryCode());
 
-        if (rolodexBean.getState() != null)
+        if (rolodexBean.getState() != null) {
             postalAddressType.setState(rolodexBean.getState());
+        }
 
         if (rolodexBean.getAddressLine1() != null) {
             XmlToken street = postalAddressType.addNewStreet();
@@ -1333,11 +1368,11 @@ AbstractResearchAndRelatedStream {
         Organization authorisedOrg = getAuthorisedOrganization(developmentProposal);
         Rolodex rolodex = authorisedOrg.getRolodex();
         AuthorizedOrganizationalRepresentativeType authOrgRepType = AuthorizedOrganizationalRepresentativeType.Factory
-        .newInstance();
+                .newInstance();
         if (authorisedOrg != null) {
             authOrgRepType.setPositionTitle(rolodex.getTitle());
             authOrgRepType
-            .setContactInformation(getPersonContactInformation(rolodex));
+                    .setContactInformation(getPersonContactInformation(rolodex));
             authOrgRepType.setName(getContactPersonFullName(rolodex
                     .getLastName(), rolodex.getFirstName(), rolodex
                     .getMiddleName()));
@@ -1347,7 +1382,7 @@ AbstractResearchAndRelatedStream {
                     DEFAULT_VALUE_UNKNOWN));
             authOrgRepType.setPositionTitle(DEFAULT_VALUE_UNKNOWN);
             authOrgRepType
-            .setContactInformation(getOrganizationPersonContactInformationWithDefaultValues());
+                    .setContactInformation(getOrganizationPersonContactInformationWithDefaultValues());
         }
         return authOrgRepType;
     }
@@ -1380,7 +1415,7 @@ AbstractResearchAndRelatedStream {
                 : programAnnouncementNumber);
         fundingOpportunityType.setFundingOpportunityTitle(programAnnouncementTitle == null ? EMPTY_STRING
                 : programAnnouncementTitle);
-        fundingOpportunityType.setFundingOpportunityResponseCode(developmentProposal.getS2sOpportunity()!=null);
+        fundingOpportunityType.setFundingOpportunityResponseCode(developmentProposal.getS2sOpportunity() != null);
         return fundingOpportunityType;
     }
 
@@ -1397,15 +1432,13 @@ AbstractResearchAndRelatedStream {
             principalInvestigatorType.setName(getContactPersonFullName(principalInvestigator.getLastName(), principalInvestigator
                     .getFirstName(), principalInvestigator.getMiddleName()));
 
-
             if (principalInvestigator.getEraCommonsUserName() == null) {
                 principalInvestigatorType.setAccountIdentifier("Unknown");
-            }
-            else {
+            } else {
                 principalInvestigatorType.setAccountIdentifier(principalInvestigator.getEraCommonsUserName());
             }
             principalInvestigatorType.setNewInvestigatorQuestion(getNewInvestQuestion(developmentProposal));
-            setDegree(principalInvestigator,principalInvestigatorType);
+            setDegree(principalInvestigator, principalInvestigatorType);
             SignatureType signatureType = principalInvestigatorType.addNewDirectorInvestigatorSignature();
             signatureType.setSignatureAuthentication("unknown");
             signatureType.setSignatureDate(getDateTimeService().getCurrentCalendar());
@@ -1423,10 +1456,10 @@ AbstractResearchAndRelatedStream {
     private boolean getNewInvestQuestion(DevelopmentProposal developmentProposal) {
         List<ProposalYnq> vecYNQQuestions = developmentProposal.getProposalYnqs();
         for (ProposalYnq proposalYnq : vecYNQQuestions) {
-            if (proposalYnq.getQuestionId().equals("13") &&  (proposalYnq.getAnswer()!=null && 
-                    proposalYnq.getAnswer().equals("Y"))) {
+            if (proposalYnq.getQuestionId().equals("13") && (proposalYnq.getAnswer() != null
+                    && proposalYnq.getAnswer().equals("Y"))) {
                 return true;
-            }   
+            }
 
         }
         return false;
@@ -1440,10 +1473,10 @@ AbstractResearchAndRelatedStream {
     private ApplicantOrganizationType getApplicantOrganizationForResearchCoverPage(
             DevelopmentProposal developmentProposal) {
         Organization organization = developmentProposal
-        .getApplicantOrganization().getOrganization();
+                .getApplicantOrganization().getOrganization();
         OrganizationType organizationType = organization.getOrganizationType(0);
         ApplicantOrganizationType applicantOrganizationType = ApplicantOrganizationType.Factory
-        .newInstance();
+                .newInstance();
         applicantOrganizationType.setOrganizationName(organization
                 .getOrganizationName() == null ? DEFAULT_VALUE_UNKNOWN
                         : organization.getOrganizationName());
@@ -1452,35 +1485,35 @@ AbstractResearchAndRelatedStream {
                         .getDunsNumber());
         applicantOrganizationType.setOrganizationEIN(organization
                 .getFedralEmployerId() == null ? DEFAULT_VALUE_UNKNOWN
-                        : ("1"+organization.getFedralEmployerId())+"A1");
+                        : ("1" + organization.getFedralEmployerId()) + "A1");
         if (organization.getPhsAccount() != null) {
             applicantOrganizationType.setPHSAccountID(organization
                     .getPhsAccount());
         }
         applicantOrganizationType
-        .setOrganizationCategoryCode(organizationType == null ? DEFAULT_VALUE_UNKNOWN
-                : organizationType.getOrganizationTypeCode().toString());
+                .setOrganizationCategoryCode(organizationType == null ? DEFAULT_VALUE_UNKNOWN
+                                : organizationType.getOrganizationTypeCode().toString());
         applicantOrganizationType
-        .setOrganizationCategoryDescription(organizationType == null ? DEFAULT_VALUE_UNKNOWN
-                : organizationType.getOrganizationTypeList()
-                .getDescription());
+                .setOrganizationCategoryDescription(organizationType == null ? DEFAULT_VALUE_UNKNOWN
+                                : organizationType.getOrganizationTypeList()
+                                .getDescription());
         applicantOrganizationType
-        .setOrganizationCongressionalDistrict(organization
-                .getCongressionalDistrict() == null ? DEFAULT_VALUE_UNKNOWN
-                        : organization.getCongressionalDistrict());
+                .setOrganizationCongressionalDistrict(organization
+                        .getCongressionalDistrict() == null ? DEFAULT_VALUE_UNKNOWN
+                                : organization.getCongressionalDistrict());
         applicantOrganizationType
-        .setOrganizationAddress(getOrganizationAddress(organization
-                .getRolodex()));
+                .setOrganizationAddress(getOrganizationAddress(organization
+                                .getRolodex()));
         applicantOrganizationType
-        .setOrganizationContactPerson(getOrganizationContactPerson(developmentProposal
-                .getApplicantOrganization().getRolodex()));
+                .setOrganizationContactPerson(getOrganizationContactPerson(developmentProposal
+                                .getApplicantOrganization().getRolodex()));
         String cageNumber = organization.getCageNumber();
         if (cageNumber != null) {
             applicantOrganizationType.setCageNumber(cageNumber);
         }
         OrganizationClassification orgClassification = applicantOrganizationType.addNewOrganizationClassification();
         List<OrganizationType> organizationTypes = organization.getOrganizationTypes();
-        if(!organizationTypes.isEmpty()){
+        if (!organizationTypes.isEmpty()) {
             orgClassification.setCategoryCode(organizationTypes.get(0).getOrganizationTypeCode().toString());
             orgClassification.setSubCategoryCode(organizationTypes.get(0).getOrganizationTypeList().getDescription());
         }
@@ -1513,9 +1546,9 @@ AbstractResearchAndRelatedStream {
         //		if (proposalPerson.getPercentageEffort() != null
         //				&& proposalPerson.getPercentageEffort().intValue() != 999) {
         keyPersonFlag
-        .setKeyPersonFlagCode(DEFAULT_VALUE_KEY_PERSON_FLAG_CODE);
+                .setKeyPersonFlagCode(DEFAULT_VALUE_KEY_PERSON_FLAG_CODE);
         keyPersonFlag
-        .setKeyPersonFlagDesc(KEY_PERSON_FLAG_DESCRIPTION_VALUE_KEY_PERSON);
+                .setKeyPersonFlagDesc(KEY_PERSON_FLAG_DESCRIPTION_VALUE_KEY_PERSON);
         //		} else {
         //			keyPersonFlag
         //					.setKeyPersonFlagCode(KEY_PERSON_FLAG_CODE_VALUE_FALSE);
@@ -1545,7 +1578,7 @@ AbstractResearchAndRelatedStream {
      */
     private PostalAddressType getPostalAddressType(ProposalPerson proposalPerson) {
         PostalAddressType postalAddressType = PostalAddressType.Factory
-        .newInstance();
+                .newInstance();
         postalAddressType.setCity(proposalPerson.getCity());
         postalAddressType.setCountry(proposalPerson.getCounty());
         postalAddressType.setPostalCode(proposalPerson.getPostalCode());
@@ -1559,7 +1592,7 @@ AbstractResearchAndRelatedStream {
      */
     private PersonFullNameType getPersonFullName(ProposalPerson proposalPerson) {
         PersonFullNameType personFullNameType = PersonFullNameType.Factory
-        .newInstance();
+                .newInstance();
         personFullNameType.setFirstName(proposalPerson.getFirstName());
         personFullNameType.setLastName(proposalPerson.getLastName());
         personFullNameType.setMiddleName(proposalPerson.getMiddleName());
@@ -1575,7 +1608,7 @@ AbstractResearchAndRelatedStream {
     private OrgAssurancesType getOrgAssurances(
             DevelopmentProposal developmentProposal) {
         OrgAssurancesType orgAssurancesType = OrgAssurancesType.Factory
-        .newInstance();
+                .newInstance();
         List<OrganizationYnq> organizationYnqs = null;
         Organization organization = getOrganizationFromDevelopmentProposal(developmentProposal);
         if (organization != null && organization.getOrganizationId() != null) {
@@ -1587,12 +1620,12 @@ AbstractResearchAndRelatedStream {
                 if (organizationYnq.getQuestionId()
                         .equals(LOBBYING_QUESTION_ID)) {
                     orgAssurancesType
-                    .setLobbyingQuestion(getAnswerFromOrganizationYnq(organizationYnq));
+                            .setLobbyingQuestion(getAnswerFromOrganizationYnq(organizationYnq));
                 }
                 if (organizationYnq.getQuestionId().equals(
                         GENERAL_CERTIFICATION_QUESTION_ID)) {
                     orgAssurancesType
-                    .setGeneralCertificationQuestion(getAnswerFromOrganizationYnq(organizationYnq));
+                            .setGeneralCertificationQuestion(getAnswerFromOrganizationYnq(organizationYnq));
                 }
             }
             orgAssurancesType.setDebarmentAndSuspension(getAssuranceType(
@@ -1613,9 +1646,9 @@ AbstractResearchAndRelatedStream {
         for (OrganizationYnq organizationYnq : organizationYnqs) {
             if (organizationYnq.getQuestionId().equals(questionId)) {
                 assuranceType
-                .setYesNoAnswer(getAnswerFromOrganizationYnq(organizationYnq));
+                        .setYesNoAnswer(getAnswerFromOrganizationYnq(organizationYnq));
                 assuranceType
-                .setExplanation(getExplanationFromOrganizationYnq(organizationYnq));
+                        .setExplanation(getExplanationFromOrganizationYnq(organizationYnq));
             }
         }
         return assuranceType;
@@ -1639,13 +1672,13 @@ AbstractResearchAndRelatedStream {
     private ProjectDescription getProjectDescription(
             DevelopmentProposal developmentProposal) {
         ProjectDescription projectDescription = ProjectDescription.Factory
-        .newInstance();
+                .newInstance();
         projectDescription
-        .setHumanSubject(getHumanSubjectsType(developmentProposal));
+                .setHumanSubject(getHumanSubjectsType(developmentProposal));
         projectDescription
-        .setAnimalSubject(getAnimalSubject(developmentProposal));
+                .setAnimalSubject(getAnimalSubject(developmentProposal));
         projectDescription
-        .setProjectSurvey(getProjectSurvey(developmentProposal));
+                .setProjectSurvey(getProjectSurvey(developmentProposal));
         projectDescription.setProjectSummary(getDescriptionBlockType(
                 developmentProposal, PROJECT_SUMMARY_BLOCK_TYPE, true));
         projectDescription.setFacilitiesDescription(getDescriptionBlockType(
@@ -1665,7 +1698,7 @@ AbstractResearchAndRelatedStream {
             DevelopmentProposal developmentProposal, String blockType,
             boolean isFile) {
         DescriptionBlockType descriptionBlockType = DescriptionBlockType.Factory
-        .newInstance();
+                .newInstance();
         if (isFile) {
             descriptionBlockType.setFileIdentifier(new StringBuilder(
                     developmentProposal.getProposalNumber()).append(blockType)
@@ -1683,18 +1716,18 @@ AbstractResearchAndRelatedStream {
     private HumanSubjectsType getHumanSubjectsType(
             DevelopmentProposal developmentProposal) {
         HumanSubjectsType humanSubjectsType = HumanSubjectsType.Factory
-        .newInstance();
+                .newInstance();
         // exemptionNumber maximum it occurs 6 times no string array size
         // declared as 6
         String exemptionNumber[] = new String[6];
         List<ProposalSpecialReview> specialReviewList = developmentProposal
-        .getPropSpecialReviews();
+                .getPropSpecialReviews();
         int arrayIndex = 0;
         if (specialReviewList != null) {
             for (ProposalSpecialReview proposalSpecialReview : specialReviewList) {
                 boolean humanSubjectsUsedQuestion = getHumanSubjectsUsedQuestion(proposalSpecialReview);
                 humanSubjectsType
-                .setHumanSubjectsUsedQuestion(humanSubjectsUsedQuestion);
+                        .setHumanSubjectsUsedQuestion(humanSubjectsUsedQuestion);
                 if (!proposalSpecialReview.getApprovalTypeCode().equals(
                         APPROVAL_TYPE_EXEMPT)
                         && proposalSpecialReview.getApprovalDate() != null) {
@@ -1711,17 +1744,18 @@ AbstractResearchAndRelatedStream {
         }
         setEXemptionNumber(developmentProposal, humanSubjectsType,
                 exemptionNumber);
-        setPhase3ClinicalTrialQuestion(developmentProposal,humanSubjectsType);
+        setPhase3ClinicalTrialQuestion(developmentProposal, humanSubjectsType);
         return humanSubjectsType;
     }
 
     private void setPhase3ClinicalTrialQuestion(DevelopmentProposal developmentProposal, HumanSubjectsType humanSubjectsType) {
         humanSubjectsType.setPhase3ClinicalTrialQuestion(false);
         String strAnswer = getClinicalTrialQuestion(developmentProposal);
-        if(strAnswer!=null){
+        if (strAnswer != null) {
             humanSubjectsType.setPhase3ClinicalTrialQuestion(strAnswer.equals("Y"));
         }
     }
+
     private String getClinicalTrialQuestion(DevelopmentProposal developmentProposal) {
         String clinicalAnswer = "N";
         for (ProposalYnq proposalYnq : developmentProposal.getProposalYnqs()) {
@@ -1731,7 +1765,7 @@ AbstractResearchAndRelatedStream {
                 clinicalAnswer = proposalYnq.getAnswer();
             }
         }
-        return clinicalAnswer==null?"N":clinicalAnswer;
+        return clinicalAnswer == null ? "N" : clinicalAnswer;
     }
 
     /*
@@ -1797,7 +1831,7 @@ AbstractResearchAndRelatedStream {
     private BudgetDecimal calculateFundingMonths(DevelopmentProposal developmentProposal,
             BudgetPersonnelDetails budgetPersonnelDetails, String budgetPeriodType) {
         BudgetDecimal fundingMonths = BudgetDecimal.ZERO;
-        if (isPersonExistsInProposal(developmentProposal,budgetPersonnelDetails)
+        if (isPersonExistsInProposal(developmentProposal, budgetPersonnelDetails)
                 && budgetPeriodType.equals(budgetPersonnelDetails.getPeriodTypeCode())) {
             if (budgetPersonnelDetails != null) {
                 BigDecimal totalMonths = getMonthsBetweenDates(
@@ -1820,7 +1854,8 @@ AbstractResearchAndRelatedStream {
     }
 
     /**
-     * Gets the sponsorService attribute. 
+     * Gets the sponsorService attribute.
+     *
      * @return Returns the sponsorService.
      */
     public SponsorService getSponsorService() {
@@ -1829,6 +1864,7 @@ AbstractResearchAndRelatedStream {
 
     /**
      * Sets the sponsorService attribute value.
+     *
      * @param sponsorService The sponsorService to set.
      */
     public void setSponsorService(SponsorService sponsorService) {

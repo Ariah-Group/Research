@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.home;
 
@@ -19,7 +35,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
- * 
+ *
  * This class is the ValidRates business object.
  */
 public class ValidRates extends KraPersistableBusinessObjectBase {
@@ -42,15 +58,16 @@ public class ValidRates extends KraPersistableBusinessObjectBase {
     private String icrRateCode;
 
     /**
-     * 
+     *
      * Constructs a ValidRates.java.
      */
     public ValidRates() {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public Integer getValidRatesId() {
@@ -66,8 +83,9 @@ public class ValidRates extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param validRatesId
      */
     public void setValidRatesId(Integer validRatesId) {
@@ -75,8 +93,9 @@ public class ValidRates extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public KualiDecimal getOnCampusRate() {
@@ -84,8 +103,9 @@ public class ValidRates extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param onCampusRate
      */
     public void setOnCampusRate(KualiDecimal onCampusRate) {
@@ -93,8 +113,9 @@ public class ValidRates extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public KualiDecimal getOffCampusRate() {
@@ -102,8 +123,9 @@ public class ValidRates extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param offCampusRate
      */
     public void setOffCampusRate(KualiDecimal offCampusRate) {
@@ -111,8 +133,9 @@ public class ValidRates extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public String getRateClassType() {
@@ -120,8 +143,9 @@ public class ValidRates extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param rateClassType
      */
     public void setRateClassType(String rateClassType) {
@@ -129,8 +153,9 @@ public class ValidRates extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public String getAdjustmentKey() {
@@ -138,8 +163,9 @@ public class ValidRates extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param adjustmentKey
      */
     public void setAdjustmentKey(String adjustmentKey) {
@@ -166,23 +192,47 @@ public class ValidRates extends KraPersistableBusinessObjectBase {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         final ValidRates other = (ValidRates) obj;
         if (adjustmentKey == null) {
-            if (other.adjustmentKey != null) return false;
-        } else if (!adjustmentKey.equals(other.adjustmentKey)) return false;
+            if (other.adjustmentKey != null) {
+                return false;
+            }
+        } else if (!adjustmentKey.equals(other.adjustmentKey)) {
+            return false;
+        }
         if (offCampusRate == null) {
-            if (other.offCampusRate != null) return false;
-        } else if (!offCampusRate.equals(other.offCampusRate)) return false;
+            if (other.offCampusRate != null) {
+                return false;
+            }
+        } else if (!offCampusRate.equals(other.offCampusRate)) {
+            return false;
+        }
         if (onCampusRate == null) {
-            if (other.onCampusRate != null) return false;
-        } else if (!onCampusRate.equals(other.onCampusRate)) return false;
-        if (rateClassType != other.rateClassType) return false;
+            if (other.onCampusRate != null) {
+                return false;
+            }
+        } else if (!onCampusRate.equals(other.onCampusRate)) {
+            return false;
+        }
+        if (rateClassType != other.rateClassType) {
+            return false;
+        }
         if (validRatesId == null) {
-            if (other.validRatesId != null) return false;
-        } else if (!validRatesId.equals(other.validRatesId)) return false;
+            if (other.validRatesId != null) {
+                return false;
+            }
+        } else if (!validRatesId.equals(other.validRatesId)) {
+            return false;
+        }
         return true;
     }
 }
