@@ -134,6 +134,17 @@
     <!-- This filename should ONLY be a filename and not a path. The file should be placed in the
     webapp in static/images/ directory. This parameter ONLY controls the logo on the login page. -->
     <param name="login.logo.filename">logo.png</param>
- 
+    
+   <!-- If set to 'true' then a Link is allowed to be displayed on the default login page,
+    as specified by the parameter 'login.logo.filename' -->
+    <param name="login.forgotpassword.enabled">true</param>    
+    
+    <!-- This parameter allows you to specify an HTTP(s) link to a webapp that allows the users to 
+    change their password for the system. -->
+    <param name="login.forgotpassword.url">http://demo.ariahgroup.org/research/</param>    
+    
+    <!-- This parameter allows you to specify the LABEL or publicly viewable text seen as part of the 
+    Forgot Password URL specified via the 'login.forgotpassword.url' parameter. -->
+    <param name="login.forgotpassword.label">Forgot Password?</param>    
 
 </config>

@@ -126,6 +126,14 @@
                             <!-- input type="image" title="Click to login." value="login" name="imageField" src="${pageContext.request.contextPath}/rice-portal/images/tinybutton-login.gif"/ -->
                             </td>
                         </tr>
+                        <c:if test="${ConfigProperties.login.forgotpassword.enabled}">
+                            <tr>
+                                <th colspan="2">                                    
+                                    <br><br>
+                                    <a href="${ConfigProperties.login.forgotpassword.url}" target="_blank">${ConfigProperties.login.forgotpassword.label}</a>
+                                </th>
+                            </tr>                        
+                        </c:if>
                     </tbody>
                 </table>
                 <br><br><br>
