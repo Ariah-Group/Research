@@ -53,7 +53,7 @@ This config file should only contain config locations not actual config properti
 		
 		Config location for the IU environment
 	-->
-	<param name="config.location">/opt/sa_forms/java/${environment}/kra/ariah-config.xml</param>
+	<param name="config.location">/etc/tomcat6/ariah_conf/ariah-config.xml</param>
 	
 	<!--
 		Ariah Research's external config
