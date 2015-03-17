@@ -2,7 +2,9 @@
 	<param name="application.http.scheme">http</param>
 	<param name="application.host">127.0.0.1</param>
 	<param name="http.port">8080</param>
-	<param name="app.context.name">${app.code}-${environment}</param>
+	<param name="app.context.name">research</param>
+     	<param name="application.url">${application.http.scheme}://${application.host}:${http.port}/${app.context.name}</param>
+	<param name="build.version">5.3.0</param>        
     
 	<!-- KC Client DB -->
 	<param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:KUALI</param>
@@ -48,21 +50,36 @@
     <param name="s2s.keystore.password">keystore password</param>
     <param name="s2s.truststore.location">path to truststore</param>
     <param name="s2s.truststore.password">truststore password</param>
-    <param name="grants.gov.s2s.host">grants.gov host</param>
-    <param name="grants.gov.s2s.port">grants.gov port</param>
+    
+    
+    <!-- port 446 is for SHA-1 certs, port 443 is for SHA-2 -->
+    <param name="grants.gov.s2s.host.production">https://ws07.grants.gov:443/grantsws-applicant/services/v2/</param>
+    <param name="grants.gov.s2s.host.development">https://trainingws.grants.gov:443/grantsws-applicant/services/v2/</param>
+    <param name="grants.gov.s2s.host">${grants.gov.s2s.host.development}</param>
+    <param name="grants.gov.s2s.port">ApplicantWebServicesSoapPort</param>
+
+    <param name="research.gov.s2s.production"></param>
+    <param name="research.gov.s2s.development">https://ws.acpt.research.gov/applyws/</param>
+    <param name="research.gov.s2s.host">${research.gov.s2s.development}</param>
+    <param name="research.gov.s2s.port">ApplicantWebServicesSoapPort</param>    
+   
     <param name="research.gov.keystore.location">path to keystore for research.gov(can be the same as s2s/grants.gov and provided for flexibility)</param>
     <param name="research.gov.keystore.password">keystore password</param>
     <param name="research.gov.truststore.location">path to truststore</param>
     <param name="research.gov.truststore.password">truststore password</param>
-    <param name="research.gov.s2s.host">research.gov host</param>
-    <param name="research.gov.s2s.port">reserach.gov port</param>
-	
+    	
+        
+    <param name="filter.login.class">org.kuali.rice.krad.web.filter.DummyLoginFilter</param>
+    <param name="filtermapping.login.1">/*</param>
+    <param name="filter.login.showPassword">true</param>
+
+        
     <!-- Logging print Configuration -->
-    <param name="print.logging.directory">log directory path</param>
-    <param name="print.logging.enable">"true" to enable logging</param>
+    <param name="print.logging.directory">/var/log/tomcat/</param>
+    <param name="print.logging.enable">false</param>
 	
     <!-- Save Xml Configuration -->
-    <param name="print.xml.directory">directory path</param>
+    <param name="print.xml.directory">/etc/tomcat/ariah_conf/xml/</param>
 	
     <!-- Financial System WSDL Service URL -->
     <param name="fin.system.integration.service.url">financial system service url</param>
@@ -70,20 +87,25 @@
     <!-- Java mail properties -->
     <param name="mail.from">mail.from@ariahgroup.org</param>
     <param name="mail.transport.protocol">smtp</param>
-    <param name="mail.smtp.host">host.server.address</param>
-    <param name="mail.smtp.port">host.server.port</param>
-    <param name="mail.smtp.user">userId</param>
-    <param name="mail.user.credentials">password</param>
+    <param name="mail.smtp.host">localhost</param>
+    <param name="mail.smtp.port">25</param>
+    <param name="mail.smtp.user"></param>
+    <param name="mail.user.credentials"></param>
     <param name="mail.smtp.auth">false</param>
 	
-    <!-- Kuali parameters -->
+    <!-- parameters -->
     <param name="mail.relay.server">mail.relay.server</param>
     <param name="mailing.list.batch">mailing.list.batch</param>
-    <param name="encryption.key">7IC64w6kAAAA</param>
+    
+    <!-- Encryption key that drives the encryption of CLOB content inside specific database fields.
+    You should change this from the DEFAULT value included here BEFORE creating any data in the system
+    for the first time, as changing it afterwards can lead to issue with retrieving previously 
+    encrypted content.    -->
+    <param name="encryption.key">k6BT6Fkgjks4hgA6A</param>
 	
-    <param name="keystore.alias">the_alias</param>
-    <param name="keystore.file">/path/to/keystore</param>
-    <param name="keystore.password">the_password</param>
+    <param name="keystore.alias">ariahrice</param>
+    <param name="keystore.file">/etc/tomcat/ariah_conf/security/ariahrice.keystore</param>
+    <param name="keystore.password">ariahDEFAULTchangeme</param>
 	
     <param name="print.xml.directory">${java.io.tmpdir}/printing</param>
 
@@ -97,10 +119,12 @@
 	
     <!-- Misc parameters -->
     <param name="institution">My Institution</param>
-    <param name="security.directory">/usr/local/rice/</param>
-    <param name="settings.directory">/usr/local/rice/</param>
-    
-    
+    <param name="security.directory">/etc/tomcat/ariah_conf/security/</param>
+    <param name="settings.directory">/etc/tomcat/ariah_conf/settings/</param>
+    <param name="attachments.directory">/etc/tomcat/ariah_conf/attachments/</param>
+       
     <param name="rice.kr.additionalSpringFiles">classpath:org/ariahgroup/research/krad-overrides.xml</param>
+    
+   
 
 </config>
