@@ -51,7 +51,7 @@
 	<param name="module.name">research</param>
 	<param name="app.code">${module.name}</param>
 	<param name="application.id">KC</param>	
-	<param name="application.host">127.0.0.1</param>
+<!--	<param name="application.host">127.0.0.1</param> -->
 	
 	<!-- Config param for setting the bus security on and off in the integration services -->
 	<param name="fin.system.integration.bus.security.on">false</param>
@@ -87,7 +87,7 @@
    	<param name="rice.kr.additionalSpringFiles">classpath:org/kuali/kra/RiceKnsOverridesSpringBeans.xml
 	</param>
 	
-	<param name="rice.krad.bos.ignoreMissingFieldsOnDeserialize" override="true">KcMaintenanceDocument</param>
+	<param name="rice.krad.bos.ignoreMissingFieldsOnDeserialize" override="true">ArMaintenanceDocument</param>
 	
 	<!--messages -->
     <param name="core.rice.struts.message.resources">org.kuali.rice.krad.ApplicationResources,org.kuali.rice.krad.KRADApplicationResources,org.kuali.rice.kew.ApplicationResources,org.kuali.rice.ksb.ApplicationResources,org.kuali.rice.kim.ApplicationResources,org.kuali.rice.krms.ApplicationResources,org.kuali.rice.core.web.cache.CacheApplicationResources</param>
@@ -95,10 +95,10 @@
 	<param name="rice.struts.message.resources">${core.rice.struts.message.resources}, ${kc.struts.message.resources}</param>
 
 	<!-- Ariah Research Client Database -->
-	<param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:KUALI</param>
+	<!--<param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:KUALI</param>
 	<param name="datasource.username">KRADEV</param>
 	<param name="datasource.password">ask your team</param>
-	
+	-->
 	<!-- overriding from rice's default - remove override once rice's changes their default -->
 	<param name="datasource.pool.maxSize">20</param>
 	
@@ -116,28 +116,29 @@
 	<param name="server.datasource.pool.maxSize">${datasource.pool.maxSize}</param>
 	<param name="server.datasource.pool.size">${datasource.pool.size}</param>
 	<param name="server.datasource.connectionTimeout">${datasource.connectionTimeout}</param>
-
+<!--
 	<param name="keystore.alias">onestartsharedservices-devandtst</param>
 	<param name="keystore.file">kul</param>
 	<param name="keystore.password">kulpass</param>
-
+-->
 	<!-- XML ingester directories -->
 	<param name="data.xml.root.location">/opt/ears/${environment}/en/xml</param>
 	<param name="attachment.dir.location">/opt/ears/</param>
 
 	<!-- Kuali parameters -->
-	<param name="encryption.key">7IC64w6kAAAA</param>
-	<param name="print.xml.directory">${java.io.tmpdir}/</param>
+<!--	<param name="encryption.key">7IC64w6kAAAA</param>-->
+<!--	<param name="print.xml.directory">${java.io.tmpdir}/</param>-->
 
 	<!-- workaround until Rice resolves KULRICE-4065 -->
 	<param name="enable.nonproduction.data.unmasking">true</param>
 
 	<!-- Configuration for Exception Incident handling and reporting -->
-	<param name="KualiExceptionHandlerAction.EXCEPTION_INCIDENT_REPORT_SERVICE">knsExceptionIncidentService</param>
+<!--	<param name="KualiExceptionHandlerAction.EXCEPTION_INCIDENT_REPORT_SERVICE">knsExceptionIncidentService</param>
 	<param name="MailMessage.from">admin@kuali.org</param>
 	<param name="KualiExceptionIncidentServiceImpl.additionalExceptionNameList"></param>
 	<param name="KualiExceptionIncidentServiceImpl.REPORT_MAIL_LIST"></param>
-	<!-- End of Exception Incident handling and reporting -->
+-->
+        <!-- End of Exception Incident handling and reporting -->
 
 	<!-- Turn off KEW use of quartz db to avoid db clear issues -->
 	<param name="useQuartzDatabase">false</param>
@@ -150,15 +151,15 @@
 	<param name="documentSearch.resultProcessor.class.name">org.kuali.kra.proposaldevelopment.document.search.ProposalDocumentSearchResultProcessor</param>
 
 	<!-- Notification mail properties-->
-	<param name="mail.from">mail.from@kuali.org</param>
+<!--	<param name="mail.from">mail.from@kuali.org</param>
 	<param name="mail.transport.protocol">smtp</param>
 	<param name="mail.smtp.host">localhost</param>
 	<param name="mail.smtp.port">10000</param>
 	<param name="mail.smtp.username">userId</param>
 	<param name="mail.user.password">password</param>
 	<param name="mail.smtp.auth">false</param>
-	
-	<param name="s2s.keystore.location">path to keystore</param>
+-->	
+<!--	<param name="s2s.keystore.location">path to keystore</param>
 	<param name="s2s.keystore.password">keystore password</param>
 	<param name="s2s.truststore.location">path to truststore</param>
 	<param name="s2s.truststore.password">truststore password</param>
@@ -177,9 +178,7 @@
     <param name="research.gov.s2s.development">https://ws.acpt.research.gov/applyws/</param>
     <param name="research.gov.s2s.host">${research.gov.s2s.development}</param>
     <param name="research.gov.s2s.port">ApplicantWebServicesSoapPort</param>
-
-	<param name="filter.login.class">org.kuali.rice.krad.web.filter.DummyLoginFilter</param>
-	<param name="filtermapping.login.1">/*</param>
+-->
 	
 	<param name="transaction.timeout">3600</param>
 	
