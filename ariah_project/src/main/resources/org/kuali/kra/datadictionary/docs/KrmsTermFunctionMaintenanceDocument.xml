@@ -20,7 +20,7 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <bean id="KrmsTermFunctionMaintenanceDocument" parent="KrmsTermFunctionMaintenanceDocument-parentBean" />
-    <bean id="KrmsTermFunctionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <bean id="KrmsTermFunctionMaintenanceDocument-parentBean" abstract="true" parent="ArMaintenanceDocumentEntry">
         <property name="businessObjectClass" value="org.kuali.kra.krms.KcKrmsTermFunction" />
         <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
         <property name="maintainableSections" >

@@ -381,7 +381,7 @@ public class KcNotificationServiceTest extends KcUnitTestBase {
             
             allowing(parameterService).getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
                                                             "KcNotificationDocumentTypeName"); 
-            will(returnValue("KcNotificationDocument"));
+            will(returnValue("NotificationDocument"));
         }});
         return parameterService;
     }

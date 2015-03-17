@@ -19,8 +19,8 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="MaintenanceDocumentEntry" parent="MaintenanceDocumentEntry-parentBean" />
-	<bean id="MaintenanceDocumentEntry-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+	<bean id="ArMaintenanceDocumentEntry" parent="ArMaintenanceDocumentEntry-parentBean" />
+	<bean id="ArMaintenanceDocumentEntry-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
 		<property name="workflowProperties">
 			<ref bean="KcMaintenanceDocument-workflowProperties"/>
 		</property>

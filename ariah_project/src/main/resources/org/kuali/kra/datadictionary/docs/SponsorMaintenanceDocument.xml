@@ -2,7 +2,7 @@
 
   <bean id="SponsorMaintenanceDocument" parent="SponsorMaintenanceDocument-parentBean"/>
 
-  <bean id="SponsorMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="SponsorMaintenanceDocument-parentBean" abstract="true" parent="ArMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.Sponsor"/>
     <property name="maintainableClass" value="org.kuali.kra.bo.SponsorMaintainableImpl"/>
     <property name="maintainableSections">

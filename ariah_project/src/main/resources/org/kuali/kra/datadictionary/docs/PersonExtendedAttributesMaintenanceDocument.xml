@@ -2,7 +2,7 @@
 
   <bean id="PersonExtendedAttributesMaintenanceDocument" parent="PersonExtendedAttributesMaintenanceDocument-parentBean"/>
 
-  <bean id="PersonExtendedAttributesMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="PersonExtendedAttributesMaintenanceDocument-parentBean" abstract="true" parent="ArMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.KcPersonExtendedAttributes"/>
     <property name="maintainableClass" value="org.kuali.kra.bo.KcPersonExtendedAttributesMaintainableImpl"/>
     <property name="maintainableSections">

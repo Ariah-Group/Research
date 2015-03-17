@@ -6,7 +6,7 @@
 	<bean id="CustReportTypeMaintenanceDocument" parent="CustReportTypeMaintenanceDocument-parentBean" />
 
 	<bean id="CustReportTypeMaintenanceDocument-parentBean" abstract="true"
-		parent="MaintenanceDocumentEntry">
+		parent="ArMaintenanceDocumentEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.reporting.bo.CustReportType" />
 		<property name="maintainableClass"
 			value="org.kuali.kra.maintenance.KraMaintainableImpl" />
