@@ -19,39 +19,45 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="FormulatedTypeMaintenanceDocument" parent="FormulatedTypeMaintenanceDocument-parentBean" />
-    <bean id="FormulatedTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.budget.rates.FormulatedType" />
+    <bean id="KrmsTermFunctionMaintenanceDocument" parent="KrmsTermFunctionMaintenanceDocument-parentBean" />
+    <bean id="KrmsTermFunctionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.krms.KcKrmsTermFunction" />
         <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
         <property name="maintainableSections" >
             <list>
-                <ref bean="FormulatedTypeMaintenanceDocument-EditFormulatedType" />
+                <ref bean="KrmsTermFunctionMaintenanceDocument-EditKcKrmsTermFunction" />
             </list>
         </property>
         <property name="lockingKeys" >
             <list>
-                <value>formulatedTypeCode</value>
+                <value>kcKrmsTermFunctionId</value>
             </list>
         </property>
-        <property name="allowsRecordDeletion" value="true" />
-        <property name="documentTypeName" value="FormulatedTypeMaintenanceDocument" />
+        <property name="documentTypeName" value="KrmsTermFunctionMaintenanceDocument" />
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
     </bean>
 
     <!-- Maintenance Section Definitions -->
     
-    <bean id="FormulatedTypeMaintenanceDocument-EditFormulatedType" parent="FormulatedTypeMaintenanceDocument-EditFormulatedType-parentBean" />
-    <bean id="FormulatedTypeMaintenanceDocument-EditFormulatedType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-        <property name="id" value="Edit Formulated Type" />
-        <property name="title" value="Edit Formulated Type" />
+    <bean id="KrmsTermFunctionMaintenanceDocument-EditKcKrmsTermFunction" parent="KrmsTermFunctionMaintenanceDocument-EditKcKrmsTermFunction-parentBean" />
+    <bean id="KrmsTermFunctionMaintenanceDocument-EditKcKrmsTermFunction-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Edit Kc Krms Term Function" />
+        <property name="title" value="Edit Kc Krms Term Function" />
         <property name="maintainableItems" >
             <list>
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="formulatedTypeCode"
+                    p:name="kcKrmsTermFunctionId"
                     p:required="true" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="krmsTermName" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="description"
                     p:required="true" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="returnType"
+                    p:required="true" />
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="functionType" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="versionNumber" />
             </list>
