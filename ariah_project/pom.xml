@@ -1428,7 +1428,7 @@ module of int tests -->
                     META-INF/,
                     WEB-INF/classes/,
                     WEB-INF/lib/,
-
+                    WEB-INF/jsp/dummy_login.jsp,
                     WEB-INF/tags/rice-portal/mainTab.tag,
                     WEB-INF/struts-config.xml,
                     WEB-INF/validator-rules.xml,
@@ -1529,7 +1529,7 @@ module of int tests -->
 		            							<include>WEB-INF/dwr-kew.xml</include>
 		            							<include>WEB-INF/dwr-kns.xml</include>
 		            							<include>WEB-INF/krad-servlet.xml</include>
-		            							<include>WEB-INF/jsp/dummy_login.jsp</include>
+		            							<!--<include>WEB-INF/jsp/dummy_login.jsp</include>-->
 		            							<include>WEB-INF/jsp/recurseCheckTabHighlight.jsp</include>
 		            							<include>WEB-INF/jsp/recurseRowDisplay.jsp</include>
 		            							<include>WEB-INF/jsp/recurseTreeNode.jsp</include>
