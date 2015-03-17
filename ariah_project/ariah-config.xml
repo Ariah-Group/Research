@@ -125,6 +125,15 @@
        
     <param name="rice.kr.additionalSpringFiles">classpath:org/ariahgroup/research/krad-overrides.xml</param>
     
-   
+    <!-- Default Login Page parameter -->
+    
+    <!-- If set to 'true' then a LOGO is allowed to be displayed on the default login page,
+    as specified by the parameter 'login.logo.filename' -->
+    <param name="login.logo.enabled">true</param>
+    
+    <!-- This filename should ONLY be a filename and not a path. The file should be placed in the
+    webapp in static/images/ directory. This parameter ONLY controls the logo on the login page. -->
+    <param name="login.logo.filename">logo.png</param>
+ 
 
 </config>
