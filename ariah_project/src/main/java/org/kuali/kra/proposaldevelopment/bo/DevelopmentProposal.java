@@ -64,9 +64,10 @@ import org.springframework.util.AutoPopulatingList;
 
 import java.sql.Date;
 import java.util.*;
+import org.kuali.kra.service.KcPersonService;
 
 /**
- * 
+ *
  */
 public class DevelopmentProposal extends KraPersistableBusinessObjectBase implements BudgetParent, Sponsorable, Disclosurable, KcKrmsContextBo {
 
@@ -254,9 +255,13 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private String prevGrantsGovTrackingID;
 
     private boolean sponsorDeadlineRequired = false;
-    
+
     private String executiveSummary;
     private transient boolean executiveSummaryRequired;
+
+    private String proposalCoordinatorPrincipalName;
+    private boolean proposalCoordinatorRequired = false;
+    private transient KcPersonService kcPersonService;
 
     /**
      * Gets the proposalNumberForGG attribute.
@@ -2416,7 +2421,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     public void setSponsorDeadlineRequired(boolean sponsorDeadlineRequired) {
         this.sponsorDeadlineRequired = sponsorDeadlineRequired;
     }
-    
+
     /**
      * the executive summary
      *
@@ -2432,7 +2437,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     public void setExecutiveSummary(String executiveSummary) {
         this.executiveSummary = executiveSummary;
     }
-    
+
     /**
      * @return the executiveSummaryRequired
      */
@@ -2445,6 +2450,60 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      */
     public void setExecutiveSummaryRequired(boolean executiveSummaryRequired) {
         this.executiveSummaryRequired = executiveSummaryRequired;
-    }    
+    }
 
+    /**
+     * Gets the KC Person Service.
+     *
+     * @return KC Person Service.
+     */
+    public KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator
+                    .getService(KcPersonService.class);
+        }
+        return this.kcPersonService;
+    }
+
+    /**
+     * @param kcPersonService the kcPersonService to set
+     */
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
+    }
+
+    /**
+     * @return the proposalCoordinatorPrincipalName
+     */
+    public String getProposalCoordinatorPrincipalName() {
+        return proposalCoordinatorPrincipalName;
+    }
+
+    /**
+     * @param proposalCoordinatorPrincipalName the
+     * proposalCoordinatorPrincipalName to set
+     */
+    public void setProposalCoordinatorPrincipalName(
+            String proposalCoordinatorPrincipalName) {
+        this.proposalCoordinatorPrincipalName = proposalCoordinatorPrincipalName;
+    }
+
+    public KcPerson getProposalCoordinator() {
+        return getKcPersonService().getKcPersonByUserName(
+                getProposalCoordinatorPrincipalName());
+    }
+
+    /**
+     * @return the proposalCoordinatorRequired
+     */
+    public boolean isProposalCoordinatorRequired() {
+        return proposalCoordinatorRequired;
+    }
+
+    /**
+     * @param proposalCoordinatorRequired the proposalCoordinatorRequired to set
+     */
+    public void setProposalCoordinatorRequired(boolean proposalCoordinatorRequired) {
+        this.proposalCoordinatorRequired = proposalCoordinatorRequired;
+    }
 }

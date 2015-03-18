@@ -964,6 +964,9 @@ public interface Constants {
     public static final String ARIAH_PROPDEV_DISPLAY_EXECUTIVE_SUMMARY = "ARIAH_PROPDEV_DISPLAY_EXECUTIVE_SUMMARY";
     public static final String ARIAH_PROPDEV_REQUIRE_EXECUTIVE_SUMMARY = "ARIAH_PROPDEV_REQUIRE_EXECUTIVE_SUMMARY";
     
+    public static final String ARIAH_PROPDEV_REQUIRE_PROPOSAL_COORDINATOR_FIELD = "ARIAH_PROPDEV_REQUIRE_PROPOSAL_COORDINATOR_FIELD";
+    public static final String ARIAH_PROPDEV_DISPLAY_PROPOSAL_COORDINATOR_FIELD = "ARIAH_PROPDEV_DISPLAY_PROPOSAL_COORDINATOR_FIELD";
+    
     /**
      * Module Code for "Award" records in as defined in COEUS_MODULE database table.
      */
@@ -989,13 +992,18 @@ public interface Constants {
     
     public final static String ATTR_PROPOSAL_NUMBER_DD = "DataDictionary.DevelopmentProposal.attributes.proposalNumber";
     public final static String ATTR_INITIATOR_NETWORK_ID_DD = "DataDictionary.AttributeReference.attributes.initiatorNetworkId";
+    public final static String ATTR_INITIATED_DATE_ID_DD = "DataDictionary.AttributeReference.attributes.createDate";
     public final static String ATTR_SPONSOR_DEADLINE_DATE_DD = "DataDictionary.DevelopmentProposal.attributes.deadlineDate";
-    
     public static final String MESSAGE_WORD_COUNT_EXCEEDED = "message.wordcount.exceeded";
     
     
     public static final String UNIT_ADMINISTRATOR_TYPE_GROUP_FLAG_UNIT = "U";
     public static final String UNIT_ADMINISTRATOR_TYPE_GROUP_FLAG_NONE = "N";
     public static final String UNIT_ADMINISTRATOR_TYPE_GROUP_FLAG_CENTRAL = "C";
+    
+    public final static String ROLE_PROPOSAL_COORDINATOR_NAME = "Proposal Coordinator";
+    public final static String UNIT_ADMIN_PROPOSAL_COORDINATOR_DESC = "Proposal Coordinator";
+    public final static String ATTR_PROPOSAL_COORDINATOR_NAME = "document.developmentProposalList[0].proposalCoordinatorPrincipalName";
+    public final static String ATTR_PROPOSAL_COORDINATOR_NAME_DD = "DataDictionary.DevelopmentProposal.attributes.proposalCoordinatorPrincipalName";
 }
 

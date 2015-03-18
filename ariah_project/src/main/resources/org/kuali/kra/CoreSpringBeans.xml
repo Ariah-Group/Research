@@ -740,7 +740,8 @@
 
     <bean id="sponsorHierarchyDao" class="org.kuali.kra.dao.ojb.SponsorHierarchyDaoOjb" parent="platformAwareDao" />
     
-    <bean id="unitService" class="org.kuali.kra.service.impl.UnitServiceImpl">
+    <!-- <bean id="unitService" class="org.kuali.kra.service.impl.UnitServiceImpl"> -->
+    <bean id="unitService" class="org.ariahgroup.research.service.impl.UnitServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="unitLookupDao" ref="unitLookupDao" />
     </bean>
@@ -887,7 +888,8 @@
         <property name="roleManagementService" ref="roleService" />
     </bean>
 
-    <bean id="kraAuthorizationService" class="org.kuali.kra.service.impl.KraAuthorizationServiceImpl">
+    <!--<bean id="kraAuthorizationService" class="org.kuali.kra.service.impl.KraAuthorizationServiceImpl">-->
+    <bean id="kraAuthorizationService" class="org.ariahgroup.research.service.impl.KraAuthorizationServiceImpl">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kcPersonService" ref="kcPersonService" />
         <property name="roleManagementService" ref="roleService" />
@@ -1081,4 +1083,6 @@
       p:localServiceName="kcNotificationDocumentSecurityTypeService"
       p:serviceInterface="org.kuali.rice.kew.framework.document.security.DocumentSecurityAttribute"/>     
      
+    
+    
 </beans>

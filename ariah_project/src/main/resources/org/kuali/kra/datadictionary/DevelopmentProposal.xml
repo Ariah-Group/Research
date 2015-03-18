@@ -75,6 +75,9 @@
 				<ref bean="DevelopmentProposal-prevGrantsGovTrackingID" />
                                 <ref bean="DevelopmentProposal-executiveSummary" />
                                 <ref bean="DevelopmentProposal-executiveSummaryRequired" />
+                                <ref bean="DevelopmentProposal-proposalCoordinator"/>
+                                <ref bean="DevelopmentProposal-proposalCoordinatorRequired"/>
+                                
 			</list>
 		</property>
 		<property name="collections">
@@ -145,6 +148,54 @@
     <bean id="DevelopmentProposal-executiveSummaryRequired-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="executiveSummaryRequired" />
         <property name="label" value="Executive Summary Required" />
+        <property name="maxLength" value="60" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="50" />
+        </property>
+    </bean>
+
+    <bean id="DevelopmentProposal-proposalCoordinator" parent="DevelopmentProposal-proposalCoordinator-parentBean" />
+    <bean id="DevelopmentProposal-proposalCoordinator-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="proposalCoordinatorPrincipalName" />
+        <property name="label" value="Proposal Coordinator" />
+        <property name="shortLabel" value="Proposal Coordinator" />
+        <property name="maxLength" value="60" />
+        <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <!-- to be determined by a system property -->
+        <!-- <property name="required" value="true" /> -->
+        <property name="control">
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.ariahgroup.research.proposaldevelopment.lookup.ProposalCoordinatorValuesFinder" />
+        </property>
+        <property name="summary" value="Proposal Coordinator" />
+        <property name="description" value="Proposal Coordinator" />
+        <property name="caseConstraint">
+            <bean parent="CaseConstraint">
+                <property name="caseSensitive" value="false" />
+                <property name="propertyName" value="proposalCoordinatorRequired" />
+                <property name="whenConstraint">
+                    <list>
+                        <bean parent="WhenConstraint">
+                            <property name="value" value="true" />
+                            <property name="constraint">
+                                <bean parent="RequiredConstraint"/>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- this is a place holder to allow for the case constraint on proposalCoordinatorPrincipalName
+    to work. it is not displayed on the UI -->
+    <bean id="DevelopmentProposal-proposalCoordinatorRequired" parent="DevelopmentProposal-proposalCoordinatorRequired-parentBean" />
+    <bean id="DevelopmentProposal-proposalCoordinatorRequired-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="proposalCoordinatorRequired" />
+        <property name="label" value="Proposal Coordinator Required" />
+        <property name="shortLabel" value="Proposal Coordinator Required" />
         <property name="maxLength" value="60" />
         <property name="control">
             <bean parent="TextControlDefinition" p:size="50" />
@@ -433,8 +484,8 @@
 	<bean id="DevelopmentProposal-deadlineDate-parentBean" abstract="true"
 		parent="AttributeReferenceDummy-genericDate">
 		<property name="name" value="deadlineDate" />
-		<property name="label" value="Sponsor Deadline Date" />
-		<property name="shortLabel" value="Sponsor Deadline Date" />
+		<property name="label" value="Deadline Date" />
+		<property name="shortLabel" value="Deadline Date" />
 		<property name="required" value="false" />
 		<property name="summary" value="The Deadline Date of the Proposal" />
 		<property name="description"
@@ -1054,13 +1105,13 @@
 				<bean parent="FieldDefinition" p:attributeName="opportunityIdForGG" />
 				<bean parent="FieldDefinition" p:attributeName="hierarchyStatus" />
 				<bean parent="FieldDefinition" p:attributeName="proposalDocument.documentNumber" />
+                                <bean parent="FieldDefinition" p:attributeName="proposalCoordinatorPrincipalName" />
 				
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="proposalNumber"
-					p:forceInquiry="true" />
+				<bean parent="FieldDefinition" p:attributeName="proposalNumber" p:forceInquiry="true" />
 				<bean parent="FieldDefinition" p:attributeName="proposalType.description" />
 				<bean parent="FieldDefinition" p:attributeName="proposalState.description" />
 				<bean parent="FieldDefinition" p:attributeName="title" />
@@ -1074,6 +1125,7 @@
 				<bean parent="FieldDefinition" p:attributeName="opportunityIdForGG" />
 				<bean parent="FieldDefinition" p:attributeName="hierarchyStatusName" />
 				<bean parent="FieldDefinition" p:attributeName="proposalDocument.documentNumber" />
+                                <bean parent="FieldDefinition" p:attributeName="proposalCoordinator.fullName" />
 			</list>
 		</property>
 		<property name="resultSetLimit" value="50" />

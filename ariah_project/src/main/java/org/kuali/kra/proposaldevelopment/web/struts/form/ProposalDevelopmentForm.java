@@ -55,6 +55,7 @@ import org.ariahgroup.research.datadictionary.AttributeDefinition;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.bo.CitizenshipType;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CustomAttributeDocument;
@@ -266,6 +267,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private String narrativeStatusesChangeKey;
     private NarrativeStatus narrativeStatusesChange;
     private BudgetDecimal faPercentageCalculated;
+    private String[] authorizedAdminTypes;
 
     public ProposalDevelopmentForm() {
         super();
@@ -465,9 +467,12 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
         for (HeaderField hdr : getDocInfo()) {
             if (hdr.getDdAttributeEntryName().equals(Constants.ATTR_INITIATOR_NETWORK_ID_DD)) {
-                hdr.setDisplayValue("Creator");
-                break;
+                getDocInfo().remove(hdr);
             }
+            
+            if (hdr.getDdAttributeEntryName().equals(Constants.ATTR_INITIATED_DATE_ID_DD)) {
+                getDocInfo().remove(hdr);
+            }            
         }
 
         // Proposal ID/Number
@@ -475,6 +480,18 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
         // Sponsor Deadline Date
         getDocInfo().add(new HeaderField(Constants.ATTR_SPONSOR_DEADLINE_DATE_DD, ObjectUtils.formatPropertyValue(pd.getDevelopmentProposal().getDeadlineDate())));
+
+        // Proposal Coordinator Field
+        String propCoordName = "";
+        if (pd.getDevelopmentProposal().getProposalCoordinatorPrincipalName() != null) {
+            KcPerson propCoord = pd.getDevelopmentProposal().getProposalCoordinator();
+            if (propCoord != null) {
+                propCoordName = propCoord.getFullName();
+            }
+        }
+
+        getDocInfo().add(new HeaderField(Constants.ATTR_PROPOSAL_COORDINATOR_NAME_DD, propCoordName));
+
     }
 
     /**
@@ -2348,12 +2365,12 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      * exposed on the attributes available to JSP
      */
     public int getExecutiveSummaryWordCount() {
-        
+
         DataObjectEntry entry = KRADServiceLocatorWeb.getDataDictionaryService().getDataDictionary().getDataObjectEntry(
                 DevelopmentProposal.class.getCanonicalName());
-        
+
         AttributeDefinition defn = (AttributeDefinition) entry.getAttributeDefinition("executiveSummary");
-        
+
         if (defn.getWordCountConstraint() == null) {
             return 0;
         } else {
@@ -2460,5 +2477,58 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      */
     public void setFaPercentageCalculated(BudgetDecimal faPercentageCalculated) {
         this.faPercentageCalculated = faPercentageCalculated;
+    }
+
+    /**
+     * Whether the proposal coordinator is a required field.
+     * <p>
+     * Used to mark the field with an asterisk if it is required.</p>
+     *
+     * @return true if the required system parameter exists and contains an
+     * affirmative value, otherwise false.
+     */
+    public boolean isProposalCoordinatorRequired() {
+        return getParameterService().getParameterValueAsBoolean(
+                Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT,
+                Constants.ARIAH_PROPDEV_REQUIRE_PROPOSAL_COORDINATOR_FIELD, false);
+    }
+
+    /**
+     * Whether the proposal coordinator should be displayed .
+     *
+     * @return true if the required system parameter exists and contains an
+     * affirmative value, otherwise false.
+     */
+    public boolean isDisplayProposalCoordinator() {
+        return getParameterService().getParameterValueAsBoolean(
+                Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT,
+                Constants.ARIAH_PROPDEV_DISPLAY_PROPOSAL_COORDINATOR_FIELD, false);
+    }
+    
+    /**
+     * @return the authorizedAdminTypes
+     */
+    public String[] getAuthorizedAdminTypes() {
+        String[] adminTypes = {Constants.UNIT_ADMIN_PROPOSAL_COORDINATOR_DESC, AwardUnitContact.OSP_ADMINISTRATOR};
+
+        return adminTypes;
+    }
+
+    /**
+     * @param authorizedAdminTypes the authorizedAdminTypes to set
+     */
+    public void setAuthorizedAdminTypes(String[] authorizedAdminTypes) {
+        this.authorizedAdminTypes = authorizedAdminTypes;
+    }
+
+    /**
+     * Set to display more columns so that we can show additional fields in a
+     * Proposal Development document header.
+     */
+    @Override
+    public int getNumColumns() {
+        return 4;
     }
 }

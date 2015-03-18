@@ -772,7 +772,7 @@ div.excol { padding-right: 22px; }
 #headerarea-small h1, #headerarea h1
 {
 	font-size: 150%;
-	margin: 0px;
+	margin: 10px 0px 0px 0px;
 	padding: 0px;
 	font-family: "Arial Narrow";
 	font-weight: bold;

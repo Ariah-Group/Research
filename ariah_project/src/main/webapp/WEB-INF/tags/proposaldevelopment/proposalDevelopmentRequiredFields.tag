@@ -35,7 +35,7 @@ limitations under the License.
 /><c:set var="action" value="proposalDevelopmentProposal"
 /><c:set var="className" value="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" />
 <kul:tab tabTitle="Required Fields for Saving Document" defaultOpen="true" transparentBackground="${transparent}" 
-	tabErrorKey="document.developmentProposalList[0].sponsorCode,document.developmentProposalList[0].currentAwardNumber*,document.developmentProposalList[0].continuedFrom,document.developmentProposalList[0].sponsorCode*,document.developmentProposalList[0].proposalTypeCode*,document.developmentProposalList[0].requestedStartDateInitial*,document.developmentProposalList[0].ownedByUnit*,document.developmentProposalList[0].requestedEndDateInitial*,document.developmentProposalList[0].activityTypeCode*,document.developmentProposalList[0].title" 
+	tabErrorKey="document.developmentProposalList[0].sponsorCode,document.developmentProposalList[0].currentAwardNumber*,document.developmentProposalList[0].continuedFrom,document.developmentProposalList[0].sponsorCode*,document.developmentProposalList[0].proposalTypeCode*,document.developmentProposalList[0].requestedStartDateInitial*,document.developmentProposalList[0].ownedByUnit*,document.developmentProposalList[0].requestedEndDateInitial*,document.developmentProposalList[0].activityTypeCode*,document.developmentProposalList[0].title,document.developmentProposalList[0].proposalCoordinatorPrincipalName" 
 	auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.developmentProposalList[0].title,document.developmentProposalList[0].continuedFrom" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
@@ -87,7 +87,7 @@ limitations under the License.
                 <td align="left" valign="middle">
                   <c:choose>
                     <c:when test="${empty KualiForm.document.developmentProposalList[0].ownedByUnit or empty KualiForm.document.developmentProposalList[0].ownedByUnit.unitNumber}">
-                    	<kul:htmlControlAttribute property="document.developmentProposalList[0].ownedByUnitNumber" attributeEntry="${proposalDevelopmentAttributes.ownedByUnitNumberRestricted}" />
+                    	<kul:htmlControlAttribute property="document.developmentProposalList[0].ownedByUnitNumber" attributeEntry="${proposalDevelopmentAttributes.ownedByUnitNumberRestricted}" onchange="updateProposalCoordinators(this.value)"/>
                     </c:when>
                     <c:otherwise>
                       ${KualiForm.document.developmentProposalList[0].ownedByUnit.unitNumber} - ${KualiForm.document.developmentProposalList[0].ownedByUnit.unitName}
@@ -136,6 +136,19 @@ limitations under the License.
                 <kul:lookup boClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" fieldConversions="proposalNumber:document.developmentProposalList[0].continuedFrom" anchor="${tabKey}" />
 				</td>
               </tr>
+              <tr>
+                <th>
+            <div align="right">
+                <c:if test="${KualiForm.proposalCoordinatorRequired}" >*&nbsp;</c:if>
+                <kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.proposalCoordinatorPrincipalName}" />
+            </div>
+            </th>
+            <td>
+            <kul:htmlControlAttribute property="document.developmentProposalList[0].proposalCoordinatorPrincipalName" 
+                                      readOnly="${readOnly}"
+                                      attributeEntry="${proposalDevelopmentAttributes.proposalCoordinatorPrincipalName}" />
+            </td>
+            </tr>              
               <c:if test="${KualiForm.displayExecutiveSummary}" >
                 <tr>
                     <th>
