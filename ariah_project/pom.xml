@@ -21,7 +21,7 @@
 
     <licenses>
         <license>
-            <name>Apache GPL Version 2.0</name>
+            <name>Apache Version 2.0</name>
             <url>http://www.apache.org/licenses/LICENSE-2.0</url>
             <distribution>manual</distribution>
         </license>        
@@ -1433,7 +1433,7 @@ module of int tests -->
                     WEB-INF/struts-config.xml,
                     WEB-INF/validator-rules.xml,
                     WEB-INF/web.xml,
-
+                    portal.jsp,
                     acknowledgments.jsp,
                     WEB-INF/tags/rice-portal/portalBody.tag,
                     WEB-INF/tags/rice-portal/portalTabs.tag,
@@ -1466,6 +1466,23 @@ module of int tests -->
 					 	Update:  for jetty support with multiple web resource directories see: 
 					 	http://docs.codehaus.org/display/JETTY/Multiple+WebApp+Source+Directory
 					  -->
+                                          <plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<version>${maven-dependency-plugin.version}</version>
+						<executions>
+                                          </executions>
+					</plugin>
+                                        
+                                        <plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-clean-plugin</artifactId>
+						<version>${maven-clean-plugin.version}</version>
+						<executions>
+                                        </executions>
+					</plugin>
+                                        
+                                          <!--
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-dependency-plugin</artifactId>
@@ -1494,8 +1511,9 @@ module of int tests -->
 							</execution>
 						</executions>
 					</plugin>
-					
+					-->
 					<!-- cleans out rice unpacked rice web content -->
+                                        <!--
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-clean-plugin</artifactId>
@@ -1513,7 +1531,7 @@ module of int tests -->
 		          							<directory>src/main/webapp</directory>
 		          							<includes>
 		            							<include>index.jsp</include>
-		            							<include>portal.jsp</include>
+		            							include>portal.jsp</include>
 		            							<include>core/</include>
 		            							<include>kcb/</include>
 		            							<include>ken/</include>
@@ -1524,12 +1542,12 @@ module of int tests -->
 						                        <include>krms/</include>
 		            							<include>ksb/</include>
 		            							<include>themes/</include>
-                                                <include>plugins/</include>
+                                                                                <include>plugins/</include>
 		            							<include>rice-portal/</include>
 		            							<include>WEB-INF/dwr-kew.xml</include>
 		            							<include>WEB-INF/dwr-kns.xml</include>
 		            							<include>WEB-INF/krad-servlet.xml</include>
-		            							<!--<include>WEB-INF/jsp/dummy_login.jsp</include>-->
+		            							<include>WEB-INF/jsp/dummy_login.jsp</include>
 		            							<include>WEB-INF/jsp/recurseCheckTabHighlight.jsp</include>
 		            							<include>WEB-INF/jsp/recurseRowDisplay.jsp</include>
 		            							<include>WEB-INF/jsp/recurseTreeNode.jsp</include>
@@ -1581,7 +1599,7 @@ module of int tests -->
                                 </configuration>
                             </execution>
 						</executions>
-		    		</plugin>
+		    		</plugin>-->
 				</plugins>
 			</build>
 		</profile>
@@ -1594,13 +1612,13 @@ module of int tests -->
             cargo plugin might be better suited for this kind of task if they would
             support embedded tomcat.
 
-            Since this is not really the maven way to do things, once we have an alternate
-            structure this will no longer be needed.  we will do the following:
-            1) have a new child module called kc-rice-standalone.  It will be an empty overlay of rice-standalone.
-            2) configure all the jetty/tomcat stuff in a central place under pluginManagement
-            3) to run ariah you go to the ariah web module and invoke jetty or tomcat
-            4) to run rice you go to the kc-rice-standalone and invoke jetty or tomcat
-         -->
+           Since this is not really the maven way to do things, once we have an alternate
+           structure this will no longer be needed.  we will do the following:
+           1) have a new child module called kc-rice-standalone.  It will be an empty overlay of rice-standalone.
+           2) configure all the jetty/tomcat stuff in a central place under pluginManagement
+           3) to run ariah you go to the ariah web module and invoke jetty or tomcat
+           4) to run rice you go to the kc-rice-standalone and invoke jetty or tomcat
+        -->
         <profile>
             <id>rice-server</id>
             <properties>
@@ -1910,10 +1928,10 @@ module of int tests -->
             </build>
         </profile>
 
-	  <profile>
-      <id>monitoring</id>
-      <properties>
-        <monitoring.filter>
+        <profile>
+            <id>monitoring</id>
+            <properties>
+                <monitoring.filter>
           <![CDATA[
 <filter>
     <filter-name>monitoring</filter-name>
@@ -1932,80 +1950,80 @@ module of int tests -->
     </init-param>
 </filter>
           ]]>
-        </monitoring.filter>
-        <monitoring.mapping>
+                </monitoring.filter>
+                <monitoring.mapping>
           <![CDATA[
 <filter-mapping>
     <filter-name>monitoring</filter-name>
     <url-pattern>/*</url-pattern>
 </filter-mapping>
           ]]>
-        </monitoring.mapping>
-        <monitoring.listener>
+                </monitoring.mapping>
+                <monitoring.listener>
           <![CDATA[
 <listener>
     <listener-class>net.bull.javamelody.SessionListener</listener-class>
 </listener>
           ]]>
-        </monitoring.listener>
-		<monitoring.spring.import>
+                </monitoring.listener>
+                <monitoring.spring.import>
 			<![CDATA[
 <import resource="classpath:net/bull/javamelody/monitoring-spring.xml" />
           		]]>
-		</monitoring.spring.import>
-          <monitoring.spring.service>
+                </monitoring.spring.import>
+                <monitoring.spring.service>
 			<![CDATA[
 <import resource="classpath:net/bull/javamelody/monitoring-spring.xml" />
 <bean id="facadeMonitoringAdvisor" class="net.bull.javamelody.MonitoringSpringAdvisor" />
           		]]>
-		</monitoring.spring.service>
-      </properties>
-      <build>
-      </build>
-          <dependencies>
-              <!-- javamelody-core -->
-              <dependency>
-                  <groupId>net.bull.javamelody</groupId>
-                  <artifactId>javamelody-core</artifactId>
-                  <version>${javamelody-core.version}</version>
-              </dependency>
-              <!-- itext, option to add PDF export -->
-              <dependency>
-                  <groupId>com.lowagie</groupId>
-                  <artifactId>itext</artifactId>
-                  <version>${itext.version}</version>
-                  <exclusions>
-                      <exclusion>
-                          <artifactId>bcmail-jdk14</artifactId>
-                          <groupId>bouncycastle</groupId>
-                      </exclusion>
-                      <exclusion>
-                          <artifactId>bcprov-jdk14</artifactId>
-                          <groupId>bouncycastle</groupId>
-                      </exclusion>
-                      <exclusion>
-                          <artifactId>bctsp-jdk14</artifactId>
-                          <groupId>bouncycastle</groupId>
-                      </exclusion>
-                  </exclusions>
-              </dependency>
+                </monitoring.spring.service>
+            </properties>
+            <build>
+            </build>
+            <dependencies>
+                <!-- javamelody-core -->
+                <dependency>
+                    <groupId>net.bull.javamelody</groupId>
+                    <artifactId>javamelody-core</artifactId>
+                    <version>${javamelody-core.version}</version>
+                </dependency>
+                <!-- itext, option to add PDF export -->
+                <dependency>
+                    <groupId>com.lowagie</groupId>
+                    <artifactId>itext</artifactId>
+                    <version>${itext.version}</version>
+                    <exclusions>
+                        <exclusion>
+                            <artifactId>bcmail-jdk14</artifactId>
+                            <groupId>bouncycastle</groupId>
+                        </exclusion>
+                        <exclusion>
+                            <artifactId>bcprov-jdk14</artifactId>
+                            <groupId>bouncycastle</groupId>
+                        </exclusion>
+                        <exclusion>
+                            <artifactId>bctsp-jdk14</artifactId>
+                            <groupId>bouncycastle</groupId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
 
-              <dependency>
-                  <groupId>org.apache.pdfbox</groupId>
-                  <artifactId>pdfbox</artifactId>
-                  <version>${pdfbox.version}</version>
-                  <exclusions>
-                      <exclusion>
-                          <groupId>commons-logging</groupId>
-                          <artifactId>commons-logging</artifactId>
-                      </exclusion>
-                  </exclusions>
-              </dependency>
-          </dependencies>
-    </profile>
+                <dependency>
+                    <groupId>org.apache.pdfbox</groupId>
+                    <artifactId>pdfbox</artifactId>
+                    <version>${pdfbox.version}</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>commons-logging</groupId>
+                            <artifactId>commons-logging</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+            </dependencies>
+        </profile>
 	  
         
-	</profiles>
+    </profiles>
 
     <repositories>
         <repository>
