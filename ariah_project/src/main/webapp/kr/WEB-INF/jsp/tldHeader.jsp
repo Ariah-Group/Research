@@ -14,22 +14,23 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 
---%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
-<%@ taglib uri="http://www.kuali.org/struts.apache.org/tags-html" prefix="html"%>
-<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic"%>
-<%@ taglib uri="http://struts.apache.org/tags-nested" prefix="nested"%>
-<%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
-<%@ taglib uri="http://struts.apache.org/tags-bean-el" prefix="bean-el"%>
-<%@ taglib uri="http://www.kuali.org/struts.apache.org/tags-html-el" prefix="html-el"%>
-<%@ taglib uri="http://struts.apache.org/tags-logic-el" prefix="logic-el"%>
-<%@ taglib uri="http://www.joda.org/joda/time/tags" prefix="joda" %>
-<%@ taglib uri="http://www.kuali.org/jsp/jstl/functions" prefix="kfunc"%>
-<%@ taglib tagdir="/WEB-INF/tags/kr" prefix="kul"%>
-<%@ taglib tagdir="/WEB-INF/tags/kim" prefix="kim"%>
-<%@ taglib tagdir="/WEB-INF/tags/kew" prefix="kew"%>
-<%@ taglib tagdir="/WEB-INF/tags/kr/dd" prefix="dd"%>
 
+
+--%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"
+%><%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"
+%><%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"
+%><%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean"
+%><%@ taglib uri="http://www.kuali.org/struts.apache.org/tags-html" prefix="html"
+%><%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic"
+%><%@ taglib uri="http://struts.apache.org/tags-nested" prefix="nested"
+%><%@ taglib uri="http://displaytag.sf.net" prefix="display"
+%><%@ taglib uri="http://struts.apache.org/tags-bean-el" prefix="bean-el"
+%><%@ taglib uri="http://www.kuali.org/struts.apache.org/tags-html-el" prefix="html-el"
+%><%@ taglib uri="http://struts.apache.org/tags-logic-el" prefix="logic-el"
+%><%@ taglib uri="http://www.joda.org/joda/time/tags" prefix="joda" 
+%><%@ taglib uri="http://www.kuali.org/jsp/jstl/functions" prefix="kfunc"
+%><%@ taglib tagdir="/WEB-INF/tags/kr" prefix="kul"
+%><%@ taglib tagdir="/WEB-INF/tags/kim" prefix="kim"
+%><%@ taglib tagdir="/WEB-INF/tags/kew" prefix="kew"
+%><%@ taglib tagdir="/WEB-INF/tags/kr/dd" prefix="dd"%>

@@ -48,9 +48,7 @@
   var channelLocation = getLocation("${channelUrl}");
   var contextNames = new Array();
   <c:forEach var="contextName" items="${ConfigProperties.context.names}">
-      <c:if test="${not empty contextName.value}">
-          contextNames.push("<c:out value="${contextName.value}" />");
-      </c:if>
+      <c:if test="${not empty contextName.value}">contextNames.push("<c:out value="${contextName.value}" />");</c:if>
   </c:forEach>
   var swf;
   var remote = channelLocation.protocol + '//' + channelLocation.host + "/";
@@ -63,7 +61,6 @@
       break;
     }
   }
-
   // Add leading slash, only IE has a leading slash
   var channelPathAndSearch = channelLocation.pathname + channelLocation.search;
   if (channelPathAndSearch.substr(0,1) != "/") {
@@ -81,11 +78,11 @@
     props: {
       style: {
         width: "100%",
-        height: screen.height - 350 + "px"  // initial height set to a reasonable value in case messaging doesn't work
+        height: screen.height - 180 + "px"  // initial height set to a reasonable value in case messaging doesn't work
       }
     },
     onMessage: function(message, origin) {
-      var availableHeight = jQuery(window).height() - 250;
+      var availableHeight = jQuery(window).height() - 130;
       if (availableHeight > message) {
         this.container.getElementsByTagName("iframe")[0].style.height = availableHeight + "px";
       } else {

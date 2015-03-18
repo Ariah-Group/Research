@@ -14,16 +14,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<td class="content" valign="top">
-      <channel:systemAdminSystem />
-      <administrationChannel:configuration />
-      <administrationChannel:misc />   
-</td>
-<td class="content" valign="top">
-      <administrationChannel:identity />
-</td>
-<td class="content" valign="top">
-      <administrationChannel:workflow />
-      <administrationChannel:sendNotification />
-      <administrationChannel:serviceBus />
-</td>
+<channel:portalChannelTop channelTitle="Researcher" />
+<div class="body">
+  <ul class="chan">  	  
+      <li><portal:portalLink displayTitle="false" title='Reporting' url='${ConfigProperties.application.url}/reporting.do?methodToCall=getReportParametersFromDesign'>Reporting</portal:portalLink></li>
+      <li><portal:portalLink displayTitle="false" title="Current & Pending Support" url="${ConfigProperties.application.url}/currentOrPendingReport.do">Current &amp; Pending Support</portal:portalLink></li>
+  </ul>
+</div>
+<channel:portalChannelBottom />

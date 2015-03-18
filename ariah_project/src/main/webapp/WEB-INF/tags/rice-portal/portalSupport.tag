@@ -11,21 +11,18 @@ Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
-limitations under the License.--%>
+limitations under the License.
+--%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <td class="content" valign="top">
-	  	<channel:messageOfTheDay/>
-      <channel:researcherProposals />
-      <channel:researcherAwards />
-      <channel:researcherNegotiations />
+<channel:portalChannelTop channelTitle="Ariah Group" />
+<div class="body">
+    <ul class="chan">  	  
+        <li><a class="portal_link" href="<bean:message key="app.feedback.link"/>" target="_blank" title="<bean:message key="app.feedback.linkText" />"><bean:message key="app.feedback.linkText" /></a></li>
+        <li><a class="portal_link" title="User Manual" href="${ConfigProperties.application.url}/static/help/default.htm" />User Manual</a></li>
+        <li>Submit Feedback</li>
+    </ul>
+</div>
+<channel:portalChannelBottom />
 </td>
-<td class="content" valign="top">
-      <channel:researcherIRBProtocols/>
-      <channel:researcherCompliance/>
-      <channel:researcherIACUCProtocols/>   
-</td>
-<td class="content" valign="top">
-      <channel:researcherQuicklinks />
-      <channel:researcherPersonnel />
-      <channel:researcherWorkflow />
-</td>
+<td class="content" valign="top">&nbsp;</td>

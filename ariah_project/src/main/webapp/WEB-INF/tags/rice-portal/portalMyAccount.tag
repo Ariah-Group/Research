@@ -1,17 +1,18 @@
 <%--
- Copyright 2007-2008 The Kuali Foundation
+ Copyright 2005-2014 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
  
- http://www.opensource.org/licenses/ecl2.php
+ http://www.osedu.org/licenses/ECL-2.0
  
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
+
 
 Updates made after January 1, 2015 are :
 Copyright 2015 The Ariah Group, Inc.
@@ -28,6 +29,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 --%>
-<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"
-%><%@ attribute name="field" required="true" type="org.kuali.rice.kns.web.ui.Field" description="The field to render select options for."
-%><c:forEach items="${field.fieldValidValues}" var="select"><option ${field.propertyValue eq select.key ? 'selected="selected"' : ''} value='<c:out value="${select.key}"/>'><%--${select.htmlSpacePadding}--%><c:out value="${select.value}" /></option></c:forEach>
+<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<td class="content" valign="top">
+    <channel:myaccountAccount />
+</td>
+<td class="content" valign="top"></td>
+<td class="content" valign="top"></td>
+</tr>
+<tr valign="top" bgcolor="#FFFFFF">
+    <td width="15" class="leftback-focus">&nbsp;</td>
+    <td colspan="3"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>&nbsp;</td>

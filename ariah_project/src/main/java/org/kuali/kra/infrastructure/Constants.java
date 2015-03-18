@@ -992,5 +992,10 @@ public interface Constants {
     public final static String ATTR_SPONSOR_DEADLINE_DATE_DD = "DataDictionary.DevelopmentProposal.attributes.deadlineDate";
     
     public static final String MESSAGE_WORD_COUNT_EXCEEDED = "message.wordcount.exceeded";
+    
+    
+    public static final String UNIT_ADMINISTRATOR_TYPE_GROUP_FLAG_UNIT = "U";
+    public static final String UNIT_ADMINISTRATOR_TYPE_GROUP_FLAG_NONE = "N";
+    public static final String UNIT_ADMINISTRATOR_TYPE_GROUP_FLAG_CENTRAL = "C";
 }
 

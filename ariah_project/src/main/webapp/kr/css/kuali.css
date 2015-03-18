@@ -281,6 +281,18 @@ table.grid
 	border-bottom-color: #999999;
 	border-left-color: #999999;
 }
+#workarea td.tdasth {
+    background-color: #999999;
+    background-image: url("../images/th-back.gif");
+	padding-right: 5px;
+	padding-left: 10px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-bottom-color: #999999;
+	border-left-color: #999999;
+}
 
 #workarea td
 {
@@ -740,13 +752,13 @@ div.excol { padding-right: 22px; }
 
 .headerarea, .headerarea-small
 {
-	background-color: #e4e4e4;
+	background-color: white;
 	padding: 0px 0px 0px 10px;
-	background-image: url("../images/masthead1.gif");
+//	background-image: url("../images/masthead1.gif");
 	margin: 0px;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #999999;
+//	border-bottom-width: 1px;
+//	border-bottom-style: solid;
+//	border-bottom-color: #999999;
 }
 
 .headerarea {
@@ -764,7 +776,6 @@ div.excol { padding-right: 22px; }
 	padding: 0px;
 	font-family: "Arial Narrow";
 	font-weight: bold;
-	position: absolute;
 }
 
 #headerarea-small h1

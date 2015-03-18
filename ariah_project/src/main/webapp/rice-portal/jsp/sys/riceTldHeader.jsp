@@ -14,14 +14,12 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 
+
+
 --%>
-<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp" %>
-
-<%@ taglib tagdir="/WEB-INF/tags/rice-portal" prefix="portal"%>
-<%@ taglib tagdir="/WEB-INF/tags/rice-portal/channel" prefix="channel"%>
-<%@ taglib tagdir="/WEB-INF/tags/rice-portal/channel/administration" prefix="administrationChannel"%>
-<%@ taglib tagdir="/WEB-INF/tags/rice-portal/channel/main" prefix="mainChannel"%>
-<%@ taglib tagdir="/WEB-INF/tags/rice-portal/channel/krad" prefix="kradChannel"%>
-
-<%-- utility web functions --%>
-
+<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp" 
+%><%@ taglib tagdir="/WEB-INF/tags/rice-portal" prefix="portal"
+%><%@ taglib tagdir="/WEB-INF/tags/rice-portal/channel" prefix="channel"
+%><%@ taglib tagdir="/WEB-INF/tags/rice-portal/channel/administration" prefix="administrationChannel"
+%><%@ taglib tagdir="/WEB-INF/tags/rice-portal/channel/main" prefix="mainChannel"
+%><%@ taglib tagdir="/WEB-INF/tags/rice-portal/channel/krad" prefix="kradChannel"%>

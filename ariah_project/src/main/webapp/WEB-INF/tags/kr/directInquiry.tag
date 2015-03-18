@@ -13,19 +13,14 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
-<%@ attribute name="boClassName" required="true" description="The class of the business object to create the inquiry for." %>
-<%@ attribute name="inquiryParameters" required="false" description="The keys of the business object to display." %>
-<%@ attribute name="anchor" required="false" description="The HTML named anchor of the button rendered." %>
-<%@ attribute name="tabindexOverride" required="false" description="The overridden tab index of the button rendered." %>
-
+<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"
+%><%@ attribute name="boClassName" required="true" description="The class of the business object to create the inquiry for."
+%><%@ attribute name="inquiryParameters" required="false" description="The keys of the business object to display."
+%><%@ attribute name="anchor" required="false" description="The HTML named anchor of the button rendered."
+%><%@ attribute name="tabindexOverride" required="false" description="The overridden tab index of the button rendered." %>
 <c:choose>
-  <c:when test="${!empty tabindexOverride}">
-    <c:set var="tabindex" value="${tabindexOverride}"/>
-  </c:when>
-  <c:otherwise>
-    <c:set var="tabindex" value="${KualiForm.nextArbitrarilyHighIndex}"/>
-  </c:otherwise>
+  <c:when test="${!empty tabindexOverride}"><c:set var="tabindex" value="${tabindexOverride}"/></c:when>
+  <c:otherwise><c:set var="tabindex" value="${KualiForm.nextArbitrarilyHighIndex}"/></c:otherwise>
 </c:choose>
 <c:set var="epMethodToCallAttribute" value="methodToCall.performInquiry.(!!${boClassName}!!).((`${inquiryParameters}`)).anchor${anchor}"/>
 ${kfunc:registerEditableProperty(KualiForm, epMethodToCallAttribute)} 

@@ -47,6 +47,7 @@ Suppresses the Create New button on the top right corner-->
     <script type="text/javascript" src="${pageContext.request.contextPath}/dwr/interface/DocumentTypeService.js"></script>
 	
 	<c:if test="${KualiForm.headerBarEnabled}">
+            <br>
 	<div class="headerarea-small" id="headerarea-small">
 		<h1><c:out value="${KualiForm.lookupable.title}" /> <c:choose>
 			<c:when test="${KualiForm.fields.documentTypeName != null}">
@@ -89,7 +90,7 @@ Suppresses the Create New button on the top right corner-->
 		<html-el:hidden name="KualiForm" property="extraButtons[${status.index}].extraButtonParams" />
 	</c:forEach>
 		<c:if test="${KualiForm.supplementalActionsEnabled==true}" >
-		<div class="lookupcreatenew" title="Supplemental Search Actions" style="padding: 3px 30px 3px 300px;">
+		<div class="lookupcreatenew" title="Supplemental Search Actions" style="padding: 20px 30px 3px 300px;">
 			${KualiForm.lookupable.supplementalMenuBar} &nbsp;
 			<c:set var="extraField" value="${KualiForm.lookupable.extraField}"/>
 			<c:if test="${not empty extraField}">
@@ -97,8 +98,7 @@ Suppresses the Create New button on the top right corner-->
 				<c:if test="${extraField.fieldType eq extraField.DROPDOWN_SCRIPT}">
 
                             	${kfunc:registerEditableProperty(KualiForm, extraField.propertyName)}
-                                <select id='${extraField.propertyName}' name='${extraField.propertyName}'
-                                        onchange="${extraField.script}" style="">
+                                <select id='${extraField.propertyName}' name='${extraField.propertyName}' onchange="${extraField.script}" style="">
                                     <kul:fieldSelectValues field="${extraField}"/>
                                 </select>
 
@@ -131,9 +131,7 @@ Suppresses the Create New button on the top right corner-->
 			<td width="1%"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="20"
 				height="20"></td>
 			<td>
-
-			<div id="lookup" align="center"><br />
-			<br />
+			<div id="lookup" align="center">
 			<table align="center" cellpadding="0" cellspacing="0" class="datatable-100">
 				<c:set var="FormName" value="KualiForm" scope="request" />
 				<c:set var="FieldRows" value="${KualiForm.lookupable.rows}" scope="request" />

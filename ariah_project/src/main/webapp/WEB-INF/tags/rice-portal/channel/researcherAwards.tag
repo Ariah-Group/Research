@@ -14,11 +14,9 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
 <channel:portalChannelTop channelTitle="Awards" />
 <div class="body">
 	<ul class="chan">
-	  <li>Awards in Progress</li>
       <li><portal:portalLink displayTitle="false" title="All my Awards" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kra.award.home.Award&docFormKey=88888888&includeCustomActionUrls=true&returnLocation=${ConfigProperties.application.url}/portal.do&projectPersons.fullName=${UserSession.person.firstName}*${UserSession.person.lastName}&hideReturnLink=true">All my Awards</portal:portalLink></li>
 	</ul>
 </div>

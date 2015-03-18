@@ -15,33 +15,15 @@ limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <td class="content" valign="top">
-
 <c:if test="${moduleActiveProposals eq true}">
-    <channel:unitPreAward />
-</c:if> 
-
-<c:if test="${moduleActiveAwards eq true}">
-    <channel:centralAdminPostAward />
-    <channel:centralAdminSubAward />
-</c:if> 
-<c:if test="${moduleActiveNegoatiations eq true}">
-    <channel:centralAdminNegotiations />
-</c:if> 
-
+    <br><br><br><br><br><br> Proposal Reports Content Goes Here
+</c:if>    
 </td>
 <td class="content" valign="top">
-<c:if test="${moduleActiveConflict eq true}">
-    <channel:unitPreSubmissionCompliance />
-</c:if>
-<c:if test="${moduleActiveIrb eq true}">
-    <channel:centralAdminIrb />
-</c:if>
-<c:if test="${moduleActiveIacuc eq true}">
-    <channel:centralAdminIacuc />
-</c:if>      
+  <c:if test="${moduleActiveAwards eq true}">
+    <br><br><br><br><br><br>Award Reports Content Goes Here
+  </c:if>    
 </td>
 <td class="content" valign="top">
-<channel:unitQuicklinks />
-<channel:unitWorkflow />
-<channel:unitRules />
+    <br><br><br><br><br><br>Research Reports Content Goes Here
 </td>

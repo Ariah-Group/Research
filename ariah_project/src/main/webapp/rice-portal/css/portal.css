@@ -17,7 +17,7 @@ body
 {
 	font-size: 71%;
 	margin: 0;
-	background-color: #a02919;
+	background-color: lightsteelblue;
 }
 
 form { margin: 0; }
@@ -208,9 +208,9 @@ a:active
 #build
 {
 	height: 12px;
-	position: absolute;
-	top: 47px;
-	right: 20px;
+	//position: absolute;
+	//top: 47px;
+	//right: 20px;
 	color: #999999;
 }
 
@@ -392,23 +392,23 @@ h1, h2
 
 .footerbevel
 {
-	background-image: url(../images/bl-bevel-focus.gif);
-	height: 27px;
+	//background-image: url(../images/bl-bevel-focus.gif);
+	//height: 27px;
 }
 
 #footer-copyright
 {
-	background-color: #a02919;
+	background-color: lightsteelblue;
 	color: #fff;
 	bottom: 0px;
 	width: 100%;
 	text-align: center;
-	background-image:   url("../images/os-guy.gif");
-	padding-top: 20px;
+	//background-image:   url("../images/os-guy.gif");
+	padding-top: 10px;
 	padding-bottom: 12px;
 	background-repeat: no-repeat;
 	background-position: right 5px;
-	height: 60px;
+	height: 30px;
 }
 
 #footer-copyright a:link
@@ -543,7 +543,7 @@ div#leftbox
 }
 
 .leftback { background-image:   url("../images/leftback.gif"); }
-.leftback-focus { background-image:   url("../images/leftback-focus.gif"); }
+//.leftback-focus { background-image:   url("../images/leftback-focus.gif"); }
 td.content { padding-bottom: 40px; }
 
 #middlebox
@@ -587,6 +587,8 @@ div#rightbox
 	margin: 20px 10px 0px;
 	padding: 0px;
 	border: 1px solid #999999;
+       max-width: 400px;
+       min-width: 200px;        
 }
 
 
@@ -782,7 +784,7 @@ h2.portlet-title
 	margin-left: 10px;
 	margin-top: 20px;
 	margin-bottom: 10px;
-	color: #8D2C1B;
+	color: #666;
 	white-space: nowrap;
 }
 
@@ -847,10 +849,10 @@ ul {
 
 #iframe_portlet_container_div {
 	background-color: #FFFFFF; 
-	background-image: url('../images/leftback-focus.gif'); 
+	//background-image: url('../images/leftback-focus.gif'); 
 	background-repeat: repeat-y;
 	/* padding left 15px simulates previous table layout spacing */
-	padding: 0px 0px 0px 15px;
+	padding: 0px 0px 0px 0px;
 }
 
 

@@ -15,11 +15,8 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<channel:portalChannelTop channelTitle="Pre-Submission Compliance" />
+<channel:portalChannelTop channelTitle="Conflict of Interest" />
 <div class="body">
-  <p>
-    <strong>Conflict of Interest</strong>
-  </p>
   <table border="0" cellpadding="2" cellspacing="0">
     <tr>
       <td nowrap class="disabled-text">Disclosure</td>
@@ -114,33 +111,6 @@
       </td>
       
     </tr>  
-  </table>
-  <p>
-    <strong>Protocols</strong>
-  </p>
-  <table border="0" cellpadding="2" cellspacing="0">
-   <tr>
-    <td nowrap class="disabled-text">Animals</td>
-    <td style="padding-left: 10px"/>
-    <td>
-      <portal:portalLink displayTitle="false" title="IACUC" url="${ConfigProperties.application.url}/iacucProtocolProtocol.do?methodToCall=docHandler&command=initiate&docTypeName=IacucProtocolDocument">
-      	<img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>
-      <portal:portalLink displayTitle="false" title="IACUC" 
-		   url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.iacuc.IacucProtocol&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" >
-      	<img src="static/images/searchicon.gif" alt="lookup" width="16" border="0" align="absmiddle">
-      </portal:portalLink>
-    </td>
-  </tr>
-  <tr>
-    <td nowrap class="disabled-text">Human Participants</td>
-    <td style="padding-left: 10px"/>
-    <td>
-      <portal:portalLink displayTitle="false" title="Protocol" url="${ConfigProperties.application.url}/protocolProtocol.do?methodToCall=docHandler&command=initiate&docTypeName=ProtocolDocument"><img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>
-      <portal:portalLink displayTitle="false" title="Protocol" 
-		   url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.irb.Protocol&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" >
-            <img src="static/images/searchicon.gif" alt="lookup" width="16" border="0" align="absmiddle"></portal:portalLink>
-    </td>
-  </tr>
   </table>
 </div>
 <channel:portalChannelBottom />
