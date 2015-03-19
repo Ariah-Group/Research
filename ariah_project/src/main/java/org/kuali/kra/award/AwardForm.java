@@ -1598,4 +1598,13 @@ public class AwardForm extends BudgetVersionFormBase
     public boolean isHideAwardDocDescriptionPanel() {
         return getAwardDocument().isDefaultDocumentDescription();
     }
+    
+    /**
+     * Set to display more columns so that we can show additional fields in a
+     * the document header.
+     */
+    @Override
+    public int getNumColumns() {
+        return 3;
+    }    
 }

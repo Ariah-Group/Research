@@ -432,19 +432,23 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
 
+        List<HeaderField> localHeaderFields = new ArrayList<HeaderField>();
+        
+        localHeaderFields.addAll(getDocInfo());
+        
         ProposalDevelopmentDocument pd = getProposalDevelopmentDocument();
         if (!pd.isProposalDeleted()) {
             ProposalState proposalState = (pd == null) ? null : pd.getDevelopmentProposal().getProposalState();
             HeaderField docStatus = new HeaderField("DataDictionary.AttributeReference.attributes.workflowDocumentStatus", proposalState == null ? "" : proposalState.getDescription());
 
-            getDocInfo().set(1, docStatus);
+            localHeaderFields.set(1, docStatus);
 
             if (pd.getDevelopmentProposal().getSponsor() == null) {
-                getDocInfo().add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.sponsorS2S", ""));
+                localHeaderFields.add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.sponsorS2S", ""));
             } else {
                 S2sOpportunity opportunity = pd.getDevelopmentProposal().getS2sOpportunity();
                 String provider = (opportunity == null || opportunity.getS2sProvider() == null || opportunity.getS2sProvider().getDescription() == null) ? NONE : opportunity.getS2sProvider().getDescription();
-                getDocInfo().add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.sponsorS2S",
+                localHeaderFields.add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.sponsorS2S",
                         pd.getDevelopmentProposal().getSponsor().getSponsorName() + "/" + provider));
             }
 
@@ -457,29 +461,19 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
                     if (getKeyPersonnelService().isPrincipalInvestigator(investigator)) {
                         found = true; // Will break out of the loop as soon as the PI is found
-                        getDocInfo().add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", investigator.getFullName()));
+                        localHeaderFields.add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", investigator.getFullName()));
                     }
                 }
             } else {
-                getDocInfo().add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", EMPTY_STRING));
+               localHeaderFields.add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", EMPTY_STRING));
             }
-        }
-
-        for (HeaderField hdr : getDocInfo()) {
-            if (hdr.getDdAttributeEntryName().equals(Constants.ATTR_INITIATOR_NETWORK_ID_DD)) {
-                getDocInfo().remove(hdr);
-            }
-            
-            if (hdr.getDdAttributeEntryName().equals(Constants.ATTR_INITIATED_DATE_ID_DD)) {
-                getDocInfo().remove(hdr);
-            }            
         }
 
         // Proposal ID/Number
-        getDocInfo().add(new HeaderField(Constants.ATTR_PROPOSAL_NUMBER_DD, pd.getDevelopmentProposal().getProposalNumber()));
+        localHeaderFields.add(new HeaderField(Constants.ATTR_PROPOSAL_NUMBER_DD, pd.getDevelopmentProposal().getProposalNumber()));
 
         // Sponsor Deadline Date
-        getDocInfo().add(new HeaderField(Constants.ATTR_SPONSOR_DEADLINE_DATE_DD, ObjectUtils.formatPropertyValue(pd.getDevelopmentProposal().getDeadlineDate())));
+        localHeaderFields.add(new HeaderField(Constants.ATTR_SPONSOR_DEADLINE_DATE_DD, ObjectUtils.formatPropertyValue(pd.getDevelopmentProposal().getDeadlineDate())));
 
         // Proposal Coordinator Field
         String propCoordName = "";
@@ -490,8 +484,28 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             }
         }
 
-        getDocInfo().add(new HeaderField(Constants.ATTR_PROPOSAL_COORDINATOR_NAME_DD, propCoordName));
+        if (isDisplayProposalCoordinator()) {
+            localHeaderFields.add(new HeaderField(Constants.ATTR_PROPOSAL_COORDINATOR_NAME_DD, propCoordName));
+        }
+        
+        // DO NOT use a Java-5 ENHANCED FOR loop here, since we are removing element and the enhanced
+        // for-loop causes a concurrent modification exception after the first loop iteration once an element
+        // is removed. Using the standard loop structure, we can modify the iterator count (i) when
+        // an element is removed.
+        for(int i = 0; i < localHeaderFields.size(); i++) {
+            HeaderField hdr = localHeaderFields.get(i);
+            if (hdr.getDdAttributeEntryName().equals(Constants.ATTR_INITIATOR_NETWORK_ID_DD)) {
+                localHeaderFields.remove(hdr);
+                i--;
+            }
 
+            if (hdr.getDdAttributeEntryName().equals(Constants.ATTR_INITIATED_DATE_ID_DD)) {
+                localHeaderFields.remove(hdr);
+                i--;
+            }
+        }
+
+        setDocInfo(localHeaderFields);
     }
 
     /**
@@ -2506,7 +2520,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
                 Constants.PARAMETER_COMPONENT_DOCUMENT,
                 Constants.ARIAH_PROPDEV_DISPLAY_PROPOSAL_COORDINATOR_FIELD, false);
     }
-    
+
     /**
      * @return the authorizedAdminTypes
      */

@@ -373,4 +373,12 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         this.personId = personId;
     }
 
+    /**
+     * Set to display more columns so that we can show additional fields in a
+     * the document header.
+     */
+    @Override
+    public int getNumColumns() {
+        return 3;
+    }
 }

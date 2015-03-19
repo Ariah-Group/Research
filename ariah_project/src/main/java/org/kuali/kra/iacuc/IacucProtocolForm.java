@@ -414,4 +414,13 @@ public class IacucProtocolForm extends ProtocolFormBase {
     public boolean isHideIacucDocDescriptionPanel() {
         return getIacucProtocolDocument().isDefaultDocumentDescription();
     }
+
+    /**
+     * Set to display more columns so that we can show additional fields in a
+     * the document header.
+     */
+    @Override
+    public int getNumColumns() {
+        return 3;
+    }
 }

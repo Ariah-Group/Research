@@ -579,4 +579,13 @@ public class SubAwardForm extends KraTransactionalDocumentFormBase
     public boolean isHideSubawardDocDescriptionPanel() {
         return getSubAwardDocument().isDefaultDocumentDescription();
     }
+    
+    /**
+     * Set to display more columns so that we can show additional fields in a
+     * the document header.
+     */
+    @Override
+    public int getNumColumns() {
+        return 3;
+    }    
 }

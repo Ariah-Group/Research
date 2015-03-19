@@ -365,4 +365,13 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase implements
     public boolean isHideNegotiationDocDescriptionPanel() {
         return getNegotiationDocument().isDefaultDocumentDescription();
     }
+    
+    /**
+     * Set to display more columns so that we can show additional fields in a
+     * the document header.
+     */
+    @Override
+    public int getNumColumns() {
+        return 3;
+    }     
 }
