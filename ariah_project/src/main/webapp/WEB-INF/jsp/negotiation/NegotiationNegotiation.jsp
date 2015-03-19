@@ -57,7 +57,7 @@ limitations under the License.
          <c:set var="requiredTransparent" value="true"/> 
     </c:otherwise>
 </c:choose>
- <kra-negotiation:negotiation />
+ <kra-negotiation:negotiation transparent="${requiredTransparent}"/>
  <c:if test="${fn:length(KualiForm.customDataHelper.customAttributeGroups) > 0}">
  <kul:tab tabTitle="Custom Data" defaultOpen="false" tabErrorKey="customDataHelper.customDataList*" useRiceAuditMode="false">
  <kra-negotiation:NegotiationCustomDataTab readOnly="${readOnly}"/>
