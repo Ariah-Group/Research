@@ -111,13 +111,14 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
     /**
      * Set the KRA Lookup DAO.
      *
-     * @param kraLookupDao
+     * @param protocolFinderDao
      */
     public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
         this.protocolFinderDao = protocolFinderDao;
     }
 
     /**
+     * @throws java.lang.Exception
      * @see
      * org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService#createAmendment(org.kuali.kra.protocol.ProtocolDocumentBase,
      * org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean)
@@ -164,6 +165,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
     }
 
     /**
+     * @throws java.lang.Exception
      * @see
      * org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService#createRenewal(org.kuali.kra.protocol.ProtocolDocumentBase,
      * java.lang.String)
@@ -334,8 +336,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
     protected void removeEditedQuestionaire(ProtocolBase protocol) {
         ModuleQuestionnaireBean moduleQuestionnaireBean = getNewProtocolModuleQuestionnaireBeanInstanceHook(protocol);
         moduleQuestionnaireBean.setModuleSubItemCode("0");
-        List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
-        answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
+        List<AnswerHeader> answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
         if (!answerHeaders.isEmpty() && answerHeaders.get(0).getAnswerHeaderId() != null) {
             businessObjectService.delete(answerHeaders);
         }
