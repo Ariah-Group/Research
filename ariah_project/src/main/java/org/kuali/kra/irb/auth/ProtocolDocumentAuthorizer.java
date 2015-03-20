@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.irb.auth;
 
@@ -37,63 +53,63 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * This class is the Proposal Document Authorizer.  It determines the edit modes and
- * document actions for all proposal development documents.
+ * This class is the Proposal Document Authorizer. It determines the edit modes
+ * and document actions for all proposal development documents.
  */
 public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
-    
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -8742664470188406956L;
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
+     * @see
+     * org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.krad.document.Document,
+     * org.kuali.rice.kim.api.identity.Person, java.util.Set)
      */
+    @Override
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
-        
+
         ProtocolDocument protocolDocument = (ProtocolDocument) document;
         String userId = user.getPrincipalId();
-        
+
         if (protocolDocument.getProtocol().getProtocolId() == null) {
             if (canCreateProtocol(user)) {
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
-            } 
-            else {
+            } else {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
-        } 
-        else {
-            if (canExecuteProtocolTask(userId, protocolDocument, TaskName.MODIFY_PROTOCOL)) {  
+        } else {
+            if (canExecuteProtocolTask(userId, protocolDocument, TaskName.MODIFY_PROTOCOL)) {
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
-            }
-            else if (canExecuteProtocolTask(userId, protocolDocument, TaskName.VIEW_PROTOCOL)) {
+            } else if (canExecuteProtocolTask(userId, protocolDocument, TaskName.VIEW_PROTOCOL)) {
                 editModes.add(AuthorizationConstants.EditMode.VIEW_ONLY);
-            }
-            else {
+            } else {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
-            
-            if( canExecuteProtocolTask(userId,protocolDocument,TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS)) {
+
+            if (canExecuteProtocolTask(userId, protocolDocument, TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS)) {
                 editModes.add(TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS);
             }
             if (canViewReviewComments(protocolDocument, user)) {
                 editModes.add(Constants.CAN_VIEW_REVIEW_COMMENTS);
             }
         }
-        
+
         return editModes;
     }
-    
+
     /**
      * This method determines if a person can view the review comments.
+     *
      * @param document
      * @param user
      * @return boolean
      */
     public boolean canViewReviewComments(Document document, Person user) {
-        ProtocolDocument protocolDoc = (ProtocolDocument)document;
+        ProtocolDocument protocolDoc = (ProtocolDocument) document;
         List<ProtocolPersonBase> participants = protocolDoc.getProtocol().getProtocolPersons();
         for (ProtocolPersonBase participant : participants) {
             if (StringUtils.equalsIgnoreCase(participant.getPersonId() + "", user.getPrincipalId())) {
@@ -105,9 +121,13 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
         }
         return true;
     }
+
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.api.identity.Person)
+     * @see
+     * org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String,
+     * org.kuali.rice.kim.api.identity.Person)
      */
+    @Override
     public boolean canInitiate(String documentTypeName, Person user) {
         if (GlobalVariables.getUserSession().getObjectMap().get(ProtocolAmendRenewService.AMEND_RENEW_ALLOW_NEW_PROTOCOL_DOCUMENT) != null) {
             GlobalVariables.getUserSession().removeObject(ProtocolAmendRenewService.AMEND_RENEW_ALLOW_NEW_PROTOCOL_DOCUMENT);
@@ -117,8 +137,11 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
     }
 
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
+     * @see
+     * org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.krad.document.Document,
+     * org.kuali.rice.kim.api.identity.Person)
      */
+    @Override
     public boolean canOpen(Document document, Person user) {
         ProtocolDocument protocolDocument = (ProtocolDocument) document;
         if (protocolDocument.getProtocol().getProtocolId() == null) {
@@ -126,73 +149,86 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
         }
         return canExecuteProtocolTask(user.getPrincipalId(), (ProtocolDocument) document, TaskName.VIEW_PROTOCOL);
     }
-    
+
     /**
      * Does the user have permission to create a protocol?
+     *
      * @param user the user
      * @return true if the user can create a protocol; otherwise false
      */
     private boolean canCreateProtocol(Person user) {
-        ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROTOCOL);       
+        ApplicationTask task = new ApplicationTask(TaskName.CREATE_PROTOCOL);
         TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(user.getPrincipalId(), task);
     }
-    
+
     /**
      * Does the user have permission to execute the given task for a protocol?
+     *
      * @param username the user's username
      * @param doc the protocol document
      * @param taskName the name of the task
      * @return true if has permission; otherwise false
      */
     private boolean canExecuteProtocolTask(String userId, ProtocolDocument doc, String taskName) {
-        ProtocolTask task = new ProtocolTask(taskName, (Protocol) doc.getProtocol());       
+        ProtocolTask task = new ProtocolTask(taskName, (Protocol) doc.getProtocol());
         TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(userId, task);
     }
-    
+
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canEdit(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
+     * @see
+     * org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canEdit(org.kuali.rice.krad.document.Document,
+     * org.kuali.rice.kim.api.identity.Person)
      */
     @Override
     public boolean canEdit(Document document, Person user) {
         return canExecuteProtocolTask(user.getPrincipalId(), (ProtocolDocument) document, TaskName.MODIFY_PROTOCOL);
     }
-    
+
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canSave(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
+     * @see
+     * org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canSave(org.kuali.rice.krad.document.Document,
+     * org.kuali.rice.kim.api.identity.Person)
      */
     @Override
     public boolean canSave(Document document, Person user) {
         return canEdit(document, user);
     }
-    
+
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
+     * @see
+     * org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.krad.document.Document,
+     * org.kuali.rice.kim.api.identity.Person)
      */
     @Override
     public boolean canCopy(Document document, Person user) {
         return false;
     }
-    
+
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
+     * @see
+     * org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCancel(org.kuali.rice.krad.document.Document,
+     * org.kuali.rice.kim.api.identity.Person)
      */
     @Override
     public boolean canCancel(Document document, Person user) {
         return false;
     }
-    
+
     /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canRoute(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
+     * @see
+     * org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canRoute(org.kuali.rice.krad.document.Document,
+     * org.kuali.rice.kim.api.identity.Person)
      */
     @Override
     public boolean canRoute(Document document, Person user) {
         return false;
     }
-    
+
     /**
      * Can the user blanket approve the given document?
+     *
      * @param document the document
      * @param user the user
      * @return always false for ProtocolDocument
@@ -211,11 +247,10 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
     public boolean canFyi(Document document, Person user) {
         return false;
     }
-    
+
     @Override
     public boolean canRecall(Document document, Person user) {
-        return canExecuteProtocolTask(user.getPrincipalId(), (ProtocolDocument)document, TaskName.RECALL_PROTOCOL);
+        return canExecuteProtocolTask(user.getPrincipalId(), (ProtocolDocument) document, TaskName.RECALL_PROTOCOL);
     }
 
-    
 }

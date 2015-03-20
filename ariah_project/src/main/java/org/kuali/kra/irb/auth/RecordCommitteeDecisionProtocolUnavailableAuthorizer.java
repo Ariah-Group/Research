@@ -27,6 +27,7 @@ public class RecordCommitteeDecisionProtocolUnavailableAuthorizer extends Protoc
     /**
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
+    @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO) &&
                (!kraWorkflowService.isInWorkflow(task.getProtocol().getProtocolDocument()) ||
