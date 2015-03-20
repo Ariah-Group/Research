@@ -101,8 +101,8 @@
   <bean id="UnitAdministrator-person.fullName" parent="UnitAdministrator-person.fullName-parentBean" />
     <bean id="UnitAdministrator-person.fullName-parentBean" abstract="true" parent="KcPerson-fullName">
         <property name="name" value="person.fullName" />
-        <property name="label" value="KcPerson Full Name" />
-        <property name="shortLabel" value="KcPerson Full Name" />
+        <property name="label" value="Person Full Name" />
+        <property name="shortLabel" value="Person Full Name" />
     </bean>
   
   <bean id="UnitAdministrator-unitAdministratorType.description" parent="UnitAdministrator-unitAdministratorType.description-parentBean" />
