@@ -167,7 +167,7 @@ limitations under the License.
         <div id="mod_divHeader">
            <div class="mod_container" style="min-height: 45px;">
                 <div id="mod_logoheader">
-                    <img src="static/images/logo.png" height="70" alt="Institutional Logo"/>
+                    <img src="static/images/${ConfigProperties.portal.logo.filename}" height="70" alt="${ConfigProperties.portal.logo.alttext}"/>
                 </div>   
                 <div id="mod_mainnavmenu">
                     <ul class="mod_navigation navbar-right">
@@ -237,7 +237,7 @@ limitations under the License.
                         <td width="15" class="leftback-focus">&nbsp;</td>
                         <c:choose>
                             <c:when test='${sessionScope.selectedTab == "portalReportsBody"}'>
-                                <portal:portalReports />
+                                <%@include file="WEB-INF/jsp/reporting/reports_main.jsp" %>
                             </c:when>
 
                             <c:when test='${sessionScope.selectedTab == "portalMyAccountBody"}'>
