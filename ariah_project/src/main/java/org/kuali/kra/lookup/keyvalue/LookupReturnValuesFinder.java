@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.lookup.keyvalue;
 
@@ -30,10 +46,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
- * This class get a list of lookup fileds for the selected lookup class
+ *
+ * This class get a list of lookup fields for the selected lookup class
  */
 public class LookupReturnValuesFinder extends UifKeyValuesFinderBase {
+
     private static final Log LOG = LogFactory.getLog(LookupReturnValuesFinder.class);
     private static final String ARGVALUELOOKUPE_CLASS = "org.kuali.kra.bo.ArgValueLookup";
 
@@ -49,26 +66,23 @@ public class LookupReturnValuesFinder extends UifKeyValuesFinderBase {
             if (lookupReturnFields != null) {
                 GlobalVariables.getUserSession().removeObject(Constants.LOOKUP_RETURN_FIELDS);
                 GlobalVariables.getUserSession().removeObject(Constants.LOOKUP_CLASS_NAME);
-            }
-            else {
+            } else {
                 if (lookupClass != null) {
                     lookupReturnFields = KraServiceLocator.getService(CustomAttributeService.class).getLookupReturns(lookupClass);
                     GlobalVariables.getUserSession().addObject(Constants.LOOKUP_RETURN_FIELDS, lookupReturnFields);
                 }
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             LOG.info(e.getMessage(), e);
         }
-        
+
         if (lookupReturnFields != null) {
             for (Object fieldName : lookupReturnFields) {
-                keyValues.add(new ConcreteKeyValue(fieldName.toString(), (ARGVALUELOOKUPE_CLASS.equals(lookupClass) ? fieldName.toString() : KraServiceLocator.getService(DataDictionaryService.class).getAttributeLabel(lookupClass,fieldName.toString()))));
+                keyValues.add(new ConcreteKeyValue(fieldName.toString(), (ARGVALUELOOKUPE_CLASS.equals(lookupClass) ? fieldName.toString() : KraServiceLocator.getService(DataDictionaryService.class).getAttributeLabel(lookupClass, fieldName.toString()))));
             }
         }
 
         return keyValues;
     }
-
 
 }
