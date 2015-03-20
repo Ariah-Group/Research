@@ -26,8 +26,8 @@
 
   <bean id="UnitAdministratorMaintenanceDocument-EditUnitAdministrator" parent="UnitAdministratorMaintenanceDocument-EditUnitAdministrator-parentBean"/>
   <bean id="UnitAdministratorMaintenanceDocument-EditUnitAdministrator-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="Edit UnitAdministrator"/>
-    <property name="title" value="Edit UnitAdministrator"/>
+    <property name="id" value="Edit Unit Administrator"/>
+    <property name="title" value="Edit Unit Administrator"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="unitAdministratorTypeCode" p:required="true"/>
