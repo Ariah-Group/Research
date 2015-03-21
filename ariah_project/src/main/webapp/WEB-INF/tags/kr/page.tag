@@ -340,7 +340,7 @@ limitations under the License.
                                                 <html:image property="methodToCall.hideAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-collapseall.gif" title="hide all panel content" alt="hide all panel content" styleClass="tinybutton" onclick="javascript: return collapseAllTab(document, tabStatesSize); " tabindex="-1" />
                                             </c:if>
                                             <c:if test="${renderRequiredFieldsLabel}" >
-                                                <br>* required field
+                                                &nbsp;&nbsp;&nbsp;* required field
                                             </c:if>
                                         </div>
                                     </div>

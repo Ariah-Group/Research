@@ -14,7 +14,6 @@
  limitations under the License.
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
-
 <%@ attribute name="editingMode" required="true" description="used to decide editability of overview fields" type="java.util.Map"%>
 <c:set var="isMaintenanceForm" value='false' />
 <c:if test='<%= jspContext.findAttribute("KualiForm") != null %>'>
@@ -22,11 +21,9 @@
 </c:if>
 <c:set var="isMaintenance" value="${isMaintenanceForm || maintenanceViewMode eq Constants.PARAM_MAINTENANCE_VIEW_MODE_MAINTENANCE}" />
 <c:set var="readOnly" value="${ ! KualiForm.documentActions[Constants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW]}" />
-
 <c:set var="docHeaderAttributes" value="${DataDictionary.DocumentHeader.attributes}" />
 <c:set var="documentTypeName" value="${KualiForm.docTypeName}" />
 <c:set var="documentEntry" value="${DataDictionary[documentTypeName]}" />
-
 <dd:evalNameToMap mapName="DataDictionary.${KualiForm.docTypeName}.attributes" returnVar="documentAttributes"/>
 <kul:tabTop tabTitle="Document Overview" defaultOpen="true" tabErrorKey="${Constants.DOCUMENT_ERRORS}" >
 	<div class="tab-container" align=center>

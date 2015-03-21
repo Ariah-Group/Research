@@ -12,20 +12,32 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
+ 
+Updates made after January 1, 2015 are :
+Copyright 2015 The Ariah Group, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. 
 --%>
-<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
-<%@ attribute name="bean" required="true" type="org.kuali.kra.questionnaire.QuestionnaireHelperBase" %>
-<%@ attribute name="property" required="true" %>
-<%@ attribute name="answerHeaderIndex" required="true" %>
-<%@ attribute name="readOnly" required="true" %>
-<%@ attribute name="printLineIndex" required="true" %>
-<%@ attribute name="answerable" required="false" %>
-
-	    <c:if test="${bean.answerHeaders[answerHeaderIndex].newerVersionPublished and not readOnly}">
+<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"
+%><%@ attribute name="bean" required="true" type="org.kuali.kra.questionnaire.QuestionnaireHelperBase" 
+%><%@ attribute name="property" required="true" 
+%><%@ attribute name="answerHeaderIndex" required="true" 
+%><%@ attribute name="readOnly" required="true" 
+%><%@ attribute name="printLineIndex" required="true" 
+%><%@ attribute name="answerable" required="false" %>
+       <c:if test="${bean.answerHeaders[answerHeaderIndex].newerVersionPublished and not readOnly}">
             <kra-questionnaire:updateQuestionnaireAnswer  answerHeaderIndex="${answerHeaderIndex}" bean = "${bean}" property = "${property}"/>        
         </c:if>
-	
 		<c:if test="${!bean.answerHeaders[answerHeaderIndex].hasVisibleQuestion}">
 			<h2>No conditions were met for questions in this questionnaire.</h2>
 		</c:if>
@@ -59,10 +71,8 @@
         <div class="questionnaireContent">
         <%-- hidden rule results --%>
             <input type="hidden" name="ruleReferenced" id ="ruleReferenced" value = "${bean.ruleReferenced}" />
-        
             <c:set var="questionid" value="" />
             <c:forEach items="${bean.answerHeaders[answerHeaderIndex].answers}" var="answer" varStatus="status">   
-
                 <c:if test="${questionid ne answer.questionNumber}" >
                 <%-- This 'if' block displays tab header for each question. if question has multiple answers
                      This is only displayed once when the 1st answer of this question is displayed --%>
@@ -73,7 +83,6 @@
                             </tr>
                         </table>
                     </c:if>
-            
                     <c:set var="questionid" value="${answer.questionNumber}" />
                    	<c:set var="displayCondition" value="({ 'conditionFlag' : '${answer.questionnaireQuestion.conditionFlag}', 'condition': '${answer.questionnaireQuestion.condition}', 'conditionValue' : '${answer.questionnaireQuestion.conditionValue}'})"/>
                     <c:set var="ruleId" value="${answer.questionnaireQuestion.ruleId}"/>
@@ -101,18 +110,10 @@
                        <c:choose>
                             <c:when test = "${answer.question.questionTypeId == 1 or answer.question.questionTypeId == 2}" >
                                 <c:choose>
-                                    <c:when test = "${answer.answer == 'Y'}" >
-                                      Yes
-                                    </c:when>
-                                    <c:when test = "${answer.answer == 'N'}" >
-                                      No
-                                    </c:when>
-                                    <c:when test = "${answer.answer == 'X'}" >
-                                      N/A
-                                    </c:when>
-                                    <c:otherwise>
-                                    
-                                    </c:otherwise>
+                                    <c:when test = "${answer.answer == 'Y'}" >Yes</c:when>
+                                    <c:when test = "${answer.answer == 'N'}" >No</c:when>
+                                    <c:when test = "${answer.answer == 'X'}" >N/A</c:when>
+                                    <c:otherwise></c:otherwise>
                                 </c:choose>
                             </c:when>
                             <c:when test = "${answer.question.questionTypeId == 6 and answer.question.lookupClass == 'org.kuali.kra.bo.ArgValueLookup'}" >
@@ -124,9 +125,7 @@
 		        	                </c:if>    
 		                        </c:forEach>
                             </c:when>
-                            <c:otherwise>
-                                  ${answer.answer} </br>
-                            </c:otherwise>
+                            <c:otherwise>${answer.answer} </br></c:otherwise>
                         </c:choose>
                     </c:when>
                     <c:otherwise>
@@ -134,9 +133,7 @@
                     </c:otherwise>
                 </c:choose>
             </c:forEach>
-
             <c:set var="questionid" value="${answer.questionNumber}" />
-
            <%-- following 4 tags is to close the last question's display tag --%>
                                 </div>
                             </td>
@@ -153,6 +150,4 @@
                         </tr>
                         </c:if>
                     </table>
-
-
         </div>
