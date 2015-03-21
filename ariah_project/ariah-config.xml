@@ -155,12 +155,14 @@
     
     <!-- This parameter allows you to specify an HTTP(s) link to a webapp that allows the users to 
     change their password for the system. -->
-    <param name="login.forgotpassword.url">http://demo.ariahgroup.org/research/</param>    
+    <param name="login.forgotpassword.url">http://demo.ariahgroup.org/</param>    
     
     <!-- This parameter allows you to specify the LABEL or publicly viewable text seen as part of the 
     Forgot Password URL specified via the 'login.forgotpassword.url' parameter. -->
     <param name="login.forgotpassword.label">Forgot Password?</param>    
 
+    <param name="password.change.url">http://demo.ariahgroup.org/</param>    
+    <param name="password.change.url.label">Change Password</param>
 
     <!-- custom parameters for feedback -->
     <param name="feedback.link.enabled">false</param>

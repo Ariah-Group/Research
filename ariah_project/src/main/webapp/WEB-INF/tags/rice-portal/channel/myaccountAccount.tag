@@ -36,7 +36,7 @@ limitations under the License.
   <ul class="chan">  	  
       <li><portal:portalLink displayTitle="true" title="My Locked Records" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.rice.krad.document.authorization.PessimisticLock&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
       <li><portal:portalLink displayTitle="false" title='Workflow Services' url='${ConfigProperties.workflow.url}/Preferences.do'>Action List Preferences</portal:portalLink></li>      
-      <li>Change Password</li>
+      <li><a href="${ConfigProperties.password.change.url}" target="_blank">${ConfigProperties.password.change.url.label}</a></li>
   </ul>
 </div>
 <channel:portalChannelBottom />
