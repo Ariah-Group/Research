@@ -332,7 +332,7 @@ public abstract class CommitteeActionsActionBase extends CommitteeActionBase {
 
         CommitteeFormBase committeeForm = (CommitteeFormBase) form;
         CommitteeDocumentBase committeeDocument = committeeForm.getCommitteeDocument();
-        Boolean printRooster = committeeForm.getCommitteeHelper().getPrintRooster();
+        Boolean printRoster = committeeForm.getCommitteeHelper().getPrintRooster();
         Boolean printFutureScheduledMeeting = committeeForm.getCommitteeHelper().getPrintFutureScheduledMeeting();
 
         CommitteeTaskBase task = getNewCommitteeTaskInstanceHook(TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee());
@@ -340,13 +340,13 @@ public abstract class CommitteeActionsActionBase extends CommitteeActionBase {
             List<Printable> correspondencePrintables = getCorrespondencePrintingService().getCorrespondencePrintable(committeeDocument.getCommittee(), committeeForm.getCommitteeHelper().getCorrespondencesToPrint());
             Boolean printCorrespondence = !correspondencePrintables.isEmpty();
             CommitteeActionPrintCommitteeDocumentEvent event = new CommitteeActionPrintCommitteeDocumentEvent(Constants.EMPTY_STRING, committeeForm.getDocument(),
-                    printRooster, printFutureScheduledMeeting);
+                    printRoster, printFutureScheduledMeeting);
             event.setPrintCorrespondence(printCorrespondence);
             String committeeId = committeeForm.getCommitteeDocument().getCommittee().getCommitteeId();
             if (applyRules(event)) {
                 AbstractPrint printable;
                 List<Printable> printableArtifactList = new ArrayList<Printable>();
-                if (printRooster) {
+                if (printRoster) {
                     printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.ROSTER, committeeId);
                     printable.setPrintableBusinessObject(committeeForm.getCommitteeDocument().getCommittee());
                     committeeForm.getCommitteeDocument().getCommittee().setPrintRooster(true);
