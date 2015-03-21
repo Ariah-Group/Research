@@ -29,11 +29,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<channel:portalChannelTop channelTitle="Negotiations" />
+<channel:portalChannelTop channelTitle="Negotiation" />
 <div class="body">
     <table border="0" cellpadding="2" cellspacing="0">
         <tr>
-            <td nowrap class="disabled-text">Negotiations</td>
+            <td nowrap class="disabled-text">Negotiation</td>
             <td>
         <portal:portalLink displayTitle="false" title="Create Negotiation" url="${ConfigProperties.application.url}/negotiationNegotiation.do?methodToCall=docHandler&command=initiate&docTypeName=NegotiationDocument"><img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>
         <portal:portalLink displayTitle="false" title="Negotiation Search" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.negotiations.bo.Negotiation&docFormKey=88888888&includeCustomActionUrls=true&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"><img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" align="absmiddle" border="0"></portal:portalLink>

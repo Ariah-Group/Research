@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<channel:portalChannelTop channelTitle="Negotiations" />
+<channel:portalChannelTop channelTitle="Negotiation" />
 <div class="body">
   <ul class="chan">
     <li><portal:portalLink displayTitle="true" title="Negotiation Activity Type" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.negotiations.bo.NegotiationActivityType&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
