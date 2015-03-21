@@ -7,7 +7,7 @@
   <bean id="NegotiationActivity" parent="NegotiationActivity-parentBean" />
   <bean id="NegotiationActivity-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.negotiations.bo.NegotiationActivity" />
-		<property name="objectLabel" value="NegotiationActivity" />
+		<property name="objectLabel" value="Negotiation Activity" />
     <property name="titleAttribute" value="negotiationId" />
     <property name="attributes" >
       <list>
