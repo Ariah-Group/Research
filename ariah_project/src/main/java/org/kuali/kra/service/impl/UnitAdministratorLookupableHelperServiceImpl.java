@@ -50,23 +50,23 @@ import java.util.Map;
 
 /**
  * Lookupable helper service used for proposal log lookup
- */  
+ */
 public class UnitAdministratorLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 2733736916454475501L;
-    
+
     @SuppressWarnings("unchecked")
     @Override
-    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames){
+    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
         htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
         List<HtmlData> returnHtmlDataList = new ArrayList<HtmlData>();
         for (HtmlData htmlData : htmlDataList) {
-            if(!(htmlData.getDisplayText().equals("copy") ||
-                    htmlData.getDisplayText().equals("edit"))) {
+            if (!(htmlData.getDisplayText().equalsIgnoreCase("copy")
+                    || htmlData.getDisplayText().equalsIgnoreCase("edit"))) {
                 returnHtmlDataList.add(htmlData);
             }
         }
@@ -74,11 +74,12 @@ public class UnitAdministratorLookupableHelperServiceImpl extends KualiLookupabl
     }
 
     /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
+     * @see
+     * org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
      */
     @Override
     public List<Row> getRows() {
-        List<Row> rows =  super.getRows();
+        List<Row> rows = super.getRows();
         for (Row row : rows) {
             for (Field field : row.getFields()) {
                 if (field.getPropertyName().equals("person.userName")) {
@@ -88,28 +89,28 @@ public class UnitAdministratorLookupableHelperServiceImpl extends KualiLookupabl
         }
         return rows;
     }
-    
+
     @SuppressWarnings("unchecked")
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         String userName = (String) lookupForm.getFieldsForLookup().get("person.userName");
-            if (StringUtils.isNotEmpty(userName)) {
-                KcPerson person = getKcPersonService().getKcPersonByUserName(userName);
+        if (StringUtils.isNotEmpty(userName)) {
+            KcPerson person = getKcPersonService().getKcPersonByUserName(userName);
             if (person != null) {
                 lookupForm.getFieldsForLookup().put("personId", person.getPersonId());
             }
         }
-        
+
         return super.performLookup(lookupForm, resultTable, bounded);
     }
-    
+
     public KcPersonService getKcPersonService() {
         return (KcPersonService) KraServiceLocator.getService(KcPersonService.class);
     }
 
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        List<UnitAdministrator> searchResults = (List<UnitAdministrator>)super.getSearchResults(fieldValues);
+        List<UnitAdministrator> searchResults = (List<UnitAdministrator>) super.getSearchResults(fieldValues);
         if (!searchResults.isEmpty()) {
             if (StringUtils.isNotBlank(fieldValues.get("person.userName"))) {
                 return filterSearchResults(searchResults, fieldValues.get("person.userName"));
@@ -124,7 +125,7 @@ public class UnitAdministratorLookupableHelperServiceImpl extends KualiLookupabl
      */
     protected List<UnitAdministrator> filterSearchResults(List<UnitAdministrator> searchResults, String userName) {
         List<UnitAdministrator> filteredList = new ArrayList<UnitAdministrator>();
-        
+
         String regexp = StringUtils.replace(userName, "*", ".*").toUpperCase() + "$";
         for (UnitAdministrator unitAdministrator : searchResults) {
             if (unitAdministrator.getPerson().getUserName().toUpperCase().matches(regexp)) {
@@ -133,5 +134,5 @@ public class UnitAdministratorLookupableHelperServiceImpl extends KualiLookupabl
         }
         return filteredList;
     }
-    
+
 }

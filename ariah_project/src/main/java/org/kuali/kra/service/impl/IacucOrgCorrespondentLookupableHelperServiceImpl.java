@@ -50,7 +50,7 @@ import java.util.Map;
 
 /**
  * Lookupable helper service used for person id lookup
- */  
+ */
 public class IacucOrgCorrespondentLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     /**
@@ -60,13 +60,13 @@ public class IacucOrgCorrespondentLookupableHelperServiceImpl extends KualiLooku
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames){
+    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
         htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
         List<HtmlData> returnHtmlDataList = new ArrayList<HtmlData>();
         for (HtmlData htmlData : htmlDataList) {
-            if(!(htmlData.getDisplayText().equals("copy") ||
-                    htmlData.getDisplayText().equals("edit"))) {
+            if (!(htmlData.getDisplayText().equalsIgnoreCase("copy")
+                    || htmlData.getDisplayText().equalsIgnoreCase("edit"))) {
                 returnHtmlDataList.add(htmlData);
             }
         }
@@ -74,11 +74,12 @@ public class IacucOrgCorrespondentLookupableHelperServiceImpl extends KualiLooku
     }
 
     /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
+     * @see
+     * org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
      */
     @Override
     public List<Row> getRows() {
-        List<Row> rows =  super.getRows();
+        List<Row> rows = super.getRows();
         for (Row row : rows) {
             for (Field field : row.getFields()) {
                 if (field.getPropertyName().equals("person.userName")) {
@@ -88,7 +89,7 @@ public class IacucOrgCorrespondentLookupableHelperServiceImpl extends KualiLooku
         }
         return rows;
     }
-    
+
     @SuppressWarnings("unchecked")
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
@@ -99,17 +100,17 @@ public class IacucOrgCorrespondentLookupableHelperServiceImpl extends KualiLooku
                 lookupForm.getFieldsForLookup().put("personId", person.getPersonId());
             }
         }
-        
+
         return super.performLookup(lookupForm, resultTable, bounded);
     }
-    
+
     public KcPersonService getKcPersonService() {
         return (KcPersonService) KraServiceLocator.getService(KcPersonService.class);
     }
 
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        List<OrganizationCorrespondent> searchResults = (List<OrganizationCorrespondent>)super.getSearchResults(fieldValues);
+        List<OrganizationCorrespondent> searchResults = (List<OrganizationCorrespondent>) super.getSearchResults(fieldValues);
         if (!searchResults.isEmpty()) {
             if (StringUtils.isNotBlank(fieldValues.get("person.userName"))) {
                 return filterSearchResults(searchResults, fieldValues.get("person.userName"));
@@ -124,7 +125,7 @@ public class IacucOrgCorrespondentLookupableHelperServiceImpl extends KualiLooku
      */
     protected List<OrganizationCorrespondent> filterSearchResults(List<OrganizationCorrespondent> searchResults, String userName) {
         List<OrganizationCorrespondent> filteredList = new ArrayList<OrganizationCorrespondent>();
-        
+
         String regexp = StringUtils.replace(userName, "*", ".*").toUpperCase() + "$";
         for (OrganizationCorrespondent organizationCorrespondent : searchResults) {
             if (organizationCorrespondent.getPerson().getUserName().toUpperCase().matches(regexp)) {
@@ -133,5 +134,5 @@ public class IacucOrgCorrespondentLookupableHelperServiceImpl extends KualiLooku
         }
         return filteredList;
     }
-    
+
 }

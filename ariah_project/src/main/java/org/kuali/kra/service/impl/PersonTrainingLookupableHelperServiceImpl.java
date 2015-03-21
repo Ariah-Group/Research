@@ -29,7 +29,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kra.service.impl;
 
 import org.apache.commons.lang.StringUtils;
@@ -66,7 +65,7 @@ public class PersonTrainingLookupableHelperServiceImpl extends KualiLookupableHe
         htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
         List<HtmlData> returnHtmlDataList = new ArrayList<HtmlData>();
         for (HtmlData htmlData : htmlDataList) {
-            if (!(htmlData.getDisplayText().equals("copy"))) {
+            if (!(htmlData.getDisplayText().equalsIgnoreCase("copy"))) {
                 returnHtmlDataList.add(htmlData);
             }
         }

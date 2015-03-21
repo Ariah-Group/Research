@@ -44,13 +44,14 @@ import java.util.List;
 public class IacucReviewDeterminationTypeLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     @SuppressWarnings("unchecked")
+    @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
         htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
         List<HtmlData> returnHtmlDataList = new ArrayList<HtmlData>();
         for (HtmlData htmlData : htmlDataList) {
-            if (!(htmlData.getDisplayText().equals("copy")
-                    || htmlData.getDisplayText().equals("edit"))) {
+            if (!(htmlData.getDisplayText().equalsIgnoreCase("copy")
+                    || htmlData.getDisplayText().equalsIgnoreCase("edit"))) {
                 returnHtmlDataList.add(htmlData);
             }
         }

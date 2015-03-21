@@ -241,7 +241,7 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
 
     protected AnchorHtmlData getCopyLink(Award award, Boolean readOnly) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
-        htmlData.setDisplayText("copy");
+        htmlData.setDisplayText("Copy");
         Properties parameters = new Properties();
         parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "awardActions");
         parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.DOCSEARCH_COMMAND);

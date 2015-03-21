@@ -50,7 +50,7 @@ import java.util.Map;
 
 /**
  * Lookupable helper service used for person id lookup
- */  
+ */
 public class IacucUnitCrrspndntLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     /**
@@ -60,13 +60,13 @@ public class IacucUnitCrrspndntLookupableHelperServiceImpl extends KualiLookupab
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames){
+    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
         htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
         List<HtmlData> returnHtmlDataList = new ArrayList<HtmlData>();
         for (HtmlData htmlData : htmlDataList) {
-            if(!(htmlData.getDisplayText().equals("copy") ||
-                    htmlData.getDisplayText().equals("edit"))) {
+            if (!(htmlData.getDisplayText().equalsIgnoreCase("copy")
+                    || htmlData.getDisplayText().equalsIgnoreCase("edit"))) {
                 returnHtmlDataList.add(htmlData);
             }
         }
@@ -74,11 +74,12 @@ public class IacucUnitCrrspndntLookupableHelperServiceImpl extends KualiLookupab
     }
 
     /**
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
+     * @see
+     * org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
      */
     @Override
     public List<Row> getRows() {
-        List<Row> rows =  super.getRows();
+        List<Row> rows = super.getRows();
         for (Row row : rows) {
             for (Field field : row.getFields()) {
                 if (field.getPropertyName().equals("person.userName")) {
@@ -88,29 +89,29 @@ public class IacucUnitCrrspndntLookupableHelperServiceImpl extends KualiLookupab
         }
         return rows;
     }
-    
+
     @SuppressWarnings("unchecked")
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         String userName = (String) lookupForm.getFieldsForLookup().get("person.userName");
-            if (StringUtils.isNotEmpty(userName)) {
-                KcPerson person = getKcPersonService().getKcPersonByUserName(userName);
+        if (StringUtils.isNotEmpty(userName)) {
+            KcPerson person = getKcPersonService().getKcPersonByUserName(userName);
             if (person != null) {
                 lookupForm.getFieldsForLookup().put("personId", person.getPersonId());
             }
         }
-        
+
         return super.performLookup(lookupForm, resultTable, bounded);
     }
-    
+
     public KcPersonService getKcPersonService() {
         return (KcPersonService) KraServiceLocator.getService(KcPersonService.class);
     }
 
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        List<UnitCorrespondent> searchResults = (List<UnitCorrespondent>)super.getSearchResults(fieldValues);
-System.out.println("\n\nUnitCorr.getSearchResults called, # results = " + searchResults.size());
+        List<UnitCorrespondent> searchResults = (List<UnitCorrespondent>) super.getSearchResults(fieldValues);
+        System.out.println("\n\nUnitCorr.getSearchResults called, # results = " + searchResults.size());
         if (!searchResults.isEmpty()) {
             if (StringUtils.isNotBlank(fieldValues.get("person.userName"))) {
                 return filterSearchResults(searchResults, fieldValues.get("person.userName"));
@@ -125,7 +126,7 @@ System.out.println("\n\nUnitCorr.getSearchResults called, # results = " + search
      */
     protected List<UnitCorrespondent> filterSearchResults(List<UnitCorrespondent> searchResults, String userName) {
         List<UnitCorrespondent> filteredList = new ArrayList<UnitCorrespondent>();
-        
+
         String regexp = StringUtils.replace(userName, "*", ".*").toUpperCase() + "$";
         for (UnitCorrespondent unitCorrespondent : searchResults) {
             if (unitCorrespondent.getPerson().getUserName().toUpperCase().matches(regexp)) {
@@ -134,5 +135,5 @@ System.out.println("\n\nUnitCorr.getSearchResults called, # results = " + search
         }
         return filteredList;
     }
-    
+
 }
