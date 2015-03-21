@@ -27,8 +27,8 @@
 <meta http-equiv="refresh" content="5">
         
 <kul:page showDocumentInfo="false"
-          headerTitle="Kuali Transactional Document Postprocessing Holding Page"
-          docTitle="Kuali Transactional Document Postprocessing Holding Page"
+          headerTitle="Postprocessing Holding Page"
+          docTitle="Postprocessing Holding Page"
           transactionalDocument="false"
           htmlFormAction="kraHoldingPage"
           defaultMethodToCall="returnToPortal">
