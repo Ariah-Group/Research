@@ -41,7 +41,7 @@ public class NegotiationAssociationType  extends NegotiationsGroupingBase implem
     
     public static final String NONE_ASSOCIATION = "NO";
     public static final String PROPOSAL_LOG_ASSOCIATION = "PL";
-    public static final String INSTITUATIONAL_PROPOSAL_ASSOCIATION = "IP";
+    public static final String INSTITUTIONAL_PROPOSAL_ASSOCIATION = "IP";
     public static final String AWARD_ASSOCIATION = "AWD";
     public static final String SUB_AWARD_ASSOCIATION = "SWD";
     public static final String DEV_PROPOSAL_ASSOCIATION = "PD";

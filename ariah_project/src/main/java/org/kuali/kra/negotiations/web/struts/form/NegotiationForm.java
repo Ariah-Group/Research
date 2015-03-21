@@ -164,7 +164,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase implements
     }
 
     public boolean getDisplayInstitutionalProposal() {
-        return isAssocitationType(NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION);
+        return isAssocitationType(NegotiationAssociationType.INSTITUTIONAL_PROPOSAL_ASSOCIATION);
     }
 
     public boolean getDisplayDevelopmentProposal() {

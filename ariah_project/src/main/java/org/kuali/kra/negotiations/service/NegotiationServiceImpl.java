@@ -98,7 +98,7 @@ public class NegotiationServiceImpl implements NegotiationService {
             if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.AWARD_ASSOCIATION)) {
                 bo = getAward(negotiation.getAssociatedDocumentId());
             } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(),
-                    NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION)) {
+                    NegotiationAssociationType.INSTITUTIONAL_PROPOSAL_ASSOCIATION)) {
                 bo = getInstitutionalProposal(negotiation.getAssociatedDocumentId());
 
             } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(),
@@ -218,7 +218,7 @@ public class NegotiationServiceImpl implements NegotiationService {
             return new ArrayList(getAssociatedNegotiations(propLog.getProposalNumber(), NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION));
         } else if (bo instanceof InstitutionalProposal) {
             InstitutionalProposal ip = (InstitutionalProposal) bo;
-            return new ArrayList(getAssociatedNegotiations(ip.getProposalNumber(), NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION));
+            return new ArrayList(getAssociatedNegotiations(ip.getProposalNumber(), NegotiationAssociationType.INSTITUTIONAL_PROPOSAL_ASSOCIATION));
         } else if (bo instanceof Award) {
             Award award = (Award) bo;
             return new ArrayList(getAssociatedNegotiations(award.getAwardNumber(), NegotiationAssociationType.AWARD_ASSOCIATION));
@@ -269,7 +269,7 @@ public class NegotiationServiceImpl implements NegotiationService {
 
     @Override
     public boolean isInstitutionalProposalLinkingEnabled() {
-        return this.isNegotaitionAssociationTypeActive(NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION);
+        return this.isNegotaitionAssociationTypeActive(NegotiationAssociationType.INSTITUTIONAL_PROPOSAL_ASSOCIATION);
     }
 
     @Override
@@ -313,7 +313,7 @@ public class NegotiationServiceImpl implements NegotiationService {
             //if the proplog has been promoted to a inst prop then relink negotiation to the new inst prop.
             if (propLog != null && StringUtils.isNotBlank(propLog.getInstProposalNumber())) {
                 negotiation.setNegotiationAssociationType(
-                        getNegotiationAssociationType(NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION));
+                        getNegotiationAssociationType(NegotiationAssociationType.INSTITUTIONAL_PROPOSAL_ASSOCIATION));
                 InstitutionalProposal proposal = getBusinessObjectService().findBySinglePrimaryKey(InstitutionalProposal.class, propLog.getInstProposalNumber());
                 if (proposal != null) {
                     negotiation.setNegotiationAssociationTypeId(negotiation.getNegotiationAssociationType().getId());
@@ -443,7 +443,7 @@ public class NegotiationServiceImpl implements NegotiationService {
         Collection<Negotiation> negotiations = getAssociatedNegotiations(proposalLogProposalNumber, NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION);
         ArrayList<Negotiation> negotiationsToSave = new ArrayList<Negotiation>();
         if (negotiations != null && !negotiations.isEmpty()) {
-            NegotiationAssociationType ipAssocationType = getNegotiationAssociationType(NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION);
+            NegotiationAssociationType ipAssocationType = getNegotiationAssociationType(NegotiationAssociationType.INSTITUTIONAL_PROPOSAL_ASSOCIATION);
             for (Negotiation negotiation : negotiations) {
                 negotiation.setNegotiationAssociationType(ipAssocationType);
                 negotiation.setNegotiationAssociationTypeId(ipAssocationType.getId());

@@ -278,7 +278,7 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
         subQuery.setAttributes(new String[] {"proposalNumber"});
         negotiationCrit.addIn(ASSOCIATED_DOC_ID_ATTR, subQuery);
         negotiationCrit.addEqualTo(NEGOTIATION_TYPE_ATTR, 
-                getNegotiationService().getNegotiationAssociationType(NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION).getId());
+                getNegotiationService().getNegotiationAssociationType(NegotiationAssociationType.INSTITUTIONAL_PROPOSAL_ASSOCIATION).getId());
         Collection<Negotiation> result = this.findCollectionBySearchHelper(Negotiation.class, negotiationValues, false, false, negotiationCrit);
         return result;
     }
