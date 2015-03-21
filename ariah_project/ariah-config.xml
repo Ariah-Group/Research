@@ -161,7 +161,10 @@
     Forgot Password URL specified via the 'login.forgotpassword.url' parameter. -->
     <param name="login.forgotpassword.label">Forgot Password?</param>    
 
+    <!-- URL in the My Account sectionb that is linking to a Change Password page or external web app enabling URL to change their account password. -->
     <param name="password.change.url">http://demo.ariahgroup.org/</param>    
+    
+    <!-- Label that appears as the link text in the user interface for the Link specified by the password.change.url parameter. -->
     <param name="password.change.url.label">Change Password</param>
 
     <!-- custom parameters for feedback -->
