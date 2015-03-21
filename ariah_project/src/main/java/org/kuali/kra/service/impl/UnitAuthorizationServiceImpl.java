@@ -111,7 +111,7 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
     @Override
     public boolean hasPermission(String userId, String namespaceCode, String permissionName) {
         boolean userHasPermission = false;
-        Map<String, String> permissionAttributes = PermissionAttributes.getAttributes(permissionName);
+        //Map<String, String> permissionAttributes = PermissionAttributes.getAttributes(permissionName);
         
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, "*"); 
