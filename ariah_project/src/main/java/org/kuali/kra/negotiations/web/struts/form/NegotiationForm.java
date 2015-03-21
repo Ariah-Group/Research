@@ -167,6 +167,18 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase implements
         return isAssocitationType(NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION);
     }
 
+    public boolean getDisplayDevelopmentProposal() {
+        return isAssocitationType(NegotiationAssociationType.DEV_PROPOSAL_ASSOCIATION);
+    }
+
+    public boolean getDisplayIrbProtocol() {
+        return isAssocitationType(NegotiationAssociationType.IRB_PROTOCL_ASSOCIATION);
+    }
+
+    public boolean getDisplayIacucProtocol() {
+        return isAssocitationType(NegotiationAssociationType.IACUC_PROTOCOL_ASSOCIATION);
+    }
+
     public boolean getDisplayAward() {
         return isAssocitationType(NegotiationAssociationType.AWARD_ASSOCIATION);
     }
@@ -365,7 +377,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase implements
     public boolean isHideNegotiationDocDescriptionPanel() {
         return getNegotiationDocument().isDefaultDocumentDescription();
     }
-    
+
     /**
      * Set to display more columns so that we can show additional fields in a
      * the document header.
@@ -373,5 +385,5 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase implements
     @Override
     public int getNumColumns() {
         return 3;
-    }     
+    }
 }

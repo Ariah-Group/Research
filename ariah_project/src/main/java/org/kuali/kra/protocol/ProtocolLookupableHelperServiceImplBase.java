@@ -65,6 +65,7 @@ import org.kuali.rice.krad.util.UrlFactory;
 
 import java.text.ParseException;
 import java.util.*;
+import org.kuali.kra.infrastructure.TaskName;
 
 /**
  * This class handles searching for protocols.
@@ -115,11 +116,11 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
      */
     protected List<? extends BusinessObject> filterProtocolsByTask(Map<String, String> fieldValues, String... taskNames) {
         List<GenericProtocol> filteredProtocols = new ArrayList<GenericProtocol>();
-
+        final String principalId = getUserIdentifier();
         for (GenericProtocol protocol : (List<GenericProtocol>) getProtocolDaoHook().getProtocols(filterFieldValues(fieldValues))) {
             for (String taskName : taskNames) {
                 ProtocolTaskBase task = createNewProtocolTaskInstanceHook(taskName, protocol);
-                if (taskAuthorizationService.isAuthorized(getUserIdentifier(), task)) {
+                if (taskAuthorizationService.isAuthorized(principalId, task)) {
                     filteredProtocols.add(protocol);
                     break;
                 }
@@ -144,11 +145,16 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
     protected List<? extends BusinessObject> filterProtocolsByStatus(Map<String, String> fieldValues, String... protocolStatusCodes) {
         List<GenericProtocol> filteredProtocols = new ArrayList<GenericProtocol>();
 
+        final String principalId = getUserIdentifier();
         List<String> protocolStatusCodeList = Arrays.asList(protocolStatusCodes);
         for (GenericProtocol protocol : (List<GenericProtocol>) getProtocolDaoHook().getProtocols(filterFieldValues(fieldValues))) {
             String statusCode = protocol.getProtocolStatusCode();
             if (protocolStatusCodeList.contains(statusCode)) {
-                filteredProtocols.add(protocol);
+                ProtocolTaskBase task = createNewProtocolTaskInstanceHook(TaskName.VIEW_PROTOCOL, protocol);
+                if (taskAuthorizationService.isAuthorized(principalId, task)) {
+                    filteredProtocols.add(protocol);
+                    break;
+                }
             }
         }
 
@@ -177,7 +183,7 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
                     filteredProtocols.add(protocol);
                 }
             } catch (WorkflowException we) {
-                LOG.warn("Cannot find Document with header id " + protocol.getProtocolDocument().getDocumentNumber() + ", removing from search results.");
+                LOG.warn("Cannot find Document with header id " + protocol.getProtocolDocument().getDocumentNumber() + ", removing from search results.", we);
             }
         }
 
@@ -212,10 +218,10 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
      * @return a collection of protocol pageable results.
      */
     private CollectionIncomplete<GenericProtocol> getPagedResults(List<GenericProtocol> protocols) {
-        Long matchingResultsCount = new Long(protocols.size());
+        Long matchingResultsCount = (long) protocols.size();
         Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(getProtocolClassHook());
-        if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit.intValue())) {
-            return new CollectionIncomplete<GenericProtocol>(protocols, new Long(0));
+        if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit)) {
+            return new CollectionIncomplete<GenericProtocol>(protocols, (long) 0);
         } else {
             return new CollectionIncomplete<GenericProtocol>(trimResult(protocols, searchResultsLimit), matchingResultsCount);
         }
@@ -331,7 +337,7 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
      */
     protected AnchorHtmlData getPerformActionLink(BusinessObject businessObject, String actionKey) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
-        htmlData.setDisplayText("perform action");
+        htmlData.setDisplayText("Perform Action");
         Properties parameters = new Properties();
         parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "performProtocolAction");
         parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.DOCSEARCH_COMMAND);
@@ -349,6 +355,7 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
      *
      * @param businessObject
      * @param pkNames
+     * @return
      */
     protected List<HtmlData> getEditCopyViewLinks(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
@@ -359,7 +366,7 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
             String href = editHtmlData.getHref();
             href = href.replace("viewDocument=true", "viewDocument=false");
             editHtmlData.setHref(href);
-            editHtmlData.setDisplayText("edit");
+            editHtmlData.setDisplayText("Edit");
             htmlDataList.add(editHtmlData);
             AnchorHtmlData htmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
             ProtocolDocumentBase document = ((ProtocolBase) businessObject).getProtocolDocument();
@@ -367,9 +374,13 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
                     + "&command=displayDocSearchView&documentTypeName=" + getDocumentTypeName());
             htmlDataList.add(htmlData);
         }
-        if (kraAuthorizationService.hasPermission(getUserIdentifier(), (ProtocolBase) businessObject, PermissionConstants.VIEW_PROTOCOL)) {
-            htmlDataList.add(getViewLink(((ProtocolBase) businessObject).getProtocolDocument()));
-        }
+        // Intentionally removing View Protocol auth check here, as the VIEW PROTOCOL auth check is 
+        // now performed in the ProtocolLookupableHelperServiceImpl class at the record-level
+        // thus if the user does NOT have ability to View Protocol it won't even show up in the results
+        // at all much less need a View link.        
+        //if (kraAuthorizationService.hasPermission(getUserIdentifier(), (ProtocolBase) businessObject, PermissionConstants.VIEW_PROTOCOL)) {
+        htmlDataList.add(getViewLink(((ProtocolBase) businessObject).getProtocolDocument()));
+        //}
         return htmlDataList;
     }
 

@@ -35,67 +35,90 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Date;
 import java.util.*;
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 
 /**
  * Service impl for NegotiationService.
  */
 public class NegotiationServiceImpl implements NegotiationService {
-    
+
     private static final String PARAMETER_DELIMITER = ",";
-    
+
     private ParameterService parameterService;
     private AwardBudgetService awardBudgetService;
     private InstitutionalProposalService institutionalProposalService;
     private UnitAdministratorDerivedRoleTypeServiceImpl unitAdministratorDerivedRoleTypeServiceImpl;
     private KcPersonService kcPersonService;
     private VersionHistoryService versionHistoryService;
-    
+
     private BusinessObjectService businessObjectService;
-    
+
     /**
      * Return the negotiationInProgressStatusCodes as a list of strings.
-     * @see org.kuali.kra.negotiations.service.NegotiationService#getInProgressStatusCodes()
+     *
+     * @see
+     * org.kuali.kra.negotiations.service.NegotiationService#getInProgressStatusCodes()
      */
+    @Override
     public List<String> getInProgressStatusCodes() {
         String value = getParameterService().getParameterValueAsString(NegotiationDocument.class, "negotiationInProgressStatusCodes");
         return Arrays.asList(value.split(PARAMETER_DELIMITER));
     }
-    
+
     /**
      * Return the negotiationCompletedStatusCodes as a list of strings.
-     * @see org.kuali.kra.negotiations.service.NegotiationService#getCompletedStatusCodes()
+     *
+     * @see
+     * org.kuali.kra.negotiations.service.NegotiationService#getCompletedStatusCodes()
      */
+    @Override
     public List<String> getCompletedStatusCodes() {
         String value = getParameterService().getParameterValueAsString(NegotiationDocument.class, "negotiationCompletedStatusCodes");
-        return Arrays.asList(value.split(PARAMETER_DELIMITER));        
+        return Arrays.asList(value.split(PARAMETER_DELIMITER));
     }
 
     /**
      * Return the CLOSED_NEGOTIATION_STATUS param.
-     * @see org.kuali.kra.negotiations.service.NegotiationService#getCompleteStatusCode()
+     *
+     * @see
+     * org.kuali.kra.negotiations.service.NegotiationService#getCompleteStatusCode()
      */
+    @Override
     public String getCompleteStatusCode() {
         String value = getParameterService().getParameterValueAsString(NegotiationDocument.class, "CLOSED_NEGOTIATION_STATUS");
         return value;
     }
-    
-    
+
+    @Override
     public Negotiable getAssociatedObject(Negotiation negotiation) {
         if (negotiation != null && negotiation.getNegotiationAssociationType() != null) {
             Negotiable bo = null;
             if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.AWARD_ASSOCIATION)) {
                 bo = getAward(negotiation.getAssociatedDocumentId());
-            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
+            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(),
                     NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION)) {
                 bo = getInstitutionalProposal(negotiation.getAssociatedDocumentId());
-            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
+
+            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(),
+                    NegotiationAssociationType.DEV_PROPOSAL_ASSOCIATION)) {
+                bo = getDevelopmentProposal(negotiation.getAssociatedDocumentId());
+            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(),
+                    NegotiationAssociationType.IRB_PROTOCL_ASSOCIATION)) {
+                bo = getIrbProtocol(negotiation.getAssociatedDocumentId());
+            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(),
+                    NegotiationAssociationType.IACUC_PROTOCOL_ASSOCIATION)) {
+                bo = getIacucProtocol(negotiation.getAssociatedDocumentId());
+
+            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(),
                     NegotiationAssociationType.NONE_ASSOCIATION)) {
                 negotiation.refreshReferenceObject("unAssociatedDetail");
                 bo = negotiation.getUnAssociatedDetail();
-            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
+            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(),
                     NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION)) {
                 bo = getProposalLog(negotiation.getAssociatedDocumentId());
-            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), 
+            } else if (StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(),
                     NegotiationAssociationType.SUB_AWARD_ASSOCIATION)) {
                 bo = getSubAward(negotiation.getAssociatedDocumentId());
             }
@@ -104,11 +127,13 @@ public class NegotiationServiceImpl implements NegotiationService {
             return null;
         }
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kra.negotiations.service.NegotiationService#buildNegotiationAssociatedDetailBean(org.kuali.kra.negotiations.bo.Negotiation)
+     *
+     * @see
+     * org.kuali.kra.negotiations.service.NegotiationService#buildNegotiationAssociatedDetailBean(org.kuali.kra.negotiations.bo.Negotiation)
      */
+    @Override
     public NegotiationAssociatedDetailBean buildNegotiationAssociatedDetailBean(Negotiation negotiation) {
         negotiation.refreshReferenceObject("negotiationAssociationType");
         if (negotiation.getNegotiationAssociationType() != null) {
@@ -119,19 +144,47 @@ public class NegotiationServiceImpl implements NegotiationService {
             return new NegotiationAssociatedDetailBean("");
         }
     }
-    
+
     private Award getAward(String awardNumber) {
         Award award = this.getAwardBudgetService().getActiveOrNewestAward(awardNumber);
         return award;
     }
-    
+
+    private DevelopmentProposal getDevelopmentProposal(String proposalNumber) {
+        Map<String, String> primaryKeys = new HashMap<String, String>();
+        primaryKeys.put("PROPOSAL_NUMBER", proposalNumber);
+        DevelopmentProposal devProp = (DevelopmentProposal) this.getBusinessObjectService().findByPrimaryKey(DevelopmentProposal.class, primaryKeys);
+        return devProp;
+    }
+
+    private IacucProtocol getIacucProtocol(String protocolNumber) {
+        Map<String, String> primaryKeys = new HashMap<String, String>();
+        primaryKeys.put("PROTOCOL_NUMBER", protocolNumber);
+        primaryKeys.put("SEQUENCE_NUMBER", "0");
+        IacucProtocol protocol = (IacucProtocol) this.getBusinessObjectService().findByPrimaryKey(IacucProtocol.class, primaryKeys);
+        
+        
+        return protocol;
+    }
+
+    private Protocol getIrbProtocol(String protocolNumber) {
+        Map<String, String> primaryKeys = new HashMap<String, String>();
+        primaryKeys.put("PROTOCOL_NUMBER", protocolNumber);
+        primaryKeys.put("SEQUENCE_NUMBER", "0");
+        Protocol protocol = (Protocol) this.getBusinessObjectService().findByPrimaryKey(Protocol.class, primaryKeys);
+        
+        
+        
+        return protocol;
+    }
+
     private ProposalLog getProposalLog(String proposalNumber) {
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put("PROPOSAL_NUMBER", proposalNumber);
         ProposalLog pl = (ProposalLog) this.getBusinessObjectService().findByPrimaryKey(ProposalLog.class, primaryKeys);
         return pl;
     }
-    
+
     private SubAward getSubAward(String subAwardId) {
         VersionHistory versionHistory = getVersionHistoryService().getActiveOrNewestVersion(SubAward.class, subAwardId);
         if (versionHistory != null) {
@@ -140,7 +193,7 @@ public class NegotiationServiceImpl implements NegotiationService {
             return null;
         }
     }
-    
+
     private InstitutionalProposal getInstitutionalProposal(String proposalNumber) {
         InstitutionalProposal ip = this.getInstitutionalProposalService().getActiveInstitutionalProposalVersion(proposalNumber);
         if (ip == null) {
@@ -155,8 +208,9 @@ public class NegotiationServiceImpl implements NegotiationService {
         }
         return ip;
     }
-    
+
     @SuppressWarnings("unchecked")
+    @Override
     public List<Negotiation> getAssociatedNegotiations(BusinessObject bo) {
         List<Negotiation> result = new ArrayList<Negotiation>();
         if (bo instanceof ProposalLog) {
@@ -167,14 +221,23 @@ public class NegotiationServiceImpl implements NegotiationService {
             return new ArrayList(getAssociatedNegotiations(ip.getProposalNumber(), NegotiationAssociationType.INSTITUATIONAL_PROPOSAL_ASSOCIATION));
         } else if (bo instanceof Award) {
             Award award = (Award) bo;
-            return new ArrayList(getAssociatedNegotiations(award.getAwardNumber(), NegotiationAssociationType.AWARD_ASSOCIATION));            
+            return new ArrayList(getAssociatedNegotiations(award.getAwardNumber(), NegotiationAssociationType.AWARD_ASSOCIATION));
+        } else if (bo instanceof DevelopmentProposal) {
+            DevelopmentProposal devProp = (DevelopmentProposal) bo;
+            return new ArrayList(getAssociatedNegotiations(devProp.getProposalNumber(), NegotiationAssociationType.DEV_PROPOSAL_ASSOCIATION));
+        } else if (bo instanceof IacucProtocol) {
+            IacucProtocol iacuc = (IacucProtocol) bo;
+            return new ArrayList(getAssociatedNegotiations(iacuc.getProtocolNumber(), NegotiationAssociationType.IACUC_PROTOCOL_ASSOCIATION));
+        } else if (bo instanceof Protocol) {
+            Protocol irb = (Protocol) bo;
+            return new ArrayList(getAssociatedNegotiations(irb.getProtocolNumber(), NegotiationAssociationType.IRB_PROTOCL_ASSOCIATION));
         } else if (bo instanceof SubAward) {
             SubAward subAward = (SubAward) bo;
             return new ArrayList(getAssociatedNegotiations(subAward.getSubAwardCode(), NegotiationAssociationType.SUB_AWARD_ASSOCIATION));
         }
         return result;
-    }  
-    
+    }
+
     @SuppressWarnings("unchecked")
     protected Collection<Negotiation> getAssociatedNegotiations(String associatedId, String associationTypeCode) {
         Map<String, Object> values = new HashMap<String, Object>();
@@ -182,15 +245,17 @@ public class NegotiationServiceImpl implements NegotiationService {
         values.put("negotiationAssociationTypeId", getNegotiationAssociationType(associationTypeCode).getId());
         return (Collection<Negotiation>) getBusinessObjectService().findMatching(Negotiation.class, values);
     }
-    
+
     @SuppressWarnings("unchecked")
+    @Override
     public NegotiationAssociationType getNegotiationAssociationType(String associationTypeCode) {
         Map params = new HashMap();
         params.put("code", associationTypeCode);
         return (NegotiationAssociationType) this.getBusinessObjectService().findMatching(NegotiationAssociationType.class, params).iterator().next();
     }
-    
+
     @SuppressWarnings("unchecked")
+    @Override
     public NegotiationStatus getNegotiationStatus(String statusCode) {
         Map params = new HashMap();
         params.put("code", statusCode);
@@ -221,10 +286,12 @@ public class NegotiationServiceImpl implements NegotiationService {
     public boolean isSubawardLinkingEnabled() {
         return this.isNegotaitionAssociationTypeActive(NegotiationAssociationType.SUB_AWARD_ASSOCIATION);
     }
-    
+
     /**
-     * 
-     * This method is a helper method for the isXXXLinkingEnabled functions.  It checks the association type object's active value.
+     *
+     * This method is a helper method for the isXXXLinkingEnabled functions. It
+     * checks the association type object's active value.
+     *
      * @param associationTypeCode
      * @return
      */
@@ -234,11 +301,12 @@ public class NegotiationServiceImpl implements NegotiationService {
     }
 
     /**
-     * @see org.kuali.kra.negotiations.service.NegotiationService#checkForPropLogPromotion(org.kuali.kra.negotiations.bo.Negotiation)
+     * @see
+     * org.kuali.kra.negotiations.service.NegotiationService#checkForPropLogPromotion(org.kuali.kra.negotiations.bo.Negotiation)
      */
     @Override
     public void checkForPropLogPromotion(Negotiation negotiation) {
-        if (negotiation.getNegotiationAssociationType() != null 
+        if (negotiation.getNegotiationAssociationType() != null
                 && StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION)
                 && isInstitutionalProposalLinkingEnabled()) {
             ProposalLog propLog = getBusinessObjectService().findBySinglePrimaryKey(ProposalLog.class, negotiation.getAssociatedDocumentId());
@@ -253,29 +321,33 @@ public class NegotiationServiceImpl implements NegotiationService {
                 }
             }
         }
-        
+
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kra.negotiations.service.NegotiationService#findAndLoadNegotiationUnassociatedDetail(org.kuali.kra.negotiations.bo.Negotiation, boolean)
+     *
+     * @see
+     * org.kuali.kra.negotiations.service.NegotiationService#findAndLoadNegotiationUnassociatedDetail(org.kuali.kra.negotiations.bo.Negotiation,
+     * boolean)
      */
+    @Override
     public NegotiationUnassociatedDetail findAndLoadNegotiationUnassociatedDetail(Negotiation negotiation) {
-        if (negotiation.getNegotiationAssociationType() != null 
-                && StringUtils.equalsIgnoreCase(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.NONE_ASSOCIATION) 
+        if (negotiation.getNegotiationAssociationType() != null
+                && StringUtils.equalsIgnoreCase(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.NONE_ASSOCIATION)
                 && StringUtils.isNotEmpty(negotiation.getAssociatedDocumentId()) && negotiation.getAssociatedDocumentId().matches("\\d*")) {
-            NegotiationUnassociatedDetail unAssociatedDetail = (NegotiationUnassociatedDetail) 
-                    this.getBusinessObjectService().findBySinglePrimaryKey(NegotiationUnassociatedDetail.class, negotiation.getAssociatedDocumentId());
+            NegotiationUnassociatedDetail unAssociatedDetail = (NegotiationUnassociatedDetail) this.getBusinessObjectService().findBySinglePrimaryKey(NegotiationUnassociatedDetail.class, negotiation.getAssociatedDocumentId());
             return unAssociatedDetail;
         } else {
             return null;
         }
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kra.negotiations.service.NegotiationService#getNegotiationActivityHistoryLineBeans(java.util.List)
+     *
+     * @see
+     * org.kuali.kra.negotiations.service.NegotiationService#getNegotiationActivityHistoryLineBeans(java.util.List)
      */
+    @Override
     public List<NegotiationActivityHistoryLineBean> getNegotiationActivityHistoryLineBeans(List<NegotiationActivity> activities) {
         List<NegotiationActivityHistoryLineBean> beans = new ArrayList<NegotiationActivityHistoryLineBean>();
         for (NegotiationActivity activity : activities) {
@@ -285,7 +357,7 @@ public class NegotiationServiceImpl implements NegotiationService {
             }
         }
         Collections.sort(beans);
-        
+
         // now set the effective dates and calculate the location days.
         Date previousStartDate = null;
         Date previousEndDate = null;
@@ -299,10 +371,10 @@ public class NegotiationServiceImpl implements NegotiationService {
                     //current date range lies within the previous date range
                     setBeanStuff(bean, null, null, "0 Days");
                     //leave previous alone
-                } else if (isDateBetween(bean.getStartDate(), previousStartDate, previousEndDate) 
+                } else if (isDateBetween(bean.getStartDate(), previousStartDate, previousEndDate)
                         && bean.getEndDate().after(previousEndDate)) {
                     //current date range starts within the previous range, but finishes past it.
-                    Date previousEndDatePlusOneDay = new Date(previousEndDate.getTime() + NegotiationActivity.MILLISECS_PER_DAY);                    
+                    Date previousEndDatePlusOneDay = new Date(previousEndDate.getTime() + NegotiationActivity.MILLISECS_PER_DAY);
                     previousEndDate = bean.getEndDate();
                     setBeanStuff(bean, previousEndDatePlusOneDay, bean.getEndDate(), NegotiationActivity.getNumberOfDays(previousEndDatePlusOneDay, bean.getEndDate()));
                 } else {
@@ -317,7 +389,7 @@ public class NegotiationServiceImpl implements NegotiationService {
                 previousEndDate = bean.getEndDate();
                 previousLocation = bean.getLocation();
                 setBeanStuff(bean, bean.getStartDate(), bean.getEndDate(), NegotiationActivity.getNumberOfDays(bean.getStartDate(), bean.getEndDate()));
-                if (!beansToReturn.isEmpty()) { 
+                if (!beansToReturn.isEmpty()) {
                     beansToReturn.add(new NegotiationActivityHistoryLineBean());
                 }
             }
@@ -327,24 +399,24 @@ public class NegotiationServiceImpl implements NegotiationService {
         }
         return beansToReturn;
     }
-    
+
+    @Override
     public List<NegotiationNotification> getNegotiationNotifications(Negotiation negotiation) {
         List<NegotiationNotification> notifications = new ArrayList<NegotiationNotification>();
         if (negotiation.getNegotiationDocument() != null) {
-            Map<String, Object> fieldValues = new HashMap<String, Object>(); 
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put("documentNumber", negotiation.getNegotiationDocument().getDocumentNumber());
-            notifications = (List<NegotiationNotification>)getBusinessObjectService().findMatching(NegotiationNotification.class, fieldValues);
+            notifications = (List<NegotiationNotification>) getBusinessObjectService().findMatching(NegotiationNotification.class, fieldValues);
         }
         return notifications;
     }
-    
 
     private void setBeanStuff(NegotiationActivityHistoryLineBean bean, Date efectiveLocationStartDate, Date efectiveLocationEndDate, String locationDays) {
         bean.setEfectiveLocationEndDate(efectiveLocationEndDate);
         bean.setEfectiveLocationStartDate(efectiveLocationStartDate);
-        bean.setLocationDays(locationDays); 
+        bean.setLocationDays(locationDays);
     }
-    
+
     private boolean isDateBetween(Date checkDate, Date rangeStart, Date rangeEnd) {
         if (rangeStart == null) {
             return false;
@@ -359,11 +431,14 @@ public class NegotiationServiceImpl implements NegotiationService {
         boolean endOk = rangeEnd.equals(checkDate) || rangeEnd.after(checkDate);
         return startOk && endOk;
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kra.negotiations.service.NegotiationService#promoteProposalLogNegotiation(java.lang.String, java.lang.String)
+     *
+     * @see
+     * org.kuali.kra.negotiations.service.NegotiationService#promoteProposalLogNegotiation(java.lang.String,
+     * java.lang.String)
      */
+    @Override
     public void promoteProposalLogNegotiation(String proposalLogProposalNumber, String institutionalProposalProposalNumber) {
         Collection<Negotiation> negotiations = getAssociatedNegotiations(proposalLogProposalNumber, NegotiationAssociationType.PROPOSAL_LOG_ASSOCIATION);
         ArrayList<Negotiation> negotiationsToSave = new ArrayList<Negotiation>();
@@ -378,7 +453,7 @@ public class NegotiationServiceImpl implements NegotiationService {
         }
         this.getBusinessObjectService().save(negotiationsToSave);
     }
-    
+
     protected ParameterService getParameterService() {
         return parameterService;
     }
@@ -435,6 +510,5 @@ public class NegotiationServiceImpl implements NegotiationService {
     public void setVersionHistoryService(VersionHistoryService versionHistoryService) {
         this.versionHistoryService = versionHistoryService;
     }
-    
-    
+
 }

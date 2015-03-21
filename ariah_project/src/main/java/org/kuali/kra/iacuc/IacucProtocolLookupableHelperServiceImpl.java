@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.iacuc;
 
@@ -40,24 +56,23 @@ public class IacucProtocolLookupableHelperServiceImpl extends ProtocolLookupable
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -4930225152545760432L;
-    private static final String[] AMEND_RENEW_PROTOCOL_TASK_CODES = { TaskName.CREATE_IACUC_PROTOCOL_AMENDMENT, 
-        TaskName.CREATE_PROTOCOL_RENEWAL };
+    private static final String[] AMEND_RENEW_PROTOCOL_TASK_CODES = {TaskName.CREATE_IACUC_PROTOCOL_AMENDMENT,
+        TaskName.CREATE_PROTOCOL_RENEWAL};
 
-    private static final String[] REQUEST_PROTOCOL_TASK_CODES = { TaskName.IACUC_PROTOCOL_REQUEST_CLOSE, 
-        TaskName.IACUC_PROTOCOL_REQUEST_CLOSE, 
-        TaskName.IACUC_PROTOCOL_REQUEST_SUSPENSION, 
-        TaskName.IACUC_PROTOCOL_REQUEST_TERMINATE };
+    private static final String[] REQUEST_PROTOCOL_TASK_CODES = {TaskName.IACUC_PROTOCOL_REQUEST_CLOSE,
+        TaskName.IACUC_PROTOCOL_REQUEST_CLOSE,
+        TaskName.IACUC_PROTOCOL_REQUEST_SUSPENSION,
+        TaskName.IACUC_PROTOCOL_REQUEST_TERMINATE};
 
-    private static final String[] PENDING_PROTOCOL_STATUS_CODES = { IacucProtocolStatus.IN_PROGRESS, 
-        IacucProtocolStatus.SUBMITTED_TO_IACUC, 
-        IacucProtocolStatus.MINOR_REVISIONS_REQUIRED, 
-        IacucProtocolStatus.MAJOR_REVISIONS_REQUIRED, 
-        IacucProtocolStatus.WITHDRAWN };
+    private static final String[] PENDING_PROTOCOL_STATUS_CODES = {IacucProtocolStatus.IN_PROGRESS,
+        IacucProtocolStatus.SUBMITTED_TO_IACUC,
+        IacucProtocolStatus.MINOR_REVISIONS_REQUIRED,
+        IacucProtocolStatus.MAJOR_REVISIONS_REQUIRED,
+        IacucProtocolStatus.WITHDRAWN};
 
-    private static final String[] PENDING_PI_ACTION_PROTOCOL_STATUS_CODES = { IacucProtocolStatus.MINOR_REVISIONS_REQUIRED, 
-        IacucProtocolStatus.MAJOR_REVISIONS_REQUIRED,  
-        IacucProtocolStatus.EXPIRED };
-
+    private static final String[] PENDING_PI_ACTION_PROTOCOL_STATUS_CODES = {IacucProtocolStatus.MINOR_REVISIONS_REQUIRED,
+        IacucProtocolStatus.MAJOR_REVISIONS_REQUIRED,
+        IacucProtocolStatus.EXPIRED};
 
     @Override
     protected List<? extends BusinessObject> getSearchResultsFilteredByTask(Map<String, String> fieldValues) {
@@ -73,11 +88,12 @@ public class IacucProtocolLookupableHelperServiceImpl extends ProtocolLookupable
         } else if (StringUtils.isNotBlank(fieldValues.get(PROTOCOL_PERSON_ID_LOOKUP))) {
             searchResults = filterProtocolsByPrincipal(fieldValues, PROTOCOL_PERSON_ID_LOOKUP);
         } else {
-            searchResults = filterProtocols(fieldValues);
+            // Add a forced permissions check of VIEW IACUC PROTOCOL here to ensure minimum
+            // security is actually enforced.
+            searchResults = filterProtocolsByTask(fieldValues, TaskName.VIEW_IACUC_PROTOCOL);
         }
         return searchResults;
     }
-
 
     @Override
     protected Map<String, String> removeExtraFilterParameters(Map<String, String> fieldValues) {
@@ -88,7 +104,6 @@ public class IacucProtocolLookupableHelperServiceImpl extends ProtocolLookupable
         fieldValues.remove(PROTOCOL_PERSON_ID_LOOKUP);
         return fieldValues;
     }
-
 
     @Override
     protected List<HtmlData> getCustomActions(BusinessObject businessObject, List pkNames) {
@@ -103,6 +118,7 @@ public class IacucProtocolLookupableHelperServiceImpl extends ProtocolLookupable
         return htmlDataList;
     }
 
+    @Override
     protected List<HtmlData> getEditCopyViewLinks(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
         if (kraAuthorizationService.hasPermission(getUserIdentifier(), (ProtocolBase) businessObject, PermissionConstants.MODIFY_IACUC_PROTOCOL)) {
@@ -111,21 +127,23 @@ public class IacucProtocolLookupableHelperServiceImpl extends ProtocolLookupable
             String href = editHtmlData.getHref();
             href = href.replace("viewDocument=true", "viewDocument=false");
             editHtmlData.setHref(href);
-            editHtmlData.setDisplayText("edit");
+            editHtmlData.setDisplayText("Edit");
             htmlDataList.add(editHtmlData);
-            
+
             AnchorHtmlData copyHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
             IacucProtocolDocument document = ((IacucProtocol) businessObject).getIacucProtocolDocument();
-            copyHtmlData.setHref("../iacucProtocolActions.do?docId=" + document.getDocumentNumber() +"&doCopy=True");
+            copyHtmlData.setHref("../iacucProtocolActions.do?docId=" + document.getDocumentNumber() + "&doCopy=True");
             htmlDataList.add(copyHtmlData);
         }
-        if (kraAuthorizationService.hasPermission(getUserIdentifier(), (IacucProtocol) businessObject, PermissionConstants.VIEW_IACUC_PROTOCOL)) {
+        // Intentionally removing View IACUC Protocol auth check here, as the VIEW_IACUC_PROTOCOL auth check is 
+        // now performed in the getSearchResultsFilteredByTask method at the record-level
+        // thus if the user does NOT have ability to View IACUC Protocol it won't even show up in the results
+        // at all much less need a View link.        
+        //if (kraAuthorizationService.hasPermission(getUserIdentifier(), (IacucProtocol) businessObject, PermissionConstants.VIEW_IACUC_PROTOCOL)) {
             htmlDataList.add(getViewLink(((ProtocolBase) businessObject).getProtocolDocument()));
-        }
+        //}
         return htmlDataList;
     }
-
-
 
     @Override
     protected IacucProtocolDao getProtocolDaoHook() {
@@ -136,28 +154,23 @@ public class IacucProtocolLookupableHelperServiceImpl extends ProtocolLookupable
         return KraServiceLocator.getService(IacucProtocolDao.class);
     }
 
-
     @Override
     protected String getDocumentTypeNameHook() {
         return "IacucProtocolDocument";
     }
-
 
     @Override
     protected String getHtmlActionHook() {
         return "iacucProtocolProtocol.do";
     }
 
-
     @Override
     protected ProtocolTaskBase createNewProtocolTaskInstanceHook(String taskName, ProtocolBase protocol) {
         return new IacucProtocolTask(taskName, (IacucProtocol) protocol);
     }
 
-
     @Override
     protected Class<? extends ProtocolBase> getProtocolClassHook() {
         return IacucProtocol.class;
     }
-
 }

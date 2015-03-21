@@ -64,12 +64,14 @@ import org.springframework.util.AutoPopulatingList;
 
 import java.sql.Date;
 import java.util.*;
+import org.kuali.kra.negotiations.bo.Negotiable;
+import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
 import org.kuali.kra.service.KcPersonService;
 
 /**
  *
  */
-public class DevelopmentProposal extends KraPersistableBusinessObjectBase implements BudgetParent, Sponsorable, Disclosurable, KcKrmsContextBo {
+public class DevelopmentProposal extends KraPersistableBusinessObjectBase implements BudgetParent, Sponsorable, Negotiable, Disclosurable, KcKrmsContextBo {
 
     private static final long serialVersionUID = -9211313487776934111L;
 
@@ -262,6 +264,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private String proposalCoordinatorPrincipalName;
     private boolean proposalCoordinatorRequired = false;
     private transient KcPersonService kcPersonService;
+
+    private String linkToOpportunity;
 
     /**
      * Gets the proposalNumberForGG attribute.
@@ -2483,14 +2487,12 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      * @param proposalCoordinatorPrincipalName the
      * proposalCoordinatorPrincipalName to set
      */
-    public void setProposalCoordinatorPrincipalName(
-            String proposalCoordinatorPrincipalName) {
+    public void setProposalCoordinatorPrincipalName(String proposalCoordinatorPrincipalName) {
         this.proposalCoordinatorPrincipalName = proposalCoordinatorPrincipalName;
     }
 
     public KcPerson getProposalCoordinator() {
-        return getKcPersonService().getKcPersonByUserName(
-                getProposalCoordinatorPrincipalName());
+        return getKcPersonService().getKcPersonByUserName(getProposalCoordinatorPrincipalName());
     }
 
     /**
@@ -2506,4 +2508,111 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     public void setProposalCoordinatorRequired(boolean proposalCoordinatorRequired) {
         this.proposalCoordinatorRequired = proposalCoordinatorRequired;
     }
+
+    public String getLinkToOpportunity() {
+        return linkToOpportunity;
+    }
+
+    public void setLinkToOpportunity(String linkToOpportunity) {
+        this.linkToOpportunity = linkToOpportunity;
+    }
+
+    @Override
+    public String getAssociatedDocumentId() {
+        return getProposalNumber();
+    }
+
+    @Override
+    public String getLeadUnitNumber() {
+        String num = getOwnedByUnitNumber()== null ? EMPTY_STRING : getOwnedByUnitNumber();
+        return num;
+    }
+
+    @Override
+    public String getLeadUnitName() {
+        String name = getOwnedByUnitName()== null ? EMPTY_STRING : getOwnedByUnitName();
+        return name;
+    }
+
+    @Override
+    public String getPiName() {
+        return getPiEmployeeName();
+    }
+
+    @Override
+    public String getPiEmployeeName() {
+        String name = getPrincipalInvestigator() == null ? EMPTY_STRING : getPrincipalInvestigator().getFullName();
+        return name;
+    }
+
+    @Override
+    public String getPiNonEmployeeName() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getAdminPersonName() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getPrimeSponsorName() {
+        String name = getPrimeSponsor() == null ? EMPTY_STRING : getPrimeSponsor().getSponsorName();
+        return name;
+    }
+
+    @Override
+    public String getSponsorAwardNumber() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getSubAwardOrganizationName() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public List<NegotiationPersonDTO> getProjectPeople() {
+        
+        List<NegotiationPersonDTO> kcPeople = new ArrayList<NegotiationPersonDTO>();
+        for (ProposalPerson person : getInvestigators()) {
+            kcPeople.add(new NegotiationPersonDTO(person.getPerson(), person.getRoleCode()));
+        }
+        return kcPeople;
+    }
+
+    @Override
+    public String getNegotiableProposalTypeCode() {
+        if (getProposalTypeCode() != null) {
+            return getProposalTypeCode();
+        } else {
+            return EMPTY_STRING;
+        }
+    }
+
+    @Override
+    public ProposalType getNegotiableProposalType() {
+        return this.getProposalType();
+    }
+
+    @Override
+    public String getSubAwardRequisitionerName() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getSubAwardRequisitionerId() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getSubAwardRequisitionerUnitNumber() {
+        return EMPTY_STRING;
+    }
+
+    @Override
+    public String getSubAwardRequisitionerUnitName() {
+        return EMPTY_STRING;
+    }
+
 }
