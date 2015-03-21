@@ -1986,10 +1986,10 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase
         String piName = EMPTY_STRING;
         if (getPrincipalInvestigatorName() == null) {
 
-            if(getPrincipalInvestigator()!=null) {
+            if (getPrincipalInvestigator() != null) {
                 piName = getPrincipalInvestigator().getFullName();
             }
-            
+
         } else {
             piName = getPrincipalInvestigatorName();
         }
@@ -2002,10 +2002,10 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase
         String piName = EMPTY_STRING;
         if (getPrincipalInvestigatorName() == null) {
 
-            if(getPrincipalInvestigator()!=null) {
+            if (getPrincipalInvestigator() != null) {
                 piName = getPrincipalInvestigator().getFullName();
             }
-            
+
         } else {
             piName = getPrincipalInvestigatorName();
         }
