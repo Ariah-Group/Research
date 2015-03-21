@@ -77,7 +77,7 @@
                                 <ref bean="DevelopmentProposal-executiveSummaryRequired" />
                                 <ref bean="DevelopmentProposal-proposalCoordinator"/>
                                 <ref bean="DevelopmentProposal-proposalCoordinatorRequired"/>
-                                
+                                <ref bean="DevelopmentProposal-linkToOpportunity" />
 			</list>
 		</property>
 		<property name="collections">
@@ -153,13 +153,24 @@
             <bean parent="TextControlDefinition" p:size="50" />
         </property>
     </bean>
+<!--
+    <bean id="DevelopmentProposal-proposalCoordinatorUsername" parent="DevelopmentProposal-proposalCoordinatorUsername-parentBean" />
+    <bean id="DevelopmentProposal-proposalCoordinatorUsername-parentBean"
+          abstract="true" parent="AttributeDefinition">
+        <property name="name" value="proposalCoordinator.username" />
+        <property name="label" value="Proposal Coordinator" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="25" />
+		</property>        
+    </bean>
+    -->
 
     <bean id="DevelopmentProposal-proposalCoordinator" parent="DevelopmentProposal-proposalCoordinator-parentBean" />
     <bean id="DevelopmentProposal-proposalCoordinator-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="proposalCoordinatorPrincipalName" />
         <property name="label" value="Proposal Coordinator" />
         <property name="shortLabel" value="Proposal Coordinator" />
-        <property name="maxLength" value="60" />
+        <property name="maxLength" value="100" />
         <property name="validationPattern">
             <bean parent="AlphaNumericValidationPattern" />
         </property>
@@ -189,6 +200,24 @@
         </property>
     </bean>
 
+    <bean id="DevelopmentProposal-linkToOpportunity" parent="DevelopmentProposal-linkToOpportunity-parentBean" />
+    <bean id="DevelopmentProposal-linkToOpportunity-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="linkToOpportunity" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Link To Opportunity" />
+        <property name="shortLabel" value="Link To Opportunity" />
+        <property name="maxLength" value="500" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+        </property>
+        <property name="required" value="false" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="50" />
+        </property>
+        <property name="summary" value="Link To Opportunity" />
+        <property name="description" value="Use this field to provide a link to the specified opportunity." /> 
+    </bean>   
+    
     <!-- this is a place holder to allow for the case constraint on proposalCoordinatorPrincipalName
     to work. it is not displayed on the UI -->
     <bean id="DevelopmentProposal-proposalCoordinatorRequired" parent="DevelopmentProposal-proposalCoordinatorRequired-parentBean" />
@@ -1089,13 +1118,10 @@
 		</property>
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="proposalNumber"
-					p:noLookup="true" />
+				<bean parent="FieldDefinition" p:attributeName="proposalNumber" p:noLookup="true" />
 				<bean parent="FieldDefinition" p:attributeName="proposalTypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="proposalStateTypeCode" />
 				<bean parent="FieldDefinition" p:attributeName="title" />
-				<!-- <bean parent="FieldDefinition" p:attributeName="proposalPersons.fullName" 
-					/> -->
 				<bean parent="FieldDefinition" p:attributeName="deadlineDate" />
 				<bean parent="FieldDefinition" p:attributeName="sponsorCode" />
 				<bean parent="FieldDefinition" p:attributeName="sponsor.sponsorName" />
@@ -1105,8 +1131,8 @@
 				<bean parent="FieldDefinition" p:attributeName="opportunityIdForGG" />
 				<bean parent="FieldDefinition" p:attributeName="hierarchyStatus" />
 				<bean parent="FieldDefinition" p:attributeName="proposalDocument.documentNumber" />
-                                <bean parent="FieldDefinition" p:attributeName="proposalCoordinatorPrincipalName" />
-				
+                                <!--<bean parent="FieldDefinition" p:attributeName="proposalDocument.documentHeader.workflowDocument.initiatorPrincipalId" />-->
+                                <bean parent="FieldDefinition" p:attributeName="proposalCoordinatorPrincipalName"/>
 			</list>
 		</property>
 		<property name="resultFields">
@@ -1125,10 +1151,18 @@
 				<bean parent="FieldDefinition" p:attributeName="opportunityIdForGG" />
 				<bean parent="FieldDefinition" p:attributeName="hierarchyStatusName" />
 				<bean parent="FieldDefinition" p:attributeName="proposalDocument.documentNumber" />
-                                <bean parent="FieldDefinition" p:attributeName="proposalCoordinator.fullName" />
+                                <bean parent="FieldDefinition" p:attributeName="proposalCoordinatorPrincipalName" p:alternateDisplayAttributeName="proposalCoordinator.fullName" />
 			</list>
 		</property>
-		<property name="resultSetLimit" value="50" />
+		<property name="resultSetLimit" value="100" />
 	</bean>
 </beans>
-  
+  <!--
+	<bean id="DevelopmentProposal-proposalDocument.documentHeader.workflowDocument.initiatorPrincipalId"
+		parent="DevelopmentProposal-proposalDocument.documentHeader.workflowDocument.initiatorPrincipalId-parentBean" />
+	<bean id="DevelopmentProposal-proposalDocument.documentHeader.workflowDocument.initiatorPrincipalId-parentBean"
+		abstract="true" parent="DocumentHeader-documentNumber">
+		<property name="name" value="proposalDocument.documentHeader.workflowDocument.initiatorPrincipalId" />
+		<property name="label" value="Proposal Creator" />
+		<property name="shortLabel" value="Proposal Creator" />
+	</bean>-->

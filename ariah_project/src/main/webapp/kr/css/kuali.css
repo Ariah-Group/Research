@@ -753,7 +753,7 @@ div.excol { padding-right: 22px; }
 .headerarea, .headerarea-small
 {
 	background-color: white;
-	padding: 0px 0px 0px 10px;
+	padding: 0px 0px 0px 20px;
 //	background-image: url("../images/masthead1.gif");
 	margin: 0px;
 //	border-bottom-width: 1px;
@@ -810,7 +810,7 @@ div.excol { padding-right: 22px; }
 
 #headerarea table
 {
-	height: 54px;
+	height: 65px;
 	border-left-width: 1px;
 	border-left-style: solid;
 	border-left-color: #999999;

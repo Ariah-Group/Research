@@ -963,9 +963,13 @@ public interface Constants {
     public static final String ARIAH_PROPDEV_DEFAULT_PROPOSAL_TITLE = "ARIAH_PROPDEV_DEFAULT_PROPOSAL_TITLE";
     public static final String ARIAH_PROPDEV_DISPLAY_EXECUTIVE_SUMMARY = "ARIAH_PROPDEV_DISPLAY_EXECUTIVE_SUMMARY";
     public static final String ARIAH_PROPDEV_REQUIRE_EXECUTIVE_SUMMARY = "ARIAH_PROPDEV_REQUIRE_EXECUTIVE_SUMMARY";
-    
     public static final String ARIAH_PROPDEV_REQUIRE_PROPOSAL_COORDINATOR_FIELD = "ARIAH_PROPDEV_REQUIRE_PROPOSAL_COORDINATOR_FIELD";
     public static final String ARIAH_PROPDEV_DISPLAY_PROPOSAL_COORDINATOR_FIELD = "ARIAH_PROPDEV_DISPLAY_PROPOSAL_COORDINATOR_FIELD";
+    public static final String ARIAH_PROPDEV_PROPOSAL_COORDINATOR_UNITADMINTYPECODE = "ARIAH_PROPDEV_PROPOSAL_COORDINATOR_UNITADMINTYPECODE";
+    public static final String ARIAH_PROPDEV_WORKFLOW_STEP_FINANCE_ENABLED = "ARIAH_PROPDEV_WORKFLOW_STEP_FINANCE_ENABLED";
+    public static final String ARIAH_PROPDEV_WORKFLOW_STEP_FINANCE_UNITADMINTYPECODE = "ARIAH_PROPDEV_WORKFLOW_STEP_FINANCE_UNITADMINTYPECODE";
+    public static final String ARIAH_PROPDEV_WORKFLOW_STEP_PRESIDENT_ENABLED = "ARIAH_PROPDEV_WORKFLOW_STEP_PRESIDENT_ENABLED";
+    public static final String ARIAH_PROPDEV_WORKFLOW_STEP_PRESIDENT_UNITADMINTYPECODE = "ARIAH_PROPDEV_WORKFLOW_STEP_PRESIDENT_UNITADMINTYPECODE";    
     
     /**
      * Module Code for "Award" records in as defined in COEUS_MODULE database table.
@@ -995,7 +999,8 @@ public interface Constants {
     public final static String ATTR_INITIATED_DATE_ID_DD = "DataDictionary.AttributeReference.attributes.createDate";
     public final static String ATTR_SPONSOR_DEADLINE_DATE_DD = "DataDictionary.DevelopmentProposal.attributes.deadlineDate";
     public static final String MESSAGE_WORD_COUNT_EXCEEDED = "message.wordcount.exceeded";
-    
+    public final static String ATTR_PROPOSAL_LINK_OPP = "document.developmentProposalList[0].linkToOpportunity";
+    public final static String ATTR_PROPOSAL_LINK_OPP_DD = "DataDictionary.DevelopmentProposal.attributes.linkToOpportunity";
     
     public static final String UNIT_ADMINISTRATOR_TYPE_GROUP_FLAG_UNIT = "U";
     public static final String UNIT_ADMINISTRATOR_TYPE_GROUP_FLAG_NONE = "N";

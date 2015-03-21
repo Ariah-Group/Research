@@ -30,7 +30,9 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
@@ -54,29 +56,50 @@ public class ProposalCoordinatorValuesFinder extends KeyValuesBase {
      */
     /**
      * retrieve the key values
-     * @return 
+     *
+     * @return
      */
     @Override
     public List<KeyValue> getKeyValues() {
         String ownedByUnitNumber = null;
+        ArrayList<KeyValue> result = null;
         // retrieve the owning unit number from the document
         try {
-            ProposalDevelopmentForm form = (ProposalDevelopmentForm) KNSGlobalVariables.getKualiForm();
-            ProposalDevelopmentDocument doc = form.getProposalDevelopmentDocument();
-            DevelopmentProposal developmentProposal = doc.getDevelopmentProposal();
-            ownedByUnitNumber = developmentProposal.getOwnedByUnitNumber();
+
+            KualiForm form = KNSGlobalVariables.getKualiForm();
+            if (form instanceof ProposalDevelopmentForm) {
+                ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) KNSGlobalVariables.getKualiForm();
+                ProposalDevelopmentDocument doc = pdForm.getProposalDevelopmentDocument();
+                DevelopmentProposal developmentProposal = doc.getDevelopmentProposal();
+                ownedByUnitNumber = developmentProposal.getOwnedByUnitNumber();
+            }
+
         } catch (Exception e) {
             log.error("unable to retrieve the owning unit number from document", e);
         }
         if (ownedByUnitNumber == null) {
-            ArrayList<KeyValue> result = new ArrayList<KeyValue>();
+            result = new ArrayList<KeyValue>();
             // add default blank entry
             result.add(new ConcreteKeyValue("", "select"));
 
-            return result;
+            ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+
+            String unitAdminPropCoordTypeCode = paramServ.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                    Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ARIAH_PROPDEV_PROPOSAL_COORDINATOR_UNITADMINTYPECODE);
+
+            if (unitAdminPropCoordTypeCode != null && !unitAdminPropCoordTypeCode.isEmpty()) {
+                List<UnitAdministrator> unitAdmins = getUnitSvc().retrieveUnitAdminsByAdminTypesAll(unitAdminPropCoordTypeCode);
+                for (UnitAdministrator unitAdmin : unitAdmins) {
+                    result.add(new ConcreteKeyValue(unitAdmin.getPerson().getUserName(),
+                            unitAdmin.getPerson().getFullName()));
+                }
+            }
+
         } else {
-            return getKeyValues(ownedByUnitNumber);
+            result = getKeyValues(ownedByUnitNumber);
         }
+
+        return result;
     }
 
     /**
@@ -89,9 +112,16 @@ public class ProposalCoordinatorValuesFinder extends KeyValuesBase {
         ArrayList<KeyValue> result = new ArrayList<KeyValue>();
         // add default blank entry
         result.add(new ConcreteKeyValue("", "select"));
+
         List<Unit> hierarchy = getUnitSvc().getUnitHierarchyForUnit(ownedByUnitNumber);
         List<String> adminTypes = new ArrayList<String>();
-        adminTypes.add(Constants.UNIT_ADMIN_PROPOSAL_COORDINATOR_DESC);
+
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+
+        String unitAdminPropCoordTypeCode = paramServ.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ARIAH_PROPDEV_PROPOSAL_COORDINATOR_UNITADMINTYPECODE);
+
+        adminTypes.add(unitAdminPropCoordTypeCode);
         List<UnitAdministrator> unitAdmins = getUnitSvc().retrieveUnitAdminsByAdminTypes(adminTypes, hierarchy);
         for (UnitAdministrator unitAdmin : unitAdmins) {
             result.add(new ConcreteKeyValue(unitAdmin.getPerson().getUserName(),
@@ -116,5 +146,4 @@ public class ProposalCoordinatorValuesFinder extends KeyValuesBase {
     public void setUnitSvc(UnitService unitSvc) {
         this.unitSvc = unitSvc;
     }
-
 }

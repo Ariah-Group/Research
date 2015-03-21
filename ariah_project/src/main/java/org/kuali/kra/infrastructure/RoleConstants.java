@@ -111,4 +111,6 @@ public interface RoleConstants {
     public static String ROLE_SUPERUSER = "KC Superuser";
     
     public static String ADMIN_ROLE_TYPE = "KC-SYS";
+    
+    public static final String UNIT_ADMIN_WORKFLOW_ROLE_NAME = "UnitAdministrator";
 }

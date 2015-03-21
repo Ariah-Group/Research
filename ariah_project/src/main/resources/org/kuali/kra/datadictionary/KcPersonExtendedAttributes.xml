@@ -4,7 +4,7 @@
 
   <bean abstract="true" id="KcPersonExtendedAttributes-parentBean" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.KcPersonExtendedAttributes"/>
-    <property name="objectLabel" value="Kc Person Extended Attributes"/>
+    <property name="objectLabel" value="Person Extended Attributes"/>
     <property name="inquiryDefinition">
       <ref bean="KcPersonExtendedAttributes-inquiryDefinition"/>
     </property>
@@ -58,14 +58,14 @@
   <bean id="KcPersonExtendedAttributes-personId" parent="KcPersonExtendedAttributes-personId-parentBean" />
   <bean id="KcPersonExtendedAttributes-personId-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="personId" />
-    <property name="label" value="KcPersonExtendedAttributes Id" />
-    <property name="shortLabel" value="KcPersonExtendedAttributes Id" />
+    <property name="label" value="Person Extended Attributes Id" />
+    <property name="shortLabel" value="Person Extended Attributes Id" />
     <property name="maxLength" value="40" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
     </property>
-    <property name="summary" value="KcPersonExtendedAttributes Id" />
-    <property name="description" value="KcPersonExtendedAttributes Id" />
+    <property name="summary" value="Person Extended Attributes Id" />
+    <property name="description" value="Person Extended Attributes Id" />
   </bean>
 
   <bean id="KcPersonExtendedAttributes-ageByFiscalYear" parent="KcPersonExtendedAttributes-ageByFiscalYear-parentBean"/>
@@ -479,11 +479,11 @@
   <bean id="KcPersonExtendedAttributes-inquiryDefinition" parent="KcPersonExtendedAttributes-inquiryDefinition-parentBean"/>
 
   <bean abstract="true" id="KcPersonExtendedAttributes-inquiryDefinition-parentBean" parent="InquiryDefinition">
-    <property name="title" value="KcPersonExtendedAttributes"/>
+    <property name="title" value="Person Extended Attributes"/>
     <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="KcPersonExtendedAttributes"/>
+          <property name="title" value="Person Extended Attributes"/>
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
             <list>
@@ -531,7 +531,7 @@
   <bean id="KcPersonExtendedAttributes-lookupDefinition" parent="KcPersonExtendedAttributes-lookupDefinition-parentBean"/>
 
   <bean abstract="true" id="KcPersonExtendedAttributes-lookupDefinition-parentBean" parent="LookupDefinition">
-    <property name="title" value="KcPersonExtendedAttributes Lookup"/>
+    <property name="title" value="Person Extended Attributes Lookup"/>
     <property name="lookupableID" value="kcPersonExtendedAttributesLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
     <property name="defaultSort">

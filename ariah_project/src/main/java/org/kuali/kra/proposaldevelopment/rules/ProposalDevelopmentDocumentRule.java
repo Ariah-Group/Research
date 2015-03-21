@@ -256,6 +256,18 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
             }
         }
 
+        if(proposalForm.isDisplayProposalCoordinator() && proposalForm.isProposalCoordinatorRequired()) {
+            
+            System.out.println("PropDevDocumentRule for Proposal Coordinator : " + proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber());
+            System.out.println("PropDevDocumentRule for Proposal Coordinator : " + proposalDevelopmentDocument.getDevelopmentProposal().getProposalCoordinatorPrincipalName());
+            
+            if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalCoordinatorPrincipalName()== null) {
+                valid = false;
+                errorMap.putError("proposalCoordinatorPrincipalName", KeyConstants.ERROR_MISSING,
+                        dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "proposalCoordinatorPrincipalName"));
+            }
+        }
+        
         if (StringUtils.isNotBlank(proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom())) {
             if (proposalDevelopmentService.getProposalContinuedFromVersion(proposalDevelopmentDocument) == null) {
                 valid = false;

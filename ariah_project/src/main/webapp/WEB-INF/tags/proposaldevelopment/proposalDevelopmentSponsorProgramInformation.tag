@@ -29,9 +29,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"
-%><c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" 
-/><c:set var="textAreaFieldName" value="document.developmentProposalList[0].programAnnouncementTitle" 
-/><c:set var="action" value="proposalDevelopmentProposal" />
+            %><c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" 
+            /><c:set var="textAreaFieldName" value="document.developmentProposalList[0].programAnnouncementTitle" 
+            /><c:set var="action" value="proposalDevelopmentProposal" />
 <kul:tab tabTitle="Sponsor & Program Information" defaultOpen="false" 
          tabErrorKey="document.developmentProposalList[0].primeSponsorCode,document.developmentProposalList[0].deadlineDate,document.developmentProposalList[0].deadlineTime,document.developmentProposalList[0].noticeOfOpportunityCode,document.developmentProposalList[0].deadlineType,document.developmentProposalList[0].cfdaNumber,document.developmentProposalList[0].programAnnouncementNumber,document.developmentProposalList[0].primeSponsorCode,document.developmentProposalList[0].sponsorProposalNumber,document.developmentProposalList[0].nsfCode,document.developmentProposalList[0].subcontracts,document.developmentProposalList[0].agencyDivisionCode,document.developmentProposalList[0].agencyProgramCode,document.developmentProposalList[0].programAnnouncementTitle,document.developmentProposalList[0].primeSponsorCode" 
          auditCluster="sponsorProgramInformationAuditErrors,sponsorProgramInformationAuditWarnings" 
@@ -135,12 +135,15 @@ limitations under the License.
                 <kul:htmlControlAttribute property="document.developmentProposalList[0].prevGrantsGovTrackingID" attributeEntry="${proposalDevelopmentAttributes.prevGrantsGovTrackingID}" />
             </td>
             </tr>
-            </tr>
             <tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.programAnnouncementTitle}" /></div></th>
-            <td colspan="3" align="left" valign="middle">
+            <td align="left" valign="middle">
                 <kul:htmlControlAttribute property="document.developmentProposalList[0].programAnnouncementTitle" attributeEntry="${proposalDevelopmentAttributes.programAnnouncementTitle}" />
             </td>
+            <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.linkToOpportunity}" /></div></th>
+            <td>
+                <kul:htmlControlAttribute property="document.developmentProposalList[0].linkToOpportunity" attributeEntry="${proposalDevelopmentAttributes.linkToOpportunity}" />
+            </td>            
             </tr>
         </table>
     </div>

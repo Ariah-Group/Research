@@ -30,6 +30,13 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 public interface UnitService extends org.kuali.kra.service.UnitService {
 
     /**
+     * retrieve all unit admins with the given admin type description regardless of unit/.
+     *
+     * @return a list of unit administrators if found, otherwise an empty list
+     */
+    public List<UnitAdministrator> retrieveUnitAdminsByAdminTypesAll(String adminTypeCode);
+    
+    /**
      * retrieve all unit admins with the given admin type description up the
      * hierarchy for the specified unit
      *

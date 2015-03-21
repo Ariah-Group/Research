@@ -16,12 +16,16 @@
 package org.ariahgroup.research.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.ariahgroup.research.service.UnitService;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * adds custom methods to the default implementation of unit service
@@ -30,6 +34,27 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
  *
  */
 public class UnitServiceImpl extends org.kuali.kra.service.impl.UnitServiceImpl implements UnitService {
+
+    @Override
+    public List<UnitAdministrator> retrieveUnitAdminsByAdminTypesAll(String unitAdminTypeCode) {
+
+        List<UnitAdministrator> unitAdmins = new ArrayList<UnitAdministrator>();
+
+        if (unitAdminTypeCode == null || unitAdminTypeCode.isEmpty()) {
+            return unitAdmins;
+        } else {
+
+            if (super.getBusinessObjectService() == null) {
+                super.setBusinessObjectService(KraServiceLocator.getService(BusinessObjectService.class));
+            }
+
+            Map<String, String> queryMap = new HashMap<String, String>();
+            queryMap.put("unitAdministratorTypeCode", unitAdminTypeCode);
+            unitAdmins = (List<UnitAdministrator>) super.getBusinessObjectService().findMatching(UnitAdministrator.class, queryMap);
+
+            return unitAdmins;
+        }
+    }
 
     @Override
     public List<UnitAdministrator> retrieveUnitAdminsByAdminTypes(
@@ -45,8 +70,8 @@ public class UnitServiceImpl extends org.kuali.kra.service.impl.UnitServiceImpl 
             for (Unit unit : unitHierarchy) {
                 if (unit != null) {
                     for (UnitAdministrator admin : unit.getUnitAdministrators()) {
-                        for (String adminTypeDesc : adminTypes) {
-                            if (admin.getUnitAdministratorType().getDescription().equalsIgnoreCase(adminTypeDesc)) {
+                        for (String adminTypeCode : adminTypes) {
+                            if (admin.getUnitAdministratorTypeCode().equalsIgnoreCase(adminTypeCode)) {
                                 unitAdmins.add(admin);
                             }
                         }

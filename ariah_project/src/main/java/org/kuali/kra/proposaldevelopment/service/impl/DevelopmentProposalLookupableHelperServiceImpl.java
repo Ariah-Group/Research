@@ -74,14 +74,14 @@ public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupabl
             String href = editHtmlData.getHref();
             href = href.replace("viewDocument=true", "viewDocument=false");
             editHtmlData.setHref(href);
-            editHtmlData.setDisplayText("edit");
+            editHtmlData.setDisplayText("Edit");
             htmlDataList.add(editHtmlData);
         }
         if(canViewProposal) {
             AnchorHtmlData viewLink = getViewLink(document);
             htmlDataList.add(viewLink);
             
-            htmlDataList.add(getCustomLink(document, "actions", "copy", !canModifyProposal));
+            htmlDataList.add(getCustomLink(document, "actions", "Copy", !canModifyProposal));
         }
         
         if (canModifyProposal) {

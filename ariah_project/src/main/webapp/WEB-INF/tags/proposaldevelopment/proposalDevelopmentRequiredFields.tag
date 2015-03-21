@@ -87,7 +87,12 @@ limitations under the License.
                 <td align="left" valign="middle">
                   <c:choose>
                     <c:when test="${empty KualiForm.document.developmentProposalList[0].ownedByUnit or empty KualiForm.document.developmentProposalList[0].ownedByUnit.unitNumber}">
-                    	<kul:htmlControlAttribute property="document.developmentProposalList[0].ownedByUnitNumber" attributeEntry="${proposalDevelopmentAttributes.ownedByUnitNumberRestricted}" onchange="updateProposalCoordinators(this.value)"/>
+                        <c:if test="${KualiForm.displayProposalCoordinator}" >
+                             <kul:htmlControlAttribute property="document.developmentProposalList[0].ownedByUnitNumber" attributeEntry="${proposalDevelopmentAttributes.ownedByUnitNumberRestricted}" onchange="updateProposalCoordinators(this.value)"/>
+                        </c:if>
+                        <c:if test="${not KualiForm.displayProposalCoordinator}" >
+                             <kul:htmlControlAttribute property="document.developmentProposalList[0].ownedByUnitNumber" attributeEntry="${proposalDevelopmentAttributes.ownedByUnitNumberRestricted}"/>
+                        </c:if>                        
                     </c:when>
                     <c:otherwise>
                       ${KualiForm.document.developmentProposalList[0].ownedByUnit.unitNumber} - ${KualiForm.document.developmentProposalList[0].ownedByUnit.unitName}
@@ -136,6 +141,7 @@ limitations under the License.
                 <kul:lookup boClassName="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" fieldConversions="proposalNumber:document.developmentProposalList[0].continuedFrom" anchor="${tabKey}" />
 				</td>
               </tr>
+              <c:if test="${KualiForm.displayProposalCoordinator}" >
               <tr>
                 <th>
             <div align="right">
@@ -149,6 +155,7 @@ limitations under the License.
                                       attributeEntry="${proposalDevelopmentAttributes.proposalCoordinatorPrincipalName}" />
             </td>
             </tr>              
+            </c:if>
               <c:if test="${KualiForm.displayExecutiveSummary}" >
                 <tr>
                     <th>
