@@ -107,6 +107,11 @@ UPDATE krcr_parm_t set VAL='NotificationDocument' where PARM_NM='KcNotificationD
 
 update KRIM_ROLE_T set KIM_TYP_ID='69' where ROLE_NM='COI Reporter';
 
+-- fix typos in database Financial Entity-related fields
+update FIN_ENTITIES_DATA_GROUPS set DATA_GROUP_NAME='Creator of Intellectual Prop.' where DATA_GROUP_NAME='Creator of Intellectual prop.';
+update FIN_ENTITIES_DATA_MATRIX set FIN_ENTITIES_DATA_MATRIX.COLUMN_LABEL='Right to Receive Future Income' where FIN_ENTITIES_DATA_MATRIX.COLUMN_NAME='FUTURE_INCOME';
+
+
 -- Core table modifications
 alter table coeus_module add (
    ACTIVE varchar2(1),
