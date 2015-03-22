@@ -1286,7 +1286,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     }
 
     public ProposalIpReviewJoin getProposalIpReviewJoin() {
-        if (ObjectUtils.isNotNull(this.proposalIpReviewJoins != null)) {
+        if (ObjectUtils.isNotNull(this.proposalIpReviewJoins)) {
             return this.proposalIpReviewJoins.get(0);
         }
         return null;
