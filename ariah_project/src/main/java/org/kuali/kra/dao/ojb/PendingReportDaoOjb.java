@@ -39,20 +39,34 @@ import org.kuali.kra.service.ServiceHelper;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.util.*;
+import org.kuali.kra.institutionalproposal.document.authorization.InstitutionalProposalDocumentAuthorizer;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
- * OJB implementation of PendingReportDao using OJB Report Query (see http://db.apache.org/ojb/docu/guides/query.html#Report+Queries)
+ * OJB implementation of PendingReportDao using OJB Report Query (see
+ * http://db.apache.org/ojb/docu/guides/query.html#Report+Queries)
  */
 public class PendingReportDaoOjb extends BaseReportDaoOjb implements PendingReportDao {
 
     @Override
     public List<PendingReportBean> queryForPendingSupport(String personId) throws WorkflowException {
         List<PendingReportBean> data = new ArrayList<PendingReportBean>();
-        for(InstitutionalProposalPerson ipPerson: executePendingSupportQuery(personId)) {
+        Person user = GlobalVariables.getUserSession().getPerson();
+        InstitutionalProposalDocumentAuthorizer authorizer = new InstitutionalProposalDocumentAuthorizer();
+        
+        for (InstitutionalProposalPerson ipPerson : executePendingSupportQuery(personId)) {
             lazyLoadProposal(ipPerson);
-            PendingReportBean bean = buildPendingReportBean(ipPerson);
-            if(bean != null)  {
-                data.add(bean);
+
+            // ipPerson.getInstitutionalProposal().getInstitutionalProposalDocument()!=null CHECK 
+            // is REQUIRED as the auth-check canOpen will fail in the depths of RICE otherwise.
+            if (ipPerson.getInstitutionalProposal()!= null && ipPerson.getInstitutionalProposal().getInstitutionalProposalDocument()!= null
+                    && authorizer.canOpen(ipPerson.getInstitutionalProposal().getInstitutionalProposalDocument(), user)) {
+
+                PendingReportBean bean = buildPendingReportBean(ipPerson);
+                if (bean != null) {
+                    data.add(bean);
+                }
             }
         }
         return data;
@@ -61,7 +75,7 @@ public class PendingReportDaoOjb extends BaseReportDaoOjb implements PendingRepo
     private PendingReportBean buildPendingReportBean(InstitutionalProposalPerson ipPerson) throws WorkflowException {
         InstitutionalProposal proposal = ipPerson.getInstitutionalProposal();
         PendingReportBean bean = null;
-        if(shouldDataBeIncluded(proposal.getInstitutionalProposalDocument()) && proposal.isActiveVersion()) {
+        if (shouldDataBeIncluded(proposal.getInstitutionalProposalDocument()) && proposal.isActiveVersion()) {
             bean = new PendingReportBean(ipPerson);
         }
         return bean;
@@ -73,7 +87,7 @@ public class PendingReportDaoOjb extends BaseReportDaoOjb implements PendingRepo
     }
 
     private void lazyLoadProposal(InstitutionalProposalPerson ipPerson) {
-        if(ipPerson.getInstitutionalProposal() == null) {
+        if (ipPerson.getInstitutionalProposal() == null) {
             ServiceHelper svcHelper = ServiceHelper.getInstance();
             Map<String, Object> searchParams = new HashMap<String, Object>();
             searchParams.put("proposalNumber", ipPerson.getProposalNumber());

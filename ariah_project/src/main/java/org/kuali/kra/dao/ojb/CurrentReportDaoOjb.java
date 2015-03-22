@@ -43,22 +43,38 @@ import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.util.*;
+import org.kuali.kra.award.document.authorization.AwardDocumentAuthorizer;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
- * OJB implementation of CurrentReportDao using OJB Report Query (see http://db.apache.org/ojb/docu/guides/query.html#Report+Queries)
+ * OJB implementation of CurrentReportDao using OJB Report Query (see
+ * http://db.apache.org/ojb/docu/guides/query.html#Report+Queries)
  */
 public class CurrentReportDaoOjb extends BaseReportDaoOjb implements CurrentReportDao {
-    
+
     private VersionHistoryService versionHistoryService;
 
     @Override
-     public List<CurrentReportBean> queryForCurrentSupport(String personId) throws WorkflowException {
+    public List<CurrentReportBean> queryForCurrentSupport(String personId) throws WorkflowException {
         List<CurrentReportBean> data = new ArrayList<CurrentReportBean>();
-        for(AwardPerson awardPerson: executeCurrentSupportQuery(personId)) {
+
+        Person user = GlobalVariables.getUserSession().getPerson();
+        AwardDocumentAuthorizer authorizer = new AwardDocumentAuthorizer();
+
+        for (AwardPerson awardPerson : executeCurrentSupportQuery(personId)) {
             lazyLoadAward(awardPerson);
-            CurrentReportBean bean = buildReportBean(awardPerson);
-            if(bean != null)  {
-                data.add(bean);
+
+            // awardPerson.getAward().getAwardDocument()!=null CHECK is REQUIRED as the auth-check canOpen will fail
+            // in the depths of RICE otherwise.
+            if (awardPerson.getAward() != null && awardPerson.getAward().getAwardDocument()!=null &&
+                    authorizer.canOpen(awardPerson.getAward().getAwardDocument(), user)) {
+
+                CurrentReportBean bean = buildReportBean(awardPerson);
+                if (bean != null) {
+                    data.add(bean);
+                }
+
             }
         }
         return data;
@@ -67,7 +83,7 @@ public class CurrentReportDaoOjb extends BaseReportDaoOjb implements CurrentRepo
     private CurrentReportBean buildReportBean(AwardPerson awardPerson) throws WorkflowException {
         Award award = awardPerson.getAward();
         CurrentReportBean bean = null;
-        if(shouldDataBeIncluded(award.getAwardDocument())
+        if (shouldDataBeIncluded(award.getAwardDocument())
                 && award.isActiveVersion()
                 && ObjectUtils.equals(getActiveAwardVersionSequenceNumber(award.getAwardNumber()), award.getSequenceNumber())) {
             bean = new CurrentReportBean(awardPerson);
@@ -81,21 +97,21 @@ public class CurrentReportDaoOjb extends BaseReportDaoOjb implements CurrentRepo
     }
 
     private void lazyLoadAward(AwardPerson awardPerson) {
-        if(awardPerson.getAward() == null) {
+        if (awardPerson.getAward() == null) {
             Map searchParms = ServiceHelper.getInstance().buildCriteriaMap(new String[]{"awardNumber", "sequenceNumber"},
-                                                                           new Object[]{awardPerson.getAwardNumber(), awardPerson.getSequenceNumber()});
+                    new Object[]{awardPerson.getAwardNumber(), awardPerson.getSequenceNumber()});
             Award award = (Award) getBusinessObjectService().findMatching(Award.class, searchParms).iterator().next();
             awardPerson.setAward(award);
         }
     }
-    
+
     private VersionHistoryService getVersionHistoryService() {
         if (versionHistoryService == null) {
             versionHistoryService = KraServiceLocator.getService(VersionHistoryService.class);
         }
         return versionHistoryService;
     }
-    
+
     private Integer getActiveAwardVersionSequenceNumber(String awardNumber) {
         Integer retval = null;
         VersionHistory versionHistory = getVersionHistoryService().findActiveVersion(Award.class, awardNumber);
