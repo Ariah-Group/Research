@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.iacuc.actions.notifyiacuc;
 
@@ -35,26 +51,31 @@ import java.util.Map;
  * Protocol Request Service Implementation.
  */
 public class IacucProtocolNotifyIacucServiceImpl implements IacucProtocolNotifyIacucService {
-    
+
     protected static final String MODULE_ITEM_CODE = "moduleItemCode";
     protected static final String MODULE_ITEM_KEY = "moduleItemKey";
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
     private IacucProtocolActionService protocolActionService;
+
     /**
      * Set the business object service.
+     *
      * @param businessObjectService the business office service
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
+
     public void setProtocolActionService(IacucProtocolActionService protocolActionService) {
         this.protocolActionService = protocolActionService;
     }
 
     /**
-     * @throws WorkflowException 
-     * @see org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService#submitIrbNotification(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean)
+     * @throws WorkflowException
+     * @see
+     * org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService#submitIrbNotification(org.kuali.kra.irb.Protocol,
+     * org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean)
      */
     public void submitIacucNotification(IacucProtocol protocol, IacucProtocolNotifyIacucBean notifyIacucBean) throws WorkflowException {
         /*
@@ -74,7 +95,7 @@ public class IacucProtocolNotifyIacucServiceImpl implements IacucProtocolNotifyI
         documentService.saveDocument(protocol.getProtocolDocument());
         protocol.refreshReferenceObject("protocolSubmissions");
     }
-    
+
     private void saveQuestionnaire(IacucProtocolNotifyIacucBean notifyIacucBean, Integer submissionNumber) {
         List<AnswerHeader> saveHeaders = new ArrayList<AnswerHeader>();
         for (AnswerHeader answerHeader : notifyIacucBean.getAnswerHeaders()) {
@@ -97,7 +118,7 @@ public class IacucProtocolNotifyIacucServiceImpl implements IacucProtocolNotifyI
     private void cleanUnreferencedQuestionnaire(String protocolNumber) {
         // TODO : make this a shared 
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(MODULE_ITEM_CODE, CoeusModule.IRB_MODULE_CODE);
+        fieldValues.put(MODULE_ITEM_CODE, CoeusModule.IACUC_PROTOCOL_MODULE_CODE);
         fieldValues.put(MODULE_ITEM_KEY, protocolNumber + "T");
 
         List<AnswerHeader> answerHeaders = (List<AnswerHeader>) businessObjectService.findMatching(AnswerHeader.class, fieldValues);
@@ -105,9 +126,10 @@ public class IacucProtocolNotifyIacucServiceImpl implements IacucProtocolNotifyI
             businessObjectService.delete(answerHeaders);
         }
     }
-    
+
     /**
      * Create a Protocol Submission.
+     *
      * @param protocol the protocol
      * @param requestBean the request data
      * @return a protocol submission
@@ -130,14 +152,17 @@ public class IacucProtocolNotifyIacucServiceImpl implements IacucProtocolNotifyI
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
+
     protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
+
     protected DocumentService getDocumentService() {
         return documentService;
     }
+
     protected IacucProtocolActionService getProtocolActionService() {
         return protocolActionService;
     }
-    
+
 }
