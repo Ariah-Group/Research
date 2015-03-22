@@ -325,7 +325,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
      * question.
      *
      * For example, isHierarchyChild would be answered by
-     * ProposalDevelopementDocument as T if the document is a child within a
+     * ProposalDevelopmentDocument as T if the document is a child within a
      * proposal hierarchy and false otherwise.
      *
      * If a document does not support answering the question, it should throw an
