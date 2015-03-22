@@ -105,6 +105,7 @@ UPDATE krcr_parm_t set VAL='AR' where PARM_NM='SCHOOL_ACRONYM';
 UPDATE krcr_parm_t set VAL='Ariah Research' where PARM_NM='SCHOOL_NAME';
 UPDATE krcr_parm_t set VAL='NotificationDocument' where PARM_NM='KcNotificationDocumentTypeName';
 
+update KRIM_ROLE_T set KIM_TYP_ID='69' where ROLE_NM='COI Reporter';
 
 -- Core table modifications
 alter table coeus_module add (
