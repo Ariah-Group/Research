@@ -22,7 +22,7 @@
     <bean id="S2sUserAttachedFormAttFile" parent="S2sUserAttachedFormAttFile-parentBean" />
     <bean id="S2sUserAttachedFormAttFile-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.s2s.bo.S2sUserAttachedFormAttFile" />
-        <property name="objectLabel" value="S2s User Attached Form Attachment File" />
+        <property name="objectLabel" value="S2S User Attached Form Attachment File" />
         
         <property name="titleAttribute" value="s2sUserAttachedFormAttFileId" />
         <property name="attributes" >
@@ -41,8 +41,8 @@
     <bean id="S2sUserAttachedFormAttFile-s2sUserAttachedFormAttFileId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="s2sUserAttachedFormAttFileId" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="S2s User Attached Form Att File Id" />
-        <property name="shortLabel" value="S2s User Attached Form Att File Id" />
+        <property name="label" value="S2S User Attached Form Att File Id" />
+        <property name="shortLabel" value="S2S User Attached Form Att File Id" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -51,16 +51,16 @@
             <bean parent="TextControlDefinition"
                 p:size="10" />
         </property>
-        <property name="summary" value="S2s User Attached Form Att File Id" />
-        <property name="description" value="S2s User Attached Form Att File Id" />
+        <property name="summary" value="S2S User Attached Form Att File Id" />
+        <property name="description" value="S2S User Attached Form Att File Id" />
     </bean>
 
     <bean id="S2sUserAttachedFormAttFile-s2sUserAttachedFormAttId" parent="S2sUserAttachedFormAttFile-s2sUserAttachedFormAttId-parentBean" />
     <bean id="S2sUserAttachedFormAttFile-s2sUserAttachedFormAttId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="s2sUserAttachedFormAttId" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="S2s User Attached Form Att Id" />
-        <property name="shortLabel" value="S2s User Attached Form Att Id" />
+        <property name="label" value="S2S User Attached Form Att Id" />
+        <property name="shortLabel" value="S2S User Attached Form Att Id" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -69,8 +69,8 @@
             <bean parent="TextControlDefinition"
                 p:size="10" />
         </property>
-        <property name="summary" value="S2s User Attached Form Att Id" />
-        <property name="description" value="S2s User Attached Form Att Id" />
+        <property name="summary" value="S2S User Attached Form Att Id" />
+        <property name="description" value="S2S User Attached Form Att Id" />
     </bean>
 
     <bean id="S2sUserAttachedFormAttFile-attachment" parent="S2sUserAttachedFormAttFile-attachment-parentBean" />

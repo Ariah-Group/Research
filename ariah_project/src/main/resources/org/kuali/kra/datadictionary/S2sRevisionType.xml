@@ -8,7 +8,7 @@
 
   <bean id="S2sRevisionType-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.S2sRevisionType" />
-		<property name="objectLabel" value="S2s Revision Type" />
+		<property name="objectLabel" value="S2S Revision Type" />
     <property name="inquiryDefinition" >
       <ref bean="S2sRevisionType-inquiryDefinition" />
     </property>
@@ -43,8 +43,8 @@
       <bean parent="TextControlDefinition"
             p:size="4" />
     </property>
-    <property name="summary" value="S2s Revision Type Code" />
-    <property name="description" value="S2s Revision Type Code" />
+    <property name="summary" value="S2S Revision Type Code" />
+    <property name="description" value="S2S Revision Type Code" />
   </bean>
   <bean id="S2sRevisionType-description" parent="S2sRevisionType-description-parentBean" />
 
@@ -77,11 +77,11 @@
   <bean id="S2sRevisionType-inquiryDefinition" parent="S2sRevisionType-inquiryDefinition-parentBean" />
 
   <bean id="S2sRevisionType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="S2s Revision Type" />
+    <property name="title" value="S2S Revision Type" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="S2s Revision Type" />
+          <property name="title" value="S2S Revision Type" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>

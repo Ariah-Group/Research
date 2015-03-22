@@ -22,7 +22,7 @@
     <bean id="S2sUserAttachedFormAtt" parent="S2sUserAttachedFormAtt-parentBean" />
     <bean id="S2sUserAttachedFormAtt-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.s2s.bo.S2sUserAttachedFormAtt" />
-        <property name="objectLabel" value="S2s User Attached Form Attachment" />
+        <property name="objectLabel" value="S2S User Attached Form Attachment" />
         
         <property name="inquiryDefinition" >
             <ref bean="S2sUserAttachedFormAtt-inquiryDefinition" />
@@ -50,8 +50,8 @@
     <bean id="S2sUserAttachedFormAtt-s2sUserAttachedFormAttId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="s2sUserAttachedFormAttId" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="S2s User Attached Form Att Id" />
-        <property name="shortLabel" value="S2s User Attached Form Att Id" />
+        <property name="label" value="S2S User Attached Form Att Id" />
+        <property name="shortLabel" value="S2S User Attached Form Att Id" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -60,16 +60,16 @@
             <bean parent="TextControlDefinition"
                 p:size="10" />
         </property>
-        <property name="summary" value="S2s User Attached Form Att Id" />
-        <property name="description" value="S2s User Attached Form Att Id" />
+        <property name="summary" value="S2S User Attached Form Att Id" />
+        <property name="description" value="S2S User Attached Form Att Id" />
     </bean>
 
     <bean id="S2sUserAttachedFormAtt-s2sUserAttachedFormId" parent="S2sUserAttachedFormAtt-s2sUserAttachedFormId-parentBean" />
     <bean id="S2sUserAttachedFormAtt-s2sUserAttachedFormId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="s2sUserAttachedFormId" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="S2s User Attached Form Id" />
-        <property name="shortLabel" value="S2s User Attached Form Id" />
+        <property name="label" value="S2S User Attached Form Id" />
+        <property name="shortLabel" value="S2S User Attached Form Id" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -78,8 +78,8 @@
             <bean parent="TextControlDefinition"
                 p:size="10" />
         </property>
-        <property name="summary" value="S2s User Attached Form Id" />
-        <property name="description" value="S2s User Attached Form Id" />
+        <property name="summary" value="S2S User Attached Form Id" />
+        <property name="description" value="S2S User Attached Form Id" />
     </bean>
 
     <bean id="S2sUserAttachedFormAtt-proposalNumber" parent="S2sUserAttachedFormAtt-proposalNumber-parentBean" />
@@ -161,11 +161,11 @@
     <!-- Business Object Inquiry Definition -->
     <bean id="S2sUserAttachedFormAtt-inquiryDefinition" parent="S2sUserAttachedFormAtt-inquiryDefinition-parentBean" />
     <bean id="S2sUserAttachedFormAtt-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-        <property name="title" value="S2s User Attached Form Att Id" />
+        <property name="title" value="S2S User Attached Form Att Id" />
         <property name="inquirySections" >
             <list>
                 <bean parent="InquirySectionDefinition">
-                    <property name="title" value="S2s User Attached Form Att Id" />
+                    <property name="title" value="S2S User Attached Form Att Id" />
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
@@ -192,7 +192,7 @@
     <!-- Business Object Lookup Definition -->
     <bean id="S2sUserAttachedFormAtt-lookupDefinition" parent="S2sUserAttachedFormAtt-lookupDefinition-parentBean" />
     <bean id="S2sUserAttachedFormAtt-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="S2s User Attached Form Att Lookup" />
+        <property name="title" value="S2S User Attached Form Att Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
             <bean parent="SortDefinition" >

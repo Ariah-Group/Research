@@ -22,7 +22,7 @@
     <bean id="S2sUserAttachedForm" parent="S2sUserAttachedForm-parentBean" />
     <bean id="S2sUserAttachedForm-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.s2s.bo.S2sUserAttachedForm" />
-        <property name="objectLabel" value="S2s User Attached Form" />
+        <property name="objectLabel" value="S2S User Attached Form" />
         <property name="inquiryDefinition" >
             <ref bean="S2sUserAttachedForm-inquiryDefinition" />
         </property>
@@ -49,8 +49,8 @@
     <bean id="S2sUserAttachedForm-s2sUserAttachedFormId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="s2sUserAttachedFormId" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="S2s User Attached Form Id" />
-        <property name="shortLabel" value="S2s User Attached Form Id" />
+        <property name="label" value="S2S User Attached Form Id" />
+        <property name="shortLabel" value="S2S User Attached Form Id" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -59,8 +59,8 @@
             <bean parent="TextControlDefinition"
                 p:size="10" />
         </property>
-        <property name="summary" value="S2s User Attached Form Id" />
-        <property name="description" value="S2s User Attached Form Id" />
+        <property name="summary" value="S2S User Attached Form Id" />
+        <property name="description" value="S2S User Attached Form Id" />
     </bean>
 
     <bean id="S2sUserAttachedForm-proposalNumber" parent="S2sUserAttachedForm-proposalNumber-parentBean" />
@@ -160,11 +160,11 @@
     <!-- Business Object Inquiry Definition -->
     <bean id="S2sUserAttachedForm-inquiryDefinition" parent="S2sUserAttachedForm-inquiryDefinition-parentBean" />
     <bean id="S2sUserAttachedForm-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-        <property name="title" value="S2s User Attached Form Id" />
+        <property name="title" value="S2S User Attached Form Id" />
         <property name="inquirySections" >
             <list>
                 <bean parent="InquirySectionDefinition">
-                    <property name="title" value="S2s User Attached Form Id" />
+                    <property name="title" value="S2S User Attached Form Id" />
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
@@ -191,7 +191,7 @@
     <!-- Business Object Lookup Definition -->
     <bean id="S2sUserAttachedForm-lookupDefinition" parent="S2sUserAttachedForm-lookupDefinition-parentBean" />
     <bean id="S2sUserAttachedForm-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="S2s User Attached Form Lookup" />
+        <property name="title" value="S2S User Attached Form Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
             <bean parent="SortDefinition" >

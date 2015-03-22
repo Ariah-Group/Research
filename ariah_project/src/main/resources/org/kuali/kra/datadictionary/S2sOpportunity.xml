@@ -8,7 +8,7 @@
 
   <bean id="S2sOpportunity-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.s2s.bo.S2sOpportunity" />
-		<property name="objectLabel" value="S2s Opportunity" />
+		<property name="objectLabel" value="S2S Opportunity" />
     <property name="inquiryDefinition" >
       <ref bean="S2sOpportunity-inquiryDefinition" />
     </property>
@@ -305,11 +305,11 @@
   <bean id="S2sOpportunity-inquiryDefinition" parent="S2sOpportunity-inquiryDefinition-parentBean" />
 
   <bean id="S2sOpportunity-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="S2s Opportunity" />
+    <property name="title" value="S2S Opportunity" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="S2s Opportunity" />
+          <property name="title" value="S2S Opportunity" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>

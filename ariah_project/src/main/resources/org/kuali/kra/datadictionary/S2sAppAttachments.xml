@@ -8,7 +8,7 @@
 
   <bean id="S2sAppAttachments-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.s2s.bo.S2sAppAttachments" />
-		<property name="objectLabel" value="S2s App Attachments" />
+		<property name="objectLabel" value="S2S App Attachments" />
     <property name="inquiryDefinition" >
       <ref bean="S2sAppAttachments-inquiryDefinition" />
     </property>
@@ -105,11 +105,11 @@
   <bean id="S2sAppAttachments-inquiryDefinition" parent="S2sAppAttachments-inquiryDefinition-parentBean" />
 
   <bean id="S2sAppAttachments-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="S2s App Attachments" />
+    <property name="title" value="S2S App Attachments" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="S2s App Attachments" />
+          <property name="title" value="S2S App Attachments" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
@@ -135,7 +135,7 @@
   <bean id="S2sAppAttachments-lookupDefinition" parent="S2sAppAttachments-lookupDefinition-parentBean" />
 
   <bean id="S2sAppAttachments-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="S2s App Submission" />
+    <property name="title" value="S2S App Submission" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
     <property name="defaultSort" >

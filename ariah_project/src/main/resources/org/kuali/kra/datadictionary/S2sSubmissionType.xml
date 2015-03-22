@@ -8,7 +8,7 @@
 
   <bean id="S2sSubmissionType-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.s2s.bo.S2sSubmissionType" />
-		<property name="objectLabel" value="S2s Submission Type" />
+		<property name="objectLabel" value="S2S Submission Type" />
     <property name="inquiryDefinition" >
       <ref bean="S2sSubmissionType-inquiryDefinition" />
     </property>

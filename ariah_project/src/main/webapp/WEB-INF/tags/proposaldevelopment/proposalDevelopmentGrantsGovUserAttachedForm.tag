@@ -20,7 +20,7 @@
 <kul:innerTab parentTab="Opportunity Search" defaultOpen="${KualiForm.showSubmissionDetails}" tabTitle="User Attached Forms" tabErrorKey="userAttachedFormsErrors">
 	<div class="tab-container" align="center">
     	<h3>
-    		<span class="subhead-left"> S2s User Attached Form</span>
+    		<span class="subhead-left"> S2S User Attached Form</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.s2s.bo.S2sUserAttachedForm" altText="help"/></span>
         </h3>
         
