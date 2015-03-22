@@ -271,9 +271,9 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
     }
     
     /**
-     * Add an optional Check List to the submission.  Exempt Studies and Expedited Reviews each
+     * Add an optional Checklist to the submission.  Exempt Studies and Expedited Reviews each
      * require a check list to be added to the submission.  Other protocol review types do not
-     * have a check list.
+     * have a checklist.
      * @param submissionBuilder the submission
      * @param submitAction the submission data
      */

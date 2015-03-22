@@ -211,7 +211,7 @@ public class ProtocolSubmissionBuilder {
     }
     
     /**
-     * Add an exempt studies check list item to the submission.
+     * Add an exempt studies check listitem to the submission.
      * @param exemptStudiesCheckListCode
      */
     public void addExemptStudiesCheckListItem(String exemptStudiesCheckListCode) {
@@ -219,7 +219,7 @@ public class ProtocolSubmissionBuilder {
     }
     
     /**
-     * Create an exempt studies check list item.
+     * Create an exempt studies checklist item.
      * @param exemptStudiesCheckListCode
      * @return
      */
@@ -235,7 +235,7 @@ public class ProtocolSubmissionBuilder {
     }
     
     /**
-     * Add an expedited review check list item to the submission.
+     * Add an expedited review checklist item to the submission.
      * @param expeditedReviewCheckListCode
      */
     public void addExpeditedReviewCheckListItem(String expeditedReviewCheckListCode) {
@@ -243,7 +243,7 @@ public class ProtocolSubmissionBuilder {
     }
     
     /**
-     * Create an expedited review check list item.
+     * Create an expedited review checklist item.
      * @param expeditedReviewCheckListCode
      * @return
      */

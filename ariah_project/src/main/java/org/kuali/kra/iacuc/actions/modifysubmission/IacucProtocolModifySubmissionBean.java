@@ -235,8 +235,8 @@ public class IacucProtocolModifySubmissionBean extends IacucProtocolActionBean i
     }
     
     /**
-     * When a user wants to display the entire description of check list item,
-     * the currently selected protocol review type and the index of the check list
+     * When a user wants to display the entire description of checklist item,
+     * the currently selected protocol review type and the index of the checklist
      * item are stored here for later rendering.
      * @param protocolReviewTypeCode
      * @param index

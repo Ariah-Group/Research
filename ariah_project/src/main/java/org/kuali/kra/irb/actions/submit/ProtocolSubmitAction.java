@@ -257,8 +257,8 @@ public class ProtocolSubmitAction extends ProtocolActionBean implements org.kual
     }
 
     /**
-     * When a user wants to display the entire description of check list item, the currently selected protocol review type and the
-     * index of the check list item are stored here for later rendering.
+     * When a user wants to display the entire description of checklist item, the currently selected protocol review type and the
+     * index of the checklist item are stored here for later rendering.
      * 
      * @param protocolReviewTypeCode
      * @param index
@@ -269,7 +269,7 @@ public class ProtocolSubmitAction extends ProtocolActionBean implements org.kual
     }
 
     /**
-     * Get the description of the check list item that was specified in setCheckListItemDescriptionInfo().
+     * Get the description of the checklist item that was specified in setCheckListItemDescriptionInfo().
      * 
      * @return
      */

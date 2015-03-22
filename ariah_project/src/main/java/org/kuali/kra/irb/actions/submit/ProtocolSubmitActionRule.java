@@ -140,7 +140,7 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
     }
 
     /**
-     * Validate the checklist. There must be at least one check list item selected if the review type is exempt or expedited.
+     * Validate the checklist. There must be at least one checklist item selected if the review type is exempt or expedited.
      */
     private boolean validateCheckLists(ProtocolSubmitAction submitAction) {
         String protocolReviewTypeCode = submitAction.getProtocolReviewTypeCode();

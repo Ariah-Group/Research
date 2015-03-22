@@ -19,20 +19,20 @@ import java.util.List;
 
 
 /**
- * The Check List Service is responsible for handling
- * queries related to Check List Items for submitting a protocol for review.
+ * The Checklist Service is responsible for handling
+ * queries related to Checklist Items for submitting a protocol for review.
  */
 public interface CheckListService {
 
     /**
-     * Get the check list for an expedited review.
-     * @return the check list items
+     * Get the checklist for an expedited review.
+     * @return the checklist items
      */
     public List<ExpeditedReviewCheckListItem> getExpeditedReviewCheckList();
     
     /**
      * Get the check list for an exempt study.
-     * @return the check list items
+     * @return the checklist items
      */
     public List<ExemptStudiesCheckListItem> getExemptStudiesCheckList();
 }
