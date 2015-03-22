@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.iacuc.actions.request;
 
@@ -37,7 +53,7 @@ import java.util.Map;
  * Protocol Request Service Implementation.
  */
 public class IacucProtocolRequestServiceImpl implements IacucProtocolRequestService {
-    
+
     private static final Log LOG = LogFactory.getLog(IacucProtocolRequestServiceImpl.class);
     private static final String MODULE_ITEM_CODE = "moduleItemCode";
     private static final String MODULE_ITEM_KEY = "moduleItemKey";
@@ -48,14 +64,16 @@ public class IacucProtocolRequestServiceImpl implements IacucProtocolRequestServ
 
     /**
      * Set the business object service.
+     *
      * @param businessObjectService the business office service
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
     /**
      * Set the Protocol Action Service.
+     *
      * @param protocolActionService
      */
     public void setProtocolActionService(IacucProtocolActionService protocolActionService) {
@@ -63,11 +81,14 @@ public class IacucProtocolRequestServiceImpl implements IacucProtocolRequestServ
     }
 
     /**
-     * @throws WorkflowException 
-     * @see org.kuali.kra.irb.actions.request.ProtocolRequestService#submitRequest(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.request.ProtocolRequestBean)
+     * @throws WorkflowException
+     * @see
+     * org.kuali.kra.irb.actions.request.ProtocolRequestService#submitRequest(org.kuali.kra.irb.Protocol,
+     * org.kuali.kra.irb.actions.request.ProtocolRequestBean)
      */
+    @Override
     public void submitRequest(IacucProtocol protocol, IacucProtocolRequestBean requestBean) throws WorkflowException {
-        LOG.info("submitRequest "+ requestBean.getProtocolActionTypeCode() + " " +protocol.getProtocolDocument().getDocumentNumber());
+        LOG.info("submitRequest " + requestBean.getProtocolActionTypeCode() + " " + protocol.getProtocolDocument().getDocumentNumber());
         /*
          * The submission is created first so that its new primary key can be added
          * to the protocol action entry.
@@ -77,19 +98,19 @@ public class IacucProtocolRequestServiceImpl implements IacucProtocolRequestServ
         IacucProtocolSubmission submission = createProtocolSubmission(protocol, requestBean);
         String submissionTypeCode = submission.getSubmissionTypeCode();
         protocol.setProtocolSubmission(submission);
-        
-        IacucProtocolAction protocolAction = new IacucProtocolAction(protocol, submission, requestBean.getProtocolActionTypeCode());        
+
+        IacucProtocolAction protocolAction = new IacucProtocolAction(protocol, submission, requestBean.getProtocolActionTypeCode());
         protocolAction.setComments(requestBean.getReason());
         protocolAction.setProtocol(protocol);
-        
+
         //Creating an audit trail
         protocolAction.setPrevProtocolStatusCode(protocol.getProtocolStatusCode());
         protocolAction.setPrevSubmissionStatusCode(prevSubmissionStatusCode);
         protocolAction.setSubmissionTypeCode(submissionTypeCode);
         protocolAction.setCreatedSubmission(true);
-        
+
         protocol.getProtocolActions().add(protocolAction);
-        
+
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
         if (!CollectionUtils.isEmpty(requestBean.getAnswerHeaders())) {
             saveQuestionnaire(requestBean, submission.getSubmissionNumber());
@@ -98,7 +119,7 @@ public class IacucProtocolRequestServiceImpl implements IacucProtocolRequestServ
         cleanUnreferencedQuestionnaire(protocol.getProtocolNumber());
         documentService.saveDocument(protocol.getProtocolDocument());
     }
-    
+
     private void saveQuestionnaire(IacucProtocolRequestBean requestBean, Integer submissionNumber) {
         List<AnswerHeader> saveHeaders = new ArrayList<AnswerHeader>();
         for (AnswerHeader answerHeader : requestBean.getAnswerHeaders()) {
@@ -121,7 +142,7 @@ public class IacucProtocolRequestServiceImpl implements IacucProtocolRequestServ
     private void cleanUnreferencedQuestionnaire(String protocolNumber) {
         // TODO : make this a shared 
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(MODULE_ITEM_CODE, CoeusModule.IRB_MODULE_CODE);
+        fieldValues.put(MODULE_ITEM_CODE, CoeusModule.IACUC_PROTOCOL_MODULE_CODE);
         fieldValues.put(MODULE_ITEM_KEY, protocolNumber + "T");
 
         List<AnswerHeader> answerHeaders = (List<AnswerHeader>) businessObjectService.findMatching(AnswerHeader.class, fieldValues);
@@ -132,6 +153,7 @@ public class IacucProtocolRequestServiceImpl implements IacucProtocolRequestServ
 
     /**
      * Create a Protocol Submission.
+     *
      * @param protocol the protocol
      * @param requestBean the request data
      * @return a protocol submission
@@ -145,11 +167,10 @@ public class IacucProtocolRequestServiceImpl implements IacucProtocolRequestServ
         return submissionBuilder.create();
     }
 
-
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
-    
+
     public void setKcNotificationService(KcNotificationService kcNotificationService) {
         this.kcNotificationService = kcNotificationService;
     }
