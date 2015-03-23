@@ -398,8 +398,8 @@
 	<bean id="KcPersonExtendedAttributes-citizenshipTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="citizenshipTypeCode" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Citzenship Type" />
-		<property name="shortLabel" value="Citzenship Type" />
+		<property name="label" value="Citizenship Type" />
+		<property name="shortLabel" value="Citizenship Type" />
 		<property name="maxLength" value="3" />
 		<property name="control" >
 	     		<bean parent="SelectControlDefinition"
@@ -410,8 +410,8 @@
 	           	p:keyAttribute="citizenshipTypeCode"
 	           	p:labelAttribute="description" />
 		</property>
-		<property name="summary" value="Citzenship Type" />
-		<property name="description" value="Citzenship Type" />
+		<property name="summary" value="Citizenship Type" />
+		<property name="description" value="Citizenship Type" />
 	</bean>
 	
   <bean id="KcPersonExtendedAttributes-multiCampusPrincipalId" parent="KcPersonExtendedAttributes-multiCampusPrincipalId-parentBean" />
