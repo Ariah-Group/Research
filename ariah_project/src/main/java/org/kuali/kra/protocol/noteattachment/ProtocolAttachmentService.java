@@ -90,7 +90,7 @@ public interface ProtocolAttachmentService {
      * @param attachment the attachment.
      * @throws IllegalArgumentException if the attachment or attachment's new file is null
      */
-    void deleteAttatchment(ProtocolAttachmentBase attachment);
+    void deleteAttachment(ProtocolAttachmentBase attachment);
     
     /**
      * Retrieves an attachment from the database of a given type based on the attachment id.
