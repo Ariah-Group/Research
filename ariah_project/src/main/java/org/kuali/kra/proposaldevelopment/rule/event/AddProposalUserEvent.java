@@ -61,6 +61,7 @@ public class AddProposalUserEvent extends KraDocumentEventBase {
     /**
      * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEventBase#validate()
      */
+    @Override
     public void validate() {
         super.validate();
         if (this.proposalUser == null) {
@@ -90,6 +91,7 @@ public class AddProposalUserEvent extends KraDocumentEventBase {
     /**
      * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
+    @Override
     public Class getRuleInterfaceClass() {
         return PermissionsRule.class;
     }
@@ -97,6 +99,7 @@ public class AddProposalUserEvent extends KraDocumentEventBase {
     /**
      * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
      */
+    @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
         return ((PermissionsRule) rule).processAddProposalUserBusinessRules((ProposalDevelopmentDocument) this.getDocument(), 
                                                                             list, this.proposalUser);
