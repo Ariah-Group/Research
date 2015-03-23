@@ -245,3 +245,5 @@ values ('000001','admin','888',SYSDATE,'admin',1,SYS_GUID());
 update IACUC_PROTOCOL_CORRESP_TYPE set DESCRIPTION='Amendment Approval letter' where PROTO_CORRESP_TYPE_CODE='6';
 update KRIM_PERM_T set NM='Create Amendment', DESC_TXT='Create a new amendment for a protocol' where NM='Create Ammendment';
 update KRIM_PERM_ATTR_DATA_T set ATTR_VAL='create_amendment' where ATTR_VAL='create_ammendment';
+
+update NARRATIVE_TYPE set DESCRIPTION='Proprietary_Information' where DESCRIPTION='PropietaryInformation';
