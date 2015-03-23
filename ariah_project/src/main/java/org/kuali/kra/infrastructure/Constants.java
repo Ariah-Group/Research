@@ -974,6 +974,9 @@ public interface Constants {
     public static final String ARIAH_NEGO_HIDE_AND_DEFAULT_NEGO_DOC_DESC = "ARIAH_NEGO_HIDE_AND_DEFAULT_NEGO_DOC_DESC";
     public static final String ARIAH_NEGO_ACTIVITY_FOLLOWUP_DATE_ALLOW_ALL = "ARIAH_NEGO_ACTIVITY_FOLLOWUP_DATE_ALLOW_ALL";    
     
+    // Parameter constants for Institutional Proposals
+    public static final String ARIAH_INSTPROP_SHOW_INTELLPROPREVIEW_TAB = "ARIAH_INSTPROP_SHOW_INTELLPROPREVIEW_TAB";
+    
     /**
      * Module Code for "Award" records in as defined in COEUS_MODULE database table.
      */

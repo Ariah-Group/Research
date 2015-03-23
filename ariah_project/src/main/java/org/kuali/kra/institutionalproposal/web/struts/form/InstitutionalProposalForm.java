@@ -82,6 +82,7 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     private static final long serialVersionUID = 4564236415580911082L;
     private static final String CUSTOM_DATA_NAV_TO = "customData";
     private static final String SPECIALREVIEW_NAV_TO = "specialReview";
+    private static final String INTELL_PROP_REVIEW = "intellectualPropertyReview";
 
     private boolean auditActivated;
 
@@ -541,6 +542,9 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
             includeSpecialReviews = false;
         }
 
+        boolean includeIntellPropReview = getParameterService().getParameterValueAsBoolean(InstitutionalProposalDocument.class,
+                Constants.ARIAH_INSTPROP_SHOW_INTELLPROPREVIEW_TAB, true);
+
         //We have to copy the HeaderNavigation elements into a new collection as the 
         //List returned by DD is it's cached copy of the header navigation list.
         for (HeaderNavigation nav : navigation) {
@@ -553,6 +557,12 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
             } else if (StringUtils.equalsIgnoreCase(nav.getHeaderTabNavigateTo(), SPECIALREVIEW_NAV_TO)) {
 
                 if (includeSpecialReviews) {
+                    resultList.add(nav);
+                }
+
+            } else if (StringUtils.equalsIgnoreCase(nav.getHeaderTabNavigateTo(), INTELL_PROP_REVIEW)) {
+
+                if (includeIntellPropReview) {
                     resultList.add(nav);
                 }
 
