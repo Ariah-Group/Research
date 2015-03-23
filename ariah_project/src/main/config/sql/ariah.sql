@@ -105,6 +105,9 @@ UPDATE krcr_parm_t set VAL='AR' where PARM_NM='SCHOOL_ACRONYM';
 UPDATE krcr_parm_t set VAL='Ariah Research' where PARM_NM='SCHOOL_NAME';
 UPDATE krcr_parm_t set VAL='NotificationDocument' where PARM_NM='KcNotificationDocumentTypeName';
 
+update KRCR_PARM_T set VAL='Approval signifies that the proposed project fits within the academic framework and resources of the unit, requirements for new or renovated facilities space have been discussed with the appropriate people, contributions listed will be met by the department college unless otherwise approved, that Conflict of Interest requirements have been addressed, and that Sponsored Programs may process the proposal' where PARM_NM='propSummaryDisclaimerText';
+
+
 update KRIM_ROLE_T set KIM_TYP_ID='69' where ROLE_NM='COI Reporter';
 
 -- fix typos in database Financial Entity-related fields
