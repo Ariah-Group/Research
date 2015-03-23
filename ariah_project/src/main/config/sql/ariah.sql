@@ -247,3 +247,5 @@ update KRIM_PERM_T set NM='Create Amendment', DESC_TXT='Create a new amendment f
 update KRIM_PERM_ATTR_DATA_T set ATTR_VAL='create_amendment' where ATTR_VAL='create_ammendment';
 
 update NARRATIVE_TYPE set DESCRIPTION='Proprietary_Information' where DESCRIPTION='PropietaryInformation';
+
+update COST_SHARE_TYPE set DESCRIPTION='RNF-Outside Sources' where DESCRIPTION='RNF-OutsiSourcesde';
