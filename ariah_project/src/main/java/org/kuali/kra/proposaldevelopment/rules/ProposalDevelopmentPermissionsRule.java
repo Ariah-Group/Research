@@ -50,6 +50,7 @@ import java.util.List;
  * Development Document.
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
+ * @author Ariah Group, Inc.
  */
 public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase implements PermissionsRule {
 
@@ -60,6 +61,7 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
      * org.kuali.kra.proposaldevelopment.rule.PermissionsRule#processAddProposalUserBusinessRules(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument,
      * java.util.List, org.kuali.kra.proposaldevelopment.bo.ProposalUser)
      */
+    @Override
     public boolean processAddProposalUserBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, ProposalUser proposalUser) {
         boolean isValid = true;
 
@@ -78,7 +80,13 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
                     KeyConstants.ERROR_UNKNOWN_USERNAME);
         } // Don't add the same user to the list.  The "edit roles" button
         // must be used to modify roles for an existing user.
-        else if (isDuplicate(proposalUser.getUsername(), proposalUserRolesList)) {
+        else if (proposalUserRolesList == null || proposalUserRolesList.isEmpty()) {
+
+            isValid = false;
+            this.reportError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY + ".roleName",
+                    KeyConstants.ERROR_DUPLICATE_PROPOSAL_USER);
+
+        } else if (isDuplicate(proposalUser.getUsername(), proposalUserRolesList)) {
             isValid = false;
             this.reportError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY + ".username",
                     KeyConstants.ERROR_DUPLICATE_PROPOSAL_USER);
@@ -98,6 +106,7 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
      * org.kuali.kra.proposaldevelopment.rule.PermissionsRule#processDeleteProposalUserBusinessRules(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument,
      * java.util.List, int)
      */
+    @Override
     public boolean processDeleteProposalUserBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, int index) {
         boolean isValid = true;
         KraWorkflowService kraWorkflowService = KraServiceLocator.getService(KraWorkflowService.class);
@@ -134,6 +143,7 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
      * java.util.List,
      * org.kuali.kra.proposaldevelopment.bo.ProposalUserEditRoles)
      */
+    @Override
     public boolean processEditProposalUserRolesBusinessRules(ProposalDevelopmentDocument document, List<ProposalUserRoles> proposalUserRolesList, ProposalUserEditRoles editRoles) {
         boolean isValid = true;
         KraWorkflowService kraWorkflowService = KraServiceLocator.getService(KraWorkflowService.class);
@@ -257,14 +267,14 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
      * This method cycles through a list of attachments and checks if the user
      * is the last user with modify permissions on any of them. It uses the
      * passed label to report an error for each and returns true if an error is
-     * reportes
+     * reported
      *
      * @param username The user
      * @param attachments A list of Narratives to test
      * @param errorLocationKey The location key to use when reporting errors
      * @param errorLabel The label to use when reporting errors
      * @return true if any of the attachments has the user as the only user with
-     * midufy permissions
+     * modify permissions
      */
     private boolean testForLastModifier(String username, List<Narrative> attachments, String errorLocationKey, String errorLabel) {
         int index = 1;
@@ -349,7 +359,7 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
 
     /**
      * Is this user the last Aggregator in the list? There must always be at
-     * least one user with the Aggregator role. Any attemp to delete that user
+     * least one user with the Aggregator role. Any attempt to delete that user
      * or remove the Aggregator role from that user must be prevented.
      *
      * @param username the user to ignore in the list

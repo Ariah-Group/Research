@@ -53,6 +53,7 @@
     <property name="label" value="Role" />
     <property name="shortLabel" value="Role" />
     <property name="maxLength" value="5" />
+    <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalRoleValuesFinder"
