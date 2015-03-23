@@ -506,8 +506,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
         ProtocolForm protocolForm = (ProtocolForm) form;
         Protocol protocol = (Protocol) protocolForm.getProtocolDocument().getProtocol();
-        protocolForm.getActionHelper().setCurrentTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS);
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS, protocol);
+        protocolForm.getActionHelper().setCurrentTask(TaskName.MODIFY_PROTOCOL_AMENDMENT_SECTIONS);
+        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_AMENDMENT_SECTIONS, protocol);
         if (isAuthorized(task)) {
             if (!applyRules(new ModifyAmendmentSectionsEvent(protocolForm.getProtocolDocument(), Constants.PROTOCOL_MODIFY_AMENDMENT_KEY,
                     (ProtocolAmendmentBean) protocolForm.getActionHelper().getProtocolAmendmentBean()))) {
@@ -715,7 +715,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         if (printType.equals(ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT)) {
             summaryOptions.setActions(true);
             summaryOptions.setAmendmentRenewalHistory(true);
-            summaryOptions.setAmmendmentRenewalSummary(true);
+            summaryOptions.setAmendmentRenewalSummary(true);
             summaryOptions.setAreaOfResearch(true);
             summaryOptions.setAttachments(true);
             summaryOptions.setCorrespondents(true);

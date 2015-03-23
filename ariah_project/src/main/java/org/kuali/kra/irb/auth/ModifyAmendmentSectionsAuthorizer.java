@@ -43,6 +43,6 @@ public class ModifyAmendmentSectionsAuthorizer extends ProtocolAuthorizer {
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return isAmendmentOrRenewal(task.getProtocol()) &&
                canExecuteAction(task.getProtocol(), ProtocolActionType.MODIFY_AMENDMENT_SECTION) &&
-               hasPermission(userId, task.getProtocol(), PermissionConstants.CREATE_AMMENDMENT);
+               hasPermission(userId, task.getProtocol(), PermissionConstants.CREATE_AMENDMENT);
     }
 }

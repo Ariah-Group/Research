@@ -46,7 +46,7 @@ public class CreateAmendmentAuthorizer extends ProtocolAuthorizer {
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return  !isAmendmentOrRenewal(task.getProtocol()) &&
                 canExecuteAction(task.getProtocol(), ProtocolActionType.AMENDMENT_CREATED) &&
-                (hasPermission(userId, task.getProtocol(), PermissionConstants.CREATE_AMMENDMENT)  
+                (hasPermission(userId, task.getProtocol(), PermissionConstants.CREATE_AMENDMENT)  
                    || hasPermission(userId, task.getProtocol(), PermissionConstants.CREATE_ANY_AMENDMENT)) &&
                 !(isRequestForSuspension(task.getProtocol()) & !isIrbAdmin(userId));
     }

@@ -139,7 +139,7 @@ public abstract class ProtocolAuthorizerTestBase extends KcUnitTestBase {
         context.checking(new Expectations() {{
             allowing(service).hasPermission(USERNAME, protocolDocument.getProtocol(), permissionConstant); 
             will(returnValue(hasPermission));
-            if (PermissionConstants.CREATE_AMMENDMENT.equals(permissionConstant) && !hasPermission) {
+            if (PermissionConstants.CREATE_AMENDMENT.equals(permissionConstant) && !hasPermission) {
                 allowing(service).hasPermission(USERNAME, protocolDocument.getProtocol(), PermissionConstants.CREATE_ANY_AMENDMENT); 
                 will(returnValue(hasPermission));
             } else if (PermissionConstants.CREATE_RENEWAL.equals(permissionConstant) && !hasPermission) {

@@ -20,7 +20,7 @@ when
 	actionRight : ActionRightMapping(actionTypeCode in ('103'))
 then	
     actionRight.setAllowed(true);
-    actionRight.setRightId("Create Ammendment");
+    actionRight.setRightId("Create Amendment");
 end
 rule "Rule 3 -  102"
 salience 100

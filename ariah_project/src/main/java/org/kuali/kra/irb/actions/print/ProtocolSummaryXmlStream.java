@@ -127,7 +127,7 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
         if (htData != null) {
             ProtocolSummaryPrintOptions summaryOptions = (ProtocolSummaryPrintOptions) htData.get(ProtocolSummaryPrintOptions.class);
             printRequirementType.setActionsRequired(getOptionString(summaryOptions.isActions()));
-            printRequirementType.setAmendRenewModulesRequired(getOptionString(summaryOptions.isAmmendmentRenewalSummary()));
+            printRequirementType.setAmendRenewModulesRequired(getOptionString(summaryOptions.isAmendmentRenewalSummary()));
             printRequirementType.setAmendRenewSRequired(getOptionString(summaryOptions.isAmendmentRenewalHistory()));
             printRequirementType.setDocumentsRequired(getOptionString(summaryOptions.isDocuments()));
             printRequirementType.setResearchAreasRequired(getOptionString(summaryOptions.isAreaOfResearch()));

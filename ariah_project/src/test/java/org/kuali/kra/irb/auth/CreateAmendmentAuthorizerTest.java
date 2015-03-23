@@ -50,14 +50,14 @@ public class CreateAmendmentAuthorizerTest extends ProtocolAuthorizerTestBase {
     @Override
     protected ProtocolAuthorizer createProtocolAuthorizer(ProtocolDocument protocolDocument, boolean hasPermission, boolean isActionAllowed, boolean isInWorkflow) {
         ProtocolAuthorizer authorizer = new CreateAmendmentAuthorizer();
-        authorizer.setKraAuthorizationService(buildKraAuthorizationService(protocolDocument, PermissionConstants.CREATE_AMMENDMENT, hasPermission, RoleConstants.IRB_ADMINISTRATOR, true));
+        authorizer.setKraAuthorizationService(buildKraAuthorizationService(protocolDocument, PermissionConstants.CREATE_AMENDMENT, hasPermission, RoleConstants.IRB_ADMINISTRATOR, true));
         authorizer.setProtocolActionService(buildProtocolActionService(ProtocolActionType.AMENDMENT_CREATED, protocolDocument, isActionAllowed));
         return authorizer;
     }
     
     @Override
     protected String getTaskName() {
-        return TaskName.CREATE_PROTOCOL_AMMENDMENT;
+        return TaskName.CREATE_PROTOCOL_AMENDMENT;
     }
 
 }

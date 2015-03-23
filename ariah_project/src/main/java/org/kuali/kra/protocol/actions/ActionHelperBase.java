@@ -436,7 +436,7 @@ public abstract class ActionHelperBase implements Serializable {
     protected void initActionBeanTaskMap() {
 
         actionBeanTaskMap.put(TaskName.PROTOCOL_ADMIN_CORRECTION, protocolAdminCorrectionBean);
-        actionBeanTaskMap.put(TaskName.CREATE_PROTOCOL_AMMENDMENT, protocolAmendmentBean);
+        actionBeanTaskMap.put(TaskName.CREATE_PROTOCOL_AMENDMENT, protocolAmendmentBean);
         actionBeanTaskMap.put(TaskName.CREATE_PROTOCOL_RENEWAL, protocolRenewAmendmentBean);
 
         actionBeanTaskMap.put(TaskName.APPROVE_PROTOCOL, protocolFullApprovalBean);
@@ -2049,7 +2049,7 @@ public abstract class ActionHelperBase implements Serializable {
          * If you set it, the user's data gets refreshed and the amendment details from the currentSubmission
          * will be populated in the protocolAmendmentBean.
          */
-        if (!currentTaskName.equalsIgnoreCase(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS)) {
+        if (!currentTaskName.equalsIgnoreCase(TaskName.MODIFY_PROTOCOL_AMENDMENT_SECTIONS)) {
             ProtocolAmendmentBean amendmentBean = getProtocolAmendmentBean();
             String originalProtocolNumber;
             // Use the submission number to get the correct amendment details

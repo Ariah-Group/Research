@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.protocol.actions.print;
 
@@ -26,7 +42,7 @@ public class ProtocolSummaryPrintOptions implements Serializable {
      */
     private static final long serialVersionUID = -7053561167215452265L;
     private boolean actions = true;
-    private boolean ammendmentRenewalSummary = true;
+    private boolean amendmentRenewalSummary = true;
     private boolean amendmentRenewalHistory = true;
     private boolean attachments = true;
     private boolean documents = true;
@@ -65,18 +81,18 @@ public class ProtocolSummaryPrintOptions implements Serializable {
         this.actions = actions;
     }
     /**
-     * Gets the ammendmentRenewalSummary attribute. 
-     * @return Returns the ammendmentRenewalSummary.
+     * Gets the amendmentRenewalSummary attribute. 
+     * @return Returns the amendmentRenewalSummary.
      */
-    public boolean isAmmendmentRenewalSummary() {
-        return ammendmentRenewalSummary;
+    public boolean isAmendmentRenewalSummary() {
+        return amendmentRenewalSummary;
     }
     /**
-     * Sets the ammendmentRenewalSummary attribute value.
-     * @param ammendmentRenewalSummary The ammendmentRenewalSummary to set.
+     * Sets the amendmentRenewalSummary attribute value.
+     * @param amendmentRenewalSummary The amendmentRenewalSummary to set.
      */
-    public void setAmmendmentRenewalSummary(boolean ammendmentRenewalSummary) {
-        this.ammendmentRenewalSummary = ammendmentRenewalSummary;
+    public void setAmendmentRenewalSummary(boolean amendmentRenewalSummary) {
+        this.amendmentRenewalSummary = amendmentRenewalSummary;
     }
     /**
      * Gets the amendmentRenewalHistory attribute. 

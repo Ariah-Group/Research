@@ -172,7 +172,7 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
             printRequirementType.setSpecialReviewRequired(getOptionString(summaryOptions.isSpecialReview()));
             printRequirementType.setExceptionsRequired(getOptionString(summaryOptions.isException()));
             printRequirementType.setNotesRequired(getOptionString(summaryOptions.isNotes()));
-            printRequirementType.setAmendRenewSRequired(getOptionString(summaryOptions.isAmmendmentRenewalSummary()));
+            printRequirementType.setAmendRenewSRequired(getOptionString(summaryOptions.isAmendmentRenewalSummary()));
             printRequirementType.setOtherDataRequired(getOptionString(summaryOptions.isOtherData()));
             printRequirementType.setUserRolesRequired(getOptionString(summaryOptions.isRoles()));
             printRequirementType.setReferencesRequired(getOptionString(summaryOptions.isReferences()));

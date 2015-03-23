@@ -60,7 +60,7 @@ public class ProtocolLookupableHelperServiceImpl extends ProtocolLookupableHelpe
 
     private ProtocolDao<Protocol> protocolDao;
 
-    private static final String[] AMEND_RENEW_PROTOCOL_TASK_CODES = {TaskName.CREATE_PROTOCOL_AMMENDMENT,
+    private static final String[] AMEND_RENEW_PROTOCOL_TASK_CODES = {TaskName.CREATE_PROTOCOL_AMENDMENT,
         TaskName.CREATE_PROTOCOL_RENEWAL};
     private static final String NOTIFY_IRB_PROTOCOL_LOOKUP_ACTION = "lookupActionNotifyIRBProtocol";
     private static final String[] NOTIFY_IRB_PROTOCOL_TASK_CODES = {TaskName.NOTIFY_IRB};

@@ -48,7 +48,7 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     protected static final String ACTION_ID_FIELD_KEY = "actionId";
     protected static final String PROTOCOL_NUMBER_FIELD_KEY = "protocolNumber";
     protected static final String COMMENT_PREFIX_RENEWAL = "Renewal-";
-    protected static final String COMMENT_PREFIX_AMMENDMENT = "Amendment-";
+    protected static final String COMMENT_PREFIX_AMENDMENT = "Amendment-";
 
     //not thread safe cannot be static  
     private transient SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");

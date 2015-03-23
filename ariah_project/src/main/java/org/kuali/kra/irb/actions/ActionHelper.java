@@ -1318,7 +1318,7 @@ public class ActionHelper extends ActionHelperBase {
          * If you set it, the user's data gets refreshed and the amendment details from the currentSubmission
          * will be populated in the protocolAmendmentBean.
          */
-        if (!currentTaskName.equalsIgnoreCase(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS)) {
+        if (!currentTaskName.equalsIgnoreCase(TaskName.MODIFY_PROTOCOL_AMENDMENT_SECTIONS)) {
             ProtocolAmendmentBean amendmentSummaryBean = (ProtocolAmendmentBean) getProtocolAmendmentSummaryBean();
             String originalProtocolNumber;
             // Use the submission number to get the correct amendment details
@@ -1601,22 +1601,22 @@ public class ActionHelper extends ActionHelperBase {
 
     @Override
     protected ProtocolTaskBase getNewAmendmentProtocolTaskInstanceHook(ProtocolBase protocol) {
-        return new ProtocolTask(TaskName.CREATE_PROTOCOL_AMMENDMENT, getProtocol());
+        return new ProtocolTask(TaskName.CREATE_PROTOCOL_AMENDMENT, getProtocol());
     }
 
     @Override
     protected ProtocolTaskBase getNewAmendmentProtocolUnavailableTaskInstanceHook(ProtocolBase protocol) {
-        return new ProtocolTask(TaskName.CREATE_PROTOCOL_AMMENDMENT_UNAVAILABLE, getProtocol());
+        return new ProtocolTask(TaskName.CREATE_PROTOCOL_AMENDMENT_UNAVAILABLE, getProtocol());
     }
 
     @Override
     protected ProtocolTaskBase getModifyAmendmentSectionsProtocolTaskInstanceHook(ProtocolBase protocol) {
-        return new ProtocolTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS, getProtocol());
+        return new ProtocolTask(TaskName.MODIFY_PROTOCOL_AMENDMENT_SECTIONS, getProtocol());
     }
 
     @Override
     protected ProtocolTaskBase getModifyAmendmentSectionsUnavailableProtocolUnavailableTaskInstanceHook(ProtocolBase protocol) {
-        return new ProtocolTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS_UNAVAILABLE, getProtocol());
+        return new ProtocolTask(TaskName.MODIFY_PROTOCOL_AMENDMENT_SECTIONS_UNAVAILABLE, getProtocol());
     }
 
     @Override

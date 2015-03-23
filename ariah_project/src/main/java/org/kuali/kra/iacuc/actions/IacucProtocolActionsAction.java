@@ -134,52 +134,55 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class IacucProtocolActionsAction extends IacucProtocolAction {
-    
+
     private static final Log LOG = LogFactory.getLog(IacucProtocolActionsAction.class);
     private static final String CONFIRM_NO_ACTION = "";
     private static final String CONFIRM_DELETE_ACTION_ATT = "confirmDeleteActionAttachment";
     private static final String CONFIRM_FOLLOWUP_ACTION = "confirmAddFollowupAction";
 
     private static final String CONFIRM_SUBMIT_FOR_REVIEW_KEY = "confirmSubmitForReview";
-    
+
     private static final String NOT_FOUND_SELECTION = "The attachment was not found for selection ";
 
     private static final String CONFIRM_DELETE_PROTOCOL_KEY = "confirmDeleteProtocol";
     private static final String INVALID_ATTACHMENT = "this attachment version is invalid ";
 
-    /** signifies that a response has already be handled therefore forwarding to obtain a response is not needed. */
+    /**
+     * signifies that a response has already be handled therefore forwarding to
+     * obtain a response is not needed.
+     */
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     private static final String SUBMISSION_ID = "submissionId";
     private static final String CORRESPONDENCE = "correspondence";
-    
 
     public ActionForward assignCommitteeSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
         final String callerString = "assignCommitteeSchedule";
- 
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         if (request.getParameterMap().containsKey("doCopy")) {
-            String docId  = request.getParameter("docId");
+            String docId = request.getParameter("docId");
             IacucProtocolDocument ipd = (IacucProtocolDocument) this.getDocumentService().getByDocumentHeaderId(docId);
             protocolForm.setDocument(ipd);
             protocolForm.setDefaultOpenCopyTab(true);
         }
-        
+
         // set the current task name on the action helper before the requested method is dispatched
         // so that beans etc can access it when preparing view after/during the requested method's execution
         String currentTaskName = getTaskName(request);
-        if(currentTaskName != null) {
+        if (currentTaskName != null) {
             protocolForm.getActionHelper().setCurrentTask(currentTaskName);
-        }
-        else {
+        } else {
             protocolForm.getActionHelper().setCurrentTask("");
         }
         ActionForward actionForward = super.execute(mapping, form, request, response);
@@ -187,16 +190,14 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         protocolForm.getActionHelper().initFilterDatesView();
         // submit action may change "submission details", so re-initialize it
         // TODO do we really need this? the above call to prepareView() will invoke it anyway, so the below call seems redundant and wasteful.
-        ((IacucActionHelper)protocolForm.getActionHelper()).initSubmissionDetails();
-        
+        ((IacucActionHelper) protocolForm.getActionHelper()).initSubmissionDetails();
+
         return actionForward;
     }
 
-    
-    
     /**
      * Invoked when the "copy protocol" button is clicked.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -207,7 +208,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     public ActionForward copyProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
 
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_IACUC_PROTOCOL);
@@ -216,38 +216,44 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
             // Switch over to the new protocol document and
             // go to the ProtocolBase tab web page.
-
             protocolForm.setDocId(newDocId);
             protocolForm.setViewOnly(false);
             loadDocument(protocolForm);
             protocolForm.getIacucProtocolDocument().setViewOnly(protocolForm.isViewOnly());
             protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
             protocolForm.getProtocolHelper().prepareView();
-            
+
             return mapping.findForward(IacucConstants.PROTOCOL_TAB);
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }    
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         return new AuditActionHelper().setAuditMode(mapping, (ProtocolFormBase) form, true);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         return new AuditActionHelper().setAuditMode(mapping, (ProtocolFormBase) form, false);
     }
 
     /**
-     * Refreshes the page. We only need to redraw the page. This method is used when JavaScript is disabled. During a review
-     * submission action, the user will have to refresh the page. For example, after a committee is selected, the page needs to be
-     * refreshed so that the available scheduled dates for that committee can be displayed in the drop-down menu for the scheduled
-     * dates. Please see ProtocolSubmitAction.prepareView() for how the Submit for Review works on a refresh.
-     * 
+     * Refreshes the page. We only need to redraw the page. This method is used
+     * when JavaScript is disabled. During a review submission action, the user
+     * will have to refresh the page. For example, after a committee is
+     * selected, the page needs to be refreshed so that the available scheduled
+     * dates for that committee can be displayed in the drop-down menu for the
+     * scheduled dates. Please see ProtocolSubmitAction.prepareView() for how
+     * the Submit for Review works on a refresh.
+     *
      * @param mapping the mapping associated with this action.
      * @param form the ProtocolBase form.
      * @param request the HTTP request
@@ -261,10 +267,9 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    
     /**
      * Submit a protocol for review.
-     * 
+     *
      * @param mapping the mapping associated with this action.
      * @param form the ProtocolBase form.
      * @param request the HTTP request
@@ -276,15 +281,15 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
 
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        IacucProtocolDocument protocolDocument = (IacucProtocolDocument)protocolForm.getProtocolDocument();
+        IacucProtocolDocument protocolDocument = (IacucProtocolDocument) protocolForm.getProtocolDocument();
         protocolForm.setAuditActivated(true);
         IacucProtocolTask task = new IacucProtocolTask(TaskName.SUBMIT_IACUC_PROTOCOL, protocolDocument.getIacucProtocol());
         if (isAuthorized(task)) {
-            IacucProtocolSubmitAction submitAction = (IacucProtocolSubmitAction) protocolForm.getActionHelper().getProtocolSubmitAction();            
-            if (applyRules(protocolForm,new IacucProtocolSubmitActionEvent(protocolDocument, submitAction))) {
+            IacucProtocolSubmitAction submitAction = (IacucProtocolSubmitAction) protocolForm.getActionHelper().getProtocolSubmitAction();
+            if (applyRules(protocolForm, new IacucProtocolSubmitActionEvent(protocolDocument, submitAction))) {
                 AuditActionHelper auditActionHelper = new AuditActionHelper();
                 if (auditActionHelper.auditUnconditionally(protocolDocument)) {
-                    
+
                     if (isCommitteeMeetingAssignedMaxProtocols(submitAction.getNewCommitteeId(), submitAction.getNewScheduleId())) {
                         forward = confirm(buildSubmitForReviewConfirmationQuestion(mapping, form, request, response), CONFIRM_SUBMIT_FOR_REVIEW_KEY, "");
                     } else {
@@ -292,29 +297,28 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                     }
                 } else {
                     GlobalVariables.getMessageMap().clearErrorMessages();
-                    GlobalVariables.getMessageMap().putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
+                    GlobalVariables.getMessageMap().putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION, new String[]{});
                 }
             }
         }
 
         return forward;
     }
-    
 
     public ActionForward assignCommittee(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isAssignCommitteeAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isAssignCommitteeAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().assignCommittee(protocolForm);
             forward = mapping.findForward(forwardTo);
         }
         return forward;
     }
-      
+
     private boolean isCommitteeMeetingAssignedMaxProtocols(String committeeId, String scheduleId) {
         boolean isMax = false;
-        
+
         return isMax;
     }
 
@@ -328,22 +332,24 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
 
     /**
-     * Method dispatched from <code>{@link KraTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)}</code> for
-     * when a "yes" condition is met.
-     * 
+     * Method dispatched from
+     * <code>{@link KraTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)}</code>
+     * for when a "yes" condition is met.
+     *
      * @param mapping The mapping associated with this action.
      * @param form The ProtocolBase form.
      * @param request the HTTP request
      * @param response the HTTP response
      * @return the destination
      * @throws Exception
-     * @see KraTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)
+     * @see KraTransactionalDocumentActionBase#confirm(StrutsQuestion, String,
+     * String)
      */
-    public ActionForward confirmSubmitForReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-        throws Exception {
-        
+    public ActionForward confirmSubmitForReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        
+
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_SUBMIT_FOR_REVIEW_KEY.equals(question)) {
             forward = submitForReviewAndRedirect(mapping, form, request, response);
@@ -352,11 +358,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return forward;
     }
 
-    
     /**
-     * Submits the ProtocolBase for review and calculates the redirect back to the portal page, adding in the proper parameters for displaying a message to the
-     * user upon successful submission.
-     * 
+     * Submits the ProtocolBase for review and calculates the redirect back to
+     * the portal page, adding in the proper parameters for displaying a message
+     * to the user upon successful submission.
+     *
      * @param mapping The mapping associated with this action.
      * @param form The ProtocolBase form.
      * @param request the HTTP request
@@ -364,30 +370,27 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
      * @return the destination
      * @throws Exception
      */
-    private ActionForward submitForReviewAndRedirect(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-    throws Exception {
+    private ActionForward submitForReviewAndRedirect(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         List<ProtocolReviewerBeanBase> reviewers = getReviewers(protocolForm, request, "iacucProtocolSubmitAction");
         getProtocolActionRequestService().submitForReview(protocolForm, reviewers);
         super.route(mapping, protocolForm, request, response);
         return routeProtocolToHoldingPage(mapping, protocolForm);
     }
-    
-        
+
     private ActionForward routeProtocolToHoldingPage(ActionMapping mapping, ProtocolFormBase protocolForm) {
         String routeHeaderId = protocolForm.getProtocolDocument().getDocumentNumber();
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_PROTOCOL_ACTIONS, "IacucProtocolDocument");
-        
+
         ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
     }
-    
-    
-    
+
     /**
      * Administratively mark incomplete a previously submitted protocol.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -399,7 +402,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isAdministrativelyMarkIncompleteProtocolAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isAdministrativelyMarkIncompleteProtocolAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().administrativelyMarkIncompleteProtocol(protocolForm);
             loadDocument(protocolForm);
             protocolForm.getProtocolHelper().prepareView();
@@ -407,12 +410,10 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         }
         return forward;
     }
-    
-    
-    
+
     /**
      * Administratively withdraw a previously submitted protocol.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -424,7 +425,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isAdministrativelyWithdrawProtocolAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isAdministrativelyWithdrawProtocolAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().administrativelyWithdrawProtocol(protocolForm);
             loadDocument(protocolForm);
             protocolForm.getProtocolHelper().prepareView();
@@ -432,12 +433,10 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         }
         return forward;
     }
-    
-    
-    
+
     /**
      * Withdraw a previously submitted protocol.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -449,7 +448,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isWithdrawProtocolAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isWithdrawProtocolAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().withdrawProtocol(protocolForm);
             loadDocument(protocolForm);
             protocolForm.getProtocolHelper().prepareView();
@@ -457,11 +456,10 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         }
         return forward;
     }
-    
 
     /**
      * Notify the IACUC office.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -480,7 +478,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
     /**
      * Create an Amendment.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -492,7 +490,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isCreateAmendmentAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isCreateAmendmentAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().createAmendment(protocolForm);
             forward = mapping.findForward(forwardTo);
             // Switch over to the new protocol document and
@@ -502,11 +500,10 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         }
         return forward;
     }
-    
 
     /**
      * Modify an Amendment.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -519,27 +516,26 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocolDocument protocolDocument = protocolForm.getIacucProtocolDocument();
         IacucProtocol protocol = protocolDocument.getIacucProtocol();
-        protocolForm.getActionHelper().setCurrentTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS);
-        IacucProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_PROTOCOL_AMMENDMENT_SECTIONS, protocol);
+        protocolForm.getActionHelper().setCurrentTask(TaskName.MODIFY_PROTOCOL_AMENDMENT_SECTIONS);
+        IacucProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_PROTOCOL_AMENDMENT_SECTIONS, protocol);
         if (isAuthorized(task)) {
             if (!applyRules(new ModifyIacucAmendmentSectionsEvent(protocolDocument, Constants.PROTOCOL_MODIFY_AMENDMENT_KEY,
-                protocolForm.getActionHelper().getProtocolAmendmentBean()))) {
+                    protocolForm.getActionHelper().getProtocolAmendmentBean()))) {
                 return mapping.findForward(Constants.MAPPING_BASIC);
             }
-        
-            getProtocolAmendRenewService().updateAmendmentRenewal(protocolForm.getProtocolDocument(), 
+
+            getProtocolAmendRenewService().updateAmendmentRenewal(protocolForm.getProtocolDocument(),
                     protocolForm.getActionHelper().getProtocolAmendmentBean());
-            
+
             return save(mapping, protocolForm, request, response);
         }
-            
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
-    
+
     /**
      * Create a Renewal without an Amendment.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -551,7 +547,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isCreateRenewalAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isCreateRenewalAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().createRenewal(protocolForm);
             forward = mapping.findForward(forwardTo);
             // Switch over to the new protocol document and
@@ -564,7 +560,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
     /**
      * Create a Renewal with an Amendment.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -576,7 +572,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isCreateRenewalWithAmendmentAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isCreateRenewalWithAmendmentAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().createRenewalWithAmendment(protocolForm);
             forward = mapping.findForward(forwardTo);
             // Switch over to the new protocol document and
@@ -586,10 +582,10 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         }
         return forward;
     }
-    
+
     /**
      * Create a Continuation without an Amendment.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -601,7 +597,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isCreateContinuationAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isCreateContinuationAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().createContinuation(protocolForm);
             forward = mapping.findForward(forwardTo);
             // Switch over to the new protocol document and
@@ -611,10 +607,10 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         }
         return forward;
     }
-    
+
     /**
      * Create a Continuation with an Amendment.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -626,7 +622,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isCreateContinuationWithAmendmentAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isCreateContinuationWithAmendmentAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().createContinuationWithAmendment(protocolForm);
             forward = mapping.findForward(forwardTo);
             // Switch over to the new protocol document and
@@ -636,11 +632,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         }
         return forward;
     }
-    
+
     /**
-     * Delete a ProtocolBase/Amendment/Renewal. Remember that amendments and renewals are simply protocol documents that were copied
-     * from a protocol.
-     * 
+     * Delete a ProtocolBase/Amendment/Renewal. Remember that amendments and
+     * renewals are simply protocol documents that were copied from a protocol.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -654,16 +650,16 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         IacucProtocolTask task = new IacucProtocolTask(TaskName.PROTOCOL_AMEND_RENEW_DELETE, (IacucProtocol) protocolForm.getProtocolDocument().getProtocol());
         if (isAuthorized(task)) {
-            return confirm(buildDeleteProtocolConfirmationQuestion(mapping, form, request, response), 
-                           CONFIRM_DELETE_PROTOCOL_KEY,
-                           "");
+            return confirm(buildDeleteProtocolConfirmationQuestion(mapping, form, request, response),
+                    CONFIRM_DELETE_PROTOCOL_KEY,
+                    "");
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
      * If the user confirms the deletion, then delete the protocol.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -676,27 +672,28 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_DELETE_PROTOCOL_KEY.equals(question)) {
             ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-            IacucProtocol protocol = (IacucProtocol)protocolForm.getProtocolDocument().getProtocol();
+            IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
             getProtocolDeleteService().delete(protocol, protocolForm.getActionHelper().getProtocolDeleteBean());
-            
+
             // send out notification that protocol has been deleted and record success
             IacucProtocolNotificationRequestBean newNotificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.IACUC_DELETED, "Deleted");
             ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_ACTIONS_TAB, newNotificationBean, false);
             protocolForm.getActionHelper().setProtocolCorrespondence(newProtocolCorrespondence);
             recordProtocolActionSuccess("Delete ProtocolBase, Amendment, or Renewal");
-            
+
             if (newProtocolCorrespondence != null) {
                 return mapping.findForward(CORRESPONDENCE);
             } else {
-                return checkToSendNotification(mapping, IacucConstants.PROTOCOL_TAB, (IacucProtocolForm)protocolForm, newNotificationBean);
+                return checkToSendNotification(mapping, IacucConstants.PROTOCOL_TAB, (IacucProtocolForm) protocolForm, newNotificationBean);
             }
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
-     * Build the question to ask the user. Ask if they really want to delete the protocol.
-     * 
+     * Build the question to ask the user. Ask if they really want to delete the
+     * protocol.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -712,10 +709,10 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                 KeyConstants.QUESTION_DELETE_PROTOCOL_CONFIRMATION, protocolNumber);
     }
 
-
     /**
-     * 
+     *
      * This method is to view protocol attachment at protocol actions/print
+     *
      * @param mapping
      * @param form
      * @param request
@@ -723,19 +720,21 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
      * @return
      * @throws Exception
      */
-    public ActionForward viewProtocolAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+    public ActionForward viewProtocolAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
+
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocol protocol = protocolForm.getIacucProtocolDocument().getIacucProtocol();
         int selected = getSelectedLine(request);
-        IacucProtocolAttachmentProtocol attachment = (IacucProtocolAttachmentProtocol)protocol.getActiveAttachmentProtocolsNoDelete().get(selected);
-        return printAttachmentProtocol(mapping, response, attachment,protocolForm);
+        IacucProtocolAttachmentProtocol attachment = (IacucProtocolAttachmentProtocol) protocol.getActiveAttachmentProtocolsNoDelete().get(selected);
+        return printAttachmentProtocol(mapping, response, attachment, protocolForm);
     }
-    
+
     /**
-     * 
-     * This method is for 'view' personnel attachment. lost when merging from 3.0 to trunk
+     *
+     * This method is for 'view' personnel attachment. lost when merging from
+     * 3.0 to trunk
+     *
      * @param mapping
      * @param form
      * @param request
@@ -743,13 +742,13 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
      * @return
      * @throws Exception
      */
-    public ActionForward viewProtocolPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+    public ActionForward viewProtocolPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
+
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         int selected = getSelectedLine(request);
-        IacucProtocolAttachmentPersonnel personAttach = (IacucProtocolAttachmentPersonnel)protocolForm.getProtocolDocument().getProtocol().getAttachmentPersonnels().get(selected);
-        return printPersonnelAttachmentProtocol(mapping, response, personAttach,protocolForm);
+        IacucProtocolAttachmentPersonnel personAttach = (IacucProtocolAttachmentPersonnel) protocolForm.getProtocolDocument().getProtocol().getAttachmentPersonnels().get(selected);
+        return printPersonnelAttachmentProtocol(mapping, response, personAttach, protocolForm);
 
     }
 
@@ -768,7 +767,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         }
         return forward;
     }
-    
+
     public ActionForward printProtocolCorrespondences(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocol protocol = protocolForm.getIacucProtocolDocument().getIacucProtocol();
@@ -783,7 +782,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         }
         return forward;
     }
-    
+
     private IacucCorrespondencePrintingService getIacucCorrespondencePrintingService() {
         return KraServiceLocator.getService(IacucCorrespondencePrintingService.class);
     }
@@ -791,24 +790,24 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     protected IacucQuestionnairePrintingService getIacucQuestionnairePrintingService() {
         return KraServiceLocator.getService(IacucQuestionnairePrintingService.class);
     }
-    
+
     /*
      * This is to view attachment if attachment is selected in print panel.
      */
-    private ActionForward printAttachmentProtocol(ActionMapping mapping, HttpServletResponse response, IacucProtocolAttachmentProtocol attachment,ProtocolFormBase form) throws Exception {
+    private ActionForward printAttachmentProtocol(ActionMapping mapping, HttpServletResponse response, IacucProtocolAttachmentProtocol attachment, ProtocolFormBase form) throws Exception {
         if (attachment == null) {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         final AttachmentFile file = attachment.getFile();
-        byte[] attachmentFile =null;
-        String attachmentFileType=file.getType().replace("\"", "");
-        attachmentFileType=attachmentFileType.replace("\\", "");           
-        if(attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
-            attachmentFile=getProtocolAttachmentFile(form,attachment);
-            if(attachmentFile!=null) {          
-                this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    
+        byte[] attachmentFile = null;
+        String attachmentFileType = file.getType().replace("\"", "");
+        attachmentFileType = attachmentFileType.replace("\\", "");
+        if (attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)) {
+            attachmentFile = getProtocolAttachmentFile(form, attachment);
+            if (attachmentFile != null) {
+                this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
             } else {
-                this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    
+                this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
             }
             return RESPONSE_ALREADY_HANDLED;
         }
@@ -819,7 +818,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     /*
      * This is to view Personnel attachment if attachment is selected in print & summary panel.
      */
-    private ActionForward printPersonnelAttachmentProtocol(ActionMapping mapping, HttpServletResponse response, ProtocolAttachmentBase attachment,IacucProtocolForm form) throws Exception {
+    private ActionForward printPersonnelAttachmentProtocol(ActionMapping mapping, HttpServletResponse response, ProtocolAttachmentBase attachment, IacucProtocolForm form) throws Exception {
 
         if (attachment == null) {
             return mapping.findForward(Constants.MAPPING_BASIC);
@@ -828,47 +827,47 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
         return RESPONSE_ALREADY_HANDLED;
     }
-    
+
     /**
-     * 
-     * This method for applying the selected watermark to the attachment 
+     *
+     * This method for applying the selected watermark to the attachment
+     *
      * @param protocolForm form
      * @param protocolAttachmentBase attachment
      * @return attachment file
      */
-    private byte[] getProtocolAttachmentFile(ProtocolFormBase form,ProtocolAttachmentProtocolBase attachment) {
-        
-        byte[] attachmentFile =null;
+    private byte[] getProtocolAttachmentFile(ProtocolFormBase form, ProtocolAttachmentProtocolBase attachment) {
+
+        byte[] attachmentFile = null;
         final AttachmentFile file = attachment.getFile();
-        Printable printableArtifacts= getProtocolPrintingService().getProtocolPrintArtifacts(form.getProtocolDocument().getProtocol());
+        Printable printableArtifacts = getProtocolPrintingService().getProtocolPrintArtifacts(form.getProtocolDocument().getProtocol());
         ProtocolBase protocolCurrent = form.getProtocolDocument().getProtocol();
-        int currentProtoSeqNumber= protocolCurrent.getSequenceNumber();
+        int currentProtoSeqNumber = protocolCurrent.getSequenceNumber();
         try {
-            if(printableArtifacts.isWatermarkEnabled()){
-                int currentAttachmentSequence=attachment.getSequenceNumber();
-                String docStatusCode=attachment.getDocumentStatusCode();
-                String statusCode=attachment.getStatusCode();
+            if (printableArtifacts.isWatermarkEnabled()) {
+                int currentAttachmentSequence = attachment.getSequenceNumber();
+                String docStatusCode = attachment.getDocumentStatusCode();
+                String statusCode = attachment.getStatusCode();
                 // TODO perhaps the check for equality of protocol and attachment sequence numbers, below, is now redundant
-                if(((getProtocolAttachmentService().isAttachmentActive(attachment))&&(currentProtoSeqNumber == currentAttachmentSequence))||(docStatusCode.equals("1"))){
+                if (((getProtocolAttachmentService().isAttachmentActive(attachment)) && (currentProtoSeqNumber == currentAttachmentSequence)) || (docStatusCode.equals("1"))) {
                     if (ProtocolAttachmentProtocolBase.COMPLETE_STATUS_CODE.equals(statusCode)) {
-                        attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
+                        attachmentFile = getWatermarkService().applyWatermark(file.getData(), printableArtifacts.getWatermarkable().getWatermark());
                     }
-                }else{
-                    attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
+                } else {
+                    attachmentFile = getWatermarkService().applyWatermark(file.getData(), printableArtifacts.getWatermarkable().getInvalidWatermark());
                     LOG.info(INVALID_ATTACHMENT + attachment.getDocumentId());
                 }
             }
-        }catch (Exception e) {
-            LOG.error("Exception Occured in ProtocolNoteAndAttachmentAction. : ",e);    
-        }        
+        } catch (Exception e) {
+            LOG.error("Exception Occured in ProtocolNoteAndAttachmentAction. : ", e);
+        }
         return attachmentFile;
     }
-    
-    
-    
+
     /**
-     * Filters the actions shown in the History sub-panel, first validating the dates before filtering and refreshing the page.
-     * 
+     * Filters the actions shown in the History sub-panel, first validating the
+     * dates before filtering and refreshing the page.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -880,16 +879,17 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         Date startDate = protocolForm.getActionHelper().getFilteredHistoryStartDate();
         Date endDate = protocolForm.getActionHelper().getFilteredHistoryEndDate();
-        
+
         if (applyRules(new ProtocolHistoryFilterDatesEvent(protocolForm.getProtocolDocument(), startDate, endDate))) {
             protocolForm.getActionHelper().initFilterDatesView();
         }
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
      * Shows all of the actions in the History sub-panel.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -901,14 +901,15 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         protocolForm.getActionHelper().setFilteredHistoryStartDate(null);
         protocolForm.getActionHelper().setFilteredHistoryEndDate(null);
         protocolForm.getActionHelper().initFilterDatesView();
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
-     * Load a ProtocolBase summary into the summary sub-panel. The protocol summary to load corresponds to the currently selected
-     * protocol action in the History sub-panel.
-     * 
+     * Load a ProtocolBase summary into the summary sub-panel. The protocol
+     * summary to load corresponds to the currently selected protocol action in
+     * the History sub-panel.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -919,43 +920,41 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     public ActionForward loadProtocolSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-        org.kuali.kra.iacuc.actions.IacucProtocolAction action = (org.kuali.kra.iacuc.actions.IacucProtocolAction)protocolForm.getActionHelper().getSelectedProtocolAction();
+        org.kuali.kra.iacuc.actions.IacucProtocolAction action = (org.kuali.kra.iacuc.actions.IacucProtocolAction) protocolForm.getActionHelper().getSelectedProtocolAction();
         if (action != null) {
             protocolForm.getActionHelper().setCurrentSequenceNumber(action.getSequenceNumber());
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     public ActionForward viewAttachmentProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         return this.viewAttachment(mapping, (ProtocolFormBase) form, request, response);
     }
-    
+
     private ActionForward viewAttachment(ActionMapping mapping, ProtocolFormBase form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
+
         final int selection = this.getSelectedLine(request);
-        
+
         ProtocolSummary protocolSummary = form.getActionHelper().getProtocolSummary();
-        
+
         int selectedIndex = getSelectedLine(request);
         AttachmentSummary attachmentSummary = protocolSummary.getAttachments().get(selectedIndex);
-        
+
         if (attachmentSummary.getAttachmentType().startsWith("ProtocolBase: ")) {
             IacucProtocolAttachmentProtocol attachment = getProtocolAttachmentService().getAttachment(IacucProtocolAttachmentProtocol.class, attachmentSummary.getAttachmentId());
             return printAttachmentProtocol(mapping, response, attachment, form);
-        } 
-        else {
+        } else {
             IacucProtocolAttachmentPersonnel personnelAttachment = getProtocolAttachmentService().getAttachment(IacucProtocolAttachmentPersonnel.class, attachmentSummary.getAttachmentId());
-            return printPersonnelAttachmentProtocol(mapping, response, personnelAttachment, (IacucProtocolForm)form);
+            return printPersonnelAttachmentProtocol(mapping, response, personnelAttachment, (IacucProtocolForm) form);
         }
 
-    }  
-       
+    }
 
     /**
      * Go to the previous summary.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -976,7 +975,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
     /**
      * Go to the next summary.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -991,13 +990,14 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         IacucActionHelper actionHelper = (IacucActionHelper) protocolForm.getActionHelper();
         actionHelper.setCurrentSequenceNumber(actionHelper.getCurrentSequenceNumber() + 1);
         ((ProtocolFormBase) form).getActionHelper().initSummaryDetails();
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
-     * 
+     *
      * This method to load previous submission for display
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1005,7 +1005,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
      * @return
      * @throws Exception
      */
-    public ActionForward viewPreviousSubmission (ActionMapping mapping, ActionForm form, HttpServletRequest request,
+    public ActionForward viewPreviousSubmission(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
         ProtocolFormBase protocolForm = (ProtocolFormBase) form;
@@ -1015,10 +1015,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         protocolForm.getActionHelper().initSubmissionDetails();
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
-     * 
+     *
      * This method is to load next submission for display
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1038,8 +1039,10 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
 
     /**
-     * 
-     * This method is to render protocol action page when 'view' is clicked in meeting page, ProtocolBase submitted panel.
+     *
+     * This method is to render protocol action page when 'view' is clicked in
+     * meeting page, ProtocolBase submitted panel.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1053,19 +1056,18 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         fieldValues.put(SUBMISSION_ID, request.getParameter(SUBMISSION_ID));
         IacucProtocolSubmission protocolSubmission = (IacucProtocolSubmission) getBusinessObjectService().findByPrimaryKey(IacucProtocolSubmission.class, fieldValues);
         protocolSubmission.getProtocol().setProtocolSubmission(protocolSubmission);
-        
+
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         protocolForm.setDocId(protocolSubmission.getProtocol().getProtocolDocument().getDocumentNumber());
         loadDocument(protocolForm);
         protocolForm.initialize();
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
-    
-    
+
     /**
-     * 
-     * This method... 
+     *
+     * This method...
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1076,38 +1078,37 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     public ActionForward assignToAgenda(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isAssignToAgendaAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isAssignToAgendaAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().assignToAgenda(protocolForm);
             forward = mapping.findForward(forwardTo);
         }
         return forward;
     }
-    
+
     public ActionForward removeFromAgenda(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isRemoveFromAgendaAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isRemoveFromAgendaAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().removeFromAgenda(protocolForm);
             forward = mapping.findForward(forwardTo);
         }
         return forward;
     }
 
-    
-    
     public ActionForward protocolReviewNotRequired(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isProtocolReviewNotRequiredAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isProtocolReviewNotRequiredAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().protocolReviewNotRequired(protocolForm);
             forward = mapping.findForward(forwardTo);
         }
         return forward;
     }
-    
+
     /**
      * Perform Full Approve Action - maps to IACUCReview RouteNode.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1116,24 +1117,25 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
      * @throws Exception
      */
     @SuppressWarnings("deprecation")
-    public ActionForward grantFullApproval(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-        throws Exception {
+    public ActionForward grantFullApproval(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isFullApprovalAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isFullApprovalAuthorized(protocolForm)) {
             forward = super.approve(mapping, protocolForm, request, response);
             getProtocolActionRequestService().grantFullApproval(protocolForm);
             if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
                 return mapping.findForward(CORRESPONDENCE);
-            }else {
-                forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
+            } else {
+                forward = routeProtocolToHoldingPage(mapping, protocolForm);
             }
         }
         return forward;
     }
-    
+
     /**
      * Perform Response Approve Action.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1141,11 +1143,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
      * @return
      * @throws Exception
      */
-    public ActionForward grantAdminApproval(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-        throws Exception {
+    public ActionForward grantAdminApproval(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isGrantAdminApprovalAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isGrantAdminApprovalAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().grantAdminApproval(protocolForm);
             forward = mapping.findForward(forwardTo);
         }
@@ -1153,18 +1155,15 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
 
     /**
-     * Requests an action to be performed by an administrator.  The user can request the following actions:
-     * 
-     *   Close
-     *   Close Enrollment
-     *   Data Analysis Only
-     *   Deactivate
-     *   Reopen Enrollment
-     *   Suspension
-     *   Termination
-     *   Lift Hold
-     * 
-     * Uses the enumeration <code>IacucProtocolRequestAction</code> to encapsulate the unique properties on each action.
+     * Requests an action to be performed by an administrator. The user can
+     * request the following actions:
+     *
+     * Close Close Enrollment Data Analysis Only Deactivate Reopen Enrollment
+     * Suspension Termination Lift Hold
+     *
+     * Uses the enumeration <code>IacucProtocolRequestAction</code> to
+     * encapsulate the unique properties on each action.
+     *
      * @param mapping The mapping associated with this action.
      * @param form The ProtocolBase form.
      * @param request The HTTP request
@@ -1172,21 +1171,21 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
      * @return the forward to the current page
      * @throws Exception
      */
-    public ActionForward requestAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-        throws Exception {
+    public ActionForward requestAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         String taskName = getTaskName(request);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isRequestActionAuthorized(protocolForm, taskName)) {
+        if (getProtocolActionRequestService().isRequestActionAuthorized(protocolForm, taskName)) {
             String forwardTo = getProtocolActionRequestService().performRequestAction(protocolForm, taskName);
             forward = mapping.findForward(forwardTo);
         }
         return forward;
     }
-    
+
     /**
      * Withdraws a previously submitted request action.
-     * 
+     *
      * @param mapping The mapping associated with this action.
      * @param form The Protocol form.
      * @param request The HTTP request
@@ -1194,26 +1193,25 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
      * @return the forward to the current page
      * @throws Exception
      */
-    public ActionForward withdrawRequestAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+    public ActionForward withdrawRequestAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isWithdrawRequestActionAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isWithdrawRequestActionAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().withdrawRequestAction(protocolForm);
             forward = mapping.findForward(forwardTo);
         }
         return forward;
     }
-    
 
-    public ActionForward addRequestAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+    public ActionForward addRequestAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         System.err.println("addRequestAttachment");
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocolDocument document = protocolForm.getIacucProtocolDocument();
         IacucProtocol protocol = document.getIacucProtocol();
         String taskName = getTaskName(request);
-        
+
         if (StringUtils.isNotBlank(taskName) && isAuthorized(new IacucProtocolTask(taskName, protocol))) {
             IacucProtocolRequestBean requestBean = getProtocolRequestBean(form, request);
             if (requestBean.getNewActionAttachment().getFile() != null && requestBean.getNewActionAttachment().getFile().getFileData().length > 0) {
@@ -1221,15 +1219,15 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                 requestBean.getActionAttachments().add(requestBean.getNewActionAttachment());
                 requestBean.setNewActionAttachment(new ProtocolActionAttachment());
             } else {
-                GlobalVariables.getMessageMap().putError("actionHelper.iacucProtocolSuspendRequestBean.newActionAttachment.file", 
+                GlobalVariables.getMessageMap().putError("actionHelper.iacucProtocolSuspendRequestBean.newActionAttachment.file",
                         KeyConstants.AWARD_ATTACHMENT_FILE_REQUIRED);
             }
         }
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
-    public ActionForward viewRequestAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+
+    public ActionForward viewRequestAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocolDocument document = protocolForm.getIacucProtocolDocument();
@@ -1240,15 +1238,15 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             int lineNumber = getSelectedLine(request);
             ProtocolActionAttachment actionAttachment = requestBean.getActionAttachments().get(lineNumber);
             if (actionAttachment.getFile() != null) {
-                System.err.println("actionAttachment.getFile().getContentType(): " + actionAttachment.getFile().getContentType());                
+                System.err.println("actionAttachment.getFile().getContentType(): " + actionAttachment.getFile().getContentType());
                 this.streamToResponse(actionAttachment.getFile().getFileData(), actionAttachment.getFileName(), actionAttachment.getFile().getContentType(), response);
                 return RESPONSE_ALREADY_HANDLED;
             }
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
-    public ActionForward deleteRequestAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
+
+    public ActionForward deleteRequestAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocolDocument document = protocolForm.getIacucProtocolDocument();
@@ -1262,20 +1260,21 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     private IacucProtocolRequestBean getProtocolRequestBean(ActionForm form, HttpServletRequest request) {
         IacucProtocolRequestBean protocolRequestBean = null;
-        
+
         IacucProtocolActionBean protocolActionBean = getActionBean(form, request);
         if (protocolActionBean != null && protocolActionBean instanceof IacucProtocolRequestBean) {
             protocolRequestBean = (IacucProtocolRequestBean) protocolActionBean;
         }
-        
+
         return protocolRequestBean;
     }
 
     /**
      * Disapproves this ProtocolBase.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1286,46 +1285,46 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     public ActionForward disapproveProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isDisapproveProtocolAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isDisapproveProtocolAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().disapproveProtocol(protocolForm);
             forward = mapping.findForward(forwardTo);
         }
         return forward;
     }
-    
-    
+
     public ActionForward expire(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isExpireProtocolAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isExpireProtocolAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().expireProtocol(protocolForm);
             forward = mapping.findForward(forwardTo);
         }
         return forward;
     }
-    
- public ActionForward terminate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-     ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-     IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-     if(getProtocolActionRequestService().isTerminateProtocolAuthorized(protocolForm)) {
-         String forwardTo = getProtocolActionRequestService().terminateProtocol(protocolForm);
-         forward = mapping.findForward(forwardTo);
-     }
-     return forward;
-  }
- 
- public ActionForward suspend(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-     ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-     IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-     if(getProtocolActionRequestService().isSuspendProtocolAuthorized(protocolForm)) {
-         String forwardTo = getProtocolActionRequestService().suspendProtocol(protocolForm);
-         forward = mapping.findForward(forwardTo);
-     }
-     return forward;
-  }
-       
+
+    public ActionForward terminate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        if (getProtocolActionRequestService().isTerminateProtocolAuthorized(protocolForm)) {
+            String forwardTo = getProtocolActionRequestService().terminateProtocol(protocolForm);
+            forward = mapping.findForward(forwardTo);
+        }
+        return forward;
+    }
+
+    public ActionForward suspend(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        if (getProtocolActionRequestService().isSuspendProtocolAuthorized(protocolForm)) {
+            String forwardTo = getProtocolActionRequestService().suspendProtocol(protocolForm);
+            forward = mapping.findForward(forwardTo);
+        }
+        return forward;
+    }
+
     /**
      * Sends IACUC Acknowledgement for this ProtocolBase.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1336,15 +1335,16 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     public ActionForward iacucAcknowledgement(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isAcknowledgementAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isAcknowledgementAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().acknowledgement(protocolForm);
             forward = mapping.findForward(forwardTo);
         }
         return forward;
     }
-    
+
     /**
      * Hold the IACUC ProtocolBase
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1355,15 +1355,16 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     public ActionForward iacucHold(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isHoldAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isHoldAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().hold(protocolForm);
             forward = mapping.findForward(forwardTo);
         }
         return forward;
-    }   
-    
+    }
+
     /**
      * Hold the IACUC ProtocolBase
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1374,15 +1375,16 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     public ActionForward iacucLiftHold(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isLiftHoldAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isLiftHoldAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().liftHold(protocolForm);
             forward = mapping.findForward(forwardTo);
         }
         return forward;
-    }    
-    
+    }
+
     /**
      * Returns the protocol to the PI for specific minor revisions.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1393,7 +1395,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     public ActionForward returnForSMR(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isReturnForSMRAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isReturnForSMRAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().returnForSMR(protocolForm);
             loadDocument(protocolForm);
             protocolForm.getProtocolHelper().prepareView();
@@ -1401,11 +1403,10 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         }
         return forward;
     }
-    
-    
-    
+
     /**
      * Returns the protocol to the PI for substantial revisions.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1416,17 +1417,18 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     public ActionForward returnForSRR(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isReturnForSRRAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isReturnForSRRAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().returnForSRR(protocolForm);
             loadDocument(protocolForm);
             protocolForm.getProtocolHelper().prepareView();
             forward = mapping.findForward(forwardTo);
         }
         return forward;
-    }   
-    
+    }
+
     /**
      * Returns the protocol to the PI for substantial revisions.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1437,18 +1439,18 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     public ActionForward returnToPI(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isReturnToPIAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isReturnToPIAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().returnToPI(protocolForm);
             loadDocument(protocolForm);
             protocolForm.getProtocolHelper().prepareView();
             forward = mapping.findForward(forwardTo);
         }
         return forward;
-    }     
-    
-    
+    }
+
     /**
      * Deactivates this IACUC ProtocolBase.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1456,38 +1458,37 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
      * @return
      * @throws Exception
      */
-    
     public ActionForward iacucDeactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isDeactivateAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isDeactivateAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().deactivate(protocolForm);
             forward = mapping.findForward(forwardTo);
         }
         return forward;
     }
-    
+
     public ActionForward manageComments(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
+
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         if (!hasDocumentStateChanged(protocolForm)) {
             if (hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS, (IacucProtocol) protocolForm.getProtocolDocument().getProtocol())) {
                 IacucProtocolGenericActionBean actionBean = (IacucProtocolGenericActionBean) protocolForm.getActionHelper().getProtocolManageReviewCommentsBean();
                 saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
-                
+
                 recordProtocolActionSuccess("Manage Review Comments");
             }
         } else {
             GlobalVariables.getMessageMap().clearErrorMessages();
-            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
-        }        
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED, new String[]{});
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
      * Open ProtocolDocumentBase in Read/Write mode for Admin Correction
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1499,41 +1500,41 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isOpenProtocolForAdminCorrectionAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isOpenProtocolForAdminCorrectionAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().openProtocolForAdminCorrection(protocolForm);
             forward = mapping.findForward(forwardTo);
         }
         return forward;
-    }    
-    
+    }
+
     public ActionForward submitCommitteeDecision(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isSubmitCommitteeDecisionAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isSubmitCommitteeDecisionAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().submitCommitteeDecision(protocolForm);
             confirmFollowupAction(mapping, form, request, response, Constants.MAPPING_BASIC);
             forward = mapping.findForward(forwardTo);
         }
         return forward;
     }
-    
+
     public ActionForward addAbstainer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucCommitteeDecision decision = (IacucCommitteeDecision) protocolForm.getActionHelper().getCommitteeDecision();
-        if (applyRules(new IacucCommitteeDecisionAbstainerEvent((IacucProtocolDocument) protocolForm.getProtocolDocument(), decision))){
+        if (applyRules(new IacucCommitteeDecisionAbstainerEvent((IacucProtocolDocument) protocolForm.getProtocolDocument(), decision))) {
             decision.getAbstainers().add(decision.getNewAbstainer());
             decision.setNewAbstainer(new IacucCommitteePerson());
             decision.setAbstainCount(decision.getAbstainCount() + 1);
         }
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     public ActionForward deleteAbstainer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
+
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucCommitteeDecision decision = (IacucCommitteeDecision) protocolForm.getActionHelper().getCommitteeDecision();
         IacucCommitteePerson person = decision.getAbstainers().get(getLineToDelete(request));
@@ -1544,10 +1545,10 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     public ActionForward addRecused(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
+
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucCommitteeDecision decision = (IacucCommitteeDecision) protocolForm.getActionHelper().getCommitteeDecision();
         if (applyRules(new IacucCommitteeDecisionRecuserEvent((IacucProtocolDocument) protocolForm.getProtocolDocument(), decision))) {
@@ -1555,14 +1556,13 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             decision.setNewRecused(new IacucCommitteePerson());
             decision.setRecusedCount(decision.getRecusedCount() + 1);
         }
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    
     public ActionForward deleteRecused(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
+
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucCommitteeDecision decision = (IacucCommitteeDecision) protocolForm.getActionHelper().getCommitteeDecision();
         IacucCommitteePerson person = decision.getRecused().get(getLineToDelete(request));
@@ -1571,17 +1571,18 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             decision.getRecused().remove(getLineToDelete(request));
             decision.setRecusedCount(decision.getRecusedCount() - 1);
         }
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     private IacucProtocolPrintingService getProtocolPrintingService() {
         return KraServiceLocator.getService(IacucProtocolPrintingService.class);
     }
-    
+
     /**
-     * Adds a review comment to the bean indicated by the task name in the request.
-     * 
+     * Adds a review comment to the bean indicated by the task name in the
+     * request.
+     *
      * @param mapping The mapping associated with this action.
      * @param form The ProtocolBase form.
      * @param request The HTTP request
@@ -1592,28 +1593,28 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         ProtocolDocumentBase document = protocolForm.getProtocolDocument();
         IacucReviewCommentsBean reviewCommentsBean = getReviewCommentsBean(mapping, form, request, response);
-        
+
         if (reviewCommentsBean != null) {
             String errorPropertyName = reviewCommentsBean.getErrorPropertyName();
             CommitteeScheduleMinuteBase newReviewComment = reviewCommentsBean.getNewReviewComment();
             List<CommitteeScheduleMinuteBase> reviewComments = reviewCommentsBean.getReviewComments();
             IacucProtocol protocol = (IacucProtocol) document.getProtocol();
-            
+
             if (applyRules(new IacucProtocolAddReviewCommentEvent((IacucProtocolDocument) document, errorPropertyName, newReviewComment))) {
                 getReviewCommentsService().addReviewComment(newReviewComment, reviewComments, protocol);
-                
+
                 reviewCommentsBean.setNewReviewComment(new IacucCommitteeScheduleMinute(MinuteEntryType.PROTOCOL));
             }
-            reviewCommentsBean.setHideReviewerName(getReviewCommentsService().setHideReviewerName(reviewCommentsBean.getReviewComments()));            
+            reviewCommentsBean.setHideReviewerName(getReviewCommentsService().setHideReviewerName(reviewCommentsBean.getReviewComments()));
         }
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }    
 
-     
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
     /**
-     * Moves up a review comment in the bean indicated by the task name in the request.
-     * 
+     * Moves up a review comment in the bean indicated by the task name in the
+     * request.
+     *
      * @param mapping The mapping associated with this action.
      * @param form The ProtocolBase form.
      * @param request The HTTP request
@@ -1624,19 +1625,20 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         ProtocolDocumentBase document = protocolForm.getProtocolDocument();
         IacucReviewCommentsBean reviewCommentsBean = getReviewCommentsBean(mapping, form, request, response);
-        
+
         if (reviewCommentsBean != null) {
             List<CommitteeScheduleMinuteBase> reviewComments = reviewCommentsBean.getReviewComments();
-            int lineNumber = getSelectedLine(request);    
+            int lineNumber = getSelectedLine(request);
             getReviewCommentsService().moveUpReviewComment(reviewComments, document.getProtocol(), lineNumber);
         }
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
-     * Moves down a review comment in the bean indicated by the task name in the request.
-     * 
+     * Moves down a review comment in the bean indicated by the task name in the
+     * request.
+     *
      * @param mapping The mapping associated with this action.
      * @param form The ProtocolBase form.
      * @param request The HTTP request
@@ -1647,19 +1649,20 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         ProtocolDocumentBase document = protocolForm.getProtocolDocument();
         IacucReviewCommentsBean reviewCommentsBean = getReviewCommentsBean(mapping, form, request, response);
-        
+
         if (reviewCommentsBean != null) {
             List<CommitteeScheduleMinuteBase> reviewComments = reviewCommentsBean.getReviewComments();
-            int lineNumber = getSelectedLine(request);            
+            int lineNumber = getSelectedLine(request);
             getReviewCommentsService().moveDownReviewComment(reviewComments, document.getProtocol(), lineNumber);
         }
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
-     * Deletes a review comment from the bean indicated by the task name in the request.
-     * 
+     * Deletes a review comment from the bean indicated by the task name in the
+     * request.
+     *
      * @param mapping The mapping associated with this action.
      * @param form The ProtocolBase form.
      * @param request The HTTP request
@@ -1668,20 +1671,20 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
      */
     public ActionForward deleteReviewComment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         IacucReviewCommentsBean reviewCommentsBean = getReviewCommentsBean(mapping, form, request, response);
-        
+
         if (reviewCommentsBean != null) {
             List<CommitteeScheduleMinuteBase> reviewComments = reviewCommentsBean.getReviewComments();
             int lineNumber = getLineToDelete(request);
             List<CommitteeScheduleMinuteBase> deletedReviewComments = reviewCommentsBean.getDeletedReviewComments();
-            
+
             getReviewCommentsService().deleteReviewComment(reviewComments, lineNumber, deletedReviewComments);
             if (reviewComments.isEmpty()) {
                 reviewCommentsBean.setHideReviewerName(true);
             } else {
                 reviewCommentsBean.setHideReviewerName(getReviewCommentsService().setHideReviewerName(reviewCommentsBean.getReviewComments()));
             }
-       }
-        
+        }
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -1689,47 +1692,43 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(getProtocolActionRequestService().isAbandonAuthorized(protocolForm)) {
+        if (getProtocolActionRequestService().isAbandonAuthorized(protocolForm)) {
             String forwardTo = getProtocolActionRequestService().abandon(protocolForm);
             forward = mapping.findForward(forwardTo);
         }
         return forward;
     }
 
-
-    
     /**
-     * Saves the review comments to the database and performs refresh and cleanup.
+     * Saves the review comments to the database and performs refresh and
+     * cleanup.
+     *
      * @param protocolForm
      * @param actionBean
      * @throws Exception
      */
-    private void saveReviewComments(IacucProtocolForm protocolForm, IacucReviewCommentsBean actionBean) throws Exception { 
-        getReviewCommentsService().saveReviewComments(actionBean.getReviewComments(), actionBean.getDeletedReviewComments());           
+    private void saveReviewComments(IacucProtocolForm protocolForm, IacucReviewCommentsBean actionBean) throws Exception {
+        getReviewCommentsService().saveReviewComments(actionBean.getReviewComments(), actionBean.getDeletedReviewComments());
         actionBean.setDeletedReviewComments(new ArrayList<CommitteeScheduleMinuteBase>());
         protocolForm.getActionHelper().prepareCommentsView();
     }
- 
-    
 
-    
     private IacucReviewCommentsBean getReviewCommentsBean(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         IacucReviewCommentsBean reviewCommentsBean = null;
-        
+
         ProtocolActionBean protocolActionBean = getActionBean(form, request);
         if (protocolActionBean != null && protocolActionBean instanceof ProtocolOnlineReviewCommentable) {
             reviewCommentsBean = (IacucReviewCommentsBean) ((ProtocolOnlineReviewCommentable) protocolActionBean).getReviewCommentsBean();
         }
-        
+
         return reviewCommentsBean;
     }
-    
-    
+
     private IacucProtocolActionBean getActionBean(ActionForm form, HttpServletRequest request) {
         ProtocolFormBase protocolForm = (ProtocolFormBase) form;
 
         String taskName = getTaskName(request);
-        
+
         IacucProtocolActionBean protocolActionBean = null;
         if (StringUtils.isNotBlank(taskName)) {
             protocolActionBean = (IacucProtocolActionBean) protocolForm.getActionHelper().getActionBean(taskName);
@@ -1737,51 +1736,51 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
         return protocolActionBean;
     }
-    
-    
+
     private String getTaskName(HttpServletRequest request) {
         String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
-        
+
         String taskName = "";
         if (StringUtils.isNotBlank(parameterName)) {
             taskName = StringUtils.substringBetween(parameterName, ".taskName", ".");
         }
-        
+
         return taskName;
     }
-    
+
     private boolean hasPermission(String taskName, IacucProtocol protocol) {
         IacucProtocolTask task = new IacucProtocolTask(taskName, protocol);
         return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
     }
-    
+
     private IacucProtocolAttachmentService getProtocolAttachmentService() {
         return KraServiceLocator.getService(IacucProtocolAttachmentService.class);
     }
-    
+
     private TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
-    
+
     public IacucProtocolCopyService getIacucProtocolCopyService() {
         return KraServiceLocator.getService(IacucProtocolCopyService.class);
     }
-    
+
     private IacucProtocolAmendRenewService getProtocolAmendRenewService() {
-        return KraServiceLocator.getService(IacucProtocolAmendRenewService.class);        
+        return KraServiceLocator.getService(IacucProtocolAmendRenewService.class);
     }
-    
+
     private IacucProtocolDeleteService getProtocolDeleteService() {
         return KraServiceLocator.getService(IacucProtocolDeleteService.class);
     }
-    
+
     private IacucReviewCommentsService getReviewCommentsService() {
         return KraServiceLocator.getService(IacucReviewCommentsService.class);
     }
-        
+
     /**
-     * 
-     * This method is to add a file to notify iacuc 
+     *
+     * This method is to add a file to notify iacuc
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1802,8 +1801,9 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
 
     /**
-     * 
+     *
      * This method view a file added to notify irb panel
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1840,8 +1840,9 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
 
     /**
-     * 
+     *
      * This method to delete a file added in norify irb panel
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1853,7 +1854,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             HttpServletResponse response) throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucActionHelper actionHelper = (IacucActionHelper) protocolForm.getActionHelper();
-        return confirmDeleteAttachment(mapping, protocolForm, request, response, 
+        return confirmDeleteAttachment(mapping, protocolForm, request, response,
                 actionHelper.getIacucProtocolNotifyIacucBean().getActionAttachments());
     }
 
@@ -1874,15 +1875,16 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
         StrutsConfirmation confirm = buildParameterizedConfirmationQuestion(mapping, form, request, response,
                 CONFIRM_DELETE_ACTION_ATT, KeyConstants.QUESTION_DELETE_ATTACHMENT_CONFIRMATION, "", attachment
-                        .getFile().getFileName());
+                .getFile().getFileName());
 
         return confirm(confirm, CONFIRM_DELETE_ACTION_ATT, CONFIRM_NO_ACTION);
     }
 
-
     /**
-     * 
-     * method when confirm to delete notify irb file or request action attachment
+     *
+     * method when confirm to delete notify irb file or request action
+     * attachment
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1890,29 +1892,28 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
      * @return
      * @throws Exception
      */
-    public ActionForward confirmDeleteActionAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-        throws Exception {
-        
+    public ActionForward confirmDeleteActionAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+
         String taskName = getTaskName(request);
         int selection = getSelectedLine(request);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucActionHelper actionHelper = (IacucActionHelper) protocolForm.getActionHelper();
-        
+
         if (StringUtils.isBlank(taskName)) {
             actionHelper.getIacucProtocolNotifyIacucBean().getActionAttachments().remove(selection);
         } else {
             IacucProtocolRequestBean requestBean = getProtocolRequestBean(form, request);
             requestBean.getActionAttachments().remove(selection);
         }
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
-    
 
     /**
-     * 
+     *
      * This method is to view the submission doc displayed in history panel
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1938,10 +1939,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
         return RESPONSE_ALREADY_HANDLED;
     }
-    
+
     /**
-     * 
+     *
      * This method is to view correspondences in history panel.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1949,9 +1951,9 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
      * @return
      * @throws Exception
      */
-    public ActionForward viewActionCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+    public ActionForward viewActionCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
+
         ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         int actionIndex = getSelectedLine(request);
         int attachmentIndex = getSelectedAttachment(request);
@@ -1964,12 +1966,12 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
 
-        this.streamToResponse(attachment.getCorrespondence(), StringUtils.replace(attachment.getProtocolCorrespondenceType().getDescription(), " ", "") + ".pdf", 
+        this.streamToResponse(attachment.getCorrespondence(), StringUtils.replace(attachment.getProtocolCorrespondenceType().getDescription(), " ", "") + ".pdf",
                 Constants.PDF_REPORT_CONTENT_TYPE, response);
 
         return RESPONSE_ALREADY_HANDLED;
     }
-    
+
     /*
      * utility to get "actionidx;atachmentidx"
      */
@@ -1982,38 +1984,39 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         }
 
         return selectedAttachment;
-    }   
-    
+    }
+
     private void recordProtocolActionSuccess(String protocolActionName) {
         KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_PROTOCOL_ACTION_SUCCESSFULLY_COMPLETED, protocolActionName);
     }
-    
+
     /*
      * confirmation question for followup action
      */
     private ActionForward confirmFollowupAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response, String forward) throws Exception {
 
-        List<IacucValidProtocolActionAction> validFollowupActions = getFollowupActionService().getFollowupsForProtocol(((ProtocolFormBase)form).getProtocolDocument().getProtocol());
+        List<IacucValidProtocolActionAction> validFollowupActions = getFollowupActionService().getFollowupsForProtocol(((ProtocolFormBase) form).getProtocolDocument().getProtocol());
 
         if (validFollowupActions.isEmpty()) {
             LOG.info("No followup action");
             return mapping.findForward(forward);
         } else if (!validFollowupActions.get(0).getUserPromptFlag()) {
-            addFollowupAction(((ProtocolFormBase)form).getProtocolDocument().getProtocol());
+            addFollowupAction(((ProtocolFormBase) form).getProtocolDocument().getProtocol());
             return mapping.findForward(forward);
         }
 
         StrutsConfirmation confirm = buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_FOLLOWUP_ACTION,
                 KeyConstants.QUESTION_PROTOCOL_CONFIRM_FOLLOWUP_ACTION, validFollowupActions.get(0).getUserPrompt());
-        LOG.info("followup action "+validFollowupActions.get(0).getUserPrompt());
+        LOG.info("followup action " + validFollowupActions.get(0).getUserPrompt());
 
         return confirm(confirm, CONFIRM_FOLLOWUP_ACTION, CONFIRM_NO_ACTION);
     }
 
     /**
-     * 
+     *
      * This method if 'Yes' to do followup action, then this will be executed.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -2024,7 +2027,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     public ActionForward confirmAddFollowupAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        addFollowupAction(((ProtocolFormBase)form).getProtocolDocument().getProtocol());
+        addFollowupAction(((ProtocolFormBase) form).getProtocolDocument().getProtocol());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -2038,17 +2041,18 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     private IacucFollowupActionService getFollowupActionService() {
         return KraServiceLocator.getService(IacucFollowupActionService.class);
     }
-    
+
     /**
-     * This method is to get Watermark Service. 
+     * This method is to get Watermark Service.
      */
     private WatermarkService getWatermarkService() {
-        return  KraServiceLocator.getService(WatermarkService.class);  
+        return KraServiceLocator.getService(WatermarkService.class);
     }
 
     /**
-     * 
+     *
      * This method is to view review attachment
+     *
      * @param mapping
      * @param form
      * @param request
@@ -2068,10 +2072,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             return RESPONSE_ALREADY_HANDLED;
         }
     }
-    
+
     /**
-     * 
+     *
      * This method is to view review attachment from submission detail sub panel
+     *
      * @param mapping
      * @param form
      * @param request
@@ -2083,29 +2088,30 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             HttpServletResponse response) throws Exception {
         // TODO : refactor methods related with review attachment to see if they are sharable with 
         // online review action
-          return streamReviewAttachment(mapping, request, response, (List<IacucProtocolReviewAttachment>) ((IacucProtocolForm)form).getActionHelper().getReviewAttachments());
+        return streamReviewAttachment(mapping, request, response, (List<IacucProtocolReviewAttachment>) ((IacucProtocolForm) form).getActionHelper().getReviewAttachments());
     }
-    
-    private ActionForward streamReviewAttachment (ActionMapping mapping, HttpServletRequest request, HttpServletResponse response, List<IacucProtocolReviewAttachment> reviewAttachments) throws Exception {
+
+    private ActionForward streamReviewAttachment(ActionMapping mapping, HttpServletRequest request, HttpServletResponse response, List<IacucProtocolReviewAttachment> reviewAttachments) throws Exception {
 
         int lineNumber = getLineToDelete(request);
         final IacucProtocolReviewAttachment attachment = reviewAttachments.get(lineNumber);
-        
+
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + lineNumber);
             //may want to tell the user the selection was invalid.
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
-        
+
         final AttachmentFile file = attachment.getFile();
-        this.streamToResponse(file.getData(), getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
+        this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
         return RESPONSE_ALREADY_HANDLED;
     }
 
-    
     /**
-     * 
-     * This method is to delete the review attachment from manage review attachment
+     *
+     * This method is to delete the review attachment from manage review
+     * attachment
+     *
      * @param mapping
      * @param form
      * @param request
@@ -2114,20 +2120,20 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
      */
     public ActionForward deleteReviewAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         IacucReviewAttachmentsBean reviewAttachmentsBean = getReviewAttachmentsBean(mapping, form, request, response);
-        
+
         if (reviewAttachmentsBean != null) {
             List<IacucProtocolReviewAttachment> reviewAttachments = reviewAttachmentsBean.getReviewAttachments();
             int lineNumber = getLineToDelete(request);
             List<IacucProtocolReviewAttachment> deletedReviewAttachments = reviewAttachmentsBean.getDeletedReviewAttachments();
-            
+
             getReviewCommentsService().deleteReviewAttachment(reviewAttachments, lineNumber, deletedReviewAttachments);
             if (reviewAttachments.isEmpty()) {
                 reviewAttachmentsBean.setHideReviewerName(true);
             } else {
                 reviewAttachmentsBean.setHideReviewerName(getReviewCommentsService().setHideReviewerName(reviewAttachmentsBean.getReviewAttachments()));
             }
-       }
-        
+        }
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -2136,18 +2142,19 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
      */
     private IacucReviewAttachmentsBean getReviewAttachmentsBean(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         IacucReviewAttachmentsBean reviewAttachmentsBean = null;
-        
+
         IacucProtocolActionBean protocolActionBean = getActionBean(form, request);
         if (protocolActionBean != null && protocolActionBean instanceof ProtocolOnlineReviewCommentable) {
             reviewAttachmentsBean = (IacucReviewAttachmentsBean) ((ProtocolOnlineReviewCommentable) protocolActionBean).getReviewAttachmentsBean();
         }
-        
+
         return reviewAttachmentsBean;
     }
 
     /**
-     * 
+     *
      * This method is for the submission of manage review attachment
+     *
      * @param mapping
      * @param form
      * @param request
@@ -2158,38 +2165,39 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     public ActionForward manageAttachments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        if(!hasDocumentStateChanged(protocolForm)) {
+        if (!hasDocumentStateChanged(protocolForm)) {
             if (hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS, (IacucProtocol) protocolForm.getProtocolDocument().getProtocol())) {
                 if (applyRules(new IacucProtocolManageReviewAttachmentEvent((IacucProtocolDocument) protocolForm.getProtocolDocument(),
-                    "actionHelper.protocolManageReviewCommentsBean.reviewAttachmentsBean.", 
-                    ((IacucReviewAttachmentsBean)protocolForm.getActionHelper().getProtocolManageReviewCommentsBean().getReviewAttachmentsBean()).getReviewAttachments()))) {
+                        "actionHelper.protocolManageReviewCommentsBean.reviewAttachmentsBean.",
+                        ((IacucReviewAttachmentsBean) protocolForm.getActionHelper().getProtocolManageReviewCommentsBean().getReviewAttachmentsBean()).getReviewAttachments()))) {
                     IacucProtocolGenericActionBean actionBean = (IacucProtocolGenericActionBean) protocolForm.getActionHelper().getProtocolManageReviewCommentsBean();
                     saveReviewAttachments(protocolForm, (IacucReviewAttachmentsBean) actionBean.getReviewAttachmentsBean());
-    
+
                     recordProtocolActionSuccess("Manage Review Attachments");
                 }
             }
         } else {
             GlobalVariables.getMessageMap().clearErrorMessages();
-            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED, new String[]{});
         }
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /*
      * this method is to save review attachment when manage review attachment is submitted
      */
-    private void saveReviewAttachments(IacucProtocolForm protocolForm, IacucReviewAttachmentsBean actionBean) throws Exception { 
-        getReviewCommentsService().saveReviewAttachments(actionBean.getReviewAttachments(), actionBean.getDeletedReviewAttachments());           
+    private void saveReviewAttachments(IacucProtocolForm protocolForm, IacucReviewAttachmentsBean actionBean) throws Exception {
+        getReviewCommentsService().saveReviewAttachments(actionBean.getReviewAttachments(), actionBean.getDeletedReviewAttachments());
         actionBean.setDeletedReviewAttachments(new ArrayList<IacucProtocolReviewAttachment>());
         protocolForm.getActionHelper().prepareCommentsView();
     }
 
-    
     /**
-     * 
-     * This method is for adding new review attachment in manage review attachment
+     *
+     * This method is for adding new review attachment in manage review
+     * attachment
+     *
      * @param mapping
      * @param form
      * @param request
@@ -2200,74 +2208,72 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         ProtocolDocumentBase document = protocolForm.getProtocolDocument();
         IacucReviewAttachmentsBean reviewAttachmentsBean = getReviewAttachmentsBean(mapping, form, request, response);
-        
+
         if (reviewAttachmentsBean != null) {
             String errorPropertyName = reviewAttachmentsBean.getErrorPropertyName();
             IacucProtocolReviewAttachment newReviewAttachment = reviewAttachmentsBean.getNewReviewAttachment();
             List<IacucProtocolReviewAttachment> reviewAttachments = reviewAttachmentsBean.getReviewAttachments();
             ProtocolBase protocol = document.getProtocol();
-            
+
             if (applyRules(new IacucProtocolAddReviewAttachmentEvent((IacucProtocolDocument) document, errorPropertyName, newReviewAttachment))) {
                 getReviewCommentsService().addReviewAttachment(newReviewAttachment, reviewAttachments, protocol);
-                
+
                 reviewAttachmentsBean.setNewReviewAttachment(new IacucProtocolReviewAttachment());
             }
-            reviewAttachmentsBean.setHideReviewerName(getReviewCommentsService().setHideReviewerName(reviewAttachmentsBean.getReviewAttachments()));            
+            reviewAttachmentsBean.setHideReviewerName(getReviewCommentsService().setHideReviewerName(reviewAttachmentsBean.getReviewAttachments()));
         }
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-  
-    
-    
     /**
-     * 
-     * This method checks the document state to see if something has changed between the time the user
-     * loaded the document to when they clicked on an action.
+     *
+     * This method checks the document state to see if something has changed
+     * between the time the user loaded the document to when they clicked on an
+     * action.
+     *
      * @param protocolForm
      */
     private boolean hasDocumentStateChanged(IacucProtocolForm protocolForm) {
         return getProtocolActionRequestService().hasDocumentStateChanged(protocolForm);
     }
-    
+
     private ActionForward checkToSendNotification(ActionMapping mapping, String forwardName, IacucProtocolForm protocolForm, IacucProtocolNotificationRequestBean notificationRequestBean) {
-        boolean sendNotification = getProtocolActionRequestService().checkToSendNotification(protocolForm, notificationRequestBean, forwardName); 
+        boolean sendNotification = getProtocolActionRequestService().checkToSendNotification(protocolForm, notificationRequestBean, forwardName);
         return sendNotification ? mapping.findForward(IacucConstants.NOTIFICATION_EDITOR) : mapping.findForward(forwardName);
-    }    
-    
+    }
+
     public ActionForward sendNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        IacucProtocol protocol = (IacucProtocol)protocolForm.getProtocolDocument().getProtocol();
-        
+        IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
+
         IacucProtocolNotificationRenderer renderer = new IacucProtocolNotificationRenderer(protocol);
         IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, NotificationType.AD_HOC_NOTIFICATION_TYPE, NotificationType.AD_HOC_CONTEXT, renderer);
-        
+
         protocolForm.getNotificationHelper().initializeDefaultValues(context);
-        
+
         return mapping.findForward(IacucConstants.NOTIFICATION_EDITOR);
     }
-    
-    
+
     protected KcNotificationService getNotificationService() {
         return KraServiceLocator.getService(KcNotificationService.class);
     }
-         
+
     public ActionForward viewCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
+
         IacucActionHelper actionHelper = (IacucActionHelper) ((ProtocolFormBase) form).getActionHelper();
         PrintableAttachment source = new PrintableAttachment();
         ProtocolCorrespondence correspondence = actionHelper.getProtocolCorrespondence();
-            
+
         source.setContent(correspondence.getCorrespondence());
         source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
         source.setFileName("Correspondence-" + correspondence.getProtocolCorrespondenceType().getDescription() + Constants.PDF_FILE_EXTENSION);
         PrintingUtils.streamToResponse(source, response);
-        
+
         return null;
     }
-    
+
     public ActionForward saveCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         return correspondenceAction(mapping, form, true);
@@ -2288,13 +2294,13 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         if (saveAction) {
             if (correspondence.getFinalFlag()) {
                 correspondence.setFinalFlagTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
-                           
+
             }
             getBusinessObjectService().save(correspondence);
         }
         if (GlobalVariables.getUserSession().retrieveObject("approvalComplCorrespondence") != null) {
-               GlobalVariables.getUserSession().addObject(DocumentAuthorizerBase.USER_SESSION_METHOD_TO_CALL_COMPLETE_OBJECT_KEY, GlobalVariables.getUserSession().retrieveObject("approvalComplCorrespondence"));
-               GlobalVariables.getUserSession().removeObject("approvalComplCorrespondence");
+            GlobalVariables.getUserSession().addObject(DocumentAuthorizerBase.USER_SESSION_METHOD_TO_CALL_COMPLETE_OBJECT_KEY, GlobalVariables.getUserSession().retrieveObject("approvalComplCorrespondence"));
+            GlobalVariables.getUserSession().removeObject("approvalComplCorrespondence");
         }
 
         if (correspondence.getNotificationRequestBean() != null) {
@@ -2307,12 +2313,12 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                 return mapping.findForward(correspondence.getForwardName());
             }
         }
-   
+
     }
-    
-    public ActionForward regenerateCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+
+    public ActionForward regenerateCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
+
         ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         int actionIndex = getSelectedLine(request);
         int attachmentIndex = getSelectedAttachment(request);
@@ -2341,20 +2347,20 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }
-    
+
     protected AttachmentDataSource generateCorrespondenceDocument(ProtocolBase protocol, ProtocolCorrespondence oldCorrespondence) throws PrintingException {
         IacucProtocolActionsCorrespondence correspondence = new IacucProtocolActionsCorrespondence(oldCorrespondence.getProtocolAction().getProtocolActionTypeCode());
         correspondence.setProtocol(protocol);
         return getProtocolActionCorrespondenceGenerationService().reGenerateCorrespondenceDocument(correspondence);
-    } 
+    }
 
     private IacucProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService() {
         return KraServiceLocator.getService(IacucProtocolActionCorrespondenceGenerationService.class);
     }
 
-    public ActionForward updateCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+    public ActionForward updateCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
+
         ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         int actionIndex = getSelectedLine(request);
         int attachmentIndex = getSelectedAttachment(request);
@@ -2374,12 +2380,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
     }
 
-    
-    
-
     /**
-     * 
-     * This method is to print the sections selected.  This is more like coeus implementation.
+     *
+     * This method is to print the sections selected. This is more like coeus
+     * implementation.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -2391,9 +2396,10 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             HttpServletResponse response) throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         /**
-         * resetting the form's document because it does not have a valid Workflow document unless this is done. KCIAC-389
+         * resetting the form's document because it does not have a valid
+         * Workflow document unless this is done. KCIAC-389
          */
-        IacucProtocolDocument ipd = (IacucProtocolDocument)this.getDocumentService().getByDocumentHeaderId(protocolForm.getDocId());
+        IacucProtocolDocument ipd = (IacucProtocolDocument) this.getDocumentService().getByDocumentHeaderId(protocolForm.getDocId());
         protocolForm.setDocument(ipd);
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         AttachmentDataSource dataStream = getIacucProtocolPrintingService().printProtocolSelectedItems(protocolForm);
@@ -2402,13 +2408,13 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             forward = null;
         }
 
-
         return forward;
     }
-    
+
     /**
-     * 
+     *
      * This method is to print protocol reports
+     *
      * @param mapping
      * @param form
      * @param request
@@ -2420,11 +2426,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             HttpServletResponse response) throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        
-        IacucActionHelper actionHelper = (IacucActionHelper)protocolForm.getActionHelper();
-        
+
+        IacucActionHelper actionHelper = (IacucActionHelper) protocolForm.getActionHelper();
+
         if (applyRules(new ProtocolActionPrintEvent(protocolForm.getProtocolDocument(), actionHelper.getSummaryReport(),
-            actionHelper.getFullReport(), actionHelper.getHistoryReport(), actionHelper.getReviewCommentsReport()))) {
+                actionHelper.getFullReport(), actionHelper.getHistoryReport(), actionHelper.getReviewCommentsReport()))) {
             AttachmentDataSource dataStream = getIacucProtocolPrintingService().printProtocolDocument(protocolForm);
             if (dataStream.getContent() != null) {
                 PrintingUtils.streamToResponse(dataStream, response);
@@ -2437,7 +2443,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     private IacucProtocolPrintingService getIacucProtocolPrintingService() {
         return KraServiceLocator.getService(IacucProtocolPrintingService.class);
     }
-    
+
     public ActionForward sendReviewDeterminationNotificationAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
@@ -2446,13 +2452,13 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         forward = mapping.findForward(forwardTo);
         return forward;
     }
-    
+
     public ActionForward modifySubmissionAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         List<ProtocolReviewerBeanBase> reviewers = getReviewers(protocolForm, request, "iacucProtocolModifySubmissionBean");
-        if(getProtocolActionRequestService().isModifySubmissionActionAuthorized(protocolForm, reviewers)) {
+        if (getProtocolActionRequestService().isModifySubmissionActionAuthorized(protocolForm, reviewers)) {
             String forwardTo = getProtocolActionRequestService().modifySubmissionAction(protocolForm, reviewers);
             GlobalVariables.getMessageMap().getWarningMessages().clear();
             forward = mapping.findForward(forwardTo);
@@ -2461,19 +2467,19 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
 
     protected List<ProtocolReviewerBeanBase> getReviewers(ActionForm form, HttpServletRequest request, String beanName) {
-        String reviewerBean = "actionHelper." + beanName + ".reviewer[";           
-        String numberOfReviewersParam = "actionHelper." + beanName + ".numberOfReviewers";           
+        String reviewerBean = "actionHelper." + beanName + ".reviewer[";
+        String numberOfReviewersParam = "actionHelper." + beanName + ".numberOfReviewers";
         int number = Integer.parseInt(request.getParameter(numberOfReviewersParam));
         List<ProtocolReviewerBeanBase> beans = new ArrayList<ProtocolReviewerBeanBase>();
-        
-        for (int i= 0; i < number; i++) {
-            String reviewerTypeCode = request.getParameter(reviewerBean+i+"].reviewerTypeCode");
+
+        for (int i = 0; i < number; i++) {
+            String reviewerTypeCode = request.getParameter(reviewerBean + i + "].reviewerTypeCode");
             String personId = request.getParameter(reviewerBean + i + "].personId");
-            String fullName = request.getParameter(reviewerBean+i+"].fullName");
+            String fullName = request.getParameter(reviewerBean + i + "].fullName");
             if (ObjectUtils.isNotNull(personId)) {
                 IacucProtocolReviewerBean bean = new IacucProtocolReviewerBean();
-                bean.setFullName(fullName); 
-                bean.setPersonId(personId); 
+                bean.setFullName(fullName);
+                bean.setPersonId(personId);
                 bean.setReviewerTypeCode(reviewerTypeCode);
                 bean.setActionFlag(IacucProtocolReviewerBean.CREATE);
                 beans.add(bean);
@@ -2481,45 +2487,44 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         }
         return beans;
     }
- 
-     /**
-      * Table a protocol.
-      * 
-      * @param mapping
-      * @param form
-      * @param request
-      * @param response
-      * @return
-      * @throws Exception
-      */
-     public ActionForward tableProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-         if(getProtocolActionRequestService().isTableProtocolAuthorized(protocolForm)) {
-             String forwardTo = getProtocolActionRequestService().tableProtocol(protocolForm);
-             loadDocument(protocolForm);
-             protocolForm.getProtocolHelper().prepareView();
-             forward = mapping.findForward(forwardTo);
-         }
-         return forward;
-     }
-    
+
+    /**
+     * Table a protocol.
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward tableProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        if (getProtocolActionRequestService().isTableProtocolAuthorized(protocolForm)) {
+            String forwardTo = getProtocolActionRequestService().tableProtocol(protocolForm);
+            loadDocument(protocolForm);
+            protocolForm.getProtocolHelper().prepareView();
+            forward = mapping.findForward(forwardTo);
+        }
+        return forward;
+    }
+
     public ActionForward undoLastAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        
+
         if (!hasDocumentStateChanged(protocolForm)) {
             IacucProtocolDocument protocolDocument = (IacucProtocolDocument) protocolForm.getProtocolDocument();
             UndoLastActionBean undoLastActionBean = protocolForm.getActionHelper().getUndoLastActionBean();
             String lastActionType = undoLastActionBean.getLastAction().getProtocolActionTypeCode();
-            
+
             IacucProtocolUndoLastActionService undoLastActionService = KraServiceLocator.getService(IacucProtocolUndoLastActionService.class);
             ProtocolDocumentBase updatedDocument = undoLastActionService.undoLastAction(protocolDocument, undoLastActionBean);
-                       
-    
+
             recordProtocolActionSuccess("Undo Last Action");
-    
+
             if (!updatedDocument.getDocumentNumber().equals(protocolForm.getDocId())) {
                 protocolForm.setDocId(updatedDocument.getDocumentNumber());
                 loadDocument(protocolForm);
@@ -2535,11 +2540,10 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             }
         } else {
             GlobalVariables.getMessageMap().clearErrorMessages();
-            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
+            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED, new String[]{});
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }
-    
 
 }

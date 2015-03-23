@@ -70,7 +70,7 @@ public interface PermissionConstants {
     public static final String SUBMIT_PROTOCOL = "Submit Protocol";
     public static final String MAINTAIN_PROTOCOL_ACCESS = "Modify ProtocolPermissions";
     public static final String ADD_PROTOCOL_NOTES = "Add Notes";
-    public static final String CREATE_AMMENDMENT = "Create Ammendment";
+    public static final String CREATE_AMENDMENT = "Create Amendment";
     public static final String CREATE_RENEWAL = "Create Renewal";
     public static final String MAINTAIN_PROTOCOL_RELATED_PROJ = "Maintain Protocol Related Proj";
     public static final String EDIT_PROTOCOL_BILLABLE = "Edit Protocol Billable";

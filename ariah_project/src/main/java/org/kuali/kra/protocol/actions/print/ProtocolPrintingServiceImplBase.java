@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.protocol.actions.print;
 
@@ -29,7 +45,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 
+ *
  * This class to implement the getProtocolPrintable.
  */
 public abstract class ProtocolPrintingServiceImplBase extends PrintingServiceImpl implements ProtocolPrintingService {
@@ -48,50 +64,54 @@ public abstract class ProtocolPrintingServiceImplBase extends PrintingServiceImp
             put("full", "PROTOCOL_FULL_PROTOCOL_REPORT");
             put("history", "PROTOCOL_PROTOCOL_HISTORY_REPORT");
             put("comments", "PROTOCOL_REVIEW_COMMENTS_REPORT");
-    }};
-    
+        }
+    };
+
     private String reportName;
+
     /**
-     * 
-     * @see org.kuali.kra.protocol.actions.print.ProtocolPrintingService#getProtocolPrintable(org.kuali.kra.protocol.actions.print.ProtocolPrintType)
+     *
+     * @see
+     * org.kuali.kra.protocol.actions.print.ProtocolPrintingService#getProtocolPrintable(org.kuali.kra.protocol.actions.print.ProtocolPrintType)
      */
     public Printable getProtocolPrintable(ProtocolPrintType reportType) {
         Printable printable = null;
         ProtocolPrintHelper printHelper = getProtocolPrintHelper(reportType);
-        switch(reportType) {
-            case PROTOCOL_FULL_PROTOCOL_REPORT :
+        switch (reportType) {
+            case PROTOCOL_FULL_PROTOCOL_REPORT:
                 getProtocolFullProtocolPrint().setPrintHelper(printHelper);
                 printable = getProtocolFullProtocolPrint();
                 break;
-            case PROTOCOL_PROTOCOL_HISTORY_REPORT :
+            case PROTOCOL_PROTOCOL_HISTORY_REPORT:
                 getProtocolHistoryPrint().setPrintHelper(printHelper);
                 printable = getProtocolHistoryPrint();
                 break;
-            case PROTOCOL_REVIEW_COMMENTS_REPORT :
+            case PROTOCOL_REVIEW_COMMENTS_REPORT:
                 getProtocolReviewCommentsPrint().setPrintHelper(printHelper);
                 printable = getProtocolReviewCommentsPrint();
                 break;
-            case PROTOCOL_SUMMARY_VIEW_REPORT :
+            case PROTOCOL_SUMMARY_VIEW_REPORT:
                 getProtocolSummaryViewPrint().setPrintHelper(printHelper);
                 printable = getProtocolSummaryViewPrint();
                 break;
-            default :
+            default:
                 throw new IllegalArgumentException(ERROR_MESSAGE);
         }
         return printable;
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kra.protocol.actions.print.ProtocolPrintingService#getProtocolPrintArtifacts(org.kuali.kra.protocol.ProtocolBase)
+     *
+     * @see
+     * org.kuali.kra.protocol.actions.print.ProtocolPrintingService#getProtocolPrintArtifacts(org.kuali.kra.protocol.ProtocolBase)
      */
-     public Printable getProtocolPrintArtifacts(ProtocolBase protocol) { 
-         ProtocolPrintType printType = ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT;
-         AbstractPrint printable = (AbstractPrint)getProtocolPrintable(printType);
-         printable.setPrintableBusinessObject(protocol);
-         return printable;
-     }
-        
+    public Printable getProtocolPrintArtifacts(ProtocolBase protocol) {
+        ProtocolPrintType printType = ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT;
+        AbstractPrint printable = (AbstractPrint) getProtocolPrintable(printType);
+        printable.setPrintableBusinessObject(protocol);
+        return printable;
+    }
+
     public ProtocolFullProtocolPrintBase getProtocolFullProtocolPrint() {
         return protocolFullProtocolPrint;
     }
@@ -123,7 +143,7 @@ public abstract class ProtocolPrintingServiceImplBase extends PrintingServiceImp
     public void setProtocolSummaryViewPrint(ProtocolSummaryViewPrintBase protocolSummaryViewPrint) {
         this.protocolSummaryViewPrint = protocolSummaryViewPrint;
     }
-    
+
     @Override
     public String getReportName() {
         return reportName;
@@ -131,6 +151,7 @@ public abstract class ProtocolPrintingServiceImplBase extends PrintingServiceImp
 
     /**
      * Sets the reportName attribute value.
+     *
      * @param reportName The reportName to set.
      */
     public void setReportName(String reportName) {
@@ -141,7 +162,7 @@ public abstract class ProtocolPrintingServiceImplBase extends PrintingServiceImp
         setReportName(reportName);
         return super.print(printableArtifactList);
     }
-    
+
 
     /*
      * set up all artifacts and filename
@@ -152,40 +173,40 @@ public abstract class ProtocolPrintingServiceImplBase extends PrintingServiceImp
         Boolean printHistory = protocolForm.getActionHelper().getHistoryReport();
         Boolean printReviewComments = protocolForm.getActionHelper().getReviewCommentsReport();
         ProtocolBase protocol = protocolForm.getProtocolDocument().getProtocol();
-        
+
         List<Printable> printableArtifactList = new ArrayList<Printable>();
         if (printSummary) {
-            Map reportParameters = getReportOptions(protocolForm,ProtocolPrintType.PROTOCOL_SUMMARY_VIEW_REPORT);
-            printableArtifactList.add(getPrintableArtifacts(protocol, "summary", fileName,reportParameters));
+            Map reportParameters = getReportOptions(protocolForm, ProtocolPrintType.PROTOCOL_SUMMARY_VIEW_REPORT);
+            printableArtifactList.add(getPrintableArtifacts(protocol, "summary", fileName, reportParameters));
             protocolForm.getActionHelper().setSummaryReport(false);
         }
         if (printFull) {
-            Map reportParameters = getReportOptions(protocolForm,ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT);
-            printableArtifactList.add(getPrintableArtifacts(protocol, "full", fileName,reportParameters));
+            Map reportParameters = getReportOptions(protocolForm, ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT);
+            printableArtifactList.add(getPrintableArtifacts(protocol, "full", fileName, reportParameters));
             protocolForm.getActionHelper().setFullReport(false);
         }
         if (printHistory) {
-            Map reportParameters = getReportOptions(protocolForm,ProtocolPrintType.PROTOCOL_PROTOCOL_HISTORY_REPORT);
-            printableArtifactList.add(getPrintableArtifacts(protocol, "history", fileName,reportParameters));
+            Map reportParameters = getReportOptions(protocolForm, ProtocolPrintType.PROTOCOL_PROTOCOL_HISTORY_REPORT);
+            printableArtifactList.add(getPrintableArtifacts(protocol, "history", fileName, reportParameters));
             protocolForm.getActionHelper().setHistoryReport(false);
         }
         if (printReviewComments) {
-            Map reportParameters = getReportOptions(protocolForm,ProtocolPrintType.PROTOCOL_REVIEW_COMMENTS_REPORT);
+            Map reportParameters = getReportOptions(protocolForm, ProtocolPrintType.PROTOCOL_REVIEW_COMMENTS_REPORT);
             printableArtifactList
-                    .add(getPrintableArtifacts(protocol, "comments", fileName,reportParameters));
+                    .add(getPrintableArtifacts(protocol, "comments", fileName, reportParameters));
             protocolForm.getActionHelper().setReviewCommentsReport(false);
         }
         fileName.append(FILE_NAME_EXTENSION);
         return printableArtifactList;
     }
 
-    protected Map<Class,Object> getReportOptions(ProtocolFormBase protocolForm, ProtocolPrintType printType) {
-        Map<Class,Object> reportParameters = new HashMap<Class, Object>();
+    protected Map<Class, Object> getReportOptions(ProtocolFormBase protocolForm, ProtocolPrintType printType) {
+        Map<Class, Object> reportParameters = new HashMap<Class, Object>();
         ProtocolSummaryPrintOptions summaryOptions = protocolForm.getActionHelper().getProtocolPrintOption();
-        if(printType.equals(ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT)){
+        if (printType.equals(ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT)) {
             summaryOptions.setActions(true);
             summaryOptions.setAmendmentRenewalHistory(true);
-            summaryOptions.setAmmendmentRenewalSummary(true);
+            summaryOptions.setAmendmentRenewalSummary(true);
             summaryOptions.setAreaOfResearch(true);
             summaryOptions.setAttachments(true);
             summaryOptions.setCorrespondents(true);
@@ -206,10 +227,10 @@ public abstract class ProtocolPrintingServiceImplBase extends PrintingServiceImp
         return reportParameters;
     }
 
-    protected Printable getPrintableArtifacts(ProtocolBase protocol, String reportType, StringBuffer fileName,Map reportParameters) {
+    protected Printable getPrintableArtifacts(ProtocolBase protocol, String reportType, StringBuffer fileName, Map reportParameters) {
         ProtocolPrintType printType = ProtocolPrintType.valueOf(PRINTTAG_MAP.get(reportType));
 
-        AbstractPrint printable = (AbstractPrint)getProtocolPrintable(printType);
+        AbstractPrint printable = (AbstractPrint) getProtocolPrintable(printType);
         printable.setPrintableBusinessObject(protocol);
         printable.setReportParameters(reportParameters);
         fileName.append(reportType).append("-");
@@ -219,7 +240,7 @@ public abstract class ProtocolPrintingServiceImplBase extends PrintingServiceImp
     protected List<Printable> getPrintArtifacts(ProtocolFormBase protocolForm) {
         List<Printable> printableArtifactList = new ArrayList<Printable>();
         ProtocolPrintType printType = ProtocolPrintType.valueOf(PRINTTAG_MAP.get("full"));
-        AbstractPrint printable = (AbstractPrint)getProtocolPrintable(printType);
+        AbstractPrint printable = (AbstractPrint) getProtocolPrintable(printType);
         printable.setPrintableBusinessObject(protocolForm.getProtocolDocument().getProtocol());
         Map reportParameters = new HashMap();
         ProtocolSummaryPrintOptions summaryOptions = protocolForm.getActionHelper().getProtocolPrintOption();
@@ -227,16 +248,16 @@ public abstract class ProtocolPrintingServiceImplBase extends PrintingServiceImp
         printable.setReportParameters(reportParameters);
         printableArtifactList.add(printable);
         if (summaryOptions.isReviewComments()) {
-            Map reportParameters1 = getReportOptions(protocolForm,ProtocolPrintType.PROTOCOL_REVIEW_COMMENTS_REPORT);
-            AbstractPrint printable1 = (AbstractPrint)getProtocolPrintable(ProtocolPrintType.valueOf(PRINTTAG_MAP.get("comments")));
+            Map reportParameters1 = getReportOptions(protocolForm, ProtocolPrintType.PROTOCOL_REVIEW_COMMENTS_REPORT);
+            AbstractPrint printable1 = (AbstractPrint) getProtocolPrintable(ProtocolPrintType.valueOf(PRINTTAG_MAP.get("comments")));
             printable1.setPrintableBusinessObject(protocolForm.getProtocolDocument().getProtocol());
             printable1.setReportParameters(reportParameters1);
             printableArtifactList.add(printable1);
-            
+
         }
         return printableArtifactList;
     }
-    
+
     public AttachmentDataSource printProtocolDocument(ProtocolFormBase protocolForm) throws PrintingException {
         ProtocolBase protocol = protocolForm.getProtocolDocument().getProtocol();
         StringBuffer fileName = new StringBuffer().append(REPORT_PREFIX);
@@ -244,7 +265,7 @@ public abstract class ProtocolPrintingServiceImplBase extends PrintingServiceImp
         ProtocolPrintHelper printHelper = getProtocolPrintHelper(ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT);
         String reportPrintName = printHelper.getReportName();
         String reportName = protocolNumber + "-" + reportPrintName;
-        return  print(reportName,getPrintReportArtifacts(protocolForm, fileName));
+        return print(reportName, getPrintReportArtifacts(protocolForm, fileName));
     }
 
     public AttachmentDataSource printProtocolSelectedItems(ProtocolFormBase protocolForm) throws PrintingException {
@@ -255,11 +276,11 @@ public abstract class ProtocolPrintingServiceImplBase extends PrintingServiceImp
         dataSource.setFileName(getProtocolPrintHelper(ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT).getFileName());
         return dataSource;
     }
-    
+
     private ProtocolPrintHelper getProtocolPrintHelper(ProtocolPrintType printType) {
         return getProtocolPrintParameterHook().get(printType);
     }
-    
+
     protected abstract HashMap<ProtocolPrintType, ProtocolPrintHelper> getProtocolPrintParameterHook();
 
 }

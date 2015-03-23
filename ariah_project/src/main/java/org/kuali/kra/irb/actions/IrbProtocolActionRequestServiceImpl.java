@@ -259,7 +259,7 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
         ProtocolDocument document = (ProtocolDocument) protocolForm.getProtocolDocument();
         ProtocolAmendmentBean protocolAmendmentBean = (ProtocolAmendmentBean) protocolForm.getActionHelper().getProtocolAmendmentBean();
         boolean requestAuthorized = false;
-        if (hasPermission(TaskName.CREATE_PROTOCOL_AMMENDMENT, (Protocol) document.getProtocol())) {
+        if (hasPermission(TaskName.CREATE_PROTOCOL_AMENDMENT, (Protocol) document.getProtocol())) {
             requestAuthorized = applyRules(new CreateAmendmentEvent(document, Constants.PROTOCOL_CREATE_AMENDMENT_KEY, protocolAmendmentBean));
         }
         return requestAuthorized;
