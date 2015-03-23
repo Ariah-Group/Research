@@ -80,7 +80,7 @@ public class ProposalDevelopmentPermissionsRule extends ResearchDocumentRuleBase
                     KeyConstants.ERROR_UNKNOWN_USERNAME);
         } // Don't add the same user to the list.  The "edit roles" button
         // must be used to modify roles for an existing user.
-        else if (proposalUserRolesList == null || proposalUserRolesList.isEmpty()) {
+        else if (proposalUser.getRoleName() == null || proposalUser.getRoleName().isEmpty()) {
 
             isValid = false;
             this.reportError(Constants.PERMISSION_PROPOSAL_USERS_PROPERTY_KEY + ".roleName",
