@@ -100,6 +100,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 
 import java.text.ParseException;
 import java.util.*;
+import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.SpecialReviewUsage;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -1598,7 +1599,27 @@ public class AwardForm extends BudgetVersionFormBase
     public boolean isHideAwardDocDescriptionPanel() {
         return getAwardDocument().isDefaultDocumentDescription();
     }
-    
+
+    public boolean isHideFundingProposalsPanel() {
+
+        boolean hidePanel = false;
+        
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("moduleCode", CoeusModule.INSTITUTIONAL_PROPOSAL_MODULE_CODE);
+        
+        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        Collection<CoeusModule> modules = businessObjectService.findMatching(CoeusModule.class, fieldValues);
+
+        if(modules!=null && !modules.isEmpty()) {
+            CoeusModule instProp = modules.iterator().next();
+            
+            if(!instProp.isActive()) {
+                hidePanel = true;
+            }
+        }
+        return hidePanel;
+    }
+
     /**
      * Set to display more columns so that we can show additional fields in a
      * the document header.
@@ -1606,5 +1627,5 @@ public class AwardForm extends BudgetVersionFormBase
     @Override
     public int getNumColumns() {
         return 3;
-    }    
+    }
 }

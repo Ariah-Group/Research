@@ -12,15 +12,29 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
+-------------------------------------
+
+Updates made after January 1, 2015 are :
+Copyright 2015 The Ariah Group, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 --%>
-<%-- member of AwardHome.jsp --%>
-
-<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
-<c:set var="awardAttributes" value="${DataDictionary.Award.attributes}" />
-<c:set var="awardAmountInfoAttributes" value="${DataDictionary.AwardAmountInfo.attributes}" />
-<c:set var="awardCurrentActionCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
-<kul:tab tabTitle="Details & Dates" defaultOpen="true" 
+<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"
+%><%@ attribute name="transparent" required="false"
+%><c:set var="awardAttributes" value="${DataDictionary.Award.attributes}" 
+/><c:set var="awardAmountInfoAttributes" value="${DataDictionary.AwardAmountInfo.attributes}" 
+/><c:set var="awardCurrentActionCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
+<kul:tab tabTitle="Details & Dates" defaultOpen="true" transparentBackground="${transparent}"
 	tabErrorKey="document.awardList[0].awardTransactionTypeCode,document.award.version, document.awardList[0].statusCode,document.awardList[0].activityTypeCode,document.awardList[0].awardTypeCode,document.awardList[0].financialChartOfAccountsCode,document.awardList[0].title,document.awardList[0].beginDate,document.awardList[0].awardExecutionDate,document.awardList[0].sponsorCode,document.awardList[0].unitNumber, detailsAndDatesFormHelper*,document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfLastAwardAmountInfo}].*, document.awardList[0].modificationNumber,document.awardList[0].cfdaNumber,document.awardList[0].primeSponsorCode"
 	tabAuditKey="document.awardList[0].awardEffectiveDate"
 	auditCluster="homePageAuditWarnings,homePageAuditErrors" useRiceAuditMode="true">
@@ -66,9 +80,7 @@
   	</tr>
 </table>
 </kul:innerTab>	
-
 <kul:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Institution" tabErrorKey="document.awardList[0].accountNumber" >
-
 <table cellpAdding="0" cellspacing="0" summary="">
   	<tr>
     	<th><div align="right">Award ID:</div></th>
@@ -272,9 +284,7 @@
 </kul:innerTab>	
 
 <!-- Sponsor Funding Transferred -->
-
 <kul:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="false" tabTitle="Sponsor Funding Transferred" tabErrorKey="" >
-
 <table cellpAdding="0" cellspacing="0" summary="" id="sponsor-funding-transferred-table">
     <tr>
         <th style="text-align:center;">&nbsp; </th>
@@ -339,11 +349,8 @@
     </c:forEach> 
 </table>
 </kul:innerTab>	
-
 <!-- Time &amp; Money -->
-
 <kul:innerTab parentTab="Details & Dates" tabItemCount="" defaultOpen="true" tabTitle="Time & Money" tabErrorKey="" >
-
 <table cellpAdding="0" cellspacing="0" summary="">
 				<tr>
 					<th>
@@ -592,7 +599,5 @@
 					</c:choose>
  </table>
 </kul:innerTab>	
-
 </div>
-
 </kul:tab>

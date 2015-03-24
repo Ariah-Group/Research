@@ -744,6 +744,10 @@ public class AwardDocument extends BudgetParentDocument<Award> implements Copyab
         return getParameterService().getParameterValueAsBoolean(AwardDocument.class, Constants.ARIAH_AWARD_HIDE_AND_DEFAULT_AWARD_DOC_DESC);
     }
 
+    public boolean isHideFundingProposalsPanel() {
+        return false;
+    }
+    
     public void defaultDocumentDescription() {
         Award award = getAward();
         String desc = String.format("%s; Award Id: %s; PI: %s; Sponsor: %s",
