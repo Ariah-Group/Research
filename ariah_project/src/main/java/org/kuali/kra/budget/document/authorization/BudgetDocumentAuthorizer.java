@@ -86,7 +86,7 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
                 editModes.add("modifyCompletedBudgets");
             }
         }
-        
+               
         return editModes;
     }
     

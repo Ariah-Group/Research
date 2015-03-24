@@ -17,14 +17,10 @@
 <%@ attribute name="bean" required="true" type="org.kuali.kra.questionnaire.QuestionnaireHelperBase" %>
 <%@ attribute name="property" required="true" %>
 <%@ attribute name="forceNonTransparent" required="false" %>
-
 <c:if test = "${empty forceNonTransparent}">
 	<c:set var = "forceNonTransparent"  value = "false"/>
 </c:if> 
-
-
 <c:set var="readOnly" value="${!bean.answerQuestionnaire}" scope = "request"/>
-
 <c:forEach items="${bean.answerHeaders}" var="answerHeader" varStatus="status">
 	
 	<c:set var="prop" value="${property}.answerHeaders[${status.index}].showQuestions"/>

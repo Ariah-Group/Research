@@ -36,6 +36,7 @@ import static org.kuali.kra.logging.BufferedLogger.warn;
 import static org.kuali.rice.krad.util.KRADConstants.EMPTY_STRING;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -52,10 +53,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.ariahgroup.research.datadictionary.AttributeDefinition;
+import org.ariahgroup.research.service.UnitService;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.bo.CitizenshipType;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CustomAttributeDocument;
@@ -118,7 +119,6 @@ import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.kra.service.UnitService;
 import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
 import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
@@ -267,7 +267,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private String narrativeStatusesChangeKey;
     private NarrativeStatus narrativeStatusesChange;
     private BudgetDecimal faPercentageCalculated;
-    private String[] authorizedAdminTypes;
+    private String[] adminTypesAuthorizedToLock;
+    private List<String> lockAdminTypes;
 
     public ProposalDevelopmentForm() {
         super();
@@ -433,9 +434,9 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         super.populateHeaderFields(workflowDocument);
 
         List<HeaderField> localHeaderFields = new ArrayList<HeaderField>();
-        
+
         localHeaderFields.addAll(getDocInfo());
-        
+
         ProposalDevelopmentDocument pd = getProposalDevelopmentDocument();
         if (!pd.isProposalDeleted()) {
             ProposalState proposalState = (pd == null) ? null : pd.getDevelopmentProposal().getProposalState();
@@ -465,7 +466,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
                     }
                 }
             } else {
-               localHeaderFields.add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", EMPTY_STRING));
+                localHeaderFields.add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", EMPTY_STRING));
             }
         }
 
@@ -474,6 +475,10 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
         // Sponsor Deadline Date
         localHeaderFields.add(new HeaderField(Constants.ATTR_SPONSOR_DEADLINE_DATE_DD, ObjectUtils.formatPropertyValue(pd.getDevelopmentProposal().getDeadlineDate())));
+
+        // Proposal Locked
+        String lockedLabel = pd.getDevelopmentProposal().isLocked() ? "Yes" : "No";
+        localHeaderFields.add(new HeaderField(Constants.ATTR_PROPOSAL_LOCKED_NAME, lockedLabel));
 
         // Proposal Coordinator Field
         String propCoordName = "";
@@ -487,12 +492,12 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         if (isDisplayProposalCoordinator()) {
             localHeaderFields.add(new HeaderField(Constants.ATTR_PROPOSAL_COORDINATOR_NAME_DD, propCoordName));
         }
-        
+
         // DO NOT use a Java-5 ENHANCED FOR loop here, since we are removing element and the enhanced
         // for-loop causes a concurrent modification exception after the first loop iteration once an element
         // is removed. Using the standard loop structure, we can modify the iterator count (i) when
         // an element is removed.
-        for(int i = 0; i < localHeaderFields.size(); i++) {
+        for (int i = 0; i < localHeaderFields.size(); i++) {
             HeaderField hdr = localHeaderFields.get(i);
             if (hdr.getDdAttributeEntryName().equals(Constants.ATTR_INITIATOR_NETWORK_ID_DD)) {
                 localHeaderFields.remove(hdr);
@@ -1269,6 +1274,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         ProposalDevelopmentDocument doc = this.getProposalDevelopmentDocument();
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
 
+        final DevelopmentProposal developmentProposal = doc.getDevelopmentProposal();
+
         TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
         ConfigurationService configurationService = CoreApiServiceLocator.getKualiConfigurationService();
         if (tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProposalTask("submitToSponsor", doc))) {
@@ -1277,8 +1284,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
                 addExtraButton("methodToCall.submitToSponsor", submitToGrantsGovImage, "Submit To Sponsor");
             }
             if (isCanSubmitToGrantsGov()) {
-                if (doc.getDevelopmentProposal().getS2sOpportunity() != null
-                        && doc.getDevelopmentProposal().getS2sAppSubmission().size() == 0) {
+                if (developmentProposal.getS2sOpportunity() != null
+                        && developmentProposal.getS2sAppSubmission().size() == 0) {
                     String grantsGovSubmitImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_submittos2s.gif";
                     addExtraButton("methodToCall.submitToGrantsGov", grantsGovSubmitImage, "Submit To S2S");
                 }
@@ -1296,13 +1303,40 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             addExtraButton("methodToCall.deleteProposal", deleteProposalImage, "Delete Proposal");
         }
 
-        String sendNotificationImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_send_notification.gif";
-        addExtraButton("methodToCall.sendNotification", sendNotificationImage, "Send Notification");
+        if (!isProposalLockedForCurrentUser()) {
+            String sendNotificationImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_send_notification.gif";
+            addExtraButton("methodToCall.sendNotification", sendNotificationImage, "Send Notification");
+        }
+        
+        System.out.println("ProposalDevelopmentForm.getExtraActionsButtons.... 1");
+
+        setLockAdminTypes(Arrays.asList(getAdminTypesAuthorizedToLock()));
+
+        UnitService unitService = KraServiceLocator.getService(UnitService.class);
+
+        if (unitService.isQualifiedUnitAdminForProposal(developmentProposal, GlobalVariables.getUserSession().getPrincipalId(), getLockAdminTypes())) {
+            System.out.println("ProposalDevelopmentForm.getExtraActionsButtons.... 2");
+            if (developmentProposal.isLocked()) {
+                System.out.println("ProposalDevelopmentForm.getExtraActionsButtons.... 3");
+                addExtraButton(Constants.METHOD_PROPOSAL_UNLOCK, configurationService.getPropertyValueAsString(externalImageURL)
+                        + Constants.BUTTON_PROPOSAL_UNLOCK_NAME, Constants.BUTTON_PROPOSAL_UNLOCK_ALT);
+
+            } else {
+                //it is unlocked
+                System.out.println("ProposalDevelopmentForm.getExtraActionsButtons.... 4");
+                addExtraButton(Constants.METHOD_PROPOSAL_LOCK, configurationService.getPropertyValueAsString(externalImageURL)
+                        + Constants.BUTTON_PROPOSAL_LOCK_NAME, Constants.BUTTON_PROPOSAL_LOCK_ALT);
+            }
+
+            System.out.println("ProposalDevelopmentForm.getExtraActionsButtons.... 5");
+        }
 
         return extraButtons;
     }
 
     /**
+     *
+     * /**
      * Overridden to force business logic even after validation failures. In
      * this case we want to force the enabling of credit split.
      *
@@ -1831,6 +1865,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      *
      * @return
      */
+    @Override
     public ReportHelperBean getReportHelperBean() {
         return reportHelperBean;
     }
@@ -2524,17 +2559,27 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     /**
      * @return the authorizedAdminTypes
      */
-    public String[] getAuthorizedAdminTypes() {
-        String[] adminTypes = {Constants.UNIT_ADMIN_PROPOSAL_COORDINATOR_DESC, AwardUnitContact.OSP_ADMINISTRATOR};
+    public String[] getAdminTypesAuthorizedToLock() {
+
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+
+        String unitAdminTypeCodesAuthToLock = paramServ.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ARIAH_PROPDEV_UNITADMIN_TYPECODES_AUTHORIZED_TO_LOCK_PROPOSAL);
+
+        String[] adminTypes = null;
+
+        if (unitAdminTypeCodesAuthToLock != null) {
+            adminTypes = unitAdminTypeCodesAuthToLock.split("[,]");
+        }
 
         return adminTypes;
     }
 
     /**
-     * @param authorizedAdminTypes the authorizedAdminTypes to set
+     * @param adminTypesAuthorizedToLock the authorizedAdminTypes to set
      */
-    public void setAuthorizedAdminTypes(String[] authorizedAdminTypes) {
-        this.authorizedAdminTypes = authorizedAdminTypes;
+    public void setAdminTypesAuthorizedToLock(String[] adminTypesAuthorizedToLock) {
+        this.adminTypesAuthorizedToLock = adminTypesAuthorizedToLock;
     }
 
     /**
@@ -2544,5 +2589,39 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     @Override
     public int getNumColumns() {
         return 4;
+    }
+
+    /**
+     * @return the lockAdminTypes
+     */
+    public List<String> getLockAdminTypes() {
+        return lockAdminTypes;
+    }
+
+    /**
+     * @param lockAdminTypes the lockAdminTypes to set
+     */
+    public void setLockAdminTypes(List<String> lockAdminTypes) {
+        this.lockAdminTypes = lockAdminTypes;
+    }
+
+    public boolean isProposalLockedForCurrentUser() {
+        boolean isPersonOnPersonnel = false;
+        boolean proposalLockedByAdmin = getProposalDevelopmentDocument().getDevelopmentProposal().isLocked();
+        String principalName = GlobalVariables.getUserSession().getPrincipalName();
+
+        if (proposalLockedByAdmin) {
+            if (getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons() != null) {
+                for (ProposalPerson person : getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons()) {
+                    if (person.getUserName() != null && person.getUserName().equals(principalName)) {
+
+                        isPersonOnPersonnel = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return isPersonOnPersonnel && proposalLockedByAdmin;
     }
 }

@@ -78,6 +78,7 @@
                                 <ref bean="DevelopmentProposal-proposalCoordinator"/>
                                 <ref bean="DevelopmentProposal-proposalCoordinatorRequired"/>
                                 <ref bean="DevelopmentProposal-linkToOpportunity" />
+                                <ref bean="DevelopmentProposal-locked"/>
 			</list>
 		</property>
 		<property name="collections">
@@ -1099,6 +1100,16 @@
 			value="Prev Grants.Gov Tracking ID " />
 	</bean>
 	
+    <bean id="DevelopmentProposal-locked" parent="DevelopmentProposal-locked-parentBean" />
+    <bean id="DevelopmentProposal-locked-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="locked" />
+        <property name="label" value="Locked" />
+        <property name="maxLength" value="60" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="50" />
+        </property>
+    </bean>        
+        
 	<!-- Business Object Lookup Definition -->
 	<bean id="DevelopmentProposal-lookupDefinition" parent="DevelopmentProposal-lookupDefinition-parentBean" />
 	<bean id="DevelopmentProposal-lookupDefinition-parentBean"

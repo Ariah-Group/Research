@@ -14,7 +14,6 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
 <c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" />
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" /> 
 <div id="workarea">
@@ -25,7 +24,6 @@
         <c:set var="leftSideHtmlProperty" value="${proposalPersonProperty}.delete" />
     </c:if>
     <c:set var="transparent" value="false" />
-	
 	<c:choose>
 		<c:when test="${person.moveUpAllowed}">
 			<c:set var="mtc" value="methodToCall.moveUp.line${status.index}" />
@@ -36,7 +34,6 @@
     		<c:set var="moveUpBtn" value="" />
     	</c:otherwise>
     </c:choose>
-    
     <c:choose>
 		<c:when test="${person.moveDownAllowed}">
 			<c:set var="mtc" value="methodToCall.moveDown.line${status.index}" />

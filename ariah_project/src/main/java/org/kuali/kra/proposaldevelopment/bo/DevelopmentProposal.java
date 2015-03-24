@@ -63,6 +63,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.util.AutoPopulatingList;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.*;
 import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
@@ -266,6 +267,10 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private transient KcPersonService kcPersonService;
 
     private String linkToOpportunity;
+
+    private boolean locked;
+    private String lockedByPrincipalName;
+    private Timestamp lockedTimeStamp;
 
     /**
      * Gets the proposalNumberForGG attribute.
@@ -2524,13 +2529,13 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     @Override
     public String getLeadUnitNumber() {
-        String num = getOwnedByUnitNumber()== null ? EMPTY_STRING : getOwnedByUnitNumber();
+        String num = getOwnedByUnitNumber() == null ? EMPTY_STRING : getOwnedByUnitNumber();
         return num;
     }
 
     @Override
     public String getLeadUnitName() {
-        String name = getOwnedByUnitName()== null ? EMPTY_STRING : getOwnedByUnitName();
+        String name = getOwnedByUnitName() == null ? EMPTY_STRING : getOwnedByUnitName();
         return name;
     }
 
@@ -2573,7 +2578,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     @Override
     public List<NegotiationPersonDTO> getProjectPeople() {
-        
+
         List<NegotiationPersonDTO> kcPeople = new ArrayList<NegotiationPersonDTO>();
         for (ProposalPerson person : getInvestigators()) {
             kcPeople.add(new NegotiationPersonDTO(person.getPerson(), person.getRoleCode()));
@@ -2615,4 +2620,45 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return EMPTY_STRING;
     }
 
+    /**
+     * @return the locked
+     */
+    public boolean isLocked() {
+        return locked;
+    }
+
+    /**
+     * @param locked the locked to set
+     */
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
+    /**
+     * @return the lockedByPrincipalName
+     */
+    public String getLockedByPrincipalName() {
+        return lockedByPrincipalName;
+    }
+
+    /**
+     * @param lockedByPrincipalName the lockedByPrincipalName to set
+     */
+    public void setLockedByPrincipalName(String lockedByPrincipalName) {
+        this.lockedByPrincipalName = lockedByPrincipalName;
+    }
+
+    /**
+     * @return the lockedTime
+     */
+    public Timestamp getLockedTimeStamp() {
+        return lockedTimeStamp;
+    }
+
+    /**
+     * @param lockedTime the lockedTime to set
+     */
+    public void setLockedTimeStamp(Timestamp lockedTime) {
+        this.lockedTimeStamp = lockedTime;
+    }
 }

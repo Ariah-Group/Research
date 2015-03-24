@@ -965,6 +965,7 @@ public interface Constants {
     public static final String ARIAH_PROPDEV_REQUIRE_PROPOSAL_COORDINATOR_FIELD = "ARIAH_PROPDEV_REQUIRE_PROPOSAL_COORDINATOR_FIELD";
     public static final String ARIAH_PROPDEV_DISPLAY_PROPOSAL_COORDINATOR_FIELD = "ARIAH_PROPDEV_DISPLAY_PROPOSAL_COORDINATOR_FIELD";
     public static final String ARIAH_PROPDEV_PROPOSAL_COORDINATOR_UNITADMINTYPECODE = "ARIAH_PROPDEV_PROPOSAL_COORDINATOR_UNITADMINTYPECODE";
+    public static final String ARIAH_PROPDEV_UNITADMIN_TYPECODES_AUTHORIZED_TO_LOCK_PROPOSAL = "ARIAH_PROPDEV_UNITADMIN_TYPECODES_AUTHORIZED_TO_LOCK_PROPOSAL";
     public static final String ARIAH_PROPDEV_WORKFLOW_STEP_FINANCE_ENABLED = "ARIAH_PROPDEV_WORKFLOW_STEP_FINANCE_ENABLED";
     public static final String ARIAH_PROPDEV_WORKFLOW_STEP_FINANCE_UNITADMINTYPECODE = "ARIAH_PROPDEV_WORKFLOW_STEP_FINANCE_UNITADMINTYPECODE";
     public static final String ARIAH_PROPDEV_WORKFLOW_STEP_PRESIDENT_ENABLED = "ARIAH_PROPDEV_WORKFLOW_STEP_PRESIDENT_ENABLED";
@@ -1016,5 +1017,16 @@ public interface Constants {
     public final static String UNIT_ADMIN_PROPOSAL_COORDINATOR_DESC = "Proposal Coordinator";
     public final static String ATTR_PROPOSAL_COORDINATOR_NAME = "document.developmentProposalList[0].proposalCoordinatorPrincipalName";
     public final static String ATTR_PROPOSAL_COORDINATOR_NAME_DD = "DataDictionary.DevelopmentProposal.attributes.proposalCoordinatorPrincipalName";
+    
+    public final static String ATTR_PROPOSAL_LOCKED_NAME = "DataDictionary.DevelopmentProposal.attributes.locked";
+    public final static String METHOD_PROPOSAL_LOCK = "methodToCall.lock";
+    public final static String METHOD_PROPOSAL_UNLOCK = "methodToCall.unlock";
+    public final static String BUTTON_PROPOSAL_UNLOCK_NAME = "buttonsmall-unlock.gif";
+    public final static String BUTTON_PROPOSAL_LOCK_NAME = "buttonsmall-lock.gif";
+    public final static String BUTTON_PROPOSAL_UNLOCK_ALT = "Unlock";
+    public final static String BUTTON_PROPOSAL_LOCK_ALT = "Lock";
+    public static final String MESSAGE_PROPOSAL_LOCKED = "message.proposal.locked";
+    public static final String MESSAGE_PROPOSAL_UNLOCKED = "message.proposal.unlocked";    
+    
 }
 

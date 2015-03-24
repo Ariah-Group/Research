@@ -252,3 +252,13 @@ update KRIM_PERM_ATTR_DATA_T set ATTR_VAL='create_amendment' where ATTR_VAL='cre
 update NARRATIVE_TYPE set DESCRIPTION='Proprietary_Information' where DESCRIPTION='PropietaryInformation';
 
 update COST_SHARE_TYPE set DESCRIPTION='RNF-Outside Sources' where DESCRIPTION='RNF-OutsiSourcesde';
+
+
+-- Proposal Development Locking Feature
+ALTER TABLE EPS_PROPOSAL ADD LOCKED VARCHAR2(1);
+ALTER TABLE EPS_PROPOSAL ADD LOCKED_BY_PRNCPL_NM VARCHAR2(60);
+ALTER TABLE EPS_PROPOSAL ADD LOCKED_TIMESTAMP DATE;
+
+INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
+VALUES  ('KC-PD','Document','ARIAH_PROPDEV_UNITADMIN_TYPECODES_AUTHORIZED_TO_LOCK_PROPOSAL', sys_guid(),0,'AUTH','999,2','A comma-delimited list of Unit Administrator Type Codes that are authorized to LOCK a Proposal Development record.','A','KUALI');
+

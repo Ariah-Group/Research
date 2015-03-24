@@ -92,6 +92,9 @@
         <field-descriptor name="executiveSummary" column="EXECUTIVE_SUMMARY" jdbc-type="VARCHAR"/>
         <field-descriptor name="proposalCoordinatorPrincipalName" column="PRPSAL_COORD_PRNCPL_NM" jdbc-type="VARCHAR" />
         <field-descriptor name="linkToOpportunity" column="LINK_TO_OPPORTUNITY" jdbc-type="VARCHAR" />
+        <field-descriptor name="locked" column="LOCKED" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="lockedByPrincipalName" column="LOCKED_BY_PRNCPL_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="lockedTimeStamp" column="LOCKED_TIMESTAMP" jdbc-type="TIMESTAMP"/>        
         
         <field-descriptor name="submitFlag" column="SUBMIT_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <!-- 

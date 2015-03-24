@@ -120,7 +120,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.*;
+import org.ariahgroup.research.service.UnitService;
+import org.kuali.kra.award.contacts.AwardUnitContact;
 
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
@@ -150,6 +153,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      */
     private static final String MAPPING_PROPOSAL = "proposal";
     private static final String ROUTING_WARNING_MESSAGE = "Validation Warning Exists.Are you sure want to submit to workflow routing.";
+
+    private UnitService unitSvc;
 
     private enum SuperUserAction {
 
@@ -593,7 +598,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         //ProposalDevelopmentDocument pDoc = (ProposalDevelopmentDocument) kualiDocumentFormBase.getDocument();
 
             //ProposalDevelopmentRejectionBean bean = ((ProposalDevelopmentForm)form).getProposalDevelopmentRejectionBean();
-            //ProposalHierarchyService phService = KraServiceLocator.getService(ProposalHierarchyService.class);
+        //ProposalHierarchyService phService = KraServiceLocator.getService(ProposalHierarchyService.class);
         //phService.rejectProposalDevelopmentDocument(pDoc.getDevelopmentProposal().getProposalNumber(), bean.getRejectReason(), GlobalVariables
         //      .getUserSession().getPrincipalId());
         //return super.returnToSender(request, mapping, kualiDocumentFormBase);
@@ -2003,6 +2008,114 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             }
         }
         return forward;
+    }
+
+    /**
+     * handle a lock action
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward lock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        lock(form);
+
+        return saveAndShowLockMessage(Constants.MESSAGE_PROPOSAL_LOCKED, mapping, form, request, response);
+    }
+
+    /**
+     * extracted from main method to enable easier testing
+     *
+     * @param form
+     */
+    protected void lock(ActionForm form) {
+        updateProposalLock(form, true);
+    }
+
+    /**
+     * handle an unlock action
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward unlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        unlock(form);
+
+        return saveAndShowLockMessage(Constants.MESSAGE_PROPOSAL_UNLOCKED, mapping, form, request, response);
+    }
+
+    /**
+     * extracted from main method to enable easier testing
+     *
+     * @param form
+     */
+    protected void unlock(ActionForm form) {
+        updateProposalLock(form, false);
+    }
+
+    /**
+     * save the document and show a message if the lock was successful
+     *
+     * @throws Exception
+     */
+    public ActionForward saveAndShowLockMessage(String messageKey, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward fwd = super.save(mapping, form, request, response);
+        if (!GlobalVariables.getMessageMap().hasErrors()) {
+            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, messageKey);
+        }
+
+        return fwd;
+    }
+
+    /**
+     * a convenience method that sets the proposal status to locked/unlocked and
+     * sets an info message to be viewed on the UI
+     *
+     * @param form - the ProposalDevelopmentForm
+     * @param lockStatus - the lock status to set - true for lock, false for
+     * unlock
+     */
+    protected void updateProposalLock(ActionForm form, boolean lockStatus) {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument pdDoc = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
+
+        // TODO - create a method in unit service to fetch these admin types from parameter service
+        List<String> qualifiedAdminTypes = Arrays.asList(proposalDevelopmentForm.getAdminTypesAuthorizedToLock());
+
+        if (getUnitService().isQualifiedUnitAdminForProposal(developmentProposal,
+                GlobalVariables.getUserSession().getPrincipalId(),
+                qualifiedAdminTypes)) {
+            developmentProposal.setLocked(lockStatus);
+            developmentProposal.setLockedTimeStamp(new Timestamp(System.currentTimeMillis()));
+            developmentProposal.setLockedByPrincipalName(GlobalVariables.getUserSession().getPrincipalName());
+        }
+    }
+
+    /**
+     * @return the unitSvc from {@link KraServiceLocator} or a mock
+     */
+    public UnitService getUnitService() {
+        if (unitSvc == null) {
+            unitSvc = KraServiceLocator.getService(UnitService.class);
+        }
+        return unitSvc;
+    }
+
+    /**
+     * @param unitSvc the unitSvc to set
+     */
+    public void setUnitService(UnitService unitSvc) {
+        this.unitSvc = unitSvc;
     }
 
 }

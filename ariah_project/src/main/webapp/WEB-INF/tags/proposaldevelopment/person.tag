@@ -13,24 +13,20 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
- <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
- <%@ attribute name="proposalPerson" description="The ProposalPerson which this is for." required="true" %>
- <%@ attribute name="index" description="Index of the property for a ProposalPerson" required="false" %>
- <%@ attribute name="personIndex" description="Index of a ProposalPerson" required="true" %>
-
- <c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" />
- <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" />
- <c:set var="isParent" value="${KualiForm.document.developmentProposalList[0].parent}" />
-
- <c:set var="proposalPersonExtendedAttributes" value="${DataDictionary.ProposalPersonExtendedAttributes.attributes}" />
+ <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"
+%><%@ attribute name="proposalPerson" description="The ProposalPerson which this is for." required="true"
+%><%@ attribute name="index" description="Index of the property for a ProposalPerson" required="false" 
+%><%@ attribute name="personIndex" description="Index of a ProposalPerson" required="true" 
+%><c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" 
+/><c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" 
+/><c:set var="isParent" value="${KualiForm.document.developmentProposalList[0].parent}"
+/> <c:set var="proposalPersonExtendedAttributes" value="${DataDictionary.ProposalPersonExtendedAttributes.attributes}" />
 <%--
 <c:set var="proposalPersonExtendedAttributes" value="${DataDictionary.ProposalPersonExtendedAttributes.attributes}" />
  --%>
- 
-<c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" /> 
-<c:set var="keypersonrole" value="<%=org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE%>" />
-<c:set var="coirole" value="<%=org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE%>" />
+ <c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" 
+/><c:set var="keypersonrole" value="<%=org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE%>" 
+/><c:set var="coirole" value="<%=org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE%>" />
 <c:choose>
 <c:when test="${empty KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].fullName}">
 <c:set var="parentTabName" value="" />
@@ -40,7 +36,6 @@
 </c:otherwise>
 </c:choose>
 <bean:define id="personEditableFields" name="KualiForm" property="personEditableFields" />  
-		
 		  <c:if test="${readOnly or isParent}">
 		  	<c:set var="personEditableFields" value="${newMap}" />
 		  </c:if>

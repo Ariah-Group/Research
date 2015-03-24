@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
@@ -57,40 +73,43 @@ import java.util.List;
  * Struts Action class for the Proposal Development Budget Versions page
  */
 public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopmentAction {
+
     private static final String TOGGLE_TAB = "toggleTab";
     private static final String CONFIRM_SYNCH_BUDGET_RATE = "confirmSynchBudgetRate";
     private static final String NO_SYNCH_BUDGET_RATE = "noSynchBudgetRate";
 
     /**
-     * Main execute method that is run. Populates A map of rate types in the {@link HttpServletRequest} instance to be used
-     * in the JSP. The map is called <code>rateClassMap</code> this is set everytime execute is called in this class. This should only
-     * happen for the BudgetVersions tab. This ensures that even if {@link RateClass} persisted data may change, it will update the map
-     * correctly.
-     * 
+     * Main execute method that is run. Populates A map of rate types in the
+     * {@link HttpServletRequest} instance to be used in the JSP. The map is
+     * called <code>rateClassMap</code> this is set everytime execute is called
+     * in this class. This should only happen for the BudgetVersions tab. This
+     * ensures that even if {@link RateClass} persisted data may change, it will
+     * update the map correctly.
+     *
      * @param mapping {@link ActionMapping}
      * @param form {@link ActionForm} instance
      * @param request {@link HttpServletRequest} instance
-     * @param response {@link HttpServletResponse} instance 
+     * @param response {@link HttpServletResponse} instance
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         request.setAttribute("rateClassMap", getBudgetRatesService().getBudgetRateClassMap("O"));
-        
+
         final ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         final ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
-        
+
         if (TOGGLE_TAB.equals(pdForm.getMethodToCall())) {
             final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
             tdcValidator.validateGeneratingWarnings(pdDoc);
         }
-        
+
         return super.execute(mapping, form, request, response);
     }
 
     /**
      * Action called to create a new budget version.
-     * 
-     * @param mapping 
+     *
+     * @param mapping
      * @param form
      * @param request
      * @param response
@@ -100,13 +119,13 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
 
-        BudgetDocument<DevelopmentProposal> budgetDocument = 
-                getBudgetService().addBudgetVersion(pdDoc, pdForm.getNewBudgetVersionName());
+        BudgetDocument<DevelopmentProposal> budgetDocument
+                = getBudgetService().addBudgetVersion(pdDoc, pdForm.getNewBudgetVersionName());
         pdForm.setNewBudgetVersionName("");
 
-        return mapping.findForward(Constants.MAPPING_BASIC); 
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     @SuppressWarnings("unchecked")
     private BudgetService getBudgetService() {
         return KraServiceLocator.getService(BudgetService.class);
@@ -114,7 +133,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
 
     /**
      * This method opens a particular budget version.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -126,10 +145,11 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         BudgetService budgetService = KraServiceLocator.getService(BudgetService.class);
 
-        if (StringUtils.equalsIgnoreCase("TRUE", (String) pdForm.getEditingMode().get("modifyProposalBudget"))) {
+        if (StringUtils.equalsIgnoreCase("TRUE", (String) pdForm.getEditingMode().get("modifyProposalBudget"))
+                && !pdForm.isProposalLockedForCurrentUser()) {
             save(mapping, form, request, response);
         }
-        
+
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
         BudgetDocumentVersion budgetDocumentToOpen = pdDoc.getBudgetDocumentVersion(getSelectedLine(request));
         BudgetVersionOverview budgetToOpen = budgetDocumentToOpen.getBudgetVersionOverview();
@@ -137,62 +157,67 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         BudgetDocument budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToOpen.getDocumentNumber());
         String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
         BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
-        if(parentDocument==null){
+        if (parentDocument == null) {
             budgetDocument.refreshReferenceObject("parentDocument");
         }
         this.checkProjectStartEndDateWarning(budgetDocument);
-        
-        Budget budget = budgetDocument.getBudget();
-        Collection<BudgetRate> allPropRates = budgetService.getSavedBudgetRates(budget);
-        
-        if (budgetService.checkActivityTypeChange(allPropRates, pdDoc.getDevelopmentProposal().getActivityTypeCode())) {
-            return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
-                    KeyConstants.QUESTION_SYNCH_BUDGET_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
-        } 
-        else if(CollectionUtils.isEmpty(allPropRates)) {
-            //Throw Empty Rates message
-            return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
-                    KeyConstants.QUESTION_NO_RATES_ATTEMPT_SYNCH), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
-        }        
 
+        // add check of Permission as the user shouldn't be able to Sync the rates on the budget unless
+        // the user has the ability to modify the budget
+        if (StringUtils.equalsIgnoreCase("TRUE", (String) pdForm.getEditingMode().get("modifyProposalBudget"))
+                && !pdForm.isProposalLockedForCurrentUser()) {
+
+            Budget budget = budgetDocument.getBudget();
+            Collection<BudgetRate> allPropRates = budgetService.getSavedBudgetRates(budget);
+
+            if (budgetService.checkActivityTypeChange(allPropRates, pdDoc.getDevelopmentProposal().getActivityTypeCode())) {
+                return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
+                        KeyConstants.QUESTION_SYNCH_BUDGET_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
+            } else if (CollectionUtils.isEmpty(allPropRates)) {
+                //Throw Empty Rates message
+                return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
+                        KeyConstants.QUESTION_NO_RATES_ATTEMPT_SYNCH), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
+            }
+        }
         String forward = buildForwardUrl(routeHeaderId);
         if (pdForm.isAuditActivated()) {
             forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetParameters.do?auditActivated=true&");
         }
-            
+
         return new ActionForward(forward, true);
     }
-    
+
     /**
-     * This method checks if the budget periods exceeds the project start/end dates
-     * 
+     * This method checks if the budget periods exceeds the project start/end
+     * dates
+     *
      */
     public void checkProjectStartEndDateWarning(BudgetDocument budgetDocument) {
         BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
-        if(parentDocument==null){
-          return;
+        if (parentDocument == null) {
+            return;
         }
-     
+
         Budget aBudget = budgetDocument.getBudget();
         List<BudgetPeriod> aList = aBudget.getBudgetPeriods();
-        
-        if(parentDocument != null){
+
+        if (parentDocument != null) {
             Date parentStartDate = parentDocument.getBudgetParent().getRequestedStartDateInitial();
             Date parentEndDate = parentDocument.getBudgetParent().getRequestedEndDateInitial();
             Boolean aFlag = false;
-            for(BudgetPeriod aBP : aList){
-                if(parentStartDate.after(aBP.getStartDate()) || parentEndDate.before(aBP.getEndDate())){
+            for (BudgetPeriod aBP : aList) {
+                if (parentStartDate.after(aBP.getStartDate()) || parentEndDate.before(aBP.getEndDate())) {
                     aFlag = true;
                     break;
                 }
             }
-            if(aFlag){
+            if (aFlag) {
                 ErrorReporter errorReporter = new ErrorReporter();
                 errorReporter.reportSoftError("projectDatesChanged", KeyConstants.PROJECT_START_END_DATE_CHANGED);
             }
         }
     }
-    
+
     public ActionForward confirmSynchBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return synchBudgetRate(mapping, form, request, response, true);
     }
@@ -221,7 +246,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
 
     /**
      * This method copies a budget version's data to a new budget version.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -236,19 +261,18 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
             Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
             if (CopyPeriodsQuestion.ONE.equals(buttonClicked)) {
                 return copyBudgetPeriodOne(mapping, form, request, response);
-            }
-            else if (CopyPeriodsQuestion.ALL.equals(buttonClicked)) {
+            } else if (CopyPeriodsQuestion.ALL.equals(buttonClicked)) {
                 return copyBudgetAllPeriods(mapping, form, request, response);
             } else {
                 // URL hack, just return
                 return mapping.findForward(Constants.MAPPING_BASIC);
             }
         }
-        
+
         pdForm.setSaveAfterCopy(true);
         return performQuestionWithoutInput(mapping, form, request, response, COPY_BUDGET_PERIOD_QUESTION, QUESTION_TEXT + versionToCopy.getBudgetVersionNumber() + ".", QUESTION_TYPE, pdForm.getMethodToCall(), "");
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -288,12 +312,12 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
                 GlobalVariables.getMessageMap().putError(
                         "document.budgetDocumentVersion[" + (errorBudgetVersion - 1) + "].budgetVersionOverview.budgetStatus",
                         KeyConstants.CLEAR_AUDIT_ERRORS_BEFORE_CHANGE_STATUS_TO_COMPLETE);
-                for (BudgetDocumentVersion budgetDocumentVersion: pdDoc.getBudgetDocumentVersions()) {
-                    BudgetVersionOverview budgetVersion =  budgetDocumentVersion.getBudgetVersionOverview();
+                for (BudgetDocumentVersion budgetDocumentVersion : pdDoc.getBudgetDocumentVersions()) {
+                    BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
 
-                        String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(
-                                BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
-                        budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);
+                    String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(
+                            BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
+                    budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);
                 }
             }
             return mapping.findForward(Constants.MAPPING_BASIC);
@@ -308,8 +332,10 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         if (forward != null && forward.getName().equalsIgnoreCase("actions")) {
             pdForm.setMethodToCall("actions");
             /**
-             * If we are in audit mode, when we get redirected back to the actions tab, there was error in that the error
-             * messages weren't being displayed correctly.  Clearing the AuditMessageMap "fixes" this problem. KRACOEUS-4746.
+             * If we are in audit mode, when we get redirected back to the
+             * actions tab, there was error in that the error messages weren't
+             * being displayed correctly. Clearing the AuditMessageMap "fixes"
+             * this problem. KRACOEUS-4746.
              */
             if (pdForm.isAuditActivated()) {
                 KNSGlobalVariables.getAuditErrorMap().clear();
@@ -318,30 +344,29 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
 
         return forward;
     }
-    
-    
+
     private int getTentativeFinalBudgetVersion(ProposalDevelopmentForm pdForm) {
-        if(pdForm.getFinalBudgetVersion() != null) {
+        if (pdForm.getFinalBudgetVersion() != null) {
             return pdForm.getFinalBudgetVersion().intValue();
         }
-        
+
         ProposalDevelopmentDocument document = pdForm.getProposalDevelopmentDocument();
         int i = 1;
-        if(document != null && CollectionUtils.isNotEmpty(document.getBudgetDocumentVersions())) {
-            for(BudgetDocumentVersion budgetDocumentVersion : document.getBudgetDocumentVersions()) {
+        if (document != null && CollectionUtils.isNotEmpty(document.getBudgetDocumentVersions())) {
+            for (BudgetDocumentVersion budgetDocumentVersion : document.getBudgetDocumentVersions()) {
                 BudgetVersionOverview budget = budgetDocumentVersion.getBudgetVersionOverview();
-                if(budget.isFinalVersionFlag()) {
+                if (budget.isFinalVersionFlag()) {
                     // if copied budgetversion, the list may not be in version order.  so has to change it.
                     return i;
-                   // return budget.getBudgetVersionNumber().intValue();
+                    // return budget.getBudgetVersionNumber().intValue();
                 }
                 i++;
             }
         }
-        
+
         return -1;
-    }   
-    
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -351,49 +376,49 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         final ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getProposalDevelopmentDocument().getBudgetDocumentVersions()));
         setBudgetStatuses(pdForm.getProposalDevelopmentDocument());
-        
+
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
         tdcValidator.validateGeneratingWarnings(pdForm.getProposalDevelopmentDocument());
         return forward;
     }
-    
+
     public ActionForward copyBudgetPeriodOne(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (COPY_BUDGET_PERIOD_QUESTION.equals(question)) {
             copyBudget(form, request, true);
         }
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     public ActionForward copyBudgetAllPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (COPY_BUDGET_PERIOD_QUESTION.equals(question)) {
             copyBudget(form, request, false);
         }
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     private BudgetVersionOverview getSelectedVersion(ProposalDevelopmentForm proposalDevelopmentForm, HttpServletRequest request) {
         return proposalDevelopmentForm.getProposalDevelopmentDocument().getBudgetDocumentVersion(getSelectedLine(request)).getBudgetVersionOverview();
     }
-    
+
     private void copyBudget(ActionForm form, HttpServletRequest request, boolean copyPeriodOneOnly) throws WorkflowException {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = proposalDevelopmentForm.getProposalDevelopmentDocument();
         BudgetVersionOverview budgetToCopy = getSelectedVersion(proposalDevelopmentForm, request);
         copyBudget(pdDoc, budgetToCopy, copyPeriodOneOnly);
     }
-    
+
     private StrutsConfirmation syncBudgetRateConfirmationQuestion(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response, String message) throws Exception {
         return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_SYNCH_BUDGET_RATE,
                 message, "");
-    }    
-    
+    }
+
     private BudgetRatesService getBudgetRatesService() {
         return KraServiceLocator.getService(BudgetRatesService.class);
     }

@@ -49,7 +49,7 @@ limitations under the License.
                 <td>${KualiForm.document.developmentProposalList[0].proposalNumber}&nbsp;</td>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.sponsorCode}" /></div></th>
                 <td align="left" valign="middle">
-                	<kul:htmlControlAttribute property="document.developmentProposalList[0].sponsorCode" attributeEntry="${proposalDevelopmentAttributes.sponsorCode}" onblur="loadSponsorName('document.developmentProposalList[0].sponsorCode', 'sponsorName'); checkGrantsGovStatusOnSponsorChange('${KualiForm.document.developmentProposal.proposalNumber}', 'document.developmentProposalList[0].sponsorCode');" />
+                	<kul:htmlControlAttribute readOnly="${readOnly}" property="document.developmentProposalList[0].sponsorCode" attributeEntry="${proposalDevelopmentAttributes.sponsorCode}" onblur="loadSponsorName('document.developmentProposalList[0].sponsorCode', 'sponsorName'); checkGrantsGovStatusOnSponsorChange('${KualiForm.document.developmentProposal.proposalNumber}', 'document.developmentProposalList[0].sponsorCode');" />
                 	<kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:document.developmentProposalList[0].sponsorCode,sponsorName:document.developmentProposalList[0].sponsor.sponsorName" anchor="${tabKey}" />
                     <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="document.developmentProposalList[0].sponsorCode:sponsorCode" anchor="${tabKey}" />
                     <%-- register the grants gov header tab in case it has been disabled on load, as it may be enabled via javascript --%>

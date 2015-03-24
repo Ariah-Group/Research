@@ -179,6 +179,7 @@ public final class KeyConstants {
     public static final String QUESTION_DELETE_PROPOSAL_USER_CONFIRMATION = "document.question.deleteProposalUser.text";
     public static final String ERROR_UNKNOWN_USERNAME = "error.unknown.username";
     public static final String ERROR_DUPLICATE_PROPOSAL_USER = "error.duplicate.proposalUser";
+    public static final String ERROR_PROPOSAL_USER_MISSING_ROLE = "error.proposal.missing.person.role";
     public static final String ERROR_AGGREGATOR_INCLUSIVE = "error.aggregator.inclusive";
     public static final String ERROR_LAST_AGGREGATOR = "error.last.aggregator"; 
     public static final String ERROR_EMPTY_USERNAME = "error.empty.username";

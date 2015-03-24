@@ -14,9 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
-<c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" />
-
+<c:set var="proposalReadOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" />
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="proposalDevelopmentQuestions"
@@ -26,36 +24,27 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="questions">
-  	
-	<script type="text/javascript">var $j = jQuery.noConflict();</script>
+    <script type="text/javascript">var $j = jQuery.noConflict();</script>
     <link rel="stylesheet" href="css/jquery/questionnaire.css" type="text/css" />
     <link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
     <link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
     <link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
     <script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
     <script type="text/javascript" src="scripts/jquery/CalendarPopup.js"></script>
-    
   	<div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Questions" /></div>
 	<div id = "workarea">
 	<kra-pd:proposalDevelopmentQuestionnaireAnswers bean = "${KualiForm.questionnaireHelper}" property = "questionnaireHelper"/>
-	
 	<c:set var = "forceTabNonTransparent" value = "true"/>
   	<c:if test="${fn:length(KualiForm.questionnaireHelper.answerHeaders) == 0}">
   		<c:set var="forceTabNonTransparent" value = "false"/>
   	</c:if>
- 	 	
-	<kra-pd:proposalDevelopmentQuestionnaireAnswers bean = "${KualiForm.s2sQuestionnaireHelper}" property = "s2sQuestionnaireHelper" forceNonTransparent="${forceTabNonTransparent}"/>
-   	
-    <script type="text/javascript" src="scripts/questionnaireAnswer.js"></script>
-  	
-  	
-	<c:set var = "hasQuestionnaires" value = "false"/>
+ 	<kra-pd:proposalDevelopmentQuestionnaireAnswers bean = "${KualiForm.s2sQuestionnaireHelper}" property = "s2sQuestionnaireHelper" forceNonTransparent="${forceTabNonTransparent}"/>
+         <script type="text/javascript" src="scripts/questionnaireAnswer.js"></script>
+  	<c:set var = "hasQuestionnaires" value = "false"/>
   	<c:if test="${not empty KualiForm.questionnaireHelper.answerHeaders or not empty KualiForm.s2sQuestionnaireHelper.answerHeaders}">
   		<c:set var="hasQuestionnaires" value = "true"/>
   	</c:if>
-	
 	<kra-pd:proposalYnq topTabTransparent="${!hasQuestionnaires}"/>  	
-  	
   	<c:if test="${!hasQuestionnaires && empty KualiForm.document.developmentProposalList[0].proposalYnqs}">
   		<kul:tabTop tabTitle="Questions" defaultOpen="true">
 			<div class="tab-container" align="center">
@@ -65,8 +54,7 @@
 	</c:if>
 	<kul:panelFooter />
 	</div>
-<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
+        <br>
+<kul:documentControls viewOnly="${proposalReadOnly}" transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
 <script language="javascript" src="scripts/kuali_application.js"></script>
-
-
 </kul:documentPage>

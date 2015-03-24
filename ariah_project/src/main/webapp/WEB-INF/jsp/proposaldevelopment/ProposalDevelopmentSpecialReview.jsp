@@ -16,6 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
+<c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" /> 
 
 <kul:documentPage
 	showDocumentInfo="true"
@@ -40,7 +41,7 @@
 	<kul:panelFooter />
 </div>
 
-<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
+<kul:documentControls viewOnly="${readOnly}" transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
 <script language="javascript" src="scripts/kuali_application.js"></script>
 
 </kul:documentPage>
