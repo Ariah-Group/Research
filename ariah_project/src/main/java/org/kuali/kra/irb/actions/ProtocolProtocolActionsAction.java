@@ -935,7 +935,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 }
             }
         } catch (Exception e) {
-            LOG.error("Exception Occured in ProtocolNoteAndAttachmentAction. : ", e);
+            LOG.error("Exception Occured in getProtocolAttachmentFile : ", e);
         }
         return attachmentFile;
     }
