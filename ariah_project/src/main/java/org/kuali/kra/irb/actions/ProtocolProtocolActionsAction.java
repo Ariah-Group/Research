@@ -771,7 +771,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        String fileName = "Protocol_questionnaire_Report.pdf";
+        String fileName = "Protocol_Questionnaire_Report.pdf";
         String reportName = protocol.getProtocolNumber() + "-" + "ProtocolQuestionnaires";
         AttachmentDataSource dataStream = getProtocolPrintingService().print(reportName, getQuestionnairePrintingService().getQuestionnairePrintable(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getQuestionnairesToPrints()));
         if (dataStream.getContent() != null) {
@@ -787,7 +787,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        String fileName = "IRB_Protocol_Ccorrespondence_Report.pdf";
+        String fileName = "IRB_Protocol_Correspondence_Report.pdf";
         String reportName = protocol.getProtocolNumber() + "-" + "ProtocolCorrespondences";
         AttachmentDataSource dataStream = getProtocolPrintingService().print(reportName, getIrbCorrespondencePrintingService().getCorrespondencePrintable(protocol, protocolForm.getActionHelper().getCorrespondencesToPrint()));
         if (dataStream.getContent() != null) {
