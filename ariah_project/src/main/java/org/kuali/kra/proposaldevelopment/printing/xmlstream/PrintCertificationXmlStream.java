@@ -48,7 +48,9 @@ import org.kuali.kra.proposaldevelopment.printing.service.ProposalDevelopmentPri
 import java.util.*;
 
 import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
@@ -59,7 +61,6 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
  */
 public class PrintCertificationXmlStream extends ProposalBaseStream {
 
-    private static final String NSF_SPONSOR_CODE = "000100";
     private static final String NSF_SPONSOR_ACRONYM = "NSF";
     private static final String SPONSOR_GROUPS = "SPONSOR GROUPS";
     private static final String PI_QUESTION = "PI_QUESTION";
@@ -431,10 +432,13 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
         final String sponsorCodeNih = paramServ.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
                 Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ARIAH_PROPDEV_SPONSOR_CODE_NIH);
 
+        final String sponsorCodeNsf = paramServ.getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE,
+                ParameterConstants.ALL_COMPONENT, KeyConstants.NSF_SPONSOR_CODE);
+
         for (SponsorHierarchy sponsorHierarchy : sponsorHierarchyList) {
             String sponsorCode = sponsorHierarchy.getSponsorCode();
             String level1 = sponsorHierarchy.getLevel1();
-            if ((sponsorCode.equals(sponsorCodeNih) || sponsorCode.equals(NSF_SPONSOR_CODE))
+            if ((sponsorCode.equals(sponsorCodeNih) || sponsorCode.equals(sponsorCodeNsf))
                     && (level1.equalsIgnoreCase(Constants.NIH_SPONSOR_ACRONYM) || level1
                     .equalsIgnoreCase(NSF_SPONSOR_ACRONYM))) {
                 available = true;
