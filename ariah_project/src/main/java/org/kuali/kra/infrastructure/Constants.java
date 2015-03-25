@@ -106,7 +106,6 @@ public interface Constants {
 
     public static final String PERSON_ROLE_PARAMETER_PREFIX = "personrole.";
     public static final String NIH_SPONSOR_ACRONYM = "NIH";
-    public static final String NIH_SPONSOR_CODE = "000340";
     public static final String LOCAL_PRINT_FORM_SPONSOR_CODE = "LOCAL_PRINT_FORM_SPONSOR_CODE";
     public static final String SPONSOR_LEVEL_HIERARCHY = "sponsorLevelHierarchy";
     public static final String SPONSOR_HIERARCHY_NAME = "sponsorGroupHierarchyName";
@@ -970,6 +969,7 @@ public interface Constants {
     public static final String ARIAH_PROPDEV_WORKFLOW_STEP_FINANCE_UNITADMINTYPECODE = "ARIAH_PROPDEV_WORKFLOW_STEP_FINANCE_UNITADMINTYPECODE";
     public static final String ARIAH_PROPDEV_WORKFLOW_STEP_PRESIDENT_ENABLED = "ARIAH_PROPDEV_WORKFLOW_STEP_PRESIDENT_ENABLED";
     public static final String ARIAH_PROPDEV_WORKFLOW_STEP_PRESIDENT_UNITADMINTYPECODE = "ARIAH_PROPDEV_WORKFLOW_STEP_PRESIDENT_UNITADMINTYPECODE";    
+    public static final String ARIAH_PROPDEV_SPONSOR_CODE_NIH = "ARIAH_PROPDEV_SPONSOR_CODE_NIH";
     
     //Parameter Constants for Negotiations
     public static final String ARIAH_NEGO_HIDE_AND_DEFAULT_NEGO_DOC_DESC = "ARIAH_NEGO_HIDE_AND_DEFAULT_NEGO_DOC_DESC";

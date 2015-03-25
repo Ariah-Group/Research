@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
@@ -47,6 +63,7 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
     /**
      * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
      */
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
 
@@ -54,7 +71,12 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
         DevelopmentProposal proposal = proposalDevelopmentDocument.getDevelopmentProposal();
         List<AuditError> auditErrors = new ArrayList<AuditError>();
 
-        if (StringUtils.equalsIgnoreCase(proposal.getSponsorCode(),Constants.NIH_SPONSOR_CODE) && proposalDevelopmentDocument.getDevelopmentProposal().getTitle().length() > 81){
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+
+        final String sponsorCodeNih = paramServ.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ARIAH_PROPDEV_SPONSOR_CODE_NIH);        
+        
+        if (StringUtils.equalsIgnoreCase(proposal.getSponsorCode(),sponsorCodeNih) && proposalDevelopmentDocument.getDevelopmentProposal().getTitle().length() > 81){
             valid = false;
             auditErrors.add(new AuditError(Constants.PROJECT_TITLE_KEY, KeyConstants.ERROR_NIH_SPONSOR_PROJECT_TITLE_LENGTH, Constants.PROPOSAL_PAGE + "." + Constants.REQUIRED_FIELDS_PANEL_ANCHOR));
         }
