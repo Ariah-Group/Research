@@ -1787,8 +1787,7 @@ public class NIHResearchAndRelatedXmlStream extends
      * This method will get the special review comments if comments found else
      * default values 'Unknown' will be returned.
      */
-    private String getSpecialReviewComments(
-            ProposalSpecialReview proposalSpecialReview) {
+    private String getSpecialReviewComments(ProposalSpecialReview proposalSpecialReview) {
         String comments = null;
         if (proposalSpecialReview.getComments() == null) {
             comments = DEFAULT_VALUE_UNKNOWN;
@@ -1801,8 +1800,7 @@ public class NIHResearchAndRelatedXmlStream extends
     /*
      * This method will get the human assurance number from the organization
      */
-    private String getHumanAssuranceNumber(
-            DevelopmentProposal developmentProposal) {
+    private String getHumanAssuranceNumber(DevelopmentProposal developmentProposal) {
         String humanSubAssurance = null;
         Organization organization = getOrganizationFromDevelopmentProposal(developmentProposal);
         if (organization != null && organization.getHumanSubAssurance() != null) {
@@ -1814,14 +1812,10 @@ public class NIHResearchAndRelatedXmlStream extends
     private BudgetDecimal calculateFundingMonths(DevelopmentProposal developmentProposal,
             BudgetPersonnelDetails budgetPersonnelDetails, String budgetPeriodType) {
         BudgetDecimal fundingMonths = BudgetDecimal.ZERO;
-        if (isPersonExistsInProposal(developmentProposal, budgetPersonnelDetails)
-                && budgetPeriodType.equals(budgetPersonnelDetails.getPeriodTypeCode())) {
+        if (isPersonExistsInProposal(developmentProposal, budgetPersonnelDetails) && budgetPeriodType.equals(budgetPersonnelDetails.getPeriodTypeCode())) {
             if (budgetPersonnelDetails != null) {
-                BigDecimal totalMonths = getMonthsBetweenDates(
-                        budgetPersonnelDetails.getStartDate(),
-                        budgetPersonnelDetails.getEndDate());
-                fundingMonths = budgetPersonnelDetails.getPercentEffort().multiply(
-                        new BudgetDecimal(totalMonths));
+                BigDecimal totalMonths = getMonthsBetweenDates(budgetPersonnelDetails.getStartDate(), budgetPersonnelDetails.getEndDate());
+                fundingMonths = budgetPersonnelDetails.getPercentEffort().multiply(new BudgetDecimal(totalMonths));
                 fundingMonths = fundingMonths.divide(new BudgetDecimal(100));
             }
         }
