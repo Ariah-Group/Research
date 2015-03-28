@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.printing.xmlstream;
 
@@ -55,7 +71,6 @@ import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.Awar
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.*;
-import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.costshare.CostShareService;
@@ -64,8 +79,6 @@ import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
-import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -2366,12 +2379,12 @@ public abstract class AwardBaseStream implements XmlStream {
                 }
             }
         }
-        
+
         String invoiceInstructions = getInvoiceInstructionComments();
         if (invoiceInstructions != null) {
             otherHeaderDetails.setInvoiceInstructions(invoiceInstructions);
         }
-        
+
         String fellowShipname = getFellowshipAdminName();
         if (fellowShipname != null) {
             otherHeaderDetails.setFellowshipAdminName(fellowShipname);
@@ -2437,7 +2450,7 @@ public abstract class AwardBaseStream implements XmlStream {
                     paymentMethodDesc = award.getAwardMethodOfPayment().getDescription();
                 } else {
                     paymentMethodDesc = new StringBuilder(START_ASTERISK_SPACE_INDICATOR).append(
-                                    award.getAwardMethodOfPayment().getDescription()).toString();
+                            award.getAwardMethodOfPayment().getDescription()).toString();
                 }
             }
         } else if (award.getAwardMethodOfPayment() != null
@@ -2778,28 +2791,5 @@ public abstract class AwardBaseStream implements XmlStream {
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
-    }
-    /*
-     * This method will return the award amount transaction list from
-     * timeAndMoney document,which matches award number given.
-     */
-
-    private AwardAmountTransaction getAwardAmountTransaction(
-            String awardNumber) {
-        AwardAmountTransaction awardAmountTransaction = null;
-        Map<String, String> timeAndMoneyMap = new HashMap<String, String>();
-        timeAndMoneyMap.put(ROOT_AWARD_NUMBER_PARAMETER, awardNumber);
-        List<TimeAndMoneyDocument> timeAndMoneyDocs = (List<TimeAndMoneyDocument>) businessObjectService
-                .findMatching(TimeAndMoneyDocument.class, timeAndMoneyMap);
-        if (timeAndMoneyDocs != null && !timeAndMoneyDocs.isEmpty()) {
-            TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyDocs.get(0);
-            List<AwardAmountTransaction> awardAmountTransactionList = timeAndMoneyDocument
-                    .getAwardAmountTransactions();
-            if (awardAmountTransactionList != null
-                    && !awardAmountTransactionList.isEmpty()) {
-                awardAmountTransaction = awardAmountTransactionList.get(0);
-            }
-        }
-        return awardAmountTransaction;
     }
 }
