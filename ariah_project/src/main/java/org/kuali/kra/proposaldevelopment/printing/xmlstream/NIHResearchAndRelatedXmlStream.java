@@ -1470,52 +1470,73 @@ public class NIHResearchAndRelatedXmlStream extends
      * ResearchCoverPage and set the data from organization to it if data is
      * there else put default data
      */
-    private ApplicantOrganizationType getApplicantOrganizationForResearchCoverPage(
-            DevelopmentProposal developmentProposal) {
-        Organization organization = developmentProposal
-                .getApplicantOrganization().getOrganization();
+    private ApplicantOrganizationType getApplicantOrganizationForResearchCoverPage(DevelopmentProposal developmentProposal) {
+
+        Organization organization = developmentProposal.getApplicantOrganization().getOrganization();
         OrganizationType organizationType = organization.getOrganizationType(0);
-        ApplicantOrganizationType applicantOrganizationType = ApplicantOrganizationType.Factory
-                .newInstance();
-        applicantOrganizationType.setOrganizationName(organization
-                .getOrganizationName() == null ? DEFAULT_VALUE_UNKNOWN
-                        : organization.getOrganizationName());
-        applicantOrganizationType.setOrganizationDUNS(organization
-                .getDunsNumber() == null ? DEFAULT_VALUE_UNKNOWN : organization
-                        .getDunsNumber());
-        applicantOrganizationType.setOrganizationEIN(organization
-                .getFedralEmployerId() == null ? DEFAULT_VALUE_UNKNOWN
-                        : ("1" + organization.getFedralEmployerId()) + "A1");
-        if (organization.getPhsAccount() != null) {
-            applicantOrganizationType.setPHSAccountID(organization
-                    .getPhsAccount());
+
+        ApplicantOrganizationType applicantOrganizationType = ApplicantOrganizationType.Factory.newInstance();
+
+        if (organization.getOrganizationName() == null) {
+            applicantOrganizationType.setOrganizationName(DEFAULT_VALUE_UNKNOWN);
+        } else {
+            applicantOrganizationType.setOrganizationName(organization.getOrganizationName());
         }
-        applicantOrganizationType
-                .setOrganizationCategoryCode(organizationType == null ? DEFAULT_VALUE_UNKNOWN
-                                : organizationType.getOrganizationTypeCode().toString());
-        applicantOrganizationType
-                .setOrganizationCategoryDescription(organizationType == null ? DEFAULT_VALUE_UNKNOWN
-                                : organizationType.getOrganizationTypeList()
-                                .getDescription());
-        applicantOrganizationType
-                .setOrganizationCongressionalDistrict(organization
-                        .getCongressionalDistrict() == null ? DEFAULT_VALUE_UNKNOWN
-                                : organization.getCongressionalDistrict());
-        applicantOrganizationType
-                .setOrganizationAddress(getOrganizationAddress(organization
-                                .getRolodex()));
-        applicantOrganizationType
-                .setOrganizationContactPerson(getOrganizationContactPerson(developmentProposal
-                                .getApplicantOrganization().getRolodex()));
+
+        if (organization.getDunsNumber() == null) {
+            applicantOrganizationType.setOrganizationDUNS(DEFAULT_VALUE_UNKNOWN);
+        } else {
+            applicantOrganizationType.setOrganizationDUNS(organization.getDunsNumber());
+        }
+
+        if (organization.getFedralEmployerId() == null) {
+            applicantOrganizationType.setOrganizationEIN(DEFAULT_VALUE_UNKNOWN);
+        } else {
+            applicantOrganizationType.setOrganizationEIN("1" + organization.getFedralEmployerId() + "A1");
+        }
+
+        if (organization.getPhsAccount() != null) {
+            applicantOrganizationType.setPHSAccountID(organization.getPhsAccount());
+        }
+
+        if (organizationType == null || organizationType.getOrganizationTypeCode() == null) {
+            applicantOrganizationType.setOrganizationCategoryCode(DEFAULT_VALUE_UNKNOWN);
+        } else {
+            applicantOrganizationType.setOrganizationCategoryCode(String.valueOf(organizationType.getOrganizationTypeCode()));
+        }
+
+        if (organizationType == null || organizationType.getOrganizationTypeList() == null) {
+            applicantOrganizationType.setOrganizationCategoryDescription(DEFAULT_VALUE_UNKNOWN);
+        } else {
+            applicantOrganizationType.setOrganizationCategoryDescription(String.valueOf(organizationType.getOrganizationTypeList().getDescription()));
+        }
+
+        if (organization.getCongressionalDistrict() == null) {
+            applicantOrganizationType.setOrganizationCongressionalDistrict(DEFAULT_VALUE_UNKNOWN);
+        } else {
+            applicantOrganizationType.setOrganizationCongressionalDistrict(organization.getCongressionalDistrict());
+        }
+
+        applicantOrganizationType.setOrganizationAddress(getOrganizationAddress(organization.getRolodex()));
+        applicantOrganizationType.setOrganizationContactPerson(getOrganizationContactPerson(developmentProposal.getApplicantOrganization().getRolodex()));
+
         String cageNumber = organization.getCageNumber();
+
         if (cageNumber != null) {
             applicantOrganizationType.setCageNumber(cageNumber);
         }
+
         OrganizationClassification orgClassification = applicantOrganizationType.addNewOrganizationClassification();
         List<OrganizationType> organizationTypes = organization.getOrganizationTypes();
-        if (!organizationTypes.isEmpty()) {
-            orgClassification.setCategoryCode(organizationTypes.get(0).getOrganizationTypeCode().toString());
-            orgClassification.setSubCategoryCode(organizationTypes.get(0).getOrganizationTypeList().getDescription());
+
+        if (organizationTypes != null && !organizationTypes.isEmpty()) {
+
+            OrganizationType orgType = organizationTypes.get(0);
+            if (orgType != null) {
+                orgClassification.setCategoryCode(orgType.getOrganizationTypeCode().toString());
+                orgClassification.setSubCategoryCode(orgType.getOrganizationTypeList().getDescription());
+            }
+
         }
         return applicantOrganizationType;
     }
