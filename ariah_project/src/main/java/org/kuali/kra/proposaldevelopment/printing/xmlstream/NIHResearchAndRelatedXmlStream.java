@@ -1598,8 +1598,7 @@ public class NIHResearchAndRelatedXmlStream extends
      * city,country, postal code , and state.
      */
     private PostalAddressType getPostalAddressType(ProposalPerson proposalPerson) {
-        PostalAddressType postalAddressType = PostalAddressType.Factory
-                .newInstance();
+        PostalAddressType postalAddressType = PostalAddressType.Factory.newInstance();
         postalAddressType.setCity(proposalPerson.getCity());
         postalAddressType.setCountry(proposalPerson.getCounty());
         postalAddressType.setPostalCode(proposalPerson.getPostalCode());
@@ -1612,8 +1611,7 @@ public class NIHResearchAndRelatedXmlStream extends
      * first name,last name, and middle name.
      */
     private PersonFullNameType getPersonFullName(ProposalPerson proposalPerson) {
-        PersonFullNameType personFullNameType = PersonFullNameType.Factory
-                .newInstance();
+        PersonFullNameType personFullNameType = PersonFullNameType.Factory.newInstance();
         personFullNameType.setFirstName(proposalPerson.getFirstName());
         personFullNameType.setLastName(proposalPerson.getLastName());
         personFullNameType.setMiddleName(proposalPerson.getMiddleName());
@@ -1626,33 +1624,24 @@ public class NIHResearchAndRelatedXmlStream extends
      * LobbyingQuestion,GeneralCertificationQuestion,DebarmentAndSuspension and
      * DrugFreeWorkplace.
      */
-    private OrgAssurancesType getOrgAssurances(
-            DevelopmentProposal developmentProposal) {
-        OrgAssurancesType orgAssurancesType = OrgAssurancesType.Factory
-                .newInstance();
+    private OrgAssurancesType getOrgAssurances(DevelopmentProposal developmentProposal) {
+        OrgAssurancesType orgAssurancesType = OrgAssurancesType.Factory.newInstance();
         List<OrganizationYnq> organizationYnqs = null;
         Organization organization = getOrganizationFromDevelopmentProposal(developmentProposal);
         if (organization != null && organization.getOrganizationId() != null) {
-            organizationYnqs = getOrganizationYNQ(organization
-                    .getOrganizationId());
+            organizationYnqs = getOrganizationYNQ(organization.getOrganizationId());
         }
         if (organizationYnqs != null) {
             for (OrganizationYnq organizationYnq : organizationYnqs) {
-                if (organizationYnq.getQuestionId()
-                        .equals(LOBBYING_QUESTION_ID)) {
-                    orgAssurancesType
-                            .setLobbyingQuestion(getAnswerFromOrganizationYnq(organizationYnq));
+                if (organizationYnq.getQuestionId().equals(LOBBYING_QUESTION_ID)) {
+                    orgAssurancesType.setLobbyingQuestion(getAnswerFromOrganizationYnq(organizationYnq));
                 }
-                if (organizationYnq.getQuestionId().equals(
-                        GENERAL_CERTIFICATION_QUESTION_ID)) {
-                    orgAssurancesType
-                            .setGeneralCertificationQuestion(getAnswerFromOrganizationYnq(organizationYnq));
+                if (organizationYnq.getQuestionId().equals(GENERAL_CERTIFICATION_QUESTION_ID)) {
+                    orgAssurancesType.setGeneralCertificationQuestion(getAnswerFromOrganizationYnq(organizationYnq));
                 }
             }
-            orgAssurancesType.setDebarmentAndSuspension(getAssuranceType(
-                    organizationYnqs, ORGANIZATION_QUESTION_ID_I8));
-            orgAssurancesType.setDrugFreeWorkplace(getAssuranceType(
-                    organizationYnqs, ORGANIZATION_QUESTION_ID_H5));
+            orgAssurancesType.setDebarmentAndSuspension(getAssuranceType(organizationYnqs, ORGANIZATION_QUESTION_ID_I8));
+            orgAssurancesType.setDrugFreeWorkplace(getAssuranceType(organizationYnqs, ORGANIZATION_QUESTION_ID_H5));
         }
         return orgAssurancesType;
     }
@@ -1661,15 +1650,12 @@ public class NIHResearchAndRelatedXmlStream extends
      * This method will set the values to the Assurance type attributes if
      * question id I8 found in organization YNQs.
      */
-    private AssuranceType getAssuranceType(
-            List<OrganizationYnq> organizationYnqs, String questionId) {
+    private AssuranceType getAssuranceType(List<OrganizationYnq> organizationYnqs, String questionId) {
         AssuranceType assuranceType = AssuranceType.Factory.newInstance();
         for (OrganizationYnq organizationYnq : organizationYnqs) {
             if (organizationYnq.getQuestionId().equals(questionId)) {
-                assuranceType
-                        .setYesNoAnswer(getAnswerFromOrganizationYnq(organizationYnq));
-                assuranceType
-                        .setExplanation(getExplanationFromOrganizationYnq(organizationYnq));
+                assuranceType.setYesNoAnswer(getAnswerFromOrganizationYnq(organizationYnq));
+                assuranceType.setExplanation(getExplanationFromOrganizationYnq(organizationYnq));
             }
         }
         return assuranceType;
@@ -1679,10 +1665,8 @@ public class NIHResearchAndRelatedXmlStream extends
      * This method return explanation if explanation found for this question
      * otherwise empty string
      */
-    private String getExplanationFromOrganizationYnq(
-            OrganizationYnq organizationYnq) {
-        return organizationYnq.getExplanation() == null ? EMPTY_STRING
-                : organizationYnq.getExplanation();
+    private String getExplanationFromOrganizationYnq(OrganizationYnq organizationYnq) {
+        return organizationYnq.getExplanation() == null ? EMPTY_STRING : organizationYnq.getExplanation();
     }
 
     /*
@@ -1690,24 +1674,15 @@ public class NIHResearchAndRelatedXmlStream extends
      * human subject type,animal subject , and project survey.
      * 
      */
-    private ProjectDescription getProjectDescription(
-            DevelopmentProposal developmentProposal) {
-        ProjectDescription projectDescription = ProjectDescription.Factory
-                .newInstance();
-        projectDescription
-                .setHumanSubject(getHumanSubjectsType(developmentProposal));
-        projectDescription
-                .setAnimalSubject(getAnimalSubject(developmentProposal));
-        projectDescription
-                .setProjectSurvey(getProjectSurvey(developmentProposal));
-        projectDescription.setProjectSummary(getDescriptionBlockType(
-                developmentProposal, PROJECT_SUMMARY_BLOCK_TYPE, true));
-        projectDescription.setFacilitiesDescription(getDescriptionBlockType(
-                developmentProposal, FACILITIES_BLOCK_TYPE, false));
-        projectDescription.setEquipmentDescription(getDescriptionBlockType(
-                developmentProposal, EQUIPMENT_BLOCK_TYPE, false));
-        projectDescription.setReferences(getDescriptionBlockType(
-                developmentProposal, REFERENCES_BLOCK_TYPE, true));
+    private ProjectDescription getProjectDescription(DevelopmentProposal developmentProposal) {
+        ProjectDescription projectDescription = ProjectDescription.Factory.newInstance();
+        projectDescription.setHumanSubject(getHumanSubjectsType(developmentProposal));
+        projectDescription.setAnimalSubject(getAnimalSubject(developmentProposal));
+        projectDescription.setProjectSurvey(getProjectSurvey(developmentProposal));
+        projectDescription.setProjectSummary(getDescriptionBlockType(developmentProposal, PROJECT_SUMMARY_BLOCK_TYPE, true));
+        projectDescription.setFacilitiesDescription(getDescriptionBlockType(developmentProposal, FACILITIES_BLOCK_TYPE, false));
+        projectDescription.setEquipmentDescription(getDescriptionBlockType(developmentProposal, EQUIPMENT_BLOCK_TYPE, false));
+        projectDescription.setReferences(getDescriptionBlockType(developmentProposal, REFERENCES_BLOCK_TYPE, true));
         return projectDescription;
     }
 
@@ -1715,15 +1690,10 @@ public class NIHResearchAndRelatedXmlStream extends
      * This method will get the DescriptionBlockType based on the block type
      * (summary,facilities,equipment, and references).
      */
-    private DescriptionBlockType getDescriptionBlockType(
-            DevelopmentProposal developmentProposal, String blockType,
-            boolean isFile) {
-        DescriptionBlockType descriptionBlockType = DescriptionBlockType.Factory
-                .newInstance();
+    private DescriptionBlockType getDescriptionBlockType(DevelopmentProposal developmentProposal, String blockType, boolean isFile) {
+        DescriptionBlockType descriptionBlockType = DescriptionBlockType.Factory.newInstance();
         if (isFile) {
-            descriptionBlockType.setFileIdentifier(new StringBuilder(
-                    developmentProposal.getProposalNumber()).append(blockType)
-                    .toString());
+            descriptionBlockType.setFileIdentifier(new StringBuilder(developmentProposal.getProposalNumber()).append(blockType).toString());
         } else {
             descriptionBlockType.setText(blockType);
         }
@@ -1734,27 +1704,20 @@ public class NIHResearchAndRelatedXmlStream extends
      * This method will set the the values to human subject like IRB approval
      * date ,exemption number,human assurance number.
      */
-    private HumanSubjectsType getHumanSubjectsType(
-            DevelopmentProposal developmentProposal) {
-        HumanSubjectsType humanSubjectsType = HumanSubjectsType.Factory
-                .newInstance();
+    private HumanSubjectsType getHumanSubjectsType(DevelopmentProposal developmentProposal) {
+        HumanSubjectsType humanSubjectsType = HumanSubjectsType.Factory.newInstance();
         // exemptionNumber maximum it occurs 6 times no string array size
         // declared as 6
         String exemptionNumber[] = new String[6];
-        List<ProposalSpecialReview> specialReviewList = developmentProposal
-                .getPropSpecialReviews();
+        List<ProposalSpecialReview> specialReviewList = developmentProposal.getPropSpecialReviews();
         int arrayIndex = 0;
         if (specialReviewList != null) {
             for (ProposalSpecialReview proposalSpecialReview : specialReviewList) {
                 boolean humanSubjectsUsedQuestion = getHumanSubjectsUsedQuestion(proposalSpecialReview);
-                humanSubjectsType
-                        .setHumanSubjectsUsedQuestion(humanSubjectsUsedQuestion);
-                if (!proposalSpecialReview.getApprovalTypeCode().equals(
-                        APPROVAL_TYPE_EXEMPT)
+                humanSubjectsType.setHumanSubjectsUsedQuestion(humanSubjectsUsedQuestion);
+                if (!proposalSpecialReview.getApprovalTypeCode().equals(APPROVAL_TYPE_EXEMPT)
                         && proposalSpecialReview.getApprovalDate() != null) {
-                    humanSubjectsType.setIRBApprovalDate(getDateTimeService()
-                            .getCalendar(proposalSpecialReview
-                                    .getApprovalDate()));
+                    humanSubjectsType.setIRBApprovalDate(getDateTimeService().getCalendar(proposalSpecialReview.getApprovalDate()));
                     break;
                 } else {
                     String comments = getSpecialReviewComments(proposalSpecialReview);
@@ -1763,8 +1726,7 @@ public class NIHResearchAndRelatedXmlStream extends
                 }
             }
         }
-        setEXemptionNumber(developmentProposal, humanSubjectsType,
-                exemptionNumber);
+        setEXemptionNumber(developmentProposal, humanSubjectsType, exemptionNumber);
         setPhase3ClinicalTrialQuestion(developmentProposal, humanSubjectsType);
         return humanSubjectsType;
     }
