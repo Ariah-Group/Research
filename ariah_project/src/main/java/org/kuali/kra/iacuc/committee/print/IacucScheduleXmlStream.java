@@ -62,7 +62,7 @@ import java.text.ParseException;
 import java.util.*;
 
 public class IacucScheduleXmlStream extends PrintBaseXmlStream {
-    
+
     private CommitteeMembershipServiceBase committeeMembershipService;
     private KcPersonService kcPersonService;
     private IacucPrintXmlUtilService printXmlUtilService;
@@ -70,17 +70,16 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
     private String EXEMPT_ACTION_TYPE_CODE = "206";
     private String FOLLOW_UP_ACTION_CODE = "109";
 
-    public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {        
-        CommitteeScheduleBase committeeSchedule = (CommitteeScheduleBase)printableBusinessObject;
+    public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+        CommitteeScheduleBase committeeSchedule = (CommitteeScheduleBase) printableBusinessObject;
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
-        ScheduleDocument scheduleDocument =
-		ScheduleDocument.Factory.newInstance();
+        ScheduleDocument scheduleDocument
+                = ScheduleDocument.Factory.newInstance();
         scheduleDocument.setSchedule(getSchedule(committeeSchedule));
-        xmlObjectList.put("Schedule", scheduleDocument);   
+        xmlObjectList.put("Schedule", scheduleDocument);
         System.out.print(xmlObjectList);
         return xmlObjectList;
     }
-
 
 //    private CommitteeScheduleBase findCommitteeSchedule(
 //	CommitteeBase committee, String scheduleId) {
@@ -93,42 +92,41 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
 //        }
 //        return null;
 //    }
-
     public ScheduleType getSchedule(CommitteeScheduleBase committeeSchedule) {
         ScheduleType schedule = ScheduleType.Factory.newInstance();
         setScheduleMasterData(committeeSchedule, schedule.addNewScheduleMasterData());
         ScheduleSummaryType prevSchedule = schedule.addNewPreviousSchedule();
-        setPreviousSchedule(committeeSchedule,prevSchedule.addNewScheduleMasterData());
+        setPreviousSchedule(committeeSchedule, prevSchedule.addNewScheduleMasterData());
         ScheduleSummaryType nextScheduleType = schedule.addNewNextSchedule();
-        setNextSchedule(committeeSchedule,nextScheduleType.addNewScheduleMasterData());
-        
+        setNextSchedule(committeeSchedule, nextScheduleType.addNewScheduleMasterData());
+
         //For some reason Spring isn't always populating this service.  SIGH!
         if (getPrintXmlUtilService() == null) {
             printXmlUtilService = KraServiceLocator.getService(IacucPrintXmlUtilService.class);
         }
-        
+
         getPrintXmlUtilService().setMinutes(committeeSchedule, schedule);
         setAttendance(committeeSchedule, schedule);
         committeeSchedule.refreshReferenceObject("protocolSubmissions");
         List<org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase> submissions
-        = committeeSchedule.getLatestProtocolSubmissions();
+                = committeeSchedule.getLatestProtocolSubmissions();
         for (org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission : submissions) {
-            ProtocolSubmissionType protocolSubmissionType =
-            	schedule.addNewProtocolSubmission();
-            
+            ProtocolSubmissionType protocolSubmissionType
+                    = schedule.addNewProtocolSubmission();
+
             SubmissionDetailsType protocolSubmissionDetail = protocolSubmissionType.addNewSubmissionDetails();
-            ProtocolSummaryType protocolSummary =
-					protocolSubmissionType.addNewProtocolSummary();
-			ProtocolMasterDataType protocolMaster = protocolSummary.addNewProtocolMasterData();
-			String followUpAction = null;
-			String actionTypeCode = null;
+            ProtocolSummaryType protocolSummary
+                    = protocolSubmissionType.addNewProtocolSummary();
+            ProtocolMasterDataType protocolMaster = protocolSummary.addNewProtocolMasterData();
+            String followUpAction = null;
+            String actionTypeCode = null;
             ProtocolBase protocol = protocolSubmission.getProtocol();
-            String submissionStatus=protocol.getProtocolSubmission().getSubmissionStatusCode();
-            List<ProtocolActionBase> protocolActions=protocolSubmission.getProtocol().getProtocolActions();
-            
-            for (ProtocolActionBase protocolAction : protocolActions){
-            	actionTypeCode = protocolAction.getProtocolActionTypeCode();
-            	if(actionTypeCode.equals(EXPEDIT_ACTION_TYPE_CODE) || actionTypeCode.equals(EXEMPT_ACTION_TYPE_CODE)){
+            String submissionStatus = protocol.getProtocolSubmission().getSubmissionStatusCode();
+            List<ProtocolActionBase> protocolActions = protocolSubmission.getProtocol().getProtocolActions();
+
+            for (ProtocolActionBase protocolAction : protocolActions) {
+                actionTypeCode = protocolAction.getProtocolActionTypeCode();
+                if (actionTypeCode.equals(EXPEDIT_ACTION_TYPE_CODE) || actionTypeCode.equals(EXEMPT_ACTION_TYPE_CODE)) {
                     if (protocolAction.getFollowupActionCode() != null
                             && protocolAction.getFollowupActionCode().equals(FOLLOW_UP_ACTION_CODE)) {
                         followUpAction = protocolAction.getFollowupActionCode();
@@ -139,7 +137,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
             if ((actionTypeCode.equals(EXPEDIT_ACTION_TYPE_CODE) || actionTypeCode.equals(EXEMPT_ACTION_TYPE_CODE))
                     && followUpAction == null) {
                 continue;
-            } 
+            }
 
             protocolMaster.setProtocolNumber(protocol.getProtocolNumber());
             protocolMaster.setSequenceNumber(new BigInteger(String.valueOf(protocol.getSequenceNumber())));
@@ -177,7 +175,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
             if (protocolSubmission.getProtocolSubmissionType() != null) {
                 protocolSubmissionDetail.setSubmissionTypeDesc(protocolSubmission.getProtocolSubmissionType().getDescription());
             }
-            
+
             if (protocolSubmission.getProtocolReviewTypeCode() != null) {
                 protocolSubmissionDetail.setProtocolReviewTypeCode(new BigInteger(protocolSubmission.getProtocolReviewTypeCode()));
             }
@@ -212,20 +210,17 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
             }
             if (protocolSubmission.getYesVoteCount() != null) {
                 protocolSubmissionDetail.setYesVote(BigInteger.valueOf(protocolSubmission.getYesVoteCount()));
-            }
-            else {
+            } else {
                 protocolSubmissionDetail.setYesVote(BigInteger.ZERO);
             }
             if (protocolSubmission.getNoVoteCount() != null) {
                 protocolSubmissionDetail.setNoVote(BigInteger.valueOf(protocolSubmission.getNoVoteCount()));
-            }
-            else {
+            } else {
                 protocolSubmissionDetail.setNoVote(BigInteger.ZERO);
             }
             if (protocolSubmission.getAbstainerCount() != null) {
                 protocolSubmissionDetail.setAbstainerCount(BigInteger.valueOf(protocolSubmission.getAbstainerCount()));
-            }
-            else {
+            } else {
                 protocolSubmissionDetail.setAbstainerCount(BigInteger.ZERO);
             }
             protocolSubmissionDetail.setVotingComments(protocolSubmission.getVotingComments());
@@ -237,20 +232,18 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
             }
             setSubmissionCheckListinfo(protocolSubmission, protocolSubmissionDetail);
             setProtocolSubmissionReviewers(protocolSubmission, protocolSubmissionDetail);
-			List<ProtocolPersonBase> protocolPersons = protocolSubmission.getProtocol().getProtocolPersons();
+            List<ProtocolPersonBase> protocolPersons = protocolSubmission.getProtocol().getProtocolPersons();
             for (ProtocolPersonBase protocolPerson : protocolPersons) {
                 if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_PRINCIPAL_INVESTIGATOR)
                         || protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_CO_INVESTIGATOR)) {
                     InvestigatorType investigator = protocolSummary.addNewInvestigator();
                     getPrintXmlUtilService().setPersonRolodexType(protocolPerson, investigator.addNewPerson());
-                    if(protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_PRINCIPAL_INVESTIGATOR)){
+                    if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_PRINCIPAL_INVESTIGATOR)) {
                         investigator.setPIFlag(true);
                     }
                 }
             }
-            
-                       
-             
+
             List<ProtocolFundingSourceBase> vecFundingSource = protocol.getProtocolFundingSources();
             int fundingSourceTypeCode;
             String fundingSourceName, fundingSourceCode;
@@ -268,25 +261,26 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
                 }
             }
 
-            getPrintXmlUtilService().setProcotolMinutes(committeeSchedule,protocolSubmission,protocolSubmissionType);
-        
-        setOtherActionItems(committeeSchedule,schedule);}
+            getPrintXmlUtilService().setProcotolMinutes(committeeSchedule, protocolSubmission, protocolSubmissionType);
+
+            setOtherActionItems(committeeSchedule, schedule);
+        }
         return schedule;
 
     }
 
- 
     /**
      * This method is to set ProtocolActionType
+     *
      * @param protocolSubmission
      * @param protocolSubmissionDetail
      */
     private void setProtocolSubmissionAction(org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission,
             SubmissionDetailsType protocolSubmissionDetail) {
         ProtocolActionBase protcolAction = findProtocolActionForSubmission(protocolSubmission);
-        if(protcolAction!=null){
+        if (protcolAction != null) {
             protcolAction.refreshNonUpdateableReferences();
-           edu.mit.coeus.xml.iacuc.SubmissionDetailsType.ActionType actionTypeInfo = protocolSubmissionDetail.addNewActionType();
+            edu.mit.coeus.xml.iacuc.SubmissionDetailsType.ActionType actionTypeInfo = protocolSubmissionDetail.addNewActionType();
             actionTypeInfo.setActionId(BigInteger.valueOf(protcolAction.getActionId()));
             if (protcolAction.getProtocolActionTypeCode() != null) {
                 actionTypeInfo.setActionTypeCode(new BigInteger(protcolAction.getProtocolActionTypeCode()));
@@ -306,7 +300,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
             OtherBusiness otherBusinessType = schedule.addNewOtherBusiness();
             otherBusinessType.setActionItemNumber(BigInteger.valueOf(otherActionInfoBean.getActionItemNumber()));
             otherBusinessType.setActionItemDesc(otherActionInfoBean.getItemDescription());
-            if(otherActionInfoBean.getScheduleActItemType()!=null){
+            if (otherActionInfoBean.getScheduleActItemType() != null) {
                 otherBusinessType.setActionItemCode(new BigInteger(otherActionInfoBean.getScheduleActItemTypeCode()));
                 otherBusinessType.setActionItemCodeDesc(otherActionInfoBean.getScheduleActItemType().getDescription());
             }
@@ -320,17 +314,16 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
             if (sponsor != null) {
                 name = sponsor.getSponsorName();
             }
-        }else if (sourceType == 2) {
-            Unit unit  = getBusinessObjectService().findBySinglePrimaryKey(Unit.class, sourceCode);
+        } else if (sourceType == 2) {
+            Unit unit = getBusinessObjectService().findBySinglePrimaryKey(Unit.class, sourceCode);
             if (unit != null) {
                 name = unit.getUnitName();
             }
-        }else {
+        } else {
             name = sourceCode;
         }
         return name;
     }
-
 
     private void setProtocolSubmissionReviewers(org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission,
             SubmissionDetailsType protocolSubmissionDetail) {
@@ -348,7 +341,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
     }
 
     private void setPerson(ProtocolReviewer protocolReviewer,
-           ProtocolReviewerType protocolReviewerType) {
+            ProtocolReviewerType protocolReviewerType) {
         PersonType personType = protocolReviewerType.addNewPerson();
         boolean nonEmployeeFlag = protocolReviewer.getNonEmployeeFlag();
         if (!nonEmployeeFlag) {
@@ -356,7 +349,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
             KcPerson person = getKcPersonService().getKcPersonByPersonId(personId);
             getPrintXmlUtilService().setPersonXml(person, personType);
 
-        }else {
+        } else {
             Rolodex rolodex = protocolReviewer.getRolodex();
             ProtocolPersonRolodexBase protocolRolodex = getBusinessObjectService()
                     .findBySinglePrimaryKey(IacucProtocolPersonRolodex.class, rolodex.getRolodexId());
@@ -364,18 +357,16 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
         }
     }
 
-
     private void setSubmissionCheckListinfo(org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission,
             SubmissionDetailsType protocolSubmissionDetail) {
         SubmissionChecklistInfo submissionChecklistInfo = protocolSubmissionDetail.addNewSubmissionChecklistInfo();
-        String formattedCode = new String();
+        String formattedCode = "";
     }
-
 
     private ProtocolActionBase findProtocolActionForSubmission(org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission) {
         List<ProtocolActionBase> protocolActions = protocolSubmission.getProtocol().getProtocolActions();
         for (ProtocolActionBase protocolAction : protocolActions) {
-            if(protocolAction.getSubmissionNumber()!=null && protocolAction.getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())){
+            if (protocolAction.getSubmissionNumber() != null && protocolAction.getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())) {
                 return protocolAction;
             }
         }
@@ -406,8 +397,6 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
         }
     }
 
-
-
     public ScheduleMasterDataType setScheduleMasterData(CommitteeScheduleBase scheduleDetailsBean, ScheduleMasterDataType scheduleMasterDataType) {
         scheduleDetailsBean.refreshNonUpdateableReferences();
         String committeeId = scheduleDetailsBean.getParentCommittee().getCommitteeId();
@@ -418,8 +407,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
         scheduleMasterDataType.setScheduleStatusDesc(scheduleDetailsBean.getScheduleStatus().getDescription());
         if (scheduleDetailsBean.getScheduledDate() != null) {
             scheduleMasterDataType.setScheduledDate(getDateTimeService().getCalendar(scheduleDetailsBean.getScheduledDate()));
-        }
-        else {
+        } else {
             scheduleMasterDataType.setScheduledDate(getDateTimeService().getCurrentCalendar());
         }
         try {
@@ -451,8 +439,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
             if (scheduleDetailsBean.getAgendaProdRevDate() != null) {
                 scheduleMasterDataType.setAgendaProdRevDate(getDateTimeService().getCalendar(scheduleDetailsBean.getAgendaProdRevDate()));
             }
-        }
-        catch (ParseException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
         }
 
@@ -464,24 +451,24 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
         return scheduleMasterDataType;
     }
 
-    public void setNextSchedule(CommitteeScheduleBase scheduleDetailsBean,ScheduleMasterDataType scheduleMasterData) {
+    public void setNextSchedule(CommitteeScheduleBase scheduleDetailsBean, ScheduleMasterDataType scheduleMasterData) {
         CommitteeScheduleBase nextSchedule = getNextOrPreviousSchedule(scheduleDetailsBean, true);
-        if (nextSchedule != null){
+        if (nextSchedule != null) {
             setScheduleMasterData(nextSchedule, scheduleMasterData);
         }
     }
 
-    public void setPreviousSchedule(CommitteeScheduleBase scheduleDetailsBean,ScheduleMasterDataType scheduleMasterDataType) {
+    public void setPreviousSchedule(CommitteeScheduleBase scheduleDetailsBean, ScheduleMasterDataType scheduleMasterDataType) {
         CommitteeScheduleBase prevSchedule = getNextOrPreviousSchedule(scheduleDetailsBean, true);
-        if (prevSchedule != null){
+        if (prevSchedule != null) {
             setScheduleMasterData(prevSchedule, scheduleMasterDataType);
         }
     }
 
     /**
-     * 
+     *
      * This method returns next or previous schedule depending on the nextFlag
-     * 
+     *
      * @param scheduleDetailsBean
      * @param nextFlag
      * @return
@@ -496,13 +483,11 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
             for (int i = 0; i < size; i++) {
                 CommitteeScheduleBase schedule = schedules.get(i);
                 if (schedule.getScheduleId().equals(scheduleDetailsBean.getScheduleId())) {
-                    if (nextFlag && i < (size -1)) {
+                    if (nextFlag && i < (size - 1)) {
                         return schedules.get(i + 1);
-                    }
-                    else if (!nextFlag && i > 0) {
+                    } else if (!nextFlag && i > 0) {
                         return schedules.get(i - 1);
-                    }
-                    else {
+                    } else {
                         return null;
                     }
                 }
@@ -511,40 +496,36 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
         return null;
     }
 
-
     /**
      * Sets the committeeMembershipService attribute value.
-     * 
+     *
      * @param committeeMembershipService The committeeMembershipService to set.
      */
     public void setCommitteeMembershipService(CommitteeMembershipServiceBase committeeMembershipService) {
         this.committeeMembershipService = committeeMembershipService;
     }
 
-
     /**
      * Gets the committeeMembershipService attribute.
-     * 
+     *
      * @return Returns the committeeMembershipService.
      */
     public CommitteeMembershipServiceBase getCommitteeMembershipService() {
         return committeeMembershipService;
     }
 
-
     /**
      * Gets the kcPersonService attribute.
-     * 
+     *
      * @return Returns the kcPersonService.
      */
     public KcPersonService getKcPersonService() {
         return kcPersonService;
     }
 
-
     /**
      * Sets the kcPersonService attribute value.
-     * 
+     *
      * @param kcPersonService The kcPersonService to set.
      */
     public void setKcPersonService(KcPersonService kcPersonService) {
@@ -555,10 +536,9 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
         return this.printXmlUtilService;
     }
 
-
     /**
      * Sets the irbPrintXmlUtilService attribute value.
-     * 
+     *
      * @param irbPrintXmlUtilService The irbPrintXmlUtilService to set.
      */
     public void setPrintXmlUtilService(IacucPrintXmlUtilService PrintXmlUtilService) {

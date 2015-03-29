@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.iacuc.procedures;
 
@@ -22,22 +38,22 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.iacuc.IacucPersonTraining;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 
-public class IacucProcedurePersonResponsible extends KraPersistableBusinessObjectBase { 
-    
+public class IacucProcedurePersonResponsible extends KraPersistableBusinessObjectBase {
+
     private static final long serialVersionUID = 1L;
 
-    private Integer iacucProcedurePersonResponsibleId; 
-    private Integer iacucProtocolStudyGroupId; 
+    private Integer iacucProcedurePersonResponsibleId;
+    private Integer iacucProtocolStudyGroupId;
     private Integer protocolPersonId;
-    
+
     private IacucProtocolPerson protocolPerson;
     private List<String> trainingDetails;
-    
-    private IacucProtocolStudyGroup iacucProtocolStudyGroup; 
 
-    public IacucProcedurePersonResponsible() { 
-    } 
-    
+    private IacucProtocolStudyGroup iacucProtocolStudyGroup;
+
+    public IacucProcedurePersonResponsible() {
+    }
+
     public Integer getIacucProcedurePersonResponsibleId() {
         return iacucProcedurePersonResponsibleId;
     }
@@ -51,27 +67,27 @@ public class IacucProcedurePersonResponsible extends KraPersistableBusinessObjec
     }
 
     public void resetPersistenceState() {
-        this.setIacucProcedurePersonResponsibleId(null);        
+        this.setIacucProcedurePersonResponsibleId(null);
     }
 
     public String getTrainingDetailsString() {
-        String details = new String();
+        StringBuilder details = new StringBuilder();
         boolean first = true;
-        for(String detail: getTrainingDetails()) {
+        for (String detail : getTrainingDetails()) {
             if (!first) {
-                details += "<br/>";
+                details.append("<br/>");
             }
-            details += detail;
+            details.append(detail);
             first = false;
         }
-        return details;
+        return details.toString();
     }
-    
+
     public List<String> getTrainingDetails() {
         this.trainingDetails = new ArrayList<String>();
         List<IacucPersonTraining> iacucPersonTrainings = getProtocolPerson().getIacucPersonTrainings();
         if (iacucPersonTrainings != null) {
-            for(IacucPersonTraining iacucPersonTraining : iacucPersonTrainings) {
+            for (IacucPersonTraining iacucPersonTraining : iacucPersonTrainings) {
                 StringBuffer trainingInfo = new StringBuffer();
                 trainingInfo.append("Training : " + iacucPersonTraining.getPersonTraining().getTraining().getDescription());
                 trainingInfo.append("\r\nSpecies : " + iacucPersonTraining.getIacucSpecies().getSpeciesName());
@@ -91,7 +107,9 @@ public class IacucProcedurePersonResponsible extends KraPersistableBusinessObjec
         return getProtocolPerson().getPersonName();
     }
 
-    /**  {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

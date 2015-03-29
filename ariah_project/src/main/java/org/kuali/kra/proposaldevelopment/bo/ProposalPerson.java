@@ -283,7 +283,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
         roleChanged = false;
         isInvestigator = false;
         delete = false;
-        setFullName(new String());
+        setFullName("");
     }
 
     /**

@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.iacuc.committee.print.service.impl;
 
@@ -45,7 +61,7 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
 
     private DateTimeService dateTimeService;
     private ReviewCommentsService reviewCommentsService;
-    
+
     public void setPersonXml(KcPerson person, PersonType personType) {
         personType.setPersonID(person.getPersonId());
         personType.setFullname(person.getFullName());
@@ -81,13 +97,11 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
             IacucProtocolPersonRolodex rolodex = getBusinessObjectService().findBySinglePrimaryKey(IacucProtocolPersonRolodex.class,
                     protocolPerson.getRolodexId());
             setPersonXml(rolodex, personType);
-        }
-        else {
+        } else {
             KcPerson kcPerson = protocolPerson.getPerson();
             setPersonXml(kcPerson, personType);
         }
     }
-
 
     public void setPersonXml(ProtocolPersonRolodexBase rolodex, PersonType personType) {
         personType.setPersonID(rolodex.getRolodexId().toString());
@@ -111,7 +125,7 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
 
     /**
      * This method is to set ProtocolActionType
-     * 
+     *
      * @param protocolSubmission
      * @param protocolSubmissionDetail
      */
@@ -144,17 +158,16 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
     public void setSubmissionCheckListinfo(org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission,
             SubmissionDetailsType protocolSubmissionDetail) {
         edu.mit.coeus.xml.iacuc.SubmissionDetailsType.SubmissionChecklistInfo submissionChecklistInfo = protocolSubmissionDetail.addNewSubmissionChecklistInfo();
-        String formattedCode = new String();
     }
 
     public void setMinutes(CommitteeScheduleBase scheduleDetailsBean, ScheduleType schedule) {
         List<CommitteeScheduleMinuteBase> vecMinutes = scheduleDetailsBean.getCommitteeScheduleMinutes();
         if (!vecMinutes.isEmpty()) {
             for (CommitteeScheduleMinuteBase minuteEntryInfoBean : vecMinutes) {
-                if (!minuteEntryInfoBean.getMinuteEntryTypeCode().equals("3") && 
-                        !minuteEntryInfoBean.getPrivateCommentFlag()) {
-                    if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)){
-                        if(!minuteEntryInfoBean.getPrivateCommentFlag()&& minuteEntryInfoBean.isFinalFlag()){
+                if (!minuteEntryInfoBean.getMinuteEntryTypeCode().equals("3")
+                        && !minuteEntryInfoBean.getPrivateCommentFlag()) {
+                    if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)) {
+                        if (!minuteEntryInfoBean.getPrivateCommentFlag() && minuteEntryInfoBean.isFinalFlag()) {
                             MinuteType mt = schedule.insertNewMinutes(schedule.getMinutesArray().length);
                             addMinute(scheduleDetailsBean, minuteEntryInfoBean, mt);
                         }
@@ -172,7 +185,7 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
         minutesType.setEntryTypeDesc(committeeScheduleMinute.getMinuteEntryType().getDescription());
         minutesType
                 .setProtocolContingencyCode(committeeScheduleMinute.getProtocolContingencyCode() != null ? committeeScheduleMinute
-                        .getProtocolContingencyCode() : null);
+                                .getProtocolContingencyCode() : null);
         minutesType.setMinuteEntry(committeeScheduleMinute.getMinuteEntry());
         minutesType.setPrivateCommentFlag(committeeScheduleMinute.getPrivateCommentFlag());
         committeeScheduleMinute.refreshReferenceObject("protocol");
@@ -180,8 +193,7 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
             String otherItemDescription = getOtherItemDescription(committeeSchedule, committeeScheduleMinute);
             if (otherItemDescription != null) {
                 minutesType.setProtocolNumber(otherItemDescription);
-            }
-            else {
+            } else {
                 minutesType.setProtocolNumber(committeeScheduleMinute.getProtocol().getProtocolNumber());
             }
         }
@@ -205,7 +217,7 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
     }
 
     public void setProcotolMinutes(CommitteeScheduleBase committeeSchedule,
-            org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission, ProtocolSubmissionType protocolSubmissionType) {       
+            org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission, ProtocolSubmissionType protocolSubmissionType) {
         List<CommitteeScheduleMinuteBase> minutes = committeeSchedule.getCommitteeScheduleMinutes();
         for (CommitteeScheduleMinuteBase minuteEntryInfoBean : minutes) {
             ProtocolBase protocol = minuteEntryInfoBean.getProtocol();
@@ -213,63 +225,65 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
                 if (protocol.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
                         && protocol.getProtocolSubmission() != null
                         && protocol.getProtocolSubmission().getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())) {
-                    if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)){
-                        if(!minuteEntryInfoBean.getPrivateCommentFlag()&& minuteEntryInfoBean.isFinalFlag()){
-                        addMinute(committeeSchedule, minuteEntryInfoBean, protocolSubmissionType.addNewMinutes());
+                    if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)) {
+                        if (!minuteEntryInfoBean.getPrivateCommentFlag() && minuteEntryInfoBean.isFinalFlag()) {
+                            addMinute(committeeSchedule, minuteEntryInfoBean, protocolSubmissionType.addNewMinutes());
                         }
                     }
-                    
+
                 }
             }
         }
     }
 
     public void setProcotolSubmissionMinutes(CommitteeScheduleBase committeeSchedule,
-            ProtocolSubmissionBase protocolSubmission, Submissions submissionsType) {      
+            ProtocolSubmissionBase protocolSubmission, Submissions submissionsType) {
         List<CommitteeScheduleMinuteBase> minutes = committeeSchedule.getCommitteeScheduleMinutes();
         for (CommitteeScheduleMinuteBase minuteEntryInfoBean : minutes) {
             ProtocolBase protocol = minuteEntryInfoBean.getProtocol();
             if (protocol != null && protocol.getProtocolNumber() != null) {
                 if (protocol.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
-                      && protocol.getProtocolSubmission() != null
+                        && protocol.getProtocolSubmission() != null
                         && protocol.getProtocolSubmission().getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())) {
-                    if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)){
+                    if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)) {
                         addMinute(committeeSchedule, minuteEntryInfoBean, submissionsType.addNewMinutes());
                     }
-                    
+
                 }
-            }  
+            }
         }
     }
+
     /**
-     * 
+     *
      * This method for set the review minute in correspondence Letter.
+     *
      * @param committeeSchedule
      * @param protocolSubmission
      * @param submissionsType
      */
     public void setProtocolReviewMinutes(CommitteeScheduleBase committeeSchedule,
-            org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission, Submissions submissionsType) {      
+            org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission, Submissions submissionsType) {
         List<CommitteeScheduleMinuteBase> minutes = committeeSchedule.getCommitteeScheduleMinutes();
         for (CommitteeScheduleMinuteBase minuteEntryInfoBean : minutes) {
             ProtocolBase protocol = minuteEntryInfoBean.getProtocol();
             if (protocol != null && protocol.getProtocolNumber() != null) {
                 if (protocol.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
-                      && protocol.getProtocolSubmission() != null
+                        && protocol.getProtocolSubmission() != null
                         && protocol.getProtocolSubmission().getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())) {
-                    if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)){
+                    if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)) {
                         addMinute(committeeSchedule, minuteEntryInfoBean, submissionsType.addNewMinutes());
                     }
-                    
+
                 }
-            }  
+            }
         }
     }
 
     /**
-     * 
+     *
      * Sets the ReviewCommentsService attribute value.
-     * 
+     *
      * @param reviewCommentsService The ReviewCommentsService to set.
      */
     public void setReviewCommentsService(ReviewCommentsService reviewCommentsService) {
@@ -278,7 +292,7 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
 
     /**
      * Gets the businessObjectService attribute.
-     * 
+     *
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -287,7 +301,7 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
 
     /**
      * Sets the dateTimeService attribute value.
-     * 
+     *
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -296,11 +310,11 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
 
     /**
      * Gets the dateTimeService attribute.
-     * 
+     *
      * @return Returns the dateTimeService.
      */
     public DateTimeService getDateTimeService() {
         return dateTimeService;
-    }    
-    
+    }
+
 }
