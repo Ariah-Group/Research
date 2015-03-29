@@ -49,11 +49,12 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.kuali.kra.infrastructure.Constants;
 
 /**
  *
  * This class is to provide the 'protocol' action pre validation and post
- * update. pre-validation include canperform and authorization check.
+ * update. pre-validation include can perform and authorization check.
  * post-update will update protocol status or submission status.
  */
 public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImplBase implements IacucProtocolActionService {
@@ -74,8 +75,6 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImplBas
     protected static final int PERMISSIONS_SPECIAL_RULE = 5;
 
     private static final String PERFORMACTION_FILE = "org/kuali/kra/iacuc/drools/rules/canPerformIacucProtocolActionRules.drl";
-
-    private static final String KC_IACUC = "KC-IACUC";
 
     private static final String[] actionCodes = {
         IacucProtocolActionType.SUBMITTED_TO_IACUC,
@@ -117,6 +116,7 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImplBas
         IacucProtocolActionType.TERMINATED,
         IacucProtocolActionType.SUSPENDED};
 
+    @Override
     public String getPerformActionFileNameHook() {
         return PERFORMACTION_FILE;
     }
@@ -124,16 +124,18 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImplBas
     /*
      * This method is to check if user has permission in lead unit
      */
+    @Override
     protected boolean hasPermissionLeadUnit(String actionTypeCode, ProtocolBase protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
         rulesList.get(PERMISSIONS_LEADUNIT_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(),
-                KC_IACUC, PermissionConstants.MODIFY_ANY_IACUC_PROTOCOL) : false;
+                Constants.MODULE_NAMESPACE_IACUC, PermissionConstants.MODIFY_ANY_IACUC_PROTOCOL) : false;
     }
 
     /**
      * This method is to check if user has permission to submit
      */
+    @Override
     protected boolean hasPermissionToSubmit(String actionTypeCode, ProtocolBase protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
         rulesList.get(PERMISSIONS_SUBMIT_RULE).executeRules(rightMapper);
@@ -141,6 +143,7 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImplBas
                 .getRightId()) : false;
     }
 
+    @Override
     public void resetProtocolStatus(ProtocolActionBase protocolActionBo, ProtocolBase protocol) {
         IacucProtocolAction protocolAction = (IacucProtocolAction) protocolActionBo;
         if (protocolAction.getPrevProtocolStatusCode() != null) {
@@ -209,5 +212,4 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImplBas
     protected String[] getActionCodesArrayHook() {
         return this.actionCodes;
     }
-
 }

@@ -54,15 +54,6 @@ import java.util.List;
 public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends SpecialReviewExemption>> implements Serializable {
 
     /**
-     * Namespace code for Protocol linking parameters.
-     */
-    //protected static final String NAMESPACE_CODE = "KC-PROTOCOL";
-    
-    /**
-     * Namespace code for IACUC Protocol linking parameters.
-     */
-    protected static final String IACUC_NAMESPACE_CODE = "KC-IACUC";
-    /**
      * Parameter code for Protocol linking parameters.
      */
     protected static final String PARAMETER_CODE = "Document";
