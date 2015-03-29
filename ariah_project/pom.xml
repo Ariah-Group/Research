@@ -3,15 +3,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.ariah.research</groupId>
+    <groupId>org.ariahgroup.research</groupId>
     <artifactId>research</artifactId>
     <packaging>war</packaging>
     <name>Ariah Research</name>
-    <version>1.0.0</version>
+    <version>5.3.0</version>
     <description>
-        The Ariah Research (AR) project is building a comprehensive system to manage the complexities of research
-        administration that fully addresses the needs from the faculty researcher through grants administration to
-        federal funding agencies.
+        The Ariah Research (AR) project is building a comprehensive electronic system to manage the complexities of research
+        administration.
     </description>
     <url>http://ariahgroup.org/research</url>
     <organization>
