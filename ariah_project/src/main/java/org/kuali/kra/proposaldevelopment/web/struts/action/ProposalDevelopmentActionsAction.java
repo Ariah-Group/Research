@@ -123,7 +123,6 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.*;
 import org.ariahgroup.research.service.UnitService;
-import org.kuali.kra.award.contacts.AwardUnitContact;
 
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;

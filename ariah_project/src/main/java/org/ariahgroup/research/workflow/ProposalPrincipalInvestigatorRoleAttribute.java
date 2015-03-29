@@ -20,8 +20,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -83,7 +81,7 @@ public class ProposalPrincipalInvestigatorRoleAttribute extends GenericRoleAttri
 
                 // do NULL check to ensure they are a PERSON, not a Rolodex
                 if (proposalPerson.getPersonId() != null && !proposalPerson.getPersonId().equals(routedByUserPrincipalId)) {
-                        members.add(new PrincipalId(proposalPerson.getPersonId()));
+                    members.add(new PrincipalId(proposalPerson.getPersonId()));
                 }
             }
         }
