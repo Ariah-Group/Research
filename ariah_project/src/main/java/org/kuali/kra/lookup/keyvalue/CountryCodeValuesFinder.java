@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.lookup.keyvalue;
 
@@ -30,28 +46,28 @@ import java.util.List;
 
 public class CountryCodeValuesFinder extends UifKeyValuesFinderBase {
 
-        private String getDefaultCountryCode() {
-            String postalCountryCode = CoreFrameworkServiceLocator.getParameterService().getParameterValueAsString(KRADConstants.KNS_NAMESPACE,
-            KRADConstants.DetailTypes.ALL_DETAIL_TYPE, KRADConstants.SystemGroupParameterNames.DEFAULT_COUNTRY);
-            return postalCountryCode;
-        }
+    private String getDefaultCountryCode() {
+        String postalCountryCode = CoreFrameworkServiceLocator.getParameterService().getParameterValueAsString(KRADConstants.KNS_NAMESPACE,
+                KRADConstants.DetailTypes.ALL_DETAIL_TYPE, KRADConstants.SystemGroupParameterNames.DEFAULT_COUNTRY);
+        return postalCountryCode;
+    }
 
     @Override
     public List<KeyValue> getKeyValues() {
-            CountryService countryService = KraServiceLocator.getService(CountryService.class);
-            List<Country> countries = countryService.findAllCountries();
-            Country defaultCountry = countryService.getCountry(getDefaultCountryCode());;
-            List<KeyValue> keyValues = new ArrayList<KeyValue>();
-            keyValues.add(new ConcreteKeyValue("", "select: "));
-            if (defaultCountry != null) keyValues.add(new ConcreteKeyValue(defaultCountry.getAlternateCode(), defaultCountry.getName()));
-            for (Iterator<Country> iter = countries.iterator(); iter.hasNext();) {
-                Country country = (Country) iter.next();
-                keyValues.add(new ConcreteKeyValue(country.getAlternateCode(), country.getName())); 
-             }
-            return keyValues;
-            
-            
+        CountryService countryService = KraServiceLocator.getService(CountryService.class);
+        List<Country> countries = countryService.findAllCountries();
+        Country defaultCountry = countryService.getCountry(getDefaultCountryCode());
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "select: "));
+        if (defaultCountry != null) {
+            keyValues.add(new ConcreteKeyValue(defaultCountry.getAlternateCode(), defaultCountry.getName()));
         }
-    
+        for (Iterator<Country> iter = countries.iterator(); iter.hasNext();) {
+            Country country = (Country) iter.next();
+            keyValues.add(new ConcreteKeyValue(country.getAlternateCode(), country.getName()));
+        }
+        return keyValues;
+
+    }
 
 }

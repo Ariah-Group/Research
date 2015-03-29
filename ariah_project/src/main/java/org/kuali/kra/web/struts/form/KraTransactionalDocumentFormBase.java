@@ -371,7 +371,7 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
             if (!checkBoxFound && StringUtils.startsWithIgnoreCase(propertyName, starter)
                     && StringUtils.containsIgnoreCase(propertyName, form.getQuestionnaireFieldEnds()[j])
                     && StringUtils.endsWithIgnoreCase(propertyName, form.getQuestionnaireFieldEnds()[j])) {
-                populateForProperty(propertyName, null, parameterMap);;
+                populateForProperty(propertyName, null, parameterMap);
                 checkBoxFound = true;
                 break;
             }
