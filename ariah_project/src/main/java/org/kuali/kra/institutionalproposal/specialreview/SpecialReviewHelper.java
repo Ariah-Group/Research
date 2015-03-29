@@ -65,7 +65,7 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<InstitutionalPr
     
     @Override
     protected boolean isIrbProtocolLinkingEnabledForModule() {
-        return getParameterService().getParameterValueAsBoolean(NAMESPACE_CODE, PARAMETER_CODE, PROTOCOL_INSTITUTIONAL_PROPOSAL_LINKING_ENABLED_PARAMETER);
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROTOCOL, PARAMETER_CODE, PROTOCOL_INSTITUTIONAL_PROPOSAL_LINKING_ENABLED_PARAMETER);
     }
 
     @Override
