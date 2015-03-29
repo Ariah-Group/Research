@@ -79,17 +79,16 @@ public abstract class ProtocolFundingSourceAuditRuleBase extends ResearchDocumen
 //        
 //        return isValid;
 //    }
-    private boolean getProtocolContainsFundingSource(ProtocolBase protocol, String fundingSourceTypeCode) {
-        boolean contains = false;
-
-        for (ProtocolFundingSourceBase protocolFundingSource : protocol.getProtocolFundingSources()) {
-            if (StringUtils.equals(fundingSourceTypeCode, protocolFundingSource.getFundingSourceTypeCode())) {
-                contains = true;
-                break;
-            }
-        }
-
-        return contains;
-    }
-
+//    private boolean getProtocolContainsFundingSource(ProtocolBase protocol, String fundingSourceTypeCode) {
+//        boolean contains = false;
+//
+//        for (ProtocolFundingSourceBase protocolFundingSource : protocol.getProtocolFundingSources()) {
+//            if (StringUtils.equals(fundingSourceTypeCode, protocolFundingSource.getFundingSourceTypeCode())) {
+//                contains = true;
+//                break;
+//            }
+//        }
+//
+//        return contains;
+//    }
 }

@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.proposaldevelopment.specialreview;
 
@@ -38,9 +54,10 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
     private static final String PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER = "irb.protocol.development.proposal.linking.enabled";
     private static final String IACUC_PROTOCOL_PROPOSAL_DEVELOPMENT_LINKING_ENABLED_PARAMETER = "iacuc.protocol.proposal.development.linking.enabled";
     private ProposalDevelopmentForm form;
-    
+
     /**
      * Constructs a SpecialReviewHelper.
+     *
      * @param form the container form
      */
     public SpecialReviewHelper(ProposalDevelopmentForm form) {
@@ -53,10 +70,10 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
     protected boolean hasModifySpecialReviewPermission(String principalId) {
         return BooleanUtils.toBoolean((String) form.getEditingMode().get("modifyProposal"));
     }
-    
+
     @Override
     protected boolean isIrbProtocolLinkingEnabledForModule() {
-        return getParameterService().getParameterValueAsBoolean(NAMESPACE_CODE, PARAMETER_CODE, PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROTOCOL, PARAMETER_CODE, PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
     }
 
     @Override
@@ -71,7 +88,7 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
 
     @Override
     public boolean isCanCreateIrbProtocol() {
-        boolean canCreateIrbProtocol=false;
+        boolean canCreateIrbProtocol = false;
         // check for Protocol creation permission for IRB Protocol
         ProposalTask irbTask = new ProposalTask(ProposalTask.CREATE_IRB_PROTOCOL_FROM_PROPOSAL, form.getProposalDevelopmentDocument());
         canCreateIrbProtocol = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), irbTask);
@@ -80,7 +97,7 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
 
     @Override
     public boolean isCanCreateIacucProtocol() {
-        boolean canCreateIacucProtocol=false;
+        boolean canCreateIacucProtocol = false;
         // check for Protocol creation permission for IACUC Protocol
         ProposalTask iacucTask = new ProposalTask(ProposalTask.CREATE_IACUC_PROTOCOL_FROM_PROPOSAL, form.getProposalDevelopmentDocument());
         canCreateIacucProtocol = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), iacucTask);
@@ -93,25 +110,21 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
 
     private String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId();
-   }
+    }
 
-    public void populatePropSpecialReviewApproverView(String summarySpecialReview)
-    {
+    public void populatePropSpecialReviewApproverView(String summarySpecialReview) {
 
-        if (!StringUtils.isEmpty(summarySpecialReview) )
-       {
-           String [] splitString =StringUtils.split(summarySpecialReview, ",");
-           List<ProposalSpecialReview> propSpecialReviewFilteredList = new ArrayList<ProposalSpecialReview>();
-            for(ProposalSpecialReview proposalSpecialReview : form.getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews())
-            {
-                for(int i=0; i<splitString.length; i++ ) {
-                    if ( proposalSpecialReview.getSpecialReviewTypeCode().equals(splitString[i] ) )
-                    {
+        if (!StringUtils.isEmpty(summarySpecialReview)) {
+            String[] splitString = StringUtils.split(summarySpecialReview, ",");
+            List<ProposalSpecialReview> propSpecialReviewFilteredList = new ArrayList<ProposalSpecialReview>();
+            for (ProposalSpecialReview proposalSpecialReview : form.getProposalDevelopmentDocument().getDevelopmentProposal().getPropSpecialReviews()) {
+                for (int i = 0; i < splitString.length; i++) {
+                    if (proposalSpecialReview.getSpecialReviewTypeCode().equals(splitString[i])) {
                         propSpecialReviewFilteredList.add(proposalSpecialReview);
                     }
                 }
             }
             form.getProposalDevelopmentDocument().getDevelopmentProposal().setPropSpecialReviews(propSpecialReviewFilteredList);
-       }
-   }
+        }
+    }
 }

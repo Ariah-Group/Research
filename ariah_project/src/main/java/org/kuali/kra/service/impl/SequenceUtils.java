@@ -231,10 +231,9 @@ public class SequenceUtils {
 //    private boolean isFieldASequenceAssociate(Field field) {
 //        return isFieldASpecifiedType(field, SequenceAssociate.class);
 //    }
-    private boolean isFieldASpecifiedType(Field field, Class<?> type) {
-        return type.isAssignableFrom(field.getType());
-    }
-
+//    private boolean isFieldASpecifiedType(Field field, Class<?> type) {
+//        return type.isAssignableFrom(field.getType());
+//    }
     private Object getSequenceAssociateReference(SequenceAssociate<?> parent, Method getter) {
         return this.getProperty(parent, getter);
     }

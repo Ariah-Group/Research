@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.budget.distributionincome;
 
@@ -32,15 +48,17 @@ import java.util.List;
 import static org.kuali.rice.kns.util.KNSGlobalVariables.getAuditErrorMap;
 
 /**
- * 
+ *
  * This class handels the budget cost share rules.
  */
 public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase implements DocumentAuditRule {
+
     public static final String BUDGET_COST_SHARE_ERROR_KEY = "budgetCostShareAuditErrors";
-    
+
     /**
-     * 
-     * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
+     *
+     * @see
+     * org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
      */
     public boolean processRunAuditBusinessRules(Document document) {
         Budget budget = ((BudgetDocument) document).getBudget();
@@ -52,7 +70,7 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
 
         List<BudgetCostShare> costShares = budget.getBudgetCostShares();
         boolean retval = true;
-        String[] params = { "Cost Sharing" };
+        String[] params = {"Cost Sharing"};
 
         // Forces full allocation of cost sharing
         if (budget.getUnallocatedCostSharing().isNonZero() && budget.isCostSharingEnforced()) {
@@ -61,18 +79,18 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
                 getAuditErrors()
                         .add(
                                 new AuditError("document.budget.budgetCostShare",
-                                    KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
-                                    Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
-                                    params));
+                                        KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
+                                        Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
+                                        params));
 
             }
             for (int i = 0; i < costShares.size(); i++) {
                 getAuditErrors()
                         .add(
                                 new AuditError("document.budget.budgetCostShare[" + i + "].shareAmount",
-                                    KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
-                                    Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
-                                    params));
+                                        KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_UNALLOCATED_NOT_ZERO,
+                                        Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
+                                        params));
             }
         }
         String source = null;
@@ -93,9 +111,9 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
                 getAuditErrors()
                         .add(
                                 new AuditError("document.budget.budgetCostShare[" + i + "].sourceAccount",
-                                    KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING,
-                                    Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
-                                    params));
+                                        KeyConstants.AUDIT_ERROR_BUDGET_DISTRIBUTION_SOURCE_MISSING,
+                                        Constants.BUDGET_DISTRIBUTION_AND_INCOME_PAGE + "." + Constants.BUDGET_COST_SHARE_PANEL_ANCHOR,
+                                        params));
             }
             int numberOfProjectPeriods = -1;
             if (budget.getBudgetPeriods() != null) {
@@ -116,7 +134,7 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
 
     /**
      * This method is a convenience method for obtaining audit errors.
-     * 
+     *
      * @return List of AuditError instances
      */
     private List<AuditError> getAuditErrors() {
@@ -125,17 +143,17 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
 
     /**
      * This method is a convenience method for obtaining audit warnings.
-     * 
+     *
      * @return List of AuditError instances
      */
-    private List<AuditError> getAuditWarnings() {
-        return getAuditProblems(Constants.AUDIT_WARNINGS);
-    }
-
+//    private List<AuditError> getAuditWarnings() {
+//        return getAuditProblems(Constants.AUDIT_WARNINGS);
+//    }
     /**
-     * This method should only be called if an audit error is intending to be added because it will actually add a
+     * This method should only be called if an audit error is intending to be
+     * added because it will actually add a
      * <code>{@link List<AuditError>}</code> to the auditErrorMap.
-     * 
+     *
      * @return List of AuditError instances
      */
     private List<AuditError> getAuditProblems(String problemType) {
@@ -144,8 +162,7 @@ public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase 
         if (!getAuditErrorMap().containsKey(BUDGET_COST_SHARE_ERROR_KEY)) {
             getAuditErrorMap().put(BUDGET_COST_SHARE_ERROR_KEY,
                     new AuditCluster(Constants.BUDGET_COST_SHARE_PANEL_NAME, auditErrors, problemType));
-        }
-        else {
+        } else {
             auditErrors = ((AuditCluster) getAuditErrorMap().get(BUDGET_COST_SHARE_ERROR_KEY)).getAuditErrorList();
         }
 
