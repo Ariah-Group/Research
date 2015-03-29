@@ -335,7 +335,7 @@ public class RROtherProjectInfoV1_3Generator extends
             setHumanSubjectIRBReviewIndicator(proposalSpecialReview,
                     humanSubjectsSupplement);
         }
-        Boolean paramValue = KraServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean("KC-PROTOCOL", "Document", "irb.protocol.development.proposal.linking.enabled");
+        Boolean paramValue = KraServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROTOCOL, "Document", "irb.protocol.development.proposal.linking.enabled");
         if (paramValue) {
             if (proposalSpecialReview.getSpecialReviewExemptions() != null && !proposalSpecialReview.getSpecialReviewExemptions().isEmpty()) {
                 humanSubjectsSupplement.setExemptFedReg(YesNoDataType.Y_YES);

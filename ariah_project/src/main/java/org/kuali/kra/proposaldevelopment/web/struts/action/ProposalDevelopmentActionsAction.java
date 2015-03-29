@@ -597,7 +597,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         // reject the document using the service.
         //ProposalDevelopmentDocument pDoc = (ProposalDevelopmentDocument) kualiDocumentFormBase.getDocument();
 
-            //ProposalDevelopmentRejectionBean bean = ((ProposalDevelopmentForm)form).getProposalDevelopmentRejectionBean();
+        //ProposalDevelopmentRejectionBean bean = ((ProposalDevelopmentForm)form).getProposalDevelopmentRejectionBean();
         //ProposalHierarchyService phService = KraServiceLocator.getService(ProposalHierarchyService.class);
         //phService.rejectProposalDevelopmentDocument(pDoc.getDevelopmentProposal().getProposalNumber(), bean.getRejectReason(), GlobalVariables
         //      .getUserSession().getPrincipalId());
@@ -993,7 +993,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
 
         boolean isIPProtocolLinkingEnabled = getParameterService().getParameterValueAsBoolean(
-                "KC-PROTOCOL", "Document", "irb.protocol.institute.proposal.linking.enabled");
+                Constants.MODULE_NAMESPACE_PROTOCOL, "Document", "irb.protocol.institute.proposal.linking.enabled");
         List<ProposalSpecialReview> specialReviews = proposalDevelopmentDocument.getDevelopmentProposal().getPropSpecialReviews();
         if (!isIPProtocolLinkingEnabled || applyRules(new SaveSpecialReviewLinkEvent<ProposalSpecialReview>(proposalDevelopmentDocument, specialReviews))) {
             if (!(autogenerateInstitutionalProposal() && "X".equals(proposalDevelopmentForm.getResubmissionOption()))) {
@@ -1607,7 +1607,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                         pdForm.getInstitutionalProposalToVersion());
 
                 boolean isIPProtocolLinkingEnabled = getParameterService().getParameterValueAsBoolean(
-                        "KC-PROTOCOL", "Document", "irb.protocol.institute.proposal.linking.enabled");
+                        Constants.MODULE_NAMESPACE_PROTOCOL, "Document", "irb.protocol.institute.proposal.linking.enabled");
                 Long institutionalProposalId = getActiveProposalId(instProp.getProposalNumber());
                 persistProposalAdminDetails(pdDoc.getDevelopmentProposal().getProposalNumber(), institutionalProposalId);
                 persistSpecialReviewProtocolFundingSourceLink(institutionalProposalId, isIPProtocolLinkingEnabled);

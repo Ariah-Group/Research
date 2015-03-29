@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.protocol.onlinereview;
 
@@ -36,9 +52,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class encapsulates the notion of a protocol review. Essentially 
- * a join between protocol, submission, and a reviewer.  The ProtocolReview
- * is created by the IRB Admin as request.
+ * This class encapsulates the notion of a protocol review. Essentially a join
+ * between protocol, submission, and a reviewer. The ProtocolReview is created
+ * by the IRB Admin as request.
  */
 public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObjectBase implements Permissionable, UnitAclLoadable {
 
@@ -103,7 +119,8 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
     }
 
     /**
-     * Gets the protocolReviewId attribute. 
+     * Gets the protocolReviewId attribute.
+     *
      * @return Returns the protocolReviewId.
      */
     public Long getProtocolOnlineReviewId() {
@@ -112,6 +129,7 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
 
     /**
      * Sets the protocolReviewId attribute value.
+     *
      * @param protocolOnlineReviewId The protocolReviewId to set.
      */
     public void setProtocolOnlineReviewId(Long protocolOnlineReviewId) {
@@ -119,7 +137,8 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
     }
 
     /**
-     * Gets the protocolId attribute. 
+     * Gets the protocolId attribute.
+     *
      * @return Returns the protocolId.
      */
     public Long getProtocolId() {
@@ -128,6 +147,7 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
 
     /**
      * Sets the protocolId attribute value.
+     *
      * @param protocolId The protocolId to set.
      */
     public void setProtocolId(Long protocolId) {
@@ -135,7 +155,8 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
     }
 
     /**
-     * Gets the submissionIdFk attribute. 
+     * Gets the submissionIdFk attribute.
+     *
      * @return Returns the submissionIdFk.
      */
     public Long getSubmissionIdFk() {
@@ -144,13 +165,16 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
 
     /**
      * Sets the submissionIdFk attribute value.
+     *
      * @param submissionIdFk The submissionIdFk to set.
      */
     public void setSubmissionIdFk(Long submissionIdFk) {
         this.submissionIdFk = submissionIdFk;
     }
 
-    /** Gets the protocolReviewStatusCode attribute. 
+    /**
+     * Gets the protocolReviewStatusCode attribute.
+     *
      * @return Returns the protocolReviewStatusCode.
      */
     public String getProtocolOnlineReviewStatusCode() {
@@ -159,14 +183,17 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
 
     /**
      * Sets the protocolReviewStatusCode attribute value.
-     * @param protocolOnlineReviewStatusCode The protocolReviewStatusCode to set.
+     *
+     * @param protocolOnlineReviewStatusCode The protocolReviewStatusCode to
+     * set.
      */
     public void setProtocolOnlineReviewStatusCode(String protocolOnlineReviewStatusCode) {
         this.protocolOnlineReviewStatusCode = protocolOnlineReviewStatusCode;
     }
 
     /**
-     * Gets the dueDate attribute. 
+     * Gets the dueDate attribute.
+     *
      * @return Returns the dueDate.
      */
     public Date getDateDue() {
@@ -175,6 +202,7 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
 
     /**
      * Sets the dueDate attribute value.
+     *
      * @param dateDue The dueDate to set.
      */
     public void setDateDue(Date dateDue) {
@@ -182,7 +210,8 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
     }
 
     /**
-     * Gets the dateRequested attribute. 
+     * Gets the dateRequested attribute.
+     *
      * @return Returns the dateRequested.
      */
     public Date getDateRequested() {
@@ -191,6 +220,7 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
 
     /**
      * Sets the dateRequested attribute value.
+     *
      * @param dateRequested The dateRequested to set.
      */
     public void setDateRequested(Date dateRequested) {
@@ -198,7 +228,8 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
     }
 
     /**
-     * Gets the protocol attribute. 
+     * Gets the protocol attribute.
+     *
      * @return Returns the protocol.
      */
     public ProtocolBase getProtocol() {
@@ -207,6 +238,7 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
 
     /**
      * Sets the protocol attribute value.
+     *
      * @param protocol The protocol to set.
      */
     public void setProtocol(ProtocolBase protocol) {
@@ -214,7 +246,8 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
     }
 
     /**
-     * Gets the protocolSubmission attribute. 
+     * Gets the protocolSubmission attribute.
+     *
      * @return Returns the protocolSubmission.
      */
     public ProtocolSubmissionBase getProtocolSubmission() {
@@ -223,6 +256,7 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
 
     /**
      * Sets the protocolSubmission attribute value.
+     *
      * @param protocolSubmission The protocolSubmission to set.
      */
     public void setProtocolSubmission(ProtocolSubmissionBase protocolSubmission) {
@@ -230,7 +264,8 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
     }
 
     /**
-     * Gets the protocolReviewStatus attribute. 
+     * Gets the protocolReviewStatus attribute.
+     *
      * @return Returns the protocolReviewStatus.
      */
     public ProtocolOnlineReviewStatus getProtocolOnlineReviewStatus() {
@@ -239,6 +274,7 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
 
     /**
      * Sets the protocolReviewStatus attribute value.
+     *
      * @param protocolOnlineReviewStatus The protocolReviewStatus to set.
      */
     public void setProtocolOnlineReviewStatus(ProtocolOnlineReviewStatus protocolOnlineReviewStatus) {
@@ -246,7 +282,8 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
     }
 
     /**
-     * Gets the protocolReviewDeterminationRecommendationCode attribute. 
+     * Gets the protocolReviewDeterminationRecommendationCode attribute.
+     *
      * @return Returns the protocolReviewDeterminationRecommendationCode.
      */
     public Long getProtocolOnlineReviewDeterminationRecommendationCode() {
@@ -255,14 +292,17 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
 
     /**
      * Sets the protocolReviewDeterminationRecommendationCode attribute value.
-     * @param protocolOnlineReviewDeterminationRecommendationCode The protocolReviewDeterminationRecommendationCode to set.
+     *
+     * @param protocolOnlineReviewDeterminationRecommendationCode The
+     * protocolReviewDeterminationRecommendationCode to set.
      */
     public void setProtocolOnlineReviewDeterminationRecommendationCode(Long protocolOnlineReviewDeterminationRecommendationCode) {
         this.protocolOnlineReviewDeterminationRecommendationCode = protocolOnlineReviewDeterminationRecommendationCode;
     }
 
     /**
-     * Gets the protocolReviewDeterminationRecommendation attribute. 
+     * Gets the protocolReviewDeterminationRecommendation attribute.
+     *
      * @return Returns the protocolReviewDeterminationRecommendation.
      */
     public ProtocolOnlineReviewDeterminationRecommendationBase getProtocolOnlineReviewDeterminationRecommendation() {
@@ -271,14 +311,17 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
 
     /**
      * Sets the protocolReviewDeterminationRecommendation attribute value.
-     * @param protocolOnlineReviewDeterminationRecommendation The protocolReviewDeterminationRecommendation to set.
+     *
+     * @param protocolOnlineReviewDeterminationRecommendation The
+     * protocolReviewDeterminationRecommendation to set.
      */
     public void setProtocolOnlineReviewDeterminationRecommendation(ProtocolOnlineReviewDeterminationRecommendationBase protocolOnlineReviewDeterminationRecommendation) {
         this.protocolOnlineReviewDeterminationRecommendation = protocolOnlineReviewDeterminationRecommendation;
     }
 
     /**
-     * Gets the protocolReviewerId attribute. 
+     * Gets the protocolReviewerId attribute.
+     *
      * @return Returns the protocolReviewerId.
      */
     public Long getProtocolReviewerId() {
@@ -287,6 +330,7 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
 
     /**
      * Sets the protocolReviewerId attribute value.
+     *
      * @param protocolReviewerId The protocolReviewerId to set.
      */
     public void setProtocolReviewerId(Long protocolReviewerId) {
@@ -294,7 +338,8 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
     }
 
     /**
-     * Gets the protocolReviewer attribute. 
+     * Gets the protocolReviewer attribute.
+     *
      * @return Returns the protocolReviewer.
      */
     public ProtocolReviewer getProtocolReviewer() {
@@ -306,6 +351,7 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
 
     /**
      * Sets the protocolReviewer attribute value.
+     *
      * @param protocolReviewer The protocolReviewer to set.
      */
     public void setProtocolReviewer(ProtocolReviewer protocolReviewer) {
@@ -330,7 +376,7 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
     }
 
     public String getNamespace() {
-        return "KC-PROTOCOL";
+        return Constants.MODULE_NAMESPACE_PROTOCOL;
     }
 
     public List<String> getRoleNames() {
@@ -349,7 +395,8 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
     }
 
     /**
-     * Gets the committeeScheduleMinutes attribute. 
+     * Gets the committeeScheduleMinutes attribute.
+     *
      * @return Returns the committeeScheduleMinutes.
      */
     public List<CommitteeScheduleMinuteBase> getCommitteeScheduleMinutes() {
@@ -358,6 +405,7 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
 
     /**
      * Sets the committeeScheduleMinutes attribute value.
+     *
      * @param committeeScheduleMinutes The committeeScheduleMinutes to set.
      */
     public void setCommitteeScheduleMinutes(List<CommitteeScheduleMinuteBase> committeeScheduleMinutes) {
@@ -365,7 +413,8 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
     }
 
     /**
-     * Gets the protocolReviewDocument attribute. 
+     * Gets the protocolReviewDocument attribute.
+     *
      * @return Returns the protocolReviewDocument.
      */
     public ProtocolOnlineReviewDocumentBase getProtocolOnlineReviewDocument() {
@@ -374,6 +423,7 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
 
     /**
      * Sets the protocolReviewDocument attribute value.
+     *
      * @param protocolOnlineReviewDocument The protocolReviewDocument to set.
      */
     public void setProtocolOnlineReviewDocument(ProtocolOnlineReviewDocumentBase protocolOnlineReviewDocument) {
@@ -385,13 +435,16 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
         return super.buildListOfDeletionAwareLists();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void resetPersistenceState() {
         this.protocolOnlineReviewId = null;
     }
 
     /**
-     * Gets the lookupReviewerRolodexId attribute. 
+     * Gets the lookupReviewerRolodexId attribute.
+     *
      * @return Returns the lookupReviewerRolodexId.
      */
     public Integer getLookupReviewerRolodexId() {
@@ -400,6 +453,7 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
 
     /**
      * Sets the lookupReviewerRolodexId attribute value.
+     *
      * @param lookupReviewerRolodexId The lookupReviewerRolodexId to set.
      */
     public void setLookupReviewerRolodexId(Integer lookupReviewerRolodexId) {
@@ -407,7 +461,8 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
     }
 
     /**
-     * Gets the lookupReviewerPersonId attribute. 
+     * Gets the lookupReviewerPersonId attribute.
+     *
      * @return Returns the lookupReviewerPersonId.
      */
     public String getLookupReviewerPersonId() {
@@ -416,6 +471,7 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
 
     /**
      * Sets the lookupReviewerPersonId attribute value.
+     *
      * @param lookupReviewerPersonId The lookupReviewerPersonId to set.
      */
     public void setLookupReviewerPersonId(String lookupReviewerPersonId) {
@@ -423,7 +479,8 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
     }
 
     /**
-     * Gets the lookupReviewerRolodex attribute. 
+     * Gets the lookupReviewerRolodex attribute.
+     *
      * @return Returns the lookupReviewerRolodex.
      */
     public Rolodex getLookupReviewerRolodex() {
@@ -432,6 +489,7 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
 
     /**
      * Sets the lookupReviewerRolodex attribute value.
+     *
      * @param lookupReviewerRolodex The lookupReviewerRolodex to set.
      */
     public void setLookupReviewerRolodex(Rolodex lookupReviewerRolodex) {
@@ -439,7 +497,8 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
     }
 
     /**
-     * Gets the lookupReviewerPerson attribute. 
+     * Gets the lookupReviewerPerson attribute.
+     *
      * @return Returns the lookupReviewerPerson.
      */
     public KcPerson getLookupReviewerPerson() {
@@ -448,6 +507,7 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
 
     /**
      * Sets the lookupReviewerPerson attribute value.
+     *
      * @param lookupReviewerPerson The lookupReviewerPerson to set.
      */
     public void setLookupReviewerPerson(KcPerson lookupReviewerPerson) {
@@ -455,7 +515,8 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
     }
 
     /**
-     * Gets the loopReviewerFullName attribute. 
+     * Gets the loopReviewerFullName attribute.
+     *
      * @return Returns the loopReviewerFullName.
      */
     public String getLookupReviewerFullName() {
@@ -464,6 +525,7 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
 
     /**
      * Sets the loopReviewerFullName attribute value.
+     *
      * @param loopReviewerFullName The loopReviewerFullName to set.
      */
     public void setLookupReviewerFullName(String loopReviewerFullName) {
@@ -496,7 +558,9 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
     }
 
     /**
-     * Returns the dateDue if it is non-empty; otherwise, returns the scheduled meeting date.
+     * Returns the dateDue if it is non-empty; otherwise, returns the scheduled
+     * meeting date.
+     *
      * @return dateDue if not-null, otherwise scheduled meeting date
      */
     public Date getResultDueDate() {
@@ -520,9 +584,10 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
     }
 
     /**
-     * 
-     * This method is to add action performed for this OLR.  This used as audit trail and be used when undo
-     * action.
+     *
+     * This method is to add action performed for this OLR. This used as audit
+     * trail and be used when undo action.
+     *
      * @param action
      */
     public void addActionPerformed(String action) {
@@ -532,7 +597,7 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
             this.actionsPerformed = this.actionsPerformed + Constants.SEMI_COLON + action + Constants.COLON + GlobalVariables.getUserSession().getPrincipalName();
         }
     }
-  
+
     public boolean isReviewerApproved() {
         return reviewerApproved;
     }
@@ -550,8 +615,8 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
     }
 
     /**
-     * check if the OLR is reviewer or admin approved.  Then decided what's to do with the versioned
-     * OLR doc
+     * check if the OLR is reviewer or admin approved. Then decided what's to do
+     * with the versioned OLR doc
      */
     public boolean isStatusMatched(String docStatus) {
         boolean isMatched = false;
@@ -566,12 +631,13 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
     }
 
     protected abstract String getProtocolOLRFinalStatusCodeHook();
-    
+
     /*
      * get the reviewer user name of the last action performed if last action is reviewer approve OLR doc.
      */
     /**
-     * get the reviewer user name of the last action performed if last action is reviewer approve OLR doc.
+     * get the reviewer user name of the last action performed if last action is
+     * reviewer approve OLR doc.
      */
     public String getReviewerUserName() {
         String[] actions = actionsPerformed.split(Constants.SEMI_COLON);
@@ -580,8 +646,9 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
     }
 
     /**
-     * after undo last action, OLR will be versioned.  remove the last actionperformed from "actionsPerformed"
-     * In case, this OLR is finalized again and undo.
+     * after undo last action, OLR will be versioned. remove the last
+     * actionperformed from "actionsPerformed" In case, this OLR is finalized
+     * again and undo.
      */
     public void removeLastAction() {
         int idx = -1;

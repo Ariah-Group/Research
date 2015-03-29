@@ -54,6 +54,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.kuali.kra.infrastructure.Constants;
 
 /**
  *
@@ -166,7 +167,7 @@ public class EDSF424SupplementV1_1Generator extends
                         edsf424Supplement.setAssuranceNumber(assuranceNumber);
                     }
                 }
-                Boolean paramValue = KraServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean("KC-PROTOCOL", "Document", "irb.protocol.development.proposal.linking.enabled");
+                Boolean paramValue = KraServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROTOCOL, "Document", "irb.protocol.development.proposal.linking.enabled");
                 if (paramValue) {
                     ExemptionsNumber exemptionsNumber = ExemptionsNumber.Factory
                             .newInstance();

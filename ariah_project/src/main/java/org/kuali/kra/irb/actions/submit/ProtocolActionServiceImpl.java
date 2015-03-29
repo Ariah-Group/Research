@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.irb.actions.submit;
 
@@ -33,33 +49,30 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import org.kuali.kra.infrastructure.Constants;
 
 /**
- * 
- * This class is to provide the 'protocol' action pre validation and post update.
- * pre-validation include canperform and authorization check.
+ *
+ * This class is to provide the 'protocol' action pre validation and post
+ * update. pre-validation include can perform and authorization check.
  * post-update will update protocol status or submission status.
  */
 public class ProtocolActionServiceImpl extends ProtocolActionServiceImplBase implements ProtocolActionService {
 
-    
     static private final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolActionServiceImpl.class);
 
-    
     private static final int PERMISSIONS_LEADUNIT_RULE = 0;
     private static final int PERMISSIONS_SUBMIT_RULE = 1;
-    private static final int PERMISSIONS_COMMITTEEMEMBERS_RULE = 2;
-    private static final int PERMISSIONS_SPECIAL_RULE = 3;
+//    private static final int PERMISSIONS_COMMITTEEMEMBERS_RULE = 2;
+//    private static final int PERMISSIONS_SPECIAL_RULE = 3;
     private static final int PERFORMACTION_RULE = 4;
     private static final int UPDATE_RULE = 5;
     private static final int UNDO_UPDATE_RULE = 6;
-    
+
     private static final String PERFORMACTION_FILE = "org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl";
 
-    private static final String KC_PROTOCOL = "KC-PROTOCOL";
-
-    private static final String[] actionCodes = { 
+    //private static final String KC_PROTOCOL = "KC-PROTOCOL";
+    private static final String[] actionCodes = {
         ProtocolActionType.SUBMIT_TO_IRB,
         ProtocolActionType.RENEWAL_CREATED,
         ProtocolActionType.AMENDMENT_CREATED,
@@ -89,55 +102,60 @@ public class ProtocolActionServiceImpl extends ProtocolActionServiceImplBase imp
         ProtocolActionType.WITHDRAWN,
         ProtocolActionType.DISAPPROVED,
         ProtocolActionType.EXPIRED,
-        ProtocolActionType.SUSPENDED_BY_DSMB };
-    
-    
-    public String getPerformActionFileNameHook() {     
+        ProtocolActionType.SUSPENDED_BY_DSMB};
+
+    @Override
+    public String getPerformActionFileNameHook() {
         return PERFORMACTION_FILE;
     }
 
     /*
      * This method is to check if user has permission in lead unit
      */
+    @Override
     protected boolean hasPermissionLeadUnit(String actionTypeCode, ProtocolBase protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
         rulesList.get(PERMISSIONS_LEADUNIT_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(),
-                KC_PROTOCOL, PermissionConstants.MODIFY_ANY_PROTOCOL) : false;
+                Constants.MODULE_NAMESPACE_PROTOCOL, PermissionConstants.MODIFY_ANY_PROTOCOL) : false;
     }
 
     /**
      * This method is to check if user has permission to submit
      */
+    @Override
     protected boolean hasPermissionToSubmit(String actionTypeCode, ProtocolBase protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
         rulesList.get(PERMISSIONS_SUBMIT_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? kraAuthorizationService.hasPermission(getUserIdentifier(), protocol, rightMapper
                 .getRightId()) : false;
     }
-    
+
     /**
-     * @see org.kuali.kra.protocol.actions.submit.ProtocolActionServiceImplBase#resetProtocolStatus(org.kuali.kra.protocol.actions.ProtocolActionBase, org.kuali.kra.protocol.ProtocolBase)
+     * @see
+     * org.kuali.kra.protocol.actions.submit.ProtocolActionServiceImplBase#resetProtocolStatus(org.kuali.kra.protocol.actions.ProtocolActionBase,
+     * org.kuali.kra.protocol.ProtocolBase)
      */
+    @Override
     public void resetProtocolStatus(ProtocolActionBase protocolActionBo, ProtocolBase protocol) {
-        ProtocolUndoActionMapping protocolAction = new ProtocolUndoActionMapping(protocolActionBo.getProtocolActionTypeCode(), 
+        ProtocolUndoActionMapping protocolAction = new ProtocolUndoActionMapping(protocolActionBo.getProtocolActionTypeCode(),
                 protocolActionBo.getSubmissionTypeCode(), protocol.getProtocolStatusCode());
-          Protocol irbProtocol = (Protocol)protocol;
-          protocolAction.setProtocol(irbProtocol);
-          protocolAction.setProtocolSubmission((ProtocolSubmission) irbProtocol.getProtocolSubmission());
-          protocolAction.setProtocolAction((ProtocolAction)protocolActionBo);
-          rulesList.get(UNDO_UPDATE_RULE).executeRules(protocolAction);
-          if (protocolAction.isProtocolSubmissionToBeDeleted()) {
-              Map<String, String> fieldValues = new HashMap<String, String>();
-              fieldValues.put("submissionIdFk", protocolActionBo.getProtocolSubmission().getSubmissionId().toString());
-              fieldValues.put("protocolNumber", protocol.getProtocolNumber());
-              businessObjectService.deleteMatching(ProtocolSubmissionDoc.class, fieldValues);
-              removeQuestionnaireAnswer(protocolActionBo, protocol);
-              protocol.getProtocolSubmissions().remove(protocolActionBo.getProtocolSubmission()); 
-              protocol.setProtocolSubmission(null); 
-          }
+        Protocol irbProtocol = (Protocol) protocol;
+        protocolAction.setProtocol(irbProtocol);
+        protocolAction.setProtocolSubmission((ProtocolSubmission) irbProtocol.getProtocolSubmission());
+        protocolAction.setProtocolAction((ProtocolAction) protocolActionBo);
+        rulesList.get(UNDO_UPDATE_RULE).executeRules(protocolAction);
+        if (protocolAction.isProtocolSubmissionToBeDeleted()) {
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put("submissionIdFk", protocolActionBo.getProtocolSubmission().getSubmissionId().toString());
+            fieldValues.put("protocolNumber", protocol.getProtocolNumber());
+            businessObjectService.deleteMatching(ProtocolSubmissionDoc.class, fieldValues);
+            removeQuestionnaireAnswer(protocolActionBo, protocol);
+            protocol.getProtocolSubmissions().remove(protocolActionBo.getProtocolSubmission());
+            protocol.setProtocolSubmission(null);
+        }
     }
-    
+
     /*
      * This is to remove the questionnaire answered for request submission
      */
@@ -148,7 +166,7 @@ public class ProtocolActionServiceImpl extends ProtocolActionServiceImplBase imp
         fieldValues.put("moduleItemKey", protocol.getProtocolNumber());
         fieldValues.put("moduleSubItemCode", CoeusSubModule.PROTOCOL_SUBMISSION);
         fieldValues.put("moduleSubItemKey", protocolActionBo.getProtocolSubmission().getSubmissionNumber().toString());
-        List<AnswerHeader> answerHeaders = (List<AnswerHeader>)businessObjectService.findMatching(AnswerHeader.class, fieldValues);
+        List<AnswerHeader> answerHeaders = (List<AnswerHeader>) businessObjectService.findMatching(AnswerHeader.class, fieldValues);
         if (!answerHeaders.isEmpty()) {
             businessObjectService.delete(answerHeaders);
         }
