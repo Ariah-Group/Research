@@ -41,8 +41,8 @@
                 <filtering>true</filtering>
                 <directory>src/main/resources</directory>
                 <includes>
-                    <include>META-INF/ariah-config-build.xml</include>
-                    <include>ariah-bootstrap-springbeans.xml</include>
+                    <include>META-INF/ar-config-build.xml</include>
+                    <include>ar-bootstrap-springbeans.xml</include>
                 </includes>
             </resource>
             <resource>
@@ -62,7 +62,7 @@
                 <filtering>true</filtering>
                 <directory>src/test/resources</directory>
                 <includes>
-                    <include>META-INF/ariah-test-config.xml</include>
+                    <include>META-INF/ar-test-config.xml</include>
                 </includes>
             </testResource>
             <testResource>

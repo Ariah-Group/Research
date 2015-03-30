@@ -23,7 +23,7 @@ This config file should only contain config locations not actual config properti
 		
 		Contains properties that are set by our build process
 	-->
-	<param name="config.location">classpath:META-INF/ariah-config-build.xml</param>
+	<param name="config.location">classpath:META-INF/ar-config-build.xml</param>
 
 	<!-- 
 		Rice's project defaults
@@ -39,7 +39,7 @@ This config file should only contain config locations not actual config properti
 		Contains either properties that differ from the rice defaults or
 		specific properties
 	-->
-	<param name="config.location">classpath:META-INF/ariah-config-defaults.xml</param>
+	<param name="config.location">classpath:META-INF/ar-config-defaults.xml</param>
 	
 	<!-- 
 		Rice's standard config file locations
@@ -50,10 +50,8 @@ This config file should only contain config locations not actual config properti
 
 	<!-- 
 		Ariah Research's external config
-		
-		Config location for the IU environment
 	-->
-	<param name="config.location">/etc/tomcat6/ariah_conf/ariah-config.xml</param>
+	<param name="config.location">/etc/tomcat6/ariah_conf/ar-config.xml</param>
 	
 	<!--
 		Ariah Research's external config

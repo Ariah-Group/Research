@@ -13,7 +13,7 @@
     <!-- Change this if you want to use a different Spring file -->
     <context-param>
       <param-name>web.bootstrap.spring.file</param-name>
-      <param-value>classpath:ariah-bootstrap-springbeans.xml</param-value>
+      <param-value>classpath:ar-bootstrap-springbeans.xml</param-value>
     </context-param>
     
     ${monitoring.filter}
