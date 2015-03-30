@@ -73,7 +73,6 @@ import org.kuali.kra.infrastructure.*;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
 import org.kuali.kra.service.*;
 import org.kuali.kra.subaward.service.SubAwardService;
-import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.history.TransactionDetail;
 import org.kuali.kra.timeandmoney.history.TransactionDetailType;
@@ -157,7 +156,7 @@ public class AwardAction extends BudgetParentActionBase {
         AwardTemplateSyncScope.COMMENTS_TAB
     };
 
-    private static final int NINE = 9;
+    //private static final int NINE = 9;
     private static final String DOCUMENT_ROUTE_QUESTION = "DocRoute";
 
     private static final String ADD_SYNC_CHANGE_QUESTION = "document.question.awardhierarchy.sync";
@@ -254,14 +253,14 @@ public class AwardAction extends BudgetParentActionBase {
      */
     protected void populateAwardHierarchy(ActionForm form) throws WorkflowException {
         AwardForm awardForm = (AwardForm) form;
-        AwardDocument awardDocument = awardForm.getAwardDocument();
+        //AwardDocument awardDocument = awardForm.getAwardDocument();
 
         List<String> order = new ArrayList<String>();
         AwardHierarchyBean helperBean = awardForm.getAwardHierarchyBean();
         AwardHierarchy rootNode = helperBean.getRootNode();
         Map<String, AwardHierarchy> awardHierarchyNodes = helperBean.getAwardHierarchy(rootNode, order);
-        Map<String, AwardHierarchyNode> awardHierarchyNodesMap = new HashMap<String, AwardHierarchyNode>();
-        Award currentAward = awardDocument.getAward();
+        //Map<String, AwardHierarchyNode> awardHierarchyNodesMap = new HashMap<String, AwardHierarchyNode>();
+        //Award currentAward = awardDocument.getAward();
         awardForm.setRootAwardNumber(rootNode.getRootAwardNumber());
         StringBuilder sb1 = new StringBuilder();
         StringBuilder sb2 = new StringBuilder();
@@ -678,7 +677,7 @@ public class AwardAction extends BudgetParentActionBase {
         setBooleanAwardInMultipleNodeHierarchyOnForm(awardDocument.getAward());
         setBooleanAwardHasTandMOrIsVersioned(awardDocument.getAward());
         AwardAmountInfoService awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
-        int index = awardAmountInfoService.fetchIndexOfAwardAmountInfoWithHighestTransactionId(awardDocument.getAward().getAwardAmountInfos());
+        //int index = awardAmountInfoService.fetchIndexOfAwardAmountInfoWithHighestTransactionId(awardDocument.getAward().getAwardAmountInfos());
 
         return mapping.findForward(Constants.MAPPING_AWARD_HOME_PAGE);
     }
@@ -703,8 +702,7 @@ public class AwardAction extends BudgetParentActionBase {
     /**
      * This method...
      *
-     * @param awardDocument
-     * @param awardForm
+     * @param award
      */
     @SuppressWarnings("unchecked")
     public void setBooleanAwardInMultipleNodeHierarchyOnForm(Award award) {
@@ -714,7 +712,7 @@ public class AwardAction extends BudgetParentActionBase {
         fieldValues.put("active", Boolean.TRUE);
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         List<AwardHierarchy> awardHierarchies = (List) businessObjectService.findMatching(AwardHierarchy.class, fieldValues);
-        if (awardHierarchies.size() == 0) {
+        if (awardHierarchies.isEmpty()) {
             award.setAwardInMultipleNodeHierarchy(false);
         } else {
             Map<String, Object> newFieldValues = new HashMap<String, Object>();
@@ -735,8 +733,7 @@ public class AwardAction extends BudgetParentActionBase {
      * no previous version has been edited in a Time and Money document, then we
      * want the money and date fields on Award to be read only.
      *
-     * @param awardDocument
-     * @param awardForm
+     * @param award
      */
     public void setBooleanAwardHasTandMOrIsVersioned(Award award) {
         boolean previousVersionHasBeenEditedInTandMDocument = false;
@@ -764,9 +761,9 @@ public class AwardAction extends BudgetParentActionBase {
      * @return
      */
     public ActionForward contacts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        SponsorService sponsorService = getSponsorService();
+        //SponsorService sponsorService = getSponsorService();
         Award award = getAward(form);
-        AwardForm awardForm = (AwardForm) form;
+        //AwardForm awardForm = (AwardForm) form;
 
         award.initCentralAdminContacts();
 
@@ -949,6 +946,7 @@ public class AwardAction extends BudgetParentActionBase {
      *
      * @return the parameter service.
      */
+    @Override
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
             this.parameterService = KraServiceLocator.getService(ParameterService.class);
@@ -1067,7 +1065,8 @@ public class AwardAction extends BudgetParentActionBase {
      * @return
      */
     public boolean isNewAward(AwardForm awardForm) {
-        return awardForm.getAwardDocument().getAward().getAwardDirectFandADistributions().size() == 0;
+        return awardForm.getAwardDocument().getAward().getAwardDirectFandADistributions() == null
+                || awardForm.getAwardDocument().getAward().getAwardDirectFandADistributions().isEmpty();
     }
 
     /**
@@ -1292,7 +1291,7 @@ public class AwardAction extends BudgetParentActionBase {
         String command = awardForm.getCommand();
         if (KewApiConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
             loadDocumentInForm(request, awardForm);
-            String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
+            //String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
             ActionForward baseForward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
             forward = new ActionForward(buildForwardStringForActionListCommand(
                     baseForward.getPath(), awardForm.getDocument().getDocumentNumber()));
@@ -1309,6 +1308,7 @@ public class AwardAction extends BudgetParentActionBase {
         return forward;
     }
 
+    @Override
     protected void loadDocument(KualiDocumentFormBase kualiForm) throws WorkflowException {
         super.loadDocument(kualiForm);
         Award award = ((AwardForm) kualiForm).getAwardDocument().getAward();
@@ -1319,11 +1319,9 @@ public class AwardAction extends BudgetParentActionBase {
      *
      * loadDocumentInForm
      *
-     * @param mapping
-     * @param form
      * @param request
-     * @param response
-     * @return
+     * @param awardForm
+     * @throws org.kuali.rice.kew.api.exception.WorkflowException
      */
     protected void loadDocumentInForm(HttpServletRequest request, AwardForm awardForm)
             throws WorkflowException {
@@ -1349,6 +1347,7 @@ public class AwardAction extends BudgetParentActionBase {
      *
      * @return
      */
+    @Override
     protected KualiRuleService getKualiRuleService() {
         return KraServiceLocator.getService(KualiRuleService.class);
     }
@@ -1375,7 +1374,7 @@ public class AwardAction extends BudgetParentActionBase {
      */
     public ActionForward syncAwardTemplate(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardTemplateSyncService awardTemplateSyncService = KraServiceLocator.getService(AwardTemplateSyncService.class);
+        //AwardTemplateSyncService awardTemplateSyncService = KraServiceLocator.getService(AwardTemplateSyncService.class);
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
 
@@ -1700,7 +1699,8 @@ public class AwardAction extends BudgetParentActionBase {
      * @param request
      * @param response
      * @param syncType
-     * @param object
+     * @param obje
+     * @param awardAttrNamect
      * @param attrName
      * @param returnForward
      * @return
@@ -1826,6 +1826,7 @@ public class AwardAction extends BudgetParentActionBase {
     }
 
     /**
+     * @param formBase
      * @see
      * org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#populateAuthorizationFields(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      * If Award Infos or dates have been edited in a T&M document, then we want
