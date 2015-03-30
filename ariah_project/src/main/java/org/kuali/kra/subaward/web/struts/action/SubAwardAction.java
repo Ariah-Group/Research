@@ -555,7 +555,8 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase {
                 isValidSubmission(subAwardForm, true);
 
         if ((status == ValidationState.OK) || (status == ValidationState.WARNING)) {
-            return forward = super.approve(mapping, form, request, response);
+            forward = super.approve(mapping, form, request, response);
+            return forward;
         } else {
             GlobalVariables.getMessageMap().clearErrorMessages();
             GlobalVariables.getMessageMap().
