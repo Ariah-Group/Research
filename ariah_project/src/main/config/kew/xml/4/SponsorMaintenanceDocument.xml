@@ -3,7 +3,7 @@
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>SponsorMaintenanceDocument</name>
-			<description>Create a New Sponsor Type</description>
+			<description>Create a New Sponsor</description>
 			<label>Sponsor</label>
 			<parent>ArMiscellaneousMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/sponsor.htm</helpDefinitionURL>
