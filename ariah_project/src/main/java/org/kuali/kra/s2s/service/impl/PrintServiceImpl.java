@@ -216,10 +216,24 @@ public class PrintServiceImpl implements PrintService {
         } else {
             byte[] buffer = new byte[1024];
             int length;
-            FileInputStream fileInputStream = new FileInputStream(attachmentFile);
-            zipOutputStream.putNextEntry(new ZipEntry(path + "/" + attachmentFile.getName()));
-            while ((length = fileInputStream.read(buffer)) > 0) {
-                zipOutputStream.write(buffer, 0, length);
+
+            FileInputStream fileInputStream = null;
+
+            try {
+                fileInputStream = new FileInputStream(attachmentFile);
+                zipOutputStream.putNextEntry(new ZipEntry(path + "/" + attachmentFile.getName()));
+                while ((length = fileInputStream.read(buffer)) > 0) {
+                    zipOutputStream.write(buffer, 0, length);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (fileInputStream != null) {
+                        fileInputStream.close();
+                    }
+                } catch (Exception e) {
+                }
             }
         }
     }
