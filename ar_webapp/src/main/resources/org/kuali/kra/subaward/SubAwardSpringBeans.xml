@@ -5,7 +5,7 @@
 	Licensed under the Educational Community License, Version 1.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
-R
+
 	http://www.opensource.org/licenses/ecl1.php
 
 	Unless required by applicable law or agreed to in writing, software
@@ -37,7 +37,7 @@ R
                            http://www.springframework.org/schema/util/spring-util-3.0.xsd">
                            
     <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml" />
-    <import resource="classpath:org/kuali/kra/KC-RiceDataSourceSpringBeans.xml" />
+    <import resource="classpath:org/ariahgroup/research/KC-RiceDataSourceSpringBeans.xml" />
     <import resource="classpath:org/kuali/kra/core/CommonSpringBeans.xml" />
     
     <bean id="subAwardModule" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">

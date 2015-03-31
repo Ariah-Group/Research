@@ -24,7 +24,7 @@ import java.util.List;
 
 public class CoreConfigurer extends AbstractConfigurer {
     
-    private static final String CORE_SPRING_BEANS_PATH = "classpath:org/kuali/kra/CoreSpringBeans.xml";
+    private static final String CORE_SPRING_BEANS_PATH = "classpath:org/ariahgroup/research/CoreSpringBeans.xml";
     private static final String BUDGET_SPRING_BEANS_PATH = "classpath:org/kuali/kra/budget/BudgetSpringBeans.xml";
     private static final String PERSON_MASS_CHANGE_SPRING_BEANS_PATH = "classpath:org/kuali/kra/personmasschange/PersonMassChangeSpringBeans.xml";
     private static final String QUESTIONNAIRE_SPRING_BEANS_PATH = "classpath:org/kuali/kra/questionnaire/QuestionnaireSpringBeans.xml";

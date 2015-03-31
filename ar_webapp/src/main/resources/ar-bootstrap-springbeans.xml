@@ -21,7 +21,7 @@
                            
     ${monitoring.spring.service}
 
-    <import resource="classpath:org/kuali/kra/RiceOverridesSpringBeans.xml" />
+    <import resource="classpath:org/ariahgroup/research/RiceOverridesSpringBeans.xml" />
     
     <bean id="kcCoreConfigurer" class="org.kuali.kra.config.CoreConfigurer" />
     
