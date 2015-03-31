@@ -154,7 +154,7 @@
     <param name="security.directory">/etc/tomcat/ariah_conf/security/</param>
     <param name="settings.directory">/etc/tomcat/ariah_conf/settings/</param>
     <param name="attachments.directory">/etc/tomcat/ariah_conf/attachments/</param>
-       
+
     <param name="rice.kr.additionalSpringFiles">classpath:org/ariahgroup/research/krad-overrides.xml</param>
     <param name="rice.kc.pd.additionalSpringFiles">classpath:org/ariahgroup/research/kc-core-overrides.xml</param>
     
@@ -164,12 +164,13 @@
     <param name="portal.css.files">rice-portal/css/portal.css,plugins/fancybox/jquery.fancybox.css,plugins/textpopout/popoutTextarea.css,plugins/jgrowl/jquery.jgrowl.css,css/kuali_overrides.css</param>
     <param name="portal.javascript.files">plugins/jquery/jquery-1.8.3.js,plugins/cookie/jquery.cookie.js,plugins/scrollto/jquery.scrollTo-1.4.6.js,plugins/blockUI/jquery.blockUI.js,kr/scripts/my_common.js,plugins/easydrag/jquery.easydrag.js,plugins/fancybox/jquery.fancybox.pack.js,plugins/easing/jquery.easing-1.3.pack.js,plugins/jgrowl/jquery.jgrowl.js,rice-portal/scripts/portal.initialize.js,rice-portal/scripts/easyXDM/easyXDM.js</param>
 	    
-   
     <!-- Filename of your logo placed in the <webapp>/static/images directory. -->
     <param name="portal.logo.filename">logo.png</param>
     <param name="portal.logo.alttext">Ariah Research</param>
     
-    
+    <!-- Default KC param, but portal modified to actually use it in the TITLE tag in the HEAD -->
+    <param name="portal.title">Ariah Research</param>
+        
     <!-- Default Login Page parameter -->
     
     <!-- If set to 'true' then a LOGO is allowed to be displayed on the default login page,
@@ -210,6 +211,4 @@
     <param name="displayEnvironment.highlightcolor">red</param>
     <param name="displayEnvironment">Demo Environment</param>        
     
-    <!-- Default KC param, but portal modified to actually use it in the TITLE tag in the HEAD -->
-    <param name="portal.title">Ariah Research</param>
 </config>
