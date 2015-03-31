@@ -1,30 +1,32 @@
 @echo off
 if NOT EXIST "LOGS" mkdir LOGS
 :mode
-set /p mode="Enter Rice Mode (BUNDLE, EMBED) <%mode%>: "
-if /i "%mode%" == "BUNDLE" (
+set /p mode="Enter Rice Mode (SHARED, STANDALONE) <%mode%>: "
+if /i "%mode%" == "STANDALONE" (
 	set InstRice=Y
 	goto DBType
 )
-if /i "%mode%" == "EMBED" goto InstRice
+if /i "%mode%" == "SHARED" goto InstRice
 echo invalid Rice Mode entered <%mode%>
 goto mode
 :InstRice
-set /p InstRice="Install/Upgrade Embedded Rice Server Side (KC-related Rice data will still be loaded, regardless of response) (Y,N) <%InstRice%>: "
+set /p InstRice="Install/Upgrade Shared Rice Server Side (Ariah Research-related Rice data will still be loaded, regardless of response) (Y,N) <%InstRice%>: "
 if /i "%InstRice%" == "Y" goto DBType
 if /i "%InstRice%" == "N" goto DBType
 echo Invalid Response <%InstRice%>
 goto InstRice
 
 :DBType
-set /p dbtype="Enter Database Type (ORACLE,MYSQL) <%dbtype%>: "
+set /p dbtype="Enter Database Type (ORACLE) <%dbtype%>: "
 if /i "%dbtype%" == "ORACLE" goto Version
+
 if /i "%dbtype%" == "MYSQL" goto Version
+
 echo Invalid Database Type <%dbtype%>
 goto dbtype
 
 :Version
-set /p Version="Enter Currently Installed Version (NEW, 3.1.1, 5.0, 5.0.1, 5.1, 5.1.1, 5.2) <%Version%>: "
+set /p Version="Enter Currently Installed Version (NEW, 3.1.1, 5.0, 5.0.1, 5.1, 5.1.1, 5.2, 5.2.1) <%Version%>: "
 if /i "%Version%" == "NEW" goto User
 if /i "%Version%" == "3.1.1" goto User
 if /i "%Version%" == "5.0" goto User
@@ -32,6 +34,7 @@ if /i "%Version%" == "5.0.1" goto User
 if /i "%Version%" == "5.1" goto User
 if /i "%Version%" == "5.1.1" goto User
 if /i "%Version%" == "5.2" goto User
+if /i "%Version%" == "5.2.1" goto User
 echo Invalid Version <%Version%>
 goto Version
 
@@ -63,7 +66,7 @@ goto DBSvrNm
 )
 
 :RICE
-if /i "%mode%" == "BUNDLE" (
+if /i "%mode%" == "STANDALONE" (
 set Riceun=%un%
 set Ricepw=%pw%
 set RiceDBSvrNm=%DBSvrNm%
@@ -109,10 +112,10 @@ cd ..
 cd KC-RELEASE-3_0-CLEAN/oracle
 
 if /i "%version%" == "NEW" (
-    if /i "%mode%" == "BUNDLE" (
+    if /i "%mode%" == "STANDALONE" (
     sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < oracle_server_rice.sql
     )
-    if /i "%mode%%InstRice%" == "EMBEDY" (
+    if /i "%mode%%InstRice%" == "SHARED" (
     sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < oracle_server_rice.sql
     )
 )
@@ -128,7 +131,7 @@ cd KC-RELEASE-3_0-CLEAN/oracle
 if /i "%InstRice%" == "Y" (
     sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < oracle_server.sql
 ) else (
-	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < oracle_server_SR.sql
+    sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < oracle_server_SR.sql
 )
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < oracle_client.sql
 
@@ -218,7 +221,7 @@ cd ..
 
 
 cd KC-RELEASE-4_0-SCRIPT
-if /i "%mode%" == "EMBED" (
+if /i "%mode%" == "SHARED" (
 	sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC_RICE-RELEASE-4_0-Upgrade-ORACLE.sql
 )
 
@@ -238,7 +241,7 @@ cd ..
 
 cd KC-RELEASE-5_0-SCRIPT
 
-if /i "%mode%" == "EMBED" (
+if /i "%mode%" == "SHARED" (
 	sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC_RICE-RELEASE-5_0-Upgrade-ORACLE.sql
 )
 
@@ -263,7 +266,7 @@ cd ..
 :5.0.1ORACLE
 cd KC-RELEASE-5_1_0-SCRIPT
 
-if /i "%mode%" == "EMBED" (
+if /i "%mode%" == "SHARED" (
 	sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC_RICE-RELEASE-5_1_0-Upgrade-ORACLE.sql
 )
 if /i "%InstRice%" == "Y" (
@@ -277,7 +280,7 @@ cd ..
 :5.1ORACLE
 cd KC-RELEASE-5_1_1-SCRIPT
 
-if /i "%mode%" == "EMBED" (
+if /i "%mode%" == "SHARED" (
 	sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC_RICE-RELEASE-5_1_1-Upgrade-ORACLE.sql
 )
 if /i "%InstRice%" == "Y" (
@@ -291,7 +294,7 @@ cd ..
 :5.1.1ORACLE
 cd KC-RELEASE-5_2_0-SCRIPT
 
-if /i "%mode%" == "EMBED" (
+if /i "%mode%" == "SHARED" (
 	sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC_RICE-RELEASE-5_2_0-Upgrade-ORACLE.sql
 )
 if /i "%InstRice%" == "Y" (
@@ -306,6 +309,13 @@ cd ..
 cd KC-RELEASE-5_2_1-SCRIPT
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-5_2_1-Upgrade-ORACLE.sql
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-5_2_1-Upgrade-ORACLE.sql
+move *.log ../LOGS
+cd ..
+
+:5.2.1ORACLE
+cd AR-RELEASE-5_3_0-SCRIPT
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < AR-RELEASE-5_3_0-Upgrade-ORACLE.sql
+sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-5_3_0-Upgrade-ORACLE.sql
 move *.log ../LOGS
 cd ..
 
@@ -332,10 +342,10 @@ cd ..
 cd KC-RELEASE-3_0-CLEAN/mysql
 
 if /i "%version%" == "NEW" (
-    if /i "%mode%" == "BUNDLE" (
+    if /i "%mode%" == "STANDALONE" (
     mysql -u %un% -p%pw% -D %DBSvrNm% -s -f < mysql_server_rice.sql > KC-Release-3_0-Clean-Server-Rice-Mysql-Install.log 2>&1
     )
-    if /i "%mode%%InstRice%" == "EMBEDY" (
+    if /i "%mode%%InstRice%" == "SHARED" (
     mysql -u %Riceun% -p%Ricepw% -D %RiceDBSvrNm% -s -f < mysql_server_rice.sql > KC-Release-3_0-Clean-Server-Rice-Mysql-Install.log 2>&1
     )
 )
@@ -443,7 +453,7 @@ cd ..
 
 cd KC-RELEASE-4_0-SCRIPT
 
-if /i "%mode%" == "EMBED" (
+if /i "%mode%" == "SHARED" (
 	mysql -u %un% -p%pw% -D %DBSvrNm% -s -f < KRC_RICE-RELEASE-4_0-Upgrade-MYSQL.sql > KRC_RICE-RELEASE-4_0-Upgrade-MYSQL-Install.log 2>&1
 )
 
@@ -462,7 +472,7 @@ cd ..
 
 cd KC-RELEASE-5_0-SCRIPT
 
-if /i "%mode%" == "EMBED" (
+if /i "%mode%" == "SHARED" (
 	mysql -u %un% -p%pw% -D %DBSvrNm% -s -f < KRC_RICE-RELEASE-5_0-Upgrade-MYSQL.sql > KRC_RICE-RELEASE-5_0-Upgrade-MYSQL-Install.log 2>&1
 )
 
@@ -486,7 +496,7 @@ cd ..
 :5.0.1MYSQL
 cd KC-RELEASE-5_1_0-SCRIPT
 
-if /i "%mode%" == "EMBED" (
+if /i "%mode%" == "SHARED" (
 	mysql -u %un% -p%pw% -D %DBSvrNm% -s -f < KRC_RICE-RELEASE-5_1_0-Upgrade-MYSQL.sql > KRC_RICE-RELEASE-5_1_0-Upgrade-MYSQL-Install.log 2>&1
 )
 
@@ -502,7 +512,7 @@ cd ..
 :5.1MYSQL
 cd KC-RELEASE-5_1_1-SCRIPT
 
-if /i "%mode%" == "EMBED" (
+if /i "%mode%" == "SHARED" (
 	mysql -u %un% -p%pw% -D %DBSvrNm% -s -f < KRC_RICE-RELEASE-5_1_1-Upgrade-MYSQL.sql > KRC_RICE-RELEASE-5_1_1-Upgrade-MYSQL-Install.log 2>&1
 )
 
@@ -518,7 +528,7 @@ cd ..
 :5.1.1MYSQL
 cd KC-RELEASE-5_2_0-SCRIPT
 
-if /i "%mode%" == "EMBED" (
+if /i "%mode%" == "SHARED" (
 	mysql -u %un% -p%pw% -D %DBSvrNm% -s -f < KRC_RICE-RELEASE-5_2_0-Upgrade-MYSQL.sql > KRC_RICE-RELEASE-5_2_0-Upgrade-MYSQL-Install.log 2>&1
 )
 
@@ -558,20 +568,20 @@ goto end
 
 :usage
 Echo USAGE:
-Echo KC_Install.bat
+Echo AR_Install.bat
 Echo You will be prompted for the following:
-Echo    - Mode = Choose one: bundle, embed
-Echo       - bundle = Rice installed with KC client tables
-Echo       - embed = Rice installed in a separate schema 
-Echo           - When installing in embedded mode, you will be asked to install embedded rice server.
-Echo    - DB_Type = Choose one: oracle, mysql
-Echo    - Ver = Choose one: NEW, 3.1.1, ...
+Echo    - Mode = Choose one: Standalone, Shared
+Echo       - Standalone = Rice installed along with Ariah Research database tables
+Echo       - Shared = Rice installed in a separate database schema 
+Echo           - When installing in Shared mode, you will be asked to install Shared Rice server.
+Echo    - DB_Type = Choose one: oracle
+Echo    - Ver = Choose one: NEW, 5.2.1, ...
 Echo       - NEW = New install with an empty database schema
-Echo       - 3.1.1, etc. = upgrading from 3.1.1 KC version, etc.
-Echo    - un = The kc Database schema name to install database scripts to (bundled rice goes here too).
+Echo       - 5.2.1, etc. = upgrading from 3.1.1 KC version, etc.
+Echo    - un = The AR Database schema name to install database scripts to (Standalone Rice goes here too).
 Echo    - pw = the password for username
-Echo    - DB_svr_name = the TNS name used to locate the database server where kc schema is located (Oracle Only)
-Echo    - riceun = The rice Database schema name to install embedded rice database scripts to.
+Echo    - DB_svr_name = the TNS name used to locate the database server where AR schema is located (Oracle Only)
+Echo    - riceun = The rice Database schema name to install Shared Rice database scripts to.
 Echo    - ricepw = the password for riceusername
 Echo    - riceDB_svr_name = the TNS name used to locate the database server where rice schema is located (Oracle Only)
 :end
