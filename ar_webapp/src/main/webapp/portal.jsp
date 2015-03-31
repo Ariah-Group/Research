@@ -216,12 +216,6 @@ limitations under the License.
             </div>
         </div>
 
-        <c:if test="${ConfigProperties.feedback.link.enabled == 'true'}">
-            <div id="feedback">
-                <a class="portal_link" href="<bean:message key="${ConfigProperties.feedback.link}"/>" target="_blank" title="<bean:message key="${ConfigProperties.feedback.linkText}" />">${ConfigProperties.feedback.linkText}</a>
-            </div>        
-        </c:if>
-
         <c:choose>
             <c:when test='${!empty param.channelTitle && !empty gotoUrl}'>
                 <c:if test="${!empty param.backdoorId}">

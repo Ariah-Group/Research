@@ -117,18 +117,24 @@
     <param name="fin.system.integration.service.url">financial system service url</param>
 
     <!-- Java mail properties -->
+    
+    <!-- Default FROM address for emails sent from the server ONLY IF the in-app parameter 
+         EMAIL_NOTIFICATION_FROM_ADDRESS is not set. Otherwise the mail.from is ignored. -->
     <param name="mail.from">mail.from@ariahgroup.org</param>
+    
+    <!-- the following mail.XX parameters are used by MailSenderFactoryBean in RICE -->
     <param name="mail.transport.protocol">smtp</param>
     <param name="mail.smtp.host">localhost</param>
     <param name="mail.smtp.port">25</param>
     <param name="mail.smtp.user"></param>
     <param name="mail.user.credentials"></param>
-    <param name="mail.smtp.auth">false</param>
-	
-    <!-- parameters -->
-    <param name="mail.relay.server">mail.relay.server</param>
-    <param name="mailing.list.batch">mailing.list.batch</param>
     
+    <!-- The mail.smtp.auth parameter is SUPPOSED to be used by Rice to determine if the SMTP
+         connection should utilize the mail.smtp.user and mail.user.credentials values to authenticate, 
+         but the parameter is actually not used and is ignored by the Rice MailSenderFactoryBean class.
+         Leave the parameter here for now in the event Rice gets patched to actually correctly enforce this parameter.  -->
+    <param name="mail.smtp.auth">false</param>
+   
     <!-- Encryption key that drives the encryption of CLOB content inside specific database fields.
     You should change this from the DEFAULT value included here BEFORE creating any data in the system
     for the first time, as changing it afterwards can lead to issue with retrieving previously 
@@ -149,10 +155,6 @@
     <param name="kr.incident.mailing.list"></param>
     <!-- End of Exception Incident handling and reporting -->
 	
-    <!-- Misc parameters -->
-    <param name="institution">My Institution</param>
-    <param name="security.directory">/etc/tomcat/ariah_conf/security/</param>
-    <param name="settings.directory">/etc/tomcat/ariah_conf/settings/</param>
     <param name="attachments.directory">/etc/tomcat/ariah_conf/attachments/</param>
 
     <param name="rice.kr.additionalSpringFiles">classpath:org/ariahgroup/research/krad-overrides.xml</param>
@@ -173,25 +175,25 @@
         
     <!-- Default Login Page parameter -->
     
-    <!-- If set to 'true' then a LOGO is allowed to be displayed on the default login page,
+    <!-- NOT YET FUNCTIONING...   If set to 'true' then a LOGO is allowed to be displayed on the default login page,
     as specified by the parameter 'login.logo.filename' -->
-    <param name="login.logo.enabled">true</param>
+    <!--<param name="login.logo.enabled">true</param> -->
     
-    <!-- This filename should ONLY be a filename and not a path. The file should be placed in the
+    <!-- NOT YET FUNCTIONING...   This filename should ONLY be a filename and not a path. The file should be placed in the
     webapp in static/images/ directory. This parameter ONLY controls the logo on the login page. -->
-    <param name="login.logo.filename">logo.png</param>
+    <!-- <param name="login.logo.filename">logo.png</param> -->
     
-    <!-- If set to 'true' then a Link is allowed to be displayed on the default login page,
+    <!-- NOT YET FUNCTIONING...   If set to 'true' then a Link is allowed to be displayed on the default login page,
     as specified by the parameter 'login.logo.filename' -->
-    <param name="login.forgotpassword.enabled">true</param>    
+    <!-- <param name="login.forgotpassword.enabled">true</param>  -->   
     
-    <!-- This parameter allows you to specify an HTTP(s) link to a webapp that allows the users to 
+    <!-- NOT YET FUNCTIONING...   This parameter allows you to specify an HTTP(s) link to a webapp that allows the users to 
     change their password for the system. -->
-    <param name="login.forgotpassword.url">https://demo.ariahgroup.org/</param>    
+    <!-- <param name="login.forgotpassword.url">https://demo.ariahgroup.org/</param>    -->
     
-    <!-- This parameter allows you to specify the LABEL or publicly viewable text seen as part of the 
+    <!-- NOT YET FUNCTIONING...   This parameter allows you to specify the LABEL or publicly viewable text seen as part of the 
     Forgot Password URL specified via the 'login.forgotpassword.url' parameter. -->
-    <param name="login.forgotpassword.label">Forgot Password?</param>    
+    <!--<param name="login.forgotpassword.label">Forgot Password?</param>    -->
 
     <!-- URL in the My Account section that is linking to a Change Password page or external web app enabling URL to change their account password. -->
     <param name="password.change.url">https://demo.ariahgroup.org/</param>    
@@ -200,8 +202,7 @@
     <param name="password.change.url.label">Change Password</param>
 
     <!-- custom parameters for feedback -->
-    <param name="feedback.link.enabled">false</param>
-    <param name="feedback.link">https://jira.ariahgroup.org/</param>
+    <param name="feedback.link">https://jira.ariahgroup.org/secure/CreateIssue!default.jspa</param>
     <param name="feedback.linkText">Report an Issue</param>
         
     <param name="displayVersion.enabled">true</param>

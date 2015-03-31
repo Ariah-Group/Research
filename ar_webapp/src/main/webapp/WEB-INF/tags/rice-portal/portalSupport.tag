@@ -18,9 +18,8 @@ limitations under the License.
 <channel:portalChannelTop channelTitle="Ariah Group" />
 <div class="body">
     <ul class="chan">  	  
-        <li><a class="portal_link" href="<bean:message key="app.feedback.link"/>" target="_blank" title="<bean:message key="app.feedback.linkText" />"><bean:message key="app.feedback.linkText" /></a></li>
+        <li><a class="portal_link" href="${ConfigProperties.feedback.link}" target="_blank" title="${ConfigProperties.feedback.linkText}">${ConfigProperties.feedback.linkText}</a></li>
         <li><a class="portal_link" title="User Manual" href="${ConfigProperties.application.url}/static/help/default.htm" />User Manual</a></li>
-        <li>Submit Feedback</li>
     </ul>
 </div>
 <channel:portalChannelBottom />
