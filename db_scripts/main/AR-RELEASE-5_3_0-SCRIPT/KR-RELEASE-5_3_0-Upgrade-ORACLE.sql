@@ -142,7 +142,8 @@ update KRIM_PERM_T set NM='Create Amendment', DESC_TXT='Create a new amendment f
 update KRIM_PERM_ATTR_DATA_T set ATTR_VAL='create_amendment' where ATTR_VAL='create_ammendment';
 
 
-
+-- fix for RES-241
+Insert into KRCR_CMPNT_T (NMSPC_CD,CMPNT_CD,OBJ_ID,VER_NBR,NM,ACTV_IND) values ('KR-IDM','PersonDocumentName',SYS_GUID(),1,'Person Document Name Record','Y');
 
 
 commit;
