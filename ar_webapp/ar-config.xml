@@ -1,0 +1,215 @@
+<config>
+	<param name="application.http.scheme">http</param>
+	<param name="application.host">127.0.0.1</param>
+	<param name="http.port">8080</param>
+	<param name="app.context.name">research</param>
+     	<param name="application.url">${application.http.scheme}://${application.host}:${http.port}/${app.context.name}</param>
+	<param name="build.version">5.3.0</param>        
+    
+	<!-- KC Client DB -->
+	<param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:KUALI</param>
+	<param name="datasource.username">db_username</param>
+	<param name="datasource.password">db_password</param>
+	<param name="datasource.ojb.platform">Oracle9i</param>
+
+	<!-- For Embedded Mode - up to S2S Configuration - uncomment as needed -->
+	<!--
+	<param name="rice.server.url">http://127.0.0.1:8080/kr-${environment}</param>
+	<param name="kim.mode">EMBEDDED</param>
+	<param name="kcb.mode">REMOTE</param>
+	<param name="kew.mode">EMBEDDED</param>
+	<param name="ken.mode">REMOTE</param>
+	<param name="ksb.mode">REMOTE</param>
+	<param name="kns.mode">LOCAL</param>
+	<param name="coreservice.mode">REMOTE</param>
+	<param name="location.mode">REMOTE</param>	
+	<param name="core.mode">LOCAL</param>
+	<param name="dev.mode">false</param>
+	
+    <param name="rice.portal.allowed.regex">^(${application.url}|${rice.server.url})(/.*|)</param>
+    <param name="rice.ksb.web.forceEnable">true</param>
+    -->
+	
+    <!-- If running in embedded mode, this should be the same as the context of your Rice server. 
+    Example: For the rice url http://test.kc.kuali.org/kr-dly/portal.jsp
+    the context is kr-dly-->
+    <!--
+    <param name="context.names.rice">kr-${environment}</param>
+    -->
+	
+    <!-- Rice Server DB -->
+    <!-- Should be the same as KC Client DB when running bundled mode -->
+    <!--
+    <param name="server.datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:KUALI</param>
+    <param name="server.datasource.username">KRDEV</param>
+    <param name="server.datasource.password">ask your team</param>
+    -->
+	
+    <!-- S2S Configuration -->
+    <param name="s2s.keystore.location">path to keystore</param>
+    <param name="s2s.keystore.password">keystore password</param>
+    <param name="s2s.truststore.location">path to truststore</param>
+    <param name="s2s.truststore.password">truststore password</param>
+    
+    
+    <!-- port 446 is for SHA-1 certs, port 443 is for SHA-2 -->
+    <param name="grants.gov.s2s.host.production">https://ws07.grants.gov:443/grantsws-applicant/services/v2/</param>
+    <param name="grants.gov.s2s.host.development">https://trainingws.grants.gov:443/grantsws-applicant/services/v2/</param>
+    <param name="grants.gov.s2s.host">${grants.gov.s2s.host.development}</param>
+    <param name="grants.gov.s2s.port">ApplicantWebServicesSoapPort</param>
+
+    <param name="research.gov.s2s.production"></param>
+    <param name="research.gov.s2s.development">https://ws.acpt.research.gov/applyws/</param>
+    <param name="research.gov.s2s.host">${research.gov.s2s.development}</param>
+    <param name="research.gov.s2s.port">ApplicantWebServicesSoapPort</param>    
+   
+    <param name="research.gov.keystore.location">path to keystore for research.gov(can be the same as s2s/grants.gov and provided for flexibility)</param>
+    <param name="research.gov.keystore.password">keystore password</param>
+    <param name="research.gov.truststore.location">path to truststore</param>
+    <param name="research.gov.truststore.password">truststore password</param>
+    	
+        
+    <!-- un comment the following parameters for CAS Single-Sign-On setup -->
+<!--
+    <param name="cas.context.name">cas</param>
+    <param name="cas.url">https://demo.ariahgroup.org/${cas.context.name}</param>
+   
+    <param name="cas.require.https">false</param>
+    <param name="cas.validate.password">true</param>
+    <param name="cas.rice.server.name">${appserver.url}</param>
+  
+    <param name="filter.logout.class">org.jasig.cas.client.session.SingleSignOutFilter</param>
+    <param name="filtermapping.logout.1">/*</param>
+  
+    <param name="filter.login.class">org.jasig.cas.client.authentication.AuthenticationFilter</param>
+    <param name="filter.login.casServerLoginUrl">${cas.url}/login</param>
+    <param name="filter.login.serverName">${appserver.url}</param>
+    <param name="filtermapping.login.2">/*</param>
+  
+    <param name="filter.validation.class">org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter</param>
+    <param name="filter.validation.casServerUrlPrefix">${cas.url}</param>
+    <param name="filter.validation.serverName">${appserver.url}</param>
+    <param name="filtermapping.validation.3">/*</param>
+  
+    <param name="filter.caswrapper.class">org.jasig.cas.client.util.HttpServletRequestWrapperFilter</param>
+    <param name="filtermapping.caswrapper.4">/*</param>
+    <param name="rice.portal.logout.redirectUrl">${cas.url}/logout?service=${application.url}</param>
+-->
+        
+    <!-- The parameters "filter.login.class", "filtermapping.login.1", and "filter.login.showPassword"
+         should be commented OUT when the CAS Single Sign On parameters are enabled.    -->
+    <param name="filter.login.class">org.kuali.rice.krad.web.filter.DummyLoginFilter</param>
+    <param name="filtermapping.login.1">/*</param>
+    <param name="filter.login.showPassword">true</param>
+    
+    
+    <param name="production.environment.code">ptd</param>
+
+        
+    <!-- Logging print Configuration -->
+    <param name="print.logging.directory">/var/log/tomcat/</param>
+    <param name="print.logging.enable">false</param>
+	
+    <!-- Save Xml Configuration -->
+    <param name="print.xml.directory">/etc/tomcat/ariah_conf/xml/</param>
+	
+    <!-- Financial System WSDL Service URL -->
+    <param name="fin.system.integration.service.url">financial system service url</param>
+
+    <!-- Java mail properties -->
+    <param name="mail.from">mail.from@ariahgroup.org</param>
+    <param name="mail.transport.protocol">smtp</param>
+    <param name="mail.smtp.host">localhost</param>
+    <param name="mail.smtp.port">25</param>
+    <param name="mail.smtp.user"></param>
+    <param name="mail.user.credentials"></param>
+    <param name="mail.smtp.auth">false</param>
+	
+    <!-- parameters -->
+    <param name="mail.relay.server">mail.relay.server</param>
+    <param name="mailing.list.batch">mailing.list.batch</param>
+    
+    <!-- Encryption key that drives the encryption of CLOB content inside specific database fields.
+    You should change this from the DEFAULT value included here BEFORE creating any data in the system
+    for the first time, as changing it afterwards can lead to issue with retrieving previously 
+    encrypted content.    -->
+    <param name="encryption.key">k6BT6Fkgjks4hgA6A</param>
+	
+    <param name="keystore.alias">ariahrice</param>
+    <param name="keystore.file">/etc/tomcat/ariah_conf/security/ariahrice.keystore</param>
+    <param name="keystore.password">ariahDEFAULTchangeme</param>
+	
+    <param name="print.xml.directory">${java.io.tmpdir}/printing</param>
+
+    <!-- Configuration for Exception Incident handling and reporting -->
+    <param name="KualiExceptionHandlerAction.EXCEPTION_INCIDENT_REPORT_SERVICE">knsExceptionIncidentService</param>
+    <param name="MailMessage.from">mail.from@ariahgroup.org</param>
+    <param name="KualiExceptionIncidentServiceImpl.additionalExceptionNameList"></param>
+    <param name="KualiExceptionIncidentServiceImpl.REPORT_MAIL_LIST"></param>
+    <param name="kr.incident.mailing.list"></param>
+    <!-- End of Exception Incident handling and reporting -->
+	
+    <!-- Misc parameters -->
+    <param name="institution">My Institution</param>
+    <param name="security.directory">/etc/tomcat/ariah_conf/security/</param>
+    <param name="settings.directory">/etc/tomcat/ariah_conf/settings/</param>
+    <param name="attachments.directory">/etc/tomcat/ariah_conf/attachments/</param>
+       
+    <param name="rice.kr.additionalSpringFiles">classpath:org/ariahgroup/research/krad-overrides.xml</param>
+    <param name="rice.kc.pd.additionalSpringFiles">classpath:org/ariahgroup/research/kc-core-overrides.xml</param>
+    
+    <param name="kns.javascript.files">plugins/jquery/jquery-1.8.3.js,plugins/cookie/jquery.cookie.js,kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,dwr/engine.js,dwr/util.js,dwr/interface/PersonService.js,kr/scripts/objectInfo.js,dwr/interface/CustomAttributeService.js,dwr/interface/ProposalDevelopmentService.js,dwr/interface/BudgetService.js,dwr/interface/AwardTemplateReportTermService.js,dwr/interface/S2SService.js,scripts/fancybox2.1.5/jquery.fancybox.pack.js,plugins/blockUI/jquery.blockUI.js,scripts/kuali_application.js,scripts/ariah_research.js</param>
+    <param name="kns.css.files">kr/css/kuali.css,kr/scripts/jscalendar-1.0/calendar-win2k-1.css,scripts/fancybox2.1.5/jquery.fancybox.css,css/kuali_application.css</param>
+    
+    <param name="portal.css.files">rice-portal/css/portal.css,plugins/fancybox/jquery.fancybox.css,plugins/textpopout/popoutTextarea.css,plugins/jgrowl/jquery.jgrowl.css,css/kuali_overrides.css</param>
+    <param name="portal.javascript.files">plugins/jquery/jquery-1.8.3.js,plugins/cookie/jquery.cookie.js,plugins/scrollto/jquery.scrollTo-1.4.6.js,plugins/blockUI/jquery.blockUI.js,kr/scripts/my_common.js,plugins/easydrag/jquery.easydrag.js,plugins/fancybox/jquery.fancybox.pack.js,plugins/easing/jquery.easing-1.3.pack.js,plugins/jgrowl/jquery.jgrowl.js,rice-portal/scripts/portal.initialize.js,rice-portal/scripts/easyXDM/easyXDM.js</param>
+	    
+   
+    <!-- Filename of your logo placed in the <webapp>/static/images directory. -->
+    <param name="portal.logo.filename">logo.png</param>
+    <param name="portal.logo.alttext">Ariah Research</param>
+    
+    
+    <!-- Default Login Page parameter -->
+    
+    <!-- If set to 'true' then a LOGO is allowed to be displayed on the default login page,
+    as specified by the parameter 'login.logo.filename' -->
+    <param name="login.logo.enabled">true</param>
+    
+    <!-- This filename should ONLY be a filename and not a path. The file should be placed in the
+    webapp in static/images/ directory. This parameter ONLY controls the logo on the login page. -->
+    <param name="login.logo.filename">logo.png</param>
+    
+    <!-- If set to 'true' then a Link is allowed to be displayed on the default login page,
+    as specified by the parameter 'login.logo.filename' -->
+    <param name="login.forgotpassword.enabled">true</param>    
+    
+    <!-- This parameter allows you to specify an HTTP(s) link to a webapp that allows the users to 
+    change their password for the system. -->
+    <param name="login.forgotpassword.url">http://demo.ariahgroup.org/</param>    
+    
+    <!-- This parameter allows you to specify the LABEL or publicly viewable text seen as part of the 
+    Forgot Password URL specified via the 'login.forgotpassword.url' parameter. -->
+    <param name="login.forgotpassword.label">Forgot Password?</param>    
+
+    <!-- URL in the My Account sectionb that is linking to a Change Password page or external web app enabling URL to change their account password. -->
+    <param name="password.change.url">http://demo.ariahgroup.org/</param>    
+    
+    <!-- Label that appears as the link text in the user interface for the Link specified by the password.change.url parameter. -->
+    <param name="password.change.url.label">Change Password</param>
+
+    <!-- custom parameters for feedback -->
+    <param name="feedback.link.enabled">false</param>
+    <param name="feedback.link">http://jira.ariahgroup.org/</param>
+    <param name="feedback.linkText">Report an Issue</param>
+        
+    <param name="displayVersion.enabled">true</param>
+    <param name="displayVersion">5.3.0</param>
+        
+    <param name="displayEnvironment.enabled">true</param>
+    <param name="displayEnvironment.highlightcolor">red</param>
+    <param name="displayEnvironment">Demo Environment</param>        
+    
+    <!-- Default KC param, but portal modified to actually use it in the TITLE tag in the HEAD -->
+    <param name="portal.title">Ariah Research</param>
+</config>
