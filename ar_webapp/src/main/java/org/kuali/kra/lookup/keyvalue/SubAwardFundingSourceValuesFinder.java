@@ -33,7 +33,9 @@ package org.kuali.kra.lookup.keyvalue;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krad.migration.FormViewAwareUifKeyValuesFinderBase;
@@ -48,16 +50,21 @@ public class SubAwardFundingSourceValuesFinder extends FormViewAwareUifKeyValues
     @Override
     public List<KeyValue> getKeyValues() {
         SubAwardDocument doc = (SubAwardDocument) getDocument();
-        StringBuffer fundingValues = new StringBuffer();
+        StringBuilder fundingValues = new StringBuilder();
         Long subawardID = doc.getSubAward().getSubAwardId();
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
+
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("subAwardId", subawardID);
+
         Collection<SubAwardFundingSource> fundingSource = (Collection<SubAwardFundingSource>) KraServiceLocator
-                .getService(BusinessObjectService.class).findAll(SubAwardFundingSource.class);
+                .getService(BusinessObjectService.class).findMatching(SubAwardFundingSource.class, fieldValues);
+
         for (SubAwardFundingSource subAwardFunding : fundingSource) {
-            if (subAwardFunding.getSubAwardId().equals(subawardID)) {
-                fundingValues.append(subAwardFunding.getAward().getAwardNumber());
-                keyValues.add(new ConcreteKeyValue(subAwardFunding.getSubAwardFundingSourceId().toString(), "Award:" + subAwardFunding.getAward().getAwardNumber()));
-            }
+
+            fundingValues.append(subAwardFunding.getAward().getAwardNumber());
+            keyValues.add(new ConcreteKeyValue(subAwardFunding.getSubAwardFundingSourceId().toString(), "Award:" + subAwardFunding.getAward().getAwardNumber()));
+
         }
         if (fundingValues.length() == 0) {
             keyValues.add(0, new ConcreteKeyValue("", "No Funding Source has been added to this Subaward"));
