@@ -1754,4 +1754,18 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     </class-descriptor>		
+    
+    <class-descriptor class="org.ariahgroup.research.bo.ReportLink" table="REPORT_LINK">
+        <field-descriptor name="reportId" column="REPORT_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_REPORT_LINK_ID" autoincrement="true"/>
+        <field-descriptor name="moduleCode" column="COEUS_MODULE_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="reportUrl" column="REPORT_URL" jdbc-type="VARCHAR" />
+        <field-descriptor name="active" column="ACTIVE" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="updateTimestamp" column="UPDATED_DATE" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATED_USER" jdbc-type="VARCHAR" />
+        <reference-descriptor name="coeusModule" class-ref="org.kuali.kra.bo.CoeusModule" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="moduleCode" />
+        </reference-descriptor>
+    </class-descriptor>    
+    
 </descriptor-repository>

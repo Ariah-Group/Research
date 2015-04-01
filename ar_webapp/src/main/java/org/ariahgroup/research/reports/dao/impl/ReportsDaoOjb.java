@@ -41,7 +41,7 @@ public class ReportsDaoOjb extends PlatformAwareDaoBaseOjb implements ReportsDao
         List<ReportLink> reportLinks = new ArrayList<ReportLink>();
 
         try {
-            String sql = "select rl.REPORT_ID,rl.COEUS_MODULE_ID,rl.DESCRIPTION,rl.REPORT_URL,cm.description from REPORT_LINKS rl INNER JOIN COEUS_MODULE cm on rl.coeus_module_id = cm.module_code where rl.ACTIVE=1 and cm.active='Y' ORDER BY cm.sort_order,rl.COEUS_MODULE_ID, rl.SORT_ORDER";
+            String sql = "select rl.REPORT_ID,rl.COEUS_MODULE_ID,rl.DESCRIPTION,rl.REPORT_URL,cm.description from REPORT_LINK rl INNER JOIN COEUS_MODULE cm on rl.coeus_module_id = cm.module_code where rl.ACTIVE='Y' and cm.active='Y' ORDER BY cm.sort_order,rl.COEUS_MODULE_ID, rl.SORT_ORDER";
 
             pstmt = pbInstance.serviceConnectionManager().getConnection().prepareStatement(sql);
 
@@ -52,7 +52,7 @@ public class ReportsDaoOjb extends PlatformAwareDaoBaseOjb implements ReportsDao
             while (rs.next()) {
 
                 int reportId = rs.getInt(1);
-                int moduleId = rs.getInt(2);
+                String moduleId = rs.getString(2);
                 String reportLabel = rs.getString(3);
                 String reportUrl = rs.getString(4);
                 String moduleName = rs.getString(5);

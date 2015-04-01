@@ -1,0 +1,190 @@
+<!--
+/*
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="ReportLink" parent="ReportLink-parentBean" />
+    <bean id="ReportLink-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.ariahgroup.research.bo.ReportLink" />
+        <property name="objectLabel" value="Report Link" />
+        <property name="inquiryDefinition" >
+            <ref bean="ReportLink-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition" >
+            <ref bean="ReportLink-lookupDefinition" />
+        </property>
+        <property name="titleAttribute" value="ReportId" />
+        <property name="attributes" >
+            <list>
+                <ref bean="ReportLink-reportId" />
+                <ref bean="ReportLink-moduleCode" />
+                <ref bean="ReportLink-description" />
+                <ref bean="ReportLink-reportUrl" />
+                <ref bean="ReportLink-active" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    
+    <bean id="ReportLink-reportId" parent="ReportLink-reportId-parentBean" />
+    <bean id="ReportLink-reportId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="reportId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Report Link Id" />
+        <property name="shortLabel" value="Report Link Id" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                  p:size="12" />
+        </property>
+        <property name="summary" value="Report Link Id" />
+        <property name="description" value="Report Link Id" />
+    </bean>
+
+    <bean id="ReportLink-description" parent="ReportLink-description-parentBean" />
+    <bean id="ReportLink-description-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="description" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Description" />
+        <property name="shortLabel" value="Description" />
+        <property name="maxLength" value="100" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                  p:size="30" />
+        </property>
+        <property name="summary" value="Description" />
+        <property name="description" value="Description" />
+    </bean>
+    
+    <bean id="ReportLink-reportUrl" parent="ReportLink-reportUrl-parentBean" />
+    <bean id="ReportLink-reportUrl-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="reportUrl" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Report URL" />
+        <property name="shortLabel" value="Report URL" />
+        <property name="maxLength" value="500" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                  p:size="40" />
+        </property>
+        <property name="summary" value="Report URL" />
+        <property name="description" value="Report URL" />
+    </bean>
+    
+            
+    <bean id="ReportLink-moduleCode" parent="ReportLink-moduleCode-parentBean" />
+    <bean id="ReportLink-moduleCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="moduleCode"/>
+	    <property name="forceUppercase" value="false"/>
+	    <property name="label" value="Module Code"/>
+	    <property name="shortLabel" value="Module Code"/>
+	    <property name="maxLength" value="4"/>
+	    <property name="validationPattern">
+            <bean parent="AlphaNumericValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="SelectControlDefinition"
+                  p:businessObjectClass="org.kuali.kra.bo.CoeusModule"
+                  p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                  p:includeKeyInLabel="false"
+                  p:includeBlankRow="false"
+                  p:keyAttribute="moduleCode"
+                  p:labelAttribute="description" />
+        </property>
+        <property name="summary" value="Module Code" />
+        <property name="description" value="Module Code" />
+    </bean>
+    
+
+    
+    <bean id="ReportLink-active" parent="ReportLink-active-parentBean"/>
+    <bean id="ReportLink-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="active"/>
+        <property name="label" value="Active"/>
+        <property name="shortLabel" value="Active"/>
+        <property name="summary" value="Active"/>
+        <property name="description" value="Active"/>
+    </bean>
+
+
+
+    <!-- Business Object Inquiry Definition -->
+    
+    <bean id="ReportLink-inquiryDefinition" parent="ReportLink-inquiryDefinition-parentBean" />
+    <bean id="ReportLink-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Report Link" />
+        <property name="inquirySections" >
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value="Report Link" />
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields" >
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="reportId" p:forceInquiry="true" />
+                            <bean parent="FieldDefinition" p:attributeName="moduleCode" />
+                            <bean parent="FieldDefinition" p:attributeName="description" />
+                            <bean parent="FieldDefinition" p:attributeName="active" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="ReportLink-lookupDefinition" parent="ReportLink-lookupDefinition-parentBean" />
+    <bean id="ReportLink-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Report Link Lookup" />
+        <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
+        <property name="defaultSort" >
+            <bean parent="SortDefinition" />
+        </property>
+        <property name="lookupFields" >
+            <list>
+	            <bean parent="FieldDefinition" p:attributeName="reportId" />
+	            <bean parent="FieldDefinition" p:attributeName="description" />
+	            <bean parent="FieldDefinition" p:attributeName="moduleCode" />
+	            <bean parent="FieldDefinition" p:attributeName="active" />
+            </list>
+        </property>
+        <property name="resultFields" >
+            <list>
+	            <bean parent="FieldDefinition" p:attributeName="reportId" p:forceInquiry="true" />
+	            <bean parent="FieldDefinition" p:attributeName="moduleCode" />
+                    <bean parent="FieldDefinition" p:attributeName="description" />
+	            <bean parent="FieldDefinition" p:attributeName="reportUrl" />
+                    <bean parent="FieldDefinition" p:attributeName="active" />
+            </list>
+        </property>
+    </bean>
+    
+</beans>

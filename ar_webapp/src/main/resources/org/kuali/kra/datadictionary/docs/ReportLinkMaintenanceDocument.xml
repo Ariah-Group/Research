@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="ReportLinkMaintenanceDocument" parent="ReportLinkMaintenanceDocument-parentBean"/>
+  
+    <bean id="ReportLinkMaintenanceDocument-parentBean" abstract="true" parent="ArMaintenanceDocumentEntry">
+        <property name="businessObjectClass" value="org.ariahgroup.research.bo.ReportLink"/>
+        <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+        <property name="maintainableSections">
+            <list>
+                <ref bean="ReportLinkMaintenanceDocument-EditReportLink"/>
+            </list>
+        </property>
+        <property name="lockingKeys">
+            <list>
+                <value>reportId</value>
+            </list>
+        </property>
+        <property name="allowsRecordDeletion" value="true" />
+        <property name="documentTypeName" value="ReportLinkMaintenanceDocument"/>
+        <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    </bean>
+
+    <!-- Maintenance Section Definitions -->
+
+    <bean id="ReportLinkMaintenanceDocument-EditReportLink" parent="ReportLinkMaintenanceDocument-EditReportLink-parentBean"/>
+
+    <bean id="ReportLinkMaintenanceDocument-EditReportLink-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Edit Report Link"/>
+        <property name="title" value="Edit Report Link"/>
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="reportUrl" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="moduleCode" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="Y"/>
+            </list>
+        </property>
+    </bean>
+</beans>

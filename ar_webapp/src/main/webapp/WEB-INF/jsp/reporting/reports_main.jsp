@@ -44,7 +44,7 @@ limitations under the License.
                             //StringBuilder sb = new StringBuilder(1000);
                             ReportLink report = iter.next();
 
-                            if (report.getModuleCode() != tempModuleId) {
+                            if (!report.getModuleCode().equals(String.valueOf(tempModuleId))) {
 
                                 numReportSections++;
 
@@ -76,7 +76,11 @@ limitations under the License.
         %>
 
         <%                    
-            tempModuleId = report.getModuleCode();
+            try {
+                tempModuleId = Integer.parseInt(report.getModuleCode());
+            } catch(Exception e) {
+                tempModuleId = -1;
+            }
                 } else {
                     out.println("<li><a target=\"_blank\" title='" + report.getDescription() + "' href='" + report.getReportUrl() + "'>" + report.getDescription() + "</a></li>");
                 }
