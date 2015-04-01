@@ -36,7 +36,7 @@ public class ProposalYnq extends KraSortablePersistableBusinessObjectBase implem
 
     private String dummyAnswer;
 
-    private boolean explanationRequried = true;
+    private boolean explanationRequired = true;
 
     private boolean reviewDateRequired = true;
 
@@ -104,12 +104,12 @@ public class ProposalYnq extends KraSortablePersistableBusinessObjectBase implem
         this.dummyAnswer = dummyAnswer;
     }
 
-    public boolean getExplanationRequried() {
-        return explanationRequried;
+    public boolean getExplanationRequired() {
+        return explanationRequired;
     }
 
-    public void setExplanationRequried(boolean explanationRequried) {
-        this.explanationRequried = explanationRequried;
+    public void setExplanationRequired(boolean explanationRequired) {
+        this.explanationRequired = explanationRequired;
     }
 
     public boolean getReviewDateRequired() {

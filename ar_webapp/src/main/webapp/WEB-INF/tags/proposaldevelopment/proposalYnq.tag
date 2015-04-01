@@ -128,7 +128,7 @@
 					</c:choose>
                       </span></div>
                         <span class="fineprint"></span> </td>
-					<bean:define id="explanationRequired" name="KualiForm" property="${iproposalYnq}.explanationRequried" />
+					<bean:define id="explanationRequired" name="KualiForm" property="${iproposalYnq}.explanationRequired" />
       				<c:set var="disableExplanationRequired" value="false" />
     				<c:if test="${explanationRequired == 'No'}">
       					<c:set var="disableExplanationRequired" value="true" />

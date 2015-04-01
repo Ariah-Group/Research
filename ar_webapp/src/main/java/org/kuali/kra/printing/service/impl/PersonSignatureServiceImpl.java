@@ -66,7 +66,7 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
     public enum SignatureTypes {
         DEFAULT_SIGNATURE("D"), 
         SIGNED_IN_USER_SIGNATURE("S"), 
-        NO_SIGNATURE_REQURIED("N");
+        NO_SIGNATURE_REQUIRED("N");
 
         private String signatureType;
 
@@ -113,7 +113,7 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
     protected ByteArrayOutputStream identifyModeAndApplySignature(ByteArrayOutputStream originalByteArrayOutputStream) throws Exception {
         ByteArrayOutputStream outputStream = originalByteArrayOutputStream;
         String signatureTypeParam = getSignatureTypeParameter();
-        SignatureTypes signatureType = SignatureTypes.NO_SIGNATURE_REQURIED;
+        SignatureTypes signatureType = SignatureTypes.NO_SIGNATURE_REQUIRED;
         if(ObjectUtils.isNotNull(signatureTypeParam)) {
             signatureType = SignatureTypes.getSignatureMode(signatureTypeParam);
         }
@@ -127,7 +127,7 @@ public abstract class PersonSignatureServiceImpl implements PersonSignatureServi
                     String personId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
                     outputStream = printLoggedInUserSignature(personId, outputStream);
                     break;
-                case NO_SIGNATURE_REQURIED :
+                case NO_SIGNATURE_REQUIRED :
                     break;
             }
         }else {

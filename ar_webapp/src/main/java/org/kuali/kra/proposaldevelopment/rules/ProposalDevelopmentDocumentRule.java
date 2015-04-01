@@ -165,7 +165,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
                 reportError(String.format(PROPOSAL_QUESTIONS_KEY, j, PROPOSAL_QUESTIONS_KEY_PROPERTY_ANSWER), KeyConstants.ERROR_REQUIRED_ANSWER, questionSerial.get(proposalYnq.getQuestionId()).toString(), groupName);
             }
-            /* look for date requried */
+            /* look for date required */
             String dateRequiredFor = proposalYnq.getYnq().getDateRequiredFor();
             if (dateRequiredFor != null) {
                 if (StringUtils.isNotBlank(ynqAnswer)
@@ -178,7 +178,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
                 }
             }
 
-            /* look for explanation requried */
+            /* look for explanation required */
             String explanationRequiredFor = proposalYnq.getYnq().getExplanationRequiredFor();
             if (explanationRequiredFor != null) {
                 if (StringUtils.isNotBlank(ynqAnswer)

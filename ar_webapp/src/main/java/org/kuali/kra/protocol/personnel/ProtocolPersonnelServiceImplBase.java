@@ -327,23 +327,23 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
     }
     
     /**
-     * This method is to check whether unit details is requried for a person role.
+     * This method is to check whether unit details is required for a person role.
      * Refresh person role first so that if there is any change in the role before save the new 
      * role will be set to that person.
      * @param protocolPerson
      * @return boolean true / false
      */
     protected boolean isUnitDetailsRequired(ProtocolPersonBase protocolPerson) {
-        boolean unitDetailsRequried = true;
+        boolean unitDetailsRequired = true;
         protocolPerson.refreshReferenceObject(REFERENCE_PERSON_ROLE);
         if (!protocolPerson.getProtocolPersonRole().isUnitDetailsRequired()) {
-            unitDetailsRequried = false;
+            unitDetailsRequired = false;
         }
-        return unitDetailsRequried;
+        return unitDetailsRequired;
     }
     
     /**
-     * This method is to check whether Affiliation details is requried for a person role.
+     * This method is to check whether Affiliation details is required for a person role.
      * We need to refresh Person Role to reflect recent changes.
      * Person role refresh is taken care in isUnitDetailsRequired method which is
      * invoked prior to this method.
@@ -351,11 +351,11 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
      * @return
      */
     protected boolean isAffiliationDetailsRequired(ProtocolPersonBase protocolPerson) {
-        boolean affiliationDetailsRequried = true;
+        boolean affiliationDetailsRequired = true;
         if (!protocolPerson.getProtocolPersonRole().isAffiliationDetailsRequired()) {
-            affiliationDetailsRequried = false;
+            affiliationDetailsRequired = false;
         }
-        return affiliationDetailsRequried;
+        return affiliationDetailsRequired;
     }
 
     /**

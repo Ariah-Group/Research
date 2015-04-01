@@ -187,7 +187,7 @@ public class YnqServiceImpl implements YnqService {
         }
         /* check Explanation required for column is mandatory */
         if(type.getExplanationRequiredFor() == null) {
-            proposalYnq.setExplanationRequried(false);
+            proposalYnq.setExplanationRequired(false);
         }else {
             proposalYnq.setExplanationRequiredDescription(Constants.YNQ_EXPLANATION_REQUIRED.concat(getYnqRequiredLabel(type.getExplanationRequiredFor())));
         }
