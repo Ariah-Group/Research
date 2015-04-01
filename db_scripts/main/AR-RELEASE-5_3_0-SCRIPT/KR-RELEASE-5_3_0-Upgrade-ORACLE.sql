@@ -116,6 +116,25 @@ update KRIM_ROLE_T set KIM_TYP_ID='69' where ROLE_NM='COI Reporter';
 
 -- Maintenance Document Fix Affecting Permissions to Edit Maintenance Documents
 update KRIM_PERM_ATTR_DATA_T set ATTR_VAL='ArMaintenanceDocument' where ATTR_VAL='KcMaintenanceDocument';
+update KREW_DOC_TYP_T set DOC_TYP_NM='AR' where DOC_TYP_NM='KC';
+
+update KREW_DOC_TYP_T set DOC_TYP_NM='ArAwardsMaintenanceDocument' where DOC_TYP_NM='KcAwardsMaintenanceDocument';
+update KREW_DOC_TYP_T set DOC_TYP_NM='ArComplianceMaintenanceDocument' where DOC_TYP_NM='KcComplianceMaintenanceDocument';
+update KREW_DOC_TYP_T set DOC_TYP_NM='ArMaintenanceDocument' where DOC_TYP_NM='KcMaintenanceDocument';
+update KREW_DOC_TYP_T set DOC_TYP_NM='ArMiscellaneousMaintenanceDocument' where DOC_TYP_NM='KcMiscellaneousMaintenanceDocument';
+update KREW_DOC_TYP_T set DOC_TYP_NM='ArNegotiationsMaintenanceDocument' where DOC_TYP_NM='KcNegotiationsMaintenanceDocument';
+update KREW_DOC_TYP_T set DOC_TYP_NM='ArProposalsMaintenanceDocument' where DOC_TYP_NM='KcProposalsMaintenanceDocument';
+update KREW_DOC_TYP_T set DOC_TYP_NM='ArSharedMaintenanceDocument' where DOC_TYP_NM='KcSharedMaintenanceDocument';
+
+update KREW_DOC_TYP_T set DOC_TYP_NM='AffiliationTypeMaintenanceDocument' where DOC_TYP_NM='KcAffiliationTypeMaintenanceDocument';
+update KREW_DOC_TYP_T set DOC_TYP_NM='KrmsTermFunParamSpecMaintenanceDocument' where DOC_TYP_NM='KcKrmsTermFunParamSpecMaintenanceDocument';
+update KREW_DOC_TYP_T set DOC_TYP_NM='KrmsTermFunctionMaintenanceDocument' where DOC_TYP_NM='KcKrmsTermFunctionMaintenanceDocument';
+update KREW_DOC_TYP_T set DOC_TYP_NM='NotificationDocument' where DOC_TYP_NM='KcNotificationDocument';
+update KREW_DOC_TYP_T set DOC_TYP_NM='PersonExtendedAttributesMaintenanceDocument' where DOC_TYP_NM='KcPersonExtendedAttributesMaintenanceDocument';
+
+update KREW_DOC_TYP_T set DOC_TYP_NM='Ariah Research Sub Module Maintenance Document', LBL='Ariah Research Sub Module' where DOC_TYP_NM='Coeus Sub Module Maintenance Document';
+update KREW_DOC_TYP_T set LBL='Ariah Research Module' where DOC_TYP_NM='CoeusModuleMaintenanceDocument';
+
 
 
 -- New Roles for System Admin and System Maintenance
