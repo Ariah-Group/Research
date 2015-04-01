@@ -37,11 +37,11 @@ getAnswer() {
 	echo 1>&2
 	}	
 
-mode=`getChoice 'Enter Rice Mode' BUNDLE EMBED`
+mode=`getChoice 'Enter Rice Mode' STANDALONE SHARED`
 
-if [ "${mode}" = "EMBED" ]
+if [ "${mode}" = "SHARED" ]
 then
-	InstRice=`getChoice 'Install/Upgrade Embedded Rice Server Side (KC-related Rice data will still be loaded, regardless of response)' Y N`
+	InstRice=`getChoice 'Install/Upgrade Shared Rice Server Side (AR-related Rice data will still be loaded, regardless of response)' Y N`
 	if [ "${InstRice}" = 'N' ]
 	then
 		echo 'WARNING: By choosing this option, it is expected that your standalone Rice is already upgraded to a current version.  If it is not, please stop this installation until that is completed.'
@@ -50,17 +50,17 @@ else
 	InstRice='Y'
 fi
 
-dbtype=`getChoice 'Enter Database Type' ORACLE MYSQL`
+dbtype=`getChoice 'Enter Database Type' ORACLE`
 
-version=`getChoice 'Enter Currently Installed Version' NEW 3.1.1 5.0 5.0.1 5.1 5.1.1 5.2`
+version=`getChoice 'Enter Currently Installed Version' NEW 3.1.1 5.0 5.0.1 5.1 5.1.1 5.2 5.2.1`
 
-un=`getAnswer 'Enter KC Database Username'`
+un=`getAnswer 'Enter AR Database Username'`
 
-pw=`getAnswer 'Enter KC Database Password'`
+pw=`getAnswer 'Enter AR Database Password'`
 
 if [ "${dbtype}" = "ORACLE" ]
 then
-	DBSvrNm=`getAnswer 'Enter KC Database TNS Name'`
+	DBSvrNm=`getAnswer 'Enter AR Database TNS Name'`
 	if [ "${DBSvrNm}" = "_" ]
 	then
 		DBSvrNm=''
@@ -68,14 +68,14 @@ then
 		DBSvrNm="@${DBSvrNm}"
 	fi
 else
-	DBSvrNm=`getAnswer 'Enter KC Schema Name'`
+	DBSvrNm=`getAnswer 'Enter AR Schema Name'`
 	if [ "${DBSvrNm}" = "_" ]
 	then
 		DBSvrNm="${un}"
 	fi
 fi
 
-if [ "${mode}" = "EMBED" ]
+if [ "${mode}" = "SHARED" ]
 then
 	Riceun=`getAnswer 'Enter Rice Database Username'`
 	Ricepw=`getAnswer 'Enter Rice Database Password'`
@@ -113,11 +113,11 @@ case "${dbtype}" in
 		
 		if [ "${version}" = "NEW" ]
 		then
-			if [ "${mode}" = "BUNDLE" ]
+			if [ "${mode}" = "STANDALONE" ]
 			then
 				sqlplus "${un}"/"${pw}${DBSvrNm}" < oracle_server_rice.sql
 			else
-				if [ "${mode}" = "EMBED" ]
+				if [ "${mode}" = "SHARED" ]
 				then
 					if [ "${InstRice}" = "Y" ]
 					then
@@ -234,7 +234,7 @@ case "${dbtype}" in
             cd ..
 
             cd KC-RELEASE-4_0-SCRIPT
-            if [ "${mode}" = "EMBED" ]
+            if [ "${mode}" = "SHARED" ]
             then
                 sqlplus "${un}"/"${pw}${DBSvrNm}" < KRC_RICE-RELEASE-4_0-Upgrade-ORACLE.sql
             fi
@@ -251,7 +251,7 @@ case "${dbtype}" in
             cd ..
 
             cd KC-RELEASE-5_0-SCRIPT
-            if [ "${mode}" = "EMBED" ]
+            if [ "${mode}" = "SHARED" ]
             then
                 sqlplus "${un}"/"${pw}${DBSvrNm}" < KRC_RICE-RELEASE-5_0-Upgrade-ORACLE.sql
             fi
@@ -277,7 +277,7 @@ case "${dbtype}" in
         if [ "${version}" = "5.0.1" ] || [ "${version}" = "5.0" ] || [ "${version}" = '3.1.1' ] || [ "${version}" = "NEW" ]
         then
             cd KC-RELEASE-5_1_0-SCRIPT
-            if [ "${mode}" = "EMBED" ]
+            if [ "${mode}" = "SHARED" ]
             then
                 sqlplus "${un}"/"${pw}${DBSvrNm}" < KRC_RICE-RELEASE-5_1_0-Upgrade-ORACLE.sql
             fi
@@ -294,7 +294,7 @@ case "${dbtype}" in
         if [ "${version}" = "5.1" ] || [ "${version}" = "5.0.1" ] || [ "${version}" = "5.0" ] || [ "${version}" = '3.1.1' ] || [ "${version}" = "NEW" ]
         then
             cd KC-RELEASE-5_1_1-SCRIPT
-            if [ "${mode}" = "EMBED" ]
+            if [ "${mode}" = "SHARED" ]
             then
                 sqlplus "${un}"/"${pw}${DBSvrNm}" < KRC_RICE-RELEASE-5_1_1-Upgrade-ORACLE.sql
             fi
@@ -308,10 +308,10 @@ case "${dbtype}" in
             cd ..
 		fi
 		
-		if [ "${version}" = "5.1.1" ] || [ "${version}" = "5.1" ] || [ "${version}" = "5.0.1" ] || [ "${version}" = "5.0" ] || [ "${version}" = '3.1.1' ] || [ "${version}" = "NEW" ]
+	if [ "${version}" = "5.1.1" ] || [ "${version}" = "5.1" ] || [ "${version}" = "5.0.1" ] || [ "${version}" = "5.0" ] || [ "${version}" = '3.1.1' ] || [ "${version}" = "NEW" ]
         then
             cd KC-RELEASE-5_2_0-SCRIPT
-            if [ "${mode}" = "EMBED" ]
+            if [ "${mode}" = "SHARED" ]
             then
                 sqlplus "${un}"/"${pw}${DBSvrNm}" < KRC_RICE-RELEASE-5_2_0-Upgrade-ORACLE.sql
             fi
@@ -325,7 +325,7 @@ case "${dbtype}" in
             cd ..
 		fi
 		
-		if [ "${version}" = "5.2" ] || [ "${version}" = "5.1.1" ] || [ "${version}" = "5.1" ] || [ "${version}" = "5.0.1" ] || [ "${version}" = "5.0" ] || [ "${version}" = '3.1.1' ] || [ "${version}" = "NEW" ]
+	if [ "${version}" = "5.2" ] || [ "${version}" = "5.1.1" ] || [ "${version}" = "5.1" ] || [ "${version}" = "5.0.1" ] || [ "${version}" = "5.0" ] || [ "${version}" = '3.1.1' ] || [ "${version}" = "NEW" ]
         then
             cd KC-RELEASE-5_2_1-SCRIPT
             sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-RELEASE-5_2_1-Upgrade-ORACLE.sql
@@ -334,6 +334,15 @@ case "${dbtype}" in
             cd ..
 		fi
 		
+	if [ "${version}" = "5.2.1" ] || ${version}" = "5.2" ] || [ "${version}" = "5.1.1" ] || [ "${version}" = "5.1" ] || [ "${version}" = "5.0.1" ] || [ "${version}" = "5.0" ] || [ "${version}" = '3.1.1' ] || [ "${version}" = "NEW" ]
+        then
+            cd AR-RELEASE-5_3_0-SCRIPT
+            sqlplus "${un}"/"${pw}${DBSvrNm}" < AR-RELEASE-5_3_0-Upgrade-ORACLE.sql
+            sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-5_3_0-Upgrade-ORACLE.sql
+            mv *.log ../LOGS/
+            cd ..
+		fi
+
 	cd KC-RELEASE-99_9_9-SCRIPT
 	sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-99_9_9-Upgrade-ORACLE.sql
 	mv *.log ../LOGS/
@@ -346,7 +355,7 @@ case "${dbtype}" in
 		
 	"MYSQL")
 	
-		cd KC-RELEASE-0_0_0-SCRIPT
+	cd KC-RELEASE-0_0_0-SCRIPT
         mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KC-RELEASE-0_0_0-Upgrade-MYSQL.sql > KC-RELEASE-0_0_0-Upgrade-MYSQL-Install.log 2>&1
         mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s -f < KR-RELEASE-0_0_0-Upgrade-MYSQL.sql > KR-RELEASE-0_0_0-Upgrade-MYSQL-Install.log 2>&1
         mv *.log ../LOGS/
@@ -356,11 +365,11 @@ case "${dbtype}" in
         
 	if [ "${version}" = "NEW" ]
 	then
-		if [ "${mode}" = "BUNDLE" ]
+		if [ "${mode}" = "STANDALONE" ]
 		then
 			mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < mysql_server_rice.sql > KC-Release-3_0-Clean-Server-Rice-Mysql-Install.log 2>&1
 		else 
-			if [ "${mode}" = "EMBED" ]
+			if [ "${mode}" = "SHARED" ]
 			then
 				if [ "${InstRice}" = "Y" ]
 				then
@@ -477,7 +486,7 @@ case "${dbtype}" in
             cd ..
 
             cd KC-RELEASE-4_0-SCRIPT
-            if [ "${mode}" = "EMBED" ]
+            if [ "${mode}" = "SHARED" ]
             then
                 mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KRC_RICE-RELEASE-4_0-Upgrade-MYSQL.sql > KRC_RICE-RELEASE-4_0-Upgrade-MYSQL-Install.log 2>&1
             fi
@@ -494,7 +503,7 @@ case "${dbtype}" in
             cd ..
 
             cd KC-RELEASE-5_0-SCRIPT
-            if [ "${mode}" = "EMBED" ]
+            if [ "${mode}" = "SHARED" ]
             then
                 mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KRC_RICE-RELEASE-5_0-Upgrade-MYSQL.sql > KRC_RICE-RELEASE-5_0-Upgrade-MYSQL-Install.log 2>&1
             fi
@@ -520,7 +529,7 @@ case "${dbtype}" in
         if [ "${version}" = "5.0.1" ] || [ "${version}" = "5.0" ] || [ "${version}" = '3.1.1' ] || [ "${version}" = "NEW" ]
         then
             cd KC-RELEASE-5_1_0-SCRIPT
-            if [ "${mode}" = "EMBED" ]
+            if [ "${mode}" = "SHARED" ]
             then
                 mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KRC_RICE-RELEASE-5_1_0-Upgrade-MYSQL.sql > KRC_RICE-RELEASE-5_1_0-Upgrade-MYSQL-Install.log 2>&1
             fi
@@ -537,7 +546,7 @@ case "${dbtype}" in
         if [ "${version}" = "5.1" ] || [ "${version}" = "5.0.1" ] || [ "${version}" = "5.0" ] || [ "${version}" = '3.1.1' ] || [ "${version}" = "NEW" ]
         then
             cd KC-RELEASE-5_1_1-SCRIPT
-            if [ "${mode}" = "EMBED" ]
+            if [ "${mode}" = "SHARED" ]
             then
                 mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KRC_RICE-RELEASE-5_1_1-Upgrade-MYSQL.sql > KRC_RICE-RELEASE-5_1_1-Upgrade-MYSQL-Install.log 2>&1
             fi
@@ -554,7 +563,7 @@ case "${dbtype}" in
         if [ "${version}" = "5.1.1" ] || [ "${version}" = "5.1" ] || [ "${version}" = "5.0.1" ] || [ "${version}" = "5.0" ] || [ "${version}" = '3.1.1' ] || [ "${version}" = "NEW" ]
         then
             cd KC-RELEASE-5_2_0-SCRIPT
-            if [ "${mode}" = "EMBED" ]
+            if [ "${mode}" = "SHARED" ]
             then
                 mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KRC_RICE-RELEASE-5_2_0-Upgrade-MYSQL.sql > KRC_RICE-RELEASE-5_2_0-Upgrade-MYSQL-Install.log 2>&1
             fi
