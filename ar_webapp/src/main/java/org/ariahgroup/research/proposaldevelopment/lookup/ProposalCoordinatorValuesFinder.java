@@ -39,7 +39,7 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
  * retrieve proposal coordinators belonging to the current unit and up the
  * hierarchy
  *
- * @author mugo
+ * @author The Ariah Group, Inc.
  *
  */
 public class ProposalCoordinatorValuesFinder extends KeyValuesBase {
