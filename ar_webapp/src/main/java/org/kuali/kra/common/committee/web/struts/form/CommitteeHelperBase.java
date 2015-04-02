@@ -58,7 +58,7 @@ public abstract class CommitteeHelperBase implements Serializable {
     private java.sql.Date historyStartDate;
     private java.sql.Date historyEndDate;
     private List<CommitteeBatchCorrespondenceBase> batchCorrespondenceHistory;
-    private Boolean printRooster;
+    private Boolean printRoster;
     private Boolean printFutureScheduledMeeting;
     private boolean modifySchedule = false;
     private boolean viewSchedule = false;
@@ -280,12 +280,12 @@ public abstract class CommitteeHelperBase implements Serializable {
         this.batchCorrespondenceHistory = batchCorrespondenceHistory;
     }
 
-    public Boolean getPrintRooster() {
-        return printRooster;
+    public Boolean getPrintRoster() {
+        return printRoster;
     }
 
-    public void setPrintRooster(Boolean printRooster) {
-        this.printRooster = printRooster;
+    public void setPrintRoster(Boolean printRoster) {
+        this.printRoster = printRoster;
     }
     
     public Boolean getPrintFutureScheduledMeeting() {

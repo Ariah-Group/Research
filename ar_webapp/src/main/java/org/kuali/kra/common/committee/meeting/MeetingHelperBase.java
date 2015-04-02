@@ -82,7 +82,7 @@ public abstract class MeetingHelperBase implements Serializable {
     private List<ProtocolCorrespondence> correspondences;
     private String reportType;
     private String viewId;
-    private Boolean printRooster;
+    private Boolean printRoster;
     private Boolean printFutureScheduledMeeting;
     private boolean hideReviewerName;
     private static String minutesSentMessage;
@@ -114,7 +114,7 @@ public abstract class MeetingHelperBase implements Serializable {
         scheduleAgendas = new ArrayList<ScheduleAgendaBase>();
         minuteDocs = new ArrayList<CommScheduleMinuteDocBase>();
         correspondences = new ArrayList<ProtocolCorrespondence>();
-        printRooster = false;
+        printRoster = false;
         printFutureScheduledMeeting = false;
         //       hideReviewerName = getReviewerCommentsService().isHideReviewerName();
         initDeletedList();
@@ -453,12 +453,12 @@ public abstract class MeetingHelperBase implements Serializable {
         this.viewId = viewId;
     }
 
-    public Boolean getPrintRooster() {
-        return printRooster;
+    public Boolean getPrintRoster() {
+        return printRoster;
     }
 
-    public void setPrintRooster(Boolean printRooster) {
-        this.printRooster = printRooster;
+    public void setPrintRoster(Boolean printRoster) {
+        this.printRoster = printRoster;
     }
 
     public Boolean getPrintFutureScheduledMeeting() {

@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.common.committee.bo;
 
@@ -73,7 +89,7 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
     private static final String CHAIR_MEMBERSHIP_ROLE_CODE = "1";
     private String committeeChair;
     private String unitName;
-    private Boolean printRooster;
+    private Boolean printRoster;
 
     /**
      * Constructs a CommitteeBase.
@@ -84,7 +100,7 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
         setCommitteeMemberships(new ArrayList<CommitteeMembershipBase>());
         setCommitteeSchedules(new ArrayList<CS>());
         setCommitteeTypeCode(getProtocolCommitteeTypeCodehook());
-        setPrintRooster(false);
+        setPrintRoster(false);
     }
     
     protected abstract String getProtocolCommitteeTypeCodehook();
@@ -260,12 +276,12 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
     public void setCommitteeResearchAreas(List<CommitteeResearchAreaBase> committeeResearchAreas) {
         this.committeeResearchAreas = committeeResearchAreas;
     }
-    public Boolean getPrintRooster() {
-        return printRooster;
+    public Boolean getPrintRoster() {
+        return printRoster;
     }
 
-    public void setPrintRooster(Boolean printRooster) {
-        this.printRooster = printRooster;
+    public void setPrintRoster(Boolean printRoster) {
+        this.printRoster = printRoster;
     }
     
     @SuppressWarnings("unchecked")

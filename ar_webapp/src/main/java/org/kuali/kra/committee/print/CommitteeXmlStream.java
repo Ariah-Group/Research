@@ -106,7 +106,7 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
 
     private void setScheduleForcommittee(org.kuali.kra.committee.bo.Committee committee, Committee committeeType) {
         Date currentDate = new Date();
-        Boolean isRoster = committee.getPrintRooster();
+        Boolean isRoster = committee.getPrintRoster();
         List<CommitteeSchedule> vecSchedule = committee.getCommitteeSchedules();
         if (vecSchedule.isEmpty()) {
             return;

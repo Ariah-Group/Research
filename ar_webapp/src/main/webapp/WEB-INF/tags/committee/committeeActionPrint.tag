@@ -34,7 +34,7 @@
                     <td><div align="left">Roster</div></td> 
                     <td>
                         <div align="center">
-                            <kul:htmlControlAttribute property="committeeHelper.printRooster" 
+                            <kul:htmlControlAttribute property="committeeHelper.printRoster" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}"
                                                       readOnly="false" styleClass="printCorOptions"/>
                         </div>

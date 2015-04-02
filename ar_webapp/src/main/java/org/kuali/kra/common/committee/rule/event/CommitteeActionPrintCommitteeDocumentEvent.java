@@ -22,21 +22,21 @@ import org.kuali.rice.krad.document.Document;
 public class CommitteeActionPrintCommitteeDocumentEvent extends CommitteeActionsEventBase<CommitteeActionPrintCommitteeDocumentRule> {
     private static final String MSG = "print committee document";
     
-    private Boolean printRooster;
+    private Boolean printRoster;
     private Boolean printFutureScheduledMeeting;
     private boolean onMeetingAction;
     private Boolean printCorrespondence;
     
-    public CommitteeActionPrintCommitteeDocumentEvent(String errorPathPrefix, Document document, Boolean printRooster, Boolean printFutureScheduledMeeting) {
+    public CommitteeActionPrintCommitteeDocumentEvent(String errorPathPrefix, Document document, Boolean printRoster, Boolean printFutureScheduledMeeting) {
         super(MSG + getDocumentId(document), errorPathPrefix, document);
-        setPrintRooster(printRooster);
+        setPrintRoster(printRoster);
         setPrintFutureScheduledMeeting(printFutureScheduledMeeting);
         setOnMeetingAction(false);
     }
 
-    public CommitteeActionPrintCommitteeDocumentEvent(String errorPathPrefix, Document document, Boolean printRooster, Boolean printFutureScheduledMeeting, boolean onMeetingAction) {
+    public CommitteeActionPrintCommitteeDocumentEvent(String errorPathPrefix, Document document, Boolean printRoster, Boolean printFutureScheduledMeeting, boolean onMeetingAction) {
         super(MSG + getDocumentId(document), errorPathPrefix, document);
-        setPrintRooster(printRooster);
+        setPrintRoster(printRoster);
         setPrintFutureScheduledMeeting(printFutureScheduledMeeting);
         setOnMeetingAction(onMeetingAction);
     }
@@ -47,12 +47,12 @@ public class CommitteeActionPrintCommitteeDocumentEvent extends CommitteeActions
         return new CommitteeActionPrintCommitteeDocumentRule();
     }
 
-    public Boolean getPrintRooster() {
-        return printRooster;
+    public Boolean getPrintRoster() {
+        return printRoster;
     }
 
-    public void setPrintRooster(Boolean printRooster) {
-        this.printRooster = printRooster;
+    public void setPrintRoster(Boolean printRoster) {
+        this.printRoster = printRoster;
     }
 
     public Boolean getPrintFutureScheduledMeeting() {

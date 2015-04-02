@@ -373,27 +373,27 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
         CommitteeScheduleBase committeeSchedule = meetingHelper.getCommitteeSchedule();
         CommitteeDocumentBase document = 
             ((CommitteeDocumentBase) getDocumentService().getByDocumentHeaderId(committeeSchedule.getParentCommittee().getCommitteeDocument().getDocumentNumber()));
-        Boolean printRooster = meetingHelper.getPrintRooster();
+        Boolean printRoster = meetingHelper.getPrintRoster();
         Boolean printFutureScheduledMeeting = meetingHelper.getPrintFutureScheduledMeeting();
         List<Printable> correspondencePrintables = getCorrespondencePrintingService().getCorrespondencePrintable(committeeSchedule, meetingHelper.getCorrespondencesToPrint());
         Boolean printCorrespondences = !correspondencePrintables.isEmpty();
-        CommitteeActionPrintCommitteeDocumentEvent event = new CommitteeActionPrintCommitteeDocumentEvent(Constants.EMPTY_STRING, document, printRooster, printFutureScheduledMeeting, true);
+        CommitteeActionPrintCommitteeDocumentEvent event = new CommitteeActionPrintCommitteeDocumentEvent(Constants.EMPTY_STRING, document, printRoster, printFutureScheduledMeeting, true);
         event.setPrintCorrespondence(printCorrespondences);
         if (applyRules(event)) {
             AbstractPrint printable;
             List<Printable> printableArtifactList = new ArrayList<Printable>();
-            if (printRooster) {
+            if (printRoster) {
                 printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.ROSTER, document.getCommittee().getCommitteeId());
                 printable.setPrintableBusinessObject(document.getCommittee());
-                document.getCommittee().setPrintRooster(printRooster);
+                document.getCommittee().setPrintRoster(printRoster);
                 printableArtifactList.add(printable);
-                meetingHelper.setPrintRooster(false);
+                meetingHelper.setPrintRoster(false);
             }
             if (printFutureScheduledMeeting) {
                 printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.FUTURE_SCHEDULED_MEETINGS, document.getCommittee().getCommitteeId());
                 printable.setPrintableBusinessObject(document.getCommittee());
                 printableArtifactList.add(printable);
-                document.getCommittee().setPrintRooster(printFutureScheduledMeeting);
+                document.getCommittee().setPrintRoster(printFutureScheduledMeeting);
                 meetingHelper.setPrintFutureScheduledMeeting(false);
             }
             

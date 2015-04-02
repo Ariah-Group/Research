@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.committee.rules;
 
@@ -21,25 +37,28 @@ import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 /**
- * 
+ *
  * This class contains the document rules of the Action Print section.
  */
-public class CommitteeActionPrintCommitteeDocumentRule extends ResearchDocumentRuleBase 
-                                                       implements  BusinessRuleInterface<CommitteeActionPrintCommitteeDocumentEvent> {
+public class CommitteeActionPrintCommitteeDocumentRule extends ResearchDocumentRuleBase
+        implements BusinessRuleInterface<CommitteeActionPrintCommitteeDocumentEvent> {
+
     private static final String PRINT_TYPE_FIELD = "committeeHelper.reportType";
     private static final String MEETING_PRINT_TYPE_FIELD = "meetingHelper.reportType";
 
-/**
- * 
- * This method processes the rules of the CommitteeActionPrintCommitteeDocumentEvent.
- * 
- * @param event to be validated against the rules.
- * @return true if validation passed the rules, false otherwise.
- */
+    /**
+     *
+     * This method processes the rules of the
+     * CommitteeActionPrintCommitteeDocumentEvent.
+     *
+     * @param event to be validated against the rules.
+     * @return true if validation passed the rules, false otherwise.
+     */
+    @Override
     public boolean processRules(CommitteeActionPrintCommitteeDocumentEvent event) {
         boolean rulePassed = true;
-        
-        if (!event.getPrintRooster() && !event.getPrintFutureScheduledMeeting()) {
+
+        if (!event.getPrintRoster() && !event.getPrintFutureScheduledMeeting()) {
             if (event.isOnMeetingAction()) {
                 reportError(MEETING_PRINT_TYPE_FIELD, KeyConstants.ERROR_COMMITTEE_ACTION_PRINT_REPORT_NOT_SPECIFIED);
             } else {
@@ -47,7 +66,7 @@ public class CommitteeActionPrintCommitteeDocumentRule extends ResearchDocumentR
             }
             rulePassed = false;
         }
-        
+
         return rulePassed;
     }
 

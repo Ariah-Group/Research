@@ -332,7 +332,7 @@ public abstract class CommitteeActionsActionBase extends CommitteeActionBase {
 
         CommitteeFormBase committeeForm = (CommitteeFormBase) form;
         CommitteeDocumentBase committeeDocument = committeeForm.getCommitteeDocument();
-        Boolean printRoster = committeeForm.getCommitteeHelper().getPrintRooster();
+        Boolean printRoster = committeeForm.getCommitteeHelper().getPrintRoster();
         Boolean printFutureScheduledMeeting = committeeForm.getCommitteeHelper().getPrintFutureScheduledMeeting();
 
         CommitteeTaskBase task = getNewCommitteeTaskInstanceHook(TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee());
@@ -349,13 +349,13 @@ public abstract class CommitteeActionsActionBase extends CommitteeActionBase {
                 if (printRoster) {
                     printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.ROSTER, committeeId);
                     printable.setPrintableBusinessObject(committeeForm.getCommitteeDocument().getCommittee());
-                    committeeForm.getCommitteeDocument().getCommittee().setPrintRooster(true);
+                    committeeForm.getCommitteeDocument().getCommittee().setPrintRoster(true);
                     printableArtifactList.add(printable);
                 }
                 if (printFutureScheduledMeeting) {
                     printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.FUTURE_SCHEDULED_MEETINGS, committeeId);
                     printable.setPrintableBusinessObject(committeeForm.getCommitteeDocument().getCommittee());
-                    committeeForm.getCommitteeDocument().getCommittee().setPrintRooster(false);
+                    committeeForm.getCommitteeDocument().getCommittee().setPrintRoster(false);
                     printableArtifactList.add(printable);
                 }
                 printableArtifactList.addAll(correspondencePrintables);
