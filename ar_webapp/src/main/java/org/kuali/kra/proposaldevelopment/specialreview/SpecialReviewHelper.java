@@ -42,7 +42,12 @@ import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import org.kuali.kra.bo.CoeusModule;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Defines the Special Review Helper for Development Proposal.
@@ -73,7 +78,28 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
 
     @Override
     protected boolean isIrbProtocolLinkingEnabledForModule() {
-        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROTOCOL, PARAMETER_CODE, PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
+
+        boolean irbProtocolLinkingPropDevEnabled = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROTOCOL, PARAMETER_CODE, PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
+
+        if (irbProtocolLinkingPropDevEnabled) {
+            // if the parameter is set to true to allow linking IRB Protocols from a Development Proposal record, 
+            // then check the IRB module and ensure it is Active, else return false so linking is truly disabled.
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put("moduleCode", CoeusModule.IRB_MODULE_CODE);
+
+            BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            Collection<CoeusModule> modules = businessObjectService.findMatching(CoeusModule.class, fieldValues);
+
+            if (modules != null && !modules.isEmpty()) {
+                CoeusModule irbModule = modules.iterator().next();
+
+                if (!irbModule.isActive()) {
+                    irbProtocolLinkingPropDevEnabled = false;
+                }
+            }
+        }
+
+        return irbProtocolLinkingPropDevEnabled;
     }
 
     @Override

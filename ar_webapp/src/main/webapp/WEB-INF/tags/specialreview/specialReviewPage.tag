@@ -118,12 +118,19 @@ SpecialReviewGlobals.addDisabledOptionsBack = function(approvalType) {
 SpecialReviewGlobals.showHideSpecialReviewProtocolLink = function(specialReviewControl, canCreateIrbProtocol, canCreateIacucProtocol) {
 	var row = this.getRow(specialReviewControl);
 	var typeCode = jQuery(specialReviewControl).val();
-	if ((typeCode == this.humanSubjectsTypeCode && canCreateIrbProtocol)
-			|| (typeCode == this.animalUsageTypeCode && canCreateIacucProtocol)) {
+        
+	if ((typeCode == this.humanSubjectsTypeCode && canCreateIrbProtocol)) {
 		jQuery(row).find('input[name*="createProtocol"]').show();
+	} else if ((typeCode == this.humanSubjectsTypeCode && !canCreateIrbProtocol)) {
+		jQuery(row).find('input[name*="createProtocol"]').hide();
+	} else if ((typeCode == this.animalUsageTypeCode && canCreateIacucProtocol)) {
+		jQuery(row).find('input[name*="createProtocol"]').show();
+	} else if ((typeCode == this.animalUsageTypeCode && !canCreateIacucProtocol)) {
+		jQuery(row).find('input[name*="createProtocol"]').hide();
 	} else {
-		jQuery(row).find('input[name*="createProtocol"]').hide(); 	
-	}
+            jQuery(row).find('input[name*="createProtocol"]').hide();
+        }
+        
 	var selectedApprovalType = jQuery(row).find(this.approvalTypeSelector).val();
 	if (typeCode == this.humanSubjectsTypeCode && this.enableIrbProtocolLinking) {
 		jQuery(row).find('span.irbLookupLink').show();
