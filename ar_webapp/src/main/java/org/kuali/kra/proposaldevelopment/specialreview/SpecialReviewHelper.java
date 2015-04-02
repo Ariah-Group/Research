@@ -104,7 +104,27 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
 
     @Override
     protected boolean isIacucProtocolLinkingEnabledForModule() {
-        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IACUC, PARAMETER_CODE, IACUC_PROTOCOL_PROPOSAL_DEVELOPMENT_LINKING_ENABLED_PARAMETER);
+        boolean iacucProtocolLinkingPropDevEnabled = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IACUC, PARAMETER_CODE, IACUC_PROTOCOL_PROPOSAL_DEVELOPMENT_LINKING_ENABLED_PARAMETER);
+
+        if (iacucProtocolLinkingPropDevEnabled) {
+            // if the parameter is set to true to allow linking IACUC Protocols from a Development Proposal record, 
+            // then check the IACUC module and ensure it is Active, else return false so linking is truly disabled.
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put("moduleCode", CoeusModule.IACUC_PROTOCOL_MODULE_CODE);
+
+            BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+            Collection<CoeusModule> modules = businessObjectService.findMatching(CoeusModule.class, fieldValues);
+
+            if (modules != null && !modules.isEmpty()) {
+                CoeusModule iacucModule = modules.iterator().next();
+
+                if (!iacucModule.isActive()) {
+                    iacucProtocolLinkingPropDevEnabled = false;
+                }
+            }
+        }
+
+        return iacucProtocolLinkingPropDevEnabled;
     }
 
     @Override
