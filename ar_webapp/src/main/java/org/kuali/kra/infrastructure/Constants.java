@@ -1028,5 +1028,10 @@ public interface Constants {
     public static final String MESSAGE_PROPOSAL_LOCKED = "message.proposal.locked";
     public static final String MESSAGE_PROPOSAL_UNLOCKED = "message.proposal.unlocked";    
     
+    /**
+     * Field corresponding to the subaward form template code in the SUBAWARD_TEMPLATE_TYPE 
+     * database table representing the Sponsor Attachments in the Subaward Actions Print panel.
+     */
+    public static final int SUBAWARD_FORM_SPONSOR_TEMPLATE_ID = 2;
 }
 

@@ -60,7 +60,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * This class is using as SubAwardHomeAction ...
+ * Struts action class for the methods on the Subaward document and Home tab.
  */
 public class SubAwardHomeAction extends SubAwardAction {
 
@@ -77,7 +77,7 @@ public class SubAwardHomeAction extends SubAwardAction {
         Collection<SubAwardForms> subAwardForms = (Collection<SubAwardForms>) KraServiceLocator.getService(BusinessObjectService.class).findAll(SubAwardForms.class);
 
         for (SubAwardForms subAwardFormValues : subAwardForms) {
-            if (subAwardFormValues.getTemplateTypeCode().equals(2)) {
+            if (subAwardFormValues.getTemplateTypeCode().equals(Constants.SUBAWARD_FORM_SPONSOR_TEMPLATE_ID)) {
                 subAwardList.add(subAwardFormValues);
             }
         }
