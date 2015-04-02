@@ -118,19 +118,17 @@ SpecialReviewGlobals.addDisabledOptionsBack = function(approvalType) {
 SpecialReviewGlobals.showHideSpecialReviewProtocolLink = function(specialReviewControl, canCreateIrbProtocol, canCreateIacucProtocol) {
 	var row = this.getRow(specialReviewControl);
 	var typeCode = jQuery(specialReviewControl).val();
-        
-	if ((typeCode == this.humanSubjectsTypeCode && canCreateIrbProtocol)) {
-		jQuery(row).find('input[name*="createProtocol"]').show();
-	} else if ((typeCode == this.humanSubjectsTypeCode && !canCreateIrbProtocol)) {
-		jQuery(row).find('input[name*="createProtocol"]').hide();
+	if ((typeCode == this.humanSubjectsTypeCode) && canCreateIrbProtocol) {
+	    jQuery(row).find('input[name*="createProtocol"]').show();
+	} else if ((typeCode == this.humanSubjectsTypeCode) && !canCreateIrbProtocol) {
+            jQuery(row).find('input[name*="createProtocol"]').hide();
 	} else if ((typeCode == this.animalUsageTypeCode && canCreateIacucProtocol)) {
-		jQuery(row).find('input[name*="createProtocol"]').show();
+            jQuery(row).find('input[name*="createProtocol"]').show();
 	} else if ((typeCode == this.animalUsageTypeCode && !canCreateIacucProtocol)) {
 		jQuery(row).find('input[name*="createProtocol"]').hide();
 	} else {
             jQuery(row).find('input[name*="createProtocol"]').hide();
         }
-        
 	var selectedApprovalType = jQuery(row).find(this.approvalTypeSelector).val();
 	if (typeCode == this.humanSubjectsTypeCode && this.enableIrbProtocolLinking) {
 		jQuery(row).find('span.irbLookupLink').show();
@@ -161,7 +159,7 @@ jQuery(document).ready(function() {
 	jQuery(SpecialReviewGlobals.approvalTypeSelector).change(function() {SpecialReviewGlobals.processNotYetAppliedChange(this);});
 	jQuery(SpecialReviewGlobals.approvalTypeSelector).first().children().clone().each(function() {jQuery(SpecialReviewGlobals.disabledApprovalTypeSelector).append(this);});
 	jQuery('select[name*="specialReviewTypeCode"]').each(function() {
-		SpecialReviewGlobals.showHideSpecialReviewProtocolLink(this, '${canCreateIrbProtocol}', '${canCreateIacucProtocol}');
+		SpecialReviewGlobals.showHideSpecialReviewProtocolLink(this, ${canCreateIrbProtocol}, ${canCreateIacucProtocol});
 	});
 	jQuery('input[type="text"][name*="protocolNumber"]').each(function() {SpecialReviewGlobals.processNotYetAppliedChange(this);});
 });
@@ -219,7 +217,7 @@ jQuery(document).ready(function() {
 	                   <kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.specialReviewTypeCode" 
 		                                         attributeEntry="${attributes.specialReviewTypeCode}"
 		                                         styleClass="fixed-size-200-select"
-		                                         onchange="SpecialReviewGlobals.showHideSpecialReviewProtocolLink(this, '${canCreateIrbProtocol}', '${canCreateIacucProtocol}');return false"/>
+		                                         onchange="SpecialReviewGlobals.showHideSpecialReviewProtocolLink(this, ${canCreateIrbProtocol}, ${canCreateIacucProtocol});return false"/>
 					</div></td>
 	                <td class="infoline"><div align="center">
 	                   <kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.approvalTypeCode" 
@@ -316,7 +314,7 @@ jQuery(document).ready(function() {
 	                                              readOnly="${not canModify}"
 	                                              styleClass="fixed-size-200-select"
 	                                              readOnlyAlternateDisplay="${specialReview.specialReviewType.description}" 
-	                                              onchange="SpecialReviewGlobals.showHideSpecialReviewProtocolLink(this, '${canCreateIrbProtocol}', '${canCreateIacucProtocol}');return false" />
+	                                              onchange="SpecialReviewGlobals.showHideSpecialReviewProtocolLink(this, ${canCreateIrbProtocol}, ${canCreateIacucProtocol});return false" />
 					</div></td>
                     <td><div align="center">
 						<c:if test="${canModify}">
