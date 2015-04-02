@@ -15,11 +15,19 @@
  */
 package org.kuali.kra.iacuc.committee.bo;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.common.committee.bo.CommitteeType;
 import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.util.DateUtils;
 
 public class IacucCommittee extends CommitteeBase<IacucCommittee, CommonCommitteeDocument, IacucCommitteeSchedule> {
 
@@ -27,7 +35,12 @@ public class IacucCommittee extends CommitteeBase<IacucCommittee, CommonCommitte
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 2031629954610125464L;
-
+    /**
+     * IACUC-specific committee chair role from MEMBERSHIP_ROLE.MEMBERSHIP_ROLE_CODE
+     */
+    private static final String CHAIR_MEMBERSHIP_ROLE_CODE = "16";
+    private String committeeChair;
+    
     @Override
     protected String getProtocolCommitteeTypeCodehook() {
         return CommitteeType.IACUC_TYPE_CODE;
@@ -53,4 +66,39 @@ public class IacucCommittee extends CommitteeBase<IacucCommittee, CommonCommitte
         return this;
     }
 
+    @Override
+    public void setCommitteeChair(String committeeChair) {
+        this.committeeChair = committeeChair;
+    }
+    
+    @Override
+    public String getCommitteeChair() {
+        if (StringUtils.isBlank(this.committeeChair) && CollectionUtils.isNotEmpty(getCommitteeMemberships())) {
+            List<String> committeeChairs = new ArrayList<String>();
+            for (CommitteeMembershipBase committeeMembership : getCommitteeMemberships()) {
+                if (isChairPerson(committeeMembership)) {
+                    committeeChairs.add(committeeMembership.getPersonName());
+                }
+                setCommitteeChair(committeeChairs.toString());
+            }
+        }
+        return committeeChair;
+    }
+
+    private boolean isChairPerson(CommitteeMembershipBase committeeMembership) {
+        
+        boolean isChairRoleFound = false;
+        Date currentDate = DateUtils.clearTimeFields(new Date(System.currentTimeMillis()));
+
+        for (CommitteeMembershipRole committeeMembershipRole : committeeMembership.getMembershipRoles()) {
+            if (committeeMembershipRole.getMembershipRoleCode().equals(CHAIR_MEMBERSHIP_ROLE_CODE)
+                    && committeeMembershipRole.getStartDate() != null 
+                    && committeeMembershipRole.getEndDate() != null 
+                    && !currentDate.before(committeeMembershipRole.getStartDate()) && !currentDate.after(committeeMembershipRole.getEndDate())) {
+                isChairRoleFound = true;
+                break;
+            }
+        }
+        return isChairRoleFound;
+    }    
 }
