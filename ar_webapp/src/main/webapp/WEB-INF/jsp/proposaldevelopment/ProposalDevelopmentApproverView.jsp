@@ -129,7 +129,7 @@
 			<kra-summary:proposalDevelopmentSummaryPrintForms transparentBackground="${isTopPanel }" />
 			<c:set var="isTopPanel" value="false"/>
 		</c:if>
-
+                <kul:routeLog />
 		<c:if test="${!isTopPanel}">
 			<kul:panelFooter />
 		</c:if>
