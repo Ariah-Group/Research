@@ -63,13 +63,7 @@ public class KraLookupDaoOjb extends LookupDaoOjb implements KraLookupDao {
         criteria.addLike(field, wildCard);
         Collection searchResults = new ArrayList();
         try {
-            
-            long startTime = System.currentTimeMillis();
-            
             Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(businessObjectClass);
-            
-            System.out.println("\n\nKraLookupDaoOjb.findCollectionUsingWildCard... LookupUtils.getSearchResultsLimit took " + (System.currentTimeMillis() - startTime) + " milliseconds to run.");
-            
             if (!unbounded && (searchResultsLimit != null)) {
                 LookupUtils.applySearchResultsLimit(businessObjectClass, criteria, getDbPlatform());
             }
