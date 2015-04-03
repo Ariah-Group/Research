@@ -19,7 +19,9 @@ limitations under the License.
 <div class="body">
     <ul class="chan">  	  
         <li><a class="portal_link" href="${ConfigProperties.feedback.link}" target="_blank" title="${ConfigProperties.feedback.linkText}">${ConfigProperties.feedback.linkText}</a></li>
-        <li><a class="portal_link" title="User Manual" href="${ConfigProperties.application.url}/static/help/default.htm" />User Manual</a></li>
+        <li><a class="portal_link" title="Ariah Researh Online Documentation" href="https://wiki.ariahgroup.org/display/RES/" target="_blank"/>Ariah Researh Online Documentation</a></li>
+        <li><a class="portal_link" title="Ariah Researh Features and Release Notes" href="https://wiki.ariahgroup.org/x/boAV" target="_blank"/>Ariah Researh Features and Release Notes</a></li>
+        <li><a class="portal_link" title="Legacy User Manual" href="${ConfigProperties.application.url}/static/help/default.htm" target="_blank"/>Legacy User Manual</a></li>
     </ul>
 </div>
 <channel:portalChannelBottom />
