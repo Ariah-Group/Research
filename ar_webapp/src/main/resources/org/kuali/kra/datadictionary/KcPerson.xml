@@ -1000,7 +1000,7 @@
   <bean id="KcPerson-lookupDefinition" parent="KcPerson-lookupDefinition-parentBean" />
 
   <bean id="KcPerson-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="KcPerson Lookup" />
+    <property name="title" value="Person Lookup" />
     <property name="lookupableID" value="kcPersonLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
     <property name="defaultSort" >
