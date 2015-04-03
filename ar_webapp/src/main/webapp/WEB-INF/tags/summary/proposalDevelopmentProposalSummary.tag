@@ -111,6 +111,7 @@ limitations under the License.
 						readOnly="true"
 						attributeEntry="${proposalDevelopmentAttributes.deadlineDate}" />&nbsp;
 				</td>
+                </tr>
 			<tr>
 				<th><div align="right">Activity Type</div>
 				</th>
@@ -143,6 +144,14 @@ limitations under the License.
 						attributeEntry="${proposalDevelopmentAttributes.deadlineType}" />&nbsp;
 				</td>
 			</tr>
+                        <tr>
+                            <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.proposalTypeCode}" /></div></th>
+                            <td><kul:htmlControlAttribute property="document.developmentProposalList[0].proposalTypeCode" readOnly="true" attributeEntry="${proposalDevelopmentAttributes.proposalTypeCode}" /></td>
+                            <th><div align="right">&nbsp;</div></th>
+                            <td></td>
+                            <th><div align="right">&nbsp;</div></th>
+                            <td></td>                            
+                        </tr>
 		</table>
 		<c:set var="budgetFinal" value="false" />
 		<c:forEach items="${KualiForm.document.budgetDocumentVersions}"
