@@ -8,7 +8,7 @@
                 Create a Development Proposal
             </description>
             <label>Proposal Development</label>
-            <parent>KC</parent>
+            <parent>AR</parent>
             <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
             <superUserWorkgroupName>KC-WKFLW:OSP Superuser</superUserWorkgroupName>
             <defaultExceptionWorkgroupName>KC-WKFLW:ProposalAdmin</defaultExceptionWorkgroupName>
