@@ -129,6 +129,9 @@
 			<kra-summary:proposalDevelopmentSummaryPrintForms transparentBackground="${isTopPanel }" />
 			<c:set var="isTopPanel" value="false"/>
 		</c:if>
+		<c:if test="${fn:length(KualiForm.document.developmentProposalList[0].investigators) > 0}">
+		   <kra-pd:creditSplitSummary />
+		</c:if>
                 <kul:routeLog />
 		<c:if test="${!isTopPanel}">
 			<kul:panelFooter />
