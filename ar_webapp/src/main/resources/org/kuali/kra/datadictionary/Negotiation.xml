@@ -424,7 +424,7 @@
         <property name="resultFields" >
             <list>
                 <bean p:attributeName="negotiationId" parent="FieldDefinition" />
-                <bean p:attributeName="negotiationAgreementTypeId" parent="FieldDefinition" />
+                <bean p:attributeName="negotiationAgreementType.description" parent="FieldDefinition" />
                 <bean p:attributeName="negotiationAssociationType.description" parent="FieldDefinition" />
                 <bean p:attributeName="associatedNegotiable.associatedDocumentId" parent="FieldDefinition" />
                 <bean p:attributeName="negotiationAge" parent="FieldDefinition" />
