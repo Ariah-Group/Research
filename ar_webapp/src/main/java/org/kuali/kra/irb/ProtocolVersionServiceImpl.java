@@ -20,7 +20,8 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolVersionServiceImplBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
-
+import org.kuali.kra.service.VersionException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
  * Protocol Version Service Implementation.
@@ -39,7 +40,7 @@ public class ProtocolVersionServiceImpl extends ProtocolVersionServiceImplBase i
 
     @Override
     protected ProtocolBase createProtocolNewVersionHook(ProtocolBase protocol) throws Exception {
-        Protocol irbProtocol = (Protocol)protocol;
+        Protocol irbProtocol = (Protocol) protocol;
         irbProtocol = versioningService.createNewVersion(irbProtocol);
         return irbProtocol;
     }
@@ -57,5 +58,15 @@ public class ProtocolVersionServiceImpl extends ProtocolVersionServiceImplBase i
     @Override
     protected ProtocolModuleQuestionnaireBeanBase getNewInstanceProtocolModuleQuestionnaireBeanHook(ProtocolBase protocol) {
         return new ProtocolModuleQuestionnaireBean((Protocol) protocol);
+    }
+
+    @Override
+    public ProtocolBase versionProtocol(ProtocolBase protocol) throws Exception {
+        return createProtocolNewVersionHook(protocol);
+    }
+
+    @Override
+    public ProtocolDocumentBase getNewProtocolDocumentHook(String originalInitiator) throws VersionException, WorkflowException {
+        return (ProtocolDocument) getDocumentService().getNewDocument("ProtocolDocument", originalInitiator);
     }
 }

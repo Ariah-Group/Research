@@ -31,6 +31,12 @@
  */
 package org.kuali.kra.protocol;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
@@ -40,6 +46,8 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
+import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -52,8 +60,9 @@ import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
-import java.util.*;
 import java.util.Map.Entry;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.infrastructure.Constants;
 
 
 /**
@@ -68,6 +77,7 @@ public abstract class ProtocolVersionServiceImplBase implements ProtocolVersionS
     private SequenceAccessorService sequenceAccessorService;
     private SessionDocumentService sessionDocumentService;
     private WorkflowDocumentService workflowDocumentService;
+    private KcPersonService personService;
     
     /**
      * Inject the Document Service.
@@ -75,6 +85,10 @@ public abstract class ProtocolVersionServiceImplBase implements ProtocolVersionS
      */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+    
+    protected DocumentService getDocumentService() {
+        return documentService;
     }
     
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -125,8 +139,10 @@ public abstract class ProtocolVersionServiceImplBase implements ProtocolVersionS
     protected abstract ProtocolBase createProtocolNewVersionHook(ProtocolBase protocol) throws Exception;
     
     /**
+     * @throws java.lang.Exception
      * @see org.kuali.kra.protocol.ProtocolVersionService#versionProtocolDocument(org.kuali.kra.protocol.ProtocolDocumentBase)
      */
+    @Override
     public ProtocolDocumentBase versionProtocolDocument(ProtocolDocumentBase protocolDocument) throws Exception {
      
         materializeCollections(protocolDocument.getProtocol());
@@ -195,6 +211,56 @@ public abstract class ProtocolVersionServiceImplBase implements ProtocolVersionS
         
         return newProtocolDocument;
     }
+    
+    @Override
+    public ProtocolDocumentBase getVersionedDocumentAndPreserveInitiator(ProtocolBase protocol) throws Exception {
+        ProtocolDocumentBase oldProtocolDocument = protocol.getProtocolDocument();
+        ProtocolBase newProtocol = versionProtocol(protocol);
+        newProtocol.setProtocolSubmission(null);
+        if(!protocol.isAmendment()) {
+            newProtocol.setApprovalDate(null);
+            newProtocol.setLastApprovalDate(null);
+            newProtocol.setExpirationDate(null);
+        }        
+        newProtocol.refreshReferenceObject(Constants.PROPERTY_PROTOCOL_STATUS); 
+        newProtocol.refreshReferenceObject("protocolSubmission");
+
+        String originalInitiator = oldProtocolDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
+        KcPerson originalPerson = personService.getKcPersonByPersonId(originalInitiator);
+        originalInitiator = originalPerson != null ? originalPerson.getUserName() : GlobalVariables.getUserSession().getPrincipalName();
+        ProtocolDocumentBase newProtocolDocument = getNewProtocolDocumentHook(originalInitiator);
+        newProtocolDocument.getDocumentHeader().setDocumentDescription(oldProtocolDocument.getDocumentHeader().getDocumentDescription());
+        newProtocolDocument.setProtocol(newProtocol);
+        newProtocol.setProtocolDocument(newProtocolDocument);
+        protocol.setActive(false);
+        businessObjectService.save(protocol);
+        copyCustomDataAttributeValues(oldProtocolDocument, newProtocolDocument);
+        fixNextValues(oldProtocolDocument, newProtocolDocument);
+        fixActionSequenceNumbers(oldProtocolDocument.getProtocol(), newProtocol);
+        newProtocol.resetForeignKeys();
+        newProtocol.resetPersistenceStateForNotifications();
+        finalizeAttachmentProtocol(newProtocol);
+        
+        // versioning questionnaire answer
+        List<AnswerHeader> newAnswerHeaders = questionnaireAnswerService.versioningQuestionnaireAnswer(getNewInstanceProtocolModuleQuestionnaireBeanHook(protocol)
+            , newProtocol.getSequenceNumber());
+        if (newProtocol.isAmendment() || (newProtocol.isRenewal() && !newProtocol.isRenewalWithoutAmendment())) {
+            ProtocolModuleQuestionnaireBeanBase moduleBean = getNewInstanceProtocolModuleQuestionnaireBeanHook(protocol);
+            moduleBean.setModuleSubItemCode(CoeusSubModule.ZERO_SUBMODULE);
+            List<AnswerHeader> newAmendAnswerHeaders = questionnaireAnswerService.versioningQuestionnaireAnswer(moduleBean, newProtocol.getSequenceNumber());
+            if (!newAmendAnswerHeaders.isEmpty()) {
+                newAnswerHeaders.addAll(newAmendAnswerHeaders);
+            }
+        }
+        if (!newAnswerHeaders.isEmpty()) {
+            businessObjectService.save(newAnswerHeaders);
+        }
+        
+        documentService.saveDocument(newProtocolDocument);
+        return newProtocolDocument;
+    }
+    
+
     
     protected void setNewProtocolId(ProtocolBase newProtocol) {
         Long nextProtocolId = sequenceAccessorService.getNextAvailableSequenceNumber(getProtocolSequenceIdHook());
@@ -358,6 +424,13 @@ public abstract class ProtocolVersionServiceImplBase implements ProtocolVersionS
         this.workflowDocumentService = workflowDocumentService;
     }
 
+    public void setKcPersonService(KcPersonService personService) {
+        this.personService = personService;
+    }
+
     protected abstract ProtocolModuleQuestionnaireBeanBase getNewInstanceProtocolModuleQuestionnaireBeanHook(ProtocolBase protocol);
+
+    public abstract ProtocolDocumentBase getNewProtocolDocumentHook(String originalInitiator) throws VersionException, WorkflowException;
+
 
 }

@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.protocol.actions.genericactions;
 
@@ -34,6 +50,8 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
 import java.sql.Timestamp;
+import org.kuali.kra.service.VersionException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
  * This class handles the generic actions that can be made to a protocol.  A generic action contain a comment, action date, and a 
@@ -101,6 +119,8 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
         return getVersionedDocument(protocol);
     }
 
+    public abstract ProtocolDocumentBase getNewProtocolDocumentHook(String originalInitiator) throws VersionException, WorkflowException;
+
     @Override
     public void recordDisapprovedInRoutingActionAndUpdateStatuses(ProtocolBase protocol, ActionTakenValue latestCurrentActionTakenVal) {
         // add the action to the action history
@@ -127,7 +147,6 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
 
     protected abstract ProtocolActionBase getNewDisapprovedInRoutingProtocolActionInstanceHook(ProtocolBase protocol);
 
-
     @Override
     public ProtocolDocumentBase versionAfterDisapprovalInRouting(ProtocolBase oldProtocol) throws Exception {
         // the new document version will be persisted along with the new version of the old protocol instance
@@ -148,15 +167,12 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
         return newDocument;
     }
     
-
     protected abstract String getProtocolPendingInProgressStatusCodeHook();
 
-
-    
     protected ProtocolDocumentBase getVersionedDocument(ProtocolBase protocol) throws Exception {
-        ProtocolDocumentBase newDocument = protocolVersionService.versionProtocolDocument(protocol.getProtocolDocument());
+        ProtocolDocumentBase newDocument = protocolVersionService.getVersionedDocumentAndPreserveInitiator(protocol);
         newDocument.getProtocol().setProtocolSubmission(null);
-        if(!protocol.isAmendment()) {
+        if (!protocol.isAmendment()) {
             newDocument.getProtocol().setApprovalDate(null);
             newDocument.getProtocol().setLastApprovalDate(null);
             newDocument.getProtocol().setExpirationDate(null);
@@ -170,6 +186,7 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
     
     protected abstract String getRecallProtocolActionTypeCodeHook();
     
+    @Override
     public void recall(ProtocolBase protocol) {
         ProtocolActionBase protocolAction = getNewProtocolActionInstanceHook(protocol, null, getRecallProtocolActionTypeCodeHook());
         protocolAction.setComments("Recalled in Routing");
