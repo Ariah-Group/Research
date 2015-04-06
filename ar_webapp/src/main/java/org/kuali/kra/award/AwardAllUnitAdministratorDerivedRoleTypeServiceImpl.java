@@ -41,11 +41,11 @@ public class AwardAllUnitAdministratorDerivedRoleTypeServiceImpl extends Abstrac
     public void setUnitService(UnitService unitService) {
         this.unitService = unitService;
     }
-    
+
     protected UnitService getUnitService() {
         return unitService;
     }
-    
+
     @Override
     public List<? extends AbstractUnitAdministrator> getUnitAdministrators(Map<String, String> qualifiers) {
         String awardIdStr = qualifiers.get(KcKimAttributes.AWARD);
@@ -59,13 +59,13 @@ public class AwardAllUnitAdministratorDerivedRoleTypeServiceImpl extends Abstrac
                     units.add(unit.getUnitNumber());
                 }
             }
-        
+
             for (String unit : units) {
                 if (StringUtils.isNotBlank(unit)) {
                     result.addAll(unitService.retrieveUnitAdministratorsByUnitNumber(unit));
                 }
             }
-        }   
+        }
         return result;
     }
 
@@ -76,6 +76,5 @@ public class AwardAllUnitAdministratorDerivedRoleTypeServiceImpl extends Abstrac
     public void setAwardService(AwardService awardService) {
         this.awardService = awardService;
     }
-
 
 }

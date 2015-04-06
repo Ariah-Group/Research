@@ -50,37 +50,39 @@ import java.util.List;
 public class AwardBudgetLimitsAuditRule implements DocumentAuditRule {
 
     protected String AWARD_BUDGET_LIMITS_AUDIT_ERRORS = "awardBudgetLimitAuditErrors";
-    
+
     /**
-     * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
+     * @see
+     * org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
      */
     @SuppressWarnings("unchecked")
     @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean result = true;
         Award award = ((AwardDocument) document).getAward();
-        List<AuditError> auditWarnings = new ArrayList<AuditError>(); 
+        List<AuditError> auditWarnings = new ArrayList<AuditError>();
         if (award.getTotalCostBudgetLimit() != null) {
             if (!award.getTotalCostBudgetLimit().equals(award.getObligatedDistributableTotal())) {
                 result = false;
                 auditWarnings.add(new AuditError("document.award.totalCostBudgetLimit.limit",
                         KeyConstants.WARNING_AWARD_BUDGET_COSTLIMIT_NOTEQUAL_OBLIGATED,
                         Constants.MAPPING_AWARD_BUDGET_VERSIONS_PAGE + "." + "BudgetLimits",
-                        new String[]{award.getAwardNumber()}));                
+                        new String[]{award.getAwardNumber()}));
             }
         }
         reportAndCreateAuditCluster(auditWarnings);
         return result;
     }
-    
+
     /**
-     * This method creates and adds the AuditCluster to the Global AuditErrorMap.
+     * This method creates and adds the AuditCluster to the Global
+     * AuditErrorMap.
      */
     @SuppressWarnings("unchecked")
-    protected void reportAndCreateAuditCluster( List<AuditError> auditErrors ) {
+    protected void reportAndCreateAuditCluster(List<AuditError> auditErrors) {
         if (auditErrors.size() > 0) {
             KNSGlobalVariables.getAuditErrorMap().put(AWARD_BUDGET_LIMITS_AUDIT_ERRORS, new AuditCluster("Budget Limits",
-                                                                                          auditErrors, Constants.AUDIT_WARNINGS));
+                    auditErrors, Constants.AUDIT_WARNINGS));
         }
     }
 }

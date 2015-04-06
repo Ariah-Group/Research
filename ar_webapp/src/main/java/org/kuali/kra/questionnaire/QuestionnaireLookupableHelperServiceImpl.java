@@ -49,7 +49,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import java.util.*;
 
 /**
- * 
+ *
  * This class is mainly to override edit/copy action urls and create 'view' url.
  * Also, sort search results.
  */
@@ -112,7 +112,7 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
         Questionnaire currentQnaire = getQuestionnaireById(questionnaire.getQuestionnaireId());
         return questionnaire.getQuestionnaireRefId().equals(currentQnaire.getQuestionnaireRefId());
     }
-    
+
     // TODO : Maybe we need a versioning history for Questionnaire, so we don't have to do this.
     protected Questionnaire getQuestionnaireById(String questionnaireId) {
         Questionnaire questionnaire = null;
@@ -127,10 +127,12 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
         return questionnaire;
     }
 
-
     /**
      * override edit/copy link and new 'view' link based on permission.
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, java.util.List)
+     *
+     * @see
+     * org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject,
+     * java.util.List)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
@@ -145,7 +147,7 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
         }
         if (hasModifyPermission
                 && (questionnaire.getQuestionnaireId() == null || (!CollectionUtils.isEmpty(questionnaireIds) && questionnaireIds
-                        .contains(questionnaire.getQuestionnaireId())))) {
+                .contains(questionnaire.getQuestionnaireId())))) {
             AnchorHtmlData htmlData = (AnchorHtmlData) getHtmlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL,
                     pkNames);
             String workflowUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.WORKFLOW_URL_KEY);
@@ -158,7 +160,7 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
         }
         if (hasModifyPermission && questionnaire.getQuestionnaireId() != null) {
             htmlDataList.add(getHtmlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames));
-            
+
             htmlDataList.add(getHtmlData(businessObject, KRADConstants.MAINTENANCE_DELETE_METHOD_TO_CALL, pkNames));
         }
         return htmlDataList;
@@ -168,7 +170,7 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
      * for new questionnaire, documentnumber is from questionaire
      * for 'edit', documentnumber should be from the saved maintenance doc
      */
-    private String getDocumentNumber (Questionnaire questionnaire) {
+    private String getDocumentNumber(Questionnaire questionnaire) {
         String docNumber = null;
         if (questionnaire.getQuestionnaireId() == null) {
             docNumber = questionnaire.getDocumentNumber();
@@ -181,7 +183,7 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
         }
         return docNumber;
     }
-    
+
     protected AnchorHtmlData getViewLink(BusinessObject businessObject, List pkNames) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
         Questionnaire questionnaire = (Questionnaire) businessObject;
@@ -189,8 +191,7 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
             String workflowUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.WORKFLOW_URL_KEY);
             htmlData.setHref(String.format(DOCHANDLER_LINK, workflowUrl, questionnaire.getDocumentNumber()).replace("&docId",
                     "&readOnly=true&docId"));
-        }
-        else {
+        } else {
             htmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
             htmlData.setHref(htmlData.getHref().replace(MAINTENANCE, NEW_MAINTENANCE) + "&readOnly=true");
 
@@ -198,13 +199,13 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
         htmlData.setDisplayText(VIEW);
         return htmlData;
     }
-        
+
     protected AnchorHtmlData getHtmlData(BusinessObject businessObject, String methodToCall, List pkNames) {
         AnchorHtmlData htmlData = getUrlData(businessObject, methodToCall, pkNames);
         htmlData.setHref(htmlData.getHref().replace(MAINTENANCE, NEW_MAINTENANCE));
-        return htmlData;        
+        return htmlData;
     }
-        
+
     /*
      * This method is to get questionnaire doc that are saved but not approved yet list.
      * If questionnaire is being edited, then it should not allow 'edit' until this is approved or cancelled 
@@ -245,8 +246,7 @@ public class QuestionnaireLookupableHelperServiceImpl extends KualiLookupableHel
                     }
                 }
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
 
         }
     }

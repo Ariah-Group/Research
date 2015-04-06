@@ -219,6 +219,7 @@ public class AwardSponsorTerm extends AwardAssociate {
     /**
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
      */
+    @Override
     public void resetPersistenceState() {
         this.awardSponsorTermId = null;
     }

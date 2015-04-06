@@ -18,11 +18,12 @@ package org.kuali.kra.award;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
- * 
- * This interface declares the rule method associated with <code>AwardApprovedSubaward</code> 
- * Business Object.
+ *
+ * This interface declares the rule method associated with
+ * <code>AwardApprovedSubaward</code> Business Object.
  */
 public interface AwardTemplateSyncRule extends BusinessRule {
+
     /**
      * Rule invoked upon syncing an Award Template
      * <code>{@link org.kuali.kra.award.AwardTemplateSyncEvent}</code>

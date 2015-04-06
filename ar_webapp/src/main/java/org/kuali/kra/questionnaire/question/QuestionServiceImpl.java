@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.questionnaire.question;
 
@@ -23,7 +39,7 @@ import java.util.*;
 
 /**
  * Implementation of the various Question services.
- * 
+ *
  * @see org.kuali.kra.questionnaire.question.QuestionService
  */
 public class QuestionServiceImpl implements QuestionService {
@@ -37,7 +53,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     /**
      * Set the Business Object Service.
-     * 
+     *
      * @param businessObjectService the Business Object Service
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -45,9 +61,11 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     /**
-     * 
-     * @see org.kuali.kra.questionnaire.question.QuestionService#getQuestionByRefId(java.lang.String)
+     *
+     * @see
+     * org.kuali.kra.questionnaire.question.QuestionService#getQuestionByRefId(java.lang.String)
      */
+    @Override
     public Question getQuestionByRefId(String questionRefId) {
         Question question = null;
         if (!StringUtils.isBlank(questionRefId)) {
@@ -59,10 +77,12 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     /**
-     * 
-     * @see org.kuali.kra.questionnaire.question.QuestionService#getQuestionById(java.lang.String)
+     *
+     * @see
+     * org.kuali.kra.questionnaire.question.QuestionService#getQuestionById(java.lang.String)
      */
     @SuppressWarnings("unchecked")
+    @Override
     public Question getQuestionById(String questionId) {
         Question question = null;
         if (questionId != null) {
@@ -80,11 +100,12 @@ public class QuestionServiceImpl implements QuestionService {
         return question;
     }
 
-    
     /**
-     * @see org.kuali.kra.questionnaire.question.QuestionService#isQuestionUsed(java.lang.String)
+     * @see
+     * org.kuali.kra.questionnaire.question.QuestionService#isQuestionUsed(java.lang.String)
      */
     @SuppressWarnings("unchecked")
+    @Override
     public boolean isQuestionUsed(String questionId) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(QUESTION_QUESTION_ID, questionId);
@@ -99,7 +120,9 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     /**
-     * This method determines if the questionnaire is the active (most recent version) of the questionnaire.
+     * This method determines if the questionnaire is the active (most recent
+     * version) of the questionnaire.
+     *
      * @param questionnaire
      * @return true if this is the active questionnaire, false otherwise
      */

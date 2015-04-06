@@ -252,7 +252,6 @@
           <forward name="paymentReportsAndTerms" path="/WEB-INF/jsp/award/AwardPaymentReportsAndTerms.jsp" />
           <forward name="specialReview" path="/WEB-INF/jsp/award/AwardSpecialReview.jsp" />
           <forward name="customData" path="/WEB-INF/jsp/award/AwardCustomData.jsp" />
-          <forward name="questions" path="/WEB-INF/jsp/award/AwardQuestions.jsp" />
           <forward name="permissions" path="/WEB-INF/jsp/award/AwardPermissions.jsp" />
           <forward name="permissionsRoleRights" path="/WEB-INF/jsp/award/AwardPermissionsRoleRights.jsp" />
           <forward name="permissionsEditRoles" path="/WEB-INF/jsp/award/AwardPermissionsEditRoles.jsp" />
@@ -261,6 +260,7 @@
           <forward name="awardActions" path="/WEB-INF/jsp/award/AwardActions.jsp" />
           <forward name="medusa" path="/WEB-INF/jsp/award/AwardMedusa.jsp" />   
           <forward name="icrRateCodePrompt" path="/WEB-INF/jsp/award/IcrRateCodePrompt.jsp" />
+          <forward name="awardQuestionnaire" path="/WEB-INF/jsp/award/AwardQuestionnaire.jsp" />
           <!--<forward name="commentViewHistory" path="/WEB-INF/jsp/award/AwardCommentViewHistory.jsp" />-->                                  
           <forward name="notificationEditor" path="/WEB-INF/jsp/award/AwardNotificationEditor.jsp" />
       </action>

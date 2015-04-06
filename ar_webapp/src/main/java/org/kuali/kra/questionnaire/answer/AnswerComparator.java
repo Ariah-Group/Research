@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.questionnaire.answer;
 
@@ -25,19 +41,21 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * 
- * This class is implementing comparator for Answer in order to sort answer based
- * on questionnaire questions order
+ *
+ * This class is implementing comparator for Answer in order to sort answer
+ * based on questionnaire questions order
  */
-public class AnswerComparator implements Comparator<Answer>  {
+public class AnswerComparator implements Comparator<Answer> {
+
     private static final Log LOG = LogFactory.getLog(AnswerComparator.class);
-    
+
+    @Override
     public int compare(Answer ans1, Answer argAnswer) {
 
         int retVal = 0;
-       if (ObjectUtils.equals(ans1.getQuestionNumber(), argAnswer.getQuestionNumber())) {
-           // question with multiple answers.  then compare answer number
-           retVal =  ans1.getAnswerNumber().compareTo(argAnswer.getAnswerNumber());
+        if (ObjectUtils.equals(ans1.getQuestionNumber(), argAnswer.getQuestionNumber())) {
+            // question with multiple answers.  then compare answer number
+            retVal = ans1.getAnswerNumber().compareTo(argAnswer.getAnswerNumber());
         } else if (ObjectUtils.equals(ans1.getQuestionnaireQuestion().getParentQuestionNumber(), argAnswer.getQuestionnaireQuestion()
                 .getParentQuestionNumber())) {
             // questions with same parent
@@ -75,12 +93,12 @@ public class AnswerComparator implements Comparator<Answer>  {
             }
         } else {
             // set up log now to see why it comes to here
-            LOG.info("no comparison matched "+ans1.getQuestionnaireQuestionsIdFk()+"-"+argAnswer.getQuestionnaireQuestionsIdFk());
+            LOG.info("no comparison matched " + ans1.getQuestionnaireQuestionsIdFk() + "-" + argAnswer.getQuestionnaireQuestionsIdFk());
             retVal = 0;
         }
         return retVal;
     }
-    
+
     /*
      * get the root answer for the selected answer
      */
@@ -92,7 +110,7 @@ public class AnswerComparator implements Comparator<Answer>  {
         }
         return thisAnswer;
     }
-    
+
     /*
      * compare question answer if they neither is the root question, but they have the same
      * root question; ie, they are from the same question tree.
@@ -115,10 +133,8 @@ public class AnswerComparator implements Comparator<Answer>  {
                     break;
                 }
 
-
             }
-        }
-        else {
+        } else {
             for (int i = 0; i < ancestors2.size(); i++) {
                 retVal = 1;
 
@@ -127,7 +143,6 @@ public class AnswerComparator implements Comparator<Answer>  {
                             ancestors2.get(i).getQuestionnaireQuestion().getQuestionSeqNumber());
                     break;
                 }
-
 
             }
 
@@ -152,4 +167,3 @@ public class AnswerComparator implements Comparator<Answer>  {
     }
 
 }
-

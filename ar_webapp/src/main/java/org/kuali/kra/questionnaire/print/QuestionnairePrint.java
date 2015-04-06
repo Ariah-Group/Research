@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ *
  * This class is the printable of Questionnaire
  */
 public class QuestionnairePrint extends AbstractPrint {
@@ -36,12 +36,17 @@ public class QuestionnairePrint extends AbstractPrint {
     /**
      * This method fetches the XSL style-sheets required for transforming the
      * generated XML into PDF.
-     * 
+     *
      * @return {@link ArrayList}} of {@link Source} XSLs
      */
+    @Override
     public List<Source> getXSLTemplates() {
+        
         List<Source> sourceList = new ArrayList<Source>();
         Object template = getReportParameters().get("template");
+        
+        // If a record-specific template isn't set from teh QUESTIONNAIRE database table
+        // then use the generic QuestionnaireReport.xsl template
         if (template != null && ((byte[]) template).length > 0) {
             sourceList.add(new StreamSource(new ByteArrayInputStream((byte[]) template)));
         } else {
@@ -51,6 +56,5 @@ public class QuestionnairePrint extends AbstractPrint {
         }
         return sourceList;
     }
-
 
 }

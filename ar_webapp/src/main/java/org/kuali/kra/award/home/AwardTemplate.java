@@ -153,6 +153,7 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
     public List<AwardTemplateTerm> getTemplateTerms() {
         if (templateTerms != null) {
             Collections.sort(this.templateTerms, new Comparator() {
+                @Override
                 public int compare(Object o1, Object o2) {
                     AwardTemplateTerm templateTermFirst = (AwardTemplateTerm) o1;
                     AwardTemplateTerm templateTermSecond = (AwardTemplateTerm) o2;

@@ -71,6 +71,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
 
 import java.util.*;
+import org.kuali.kra.award.home.Award;
 
 /**
  * This class generates XML that conforms with the XSD related to Budget total
@@ -101,6 +102,7 @@ public class QuestionnaireXmlStream implements XmlStream {
      * @param reportParameters parameters related to XML generation
      * @return {@link XmlObject} representing the XML
      */
+    @Override
     public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         /* 
          * Just want to mention that Questionnaire is a maintenance document (not transactional doc), so passed in document will be null.
@@ -116,18 +118,22 @@ public class QuestionnaireXmlStream implements XmlStream {
         return xmlObjectList;
     }
 
+    @Override
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
 
+    @Override
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
 
+    @Override
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
+    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -174,16 +180,22 @@ public class QuestionnaireXmlStream implements XmlStream {
         if (printableBusinessObject != null) {
             moduleQuestionnaireBean = getQuestionnaireAnswerHeaderBean(printableBusinessObject, params);
         }
+
         if (questionnaire != null) {
+
             Integer questId = questionnaire.getQuestionnaireIdAsInteger();
             if (questId != null) {
                 questionnaireType.setQuestionnaireId(questId);
             }
             questionnaireType.setQuestionnaireName(questionnaire.getName());
             questionnaireType.setQuestionnaireDesc(questionnaire.getDescription());
+
             setQuestionInfoData(questionnaire, moduleQuestionnaireBean, questionnaireType, questionnaireCompletionFlag, printableBusinessObject);
+
             setUserOption(params, questionnaireType);
+
             setAnswerInfo(printableBusinessObject, moduleQuestionnaireBean, questionnaireType);
+
             if (moduleQuestionnaireBean != null && moduleQuestionnaireBean.getModuleItemCode() != null) {
                 setModuleUsage(moduleQuestionnaireBean, questionnaireType);
             } else {
@@ -232,11 +244,14 @@ public class QuestionnaireXmlStream implements XmlStream {
      * @param questionnaireType
      */
     private void setDevProposalInfo(DevelopmentProposal proposalBean, Questionnaire questionnaireType) {
+
         if (proposalBean != null) {
+
             ProposalInfoType proposalInfo = questionnaireType.addNewProposalInfo();
             proposalInfo.setTitle(proposalBean.getTitle());
             proposalInfo.setProposalPersonUsed(0);
             String investigatorName = proposalBean.getPrincipalInvestigatorName();
+
             if (investigatorName != null) {
                 Person personInfo = proposalInfo.addNewInvestigator();
                 personInfo.setFullname(investigatorName);
@@ -245,11 +260,15 @@ public class QuestionnaireXmlStream implements XmlStream {
     }
 
     private void setDevProposalInfo(ProposalPerson person, Questionnaire questionnaireType) {
+
         DevelopmentProposal proposalBean = person.getDevelopmentProposal();
+
         if (proposalBean != null) {
+
             ProposalInfoType proposalInfo = questionnaireType.addNewProposalInfo();
             proposalInfo.setTitle(proposalBean.getTitle());
             String investigatorName = proposalBean.getPrincipalInvestigatorName();
+
             if (investigatorName != null) {
                 Person personInfo = proposalInfo.addNewInvestigator();
                 personInfo.setFullname(investigatorName);
@@ -273,7 +292,9 @@ public class QuestionnaireXmlStream implements XmlStream {
      */
     private void setAnswerInfo(KraPersistableBusinessObjectBase printableBusinessObject, ModuleQuestionnaireBean moduleQuestionnaireBean,
             Questionnaire questionnaireType) {
+
         AnswerHeaderType answerHeader = questionnaireType.addNewAnswerHeader();
+
         if (printableBusinessObject instanceof ProposalPerson) {
             ProposalPerson person = (ProposalPerson) printableBusinessObject;
             answerHeader.setModuleKey(person.getDevelopmentProposal().getProposalNumber());
@@ -300,6 +321,7 @@ public class QuestionnaireXmlStream implements XmlStream {
      * @param questionnaireType
      */
     private void setModuleUsage(ModuleQuestionnaireBean moduleQuestionnaireBean, Questionnaire questionnaireType) {
+
         ModuleUsageType moduleUsage = questionnaireType.addNewModuleUsage();
         ModuleInfoType moduleInfo = moduleUsage.addNewModuleInfo();
         String moduleCode = moduleQuestionnaireBean.getModuleItemCode();
@@ -308,6 +330,7 @@ public class QuestionnaireXmlStream implements XmlStream {
         // a bug should be the modulesubitemcode NOT modulesubitemkey
         // CoeusSubModule subModuleData1 = getQuestionnaireCoeusSubModule(moduleCode,moduleSubItemKey);
         CoeusSubModule subModuleData = getQuestionnaireCoeusSubModule(moduleCode, moduleQuestionnaireBean.getModuleSubItemCode());
+
         if (moduleCode != null) {
             moduleInfo.setModuleCode(Integer.parseInt(moduleCode));
         }
@@ -337,6 +360,7 @@ public class QuestionnaireXmlStream implements XmlStream {
 
         List moduleInfoTypeList = new ArrayList<ModuleInfoType>();
         List<QuestionnaireUsage> questionnaireUsageList = questionnaire.getQuestionnaireUsages();
+
         for (QuestionnaireUsage usage : questionnaireUsageList) {
             ModuleInfoType moduleInfoType = ModuleInfoType.Factory.newInstance();
             String moduleCode = usage.getModuleItemCode();
@@ -346,6 +370,7 @@ public class QuestionnaireXmlStream implements XmlStream {
             moduleInfoType.setModuleCode(Integer.parseInt(moduleCode));
             moduleInfoType.setSubModuleCode(Integer.parseInt(moduleSubItemCode));
             moduleInfoType.setModuleDesc(moduleData.getDescription());
+
             if (subModuleData != null) {
                 moduleInfoType.setSubModuleDesc(subModuleData.getDescription());
             }
@@ -375,6 +400,7 @@ public class QuestionnaireXmlStream implements XmlStream {
      * @param questionnaireType
      */
     private void setUserOption(Map<String, Object> params, Questionnaire questionnaireType) {
+
         UserOptions userOptions = questionnaireType.addNewUserOption();
         UserOptionsInfoType userOptionsInfo = userOptions.addNewUserOptionsInfo();
         Boolean printAnswersFlag = (Boolean) params.get("PRINT_ANSWERS_OPTION");
@@ -382,6 +408,7 @@ public class QuestionnaireXmlStream implements XmlStream {
         Boolean printAllFlag = (Boolean) params.get("PRINT_ALL_OPTION");
         userOptionsInfo.setPrintAnsweredQuestionsOnly("No");
         userOptionsInfo.setPrintAnswers("Yes");
+
         if (printAnswersFlag != null && !printAnswersFlag) {
             userOptionsInfo.setPrintAnswers("No");
         } else if (printAllFlag != null && printAllFlag) {
@@ -402,14 +429,17 @@ public class QuestionnaireXmlStream implements XmlStream {
      */
     private ModuleQuestionnaireBean getQuestionnaireAnswerHeaderBean(
             KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> params) {
+
         String moduleItemCode = null;
         String moduleSubItemCode = "0";
         String moduleItemKey = null;
         String moduleSubItemKey = null;
+
         if (printableBusinessObject instanceof Protocol) {
             Protocol protocol = (Protocol) printableBusinessObject;
             moduleItemCode = CoeusModule.IRB_MODULE_CODE;
             moduleSubItemCode = getProtocolSubItemCode(protocol);
+
             if (params.get("protocolNumber") != null && params.get("submissionNumber") != null) {
                 moduleItemKey = (String) params.get("protocolNumber");
                 moduleSubItemKey = (String) params.get("submissionNumber");
@@ -444,12 +474,22 @@ public class QuestionnaireXmlStream implements XmlStream {
             moduleItemKey = developmentProposal.getProposalNumber();
             moduleSubItemCode = (String) params.get("coeusModuleSubItemCode");
             moduleSubItemKey = "0";
+
+        } else if (printableBusinessObject instanceof Award) {
+
+            Award award = (Award) printableBusinessObject;
+            moduleItemCode = CoeusModule.AWARD_MODULE_CODE;
+            moduleItemKey = award.getAwardNumber();
+            moduleSubItemCode = (String) params.get("moduleSubItemCode");
+            moduleSubItemKey = award.getSequenceNumber().toString();
+
         } else if (printableBusinessObject instanceof ProposalPerson) {
             ProposalPerson person = (ProposalPerson) printableBusinessObject;
             moduleItemCode = CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE;
             moduleItemKey = person.getUniqueId();
             moduleSubItemCode = CoeusSubModule.PROPOSAL_PERSON_CERTIFICATION;
             moduleSubItemKey = "0";
+
         } else if (printableBusinessObject instanceof CoiDisclosure) {
             CoiDisclosure disclosure = (CoiDisclosure) printableBusinessObject;
             moduleItemCode = CoeusModule.COI_DISCLOSURE_MODULE_CODE;
@@ -491,9 +531,12 @@ public class QuestionnaireXmlStream implements XmlStream {
      */
     @SuppressWarnings("unchecked")
     private org.kuali.kra.questionnaire.Questionnaire findQuestionnaireObject(String documentNumber) throws PrintingException {
+
         Map qMap = new HashMap();
         qMap.put("documentNumber", documentNumber);
-        List<org.kuali.kra.questionnaire.Questionnaire> questionnaires = (List) businessObjectService.findMatching(org.kuali.kra.questionnaire.Questionnaire.class, qMap);
+        List<org.kuali.kra.questionnaire.Questionnaire> questionnaires
+                = (List) businessObjectService.findMatching(org.kuali.kra.questionnaire.Questionnaire.class, qMap);
+
         if (questionnaires.isEmpty()) {
             return findUnapprovedQuestionnaire(documentNumber);
         }
@@ -510,13 +553,16 @@ public class QuestionnaireXmlStream implements XmlStream {
      * @throws PrintingException
      */
     private org.kuali.kra.questionnaire.Questionnaire findUnapprovedQuestionnaire(String documentNumber) throws PrintingException {
+
         MaintenanceDocumentBase questionnaireDocument;
         org.kuali.kra.questionnaire.Questionnaire questionnaire = null;
         try {
             questionnaireDocument = (MaintenanceDocumentBase) documentService.getByDocumentHeaderId(documentNumber);
+
             if (questionnaireDocument != null) {
                 String content = KraServiceLocator.getService(RouteHeaderService.class).getContent(
                         questionnaireDocument.getDocumentHeader().getWorkflowDocument().getDocumentId()).getDocumentContent();
+
                 questionnaire = (org.kuali.kra.questionnaire.Questionnaire) getBusinessObjectFromXML(content, KualiDocumentXmlMaterializer.class.getName());
             }
         } catch (WorkflowException e) {
@@ -552,6 +598,7 @@ public class QuestionnaireXmlStream implements XmlStream {
         try {
             for (QuestionnaireQuestion questionnaireQuestion : sortedQuestionnaireQuestions) {
                 answeredFlag = true;
+
                 if (questionnaireQuestion.getConditionValue() != null) {
                     for (AnswerHeader ansHeader : answerHeaders) {
                         if (questionnaireQuestion.getQuestionnaireRefIdFk().equals(ansHeader.getQuestionnaireRefIdFk())) {
@@ -561,15 +608,20 @@ public class QuestionnaireXmlStream implements XmlStream {
                                         && answer.getQuestionNumber().equals(questionnaireQuestion.getQuestionNumber())
                                         && answer.getQuestionRefIdFk().equals(questionnaireQuestion.getQuestionRefIdFk())) {
 
-                                    if (answer.getParentAnswer() != null && answer.getParentAnswer().get(0).getAnswer() != null) {
-                                        if (answer.getParentAnswer().get(0).getQuestion().getQuestionTypeId() == QUESTION_TYPE_INT) {
-                                            if (answer.getParentAnswer().get(0).getAnswer().equals(
-                                                    questionnaireQuestion.getConditionValue())) {
+                                    if (answer.getParentAnswer() != null) {
+
+                                        Answer parAns = answer.getParentAnswer().get(0);
+
+                                        if (parAns != null && parAns.getAnswer() != null) {
+
+                                            if (parAns.getQuestion().getQuestionTypeId() == QUESTION_TYPE_INT) {
+
+                                                if (parAns.getAnswer().equals(questionnaireQuestion.getConditionValue())) {
+                                                    answeredFlag = false;
+                                                }
+                                            } else if (!parAns.getAnswer().equals(questionnaireQuestion.getConditionValue())) {
                                                 answeredFlag = false;
                                             }
-                                        } else if (!answer.getParentAnswer().get(0).getAnswer().equals(
-                                                questionnaireQuestion.getConditionValue())) {
-                                            answeredFlag = false;
                                         }
                                     }
                                 }
@@ -580,15 +632,18 @@ public class QuestionnaireXmlStream implements XmlStream {
 
                 if (answeredFlag) {
                     questionId = questionnaireQuestion.getQuestionnaireQuestionsId();
-                    questionNumber = questionnaireQuestion.getQuestionNumber().intValue();
-                    parentQuestionNumber = questionnaireQuestion.getParentQuestionNumber().intValue();
+                    questionNumber = questionnaireQuestion.getQuestionNumber();
+                    parentQuestionNumber = questionnaireQuestion.getParentQuestionNumber();
                     if (questionsType != null) {
                         tempParentQuestionNumber = 0;
                     } else {
                         tempParentQuestionNumber = (int) parentQuestionInfo.getQuestionNumber();
                     }
+
                     if (questionnaireQuestion.isAllow()) {
+
                         if (parentQuestionNumber == tempParentQuestionNumber) {
+
                             QuestionInfoType questionInfo = QuestionInfoType.Factory.newInstance();
                             questionInfo.setQuestionNumber(questionNumber);
                             if (tempParentQuestionNumber == 0) {
@@ -610,6 +665,7 @@ public class QuestionnaireXmlStream implements XmlStream {
 
         QuestionInfoType[] childQuestionsList;
         QuestionInfoType questionInfoListData;
+
         if (questionsType != null) {
             childQuestionsList = questionsType.getQuestionInfoArray();
         } else {
@@ -623,8 +679,7 @@ public class QuestionnaireXmlStream implements XmlStream {
                 } else {
                     questionInfoListData = questionInfoType;
                 }
-                allocateQuestionHierarchy(null, questionInfoListData,
-                        questionnaireCompletionFlag, printableBusinessObject, answerHeaders);
+                allocateQuestionHierarchy(null, questionInfoListData, questionnaireCompletionFlag, printableBusinessObject, answerHeaders);
             }
         }
     }
@@ -633,7 +688,7 @@ public class QuestionnaireXmlStream implements XmlStream {
             boolean questionnaireCompletionFlag, KraPersistableBusinessObjectBase printableBusinessObject, Long questionId,
             int questionNumber, List<AnswerHeader> answerHeaders) throws PrintingException {
 
-        boolean isAnswerPresent = false;
+        // boolean isAnswerPresent = false;
         boolean answeredFlag = true;
         if (questionnaireQuestion.getConditionValue() != null) {
             for (AnswerHeader ansHeader : answerHeaders) {
@@ -643,15 +698,22 @@ public class QuestionnaireXmlStream implements XmlStream {
                                 questionnaireQuestion.getQuestionnaireQuestionsId())
                                 && answer.getQuestionNumber().equals(questionnaireQuestion.getQuestionNumber())
                                 && answer.getQuestionRefIdFk().equals(questionnaireQuestion.getQuestionRefIdFk())) {
-                            if (answer.getParentAnswer() != null && answer.getParentAnswer().get(0).getAnswer() != null) {
-                                if (answer.getParentAnswer().get(0).getQuestion().getQuestionTypeId() == QUESTION_TYPE_INT) {
-                                    if (answer.getParentAnswer().get(0).getAnswer().equals(
-                                            questionnaireQuestion.getConditionValue())) {
+
+                            if (answer.getParentAnswer() != null) {
+
+                                Answer parAnswer = answer.getParentAnswer().get(0);
+
+                                if (parAnswer != null && parAnswer.getAnswer() != null) {
+
+                                    if (parAnswer.getQuestion().getQuestionTypeId() == QUESTION_TYPE_INT) {
+
+                                        if (parAnswer.getAnswer().equals(questionnaireQuestion.getConditionValue())) {
+                                            answeredFlag = false;
+                                        }
+                                    } else if (!parAnswer.getAnswer().equals(questionnaireQuestion.getConditionValue())) {
                                         answeredFlag = false;
                                     }
-                                } else if (!answer.getParentAnswer().get(0).getAnswer().equals(
-                                        questionnaireQuestion.getConditionValue())) {
-                                    answeredFlag = false;
+
                                 }
                             }
                         }
@@ -659,6 +721,7 @@ public class QuestionnaireXmlStream implements XmlStream {
                 }
             }
         }
+
         if (answeredFlag) {
             if (questionId != null) {
                 questionInfo.setQuestionId(questionId.intValue());
@@ -673,24 +736,29 @@ public class QuestionnaireXmlStream implements XmlStream {
                     questionInfo.setParentQuestionNumber(questionnaireQuestion.getParentQuestionNumber());
                 }
             }
+
             if (answerHeaders != null && answerHeaders.size() > 0) {
+
                 boolean isAnswerNamePresent = false;
                 int selectedAnswer = 0;
                 for (AnswerHeader answerHeader : answerHeaders) {
                     String answerName = "";
-                    String answerPerson = "";
+                    // String answerPerson = "";
                     String answerDescription = null;
+
                     if (questionnaireQuestion.getQuestionnaireRefIdFk().equals(answerHeader.getQuestionnaireRefIdFk())) {
+
                         List<Answer> answers = answerHeader.getAnswers();
                         for (Answer answer : answers) {
+
                             if (answer.getQuestionnaireQuestion().getQuestionnaireQuestionsId().equals(
                                     questionnaireQuestion.getQuestionnaireQuestionsId())
                                     && answer.getQuestionNumber().equals(questionnaireQuestion.getQuestionNumber())
                                     && answer.getQuestionRefIdFk().equals(questionnaireQuestion.getQuestionRefIdFk())) {
                                 boolean updateQuestionDescription = printableBusinessObject instanceof ProposalPerson;
                                 if (answer.getAnswer() != null) {
-                                    isAnswerPresent = true;
-                                    if (isAnswerNamePresent == true) {
+                                    //isAnswerPresent = true;
+                                    if (isAnswerNamePresent) {
                                         answerName += ", ";
                                     }
                                     answerName += answer.getAnswer().trim();
@@ -738,7 +806,6 @@ public class QuestionnaireXmlStream implements XmlStream {
                                 }
                                 answerDescription = answerDescription.substring(0, answerDescription.lastIndexOf(',') - 1);
                             }
-
                         }
                     }
                     answerInfo.setAnswer(answerDescription);
@@ -762,16 +829,19 @@ public class QuestionnaireXmlStream implements XmlStream {
     private void setQuestionInfoData(org.kuali.kra.questionnaire.Questionnaire questionnaire,
             ModuleQuestionnaireBean moduleQuestionnaireBean, Questionnaire questionnaireType, boolean questionnaireCompletionFlag,
             KraPersistableBusinessObjectBase printableBusinessObject) throws PrintingException {
+
         List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
         org.kuali.kra.questionnaire.Questionnaire answeredQuestionnaire = null;
+
         if (moduleQuestionnaireBean != null) {
+
             answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
             if (!answerHeaders.isEmpty()) {
+
                 answeredQuestionnaire = answerHeaders.get(0).getQuestionnaire();
                 // This is another weird behavior. some have empty questionnairequestions, and require this refresh.
                 answeredQuestionnaire.refreshReferenceObject("questionnaireQuestions");
             }
-
         }
         org.kuali.kra.questionnaire.Questionnaire toSortQuestionnaire = null;
         for (AnswerHeader header : answerHeaders) {
@@ -846,7 +916,7 @@ public class QuestionnaireXmlStream implements XmlStream {
             for (int index = 0; index < questionnaireQuestions.size(); index++) {
                 QuestionnaireQuestion bean = questionnaireQuestions.get(index);
                 if (bean.getParentQuestionNumber() != null && parent != null) {
-                    if (bean.getParentQuestionNumber().intValue() == parent.intValue()) {
+                    if (bean.getParentQuestionNumber() == parent.intValue()) {
                         list.add(bean);
                     }
                 }
@@ -856,6 +926,7 @@ public class QuestionnaireXmlStream implements XmlStream {
         QuestionnaireQuestion firstChild = null;
         QuestionnaireQuestion secondChild = null;
         QuestionnaireQuestion temp = null;
+
         // To the the questions according to the questionSequenceNumber
         for (int i = 0; i < list.size(); i++) {
             for (int j = 1; j <= (list.size() - 1); j++) {

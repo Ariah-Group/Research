@@ -86,11 +86,13 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
     private VersionHistoryService versionHistoryService;
     private UnitAuthorizationService unitAuthorizationService;
 
+    @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         isAuthorized();
         return super.execute(mapping, form, request, response);
     }
 
+    @Override
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ReportTrackingLookupForm lookupForm = (ReportTrackingLookupForm) form;
 

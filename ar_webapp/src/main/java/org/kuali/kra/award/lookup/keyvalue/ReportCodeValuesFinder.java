@@ -138,6 +138,7 @@ public class ReportCodeValuesFinder extends UifKeyValuesFinderBase {
 
     class ReportCodeComparator implements Comparator {
 
+        @Override
         public int compare(Object kv1, Object kv2) {
             try {
                 String desc1 = ((KeyValue) kv1).getValue();

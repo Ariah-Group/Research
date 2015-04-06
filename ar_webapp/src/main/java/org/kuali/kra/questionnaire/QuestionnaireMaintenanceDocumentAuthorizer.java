@@ -12,6 +12,21 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.questionnaire;
 
@@ -29,9 +44,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * 
- * This the document authorizer class of questionnaire maintenance.
- * Based on user permission and document routing status; the documentactions set is created.
+ *
+ * This the document authorizer class of questionnaire maintenance. Based on
+ * user permission and document routing status; the documentactions set is
+ * created.
  */
 public class QuestionnaireMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
@@ -50,11 +66,9 @@ public class QuestionnaireMaintenanceDocumentAuthorizer extends MaintenanceDocum
                         PermissionConstants.VIEW_QUESTIONNAIRE);
         if (hasModifyPermission) {
             documentActions = getDocumentActionsWithModifyPermission(document);
-        }
-        else if (hasViewPermission) {
+        } else if (hasViewPermission) {
             documentActions = getDocumentActionsWithViewPermission(document);
-        }
-        else {
+        } else {
             throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "Edit/View", "Questionnaire");
         }
         return documentActions;
@@ -63,7 +77,7 @@ public class QuestionnaireMaintenanceDocumentAuthorizer extends MaintenanceDocum
     private QuestionnaireAuthorizationService getQuestionnaireAuthorizationService() {
         return KraServiceLocator.getService(QuestionnaireAuthorizationService.class);
     }
-    
+
     private Set<String> getDocumentActionsWithModifyPermission(Document document) {
         Set<String> documentActions = new HashSet<String>();
         if (document.getDocumentHeader().getWorkflowDocument().getStatus().getCode().equals("I")
@@ -75,8 +89,7 @@ public class QuestionnaireMaintenanceDocumentAuthorizer extends MaintenanceDocum
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_CANCEL);
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_BLANKET_APPROVE);
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_ROUTE);
-        }
-        else {
+        } else {
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_RELOAD);
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_CLOSE);
         }
@@ -90,16 +103,13 @@ public class QuestionnaireMaintenanceDocumentAuthorizer extends MaintenanceDocum
         if (document.getDocumentHeader().getWorkflowDocument().getStatus().getCode().equals("I")) {
             if (maintAction.equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {
                 throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "Copy", "Questionnaire");
-            }
-            else if (maintAction.equals(KRADConstants.MAINTENANCE_NEW_ACTION)) {
+            } else if (maintAction.equals(KRADConstants.MAINTENANCE_NEW_ACTION)) {
                 throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), "Create", "Questionnaire");
-            }
-            else {
+            } else {
                 documentActions.add(KRADConstants.KUALI_ACTION_CAN_RELOAD);
                 documentActions.add(KRADConstants.KUALI_ACTION_CAN_CLOSE);
             }
-        }
-        else {
+        } else {
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_RELOAD);
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_CLOSE);
         }

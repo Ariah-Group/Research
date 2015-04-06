@@ -43,7 +43,7 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
  * AwardSponsorTermRuleEvent class for rule processing.
  */
 public class AwardSponsorTermRuleEvent extends KraDocumentEventBase {
-    
+
     private static final Log LOG = LogFactory.getLog(AwardCostShareRuleEvent.class);
     private AwardSponsorTerm awardSponsorTerm;
     private String sponsorTermCode;
@@ -51,39 +51,43 @@ public class AwardSponsorTermRuleEvent extends KraDocumentEventBase {
 
     /**
      * Constructs a AwardSponsorTermRuleEvent.
+     *
      * @param errorPathPrefix
      * @param awardDocument
      * @param awardSponsorTerm
      * @param sponsorTermCode the sponsor term code from the HTTP request
-     * @param sponsorTermTypeCode the index of the subpanel within the terms panel
+     * @param sponsorTermTypeCode the index of the subpanel within the terms
+     * panel
      */
-    public AwardSponsorTermRuleEvent(String errorPathPrefix, 
-                                           AwardDocument awardDocument,
-                                           AwardSponsorTerm awardSponsorTerm,
-                                           String sponsorTermCode,
-                                           int sponsorTermTypeCode) {
+    public AwardSponsorTermRuleEvent(String errorPathPrefix,
+            AwardDocument awardDocument,
+            AwardSponsorTerm awardSponsorTerm,
+            String sponsorTermCode,
+            int sponsorTermTypeCode) {
         super("Cost Share", errorPathPrefix, awardDocument);
         this.awardSponsorTerm = awardSponsorTerm;
         this.sponsorTermCode = sponsorTermCode;
         this.sponsorTermTypeCode = sponsorTermTypeCode;
     }
-    
+
     /**
      * Convenience method to return an AwardDocument
+     *
      * @return
      */
     public AwardDocument getAwardDocument() {
         return (AwardDocument) getDocument();
     }
-    
+
     /**
      * This method returns the sponsor term for validation
+     *
      * @return
      */
     public AwardSponsorTerm getAwardSponsorTermForValidation() {
         return awardSponsorTerm;
     }
-    
+
     public String getSponsorTermCode() {
         return sponsorTermCode;
     }
@@ -110,11 +114,12 @@ public class AwardSponsorTermRuleEvent extends KraDocumentEventBase {
     }
 
     /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
+     * @see
+     * org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
      */
     @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AwardSponsorTermRule)rule).processAddSponsorTermBusinessRules(this);
+        return ((AwardSponsorTermRule) rule).processAddSponsorTermBusinessRules(this);
     }
 
 }

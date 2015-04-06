@@ -36,23 +36,26 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rules.ErrorReporter;
 
 /**
- * This class is to validate all rules pertaining to Award Template sync functionality
+ * This class is to validate all rules pertaining to Award Template sync
+ * functionality
  */
 public class AwardTemplateSyncRuleImpl implements AwardTemplateSyncRule {
 
     private ErrorReporter errorReporter;
+
     /**
-     * @see org.kuali.kra.award.AwardTemplateSyncRule#processAwardTemplateSyncRules(org.kuali.kra.award.AwardTemplateSyncEvent)
+     * @see
+     * org.kuali.kra.award.AwardTemplateSyncRule#processAwardTemplateSyncRules(org.kuali.kra.award.AwardTemplateSyncEvent)
      */
     @Override
     public boolean processAwardTemplateSyncRules(AwardTemplateSyncEvent awardTemplateSyncEvent) {
         Award award = awardTemplateSyncEvent.getAward();
         errorReporter = new ErrorReporter();
-        if(award.getTemplateCode()==null){
+        if (award.getTemplateCode() == null) {
             errorReporter.reportError(awardTemplateSyncEvent.getErrorPathPrefix(), KeyConstants.ERROR_NO_TEMPLATE_CODE);
             return false;
         }
-                
+
         return true;
     }
 

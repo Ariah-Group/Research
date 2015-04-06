@@ -12,6 +12,21 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.lookup;
 
@@ -34,14 +49,17 @@ public class AwardTransactionLookupServiceImpl implements AwardTransactionLookup
 
     private BusinessObjectService businessObjectService;
     private static final Log LOG = LogFactory.getLog(AwardTransactionLookupServiceImpl.class);
-    
+
     /**
-     * 
-     * @see org.kuali.kra.award.lookup.AwardTransactionLookupService#getApplicableTransactionIds(java.lang.String, java.lang.Integer)
+     *
+     * @see
+     * org.kuali.kra.award.lookup.AwardTransactionLookupService#getApplicableTransactionIds(java.lang.String,
+     * java.lang.Integer)
      */
     @SuppressWarnings("unchecked")
+    @Override
     public Map<Integer, String> getApplicableTransactionIds(String awardNumber, Integer sequenceNumber) {
-        if(isAuthorizedToAccess(awardNumber)){
+        if (isAuthorizedToAccess(awardNumber)) {
             if (StringUtils.isNotBlank(awardNumber) && awardNumber.contains(Constants.COLON)) {
                 awardNumber = StringUtils.split(awardNumber, Constants.COLON)[0];
             }
@@ -57,7 +75,7 @@ public class AwardTransactionLookupServiceImpl implements AwardTransactionLookup
                             excludedTransactionIds.add(amountInfo.getTransactionId());
                         }
                     }
-                } else if (award.getSequenceNumber() == sequenceNumber.intValue()){
+                } else if (award.getSequenceNumber() == sequenceNumber.intValue()) {
                     for (AwardAmountInfo amountInfo : award.getAwardAmountInfos()) {
                         if (amountInfo.getTransactionId() != null) {
                             transactionIds.add(amountInfo.getTransactionId());
@@ -67,7 +85,8 @@ public class AwardTransactionLookupServiceImpl implements AwardTransactionLookup
             }
             Award currentAward = getAwardVersion(awardNumber, sequenceNumber);
             transactionIds.removeAll(excludedTransactionIds);
-            Map<Integer, String> retval = new TreeMap<Integer, String>(new Comparator<Integer>(){
+            Map<Integer, String> retval = new TreeMap<Integer, String>(new Comparator<Integer>() {
+                @Override
                 public int compare(Integer o1, Integer o2) {
                     //sort in descending order instead of ascending
                     return o1.compareTo(o2) * -1;
@@ -82,11 +101,11 @@ public class AwardTransactionLookupServiceImpl implements AwardTransactionLookup
                 retval.put(0, "Initial");
             }
             return retval;
-        }
-        else
+        } else {
             return new TreeMap<Integer, String>();
+        }
     }
-    
+
     protected int getAwardAmountInfoIndex(Award award, Long transactionId) {
         for (int i = 0; i < award.getAwardAmountInfos().size(); i++) {
             if (ObjectUtils.equals(award.getAwardAmountInfos().get(i).getTransactionId(), transactionId)) {
@@ -95,7 +114,7 @@ public class AwardTransactionLookupServiceImpl implements AwardTransactionLookup
         }
         return 0;
     }
-    
+
     protected Award getAwardVersion(String awardNumber, int sequenceNumber) {
         Map<String, Object> values = new HashMap<String, Object>();
         values.put("awardNumber", awardNumber);
@@ -111,15 +130,14 @@ public class AwardTransactionLookupServiceImpl implements AwardTransactionLookup
     protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
-    
+
     /*
      * a utility method to check if dwr/ajax call really has authorization
      * 'updateProtocolFundingSource' also accessed by non ajax call
      */
-    
     private boolean isAuthorizedToAccess(String awardNumber) {
         boolean isAuthorized = true;
-        if(awardNumber.contains(Constants.COLON)){
+        if (awardNumber.contains(Constants.COLON)) {
             if (GlobalVariables.getUserSession() != null) {
                 // TODO : this is a quick hack for KC 3.1.1 to provide authorization check for dwr/ajax call. dwr/ajax will be replaced by
                 // jquery/ajax in rice 2.0
@@ -132,9 +150,9 @@ public class AwardTransactionLookupServiceImpl implements AwardTransactionLookup
                     if (formObj == null || !(formObj instanceof AwardForm)) {
                         isAuthorized = false;
                     } else {
-                        Map<String, String> editModes = ((AwardForm)formObj).getEditingMode();
+                        Map<String, String> editModes = ((AwardForm) formObj).getEditingMode();
                         isAuthorized = BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.FULL_ENTRY))
-                        || BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.VIEW_ONLY));
+                                || BooleanUtils.toBoolean(editModes.get(AuthorizationConstants.EditMode.VIEW_ONLY));
                     }
                 }
             } else {

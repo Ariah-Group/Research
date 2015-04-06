@@ -100,8 +100,12 @@ import org.kuali.rice.krad.util.KRADConstants;
 
 import java.text.ParseException;
 import java.util.*;
+import org.ariahgroup.research.award.questionnaire.AwardQuestionnaireHelper;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.SpecialReviewUsage;
+import static org.kuali.kra.questionnaire.QuestionableFormInterface.DEFAULT_END;
+import static org.kuali.kra.questionnaire.QuestionableFormInterface.DEFAULT_MIDDLE;
+import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -217,6 +221,7 @@ public class AwardForm extends BudgetVersionFormBase
     private List<ReportTrackingBean> reportTrackingBeans;
 
     private AccountCreationPresentationHelper accountCreationHelper;
+    private QuestionnaireHelperBase questionnaireHelper;
 
     /**
      * Constructs a AwardForm with an existing AwardDocument. Used primarily by
@@ -279,6 +284,9 @@ public class AwardForm extends BudgetVersionFormBase
         syncRequiresConfirmationMap = null;
         currentSyncScopes = null;
 
+        //setQuestionnaireHelper(createNewQuestionnaireHelperInstance(this));
+        setQuestionnaireHelper(new AwardQuestionnaireHelper(this));
+        
         syncMode = false;
         awardSyncBean = new AwardSyncBean(this);
         setDirectIndirectViewEnabled(getParameterService().getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
@@ -295,6 +303,14 @@ public class AwardForm extends BudgetVersionFormBase
         }
     }
 
+    public QuestionnaireHelperBase getQuestionnaireHelper() {
+        return questionnaireHelper;
+    }
+    
+    public void setQuestionnaireHelper(QuestionnaireHelperBase questionnaireHelper) {
+        this.questionnaireHelper = questionnaireHelper;
+    }
+    
     /**
      *
      * This method returns the AwardDocument object.
@@ -1628,4 +1644,24 @@ public class AwardForm extends BudgetVersionFormBase
     public int getNumColumns() {
         return 3;
     }
+    
+//    protected QuestionnaireHelperBase createNewQuestionnaireHelperInstance(AwardForm awardForm) {
+//        return new AwardQuestionnaireHelper(awardForm);
+//    }    
+    
+    public String getQuestionnaireFieldStarter() {
+        return "questionnaireHelper.answerHeaders[";
+    }
+    
+    public String getQuestionnaireFieldMiddle() {
+        return DEFAULT_MIDDLE;
+    }
+    
+    public String getQuestionnaireFieldEnd() {
+        return DEFAULT_END;
+    }
+    
+    public String getQuestionnaireExpression() {
+        return "^undefined$";
+    }    
 }

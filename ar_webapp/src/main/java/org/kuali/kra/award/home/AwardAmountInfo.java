@@ -12,6 +12,21 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.home;
 
@@ -22,7 +37,7 @@ import java.sql.Date;
 
 /**
  * AwardAmountInfo BO
- * 
+ *
  * @author Kuali Coeus development team (kc.dev@kuali.org)
  */
 public class AwardAmountInfo extends AwardAssociate {
@@ -284,7 +299,8 @@ public class AwardAmountInfo extends AwardAssociate {
     //        this.awardAmtFnaDistribution = awardAmtFnaDistribution;  
     //    }  
     /**
-     * Gets the originatingAwardVersion attribute. 
+     * Gets the originatingAwardVersion attribute.
+     *
      * @return Returns the originatingAwardVersion.
      */
     public Integer getOriginatingAwardVersion() {
@@ -293,6 +309,7 @@ public class AwardAmountInfo extends AwardAssociate {
 
     /**
      * Sets the originatingAwardVersion attribute value.
+     *
      * @param originatingAwardVersion The originatingAwardVersion to set.
      */
     public void setOriginatingAwardVersion(Integer originatingAwardVersion) {
@@ -300,7 +317,8 @@ public class AwardAmountInfo extends AwardAssociate {
     }
 
     /**
-     * Gets the transactionDetailItemsLength attribute. 
+     * Gets the transactionDetailItemsLength attribute.
+     *
      * @return Returns the transactionDetailItemsLength.
      */
     public Integer getTransactionDetailItemsLength() {
@@ -309,7 +327,9 @@ public class AwardAmountInfo extends AwardAssociate {
 
     /**
      * Sets the transactionDetailItemsLength attribute value.
-     * @param transactionDetailItemsLength The transactionDetailItemsLength to set.
+     *
+     * @param transactionDetailItemsLength The transactionDetailItemsLength to
+     * set.
      */
     public void setTransactionDetailItemsLength(Integer transactionDetailItemsLength) {
         this.transactionDetailItemsLength = transactionDetailItemsLength;
@@ -318,12 +338,14 @@ public class AwardAmountInfo extends AwardAssociate {
     /**
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
      */
+    @Override
     public void resetPersistenceState() {
         this.awardAmountInfoId = null;
     }
 
     /**
-     * Gets the timeAndMoneyDocumentNumber attribute. 
+     * Gets the timeAndMoneyDocumentNumber attribute.
+     *
      * @return Returns the timeAndMoneyDocumentNumber.
      */
     public String getTimeAndMoneyDocumentNumber() {
@@ -332,12 +354,13 @@ public class AwardAmountInfo extends AwardAssociate {
 
     /**
      * Sets the timeAndMoneyDocumentNumber attribute value.
+     *
      * @param timeAndMoneyDocumentNumber The timeAndMoneyDocumentNumber to set.
      */
     public void setTimeAndMoneyDocumentNumber(String timeAndMoneyDocumentNumber) {
         this.timeAndMoneyDocumentNumber = timeAndMoneyDocumentNumber;
     }
-    
+
     public void resetChangeValues() {
         setObligatedChange(new KualiDecimal(0));
         setObligatedChangeDirect(new KualiDecimal(0));
@@ -348,22 +371,22 @@ public class AwardAmountInfo extends AwardAssociate {
     }
 
 //TODO: For debugging, to be taken out eventually
-public String toString() {
-  return 
-  "anticipatedTotalAmount = " +      anticipatedTotalAmount +         
-  ", antDistributableAmount = " +      antDistributableAmount +         
-  ", amountObligatedToDate = " +       amountObligatedToDate +          
-  ", obliDistributableAmount = " +     obliDistributableAmount +        
-  ", anticipatedChange = " +           anticipatedChange +              
-  ", obligatedChange = " +             obligatedChange +                
-  ", obligatedChangeDirect = " +       obligatedChangeDirect +          
-  ", obligatedChangeIndirect = " +     obligatedChangeIndirect +        
-  ", anticipatedChangeDirect = " +     anticipatedChangeDirect +        
-  ", anticipatedChangeIndirect = " +   anticipatedChangeIndirect +      
-  ", anticipatedTotalDirect = " +      anticipatedTotalDirect +         
-  ", anticipatedTotalIndirect = " +    anticipatedTotalIndirect +       
-  ", obligatedTotalDirect = " +        obligatedTotalDirect +           
-  ", obligatedTotalIndirect = " +      obligatedTotalIndirect;
-}
+    @Override
+    public String toString() {
+        return "anticipatedTotalAmount = " + anticipatedTotalAmount
+                + ", antDistributableAmount = " + antDistributableAmount
+                + ", amountObligatedToDate = " + amountObligatedToDate
+                + ", obliDistributableAmount = " + obliDistributableAmount
+                + ", anticipatedChange = " + anticipatedChange
+                + ", obligatedChange = " + obligatedChange
+                + ", obligatedChangeDirect = " + obligatedChangeDirect
+                + ", obligatedChangeIndirect = " + obligatedChangeIndirect
+                + ", anticipatedChangeDirect = " + anticipatedChangeDirect
+                + ", anticipatedChangeIndirect = " + anticipatedChangeIndirect
+                + ", anticipatedTotalDirect = " + anticipatedTotalDirect
+                + ", anticipatedTotalIndirect = " + anticipatedTotalIndirect
+                + ", obligatedTotalDirect = " + obligatedTotalDirect
+                + ", obligatedTotalIndirect = " + obligatedTotalIndirect;
+    }
 
 }

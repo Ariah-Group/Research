@@ -51,101 +51,101 @@ public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
 
     transient BusinessObjectService businessObjectService;
     transient DocumentService documentService;
-    
+
     /**
-     * This method fetches the Award Amount Info object that is to be displayed in UI for Award.  
-     * The rules are:
-     * 1)the Award Amount Infos awardNumber and versionNumber must match the Award BO
-     * 2)The Award Amount Infos timeAndMoneyDocumentNumber must be null or from a T&M document that has been finalized
-     * Users don't want this data to apply to Award until the T&M document has been approved.
+     * This method fetches the Award Amount Info object that is to be displayed
+     * in UI for Award. The rules are: 1)the Award Amount Infos awardNumber and
+     * versionNumber must match the Award BO 2)The Award Amount Infos
+     * timeAndMoneyDocumentNumber must be null or from a T&M document that has
+     * been finalized Users don't want this data to apply to Award until the T&M
+     * document has been approved.
+     *
      * @param award
      * @return
-     * @throws WorkflowException 
-     * @throws WorkflowException 
+     * @throws WorkflowException
+     * @throws WorkflowException
      */
     @SuppressWarnings("unchecked")
     @Override
     public AwardAmountInfo fetchLastAwardAmountInfoForAwardVersionAndFinalizedTandMDocumentNumber(Award award) {
-        
+
         List<AwardAmountInfo> validAwardAmountInfos = new ArrayList<AwardAmountInfo>();
 
-        for(AwardAmountInfo aai : award.getAwardAmountInfos()) {
+        for (AwardAmountInfo aai : award.getAwardAmountInfos()) {
             //the aai needs to be added if it is created on initialization, or in the case of a root node we add a new one for initial money transaction.
             //if an award has been versioned, the initial transaction will be the first index in list.
-            if(aai.getTimeAndMoneyDocumentNumber() == null || (aai.getAwardNumber().endsWith("-00001") && 
-                    award.getAwardAmountInfos().indexOf(aai) == 1)) {
+            if (aai.getTimeAndMoneyDocumentNumber() == null || (aai.getAwardNumber().endsWith("-00001")
+                    && award.getAwardAmountInfos().indexOf(aai) == 1)) {
                 validAwardAmountInfos.add(aai);
-            }else {
+            } else {
                 Map<String, Object> fieldValues1 = new HashMap<String, Object>();
                 fieldValues1.put("documentNumber", aai.getTimeAndMoneyDocumentNumber());
-                List<TimeAndMoneyDocument> timeAndMoneyDocuments =
-                    (List<TimeAndMoneyDocument>)getBusinessObjectService().findMatching(TimeAndMoneyDocument.class, fieldValues1);
-                if(!timeAndMoneyDocuments.isEmpty()) {
+                List<TimeAndMoneyDocument> timeAndMoneyDocuments
+                        = (List<TimeAndMoneyDocument>) getBusinessObjectService().findMatching(TimeAndMoneyDocument.class, fieldValues1);
+                if (!timeAndMoneyDocuments.isEmpty()) {
                     try {
-                    TimeAndMoneyDocument timeAndMoneyDocument = 
-                        (TimeAndMoneyDocument)getDocumentService().getByDocumentHeaderId(timeAndMoneyDocuments.get(0).getDocumentHeader().getDocumentNumber());
-                    if(timeAndMoneyDocument.getDocumentHeader().hasWorkflowDocument()) {
-                        if(timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().isFinal()) {
-                            validAwardAmountInfos.add(aai);
+                        TimeAndMoneyDocument timeAndMoneyDocument
+                                = (TimeAndMoneyDocument) getDocumentService().getByDocumentHeaderId(timeAndMoneyDocuments.get(0).getDocumentHeader().getDocumentNumber());
+                        if (timeAndMoneyDocument.getDocumentHeader().hasWorkflowDocument()) {
+                            if (timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().isFinal()) {
+                                validAwardAmountInfos.add(aai);
+                            }
                         }
-                    }
                     } catch (WorkflowException e) {
                         LOG.error(e.getMessage(), e);
                     }
                 }
-        
+
             }
         }
-    return validAwardAmountInfos.get(validAwardAmountInfos.size() -1);
-}
-    
+        return validAwardAmountInfos.get(validAwardAmountInfos.size() - 1);
+    }
+
     @Override
-    public AwardAmountInfo fetchLastAwardAmountInfoForDocNum(Award award, String docNum){
+    public AwardAmountInfo fetchLastAwardAmountInfoForDocNum(Award award, String docNum) {
         List<AwardAmountInfo> validAwardAmountInfos = new ArrayList<AwardAmountInfo>();
         int docNumIntValue = Integer.parseInt(docNum.trim());
-        
-        for(AwardAmountInfo aai : award.getAwardAmountInfos()) {
-            if(aai.getTimeAndMoneyDocumentNumber() == null || (aai.getAwardNumber().endsWith("-00001") &&                   
-                    award.getAwardAmountInfos().indexOf(aai) == 1)) {
+
+        for (AwardAmountInfo aai : award.getAwardAmountInfos()) {
+            if (aai.getTimeAndMoneyDocumentNumber() == null || (aai.getAwardNumber().endsWith("-00001")
+                    && award.getAwardAmountInfos().indexOf(aai) == 1)) {
                 validAwardAmountInfos.add(aai);
-            }else {
-                if(Integer.parseInt(aai.getTimeAndMoneyDocumentNumber().trim()) > docNumIntValue) {
+            } else {
+                if (Integer.parseInt(aai.getTimeAndMoneyDocumentNumber().trim()) > docNumIntValue) {
                     break;
-                }else{
+                } else {
                     validAwardAmountInfos.add(aai);
                 }
             }
         }
-            return validAwardAmountInfos.get(validAwardAmountInfos.size() -1);
+        return validAwardAmountInfos.get(validAwardAmountInfos.size() - 1);
     }
-    
-    
-    /**
-     * 
-     * @see org.kuali.kra.award.AwardAmountInfoService#fetchAwardAmountInfoWithHighestTransactionId(java.util.List)
-     */
 
-    
+    /**
+     *
+     * @see
+     * org.kuali.kra.award.AwardAmountInfoService#fetchAwardAmountInfoWithHighestTransactionId(java.util.List)
+     */
     @Override
     public AwardAmountInfo fetchAwardAmountInfoWithHighestTransactionId(List<AwardAmountInfo> awardAmountInfos) {
-        
-        return awardAmountInfos.get(awardAmountInfos.size() -1);
+
+        return awardAmountInfos.get(awardAmountInfos.size() - 1);
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kra.award.AwardAmountInfoService#fetchIndexOfAwardAmountInfoWithHighestTransactionId(java.util.List)
+     *
+     * @see
+     * org.kuali.kra.award.AwardAmountInfoService#fetchIndexOfAwardAmountInfoWithHighestTransactionId(java.util.List)
      */
     @Override
     public int fetchIndexOfAwardAmountInfoWithHighestTransactionId(List<AwardAmountInfo> awardAmountInfos) {
-       
+
         return awardAmountInfos.size() - 1;
     }
-       
 
     /**
      * Gets the businessObjectService attribute.
-     * 
+     *
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -154,16 +154,16 @@ public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
     /**
      * Gets the businessObjectService attribute.
-     * 
+     *
      * @return Returns the businessObjectService.
      */
     public DocumentService getDocumentService() {
@@ -172,11 +172,11 @@ public class AwardAmountInfoServiceImpl implements AwardAmountInfoService {
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
-    
+
 }

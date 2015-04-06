@@ -239,11 +239,13 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
         return Integer.toString(cal.get(Calendar.MONTH)) + "/" + Integer.toString(cal.get(Calendar.DAY_OF_MONTH)) + "/" + Integer.toString(cal.get(Calendar.YEAR));
     }
 
+    @Override
     public void resetPersistenceState() {
         awardCommentId = null;
         versionNumber = null;
     }
 
+    @Override
     public int compareTo(AwardComment awardCommentArg) {
         return awardCommentArg.getUpdateTimestamp().compareTo(this.getUpdateTimestamp());
     }

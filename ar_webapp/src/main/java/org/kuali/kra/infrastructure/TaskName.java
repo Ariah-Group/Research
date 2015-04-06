@@ -88,6 +88,12 @@ public interface TaskName {
     public static final String VIEW_SALARIES = "viewSalaries";
     
     /*
+    * Award Tasks.
+    */
+    public static final String MODIFY_AWARD_QUESTIONNAIRE = "modifyAwardQuestionnaire";
+    
+    
+    /*
      * Protocol Tasks.
      */
     public static final String MODIFY_PROTOCOL = "modifyProtocol";

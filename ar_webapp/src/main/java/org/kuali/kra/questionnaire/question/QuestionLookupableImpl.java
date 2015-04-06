@@ -12,6 +12,21 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.questionnaire.question;
 
@@ -29,8 +44,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * Implements Question specific methods necessary to render the lookup and provides 
- * search and return methods.
+ * Implements Question specific methods necessary to render the lookup and
+ * provides search and return methods.
  */
 public class QuestionLookupableImpl extends KualiLookupableImpl {
 
@@ -38,32 +53,37 @@ public class QuestionLookupableImpl extends KualiLookupableImpl {
 
     private static final String MAINTENANCE = "maintenance";
     private static final String NEW_MAINTENANCE = "../maintenanceQ";
-    private static final String LOOKUP_RETURN ="lookupReturn";
-    private static final String LOOKUP_CLASS ="lookupClass";
+    private static final String LOOKUP_RETURN = "lookupReturn";
+    private static final String LOOKUP_CLASS = "lookupClass";
 
     private transient QuestionAuthorizationService questionAuthorizationService;
-    
+
     /**
-     * Only create the URL to create a new Question when proper permission is given.
+     * Only create the URL to create a new Question when proper permission is
+     * given.
+     *
      * @see org.kuali.rice.kns.lookup.KualiLookupableImpl#getCreateNewUrl()
      */
     @Override
     public String getCreateNewUrl() {
         String url = "";
         if (questionAuthorizationService.hasPermission(PermissionConstants.MODIFY_QUESTION)) {
-            url =  super.getCreateNewUrl();
+            url = super.getCreateNewUrl();
             url = url.replace(MAINTENANCE, NEW_MAINTENANCE);
         }
         return url;
     }
-    
+
     /**
-     * This is to force to reload the lookupreturn dropdown list for the lookupform. It's not pretty. The
-     * GlovalVaribles.getKualiForm() is not helping because the 'fields' on lookupForm is not set until all fields are set. So, the
-     * lookupreturnvaluesfinder can't take advantage of that.
-     * 
-     * @see org.kuali.core.lookup.KualiLookupableImpl#checkForAdditionalFields(java.util.Map)
+     * This is to force to reload the lookupreturn dropdown list for the
+     * lookupform. It's not pretty. The GlovalVaribles.getKualiForm() is not
+     * helping because the 'fields' on lookupForm is not set until all fields
+     * are set. So, the lookupreturnvaluesfinder can't take advantage of that.
+     *
+     * @see
+     * org.kuali.core.lookup.KualiLookupableImpl#checkForAdditionalFields(java.util.Map)
      */
+    @Override
     public boolean checkForAdditionalFields(Map fieldValues) {
         String lookupReturnFieldName = (String) fieldValues.get(LOOKUP_RETURN);
         String lookupClassName = (String) fieldValues.get(LOOKUP_CLASS);

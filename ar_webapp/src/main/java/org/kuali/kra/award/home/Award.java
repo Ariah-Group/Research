@@ -12,6 +12,21 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.home;
 
@@ -80,6 +95,8 @@ import org.springframework.util.AutoPopulatingList;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.*;
+import org.kuali.kra.krms.KcKrmsContextBo;
+import org.kuali.kra.krms.KrmsRulesContext;
 
 /**
  *
@@ -87,7 +104,7 @@ import java.util.*;
  * all operations related to AwardScenceKeywords.
  */
 public class Award extends KraPersistableBusinessObjectBase implements KeywordsManager<AwardScienceKeyword>, Permissionable,
-        SequenceOwner<Award>, BudgetParent, Sponsorable, Negotiable, Disclosurable {
+        SequenceOwner<Award>, BudgetParent, Sponsorable, Negotiable, Disclosurable, KcKrmsContextBo {
 
     public static final String DEFAULT_AWARD_NUMBER = "000000-00000";
     public static final String BLANK_COMMENT = "";
@@ -362,6 +379,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     /**
      * @see org.kuali.kra.Sequenceable#getSequenceNumber()
      */
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
@@ -487,6 +505,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      *
      * @return
      */
+    @Override
     public String getSponsorCode() {
         return sponsorCode;
     }
@@ -495,6 +514,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      *
      * @param sponsorCode
      */
+    @Override
     public void setSponsorCode(String sponsorCode) {
         this.sponsorCode = sponsorCode;
     }
@@ -1008,6 +1028,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      *
      * @return
      */
+    @Override
     public String getSponsorAwardNumber() {
         return sponsorAwardNumber;
     }
@@ -1043,6 +1064,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      *
      * @return
      */
+    @Override
     public String getUnitNumber() {
         return unitNumber;
     }
@@ -1050,6 +1072,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     /**
      * @return
      */
+    @Override
     public String getLeadUnitNumber() {
         return getUnitNumber();
     }
@@ -1082,6 +1105,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      *
      * @return
      */
+    @Override
     public String getActivityTypeCode() {
         return activityTypeCode;
     }
@@ -1295,6 +1319,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      *
      * @return
      */
+    @Override
     public String getTitle() {
         return title;
     }
@@ -1869,6 +1894,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * @see
      * org.kuali.kra.document.KeywordsManager#addKeyword(org.kuali.kra.bo.ScienceKeyword)
      */
+    @Override
     public void addKeyword(ScienceKeyword scienceKeyword) {
         AwardScienceKeyword awardScienceKeyword = new AwardScienceKeyword(getAwardId(), scienceKeyword);
         getKeywords().add(awardScienceKeyword);
@@ -1879,6 +1905,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      *
      * @see org.kuali.kra.document.KeywordsManager#getKeyword(int)
      */
+    @Override
     public AwardScienceKeyword getKeyword(int index) {
         return getKeywords().get(index);
     }
@@ -1969,6 +1996,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         awardCloseoutItems.removeAll(awardCloseoutNewItems);
         awardCloseoutNewItems.add(awardCloseoutItem);
         Collections.sort(awardCloseoutNewItems, new Comparator() {
+            @Override
             public int compare(Object o1, Object o2) {
                 if (o1 instanceof AwardCloseout && o2 instanceof AwardCloseout) {
                     AwardCloseout awardCloseout1 = (AwardCloseout) o1;
@@ -2335,6 +2363,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         this.sponsorCode = sponsor != null ? sponsor.getSponsorCode() : null;
     }
 
+    @Override
     public String getSponsorName() {
         Sponsor sponsor = getSponsor();
         sponsorName = sponsor != null ? sponsor.getSponsorName() : null;
@@ -2598,6 +2627,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * @see
      * org.kuali.kra.common.permissions.Permissionable#getDocumentNumberForPermission()
      */
+    @Override
     public String getDocumentNumberForPermission() {
         return awardId != null ? awardId.toString() : "";
     }
@@ -2606,6 +2636,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      *
      * @see org.kuali.kra.common.permissions.Permissionable#getDocumentKey()
      */
+    @Override
     public String getDocumentKey() {
         return Permissionable.AWARD_KEY;
     }
@@ -2614,6 +2645,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      *
      * @see org.kuali.kra.common.permissions.Permissionable#getRoleNames()
      */
+    @Override
     public List<String> getRoleNames() {
         List<String> roles = new ArrayList<String>();
 
@@ -2656,6 +2688,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     class ARTComparator implements Comparator {
 
+        @Override
         public int compare(Object art1, Object art2) {
             try {
                 String art1Desc = ((AwardReportTerm) art1).getReport().getDescription();
@@ -2786,6 +2819,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
                 awardCloseoutItems.remove(i - 1);
             }
             Collections.sort(awardCloseoutNewItems, new Comparator() {
+                @Override
                 public int compare(Object o1, Object o2) {
                     if (o1 instanceof AwardCloseout && o2 instanceof AwardCloseout) {
                         AwardCloseout awardCloseout1 = (AwardCloseout) o1;
@@ -2833,6 +2867,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      *
      * @return Returns the primeSponsorCode.
      */
+    @Override
     public String getPrimeSponsorCode() {
         return primeSponsorCode;
     }
@@ -2939,6 +2974,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     /**
      * @see org.kuali.kra.SequenceOwner#getOwnerSequenceNumber()
      */
+    @Override
     public Integer getOwnerSequenceNumber() {
         return null;
     }
@@ -2946,6 +2982,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     /**
      * @see org.kuali.kra.SequenceOwner#incrementSequenceNumber()
      */
+    @Override
     public void incrementSequenceNumber() {
         this.sequenceNumber++;
     }
@@ -2953,6 +2990,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     /**
      * @see org.kuali.kra.SequenceAssociate#getSequenceOwner()
      */
+    @Override
     public Award getSequenceOwner() {
         return this;
     }
@@ -2961,6 +2999,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * @see
      * org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
      */
+    @Override
     public void setSequenceOwner(Award newOwner) {
         // no-op
     }
@@ -2968,6 +3007,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     /**
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
      */
+    @Override
     public void resetPersistenceState() {
         this.awardId = null;
     }
@@ -2975,6 +3015,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     /**
      * @see org.kuali.kra.SequenceOwner#getName()
      */
+    @Override
     public String getVersionNameField() {
         return "awardNumber";
     }
@@ -2984,6 +3025,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      *
      * @return Returns the activityType.
      */
+    @Override
     public ActivityType getActivityType() {
         return activityType;
     }
@@ -3050,15 +3092,18 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return comment;
     }
 
+    @Override
     public String getBudgetStatus() {
         // hard coded as completed
         return "2";
     }
 
+    @Override
     public List getPersonRolodexList() {
         return getProjectPersons();
     }
 
+    @Override
     public PersonRolodex getProposalEmployee(String personId) {
         return getPerson(personId, true);
     }
@@ -3083,6 +3128,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return null;
     }
 
+    @Override
     public ContactRole getProposalEmployeeRole(String personId) {
         if (getProposalEmployee(personId) != null) {
             return ((AwardPerson) getProposalEmployee(personId)).getContactRole();
@@ -3091,6 +3137,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         }
     }
 
+    @Override
     public PersonRolodex getProposalNonEmployee(Integer rolodexId) {
         List<AwardPerson> awardPersons = getProjectPersons();
         for (AwardPerson awardPerson : awardPersons) {
@@ -3101,6 +3148,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return null;
     }
 
+    @Override
     public ContactRole getProposalNonEmployeeRole(Integer rolodexId) {
         if (getProposalNonEmployee(rolodexId) != null) {
             return ((AwardPerson) getProposalNonEmployee(rolodexId)).getContactRole();
@@ -3109,23 +3157,28 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         }
     }
 
+    @Override
     public Date getRequestedEndDateInitial() {
         return getObligationExpirationDate();
     }
 
+    @Override
     public Date getRequestedStartDateInitial() {
         AwardAmountInfo awardAmountInfo = getLastAwardAmountInfo();
         return awardAmountInfo == null ? null : awardAmountInfo.getCurrentFundEffectiveDate();
     }
 
+    @Override
     public Unit getUnit() {
         return getLeadUnit();
     }
 
+    @Override
     public boolean isSponsorNihMultiplePi() {
         return sponsorNihMultiplePi;
     }
 
+    @Override
     public void setBudgetStatus(String budgetStatus) {
     }
 
@@ -3185,10 +3238,12 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return getAwardApprovedSubawards().get(index);
     }
 
+    @Override
     public String getNamespace() {
         return Constants.MODULE_NAMESPACE_AWARD;
     }
 
+    @Override
     public String getDocumentRoleTypeCode() {
         return RoleConstants.AWARD_ROLE_TYPE;
     }
@@ -3197,6 +3252,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         leadUnit = (Unit) getBusinessObjectService().findByPrimaryKey(Unit.class, Collections.singletonMap("unitNumber", getUnitNumber()));
     }
 
+    @Override
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
         /**
          * when we check to see if the logged in user can create an award
@@ -3211,6 +3267,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
 
+    @Override
     public String getHierarchyStatus() {
         return "N";
     }
@@ -3249,10 +3306,12 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return latestExpDate;
     }
 
+    @Override
     public boolean isParentInHierarchyComplete() {
         return true;
     }
 
+    @Override
     public String getDefaultBudgetStatusParameter() {
         return KeyConstants.AWARD_BUDGET_STATUS_IN_PROGRESS;
     }
@@ -3523,14 +3582,17 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return kcPeople;
     }
 
+    @Override
     public String getNegotiableProposalTypeCode() {
         return EMPTY_STRING;
     }
 
+    @Override
     public String getParentNumber() {
         return this.getAwardNumber();
     }
 
+    @Override
     public String getParentPIName() {
         String investigatorName = null;
         for (AwardPerson aPerson : this.getProjectPersons()) {
@@ -3542,14 +3604,17 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return investigatorName;
     }
 
+    @Override
     public String getParentTitle() {
         return this.getTitle();
     }
 
+    @Override
     public String getIsOwnedByUnit() {
         return this.getLeadUnitName();
     }
 
+    @Override
     public Integer getParentInvestigatorFlag(String personId, Integer flag) {
         for (AwardPerson aPerson : this.getProjectPersons()) {
             if (aPerson.getPersonId() != null
@@ -3594,6 +3659,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return currentFandaRate;
     }
 
+    @Override
     public String getParentTypeName() {
         return "Award";
     }
@@ -3749,4 +3815,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         return total;
     }
 
+    @Override
+    public KrmsRulesContext getKrmsRulesContext() {
+        return getAwardDocument();
+    }
 }

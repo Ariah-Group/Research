@@ -21,21 +21,24 @@ import org.kuali.kra.award.home.AwardAmountInfo;
 import java.util.List;
 
 public interface AwardAmountInfoService {
-    
-    
+
     AwardAmountInfo fetchLastAwardAmountInfoForAwardVersionAndFinalizedTandMDocumentNumber(Award award);
+
     /**
-     * 
-     * This method should return the awardAmountInfo object having highest transaction id.
+     *
+     * This method should return the awardAmountInfo object having highest
+     * transaction id.
+     *
      * @param awardAmountInfos
      * @return
      */
     AwardAmountInfo fetchAwardAmountInfoWithHighestTransactionId(List<AwardAmountInfo> awardAmountInfos);
-    
+
     AwardAmountInfo fetchLastAwardAmountInfoForDocNum(Award award, String docNum);
-    
+
     /**
      * This method...
+     *
      * @param awardAmountInfos
      * @return
      */

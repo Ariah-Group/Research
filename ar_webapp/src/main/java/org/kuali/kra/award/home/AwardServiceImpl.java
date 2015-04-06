@@ -12,6 +12,21 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.home;
 
@@ -31,13 +46,15 @@ import org.kuali.rice.krad.service.DocumentService;
 
 import java.util.*;
 
-/** {@inheritDoc} */
+/**
+ * {@inheritDoc}
+ */
 public class AwardServiceImpl implements AwardService {
-    
+
     private static final String AWARD_NUMBER = "awardNumber";
     private static final String AWARD_ID = "awardId";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
-    
+
     private BusinessObjectService businessObjectService;
     private VersioningService versioningService;
     private DocumentService documentService;
@@ -45,43 +62,53 @@ public class AwardServiceImpl implements AwardService {
 
     /**
      * Note Awards are ordered by sequenceNumber
-     * @see org.kuali.kra.award.home.AwardService#findAwardsForAwardNumber(java.lang.String)
+     *
+     * @see
+     * org.kuali.kra.award.home.AwardService#findAwardsForAwardNumber(java.lang.String)
      */
     @SuppressWarnings("unchecked")
+    @Override
     public List<Award> findAwardsForAwardNumber(String awardNumber) {
-        List<Award> results = new ArrayList<Award>(businessObjectService.findMatchingOrderBy(Award.class, 
-                                                                ServiceHelper.getInstance().buildCriteriaMap(AWARD_NUMBER, awardNumber),
-                                                                SEQUENCE_NUMBER,
-                                                                true));
+        List<Award> results = new ArrayList<Award>(businessObjectService.findMatchingOrderBy(Award.class,
+                ServiceHelper.getInstance().buildCriteriaMap(AWARD_NUMBER, awardNumber),
+                SEQUENCE_NUMBER,
+                true));
         return results;
-    }    
-    
-    /** {@inheritDoc} */
-    public Award getAward(Long awardId) {
-        return awardId != null ? (Award) businessObjectService.findByPrimaryKey(Award.class, 
-                                        ServiceHelper.getInstance().buildCriteriaMap(AWARD_ID, awardId)) : null;
     }
-    
-    /** {@inheritDoc} */
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Award getAward(Long awardId) {
+        return awardId != null ? (Award) businessObjectService.findByPrimaryKey(Award.class,
+                ServiceHelper.getInstance().buildCriteriaMap(AWARD_ID, awardId)) : null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Award getAward(String awardId) {
-        return awardId != null ? (Award) businessObjectService.findByPrimaryKey(Award.class, 
-                                        ServiceHelper.getInstance().buildCriteriaMap(AWARD_ID, awardId)) : null;
+        return awardId != null ? (Award) businessObjectService.findByPrimaryKey(Award.class,
+                ServiceHelper.getInstance().buildCriteriaMap(AWARD_ID, awardId)) : null;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
+    @Override
     public AwardDocument createNewAwardVersion(AwardDocument awardDocument) throws VersionException, WorkflowException {
         Award newVersion = getVersioningService().createNewVersion(awardDocument.getAward());
-        
+
         for (AwardAttachment attach : newVersion.getAwardAttachments()) {
             AwardAttachment orignalAttachment = findMatchingAwardAttachment(awardDocument.getAward().getAwardAttachments(), attach.getFileId());
             attach.setUpdateUser(orignalAttachment.getUpdateUser());
             attach.setUpdateTimestamp(orignalAttachment.getUpdateTimestamp());
             attach.setUpdateUserSet(true);
         }
-        
+
         incrementVersionNumberIfCanceledVersionsExist(newVersion);//Canceled versions retain their own version number.
         newVersion.getFundingProposals().clear();
         AwardDocument newAwardDocument = (AwardDocument) getDocumentService().getNewDocument(AwardDocument.class);
@@ -96,26 +123,29 @@ public class AwardServiceImpl implements AwardService {
         newVersion.getAwardAmountInfos().get(0).setOriginatingAwardVersion(newVersion.getSequenceNumber());
         newVersion.getAwardAmountInfos().get(0).setTimeAndMoneyDocumentNumber(null);
         newVersion.getAwardAmountInfos().get(0).setSequenceNumber(newVersion.getSequenceNumber());
-        
+
         synchNewCustomAttributes(newVersion, awardDocument.getAward());
-        
+
         return newAwardDocument;
-    }   
-    
+    }
+
     /**
-     * @see org.kuali.kra.award.home.AwardService#synchNewCustomAttributes(org.kuali.kra.award.home.Award, org.kuali.kra.award.home.Award)
+     * @see
+     * org.kuali.kra.award.home.AwardService#synchNewCustomAttributes(org.kuali.kra.award.home.Award,
+     * org.kuali.kra.award.home.Award)
      */
+    @Override
     public void synchNewCustomAttributes(Award newAward, Award oldAward) {
         Set<Integer> availableCustomAttributes = new HashSet<Integer>();
-        for(AwardCustomData awardCustomData : newAward.getAwardCustomDataList()) {
+        for (AwardCustomData awardCustomData : newAward.getAwardCustomDataList()) {
             availableCustomAttributes.add(awardCustomData.getCustomAttributeId().intValue());
         }
-        
-        if(oldAward.getAwardDocument() != null) {
+
+        if (oldAward.getAwardDocument() != null) {
             Map<String, CustomAttributeDocument> customAttributeDocuments = oldAward.getAwardDocument().getCustomAttributeDocuments();
             for (Map.Entry<String, CustomAttributeDocument> entry : customAttributeDocuments.entrySet()) {
                 CustomAttributeDocument customAttributeDocument = entry.getValue();
-                if(!availableCustomAttributes.contains(customAttributeDocument.getCustomAttributeId())) {
+                if (!availableCustomAttributes.contains(customAttributeDocument.getCustomAttributeId())) {
                     AwardCustomData awardCustomData = new AwardCustomData();
                     awardCustomData.setCustomAttributeId((long) customAttributeDocument.getCustomAttributeId());
                     awardCustomData.setCustomAttribute(customAttributeDocument.getCustomAttribute());
@@ -127,18 +157,18 @@ public class AwardServiceImpl implements AwardService {
             newAward.getAwardCustomDataList().removeAll(getInactiveCustomDataList(newAward.getAwardCustomDataList(), customAttributeDocuments));
         }
     }
-    
+
     private List<AwardCustomData> getInactiveCustomDataList(List<AwardCustomData> awardCustomDataList, Map<String, CustomAttributeDocument> customAttributeDocuments) {
         List<AwardCustomData> inactiveCustomDataList = new ArrayList<AwardCustomData>();
-        for(AwardCustomData awardCustomData : awardCustomDataList) {
+        for (AwardCustomData awardCustomData : awardCustomDataList) {
             CustomAttributeDocument customAttributeDocument = customAttributeDocuments.get(awardCustomData.getCustomAttributeId().toString());
-            if(customAttributeDocument == null || !customAttributeDocument.isActive()) {
+            if (customAttributeDocument == null || !customAttributeDocument.isActive()) {
                 inactiveCustomDataList.add(awardCustomData);
             }
         }
         return inactiveCustomDataList;
     }
-    
+
     private AwardAttachment findMatchingAwardAttachment(List<AwardAttachment> originalAwardList, Long currentFileId) throws VersionException {
         for (AwardAttachment attach : originalAwardList) {
             if (attach.getFileId().equals(currentFileId)) {
@@ -147,18 +177,18 @@ public class AwardServiceImpl implements AwardService {
         }
         throw new VersionException("Unable to find matching attachment.");
     }
-    
+
     protected void incrementVersionNumberIfCanceledVersionsExist(Award award) {
         List<VersionHistory> versionHistory = (List<VersionHistory>) businessObjectService.findMatching(VersionHistory.class, getHashMap(award.getAwardNumber()));
         award.setSequenceNumber(versionHistory.size() + 1);
     }
-    
+
     protected Map<String, String> getHashMap(String awardNumber) {
-        Map<String, String> map = new HashMap<String,String>();
+        Map<String, String> map = new HashMap<String, String>();
         map.put("sequenceOwnerVersionNameValue", awardNumber);
         return map;
     }
-    
+
     protected List<AwardAmountInfo> minimizeAwardAmountInfoCollection(List<AwardAmountInfo> awardAmountInfos) {
         List<AwardAmountInfo> returnList = new ArrayList<AwardAmountInfo>();
         returnList.add(awardAmountInfos.get(awardAmountInfos.size() - 1));
@@ -199,7 +229,7 @@ public class AwardServiceImpl implements AwardService {
             businessObjectService.save(award);
         }
     }
-    
+
     protected void archiveCurrentActiveAward(String awardNumber) {
         Map<String, Object> values = new HashMap<String, Object>();
         values.put("awardNumber", awardNumber);
@@ -213,28 +243,31 @@ public class AwardServiceImpl implements AwardService {
     }
 
     /**
-     * 
-     * @see org.kuali.kra.award.home.AwardService#getActiveOrNewestAward(java.lang.String)
+     *
+     * @see
+     * org.kuali.kra.award.home.AwardService#getActiveOrNewestAward(java.lang.String)
      */
+    @Override
     public Award getActiveOrNewestAward(String awardNumber) {
         List<VersionHistory> versions = getVersionHistoryService().loadVersionHistory(Award.class, awardNumber);
         VersionHistory newest = null;
-        for (VersionHistory version: versions) {
+        for (VersionHistory version : versions) {
             if (version.getStatus() == VersionStatus.ACTIVE) {
                 newest = version;
 //                break;
             } else if (newest == null || (version.getStatus() != VersionStatus.CANCELED && version.getSequenceOwnerSequenceNumber() > newest.getSequenceOwnerSequenceNumber())) {
                 newest = version;
-            }  
+            }
         }
         if (newest != null) {
             return (Award) newest.getSequenceOwner();
         } else {
             return null;
         }
-        
+
     }
-    
+
+    @Override
     public Award getAwardAssociatedWithDocument(String docNumber) {
         Map<String, Object> values = new HashMap<String, Object>();
         values.put("documentNumber", docNumber);

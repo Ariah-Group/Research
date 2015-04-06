@@ -208,6 +208,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      * javax.servlet.http.HttpServletResponse)
      */
     @SuppressWarnings("unchecked")
+    @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.refresh(mapping, form, request, response);
         AwardForm awardForm = (AwardForm) form;
@@ -264,6 +265,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
      * javax.servlet.http.HttpServletResponse)
      */
     @SuppressWarnings("all")
+    @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 

@@ -18,16 +18,16 @@ package org.kuali.kra.award;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
- * This interface declares the rule method associated with <code>AwardSponsorTerm</code> 
- * Business Object.
+ * This interface declares the rule method associated with
+ * <code>AwardSponsorTerm</code> Business Object.
  */
 public interface AwardSponsorTermRule extends BusinessRule {
-    
+
     /**
      * This method is called to process all rules for Sponsor term on save.
+     *
      * @param awardSponsorTermRuleEvent
      * @return
      */
-    public boolean processAddSponsorTermBusinessRules(AwardSponsorTermRuleEvent 
-            awardSponsorTermRuleEvent);
+    public boolean processAddSponsorTermBusinessRules(AwardSponsorTermRuleEvent awardSponsorTermRuleEvent);
 }

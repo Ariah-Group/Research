@@ -24,5 +24,6 @@ import java.util.Map;
  * This interface defines contract for database interactions with AwardPersons
  */
 public interface AwardPersonDao {
+
     List<AwardPerson> getAwardPersons(Map<String, String> fieldValues);
 }

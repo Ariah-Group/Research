@@ -12,6 +12,21 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.questionnaire.question;
 
@@ -44,18 +59,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 
+ *
  * This is the maintenance action class is for question.
  */
 public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentAction {
-    
+
     private static final String QUESTION_REF_ID = "questionRefId";
     private static final String EDIT_QUESTION_OF_ACTIVE_QUESTIONNAIRE_QUESTION = "EditQuestionOfActiveQuestionnaire";
 
     /**
-     * 
-     * This method gets called upon clicking the refresh button to display the newly selected
-     * question response type when javascript is turned off on the browser. 
+     *
+     * This method gets called upon clicking the refresh button to display the
+     * newly selected question response type when javascript is turned off on
+     * the browser.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -72,12 +89,14 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
         question.refreshReferenceObject("questionType");
 
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }  
+    }
 
     /**
-     * 
-     * This method gets called upon clicking of refresh pulldown menu buttons on the screen
-     * to populate the drop down menus afresh based on other parameters.
+     *
+     * This method gets called upon clicking of refresh pulldown menu buttons on
+     * the screen to populate the drop down menus afresh based on other
+     * parameters.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -90,21 +109,21 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
-    
+
     /**
-     * 
+     *
      * This method implements special behaviors for Question.
+     *
      * @param questionMaintenanceForm
      * @param request
-     * @throws VersionException 
+     * @throws VersionException
      */
     private void specialHandlingOfQuestion(QuestionMaintenanceForm questionMaintenanceForm, HttpServletRequest request) throws VersionException {
         MaintenanceDocumentBase maintenanceDocumentBase = (MaintenanceDocumentBase) questionMaintenanceForm.getDocument();
 
         boolean readOnly = !KraServiceLocator.getService(QuestionAuthorizationService.class).hasPermission(PermissionConstants.MODIFY_QUESTION)
                 || ObjectUtils.equals(request.getParameter("readOnly"), "true");
-                
+
         if (StringUtils.equals(questionMaintenanceForm.getMethodToCall(), "edit")) {
             if (readOnly) {
                 questionMaintenanceForm.setReadOnly(true);
@@ -115,10 +134,11 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
             initCopiedQuestion(maintenanceDocumentBase);
         }
     }
-    
+
     /**
-     * 
+     *
      * This method creates a new version of the question.
+     *
      * @param maintenanceDocumentBase
      * @param request
      * @throws VersionException
@@ -149,14 +169,16 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
         versionedQuestion.setVersionNumber(oldQuestion.getVersionNumber());
         newMaintainableObject.setBusinessObject(versionedQuestion);
     }
-    
+
     private QuestionService getQuestionService() {
         return (QuestionService) KraServiceLocator.getService(QuestionService.class);
     }
 
     /**
-     * 
-     * This method nulls out the questionId and sequenceNumber so new ones are created for the copied question
+     *
+     * This method nulls out the questionId and sequenceNumber so new ones are
+     * created for the copied question
+     *
      * @param maintenanceDocumentBase
      */
     private void initCopiedQuestion(MaintenanceDocumentBase maintenanceDocumentBase) {
@@ -172,14 +194,14 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
         newQuestion.setQuestionId(null);
         newQuestion.setSequenceNumber(null);
     }
-    
+
     @Override
     public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward;
-        
+
         QuestionService questionService = KraServiceLocator.getService(QuestionService.class);
         QuestionMaintenanceForm questionMaintenanceForm = (QuestionMaintenanceForm) form;
-        
+
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         String questionRefId = request.getParameter(QUESTION_REF_ID);
 
@@ -195,8 +217,8 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
 
                 // ask question if not already asked
                 ConfigurationService kualiConfiguration = CoreApiServiceLocator.getKualiConfigurationService();
-                forward = performQuestionWithoutInput(mapping, form, request, response, EDIT_QUESTION_OF_ACTIVE_QUESTIONNAIRE_QUESTION, 
-                        kualiConfiguration.getPropertyValueAsString(KeyConstants.QUESTION_EDIT_QUESTION_OF_ACTIVE_QUESTIONNAIRE), 
+                forward = performQuestionWithoutInput(mapping, form, request, response, EDIT_QUESTION_OF_ACTIVE_QUESTIONNAIRE_QUESTION,
+                        kualiConfiguration.getPropertyValueAsString(KeyConstants.QUESTION_EDIT_QUESTION_OF_ACTIVE_QUESTIONNAIRE),
                         KRADConstants.CONFIRMATION_QUESTION, KRADConstants.MAPPING_CLOSE, "");
             } else {
                 // Check to see if user has chosen to abort editing
@@ -206,7 +228,7 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
                 } else {
                     forward = mapping.findForward(Constants.MAPPING_BASIC);
                 }
-            } 
+            }
         } else {
             forward = super.edit(mapping, form, request, response);
             questionMaintenanceForm.getDocument().getDocumentHeader().setDocumentDescription("question - bootstrap data");
@@ -219,14 +241,16 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
     }
 
     /**
-     * Normally Maintenance documents don't have an explicit view mode (i.e. edit in read-only mode).  Because of that we need to
-     * override the documentActions to ensure that the readOnly flag is preserved and only the close action is enabled when viewing
-     * a question.
-     * 
-     * @see org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction#populateAuthorizationFields(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     * Normally Maintenance documents don't have an explicit view mode (i.e.
+     * edit in read-only mode). Because of that we need to override the
+     * documentActions to ensure that the readOnly flag is preserved and only
+     * the close action is enabled when viewing a question.
+     *
+     * @see
+     * org.kuali.rice.kns.web.struts.action.KualiMaintenanceDocumentAction#populateAuthorizationFields(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @Override
-    protected void populateAuthorizationFields(KualiDocumentFormBase formBase){
+    protected void populateAuthorizationFields(KualiDocumentFormBase formBase) {
         QuestionMaintenanceForm questionMaintenanceForm = (QuestionMaintenanceForm) formBase;
         // kcirb-1502 : not sure why is retail isreadonly here.  the readonly is reset when calling
         // super.populateAuthorizationFields.
@@ -239,13 +263,13 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
         if (isReadOnly && StringUtils.equals(questionMaintenanceForm.getMethodToCall(), "edit")) {
             questionMaintenanceForm.setReadOnly(isReadOnly);
         }
-        
+
         if (questionMaintenanceForm.isReadOnly() && formBase.getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_CLOSE)) {
             Map<String, String> documentActions = new HashMap<String, String>();
             documentActions.put(KRADConstants.KUALI_ACTION_CAN_CLOSE, "TRUE");
             questionMaintenanceForm.setDocumentActions(documentActions);
-            
-           // questionMaintenanceForm.setReadOnly(isReadOnly);
+
+            // questionMaintenanceForm.setReadOnly(isReadOnly);
         }
     }
 
@@ -267,5 +291,5 @@ public class QuestionMaintenanceDocumentAction extends KualiMaintenanceDocumentA
         return forward;
 
     }
-    
+
 }

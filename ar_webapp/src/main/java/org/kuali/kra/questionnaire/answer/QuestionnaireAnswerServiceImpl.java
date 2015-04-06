@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.questionnaire.answer;
 
@@ -43,9 +59,10 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import org.ariahgroup.research.award.questionnaire.AwardModuleQuestionnaireBeanBase;
 
 /**
- * 
+ *
  * This class implemented the questionnaire answer related methods.
  */
 /**
@@ -62,11 +79,12 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     private QuestionnaireService questionnaireService;
     private KrmsRulesExecutionService krmsRulesExecutionService;
 
-    
     /*
      * Get the questionnaire that is 'final' for the specified module.
      */
+    @Override
     public List<QuestionnaireUsage> getPublishedQuestionnaire(ModuleQuestionnaireBean moduleQuestionnaireBean) {
+
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(MODULE_ITEM_CODE, moduleQuestionnaireBean.getModuleItemCode());
         fieldValues.put(MODULE_SUB_ITEM_CODE, moduleQuestionnaireBean.getModuleSubItemCode());
@@ -80,14 +98,16 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         if (CollectionUtils.isNotEmpty(questionnaireUsages)) {
             Collections.sort((List<QuestionnaireUsage>) questionnaireUsages);
         }
-        
+
         List<String> ruleIds = new ArrayList<String>();
+
         for (QuestionnaireUsage questionnaireUsage : questionnaireUsages) {
             if (StringUtils.isNotBlank(questionnaireUsage.getRuleId())) {
                 ruleIds.add(questionnaireUsage.getRuleId());
             }
         }
         Map<String, Boolean> ruleResults = new HashMap<String, Boolean>();
+
         if (!ruleIds.isEmpty()) {
             ruleResults = runApplicableRules(ruleIds, moduleQuestionnaireBean);
         }
@@ -99,7 +119,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
                 if (moduleQuestionnaireBean.isFinalDoc() || (getQuestionnaireService().isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire()) && questionnaireUsage.getQuestionnaire().isActive())) {
                     if (StringUtils.isNotBlank(questionnaireUsage.getRuleId())) {
-                        if (ruleResults.containsKey(questionnaireUsage.getRuleId()) && ruleResults.get(questionnaireUsage.getRuleId()).booleanValue()) {
+                        if (ruleResults.containsKey(questionnaireUsage.getRuleId()) && ruleResults.get(questionnaireUsage.getRuleId())) {
                             usages.add(questionnaireUsage);
                         }
                     } else {
@@ -126,13 +146,11 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                     if (questionnaireUsage.getQuestionnaire().isActive()) {
                         answerHeaderMap.get(questionnaireId).setNewerVersionPublished(true);
                         answerHeaderMap.get(questionnaireId).setActiveQuestionnaire(true);
-                    }
-                    else {
+                    } else {
                         answerHeaderMap.get(questionnaireId).setActiveQuestionnaire(false);
                     }
                 }
-            }
-            else {
+            } else {
 
                 if ((!moduleQuestionnaireBean.isFinalDoc() && getQuestionnaireService().isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire()))
                         && questionnaireUsage.getQuestionnaire().isActive()) {
@@ -146,10 +164,12 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     }
 
     /**
-     * 
-     * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#getNewVersionAnswerHeader(org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean,
-     *      org.kuali.kra.questionnaire.Questionnaire)
+     *
+     * @see
+     * org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#getNewVersionAnswerHeader(org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean,
+     * org.kuali.kra.questionnaire.Questionnaire)
      */
+    @Override
     public AnswerHeader getNewVersionAnswerHeader(ModuleQuestionnaireBean moduleQuestionnaireBean, Questionnaire questionnaire) {
         AnswerHeader answerHeader = new AnswerHeader();
         List<QuestionnaireUsage> usages = getPublishedQuestionnaire(moduleQuestionnaireBean);
@@ -162,20 +182,27 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         return answerHeader;
     }
 
-
     /**
-     * 
-     * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#versioningQuestionnaireAnswer(org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean)
+     *
+     * @param newSequenceNumber
+     * @see
+     * org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#versioningQuestionnaireAnswer(org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean)
      */
+    @Override
     public List<AnswerHeader> versioningQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean,
             Integer newSequenceNumber) {
+
         List<AnswerHeader> newAnswerHeaders = new ArrayList<AnswerHeader>();
         List<String> questionnaireIds = getAssociateedQuestionnaireIds(moduleQuestionnaireBean);
+
         for (AnswerHeader answerHeader : retrieveAnswerHeaders(moduleQuestionnaireBean)) {
+
             if (questionnaireIds.contains(answerHeader.getQuestionnaire().getQuestionnaireId())) {
+
                 AnswerHeader copiedAnswerHeader = (AnswerHeader) ObjectUtils.deepCopy(answerHeader);
                 copiedAnswerHeader.setModuleSubItemKey(newSequenceNumber.toString());
                 copiedAnswerHeader.setAnswerHeaderId(null);
+
                 for (Answer answer : copiedAnswerHeader.getAnswers()) {
                     answer.setId(null);
                 }
@@ -186,12 +213,15 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     }
 
     /**
-     * Copy all of the answer headers associated with a source ModuleQuestionnaireBean and associate them with a destination
-     * ModuleQuestionnaire Bean. This method DOES NOT persist any of the newly created objects.
-     * 
-     * @param srcModuleQuestionnaireBean the ModulQuestionnaireBean containing the data pointing to the source questionnaires.
-     * @param newModuleQuestionnaireBean the ModuleQuestionnaireBean you would like to copy the AnswerHeader objects to.
-     * 
+     * Copy all of the answer headers associated with a source
+     * ModuleQuestionnaireBean and associate them with a destination
+     * ModuleQuestionnaire Bean. This method DOES NOT persist any of the newly
+     * created objects.
+     *
+     * @param srcModuleQuestionnaireBean the ModulQuestionnaireBean containing
+     * the data pointing to the source questionnaires.
+     * @param destModuleQuestionnaireBean
+     *
      * @return a list of AnswerHeader objects.
      */
     protected List<AnswerHeader> copyAnswerHeadersToNewModuleQB(ModuleQuestionnaireBean srcModuleQuestionnaireBean,
@@ -215,9 +245,11 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
     /**
      * This will be called when 'questionnaire' page is clicked.
-     * 
-     * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#getQuestionnaireAnswer(org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean)
+     *
+     * @see
+     * org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#getQuestionnaireAnswer(org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean)
      */
+    @Override
     public List<AnswerHeader> getQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean) {
         Map<String, AnswerHeader> answerHeaderMap = new HashMap<String, AnswerHeader>();
         List<AnswerHeader> answers = retrieveAnswerHeaders(moduleQuestionnaireBean);
@@ -228,19 +260,20 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         for (AnswerHeader answerHeader : answers) {
             if (!answerHeaderMap.containsKey(answerHeader.getQuestionnaire().getQuestionnaireId())
                     || answerHeaderMap.get(answerHeader.getQuestionnaire().getQuestionnaireId()).getQuestionnaire().getSequenceNumber()
-                            < answerHeader.getQuestionnaire().getSequenceNumber()) {
+                    < answerHeader.getQuestionnaire().getSequenceNumber()) {
                 setupChildAnswerIndicator(answerHeader);
                 answerHeaderMap.put(answerHeader.getQuestionnaire().getQuestionnaireId(), answerHeader);
             }
         }
 
         List<AnswerHeader> answerHeaders = initAnswerHeaders(moduleQuestionnaireBean, answerHeaderMap);
+        
         for (AnswerHeader answerHeader : answerHeaders) {
             Collections.sort(answerHeader.getAnswers(), new AnswerComparator());
             answerHeader.setCompleted(isQuestionnaireAnswerComplete(answerHeader.getAnswers()));
             answerHeader.setHasVisibleQuestion(hasVisibleQuestion(answerHeader.getAnswers()));
         }
-
+        
         return answerHeaders;
     }
 
@@ -263,61 +296,79 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     }
 
     /**
-     * This method returns the latest questionnaire instance associated with the given questionnaire ID; the latest instance 
-     * is the one with the largest sequence number.
+     * This method returns the latest questionnaire instance associated with the
+     * given questionnaire ID; the latest instance is the one with the largest
+     * sequence number.
+     *
      * @param questionnaireId
      * @return
      */
     protected Questionnaire getLatestQuestionnaireVersion(Integer questionnaireId) {
+
         Questionnaire latestQnnrInstance = null;
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("questionnaireId", questionnaireId.toString());
+
         List<Questionnaire> questionnaires = (List<Questionnaire>) businessObjectService.findMatchingOrderBy(Questionnaire.class,
                 fieldValues, "sequenceNumber", false);
+
         // since we sorted by descending order of seq numbers, and the largest seq number is the latest version, so we return the
         // first element of the results list
-        if(!questionnaires.isEmpty()) {
-            latestQnnrInstance = questionnaires.get(0);            
+        if (!questionnaires.isEmpty()) {
+            latestQnnrInstance = questionnaires.get(0);
         }
-        return latestQnnrInstance;        
-    }
-    
-    
-    /**
-     * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#checkIfQuestionnaireIsActiveForModule(java.lang.Integer, java.lang.String, java.lang.String)
-     */
-    public boolean checkIfQuestionnaireIsActiveForModule(Integer questionnaireId, String moduleItemCode, String moduleSubItemCode) {
-        boolean isActive = false;
-        Questionnaire latestQnnrInstance = getLatestQuestionnaireVersion(questionnaireId);
-        if(null != latestQnnrInstance && latestQnnrInstance.isActive()) {
-            isActive = latestQnnrInstance.hasUsageFor(moduleItemCode, moduleSubItemCode);
-        }       
-        return isActive;               
+        return latestQnnrInstance;
     }
 
     /**
-     * 
-     * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#copyAnswerToNewVersion(org.kuali.kra.questionnaire.answer.AnswerHeader,
-     *      org.kuali.kra.questionnaire.answer.AnswerHeader)
+     * @param moduleItemCode
+     * @param moduleSubItemCode
+     * @see
+     * org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#checkIfQuestionnaireIsActiveForModule(java.lang.Integer,
+     * java.lang.String, java.lang.String)
      */
+    @Override
+    public boolean checkIfQuestionnaireIsActiveForModule(Integer questionnaireId, String moduleItemCode, String moduleSubItemCode) {
+        boolean isActive = false;
+        Questionnaire latestQnnrInstance = getLatestQuestionnaireVersion(questionnaireId);
+        if (null != latestQnnrInstance && latestQnnrInstance.isActive()) {
+            isActive = latestQnnrInstance.hasUsageFor(moduleItemCode, moduleSubItemCode);
+        }
+        return isActive;
+    }
+
+    /**
+     *
+     * @see
+     * org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#copyAnswerToNewVersion(org.kuali.kra.questionnaire.answer.AnswerHeader,
+     * org.kuali.kra.questionnaire.answer.AnswerHeader)
+     */
+    @Override
     public void copyAnswerToNewVersion(AnswerHeader oldAnswerHeader, AnswerHeader newAnswerHeader) {
+
         List<List<Answer>> oldParentAnswers = setupParentAnswers(oldAnswerHeader.getAnswers());
         List<List<Answer>> newParentAnswers = setupParentAnswers(newAnswerHeader.getAnswers());
+
         for (Answer oldAnswer : oldAnswerHeader.getAnswers()) {
+
             if (StringUtils.isNotBlank(oldAnswer.getAnswer())) {
+
                 for (Answer newAnswer : newAnswerHeader.getAnswers()) {
+
                     if (oldAnswer.getQuestion().getQuestionId().equals(newAnswer.getQuestion().getQuestionId())
                             && oldAnswer.getQuestion().getQuestionRefId().equals(newAnswer.getQuestion().getQuestionRefId())
                             && oldAnswer.getAnswerNumber().equals(newAnswer.getAnswerNumber())) {
-                        if ((oldAnswer.getQuestionnaireQuestion().getParentQuestionNumber() == 0 
-                                && newAnswer.getQuestionnaireQuestion().getParentQuestionNumber() == 0) 
-                            || (oldAnswer.getQuestionnaireQuestion().getParentQuestionNumber() > 0
+
+                        if ((oldAnswer.getQuestionnaireQuestion().getParentQuestionNumber() == 0
+                                && newAnswer.getQuestionnaireQuestion().getParentQuestionNumber() == 0)
+                                || (oldAnswer.getQuestionnaireQuestion().getParentQuestionNumber() > 0
                                 && newAnswer.getQuestionnaireQuestion().getParentQuestionNumber() > 0
                                 && YES.equals(newParentAnswers.get(newAnswer.getQuestionnaireQuestion().getParentQuestionNumber()).get(0).getMatchedChild())
                                 && isSameLevel(oldAnswer, oldParentAnswers, newAnswer, newParentAnswers))) {
-                                newAnswer.setAnswer(oldAnswer.getAnswer());
-                                newAnswer.setMatchedChild(YES);
-                                break;
+
+                            newAnswer.setAnswer(oldAnswer.getAnswer());
+                            newAnswer.setMatchedChild(YES);
+                            break;
                         }
                     }
                 }
@@ -333,11 +384,13 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         newAnswerHeader.setCompleted(isQuestionnaireAnswerComplete(newAnswerHeader.getAnswers()));
     }
 
-
     /**
-     * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#copyAnswerHeaders(org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean,
-     *      org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean)
+     * @param destModuleQuestionnaireBean
+     * @see
+     * org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#copyAnswerHeaders(org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean,
+     * org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean)
      */
+    @Override
     public List<AnswerHeader> copyAnswerHeaders(ModuleQuestionnaireBean srcModuleQuestionnaireBean,
             ModuleQuestionnaireBean destModuleQuestionnaireBean) {
         List<AnswerHeader> answerHeaders = copyAnswerHeadersToNewModuleQB(srcModuleQuestionnaireBean, destModuleQuestionnaireBean);
@@ -347,11 +400,12 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         return answerHeaders;
     }
 
-
     /**
-     * 
-     * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#preSave(java.util.List)
+     *
+     * @see
+     * org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#preSave(java.util.List)
      */
+    @Override
     public void preSave(List<AnswerHeader> answerHeaders) {
         for (AnswerHeader answerHeader : answerHeaders) {
             int i = 0;
@@ -504,9 +558,12 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     }
 
     /**
-     * 
-     * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#setupChildAnswerIndicator(java.util.List)
+     *
+     * @param answerHeader
+     * @see
+     * org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#setupChildAnswerIndicator(java.util.List)
      */
+    @Override
     public void setupChildAnswerIndicator(AnswerHeader answerHeader) {
         List<Answer> answers = answerHeader.getAnswers();
         List<List<Answer>> parentAnswers = setupParentAnswers(answers);
@@ -523,10 +580,10 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             }
         }
         Collections.sort(answers, new AnswerComparator());
-        
+
         Map<String, Boolean> ruleResults = new HashMap<String, Boolean>();
         if (!ruleIds.isEmpty()) {
-             ruleResults = runApplicableRules(ruleIds, getModuleSpecificBean(answerHeader));
+            ruleResults = runApplicableRules(ruleIds, getModuleSpecificBean(answerHeader));
         }
 
         for (Answer answer : answers) {
@@ -540,8 +597,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 String ruleId = questionnaireQuestion.getRuleId();
                 if (StringUtils.isNotBlank(ruleId)) {
                     // TODO : need to implement rulematched
-                  //  if (ruleMatched(answer.getQuestionnaireQuestion().getConditionValue())) {
-                    if (ruleResults.containsKey(ruleId) && ruleResults.get(ruleId).booleanValue()) {
+                    //  if (ruleMatched(answer.getQuestionnaireQuestion().getConditionValue())) {
+                    if (ruleResults.containsKey(ruleId) && ruleResults.get(ruleId)) {
                         answer.setMatchedChild(YES);
                         answer.setRuleMatched(true);
                     } else {
@@ -551,46 +608,42 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 } else {
                     answer.setMatchedChild(YES);
                 }
-            }
-            else {
+            } else {
                 answer.setParentAnswer(parentAnswers.get(questionnaireQuestion.getParentQuestionNumber()));
                 if (StringUtils.isBlank(questionnaireQuestion.getCondition())) {
                     if (isParentNotDisplayed(parentAnswers.get(questionnaireQuestion.getParentQuestionNumber()))) {
                         answer.setMatchedChild(NO);
-                    }
-                    else {
+                    } else {
                         answer.setMatchedChild(YES);
                     }
-                }
-                else if (isParentNotDisplayed(parentAnswers.get(questionnaireQuestion.getParentQuestionNumber()))) {
+                } else if (isParentNotDisplayed(parentAnswers.get(questionnaireQuestion.getParentQuestionNumber()))) {
                     answer.setMatchedChild(NO);
                     if (ConditionType.RULE_EVALUATION.getCondition().equals(questionnaireQuestion.getCondition())) {
                         // evaluate this rule, so the ruleReferenced map can be populated
                         String ruleId = questionnaireQuestion.getConditionValue();
-                         if (ruleResults.containsKey(ruleId) && ruleResults.get(ruleId).booleanValue()) {
-                             answer.setRuleMatched(true);
-                         } else {
-                             answer.setRuleMatched(false);
-                         }
+                        if (ruleResults.containsKey(ruleId) && ruleResults.get(ruleId)) {
+                            answer.setRuleMatched(true);
+                        } else {
+                            answer.setRuleMatched(false);
+                        }
                     }
-                }
-                else if ((ConditionType.RULE_EVALUATION.getCondition().equals(questionnaireQuestion.getCondition()) 
-                            && ruleResults.containsKey(questionnaireQuestion.getConditionValue()) && ruleResults.get(questionnaireQuestion.getConditionValue()).booleanValue()) 
-                       || isAnyAnswerMatched(questionnaireQuestion.getCondition(), 
-                               parentAnswers.get(questionnaireQuestion.getParentQuestionNumber()), questionnaireQuestion.getConditionValue())) {
+                } else if ((ConditionType.RULE_EVALUATION.getCondition().equals(questionnaireQuestion.getCondition())
+                        && ruleResults.containsKey(questionnaireQuestion.getConditionValue()) && ruleResults.get(questionnaireQuestion.getConditionValue()))
+                        || isAnyAnswerMatched(questionnaireQuestion.getCondition(),
+                                parentAnswers.get(questionnaireQuestion.getParentQuestionNumber()), questionnaireQuestion.getConditionValue())) {
                     answer.setMatchedChild(YES);
-                }
-                else {
+                } else {
                     answer.setMatchedChild(NO);
                 }
             }
         }
 
     }
-    
+
     /*
      * check if all the required answers are entered.
      */
+    @Override
     public boolean isQuestionnaireAnswerComplete(List<Answer> answers) {
 
         boolean isComplete = true;
@@ -602,10 +655,12 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         }
         return isComplete;
     }
-   
+
     /**
-     * 
-     * Checks to see that at least one answer was matched by the rule and is visible.
+     *
+     * Checks to see that at least one answer was matched by the rule and is
+     * visible.
+     *
      * @param answers
      * @return
      */
@@ -619,7 +674,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             }
         }
         return isVisible;
-    }    
+    }
 
     /*
      * Check if parent answer : if it is not matched to be displayed or answer(s) is entered.
@@ -631,12 +686,10 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             if (NO.equals(answer.getMatchedChild())) {
                 valid = true;
                 break;
-            }
-            else if (YES.equals(answer.getMatchedChild())) {
+            } else if (YES.equals(answer.getMatchedChild())) {
                 valid = false;
                 break;
-            }
-            else {
+            } else {
                 // if one of the parents answer is entered
                 valid = valid && StringUtils.isBlank(answer.getAnswer());
                 if (!valid) {
@@ -668,48 +721,41 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * text', 'Matches text', 'Less than number', 'Less than or equals number', 'Equals number', 'Not Equal to number', 'Greater
      * than or equals number', 'Greater than number', 'Before date', 'After date' ];
      */
-
     protected boolean isAnswerMatched(String condition, String parentAnswer, String conditionValue) {
         boolean valid = false;
         if (ConditionType.CONTAINS_TEXT.getCondition().equals(condition)) {
             valid = StringUtils.containsIgnoreCase(parentAnswer, conditionValue);
-        }
-        else if (ConditionType.BEGINS_WITH_TEXT.getCondition().equals(condition)) {
+        } else if (ConditionType.BEGINS_WITH_TEXT.getCondition().equals(condition)) {
             valid = (StringUtils.startsWithIgnoreCase(parentAnswer, conditionValue));
-        }
-        else if (ConditionType.ENDS_WITH_TEXT.getCondition().equals(condition)) {
+        } else if (ConditionType.ENDS_WITH_TEXT.getCondition().equals(condition)) {
             valid = (StringUtils.endsWithIgnoreCase(parentAnswer, conditionValue));
-        }
-        else if (ConditionType.MATCH_TEXT.getCondition().equals(condition)) {
+        } else if (ConditionType.MATCH_TEXT.getCondition().equals(condition)) {
             valid = parentAnswer.equalsIgnoreCase(conditionValue);
-        }
-        else if (Integer.parseInt(condition) >= 5 && Integer.parseInt(condition) <= 10) {
+        } else if (Integer.parseInt(condition) >= 5 && Integer.parseInt(condition) <= 10) {
             valid = (ConditionType.LESS_THAN_NUMBER.getCondition().equals(condition) && (Integer.parseInt(parentAnswer) < Integer
                     .parseInt(conditionValue)))
                     || (ConditionType.LESS_THAN_OR_EQUALS_NUMBER.getCondition().equals(condition) && (Integer
-                            .parseInt(parentAnswer) <= Integer.parseInt(conditionValue)))
+                    .parseInt(parentAnswer) <= Integer.parseInt(conditionValue)))
                     || (ConditionType.EQUALS_NUMBER.getCondition().equals(condition) && (Integer.parseInt(parentAnswer) == Integer
-                            .parseInt(conditionValue)))
+                    .parseInt(conditionValue)))
                     || (ConditionType.NOT_EQUAL_TO_NUMBER.getCondition().equals(condition) && (Integer.parseInt(parentAnswer) != Integer
-                            .parseInt(conditionValue)))
+                    .parseInt(conditionValue)))
                     || (ConditionType.GREATER_THAN_OR_EQUALS_NUMBER.getCondition().equals(condition) && (Integer
-                            .parseInt(parentAnswer) >= Integer.parseInt(conditionValue)))
+                    .parseInt(parentAnswer) >= Integer.parseInt(conditionValue)))
                     || (ConditionType.GREATER_THAN_NUMBER.getCondition().equals(condition) && (Integer.parseInt(parentAnswer) > Integer
-                            .parseInt(conditionValue)));
-        }
-        else if (Integer.parseInt(condition) == 11 || Integer.parseInt(condition) == 12) {
+                    .parseInt(conditionValue)));
+        } else if (Integer.parseInt(condition) == 11 || Integer.parseInt(condition) == 12) {
             final DateFormat dateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
             try {
                 Date date1 = new Date(dateFormat.parse(parentAnswer).getTime());
                 Date date2 = new Date(dateFormat.parse(conditionValue).getTime());
                 valid = (ConditionType.BEFORE_DATE.getCondition().equals(condition) && (date1.before(date2)))
                         || (ConditionType.AFTER_DATE.getCondition().equals(condition) && (date1.after(date2)));
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
 
             }
 
-        } 
+        }
         return valid;
     }
 
@@ -717,9 +763,10 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * enum for conditions.
      */
     protected enum ConditionType {
+
         CONTAINS_TEXT("1"), BEGINS_WITH_TEXT("2"), ENDS_WITH_TEXT("3"), MATCH_TEXT("4"), LESS_THAN_NUMBER("5"), LESS_THAN_OR_EQUALS_NUMBER(
                 "6"), EQUALS_NUMBER("7"), NOT_EQUAL_TO_NUMBER("8"), GREATER_THAN_OR_EQUALS_NUMBER("9"), GREATER_THAN_NUMBER("10"), BEFORE_DATE(
-                "11"), AFTER_DATE("12"), RULE_EVALUATION("13");
+                        "11"), AFTER_DATE("12"), RULE_EVALUATION("13");
 
         String condition;
 
@@ -731,18 +778,18 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             return condition;
         }
 
-
     }
 
     public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
         this.protocolFinderDao = protocolFinderDao;
     }
-    
+
+    @Override
     public List<AnswerHeader> getPrintAnswerHeadersForProtocol(ModuleQuestionnaireBean moduleQuestionnaireBean, String protocolNumber, QuestionnaireHelperBase questionnaireHelper) {
 
         boolean isAmendmentOrRenewal = protocolNumber.contains("A") || protocolNumber.contains("R");
         String originalProtocolNumber = protocolNumber;
-        questionnaireHelper.populatePrintAnswers();        
+        questionnaireHelper.populatePrintAnswers();
         List<AnswerHeader> printAnswerHeaders = questionnaireHelper.getPrintAnswerHeaders();
         if (isAmendmentOrRenewal) {
             originalProtocolNumber = protocolNumber.substring(0, 10);
@@ -754,12 +801,11 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 }
             }
             return headers;
-        }
-        else {
+        } else {
             return printAnswerHeaders;
         }
     }
-    
+
     @Override
     public List<AnswerHeader> getAnswerHeadersForProtocol(ModuleQuestionnaireBean moduleQuestionnaireBean, String protocolNumber, QuestionnaireHelperBase questionnaireHelper) {
         boolean isAmendmentOrRenewal = protocolNumber.contains("A") || protocolNumber.contains("R");
@@ -767,7 +813,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         if (isAmendmentOrRenewal) {
             originalProtocolNumber = protocolNumber.substring(0, 10);
         }
-        questionnaireHelper.populateAnswers();        
+        questionnaireHelper.populateAnswers();
         List<AnswerHeader> answerHeaders = questionnaireHelper.getAnswerHeaders();
         if (isAmendmentOrRenewal) {
             List<AnswerHeader> headers = new ArrayList<AnswerHeader>();
@@ -779,13 +825,12 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 }
             }
             return headers;
-        }
-        else {
+        } else {
             return answerHeaders;
         }
     }
 
-
+    @Override
     public List<AnswerHeader> getAnswerHeadersForProtocol(ModuleQuestionnaireBean moduleQuestionnaireBean, String protocolNumber) {
         boolean isAmendmentOrRenewal = protocolNumber.contains("A") || protocolNumber.contains("R");
         String originalProtocolNumber = protocolNumber;
@@ -807,17 +852,17 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 }
             }
             return headers;
-        }
-        else {
+        } else {
             return answerHeaders;
         }
     }
-    
-    
+
     /**
-     * 
-     * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#getAnswerHeadersForProtocol(java.lang.String)
+     *
+     * @see
+     * org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#getAnswerHeadersForProtocol(java.lang.String)
      */
+    @Override
     public List<AnswerHeader> getAnswerHeadersForProtocol(String protocolNumber) {
         boolean isAmendmentOrRenewal = protocolNumber.contains("A") || protocolNumber.contains("R");
         String originalProtocolNumber = protocolNumber;
@@ -841,8 +886,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 }
             }
             return headers;
-        }
-        else {
+        } else {
             return answerHeaders;
         }
     }
@@ -860,29 +904,33 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         }
         return protocolNumbers;
     }
-    
+
     private Map<String, Boolean> runApplicableRules(List<String> ruleIds, ModuleQuestionnaireBean moduleQuestionnaireBean) {
         KrmsRulesContext rulesContext = moduleQuestionnaireBean.getKrmsRulesContextFromBean();
         Map<String, Boolean> ruleResults = new HashMap<String, Boolean>();
         if (rulesContext != null) {
             ruleResults.putAll(getKrmsRulesExecutionService().runApplicableRules(ruleIds, rulesContext, UnitAgendaTypeService.QUESTIONNAIRE_AGENDA_TYPE_ID));
         }
-        
+
         // use session to cache the evaluation results for now
         GlobalVariables.getUserSession().addObject(moduleQuestionnaireBean.getSessionContextKey() + "-rulereferenced", ruleResults);
-        
+
         return ruleResults;
     }
-    
+
+    @Override
     public ModuleQuestionnaireBean getModuleSpecificBean(AnswerHeader answerHeader) {
         return getModuleSpecificBean(answerHeader.getModuleItemCode(), answerHeader.getModuleItemKey(), answerHeader.getModuleSubItemCode(), answerHeader.getModuleSubItemKey(), true);
     }
-    
+
+    @Override
     public ModuleQuestionnaireBean getModuleSpecificBean(String moduleItemCode, String moduleItemKey, String moduleSubItemCode, String moduleSubItemKey, boolean finalDoc) {
         if (CoeusModule.COI_DISCLOSURE_MODULE_CODE.equals(moduleItemCode)) {
             return new DisclosureModuleQuestionnaireBean(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
         } else if (CoeusModule.IACUC_PROTOCOL_MODULE_CODE.equals(moduleItemCode)) {
             return new IacucProtocolModuleQuestionnaireBean(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
+        } else if (CoeusModule.AWARD_MODULE_CODE.equals(moduleItemCode)) {
+            return new AwardModuleQuestionnaireBeanBase(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
         } else if (CoeusModule.IRB_MODULE_CODE.equals(moduleItemCode)) {
             return new ProtocolModuleQuestionnaireBean(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
         } else if (CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE.equals(moduleItemCode)) {
@@ -897,7 +945,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             throw new IllegalArgumentException("Unrecognized moduleItemCode");
         }
     }
-    
 
     protected QuestionnaireService getQuestionnaireService() {
         return questionnaireService;
@@ -907,11 +954,13 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         this.questionnaireService = questionnaireService;
     }
 
+    @Override
     public List<AnswerHeader> getNewVersionOfQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean) {
+
         List<AnswerHeader> newAnswerHeaders = getQuestionnaireAnswer(moduleQuestionnaireBean);
         for (AnswerHeader answerHeader : newAnswerHeaders) {
             answerHeader.setAnswerHeaderId(null);
-            for(Answer answer : answerHeader.getAnswers()) {
+            for (Answer answer : answerHeader.getAnswers()) {
                 answer.setId(null);
             }
         }

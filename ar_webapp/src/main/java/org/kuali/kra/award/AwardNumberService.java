@@ -22,6 +22,7 @@ public interface AwardNumberService {
 
     /**
      * This method returns an unused award number.
+     *
      * @return
      */
     String getNextAwardNumber();

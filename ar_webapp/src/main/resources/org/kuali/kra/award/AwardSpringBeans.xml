@@ -811,6 +811,9 @@
                 <bean class="org.kuali.kra.award.document.authorizer.ModifyAwardAuthorizer" parent="parentAwardAuthorizer">
                     <property name="taskName" value="modifyAward" />
                 </bean>
+                <bean class="org.ariahgroup.research.award.auth.AwardQuestionnaireAuthorizer" parent="parentAwardAuthorizer">
+                	<property name="taskName" value="modifyAwardQuestionnaire"/>
+                </bean>                
                 <bean class="org.kuali.kra.award.document.authorizer.ViewAwardAuthorizer" parent="parentAwardAuthorizer">
                     <property name="taskName" value="viewAward" />
                 </bean>

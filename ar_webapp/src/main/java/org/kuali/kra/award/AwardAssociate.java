@@ -100,10 +100,11 @@ public abstract class AwardAssociate extends KraPersistableBusinessObjectBase im
             setAwardNumber("");
         }
     }
-    
+
     /**
-     * If the award's award number is not equal to the award number we will persist, 
-     * then update it based on the award.
+     * If the award's award number is not equal to the award number we will
+     * persist, then update it based on the award.
+     *
      * @see org.kuali.kra.bo.KraPersistableBusinessObjectBase#prePersist()
      */
     @Override
@@ -111,7 +112,7 @@ public abstract class AwardAssociate extends KraPersistableBusinessObjectBase im
         super.prePersist();
         if (award != null && !StringUtils.equals(award.getAwardNumber(), getAwardNumber())) {
             setSequenceNumber(award.getSequenceNumber());
-            setAwardNumber(award.getAwardNumber());            
+            setAwardNumber(award.getAwardNumber());
         }
     }
 
@@ -168,7 +169,8 @@ public abstract class AwardAssociate extends KraPersistableBusinessObjectBase im
     }
 
     /**
-     * @see org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
+     * @see
+     * org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
      */
     @Override
     public void setSequenceOwner(Award newlyVersionedOwner) {

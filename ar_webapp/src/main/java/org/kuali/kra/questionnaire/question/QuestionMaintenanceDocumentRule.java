@@ -47,13 +47,14 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
     }
 
     /**
-     * 
+     *
      * This method executes the DataDictionary Validation against the document.
-     * It's an exact replica of MaintenanceDocumentRuleBase with the exception of the
-     * error path being "document.newMaintainableObject.businessObject" instead of 
-     * "document.newMaintainableObject". 
-     * TODO: Find a better solution as this duplicates code and is prone to failure if
-     *       the rice framework changes, specifically its dataDictionaryValidate method.
+     * It's an exact replica of MaintenanceDocumentRuleBase with the exception
+     * of the error path being "document.newMaintainableObject.businessObject"
+     * instead of "document.newMaintainableObject". TODO: Find a better solution
+     * as this duplicates code and is prone to failure if the rice framework
+     * changes, specifically its dataDictionaryValidate method.
+     *
      * @param document
      * @return true if it passes DD validation, false otherwise
      */
@@ -77,15 +78,15 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
             GlobalVariables.getMessageMap().removeFromErrorPath("document.newMaintainableObject.");
             throw new ValidationException("Maintainable's component business object is null.");
         }
-        
+
         // run required check from maintenance data dictionary
         maintDocDictionaryService.validateMaintenanceRequiredFields(document);
-        
+
         //check for duplicate entries in collections if necessary
         maintDocDictionaryService.validateMaintainableCollectionsForDuplicateEntries(document);
 
         // run the DD DictionaryValidation (non-recursive)
-        dictionaryValidationService.validateBusinessObject(businessObject,false);
+        dictionaryValidationService.validateBusinessObject(businessObject, false);
 
         // do default (ie, mandatory) existence checks
         dictionaryValidationService.validateDefaultExistenceChecks(businessObject);
@@ -96,9 +97,11 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
         LOG.debug("MaintenanceDocument validation ending");
         return true;
     }
-    
+
     /**
-     * This method validates the user entered data of a Question when the document is routed.
+     * This method validates the user entered data of a Question when the
+     * document is routed.
+     *
      * @param maintenanceDocument
      * @return true if valid, false otherwise
      */
@@ -113,9 +116,11 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
     }
 
     /**
-     * This method validates the question status.  The status can not be inactive when a questionnaire is
-     * using the question.
-     * @param maintenanceDocument - the maintenance document of the question to be validated
+     * This method validates the question status. The status can not be inactive
+     * when a questionnaire is using the question.
+     *
+     * @param maintenanceDocument - the maintenance document of the question to
+     * be validated
      * @return true if all validation has passed, false otherwise
      */
     private boolean validateQuestionUsage(MaintenanceDocument maintenanceDocument) {
@@ -131,8 +136,11 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
     }
 
     /**
-     * This method validates the question response type and any additional properties related to the response type.
-     * @param maintenanceDocument - the maintenance document of the question to be validated
+     * This method validates the question response type and any additional
+     * properties related to the response type.
+     *
+     * @param maintenanceDocument - the maintenance document of the question to
+     * be validated
      * @return true if all validation has passed, false otherwise
      */
     private boolean validateQuestionResponseType(MaintenanceDocument maintenanceDocument) {
@@ -146,23 +154,23 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
                     KeyConstants.ERROR_QUESTION_RESPONSE_TYPE_NOT_SPECIFIED);
         } else {
             switch (question.getQuestionTypeId()) {
-                case Constants.QUESTION_RESPONSE_TYPE_YES_NO: 
-                    isValid &= validateResponseTypeYesNo(question); 
+                case Constants.QUESTION_RESPONSE_TYPE_YES_NO:
+                    isValid &= validateResponseTypeYesNo(question);
                     break;
-                case Constants.QUESTION_RESPONSE_TYPE_YES_NO_NA: 
-                    isValid &= validateResponseTypeYesNoNa(question); 
+                case Constants.QUESTION_RESPONSE_TYPE_YES_NO_NA:
+                    isValid &= validateResponseTypeYesNoNa(question);
                     break;
-                case Constants.QUESTION_RESPONSE_TYPE_NUMBER: 
-                    isValid &= validateResponseTypeNumber(question); 
+                case Constants.QUESTION_RESPONSE_TYPE_NUMBER:
+                    isValid &= validateResponseTypeNumber(question);
                     break;
-                case Constants.QUESTION_RESPONSE_TYPE_DATE: 
-                    isValid &= validateResponseTypeDate(question); 
+                case Constants.QUESTION_RESPONSE_TYPE_DATE:
+                    isValid &= validateResponseTypeDate(question);
                     break;
-                case Constants.QUESTION_RESPONSE_TYPE_TEXT: 
-                    isValid &= validateResponseTypeText(question); 
+                case Constants.QUESTION_RESPONSE_TYPE_TEXT:
+                    isValid &= validateResponseTypeText(question);
                     break;
                 case Constants.QUESTION_RESPONSE_TYPE_LOOKUP:
-                    isValid &= validateResponseTypeLookup(question); 
+                    isValid &= validateResponseTypeLookup(question);
                     break;
                 default:
                     isValid &= false;
@@ -176,8 +184,10 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
     }
 
     /**
-     * This method validates the additional properties of a Yes/No response to a question.
-     * Since no additional properties exist this method always returns true.
+     * This method validates the additional properties of a Yes/No response to a
+     * question. Since no additional properties exist this method always returns
+     * true.
+     *
      * @param question - the question to be validated
      * @return true
      */
@@ -186,8 +196,10 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
     }
 
     /**
-     * This method validates the additional properties of a Yes/No/NA response to a question.
-     * Since no additional properties exist this method always returns true.
+     * This method validates the additional properties of a Yes/No/NA response
+     * to a question. Since no additional properties exist this method always
+     * returns true.
+     *
      * @param question - the question to be validated
      * @return true
      */
@@ -196,7 +208,9 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
     }
 
     /**
-     * This method validates the additional properties of a numeric response to a question.
+     * This method validates the additional properties of a numeric response to
+     * a question.
+     *
      * @param question - the question to be validated
      * @return true if all validation has passed, false otherwise
      */
@@ -206,12 +220,14 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
         isValid &= validateDisplayedAnswers(question);
         isValid &= validateAnswerMaxLengthWithCeiling(question);
         isValid &= validateMaxAnswers(question);
-        
+
         return isValid;
     }
 
     /**
-     * This method validates the additional properties of a date response to a question.
+     * This method validates the additional properties of a date response to a
+     * question.
+     *
      * @param question - the question to be validated
      * @return true if all validation has passed, false otherwise
      */
@@ -220,12 +236,14 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 
         isValid &= validateDisplayedAnswers(question);
         isValid &= validateMaxAnswers(question);
-        
+
         return isValid;
     }
 
     /**
-     * This method validates the additional properties of a text response to a question.
+     * This method validates the additional properties of a text response to a
+     * question.
+     *
      * @param question - the question to be validated
      * @return true if all validation has passed, false otherwise
      */
@@ -235,12 +253,14 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
         isValid &= validateDisplayedAnswers(question);
         isValid &= validateAnswerMaxLengthWithCeiling(question);
         isValid &= validateMaxAnswers(question);
-        
+
         return isValid;
     }
 
     /**
-     * This method validates the additional properties of a lookup response to a question.
+     * This method validates the additional properties of a lookup response to a
+     * question.
+     *
      * @param question - the question to be validated
      * @return true if all validation has passed, false otherwise
      */
@@ -250,12 +270,14 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
         isValid &= validateLookupClass(question);
         isValid &= validateLookupReturn(question);
         isValid &= validateMaxAnswers(question);
-        
+
         return isValid;
     }
 
     /**
-     * This method validates the displayedAnswers field.  The field must contain a number greater than zero.
+     * This method validates the displayedAnswers field. The field must contain
+     * a number greater than zero.
+     *
      * @param question - the question to be validated
      * @return true if all validation has passed, false otherwise
      */
@@ -275,7 +297,9 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
     }
 
     /**
-     * This method validates the answerMaxLength field.  The field must contain a number greater than zero.
+     * This method validates the answerMaxLength field. The field must contain a
+     * number greater than zero.
+     *
      * @param question - the question to be validated
      * @return true if all validation has passed, false otherwise
      */
@@ -288,14 +312,14 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
             return false;
         }
     }
-    
+
     public boolean validateAnswerMaxLengthWithCeiling(Question question) {
         if (validateAnswerMaxLength(question)) {
             if (question.getAnswerMaxLength() != null && question.getAnswerMaxLength() <= 2000) {
                 return true;
             } else {
                 GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_ANSWER_MAX_LENGTH,
-                        KeyConstants.ERROR_QUESTION_ANSWER_MAX_LENGTH_VALUE_TOO_LARGE);                
+                        KeyConstants.ERROR_QUESTION_ANSWER_MAX_LENGTH_VALUE_TOO_LARGE);
                 return false;
             }
         } else {
@@ -303,9 +327,10 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
         }
     }
 
-    
     /**
-     * This method validates the maxAnswers field.  The field must contain a number greater than zero.
+     * This method validates the maxAnswers field. The field must contain a
+     * number greater than zero.
+     *
      * @param question - the question to be validated
      * @return true if all validation has passed, false otherwise
      */
@@ -320,29 +345,31 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
                 && question.getMaxAnswers() > question.getDisplayedAnswers()) {
             isValid = false;
         }
-        
+
         if (!isValid) {
             switch (question.getQuestionTypeId()) {
-                case Constants.QUESTION_RESPONSE_TYPE_LOOKUP :
+                case Constants.QUESTION_RESPONSE_TYPE_LOOKUP:
                     GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_MAX_ANSWERS,
                             KeyConstants.ERROR_QUESTION_MAX_ANSWERS_INVALID_RETURNS);
                     break;
-                case Constants.QUESTION_RESPONSE_TYPE_TEXT :
+                case Constants.QUESTION_RESPONSE_TYPE_TEXT:
                     GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_MAX_ANSWERS,
                             KeyConstants.ERROR_QUESTION_MAX_ANSWERS_INVALID_ANSWERS_AREAS);
                     break;
-                default :
+                default:
                     GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_MAX_ANSWERS,
                             KeyConstants.ERROR_QUESTION_MAX_ANSWERS_INVALID_ANSWERS_BOXES);
                     break;
             }
         }
-        
+
         return isValid;
     }
 
     /**
-     * This method validates the lookupClass field.  The field must may not contain null.
+     * This method validates the lookupClass field. The field must may not
+     * contain null.
+     *
      * @param question - the question to be validated
      * @return true if all validation has passed, false otherwise
      */
@@ -352,7 +379,7 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
         if (ObjectUtils.equals(question.getLookupClass(), prevLookupClass)) {
             GlobalVariables.getUserSession().removeObject(Constants.LOOKUP_RETURN_FIELDS);
         }
-        
+
         if (question.getLookupClass() != null) {
             return true;
         } else {
@@ -363,7 +390,9 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
     }
 
     /**
-     * This method validates the lookupReturn field.  The field must may not contain null.
+     * This method validates the lookupReturn field. The field must may not
+     * contain null.
+     *
      * @param question - the question to be validated
      * @return true if all validation has passed, false otherwise
      */
@@ -378,9 +407,11 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
     }
 
     /**
-     * This method validates the lookupReturn with the specified lookupClass of the question.
-     * (The lookupReturn may be different if JavaScript is disabled and thus the automatic population
-     *  of the lookupReturn drop down list has not occurred after the lookupClass has changed.) 
+     * This method validates the lookupReturn with the specified lookupClass of
+     * the question. (The lookupReturn may be different if JavaScript is
+     * disabled and thus the automatic population of the lookupReturn drop down
+     * list has not occurred after the lookupClass has changed.)
+     *
      * @param question - the question to be validated
      * @return true if validation has passed, false otherwise
      */
@@ -397,19 +428,18 @@ public class QuestionMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
                 GlobalVariables.getMessageMap().putError(Constants.QUESTION_DOCUMENT_FIELD_LOOKUP_RETURN,
                         KeyConstants.ERROR_QUESTION_LOOKUP_RETURN_INVALID);
                 return false;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 LOG.info(e.getMessage());
                 throw new RuntimeException("QuestionMaintenanceDocumentRule encountered exception", e);
             }
         }
         return true;
     }
-    
+
     private CustomAttributeService getCustomAttributeService() {
         return KraServiceLocator.getService(CustomAttributeService.class);
     }
-    
+
     private QuestionService getQuestionService() {
         return KraServiceLocator.getService(QuestionService.class);
     }

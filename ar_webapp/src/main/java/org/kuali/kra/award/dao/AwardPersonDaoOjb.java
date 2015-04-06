@@ -30,29 +30,30 @@ import java.util.List;
 import java.util.Map;
 
 public class AwardPersonDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, AwardPersonDao {
+
     private LookupDao lookupDao;
     private DataDictionaryService dataDictionaryService;
-    
+
     @SuppressWarnings("unchecked")
     public List<AwardPerson> getAwardPersons(Map<String, String> fieldValues) {
         Query query = new QueryByCriteria(AwardPerson.class, getCollectionCriteriaFromMap(fieldValues));
         return new ArrayList<AwardPerson>(super.getPersistenceBrokerTemplate().getCollectionByQuery(query));
     }
-    
+
     /**
      * @param dataDictionaryService
      */
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
-    
+
     /**
      * @param lookupDao
      */
     public void setLookupDao(LookupDao lookupDao) {
         this.lookupDao = lookupDao;
     }
-    
+
     /*
      * 
      * Builds up criteria object based on the object and map.
@@ -60,23 +61,23 @@ public class AwardPersonDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCol
      * @param businessObject
      * @param formProps
      * @return
-     */ 
+     */
     private Criteria getCollectionCriteriaFromMap(Map<String, String> fieldValues) {
         AwardPerson awardPerson = new AwardPerson();
         Criteria criteria = new Criteria();
-        for(String fieldName: fieldValues.keySet()) {
+        for (String fieldName : fieldValues.keySet()) {
             String fieldValue = (String) fieldValues.get(fieldName);
-            if (!lookupDao.createCriteria(awardPerson, fieldValue, fieldName, isCaseSensitive(awardPerson,  fieldName), false, criteria)) {
+            if (!lookupDao.createCriteria(awardPerson, fieldValue, fieldName, isCaseSensitive(awardPerson, fieldName), false, criteria)) {
                 continue;
             }
         }
         return criteria;
     }
-    
+
     /*
      * extract method for casesensitive in method getCollectionCriteriaFromMap
      */
-    private boolean isCaseSensitive(PersistableBusinessObject persistBo, String  propertyName) {     
+    private boolean isCaseSensitive(PersistableBusinessObject persistBo, String propertyName) {
         boolean caseInsensitive = false;
         if (dataDictionaryService.isAttributeDefined(persistBo.getClass(), propertyName)) {
             caseInsensitive = !dataDictionaryService.getAttributeForceUppercase(persistBo.getClass(), propertyName);

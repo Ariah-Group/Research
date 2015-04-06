@@ -12,6 +12,21 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.lookup.keyvalue;
 
@@ -27,7 +42,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import java.util.*;
 
 /**
- * 
+ *
  * This class is a values finder for <code>Frequency</code> business object.
  */
 public class FrequencyBaseCodeValuesFinder extends UifKeyValuesFinderBase {
@@ -36,7 +51,7 @@ public class FrequencyBaseCodeValuesFinder extends UifKeyValuesFinderBase {
     private KeyValuesService keyValuesService;
 
     /**
-     * 
+     *
      * Constructs a CopyOfFrequencyBaseCodeValuesFinder.java.
      */
     public FrequencyBaseCodeValuesFinder() {
@@ -44,9 +59,9 @@ public class FrequencyBaseCodeValuesFinder extends UifKeyValuesFinderBase {
     }
 
     /**
-     * 
+     *
      * Constructs a CopyOfFrequencyBaseCodeValuesFinder.java.
-     * 
+     *
      * @param frequencyCode
      */
     public FrequencyBaseCodeValuesFinder(String frequencyCode) {
@@ -55,10 +70,12 @@ public class FrequencyBaseCodeValuesFinder extends UifKeyValuesFinderBase {
     }
 
     /**
-     * Constructs the list of Frequency Bases. Each entry in the list is a &lt;key, value&gt; pair, where the "key" is the unique
-     * frequency base code and the "value" is the textual description that is viewed by a user.
-     * 
-     * @return the list of &lt;key, value&gt; pairs of abstract types. The first entry is always &lt;"", "select:"&gt;.
+     * Constructs the list of Frequency Bases. Each entry in the list is a
+     * &lt;key, value&gt; pair, where the "key" is the unique frequency base
+     * code and the "value" is the textual description that is viewed by a user.
+     *
+     * @return the list of &lt;key, value&gt; pairs of abstract types. The first
+     * entry is always &lt;"", "select:"&gt;.
      *
      */
     @Override
@@ -73,9 +90,9 @@ public class FrequencyBaseCodeValuesFinder extends UifKeyValuesFinderBase {
     }
 
     /**
-     * 
+     *
      * This method...
-     * 
+     *
      * @return
      */
     public String getFrequencyCode() {
@@ -83,9 +100,9 @@ public class FrequencyBaseCodeValuesFinder extends UifKeyValuesFinderBase {
     }
 
     /**
-     * 
+     *
      * This method...
-     * 
+     *
      * @param frequencyCode
      */
     public void setFrequencyCode(String frequencyCode) {
@@ -94,7 +111,7 @@ public class FrequencyBaseCodeValuesFinder extends UifKeyValuesFinderBase {
 
     /**
      * Wrapper method for retrieval of KeyValuesService.
-     * 
+     *
      * @return
      */
     protected KeyValuesService getKeyValuesService() {
@@ -105,9 +122,10 @@ public class FrequencyBaseCodeValuesFinder extends UifKeyValuesFinderBase {
     }
 
     /**
-     * 
-     * This method iterates through the validFrequencyBaseCodes and puts the valid ones in a set for another method to process.
-     * 
+     *
+     * This method iterates through the validFrequencyBaseCodes and puts the
+     * valid ones in a set for another method to process.
+     *
      * @param validFrequencyBaseCodes
      * @return
      */
@@ -123,16 +141,18 @@ public class FrequencyBaseCodeValuesFinder extends UifKeyValuesFinderBase {
 
         return uniqueRelevantFrequencyBaseCodes;
     }
-    
+
     /**
-     * 
+     *
      * This class does the comparator for the FrequencyBase object.
      */
     class FrequenceBaseComparator implements Comparator {
+
         /**
-         * 
+         *
          * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
          */
+        @Override
         public int compare(Object kv1, Object kv2) {
             try {
                 String desc1 = ((KeyValue) kv1).getValue();
@@ -151,11 +171,10 @@ public class FrequencyBaseCodeValuesFinder extends UifKeyValuesFinderBase {
 
     }
 
-
     /**
-     * 
+     *
      * This method browses through set and creates the KeyValue list from it.
-     * 
+     *
      * @param uniqueValidFrequencyBases
      * @return
      */

@@ -115,6 +115,7 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
      *
      * @return Returns the reportClassCode.
      */
+    @Override
     public String getReportClassCode() {
         return reportClassCode;
     }
@@ -133,6 +134,7 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
      *
      * @return Returns the reportCode.
      */
+    @Override
     public String getReportCode() {
         return reportCode;
     }
@@ -151,6 +153,7 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
      *
      * @return Returns the frequencyCode.
      */
+    @Override
     public String getFrequencyCode() {
         return frequencyCode;
     }
@@ -169,6 +172,7 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
      *
      * @return Returns the frequencyBaseCode.
      */
+    @Override
     public String getFrequencyBaseCode() {
         return frequencyBaseCode;
     }
@@ -187,6 +191,7 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
      *
      * @return Returns the ospDistributionCode.
      */
+    @Override
     public String getOspDistributionCode() {
         return ospDistributionCode;
     }
@@ -205,6 +210,7 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
      *
      * @return Returns the dueDate.
      */
+    @Override
     public Date getDueDate() {
         return dueDate;
     }
@@ -488,6 +494,7 @@ public class AwardTemplateReportTerm extends KraPersistableBusinessObjectBase im
      * @param otherReportTerm
      * @return
      */
+    @Override
     public boolean equalsInitialFields(GenericAwardReportTerm otherReportTerm) {
         boolean isEqual = true;
         if (otherReportTerm == null) {

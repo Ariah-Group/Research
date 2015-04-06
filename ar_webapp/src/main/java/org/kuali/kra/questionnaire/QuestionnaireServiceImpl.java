@@ -54,12 +54,10 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     public QuestionnaireServiceImpl() {
         super();
-        /*
-         * TODO : permissionModuleMap is probably for initial release 2. See more comments on getAssociateModules method.
-         */
         permissionModuleMap = new HashMap<String, String>();
         permissionModuleMap.put(AwardPermissionConstants.MODIFY_AWARD.getAwardPermission() + ":" + Constants.MODULE_NAMESPACE_AWARD_BUDGET, "1");
-        permissionModuleMap.put(PermissionConstants.EDIT_INSTITUTE_PROPOSAL + ":" + Constants.INSTITUTIONAL_PROPOSAL_NAMESPACE,"2");
+        permissionModuleMap.put(PermissionConstants.MAINTAIN_QUESTIONNAIRE_USAGE + ":" + Constants.MODULE_NAMESPACE_AWARD, "1");
+        permissionModuleMap.put(PermissionConstants.EDIT_INSTITUTE_PROPOSAL + ":" + Constants.INSTITUTIONAL_PROPOSAL_NAMESPACE, "2");
         permissionModuleMap.put(PermissionConstants.MAINTAIN_QUESTIONNAIRE_USAGE + ":" + Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, "3");
         //permissionModuleMap.put(PermissionConstants.MODIFY_PROPOSAL + ":" + "KC-PD", "3");
         // permissionModuleMap.put(PermissionConstants.SUBCONTRACT,"4");
@@ -72,10 +70,13 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     }
 
     /**
-     * 
-     * @see org.kuali.kra.questionnaire.QuestionnaireService#isQuestionnaireNameExist(java.lang.Integer, java.lang.String)
+     *
+     * @see
+     * org.kuali.kra.questionnaire.QuestionnaireService#isQuestionnaireNameExist(java.lang.Integer,
+     * java.lang.String)
      */
     @SuppressWarnings("unchecked")
+    @Override
     public boolean isQuestionnaireNameExist(String questionnaireId, String name) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("name", name);
@@ -92,10 +93,12 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     }
 
     /**
-     * 
-     * @see org.kuali.kra.questionnaire.QuestionnaireService#copyQuestionnaire(org.kuali.kra.questionnaire.Questionnaire,
-     *      org.kuali.kra.questionnaire.Questionnaire)
+     *
+     * @see
+     * org.kuali.kra.questionnaire.QuestionnaireService#copyQuestionnaire(org.kuali.kra.questionnaire.Questionnaire,
+     * org.kuali.kra.questionnaire.Questionnaire)
      */
+    @Override
     public void copyQuestionnaire(Questionnaire src, Questionnaire dest) {
         copyQuestionnaireLists(src, dest);
 
@@ -123,15 +126,12 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     }
 
     /**
-     * 
-     * @see org.kuali.kra.questionnaire.QuestionnaireService#getAssociateModules()
+     *
+     * @see
+     * org.kuali.kra.questionnaire.QuestionnaireService#getAssociateModules()
      */
+    @Override
     public List<String> getAssociateModules() {
-        /*
-         * TODO : (kcirb-378)this is a temporary (for release 2) to get questionnaire modules association list based on permission
-         * When integrated with KIM, this should be able to utilize KIM permission and permission attributes to accomplish this
-         * task. The permission attributes could be a combination of module doce & coeus permission right
-         */
 
         Set<String> modules = new HashSet<String>();
         Collection<String> parameters = this.parameterService.getParameterValuesAsString(Constants.PARAMETER_MODULE_QUESTIONNAIRE, Constants.PARAMETER_COMPONENT_PERMISSION, PARAM_NAME);
@@ -146,23 +146,24 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         return new ArrayList<String>(modules);
     }
 
-
     public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
         this.unitAuthorizationService = unitAuthorizationService;
     }
 
     /**
      * Sets the ParameterService.
-     * 
+     *
      * @param parameterService the parameter service.
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-    
+
     /**
-     * @see org.kuali.kra.questionnaire.QuestionnaireService#isUniqueUsage(org.kuali.kra.questionnaire.QuestionnaireUsage)
+     * @see
+     * org.kuali.kra.questionnaire.QuestionnaireService#isUniqueUsage(org.kuali.kra.questionnaire.QuestionnaireUsage)
      */
+    @Override
     public boolean isUniqueUsage(Questionnaire questionnaire, QuestionnaireUsage usage) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("moduleItemCode", usage.getCoeusModule().getModuleCode());
@@ -176,13 +177,13 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         }
         return true;
     }
-    
+
+    @Override
     public boolean isCurrentQuestionnaire(Questionnaire questionnaire) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("questionnaireId", questionnaire.getQuestionnaireId());
         List<Questionnaire> questionnaires = (List<Questionnaire>) businessObjectService.findMatchingOrderBy(Questionnaire.class, fieldValues, "sequenceNumber", false);
         return questionnaire.getQuestionnaireRefId().equals(questionnaires.get(0).getQuestionnaireRefId());
     }
-
 
 }

@@ -12,6 +12,21 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.home;
 
@@ -19,9 +34,9 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
 /**
- * 
- * This class represents Distribution business object and is mapped
- * with DISTRIBUTION table.
+ *
+ * This class represents Distribution business object and is mapped with
+ * DISTRIBUTION table.
  */
 public class Distribution extends KraPersistableBusinessObjectBase implements MutableInactivatable {
 
@@ -43,7 +58,7 @@ public class Distribution extends KraPersistableBusinessObjectBase implements Mu
     }
 
     /**
-     * 
+     *
      * @return
      */
     public String getOspDistributionCode() {
@@ -51,7 +66,7 @@ public class Distribution extends KraPersistableBusinessObjectBase implements Mu
     }
 
     /**
-     * 
+     *
      * @param ospDistributionCode
      */
     public void setOspDistributionCode(String ospDistributionCode) {
@@ -59,7 +74,7 @@ public class Distribution extends KraPersistableBusinessObjectBase implements Mu
     }
 
     /**
-     * 
+     *
      * @return
      */
     public String getDescription() {
@@ -67,7 +82,7 @@ public class Distribution extends KraPersistableBusinessObjectBase implements Mu
     }
 
     /**
-     * 
+     *
      * @param description
      */
     public void setDescription(String description) {
@@ -103,8 +118,9 @@ public class Distribution extends KraPersistableBusinessObjectBase implements Mu
     }
 
     /**
-     * 
+     *
      * Convenience method for equality of Distribution
+     *
      * @param distribution
      * @return
      */
@@ -119,9 +135,13 @@ public class Distribution extends KraPersistableBusinessObjectBase implements Mu
         return true;
     }
 
+    @Override
+
     public boolean isActive() {
         return active;
     }
+
+    @Override
 
     public void setActive(boolean active) {
         this.active = active;

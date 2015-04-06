@@ -23,24 +23,25 @@ import java.text.DecimalFormat;
 public class AwardNumberServiceImpl implements AwardNumberService {
 
     private SequenceAccessorService sequenceAccessorService;
-    
+
     public AwardNumberServiceImpl() {
     }
+
     /**
      * Set the Sequence Accessor Service.
+     *
      * @param sequenceAccessorService the Sequence Accessor Service
      */
     public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
         this.sequenceAccessorService = sequenceAccessorService;
     }
 
-    
     @Override
     public String getNextAwardNumber() {
         Long nextAwardNumber = sequenceAccessorService.getNextAvailableSequenceNumber(Constants.AWARD_SEQUENCE_AWARD_NUMBER);
-        
+
         // Use Coeus' xxxxxx-yyy format for compatibility
-        DecimalFormat formatter = new DecimalFormat("000000");        
+        DecimalFormat formatter = new DecimalFormat("000000");
         return formatter.format(nextAwardNumber) + "-00001";
     }
 }

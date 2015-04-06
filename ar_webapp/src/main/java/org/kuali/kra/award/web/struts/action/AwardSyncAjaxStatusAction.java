@@ -24,11 +24,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 
- * This class represents the Struts Action for Award page(AwardHome.jsp) 
+ *
+ * This class represents the Struts Action for Award page(AwardHome.jsp)
  */
-public class AwardSyncAjaxStatusAction extends AwardAction { 
-    
+public class AwardSyncAjaxStatusAction extends AwardAction {
+
     public ActionForward syncStatus(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);

@@ -271,7 +271,7 @@ public class AwardHomeAction extends AwardAction {
          * the following two null overrides are per KCAWD-1001
          */
         AwardAmountInfo awardAmtInfo = awardDocument.getAward().getAwardAmountInfos().get(0);
-        
+
         if (awardAmtInfo.getAnticipatedTotalAmount() == null) {
             awardAmtInfo.setAnticipatedTotalAmount(KualiDecimal.ZERO);
         }
@@ -333,6 +333,7 @@ public class AwardHomeAction extends AwardAction {
      *
      * @return the parameter service.
      */
+    @Override
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
             this.parameterService = KraServiceLocator.getService(ParameterService.class);
@@ -340,6 +341,7 @@ public class AwardHomeAction extends AwardAction {
         return this.parameterService;
     }
 
+    @Override
     public boolean isDirectIndirectViewEnabled() {
         boolean returnValue = false;
         String directIndirectEnabledValue = getParameterService().getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
@@ -546,6 +548,7 @@ public class AwardHomeAction extends AwardAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    @Override
     protected BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }

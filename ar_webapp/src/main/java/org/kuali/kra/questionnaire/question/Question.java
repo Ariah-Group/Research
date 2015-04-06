@@ -12,6 +12,21 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.questionnaire.question;
 
@@ -114,6 +129,7 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
         }
     }
 
+    @Override
     public Integer getSequenceNumber() {
         return sequenceNumber;
     }
@@ -171,8 +187,9 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
     }
 
     /**
-     * 
+     *
      * This method returns the descriptive text of the lookupClass
+     *
      * @return descriptive text
      */
     public String getLookupClassDescription() {
@@ -194,8 +211,9 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
     }
 
     /**
-     * 
+     *
      * This method returns the descriptive text of the lookupReturn
+     *
      * @return descriptive text
      */
     public String getLookupReturnDescription() {
@@ -307,11 +325,13 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
     }
 
     /**
-     * This method returns the question explanation (explanation, policy, or regulation).
-     * 
-     * @param explanationType - use one of the QUESTION_EXPLANATION, QUESTION_POLICY, or QUESTION_REGULATION 
-     *                          constants to return the proper explanation type.
-     * @return The explanation or an empty string if none exists. 
+     * This method returns the question explanation (explanation, policy, or
+     * regulation).
+     *
+     * @param explanationType - use one of the QUESTION_EXPLANATION,
+     * QUESTION_POLICY, or QUESTION_REGULATION constants to return the proper
+     * explanation type.
+     * @return The explanation or an empty string if none exists.
      */
     private String getExplanation(String explanationType) {
         int index = getExplanationObjectIndex(explanationType);
@@ -323,11 +343,13 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
     }
 
     /**
-     * This method sets the question explanation (explanation, policy, or regulation).
-     * 
-     * @param explanation     - the new text of the explanation.
-     * @param explanationType - use one of the QUESTION_EXPLANATION, QUESTION_POLICY, or QUESTION_REGULATION 
-     *                          constants to set the proper explanation type.
+     * This method sets the question explanation (explanation, policy, or
+     * regulation).
+     *
+     * @param explanation - the new text of the explanation.
+     * @param explanationType - use one of the QUESTION_EXPLANATION,
+     * QUESTION_POLICY, or QUESTION_REGULATION constants to set the proper
+     * explanation type.
      */
     private void setExplanation(String explanation, String explanationType) {
         int index = getExplanationObjectIndex(explanationType);
@@ -343,11 +365,13 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
     }
 
     /**
-     * This method returns the index position of a question explanation object (explanation, policy, and regulation).
-     * 
-     * @param explanationType - use one of the QUESTION_EXPLANATION, QUESTION_POLICY, or QUESTION_REGULATION 
-     *                          constants to search for the proper type.
-     * @return Index of object containing the question policy. -1 if not found. 
+     * This method returns the index position of a question explanation object
+     * (explanation, policy, and regulation).
+     *
+     * @param explanationType - use one of the QUESTION_EXPLANATION,
+     * QUESTION_POLICY, or QUESTION_REGULATION constants to search for the
+     * proper type.
+     * @return Index of object containing the question policy. -1 if not found.
      */
     private int getExplanationObjectIndex(String explanationType) {
         // Refresh of the reference object is needed so that the explanations are displayed  
@@ -365,12 +389,15 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
 
     /**
      * The default comparator goes by the order of questionId, sequenceNumber.
+     *
      * @param argQuestion the Question to be compared.
-     * @return the value 0 if this Question is equal to the argument Question;
-     *         a value less than 0 if this Question has a questionId & sequenceNumber pair that is less
-     *         than the argument Question;  and a value greater than 0 if this Question has a questionId
-     *         & sequenceNumber pair that is greater than the argument Question.
+     * @return the value 0 if this Question is equal to the argument Question; a
+     * value less than 0 if this Question has a questionId & sequenceNumber pair
+     * that is less than the argument Question; and a value greater than 0 if
+     * this Question has a questionId & sequenceNumber pair that is greater than
+     * the argument Question.
      */
+    @Override
     public int compareTo(Question argQuestion) {
         if (ObjectUtils.equals(this.getQuestionIdAsInteger(), argQuestion.getQuestionIdAsInteger())) {
             return this.getSequenceNumber().compareTo(argQuestion.getSequenceNumber());
@@ -379,25 +406,31 @@ public class Question extends KraPersistableBusinessObjectBase implements Compar
         }
     }
 
+    @Override
     public Integer getOwnerSequenceNumber() {
         return null;
     }
 
+    @Override
     public String getVersionNameField() {
         return "questionId";
     }
 
+    @Override
     public void incrementSequenceNumber() {
         sequenceNumber++;
     }
 
+    @Override
     public Question getSequenceOwner() {
         return this;
     }
 
+    @Override
     public void setSequenceOwner(Question newlyVersionedOwner) {
     }
 
+    @Override
     public void resetPersistenceState() {
         this.questionRefId = null;
     }

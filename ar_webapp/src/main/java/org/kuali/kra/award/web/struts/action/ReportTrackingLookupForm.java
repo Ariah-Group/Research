@@ -12,6 +12,21 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.award.web.struts.action;
 
@@ -28,9 +43,9 @@ import java.util.List;
  * Report Tracking Lookup Form.
  */
 public class ReportTrackingLookupForm extends LookupForm {
-    
+
     private static final long serialVersionUID = -9223223488568942221L;
-    
+
     private List<String> groupedByFields;
     private List<String> groupedByDisplayFields;
     private List<String> detailFields;
@@ -45,30 +60,34 @@ public class ReportTrackingLookupForm extends LookupForm {
     private boolean viewRawResults;
     private String moveField;
     private Integer newColumnIndex;
-    
+
     public ReportTrackingLookupForm() {
         init();
     }
-    
+
     public void init() {
         currentViewIndex = 0;
         setCurrentView();
         resetCustomFields();
     }
-    
+
     /**
-     * Reset the custom fields to the defaults defined via Spring(ReportTrackingSearchViews).
+     * Reset the custom fields to the defaults defined via
+     * Spring(ReportTrackingSearchViews).
      */
     public void resetCustomFields() {
         ReportTrackingView customView = getReportTrackingViews().getCustomView();
         setCustomGroupByFields(new ArrayList<String>(customView.getGroupByDisplayCols()));
         setCustomDetailFields(new ArrayList<String>(customView.getDetailCols()));
     }
-    
+
     /**
-     * The Ajax details contain an open award button and as we don't know all the award numbers
-     * beforehand we have to check for the openAwardReports link here.
-     * @see org.kuali.rice.kns.web.struts.form.pojo.PojoFormBase#isPropertyEditable(java.lang.String)
+     * The Ajax details contain an open award button and as we don't know all
+     * the award numbers beforehand we have to check for the openAwardReports
+     * link here.
+     *
+     * @see
+     * org.kuali.rice.kns.web.struts.form.pojo.PojoFormBase#isPropertyEditable(java.lang.String)
      */
     @Override
     public boolean isPropertyEditable(String propertyName) {
@@ -77,7 +96,7 @@ public class ReportTrackingLookupForm extends LookupForm {
         } else {
             return super.isPropertyEditable(propertyName);
         }
-    }    
+    }
 
     public List<String> getGroupedByFields() {
         return groupedByFields;
@@ -90,11 +109,12 @@ public class ReportTrackingLookupForm extends LookupForm {
     public ReportTrackingView getCurrentView() {
         return currentView;
     }
-    
+
     /**
-     * Using the current view index, set the current view and the groupedByFields, 
-     * groupedByDisplayFields, and detailFields list of columns. If the view is a 
-     * custom view, use the customGroupByFields and customDetailFields instead.
+     * Using the current view index, set the current view and the
+     * groupedByFields, groupedByDisplayFields, and detailFields list of
+     * columns. If the view is a custom view, use the customGroupByFields and
+     * customDetailFields instead.
      */
     public void setCurrentView() {
         currentView = getReportTrackingViews().getReportTrackingViews().get(currentViewIndex);
@@ -106,13 +126,13 @@ public class ReportTrackingLookupForm extends LookupForm {
             groupedByFields = new ArrayList<String>(currentView.getGroupByCols());
             groupedByDisplayFields = new ArrayList<String>(currentView.getGroupByDisplayCols());
             detailFields = new ArrayList<String>(currentView.getDetailCols());
-        }        
+        }
     }
-    
+
     public int getCurrentViewIndex() {
         return getReportTrackingViews().getReportTrackingViews().indexOf(currentView);
     }
-    
+
     public void setCurrentViewIndex(int index) {
         currentViewIndex = index;
     }
@@ -160,7 +180,7 @@ public class ReportTrackingLookupForm extends LookupForm {
     public void setReportTrackingViews(ReportTrackingSearchViews reportTrackingViews) {
         this.reportTrackingViews = reportTrackingViews;
     }
-    
+
     public ReportTrackingSearchViews getReportTrackingViews() {
         if (reportTrackingViews == null) {
             reportTrackingViews = KraServiceLocator.getService(ReportTrackingSearchViews.class);

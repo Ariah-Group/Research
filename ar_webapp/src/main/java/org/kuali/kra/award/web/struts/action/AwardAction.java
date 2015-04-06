@@ -106,6 +106,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 import static org.apache.commons.lang.StringUtils.replace;
+import org.ariahgroup.research.award.questionnaire.AwardQuestionnaireHelper;
 import static org.kuali.rice.krad.util.KRADConstants.CONFIRMATION_QUESTION;
 
 /**
@@ -393,6 +394,7 @@ public class AwardAction extends BudgetParentActionBase {
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
         // TODO: JF Are all of these saves in a single transaction? 
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         AwardForm awardForm = (AwardForm) form;
@@ -1962,5 +1964,23 @@ public class AwardAction extends BudgetParentActionBase {
     @Override
     public ActionForward takeSuperUserActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return superUserActionHelper(SuperUserAction.TAKE_SUPER_USER_ACTIONS, mapping, form, request, response);
+    }
+
+    /**
+     * This method gets called upon navigation to Questionnaire tab.
+     *
+     * @param mapping the Action Mapping
+     * @param form the Action Form
+     * @param request the Http Request
+     * @param response Http Response
+     * @return the Action Forward
+     */
+    public ActionForward questionnaire(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        AwardForm awardForm = (AwardForm) form;
+
+        ((AwardQuestionnaireHelper) awardForm.getQuestionnaireHelper()).prepareView();
+        awardForm.getQuestionnaireHelper().populateAnswers();
+        awardForm.getQuestionnaireHelper().setQuestionnaireActiveStatuses();
+        return mapping.findForward("awardQuestionnaire");
     }
 }

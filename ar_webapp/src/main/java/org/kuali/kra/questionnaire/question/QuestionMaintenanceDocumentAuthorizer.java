@@ -12,6 +12,21 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.questionnaire.question;
 
@@ -30,27 +45,31 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * 
- * This the document authorizer class of question maintenance.
- * Based on user permission and document routing status; the documentactions set is created.
+ *
+ * This the document authorizer class of question maintenance. Based on user
+ * permission and document routing status; the documentactions set is created.
  */
 public class QuestionMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
     /**
-     * Create the documentActons based on user permission and document routing status.
-     * 
+     * Create the documentActons based on user permission and document routing
+     * status.
+     *
      * @param document
      * @param user
-     * @param documentActions - existing document actions (are ignored and wiped out)
+     * @param documentActions - existing document actions (are ignored and wiped
+     * out)
      * @return documentActions
      */
+    @Override
     public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
         return getDocumentActions(document);
     }
 
     /**
-     * Create the documentActons based on user permission and document routing status.
-     * 
+     * Create the documentActons based on user permission and document routing
+     * status.
+     *
      * @param document
      * @return documentActions
      */
@@ -59,7 +78,7 @@ public class QuestionMaintenanceDocumentAuthorizer extends MaintenanceDocumentAu
         if (getQuestionnaireAuthorizationService().hasPermission(PermissionConstants.MODIFY_QUESTION)
                 && (document.getDocumentHeader().getWorkflowDocument().getStatus().getCode().equals(
                         KewApiConstants.ROUTE_HEADER_INITIATED_CD) || document.getDocumentHeader().getWorkflowDocument()
-                        .getStatus().getCode().equals(KewApiConstants.ROUTE_HEADER_SAVED_CD))) {
+                .getStatus().getCode().equals(KewApiConstants.ROUTE_HEADER_SAVED_CD))) {
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_EDIT);
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW);
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_ROUTE);
@@ -73,7 +92,7 @@ public class QuestionMaintenanceDocumentAuthorizer extends MaintenanceDocumentAu
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_CANCEL);
         } else if (getQuestionnaireAuthorizationService().hasPermission(PermissionConstants.MODIFY_QUESTION)
                 && (document.getDocumentHeader().getWorkflowDocument().getStatus().getCode()
-                        .equals(KewApiConstants.ROUTE_HEADER_FINAL_CD))) {
+                .equals(KewApiConstants.ROUTE_HEADER_FINAL_CD))) {
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_RELOAD);
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_CLOSE);
         } else if (getQuestionnaireAuthorizationService().hasPermission(PermissionConstants.VIEW_QUESTION)

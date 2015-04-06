@@ -40,21 +40,20 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
 /**
  * This class is to handle Award template sync
  */
-public class AwardTemplateSyncEvent  extends KraDocumentEventBase{
+public class AwardTemplateSyncEvent extends KraDocumentEventBase {
 
     private AwardDocument awardDocument;
     private Award award;
 
-
     public AwardTemplateSyncEvent(String description, String errorPathPrefix, Document document) {
         super(description, errorPathPrefix, document);
-        this.awardDocument = (AwardDocument)document;
+        this.awardDocument = (AwardDocument) document;
         this.award = awardDocument.getAward();
     }
 
     @Override
     protected void logEvent() {
-        
+
     }
 
     @Override
@@ -64,12 +63,13 @@ public class AwardTemplateSyncEvent  extends KraDocumentEventBase{
 
     @Override
     public boolean invokeRuleMethod(BusinessRule rule) {
-        
-        return ((AwardTemplateSyncRule)rule).processAwardTemplateSyncRules(this);
+
+        return ((AwardTemplateSyncRule) rule).processAwardTemplateSyncRules(this);
     }
 
     /**
-     * Gets the award attribute. 
+     * Gets the award attribute.
+     *
      * @return Returns the award.
      */
     public Award getAward() {
@@ -78,6 +78,7 @@ public class AwardTemplateSyncEvent  extends KraDocumentEventBase{
 
     /**
      * Sets the award attribute value.
+     *
      * @param award The award to set.
      */
     public void setAward(Award award) {

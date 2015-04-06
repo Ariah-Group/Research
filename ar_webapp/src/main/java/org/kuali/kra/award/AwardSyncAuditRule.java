@@ -57,11 +57,12 @@ import java.util.List;
 public class AwardSyncAuditRule implements DocumentAuditRule {
 
     protected String SYNC_ERRORS = "awardSyncAuditErrors";
-    
+
     protected List<AuditError> auditErrors;
-    
+
     /**
-     * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
+     * @see
+     * org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
      */
     @Override
     public boolean processRunAuditBusinessRules(Document document) {
@@ -73,9 +74,9 @@ public class AwardSyncAuditRule implements DocumentAuditRule {
             for (AwardSyncChange change : award.getSyncChanges()) {
                 if (change.getSyncDescendantsType() == null) {
                     valid = false;
-                    auditErrors.add(new AuditError("document.awardList[0].syncChanges[" 
+                    auditErrors.add(new AuditError("document.awardList[0].syncChanges["
                             + award.getSyncChanges().indexOf(change) + "].syncDescendants",
-                            KeyConstants.ERROR_SYNC_DESCENDANT_BLANK, 
+                            KeyConstants.ERROR_SYNC_DESCENDANT_BLANK,
                             Constants.MAPPING_AWARD_ACTIONS_PAGE + "." + "Award Hierarchy Sync"));
                 }
             }
@@ -89,32 +90,33 @@ public class AwardSyncAuditRule implements DocumentAuditRule {
         reportAndCreateAuditCluster();
         return valid;
     }
-    
+
     protected AwardHierarchyService getAwardHierarchyService() {
         return KraServiceLocator.getService(AwardHierarchyService.class);
     }
-    
+
     protected VersionHistoryService getVersionHistoryService() {
         return KraServiceLocator.getService(VersionHistoryService.class);
     }
-    
+
     /**
-     * This method creates and adds the AuditCluster to the Global AuditErrorMap.
+     * This method creates and adds the AuditCluster to the Global
+     * AuditErrorMap.
      */
     @SuppressWarnings("unchecked")
     protected void reportAndCreateAuditCluster() {
         if (auditErrors.size() > 0) {
             KNSGlobalVariables.getAuditErrorMap().put(SYNC_ERRORS, new AuditCluster("Award Hierarchy Sync",
                     auditErrors, Constants.AUDIT_ERRORS));
-        } 
+        }
     }
-    
+
     protected boolean validateHierarchyIsActive(AwardHierarchy hierarchy) {
         boolean success = isAwardActive(hierarchy.getAwardNumber());
         if (!success) {
             auditErrors.add(new AuditError("document.awardList[0].syncChanges",
-                    KeyConstants.ERROR_SYNC_AWARD_STATUS, 
-                    Constants.MAPPING_AWARD_ACTIONS_PAGE + "." + "Award Hierarchy Sync", 
+                    KeyConstants.ERROR_SYNC_AWARD_STATUS,
+                    Constants.MAPPING_AWARD_ACTIONS_PAGE + "." + "Award Hierarchy Sync",
                     new String[]{hierarchy.getAwardNumber()}));
         }
         for (AwardHierarchy curHierarchy : hierarchy.getChildren()) {
@@ -122,7 +124,7 @@ public class AwardSyncAuditRule implements DocumentAuditRule {
         }
         return success;
     }
-    
+
     protected boolean isAwardActive(String awardNumber) {
         boolean success = false;
         List<VersionHistory> versions = getVersionHistoryService().loadVersionHistory(Award.class, awardNumber);

@@ -76,11 +76,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 /**
- * 
- * This class represents the Struts Action for Award Actions page(AwardActions.jsp)
+ *
+ * This class represents the Struts Action for Award Actions
+ * page(AwardActions.jsp)
  */
 public class AwardActionsAction extends AwardAction implements AuditModeAction {
-    
+
     private static final String ZERO = "0";
     private static final String NEW_CHILD_SELECTED_AWARD_OPTION = "c";
     private static final String NEW_CHILD_COPY_FROM_PARENT_OPTION = "b";
@@ -90,33 +91,32 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     public static final String NEW_CHILD_NEW_OPTION = "a";
     public static final String AWARD_COPY_NEW_OPTION = "a";
     public static final String AWARD_COPY_CHILD_OF_OPTION = "d";
-    
-    @Override
-    public ActionForward docHandler(ActionMapping mapping, ActionForm form
-            , HttpServletRequest request, HttpServletResponse response) throws Exception { 
-    	    AwardForm awardForm = (AwardForm) form;
-            String command = request.getParameter(KewApiConstants.COMMAND_PARAMETER);
-            ActionForward forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-            if(StringUtils.isNotEmpty(command) && KewApiConstants.DOCSEARCH_COMMAND.equals(command)) {
-                loadDocumentInForm(request, awardForm); 
-                WorkflowDocument workflowDoc = awardForm.getAwardDocument().getDocumentHeader().getWorkflowDocument();
-                if(workflowDoc != null) {
-                    awardForm.setDocTypeName(workflowDoc.getDocumentTypeName());
-                }
-                request.setAttribute("selectedAwardNumber", awardForm.getAwardDocument().getAward().getAwardNumber());   
-            } else {
-                forward = super.docHandler(mapping, awardForm, request, response);
-            } 
-            populateAwardHierarchy(form); 
 
-            return forward;
+    @Override
+    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
+        String command = request.getParameter(KewApiConstants.COMMAND_PARAMETER);
+        ActionForward forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
+        if (StringUtils.isNotEmpty(command) && KewApiConstants.DOCSEARCH_COMMAND.equals(command)) {
+            loadDocumentInForm(request, awardForm);
+            WorkflowDocument workflowDoc = awardForm.getAwardDocument().getDocumentHeader().getWorkflowDocument();
+            if (workflowDoc != null) {
+                awardForm.setDocTypeName(workflowDoc.getDocumentTypeName());
+            }
+            request.setAttribute("selectedAwardNumber", awardForm.getAwardDocument().getAward().getAwardNumber());
+        } else {
+            forward = super.docHandler(mapping, awardForm, request, response);
+        }
+        populateAwardHierarchy(form);
+
+        return forward;
     }
-    
+
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ActionForward forward = super.execute(mapping, form, request, response);
-        AwardForm awardForm = (AwardForm)form;
+        AwardForm awardForm = (AwardForm) form;
         String command = request.getParameter("command");
         String awardDocumentNumber = request.getParameter("awardDocumentNumber");
         String awardNumber = request.getParameter("awardNumber");
@@ -125,11 +125,12 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         }
         return forward;
     }
-    
+
     /**
-     * 
-     * This method is for the 'open window' button. It will be forwarded AwardHierarchyFullView.jsp
-     * 
+     *
+     * This method is for the 'open window' button. It will be forwarded
+     * AwardHierarchyFullView.jsp
+     *
      * @param mapping
      * @param form
      * @param request
@@ -152,27 +153,28 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
 //        super.populateAwardHierarchy(awardForm);
 //        return mapping.findForward("basic");
 //    }  
-    
     private ActionForward redirectAwardHierarchyFullViewForPopup(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response, String awardDocumentNumber, String awardNumber) throws Exception {
         //super.populateAwardHierarchy(form);
-        AwardForm awardForm = (AwardForm)form;
+        AwardForm awardForm = (AwardForm) form;
         response.sendRedirect("awardHierarchyFullView.do?methodToCall=openWindow&awardDocumentNumber=" + awardDocumentNumber + "&awardNumber=" + awardNumber + "&docTypeName=" + awardForm.getDocTypeName());
-      
+
         return null;
     }
-    
-    
+
     @Override
     protected void validateLookupInquiryFullParameter(HttpServletRequest request, ActionForm form, String fullParameter) {
-        if(fullParameter.startsWith("methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempObject")) {
+        if (fullParameter.startsWith("methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempObject")) {
             return;
         } else {
-            super.validateLookupInquiryFullParameter(request,form,fullParameter);
+            super.validateLookupInquiryFullParameter(request, form, fullParameter);
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         AwardForm awardForm = (AwardForm) form;
@@ -180,17 +182,22 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         return new AuditActionHelper().setAuditMode(mapping, (AwardForm) form, true);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ((AwardForm) form).clearUnitRulesMessages();
         return new AuditActionHelper().setAuditMode(mapping, (AwardForm) form, false);
     }
-    
+
     /**
-     * 
-     * This method corresponds copy award action on Award Hierarchy UI. Depending on various options selected appropriate helper methods get called.
-     * 
+     *
+     * This method corresponds copy award action on Award Hierarchy UI.
+     * Depending on various options selected appropriate helper methods get
+     * called.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -199,8 +206,8 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
      * @throws Exception
      */
     public ActionForward copyAward(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        AwardForm awardForm = (AwardForm)form;
+
+        AwardForm awardForm = (AwardForm) form;
         String awardNumber = getAwardNumber(request);
         int index = Integer.parseInt(StringUtils.split(awardNumber, "-")[1]);
         ActionForward forward = null;
@@ -208,9 +215,9 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         if (!StringUtils.isEmpty(awardForm.getAwardHierarchyTempObjects().get(index).getCopyAwardRadio())) {
             String radio = awardForm.getAwardHierarchyTempObjects().get(index).getCopyAwardRadio();
             Boolean copyDescendants = awardForm.getAwardHierarchyTempObjects().get(index).getCopyDescendants();
-            AwardHierarchy targetNode = findTargetNode(request, awardForm);            
+            AwardHierarchy targetNode = findTargetNode(request, awardForm);
             if (StringUtils.equalsIgnoreCase(radio, AWARD_COPY_NEW_OPTION)) {
-                if (copyDescendants!=null && copyDescendants) {
+                if (copyDescendants != null && copyDescendants) {
                     newRootNode = awardForm.getAwardHierarchyBean().copyAwardAndAllDescendantsAsNewHierarchy(targetNode.getAwardNumber());
                     forward = prepareToForwardToNewFinalChildAward(mapping, awardForm, request, response, targetNode, newRootNode);
 
@@ -218,36 +225,37 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                     newRootNode = awardForm.getAwardHierarchyBean().copyAwardAsNewHierarchy(targetNode.getAwardNumber());
                     forward = prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newRootNode);
                 }
-            } else if(StringUtils.equalsIgnoreCase(radio, AWARD_COPY_CHILD_OF_OPTION)) {
+            } else if (StringUtils.equalsIgnoreCase(radio, AWARD_COPY_CHILD_OF_OPTION)) {
                 String awardNumberOfNodeToBeParent = awardForm.getAwardHierarchyTempObjects().get(index).getCopyAwardPanelTargetAward();
                 if (!StringUtils.isEmpty(awardNumberOfNodeToBeParent) && !StringUtils.equalsIgnoreCase(awardNumberOfNodeToBeParent, ZERO)) {
-                    if (copyDescendants!=null && copyDescendants){    
-                        if(!StringUtils.isEmpty(awardNumberOfNodeToBeParent)) {
+                    if (copyDescendants != null && copyDescendants) {
+                        if (!StringUtils.isEmpty(awardNumberOfNodeToBeParent)) {
                             newRootNode = awardForm.getAwardHierarchyBean().copyAwardAndDescendantsAsChildOfAnotherAward(targetNode.getAwardNumber(), awardNumberOfNodeToBeParent);
                             forward = prepareToForwardToNewFinalChildAward(mapping, awardForm, request, response, targetNode, newRootNode);
                         }
                     } else {
                         newRootNode = awardForm.getAwardHierarchyBean().copyAwardAsChildOfAnotherAward(targetNode.getAwardNumber(), awardNumberOfNodeToBeParent);
                         forward = prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newRootNode);
-                    } 
-                }else{
+                    }
+                } else {
                     GlobalVariables.getMessageMap().putError("awardHierarchyTempObject[" + index + "].copyAwardPanelTargetAward", KeyConstants.ERROR_COPY_AWARD_CHILDOF_AWARD_NOT_SELECTED, awardNumber);
                     awardForm.getFundingProposalBean().setAllAwardsForAwardNumber(null);
-                    forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);    
+                    forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
                 }
             }
-        }else{  
+        } else {
             GlobalVariables.getMessageMap().putError("awardHierarchyTempObject[" + index + "].copyAwardPanelTargetAward", KeyConstants.ERROR_COPY_AWARD_NO_OPTION_SELECTED, awardNumber);
             forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
         return forward;
     }
-    
+
     /**
-     * 
-     * This method corresponds to the Create New Child behavior on Award Hierarchy JQuery UI. It calls various helper methods based on the options 
+     *
+     * This method corresponds to the Create New Child behavior on Award
+     * Hierarchy JQuery UI. It calls various helper methods based on the options
      * selected in the UI.
-     *  
+     *
      * @param mapping
      * @param form
      * @param request
@@ -256,39 +264,39 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
      * @throws Exception
      */
     public ActionForward create(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardForm awardForm = (AwardForm)form;
+        AwardForm awardForm = (AwardForm) form;
         String awardNumber = getAwardNumber(request);
         int index = Integer.parseInt(StringUtils.split(awardNumber, "-")[1]);
         ActionForward forward = null;
-        
-        if(awardForm.getAwardHierarchyTempObjects().get(index).getCreateNewChildRadio()!=null){
+
+        if (awardForm.getAwardHierarchyTempObjects().get(index).getCreateNewChildRadio() != null) {
             AwardHierarchy targetNode = findTargetNode(request, awardForm);
             String radio = awardForm.getAwardHierarchyTempObjects().get(index).getCreateNewChildRadio();
-            if(StringUtils.equalsIgnoreCase(radio, NEW_CHILD_NEW_OPTION)){
-                AwardHierarchy newChildNode = awardForm.getAwardHierarchyBean().createNewChildAward(targetNode.getAwardNumber());                
+            if (StringUtils.equalsIgnoreCase(radio, NEW_CHILD_NEW_OPTION)) {
+                AwardHierarchy newChildNode = awardForm.getAwardHierarchyBean().createNewChildAward(targetNode.getAwardNumber());
                 forward = prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newChildNode);
-            }else if(StringUtils.equalsIgnoreCase(radio, NEW_CHILD_COPY_FROM_PARENT_OPTION)){
+            } else if (StringUtils.equalsIgnoreCase(radio, NEW_CHILD_COPY_FROM_PARENT_OPTION)) {
                 AwardHierarchy newChildNode = awardForm.getAwardHierarchyBean().createNewAwardBasedOnParent(targetNode.getAwardNumber());
                 forward = prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newChildNode);
-            }else if(StringUtils.equalsIgnoreCase(radio, NEW_CHILD_SELECTED_AWARD_OPTION)){
+            } else if (StringUtils.equalsIgnoreCase(radio, NEW_CHILD_SELECTED_AWARD_OPTION)) {
                 String awardNumberOfNodeToCopyFrom = awardForm.getAwardHierarchyTempObjects().get(index).getNewChildPanelTargetAward();
                 if (StringUtils.isEmpty(awardNumberOfNodeToCopyFrom) || StringUtils.equalsIgnoreCase(awardNumberOfNodeToCopyFrom, ZERO)) {
                     GlobalVariables.getMessageMap().putError("awardHierarchyTempObject[" + index + "].newChildPanelTargetAward", KeyConstants.ERROR_CREATE_NEW_CHILD_OTHER_AWARD_NOT_SELECTED, awardNumber);
                     forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-                }else{
+                } else {
                     AwardHierarchy newChildNode = awardForm.getAwardHierarchyBean().createNewChildAwardBasedOnAnotherAwardInHierarchy(
                             awardNumberOfNodeToCopyFrom, targetNode.getAwardNumber());
-                    forward = prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newChildNode);    
-                }               
+                    forward = prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newChildNode);
+                }
             }
-        }else{
+        } else {
             GlobalVariables.getMessageMap().putError("awardHierarchyTempObject[" + index + "].newChildPanelTargetAward", KeyConstants.ERROR_CREATE_NEW_CHILD_NO_OPTION_SELECTED, awardNumber);
             forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
         return forward;
-        
+
     }
-    
+
     /**
      *
      * @param mapping
@@ -323,13 +331,13 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
 
     public ActionForward createANewChildAwardBasedOnAnotherAwardInHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String awardNumberOfNodeToCopyFrom = getHierarchyTargetAwardNumber(request);
-        if(StringUtils.isEmpty(awardNumberOfNodeToCopyFrom)) {
+        if (StringUtils.isEmpty(awardNumberOfNodeToCopyFrom)) {
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
         AwardForm awardForm = (AwardForm) form;
         AwardHierarchy targetNode = findTargetNode(request, awardForm);
         AwardHierarchy newChildNode = awardForm.getAwardHierarchyBean().createNewChildAwardBasedOnAnotherAwardInHierarchy(awardNumberOfNodeToCopyFrom,
-                                                                                                                            targetNode.getAwardNumber());
+                targetNode.getAwardNumber());
         return prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newChildNode);
     }
 
@@ -346,7 +354,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         AwardHierarchy newRootNode = awardForm.getAwardHierarchyBean().copyAwardAndAllDescendantsAsNewHierarchy(targetNode.getAwardNumber());
         return prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newRootNode);
     }
-    
+
     public ActionForward copyAwardAsChildOfAnotherAward(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         AwardHierarchy targetNode = findTargetNode(request, awardForm);
@@ -355,17 +363,17 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         populateAwardHierarchy(awardForm);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
+
     public ActionForward copyAwardAndDescendantsAsChildOfAnotherAward(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         AwardHierarchy targetNode = findTargetNode(request, awardForm);
         String awardNumberOfNodeToBeParent = getHierarchyTargetAwardNumber(request);
-        if(!StringUtils.isEmpty(awardNumberOfNodeToBeParent)) {
+        if (!StringUtils.isEmpty(awardNumberOfNodeToBeParent)) {
             awardForm.getAwardHierarchyBean().copyAwardAndDescendantsAsChildOfAnotherAward(targetNode.getAwardNumber(), awardNumberOfNodeToBeParent);
         }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
+
     public ActionForward copyAwardAsAChildInCurrentHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         AwardHierarchy targetNode = findTargetNode(request, awardForm);
@@ -396,20 +404,20 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         AwardForm awardForm = (AwardForm) form;
         AwardHierarchy targetNode = findTargetNode(request, awardForm);
         String awardNumberOfNodeToBeParent = getHierarchyTargetAwardNumber(request);
-        if(!StringUtils.isEmpty(awardNumberOfNodeToBeParent)) {
+        if (!StringUtils.isEmpty(awardNumberOfNodeToBeParent)) {
             awardForm.getAwardHierarchyBean().copyAwardAndDescendantsAsChildOfAnAwardInAnotherHierarchy(targetNode.getAwardNumber(), awardNumberOfNodeToBeParent);
         }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-    }    
+    }
 
     public ActionForward selectAllAwardPrintNoticeItems(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardForm awardForm = (AwardForm)form;
+        AwardForm awardForm = (AwardForm) form;
         awardForm.getAwardPrintNotice().selectAllItems();
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
 
     public ActionForward deselectAllAwardPrintNoticeItems(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardForm awardForm = (AwardForm)form;
+        AwardForm awardForm = (AwardForm) form;
         awardForm.getAwardPrintNotice().deselectAllItems();
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
@@ -476,14 +484,14 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         reportParameters.put(AwardPrintParameters.PROPOSAL_DUE
                 .getAwardPrintParameter(), false);
         //awardForm.getAwardPrintNotice().getProposalsDue());
-        
+
         reportParameters.put(AwardPrintParameters.SIGNATURE_REQUIRED
                 .getAwardPrintParameter(), awardForm.getAwardPrintNotice()
                 .getRequireSignature());
         AwardPrintingService awardPrintService = KraServiceLocator
                 .getService(AwardPrintingService.class);
         AttachmentDataSource dataStream = awardPrintService.printAwardReport(
-                awardForm.getAwardDocument().getAward(),AwardPrintType.AWARD_NOTICE_REPORT,reportParameters);
+                awardForm.getAwardDocument().getAward(), AwardPrintType.AWARD_NOTICE_REPORT, reportParameters);
         streamToResponse(dataStream, response);
         //return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         return null;
@@ -514,19 +522,19 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     }
 
     public ActionForward printHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardForm awardForm = (AwardForm)form;
+        AwardForm awardForm = (AwardForm) form;
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         AwardPrintingService awardPrintService = KraServiceLocator
                 .getService(AwardPrintingService.class);
         AttachmentDataSource dataStream = awardPrintService.printAwardReport(
                 awardForm.getAwardDocument().getAward(),
-                AwardPrintType.AWARD_BUDGET_HIERARCHY,reportParameters);
+                AwardPrintType.AWARD_BUDGET_HIERARCHY, reportParameters);
         streamToResponse(dataStream, response);
         return null;
     }
 
     public ActionForward printHierarchyModification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardForm awardForm = (AwardForm)form;
+        AwardForm awardForm = (AwardForm) form;
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
 
@@ -551,7 +559,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                 .getService(AwardPrintingService.class);
         AttachmentDataSource dataStream = awardPrintService.printAwardReport(
                 awardForm.getAwardDocument().getAward(),
-                AwardPrintType.MONEY_AND_END_DATES_HISTORY,reportParameters);
+                AwardPrintType.MONEY_AND_END_DATES_HISTORY, reportParameters);
         streamToResponse(dataStream, response);
         return null;
     }
@@ -578,7 +586,8 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         return null;
     }
 
-    public AwardNumberService getAwardNumberService(){
+    @Override
+    public AwardNumberService getAwardNumberService() {
         return KraServiceLocator.getService(AwardNumberService.class);
     }
 
@@ -595,61 +604,61 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     private int getActiveHierarchyObjectIndex(HttpServletRequest request) throws Exception {
         Enumeration<String> lookupParameters = request.getParameterNames();
         int index = -1;
-        while(lookupParameters.hasMoreElements()) {
+        while (lookupParameters.hasMoreElements()) {
             String temp = lookupParameters.nextElement();
-            if(temp.startsWith("awardHierarchyTempObject[")) {
+            if (temp.startsWith("awardHierarchyTempObject[")) {
                 index = temp.indexOf("awardHierarchyTempObject[") + 25;
-                temp = temp.substring(index, index+1);
+                temp = temp.substring(index, index + 1);
                 index = Integer.parseInt(temp);
                 break;
             }
         }
-        
+
         return index;
     }
-    
+
     @Override
-    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
-        AwardForm awardForm = (AwardForm)form;
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
         int activeHierarchyObjectIndex = getActiveHierarchyObjectIndex(request);
         int loopIndex = 0;
         Award currentAward = awardDocument.getAward();
-        
-        for(AwardHierarchyTempObject temp: awardForm.getAwardHierarchyTempObjects()){ 
+
+        for (AwardHierarchyTempObject temp : awardForm.getAwardHierarchyTempObjects()) {
             List<String> order = new ArrayList<String>();
-            
-            if(loopIndex == activeHierarchyObjectIndex-1) {
+
+            if (loopIndex == activeHierarchyObjectIndex - 1) {
                 temp.setAwardNumber2(null);
                 temp.setAwardNumber(null);
             }
-            
-            if(StringUtils.isNotBlank(temp.getAwardNumber1())){
-                Map<String,AwardHierarchy> awardHierarchyItems = awardForm.getAwardHierarchyBean().getAwardHierarchy(temp.getAwardNumber1(), order);
+
+            if (StringUtils.isNotBlank(temp.getAwardNumber1())) {
+                Map<String, AwardHierarchy> awardHierarchyItems = awardForm.getAwardHierarchyBean().getAwardHierarchy(temp.getAwardNumber1(), order);
                 StringBuilder sb = new StringBuilder();
-                for(String str:order){
+                for (String str : order) {
                     sb.append(awardHierarchyItems.get(str).getAwardNumber());
                     sb.append(KRADConstants.BLANK_SPACE).append("%3A");
                 }
                 temp.setSelectBox1(sb.toString());
-                request.setAttribute("selectedAwardNumber", temp.getAwardNumber()); 
+                request.setAttribute("selectedAwardNumber", temp.getAwardNumber());
             }
 
-            if(StringUtils.isNotBlank(temp.getAwardNumber2())){
+            if (StringUtils.isNotBlank(temp.getAwardNumber2())) {
                 order = new ArrayList<String>();
-                Map<String,AwardHierarchyNode> awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();
-                Map<String,AwardHierarchy> awardHierarchyItems = getAwardHierarchyService().getAwardHierarchy(temp.getAwardNumber2(), order);
+                Map<String, AwardHierarchyNode> awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();
+                Map<String, AwardHierarchy> awardHierarchyItems = getAwardHierarchyService().getAwardHierarchy(temp.getAwardNumber2(), order);
                 getAwardHierarchyService().populateAwardHierarchyNodes(awardHierarchyItems, awardHierarchyNodes, currentAward.getAwardNumber(), currentAward.getSequenceNumber().toString());
                 StringBuilder sb = new StringBuilder();
-                for(String str:order){
+                for (String str : order) {
                     AwardHierarchyNode tempAwardNode = awardHierarchyNodes.get(str);
-                    if(tempAwardNode.isAwardDocumentFinalStatus()) {
+                    if (tempAwardNode.isAwardDocumentFinalStatus()) {
                         sb.append(tempAwardNode.getAwardNumber());
-                        sb.append(KRADConstants.BLANK_SPACE).append("%3A");    
+                        sb.append(KRADConstants.BLANK_SPACE).append("%3A");
                     }
                 }
                 temp.setSelectBox2(sb.toString());
-                request.setAttribute("selectedAwardNumber", temp.getAwardNumber()); 
+                request.setAttribute("selectedAwardNumber", temp.getAwardNumber());
             }
             loopIndex++;
         }
@@ -662,14 +671,14 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     }
 
     private ActionForward prepareToForwardToNewChildAward(ActionMapping mapping, AwardForm awardForm, AwardHierarchy targetNode,
-                                                            AwardHierarchy newNodeToView) throws WorkflowException {
+            AwardHierarchy newNodeToView) throws WorkflowException {
         ActionForward forward;
-        if(newNodeToView != null) {
+        if (newNodeToView != null) {
             awardForm.setCommand(KewApiConstants.INITIATE_COMMAND);
             createDocument(awardForm);
             Award newChildAward = newNodeToView.getAward();
-            if(!newNodeToView.isRootNode()) {
-                setMultipleNodeHierarchyOnAwardFormTrue(newChildAward);  
+            if (!newNodeToView.isRootNode()) {
+                setMultipleNodeHierarchyOnAwardFormTrue(newChildAward);
             }
             awardForm.getAwardDocument().setAward(newChildAward);
             awardForm.getAwardHierarchyBean().recordTargetNodeState(targetNode);
@@ -680,16 +689,16 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         }
         return forward;
     }
-    
+
     private ActionForward prepareToForwardToNewFinalChildAward(ActionMapping mapping, AwardForm awardForm, HttpServletRequest request, HttpServletResponse response, AwardHierarchy targetNode,
             AwardHierarchy newNodeToView) throws Exception {
         ActionForward forward;
-        if(newNodeToView != null) {
+        if (newNodeToView != null) {
             awardForm.setCommand(KewApiConstants.INITIATE_COMMAND);
             createDocument(awardForm);
             Award newChildAward = newNodeToView.getAward();
-            if(!newNodeToView.isRootNode()) {
-                setMultipleNodeHierarchyOnAwardFormTrue(newChildAward);  
+            if (!newNodeToView.isRootNode()) {
+                setMultipleNodeHierarchyOnAwardFormTrue(newChildAward);
             }
             awardForm.getAwardDocument().setAward(newChildAward);
             awardForm.getAwardDocument().getDocumentHeader().setDocumentDescription("Copied Hierarchy");
@@ -703,25 +712,28 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         }
         return forward;
     }
-    
+
     /**
-     * Since a child award will always be part of a multiple award hierarchy, we need to set the boolean to true so that the anticipated
-     * and obligated totals on Details & Dates tab will be uneditable on initial creation.  After the initial save of document
-     * this is handled in the docHandler and home methods of AwardAction.
+     * Since a child award will always be part of a multiple award hierarchy, we
+     * need to set the boolean to true so that the anticipated and obligated
+     * totals on Details & Dates tab will be uneditable on initial creation.
+     * After the initial save of document this is handled in the docHandler and
+     * home methods of AwardAction.
+     *
      * @param awardForm
      */
     private void setMultipleNodeHierarchyOnAwardFormTrue(Award award) {
-         award.setAwardInMultipleNodeHierarchy(true);
+        award.setAwardInMultipleNodeHierarchy(true);
     }
 
     private String getHierarchyTargetAwardNumber(HttpServletRequest request) {
         return request.getParameter("awardNumberInputTemp");
     }
 
-   
     /**
      * This method is used to create a financial document using the financial
-     * account creation web service. 
+     * account creation web service.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -745,7 +757,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                  * display an error
                  */
                 if (award.getFinancialAccountDocumentNumber() == null) {
-                    
+
                     // Determine the ICR Rate Code to send - may require user interaction
                     if (StringUtils.isBlank(award.getIcrRateCode())) {
                         List<ValidRates> validRates = awardForm.getAccountCreationHelper().getMatchingValidRates(award.getCurrentFandaRate());
@@ -763,27 +775,26 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                     GlobalVariables.getMessageMap().putError(ACCOUNT_ALREADY_CREATED, KeyConstants.ACCOUNT_ALREADY_CREATED);
                 }
             }
-        }
-        else {
+        } else {
             GlobalVariables.getMessageMap().putError(NO_PERMISSION_TO_CREATE_ACCOUNT, KeyConstants.NO_PERMISSION_TO_CREATE_ACCOUNT);
         }
         forward = mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
-       
-        return forward; 
+
+        return forward;
     }
-    
+
     protected AccountCreationClient getAccountCreationClient() {
         return KraServiceLocator.getService("accountCreationClient");
     }
-   
+
     protected AwardAccountValidationService getAwardAccountValidationService() {
         return KraServiceLocator.getService("awardAccountValidationService");
     }
-    
+
     @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        
+
         AwardForm awardForm = (AwardForm) form;
         Award award = awardForm.getAwardDocument().getAward();
         /*
@@ -793,20 +804,19 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         Set<String> linkedPendingProposals = getLinkedPendingProposals(award);
         if (!linkedPendingProposals.isEmpty()) {
             String proposalNumbers = StringUtils.join(linkedPendingProposals, ", ");
-            GlobalVariables.getMessageMap().putError("noKey", 
-                    ERROR_CANCEL_PENDING_PROPOSALS, 
+            GlobalVariables.getMessageMap().putError("noKey",
+                    ERROR_CANCEL_PENDING_PROPOSALS,
                     proposalNumbers);
             return mapping.findForward(RiceConstants.MAPPING_BASIC);
         }
-        
+
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         // this should probably be moved into a private instance variable
         // logic for cancel question
         if (question == null) {
             // ask question if not already asked
             return this.performQuestionWithoutInput(mapping, form, request, response, KRADConstants.DOCUMENT_CANCEL_QUESTION, getKualiConfigurationService().getPropertyValueAsString("document.question.cancel.text"), KRADConstants.CONFIRMATION_QUESTION, KRADConstants.MAPPING_CANCEL, "");
-        }
-        else {
+        } else {
             Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
             if ((KRADConstants.DOCUMENT_CANCEL_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
                 // if no button clicked just reload the doc
@@ -816,14 +826,14 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         }
 
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        doProcessingAfterPost( kualiDocumentFormBase, request );
+        doProcessingAfterPost(kualiDocumentFormBase, request);
         if (award.getSequenceNumber() == 1) {
             AwardHierarchy hierarchy = getAwardHierarchyService().loadAwardHierarchy(award.getAwardNumber());
             hierarchy.setActive(false);
             getBusinessObjectService().save(hierarchy);
         }
         getDocumentService().cancelDocument(kualiDocumentFormBase.getDocument(), kualiDocumentFormBase.getAnnotation());
-        
+
         //add all award amount info objects to previous award version and save.
 //        AwardForm awardForm = (AwardForm) form;
 //        AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
@@ -835,11 +845,9 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
 //        
 //        getBusinessObjectService().save(award);
 //        getBusinessObjectService().save(activeAward);
-
         return returnToSender(request, mapping, kualiDocumentFormBase);
     }
 
-    
     /*
      * Find pending proposal versions linked to this award version.
      */
@@ -854,17 +862,19 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         }
         return linkedPendingProposals;
     }
-    
+
     protected InstitutionalProposalService getInstitutionalProposalService() {
         return KraServiceLocator.getService(InstitutionalProposalService.class);
     }
-    
+
+    @Override
     protected VersionHistoryService getVersionHistoryService() {
         return KraServiceLocator.getService(VersionHistoryService.class);
     }
-    
+
     /**
      * Called when the sync sponsor button is pressed.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -873,15 +883,16 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
      * @throws Exception
      */
     public ActionForward syncSponsor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-        throws Exception {
+            throws Exception {
         AwardForm awardForm = (AwardForm) form;
         Award award = awardForm.getAwardDocument().getAward();
         getAwardSyncCreationService().addAwardSyncChange(award, new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, award, "sponsorCode", "sponsorCode"));
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
+
     /**
      * Called when the sync award status button is pressed.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -890,15 +901,16 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
      * @throws Exception
      */
     public ActionForward syncStatusCode(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-        throws Exception {
+            throws Exception {
         AwardForm awardForm = (AwardForm) form;
         Award award = awardForm.getAwardDocument().getAward();
         getAwardSyncCreationService().addAwardSyncChange(award, new AwardSyncPendingChangeBean(AwardSyncType.ADD_SYNC, award, "statusCode", "statusCode"));
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
+
     /**
      * Called to delete award sync changes.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -907,7 +919,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
      * @throws Exception
      */
     public ActionForward deleteChanges(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-        throws Exception {
+            throws Exception {
         AwardForm awardForm = (AwardForm) form;
         Award award = awardForm.getAwardDocument().getAward();
         ListIterator<AwardSyncChange> iter = award.getSyncChanges().listIterator();
@@ -919,10 +931,11 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
             }
         }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-    }   
-    
+    }
+
     /**
      * Turns on sync mode.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -931,14 +944,15 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
      * @throws Exception
      */
     public ActionForward activateSyncMode(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-        throws Exception {
+            throws Exception {
         AwardForm awardForm = (AwardForm) form;
         awardForm.setSyncMode(true);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
+
     /**
      * Turn off sync mode.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -947,14 +961,15 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
      * @throws Exception
      */
     public ActionForward deactivateSyncMode(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-        throws Exception {
-        AwardForm awardForm = (AwardForm)form;
+            throws Exception {
+        AwardForm awardForm = (AwardForm) form;
         awardForm.setSyncMode(false);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
+
     /**
      * Clears all sync type selections.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -963,7 +978,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
      * @throws Exception
      */
     public ActionForward clearSyncSelections(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-        throws Exception {
+            throws Exception {
         AwardForm awardForm = (AwardForm) form;
         for (AwardSyncChange change : awardForm.getAwardDocument().getAward().getSyncChanges()) {
             change.setSyncDescendants(null);
@@ -972,9 +987,10 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
+
     /**
      * Routes document back to previous route node that will re-run validation.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -983,26 +999,26 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
      * @throws Exception
      */
     public ActionForward rerunValidation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-        throws Exception {
+            throws Exception {
         AwardForm awardForm = (AwardForm) form;
-        
+
         awardForm.getAwardSyncBean().getParentAwardStatus().setStatus("Validation In Progress");
         getBusinessObjectService().save(awardForm.getAwardSyncBean().getParentAwardStatus());
 
         awardForm.getAwardDocument().getDocumentHeader().
-            getWorkflowDocument().returnToPreviousNode("Re-run Hierarchy Sync Validation", Constants.AWARD_SYNC_HAS_SYNC_NODE_NAME);
+                getWorkflowDocument().returnToPreviousNode("Re-run Hierarchy Sync Validation", Constants.AWARD_SYNC_HAS_SYNC_NODE_NAME);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
-    
+
     public ActionForward sendNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
         Award award = awardForm.getAwardDocument().getAward();
 
         AwardNotificationContext context = new AwardNotificationContext(award, null, "Ad-Hoc Notification", Constants.MAPPING_AWARD_ACTIONS_PAGE);
-        
+
         awardForm.getNotificationHelper().initializeDefaultValues(context);
-        
+
         return mapping.findForward("notificationEditor");
     }
-    
+
 }
