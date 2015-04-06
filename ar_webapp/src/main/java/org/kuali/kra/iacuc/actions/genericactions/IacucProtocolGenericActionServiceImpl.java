@@ -17,6 +17,7 @@ package org.kuali.kra.iacuc.actions.genericactions;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
@@ -30,86 +31,120 @@ import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorresponden
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionServiceImplBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.service.VersionException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
- * This class handles the generic actions that can be made to a protocol.  A generic action contain a comment, action date, and a 
- * state change.
+ * This class handles the generic actions that can be made to a protocol. A
+ * generic action contain a comment, action date, and a state change.
  */
 public class IacucProtocolGenericActionServiceImpl extends ProtocolGenericActionServiceImplBase implements IacucProtocolGenericActionService {
-    
-    
-    /**{@inheritDoc}**/
+
+    /**
+     * {@inheritDoc}*
+     */
+    @Override
     public void disapprove(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, IacucProtocolActionType.IACUC_DISAPPROVED, IacucProtocolStatus.DISAPPROVED);
         performDisapprove(protocol);
     }
-    
-    /**{@inheritDoc}**/
+
+    /**
+     * {@inheritDoc}*
+     */
+    @Override
     public void expire(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, IacucProtocolActionType.EXPIRED, IacucProtocolStatus.EXPIRED);
     }
-    
-    /**{@inheritDoc}**/
+
+    /**
+     * {@inheritDoc}*
+     */
+    @Override
     public ProtocolDocumentBase returnForSMR(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, IacucProtocolActionType.IACUC_MINOR_REVISIONS_REQUIRED, IacucProtocolStatus.MINOR_REVISIONS_REQUIRED);
         return getReturnedVersionedDocument(protocol);
     }
-    
-    /**{@inheritDoc}**/
+
+    /**
+     * {@inheritDoc}*
+     */
+    @Override
     public ProtocolDocumentBase returnForSRR(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, IacucProtocolActionType.IACUC_MAJOR_REVISIONS_REQUIRED, IacucProtocolStatus.MAJOR_REVISIONS_REQUIRED);
         return getReturnedVersionedDocument(protocol);
     }
-    
-    /**{@inheritDoc}**/
+
+    /**
+     * {@inheritDoc}*
+     */
+    @Override
     public ProtocolDocumentBase returnToPI(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, IacucProtocolActionType.RETURNED_TO_PI, IacucProtocolStatus.RETURN_TO_PI);
         return getReturnedVersionedDocument(protocol);
-    }    
-    
-    /**{@inheritDoc}**/
+    }
+
+    /**
+     * {@inheritDoc}*
+     */
+    @Override
     public void suspend(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, IacucProtocolActionType.SUSPENDED, IacucProtocolStatus.SUSPENDED);
     }
-        
-    /**{@inheritDoc}**/
+
+    /**
+     * {@inheritDoc}*
+     */
+    @Override
     public void terminate(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, IacucProtocolActionType.TERMINATED, IacucProtocolStatus.TERMINATED);
     }
-    
-    /**{@inheritDoc}**/
+
+    /**
+     * {@inheritDoc}*
+     */
+    @Override
     public void iacucAcknowledgement(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, IacucProtocolActionType.IACUC_ACKNOWLEDGEMENT, protocol.getProtocolStatusCode());
-    }   
+    }
 
-    /**{@inheritDoc}**/
+    /**
+     * {@inheritDoc}*
+     */
+    @Override
     public void iacucHold(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, IacucProtocolActionType.HOLD, IacucProtocolStatus.ACTIVE_ON_HOLD);
-    }     
-    
-    /**{@inheritDoc}**/
+    }
+
+    /**
+     * {@inheritDoc}*
+     */
+    @Override
     public void iacucLiftHold(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception {
         //find the last lift notification protocol action.
         ProtocolActionBase selectedPa = null;
         for (ProtocolActionBase pa : protocol.getProtocolActions()) {
             System.err.println("pa.getProtocolActionTypeCode(): " + pa.getProtocolActionTypeCode());
-            if (StringUtils.equalsIgnoreCase(pa.getProtocolActionTypeCode(), IacucProtocolActionType.HOLD) 
+            if (StringUtils.equalsIgnoreCase(pa.getProtocolActionTypeCode(), IacucProtocolActionType.HOLD)
                     && (selectedPa == null || pa.getSequenceNumber() > selectedPa.getSequenceNumber())) {
                 selectedPa = pa;
             }
-            
+
         }
         performGenericAction(protocol, actionBean, IacucProtocolActionType.LIFT_HOLD, selectedPa.getPrevProtocolStatusCode());
-    }    
+    }
 
-    /**{@inheritDoc}**/
+    /**
+     * {@inheritDoc}*
+     */
+    @Override
     public void iacucDeactivate(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, IacucProtocolActionType.DEACTIVATED, IacucProtocolStatus.DEACTIVATED);
     }
 
     @Override
     protected ProtocolActionBase getNewProtocolActionInstanceHook(ProtocolBase protocol, ProtocolSubmissionBase submission, String protocolActionType) {
-        return new IacucProtocolAction( (IacucProtocol) protocol, (IacucProtocolSubmission) submission, protocolActionType);
+        return new IacucProtocolAction((IacucProtocol) protocol, (IacucProtocolSubmission) submission, protocolActionType);
     }
 
     @Override
@@ -129,7 +164,7 @@ public class IacucProtocolGenericActionServiceImpl extends ProtocolGenericAction
 
     @Override
     protected ProtocolActionBase getNewDisapprovedInRoutingProtocolActionInstanceHook(ProtocolBase protocol) {
-        return new IacucProtocolAction( (IacucProtocol) protocol, (IacucProtocolSubmission) protocol.getProtocolSubmission(), IacucProtocolActionType.REJECTED_IN_ROUTING);
+        return new IacucProtocolAction((IacucProtocol) protocol, (IacucProtocolSubmission) protocol.getProtocolSubmission(), IacucProtocolActionType.REJECTED_IN_ROUTING);
     }
 
     @Override
@@ -142,5 +177,10 @@ public class IacucProtocolGenericActionServiceImpl extends ProtocolGenericAction
         //not supported action type
         return null;
     }
-    
+
+    @Override
+    public ProtocolDocumentBase getNewProtocolDocumentHook(String originalInitiator) throws VersionException, WorkflowException {
+        return (IacucProtocolDocument) getDocumentService().getNewDocument("IacucProtocolDocument", originalInitiator);
+    }
+
 }

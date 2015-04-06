@@ -17,25 +17,28 @@ package org.kuali.kra.iacuc;
 
 import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolVersionServiceImplBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
-
+import org.kuali.kra.service.VersionException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
  * ProtocolBase Version Service Implementation.
  */
-public class IacucProtocolVersionServiceImpl extends ProtocolVersionServiceImplBase implements IacucProtocolVersionService{
+public class IacucProtocolVersionServiceImpl extends ProtocolVersionServiceImplBase implements IacucProtocolVersionService {
+
     private IacucProtocolProcedureService iacucProtocolProcedureService;
-    
+
     protected String getProtocolDocumentTypeHook() {
         return "IacucProtocolDocument";
     }
-    
+
     protected ProtocolBase createProtocolNewVersionHook(ProtocolBase protocol) throws Exception {
-        IacucProtocol iacucProtocol = (IacucProtocol)protocol;
+        IacucProtocol iacucProtocol = (IacucProtocol) protocol;
         iacucProtocol = versioningService.createNewVersion(iacucProtocol);
         setNewProtocolId(iacucProtocol);
         initPersonId(iacucProtocol);
@@ -65,7 +68,7 @@ public class IacucProtocolVersionServiceImpl extends ProtocolVersionServiceImplB
     protected String getProtocolPersonSequenceId() {
         return "SEQ_IACUC_PROTOCOL_ID";
     }
-    
+
     public IacucProtocolProcedureService getIacucProtocolProcedureService() {
         return iacucProtocolProcedureService;
     }
@@ -76,6 +79,7 @@ public class IacucProtocolVersionServiceImpl extends ProtocolVersionServiceImplB
 
     /**
      * This method initializes the personId of the person
+     *
      * @param protocol
      */
     private void initPersonId(ProtocolBase protocol) {
@@ -83,5 +87,16 @@ public class IacucProtocolVersionServiceImpl extends ProtocolVersionServiceImplB
             Integer nextPersonId = getSequenceAccessorService().getNextAvailableSequenceNumber(getProtocolPersonSequenceId()).intValue();
             person.setProtocolPersonId(nextPersonId);
         }
+    }
+
+    @Override
+    public ProtocolBase versionProtocol(ProtocolBase protocol) throws Exception {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ProtocolDocumentBase getNewProtocolDocumentHook(String originalInitiator) throws VersionException, WorkflowException {
+        return (ProtocolDocument) getDocumentService().getNewDocument("IacucProtocolDocument", originalInitiator);
     }
 }
