@@ -44,10 +44,11 @@ import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
  * This class...
  */
 public class CustomAttributeDocumentMaintainableImpl extends KualiMaintainableImpl {
-    
+
     /**
-     * 
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#prepareForSave()
+     *
+     * @see
+     * org.kuali.rice.kns.maintenance.KualiMaintainableImpl#prepareForSave()
      */
     @Override
     public void prepareForSave() {
@@ -63,22 +64,26 @@ public class CustomAttributeDocumentMaintainableImpl extends KualiMaintainableIm
             needsTranslated = false;
         }
         if (needsTranslated) {
-            
+
             customAttributeDocument.setDocumentTypeName(convertModuleNumberToDocumentTypeCode(val));
 
             /**
-             * 1 Award 2 Institute Proposal 3 Development Proposal 4 Subcontracts 5 Negotiations 6 Person 7 IRB 8 COI
-             * Disclosure 9 IACUC 11 Committee
+             * 1 Award 2 Institute Proposal 3 Development Proposal 4
+             * Subcontracts 5 Negotiations 6 Person 7 IRB 8 COI Disclosure 9
+             * IACUC 11 Committee
              */
         }
         super.prepareForSave();
     }
-    
-    /**|
-     * 
+
+    /**
+     * |
+     *
      * This method converts the module number to document type code.
-     * Implemented: 1 Award, 2 Institute Proposal, 3 Development Proposal, 7 IRB, 8 COI Disclosure. 
-     * Not Implemented: 4 Subcontracts, 5 Negotiations, 6 Person, 9 IACUC, 11 Committee.
+     * Implemented: 1 Award, 2 Institute Proposal, 3 Development Proposal, 7
+     * IRB, 8 COI Disclosure. Not Implemented: 4 Subcontracts, 5 Negotiations, 6
+     * Person, 9 IACUC, 11 Committee.
+     *
      * @param moduleNumber
      * @return
      */
