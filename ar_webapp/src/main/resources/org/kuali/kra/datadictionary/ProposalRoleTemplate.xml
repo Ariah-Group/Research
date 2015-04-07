@@ -130,7 +130,7 @@
     <property name="inquirySections">
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="KcPerson-Role"/>
+          <property name="title" value="Person-Role"/>
           <property name="numberOfColumns" value="1"/>
           <property name="inquiryFields">
             <list>
