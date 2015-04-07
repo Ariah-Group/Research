@@ -189,8 +189,8 @@
   	<bean id="CoiDisclosure-person.fullName" parent="CoiDisclosure-person.fullName-parentBean" />
     <bean id="CoiDisclosure-person.fullName-parentBean" abstract="true" parent="KcPerson-fullName">
         <property name="name" value="person.fullName" />
-        <property name="label" value="KcPerson Full Name" />
-        <property name="shortLabel" value="KcPerson Full Name" />
+        <property name="label" value="Person Full Name" />
+        <property name="shortLabel" value="Person Full Name" />
     </bean>
 
     <bean id="CoiDisclosure-certificationText" parent="CoiDisclosure-certificationText-parentBean" />
