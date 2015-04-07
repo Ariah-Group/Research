@@ -44,8 +44,8 @@ public abstract class ProtocolLocationBase extends ProtocolAssociateBase {
     private ProtocolOrganizationTypeBase protocolOrganizationType;
 
     /**
-	 * Constructs a ProtocolLocationBase.java.
-	 */
+     * Constructs a ProtocolLocationBase.java.
+     */
     public ProtocolLocationBase() {
     }
 
@@ -105,7 +105,9 @@ public abstract class ProtocolLocationBase extends ProtocolAssociateBase {
         this.rolodex = rolodex;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void resetPersistenceState() {
         this.setProtocolLocationId(null);
     }

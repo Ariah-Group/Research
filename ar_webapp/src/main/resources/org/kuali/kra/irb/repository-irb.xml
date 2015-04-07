@@ -275,7 +275,7 @@
     </class-descriptor>
             
     <class-descriptor class="org.kuali.kra.irb.protocol.location.ProtocolLocation" table="PROTOCOL_LOCATION">
-        <field-descriptor name="protocolLocationId" column="PROTOCOL_LOCATION_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
+        <field-descriptor name="protocolLocationId" column="PROTOCOL_LOCATION_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_IRB_PROTOCOL_LOCATION_ID" autoincrement="true"/>
         <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT"/>
         <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />

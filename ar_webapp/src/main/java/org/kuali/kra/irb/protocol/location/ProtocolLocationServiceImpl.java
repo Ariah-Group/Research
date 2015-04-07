@@ -43,6 +43,7 @@ public class ProtocolLocationServiceImpl extends ProtocolLocationServiceImplBase
      * Retrieve the Organization ID of the default Performing Organization that
      * is set during creation of a Protocol.
      *
+     * @return 
      */
     @Override
     protected String getDefaultProtocolOrganizationIdHook() {
