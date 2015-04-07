@@ -678,7 +678,7 @@
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.irb.noteattachment.ProtocolNotepad" table="PROTOCOL_NOTEPAD">
-        <field-descriptor name="id" column="PROTOCOL_NOTEPAD_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
+        <field-descriptor name="id" column="PROTOCOL_NOTEPAD_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_IRB_PROTOCOL_NOTEPAD_ID" autoincrement="true"/>
         <field-descriptor name="protocolId" column="PROTOCOL_ID_FK" jdbc-type="BIGINT" />
         <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
