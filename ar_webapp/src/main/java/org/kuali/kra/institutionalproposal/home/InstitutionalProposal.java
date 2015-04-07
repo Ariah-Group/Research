@@ -1763,6 +1763,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         return count;
     }
 
+    @Override
     public boolean isSponsorNihMultiplePi() {
         return sponsorNihMultiplePi;
     }
@@ -1876,7 +1877,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     /**
      *
      * Setting this value to false will prevent the update timestamp field from
-     * being upddate just once. After that, the update timestamp field will
+     * being update just once. After that, the update timestamp field will
      * update as regular.
      *
      * @param allowUpdateTimestampToBeReset
