@@ -383,8 +383,8 @@
     <bean id="IacucProtocolOnlineReview-lookupReviwerPerson.lastName" parent="IacucProtocolOnlineReview-lookupReviwerPerson.lastName-parentBean"/>
     <bean abstract="true" id="IacucProtocolOnlineReview-lookupReviwerPerson.lastName-parentBean" parent="KcPerson-lastName">
         <property name="name" value="lookupReviewerPerson.lastName"/>
-        <property name="label" value="Kc Person Last Name"/>
-        <property name="shortLabel" value="Kc Person Last Name"/>
+        <property name="label" value="Person Last Name"/>
+        <property name="shortLabel" value="Person Last Name"/>
     </bean>
         
     <bean id="IacucProtocolOnlineReview-lookupProtocol.protocolNumber" parent="IacucProtocolOnlineReview-lookupProtocol.protocolNumber-parentBean" />
