@@ -10,6 +10,9 @@ alter table BUDGET_DETAILS drop column BUDGET_CATEGORY_CODE;
 alter table BUDGET_DETAILS add BUDGET_CATEGORY_CODE varchar2(3);
 update BUDGET_DETAILS set BUDGET_CATEGORY_CODE = BUDGET_CATEGORY_CODE_TEMP;
 
+-- person traing enhancement
+alter table person_training add constraint FK_PERTRAIN_CODE FOREIGN KEY (TRAINING_CODE) references TRAINING (TRAINING_CODE);
+
 
 
 commit;
