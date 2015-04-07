@@ -264,11 +264,11 @@
 
   <bean id="KcPerson-personId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
     <property name="name" value="personId" />
-    <property name="label" value="KcPerson Id" />
-    <property name="shortLabel" value="KcPerson Id" />
+    <property name="label" value="Person Id" />
+    <property name="shortLabel" value="Person Id" />
     <property name="maxLength" value="40" />
-    <property name="summary" value="KcPerson Id" />
-    <property name="description" value="KcPerson Id" />
+    <property name="summary" value="Person Id" />
+    <property name="description" value="Person Id" />
   </bean>
   <bean id="KcPerson-socialSecurityNumber" parent="KcPerson-socialSecurityNumber-parentBean" />
 
@@ -855,12 +855,12 @@
   <bean id="KcPerson-inquiryDefinition" parent="KcPerson-inquiryDefinition-parentBean" />
 
   <bean id="KcPerson-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="KcPerson" />
+    <property name="title" value="Person" />
     <property name="inquirableClass" value="org.kuali.kra.inquiry.KcPersonInquirableImpl" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="KcPerson" />
+          <property name="title" value="Person" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
