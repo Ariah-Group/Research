@@ -22,5 +22,13 @@ Declare
   execute immediate 'CREATE SEQUENCE "SEQ_IRB_PROTOCOL_PERSON_ID" MINVALUE 1 MAXVALUE 999999999999999999 INCREMENT BY 1 START WITH ' || nextnum || ' NOCACHE  ORDER  NOCYCLE';
 END;
 
+-- Generate new sequence for IRB Protocol Re4search Area, using max of existing protocol research areas.
+Declare
+  nextnum NUMBER;
+ BEGIN
+  select (max(ID)+1) into nextnum from PROTOCOL_RESEARCH_AREAS
+  execute immediate 'CREATE SEQUENCE "SEQ_IRB_PROTOCOL_RESRCHAREA_ID" MINVALUE 1 MAXVALUE 999999999999999999 INCREMENT BY 1 START WITH ' || nextnum || ' NOCACHE  ORDER  NOCYCLE';
+END;
+
 commit;
 exit
