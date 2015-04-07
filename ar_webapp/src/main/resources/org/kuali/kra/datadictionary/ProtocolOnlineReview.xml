@@ -353,8 +353,8 @@
 	<bean id="ProtocolOnlineReview-lookupReviwerPerson.lastName" parent="ProtocolOnlineReview-lookupReviwerPerson.lastName-parentBean"/>
   	<bean abstract="true" id="ProtocolOnlineReview-lookupReviwerPerson.lastName-parentBean" parent="KcPerson-lastName">
     	<property name="name" value="lookupReviewerPerson.lastName"/>
-    	<property name="label" value="Kc Person Last Name"/>
-    	<property name="shortLabel" value="Kc Person Last Name"/>
+    	<property name="label" value="Person Last Name"/>
+    	<property name="shortLabel" value="Person Last Name"/>
   	</bean>
 	
 		
