@@ -43,6 +43,11 @@ public class ProtocolPerson extends ProtocolPersonBase {
     private static final String PERSON_TRAINED_TRUE = "Yes";
     private static final String PERSON_TRAINED_FALSE = "No";
     
+        /**
+     * Sequence name constant for IRB Protocol Person ID
+     */
+    public static final String SEQUENCE_NAME_IRB_PROTOCOL_PERSONID = "SEQ_IRB_PROTOCOL_PERSON_ID";    
+    
     private List<PersonTraining> personTrainings;
 
     public ProtocolPerson() {

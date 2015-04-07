@@ -12,6 +12,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ------------------------------------------------------
+ * Updates made after January 1, 2015 are :
+ * Copyright 2015 The Ariah Group, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.kra.protocol.personnel;
 
@@ -32,44 +48,46 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import org.kuali.kra.irb.personnel.ProtocolPerson;
 
 public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPersonnelService {
-    
+
     private BusinessObjectService businessObjectService;
     private SequenceAccessorService sequenceAccessorService;
     private ProtocolPersonTrainingService protocolPersonTrainingService;
     private KcPersonService kcPersonService;
     private UnitService unitService;
-    
+
     protected PersonEditableService personEditableService;
-    
 
     private static final String REFERENCE_PERSON_ROLE = "protocolPersonRole";
     private static final String REFERENCE_ROLODEX = "rolodex";
     private static final String REFERENCE_UNIT = "unit";
     private static final String PROTOCOL_ATTACHMENT_TYPE = "type";
-    
+
     private static final boolean LEAD_UNIT_FLAG_ON = true;
     private static final int PI_CHANGED = 0;
     private static final int COI_CHANGED = 1;
     private static final int ROLE_UNCHANGED = -1;
     private static final int RESET_SELECTED_UNIT_FOR_PERSON = 0;
-    
-    
+
     /**
      * Sets the protocolPersonTrainingService attribute value.
-     * 
-     * @param protocolPersonTrainingService The protocolPersonTrainingService to set.
+     *
+     * @param protocolPersonTrainingService The protocolPersonTrainingService to
+     * set.
      */
     public void setProtocolPersonTrainingService(ProtocolPersonTrainingService protocolPersonTrainingService) {
         this.protocolPersonTrainingService = protocolPersonTrainingService;
     }
 
-
     /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#addProtocolPerson(org.kuali.kra.protocol.ProtocolBase, org.kuali.kra.protocol.personnel.ProtocolPersonBase)
+     * @param protocolPerson
+     * @see
+     * org.kuali.kra.protocol.personnel.ProtocolPersonnelService#addProtocolPerson(org.kuali.kra.protocol.ProtocolBase,
+     * org.kuali.kra.protocol.personnel.ProtocolPersonBase)
      */
+    @Override
     public void addProtocolPerson(ProtocolBase protocol, ProtocolPersonBase protocolPerson) {
 
         Integer nextPersonId = getSequenceAccessorService().getNextAvailableSequenceNumber(getSequenceNumberNameHook()).intValue();
@@ -78,7 +96,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
         protocolPerson.setProtocolNumber(protocol.getProtocolNumber());
         protocolPerson.setSequenceNumber(protocol.getSequenceNumber());
         //Refresh Rolodex
-        if(StringUtils.isBlank(protocolPerson.getPersonId())) {
+        if (StringUtils.isBlank(protocolPerson.getPersonId())) {
             protocolPerson.refreshReferenceObject(REFERENCE_ROLODEX);
             personEditableService.populateContactFieldsFromRolodexId(protocolPerson);
         } else {
@@ -89,32 +107,39 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
         populateUnitFromPrimaryDepartmentCode(protocol, protocolPerson);
         protocol.getProtocolPersons().add(protocolPerson);
     }
-    
+
     /**
-     * 
+     *
      * This method provides the name of the sequence number
+     *
      * @return the sequence name
      */
     protected abstract String getSequenceNumberNameHook();
 
-
     /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#deleteProtocolPerson(org.kuali.kra.protocol.ProtocolBase, int)
+     * @see
+     * org.kuali.kra.protocol.personnel.ProtocolPersonnelService#deleteProtocolPerson(org.kuali.kra.protocol.ProtocolBase,
+     * int)
      */
+    @Override
     public void deleteProtocolPerson(ProtocolBase protocol) {
         List<ProtocolPersonBase> deletedPersons = new ArrayList<ProtocolPersonBase>();
-        for(ProtocolPersonBase protocolPerson : protocol.getProtocolPersons()) {
-            if(protocolPerson.isDelete()) {
+        for (ProtocolPersonBase protocolPerson : protocol.getProtocolPersons()) {
+            if (protocolPerson.isDelete()) {
                 deletedPersons.add(protocolPerson);
             }
         }
         protocol.getProtocolPersons().removeAll(deletedPersons);
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#addProtocolPersonAttachment(org.kuali.kra.protocol.ProtocolBase, org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase, int)
+     *
+     * @see
+     * org.kuali.kra.protocol.personnel.ProtocolPersonnelService#addProtocolPersonAttachment(org.kuali.kra.protocol.ProtocolBase,
+     * org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase,
+     * int)
      */
+    @Override
     public void addProtocolPersonAttachment(ProtocolBase protocol, ProtocolAttachmentPersonnelBase newAttachment, int selectedPersonIndex) {
 
         // syncNewFile
@@ -133,7 +158,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
             int maxDocId = 0;
             for (ProtocolPersonBase person : protocol.getProtocolPersons()) {
                 for (ProtocolAttachmentPersonnelBase attachment : person.getAttachmentPersonnels()) {
-                    if (attachment.getTypeCode().equals(newAttachment.getTypeCode()) 
+                    if (attachment.getTypeCode().equals(newAttachment.getTypeCode())
                             && (maxDocId < attachment.getDocumentId())) {
                         maxDocId = attachment.getDocumentId();
                     }
@@ -141,16 +166,19 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
             }
             newAttachment.setDocumentId(maxDocId + 1);
         }
-        
+
         newAttachment.setProtocolId(protocol.getProtocolId());
         newAttachment.setProtocolNumber(protocol.getProtocolNumber());
         newAttachment.refreshReferenceObject(PROTOCOL_ATTACHMENT_TYPE);
         protocol.getProtocolPerson(selectedPersonIndex).getAttachmentPersonnels().add(newAttachment);
     }
-    
+
     /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#addProtocolPersonUnit(org.kuali.kra.protocol.ProtocolBase, org.kuali.kra.protocol.personnel.ProtocolPersonBase)
+     * @see
+     * org.kuali.kra.protocol.personnel.ProtocolPersonnelService#addProtocolPersonUnit(org.kuali.kra.protocol.ProtocolBase,
+     * org.kuali.kra.protocol.personnel.ProtocolPersonBase)
      */
+    @Override
     public void addProtocolPersonUnit(List<ProtocolUnitBase> protocolPersonUnits, ProtocolPersonBase protocolPerson, int selectedPersonIndex) {
         ProtocolUnitBase newProtocolPersonUnit = protocolPersonUnits.get(selectedPersonIndex);
         newProtocolPersonUnit.setProtocolNumber(protocolPerson.getProtocolNumber());
@@ -166,111 +194,122 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
         protocolPersonUnits.remove(selectedPersonIndex);
         protocolPersonUnits.add(selectedPersonIndex, createNewProtocolUnitInstanceHook());
     }
-    
+
     protected abstract ProtocolUnitBase createNewProtocolUnitInstanceHook();
 
-
     /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#deleteProtocolPersonUnit(java.util.List, org.kuali.kra.protocol.personnel.ProtocolPersonBase, int)
+     * @see
+     * org.kuali.kra.protocol.personnel.ProtocolPersonnelService#deleteProtocolPersonUnit(java.util.List,
+     * org.kuali.kra.protocol.personnel.ProtocolPersonBase, int)
      */
+    @Override
     public void deleteProtocolPersonUnit(ProtocolBase protocol, int selectedPersonIndex, int lineNumber) {
-        ProtocolPersonBase selectedPerson =  protocol.getProtocolPerson(selectedPersonIndex);
+        ProtocolPersonBase selectedPerson = protocol.getProtocolPerson(selectedPersonIndex);
         ProtocolUnitBase protocolUnit = selectedPerson.getProtocolUnit(lineNumber);
-        if(protocolUnit.getLeadUnitFlag()) {
+        if (protocolUnit.getLeadUnitFlag()) {
             selectedPerson.setSelectedUnit(RESET_SELECTED_UNIT_FOR_PERSON);
         }
         selectedPerson.getProtocolUnits().remove(lineNumber);
     }
-    
+
     /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#switchInvestigatorCoInvestigatorRole(java.util.List)
+     * @see
+     * org.kuali.kra.protocol.personnel.ProtocolPersonnelService#switchInvestigatorCoInvestigatorRole(java.util.List)
      */
+    @Override
     public void switchInvestigatorCoInvestigatorRole(List<ProtocolPersonBase> protocolPersons) {
         ProtocolPersonBase investigator = null;
         String personNewRole = null;
-        switch(getPIOrCoIChanged(protocolPersons)) {
-            case PI_CHANGED :
+        switch (getPIOrCoIChanged(protocolPersons)) {
+            case PI_CHANGED:
                 investigator = getPreviousInvestigator(protocolPersons, getPrincipalInvestigatorRole());
                 personNewRole = getCoInvestigatorRole();
                 break;
-            case COI_CHANGED :
+            case COI_CHANGED:
                 investigator = getPreviousInvestigator(protocolPersons, getCoInvestigatorRole());
                 personNewRole = getPrincipalInvestigatorRole();
                 break;
         }
 
-        if(investigator != null) {
+        if (investigator != null) {
             updatePersonRole(investigator, personNewRole);
         }
     }
-    
+
     /**
-     * This method is to identify which role has changed 
-     * Principal Investigator or Co-Investigator
+     * This method is to identify which role has changed Principal Investigator
+     * or Co-Investigator
+     *
      * @param protocolPersons
      * @return int
      */
     protected int getPIOrCoIChanged(List<ProtocolPersonBase> protocolPersons) {
         int roleChanged = ROLE_UNCHANGED;
-        for(ProtocolPersonBase protocolPerson : protocolPersons) {
-            if(isRoleChangedToNewRole(protocolPerson, getPrincipalInvestigatorRole())) {
+        for (ProtocolPersonBase protocolPerson : protocolPersons) {
+            if (isRoleChangedToNewRole(protocolPerson, getPrincipalInvestigatorRole())) {
                 roleChanged = PI_CHANGED;
                 break;
-            }else if(isRoleChangedToNewRole(protocolPerson, getCoInvestigatorRole())) {
+            } else if (isRoleChangedToNewRole(protocolPerson, getCoInvestigatorRole())) {
                 roleChanged = COI_CHANGED;
                 break;
             }
         }
         return roleChanged;
     }
-    
+
     /**
      * This method is to update person with new role
+     *
      * @param protocolPerson
      * @param targetRole
      */
     protected void updatePersonRole(ProtocolPersonBase protocolPerson, String targetRole) {
-        if(protocolPerson != null) {
+        if (protocolPerson != null) {
             protocolPerson.setProtocolPersonRoleId(targetRole);
             protocolPerson.refreshReferenceObject(REFERENCE_PERSON_ROLE);
         }
     }
-    
+
     /**
-     * This method is to check if there is a change in the role - comparing previous role and current
-     * role and if the new role is of Principal Investigator or Co Investigator as parameter input.
+     * This method is to check if there is a change in the role - comparing
+     * previous role and current role and if the new role is of Principal
+     * Investigator or Co Investigator as parameter input.
+     *
      * @param protocolPerson
      * @param newRole
      * @return true / false
      */
     protected boolean isRoleChangedToNewRole(ProtocolPersonBase protocolPerson, String newRole) {
-        return ((!StringUtils.equalsIgnoreCase(protocolPerson.getPreviousPersonRoleId(), protocolPerson.getProtocolPersonRoleId())) 
+        return ((!StringUtils.equalsIgnoreCase(protocolPerson.getPreviousPersonRoleId(), protocolPerson.getProtocolPersonRoleId()))
                 && StringUtils.equalsIgnoreCase(protocolPerson.getProtocolPersonRoleId(), newRole));
     }
-    
+
     /**
-     * This method is to get person holding Investigator role or Co-Investigator role
-     * based on role parameter
+     * This method is to get person holding Investigator role or Co-Investigator
+     * role based on role parameter
+     *
      * @param protocolPersons
      * @param role
      * @return ProtocolPersonBase - Investigator or Co-Investigator
      */
     protected ProtocolPersonBase getPreviousInvestigator(List<ProtocolPersonBase> protocolPersons, String role) {
-        for(ProtocolPersonBase protocolPerson : protocolPersons) {
-            if((StringUtils.equalsIgnoreCase(protocolPerson.getPreviousPersonRoleId(), protocolPerson.getProtocolPersonRoleId())) 
+        for (ProtocolPersonBase protocolPerson : protocolPersons) {
+            if ((StringUtils.equalsIgnoreCase(protocolPerson.getPreviousPersonRoleId(), protocolPerson.getProtocolPersonRoleId()))
                     && StringUtils.equalsIgnoreCase(protocolPerson.getProtocolPersonRoleId(), role)) {
                 return protocolPerson;
             }
-            
+
         }
         return null;
     }
 
     /**
      * This method is to fetch person role mapping data based on source role id
+     *
      * @param sourceRoleId
      * @return Collection<PersonTraining>
      */
+    @Override
     public List<ProtocolPersonRoleMappingBase> getPersonRoleMapping(String sourceRoleId) {
         List<ProtocolPersonRoleMappingBase> personRoleMappings = new ArrayList<ProtocolPersonRoleMappingBase>();
         Map<String, Object> matchingKeys = new HashMap<String, Object>();
@@ -278,31 +317,39 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
         personRoleMappings.addAll(getBusinessObjectService().findMatching(getProtocolPersonRoleMappingClassHook(), matchingKeys));
         return personRoleMappings;
     }
-    
+
     /**
-     * 
-     * This method allows for the correct version fo the protocol person role mapping class to be returned (IRB or IACUC)
+     *
+     * This method allows for the correct version fo the protocol person role
+     * mapping class to be returned (IRB or IACUC)
+     *
      * @return the class
      */
     public abstract Class<? extends ProtocolPersonRoleMappingBase> getProtocolPersonRoleMappingClassHook();
-    
+
     /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#getProtocolPersonRole(java.lang.String)
+     * @see
+     * org.kuali.kra.protocol.personnel.ProtocolPersonnelService#getProtocolPersonRole(java.lang.String)
      */
+    @Override
     public ProtocolPersonRoleBase getProtocolPersonRole(String sourceRoleId) {
         return getBusinessObjectService().findBySinglePrimaryKey(getProtocolPersonRoleClassHook(), sourceRoleId);
     }
-    
+
     /**
-     * 
-     * This method returns the proper protocol person role class for the instance (IRB or IACUC)
+     *
+     * This method returns the proper protocol person role class for the
+     * instance (IRB or IACUC)
+     *
      * @return the protocol person role class
      */
     public abstract Class<? extends ProtocolPersonRoleBase> getProtocolPersonRoleClassHook();
 
     /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#syncProtocolPersonRoleChanges(java.util.List)
+     * @see
+     * org.kuali.kra.protocol.personnel.ProtocolPersonnelService#syncProtocolPersonRoleChanges(java.util.List)
      */
+    @Override
     public void syncProtocolPersonRoleChanges(List<ProtocolPersonBase> protocolPersons) {
         for (ProtocolPersonBase protocolPerson : protocolPersons) {
             if (!isUnitDetailsRequired(protocolPerson)) {
@@ -313,23 +360,25 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
             syncPersonRoleAndAffiliation(protocolPerson);
         }
     }
-    
+
     /**
      * This method is to reset all existing lead units and set the current
      * selected unit.
+     *
      * @param protocolPerson
      */
     protected void setLeadUnit(ProtocolPersonBase protocolPerson) {
-        if(protocolPerson.getProtocolUnits().size() > 0) {
+        if (protocolPerson.getProtocolUnits().size() > 0) {
             protocolPerson.resetAllProtocolLeadUnits();
             setLeadUnitFlag(protocolPerson);
         }
     }
-    
+
     /**
-     * This method is to check whether unit details is required for a person role.
-     * Refresh person role first so that if there is any change in the role before save the new 
-     * role will be set to that person.
+     * This method is to check whether unit details is required for a person
+     * role. Refresh person role first so that if there is any change in the
+     * role before save the new role will be set to that person.
+     *
      * @param protocolPerson
      * @return boolean true / false
      */
@@ -341,12 +390,13 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
         }
         return unitDetailsRequired;
     }
-    
+
     /**
-     * This method is to check whether Affiliation details is required for a person role.
-     * We need to refresh Person Role to reflect recent changes.
-     * Person role refresh is taken care in isUnitDetailsRequired method which is
-     * invoked prior to this method.
+     * This method is to check whether Affiliation details is required for a
+     * person role. We need to refresh Person Role to reflect recent changes.
+     * Person role refresh is taken care in isUnitDetailsRequired method which
+     * is invoked prior to this method.
+     *
      * @param protocolPerson
      * @return
      */
@@ -360,20 +410,23 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
 
     /**
      * This method is to set lead unit flag
+     *
      * @param protocolPerson
      */
     protected void setLeadUnitFlag(ProtocolPersonBase protocolPerson) {
         protocolPerson.getProtocolUnit(protocolPerson.getSelectedUnit()).setLeadUnitFlag(LEAD_UNIT_FLAG_ON);
     }
-    
+
     /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#selectProtocolUnit(java.util.List)
+     * @see
+     * org.kuali.kra.protocol.personnel.ProtocolPersonnelService#selectProtocolUnit(java.util.List)
      */
+    @Override
     public void selectProtocolUnit(List<ProtocolPersonBase> protocolPersons) {
-        for(ProtocolPersonBase protocolPerson : protocolPersons) {
+        for (ProtocolPersonBase protocolPerson : protocolPersons) {
             int selectedUnit = 0;
-            for(ProtocolUnitBase protocolUnit : protocolPerson.getProtocolUnits()) {
-                if(protocolUnit.getLeadUnitFlag()) {
+            for (ProtocolUnitBase protocolUnit : protocolPerson.getProtocolUnits()) {
+                if (protocolUnit.getLeadUnitFlag()) {
                     protocolPerson.setSelectedUnit(selectedUnit);
                     break;
                 }
@@ -382,57 +435,60 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
         }
     }
 
-    
     /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#isDuplicateUnit(java.util.List, org.kuali.kra.protocol.personnel.ProtocolUnitBase)
+     * @see
+     * org.kuali.kra.protocol.personnel.ProtocolPersonnelService#isDuplicateUnit(java.util.List,
+     * org.kuali.kra.protocol.personnel.ProtocolUnitBase)
      */
+    @Override
     public boolean isDuplicateUnit(ProtocolPersonBase protocolPerson, ProtocolUnitBase newProtocolUnit) {
         boolean duplicateUnit = false;
-        for(ProtocolUnitBase protocolUnit : protocolPerson.getProtocolUnits()) {
-            if(protocolUnit.getUnitNumber().equalsIgnoreCase(newProtocolUnit.getUnitNumber())) {
+        for (ProtocolUnitBase protocolUnit : protocolPerson.getProtocolUnits()) {
+            if (protocolUnit.getUnitNumber().equalsIgnoreCase(newProtocolUnit.getUnitNumber())) {
                 duplicateUnit = true;
                 break;
             }
         }
         return duplicateUnit;
     }
-    
-    
+
+    @Override
     public boolean isPISameAsCoI(ProtocolPersonBase pi, ProtocolPersonBase newProtocolPerson) {
         boolean duplicatePerson = false;
         // if existing PI changed to new role and the new person assigned as pi, then pi is null
-        if(pi != null && newProtocolPerson != null && StringUtils.isNotEmpty(pi.getPersonKey()) && StringUtils.isNotEmpty(newProtocolPerson.getPersonKey())) {
-            if(newProtocolPerson.getPersonKey().equalsIgnoreCase(pi.getPersonKey()) && isCoInvestigator(newProtocolPerson)) { 
-                duplicatePerson = true;
-            }
-        }
-        return duplicatePerson; 
-    }
-    
-    
-    
-    /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#isDuplicatePerson(java.util.List, org.kuali.kra.protocol.personnel.ProtocolPersonBase)
-     */
-    public boolean isDuplicatePerson(List<ProtocolPersonBase> protocolPersons, ProtocolPersonBase newProtocolPerson) {
-        boolean duplicatePerson = false;
-        for(ProtocolPersonBase protocolPerson : protocolPersons) {
-            if(protocolPerson.getPersonUniqueKey().equalsIgnoreCase(newProtocolPerson.getPersonUniqueKey())) {
+        if (pi != null && newProtocolPerson != null && StringUtils.isNotEmpty(pi.getPersonKey()) && StringUtils.isNotEmpty(newProtocolPerson.getPersonKey())) {
+            if (newProtocolPerson.getPersonKey().equalsIgnoreCase(pi.getPersonKey()) && isCoInvestigator(newProtocolPerson)) {
                 duplicatePerson = true;
             }
         }
         return duplicatePerson;
     }
 
-    
-    
     /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#getPrincipalInvestigator(java.util.List)
+     * @see
+     * org.kuali.kra.protocol.personnel.ProtocolPersonnelService#isDuplicatePerson(java.util.List,
+     * org.kuali.kra.protocol.personnel.ProtocolPersonBase)
      */
+    @Override
+    public boolean isDuplicatePerson(List<ProtocolPersonBase> protocolPersons, ProtocolPersonBase newProtocolPerson) {
+        boolean duplicatePerson = false;
+        for (ProtocolPersonBase protocolPerson : protocolPersons) {
+            if (protocolPerson.getPersonUniqueKey().equalsIgnoreCase(newProtocolPerson.getPersonUniqueKey())) {
+                duplicatePerson = true;
+            }
+        }
+        return duplicatePerson;
+    }
+
+    /**
+     * @see
+     * org.kuali.kra.protocol.personnel.ProtocolPersonnelService#getPrincipalInvestigator(java.util.List)
+     */
+    @Override
     public ProtocolPersonBase getPrincipalInvestigator(List<ProtocolPersonBase> protocolPersons) {
         ProtocolPersonBase principalInvestigator = null;
-        for(ProtocolPersonBase protocolPerson : protocolPersons) {
-            if(isPrincipalInvestigator(protocolPerson)) {
+        for (ProtocolPersonBase protocolPerson : protocolPersons) {
+            if (isPrincipalInvestigator(protocolPerson)) {
                 principalInvestigator = protocolPerson;
                 break;
             }
@@ -440,41 +496,43 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
         return principalInvestigator;
     }
 
-    
-    
     /**
      * This method is to check if the person has the role Principal Investigator
+     *
      * @param protocolPerson
      * @return true / false
      */
+    @Override
     public boolean isPrincipalInvestigator(ProtocolPersonBase protocolPerson) {
         boolean isInvestigator = false;
-        if(protocolPerson.getProtocolPersonRoleId().equalsIgnoreCase(getPrincipalInvestigatorRole())) {
+        if (protocolPerson.getProtocolPersonRoleId().equalsIgnoreCase(getPrincipalInvestigatorRole())) {
             isInvestigator = true;
         }
         return isInvestigator;
     }
-    
-    
-    
+
     /**
      * This method is to check if the person has the role Co-Investigator
+     *
      * @param protocolPerson
      * @return true / false
      */
     protected boolean isCoInvestigator(ProtocolPersonBase protocolPerson) {
         boolean isCoI = false;
-        if(protocolPerson.getProtocolPersonRoleId().equalsIgnoreCase(getCoInvestigatorRole())) {
+        if (protocolPerson.getProtocolPersonRoleId().equalsIgnoreCase(getCoInvestigatorRole())) {
             isCoI = true;
         }
         return isCoI;
-        
+
     }
-    
+
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#getLeadUnit(org.kuali.kra.protocol.personnel.ProtocolPersonBase)
+     *
+     * @see
+     * org.kuali.kra.protocol.personnel.ProtocolPersonnelService#getLeadUnit(org.kuali.kra.protocol.personnel.ProtocolPersonBase)
      */
+    @Override
     public ProtocolUnitBase getLeadUnit(ProtocolPersonBase principalInvestigator) {
         ProtocolUnitBase leadUnit = null;
         if (principalInvestigator != null) {
@@ -488,16 +546,19 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
         return leadUnit;
     }
 
- 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#setLeadUnit(org.kuali.kra.protocol.personnel.ProtocolUnitBase, 
-     *                                                                       org.kuali.kra.protocol.personnel.ProtocolPersonBase, org.kuali.kra.protocol.ProtocolBase)
+     *
+     * @see
+     * org.kuali.kra.protocol.personnel.ProtocolPersonnelService#setLeadUnit(org.kuali.kra.protocol.personnel.ProtocolUnitBase,
+     * org.kuali.kra.protocol.personnel.ProtocolPersonBase,
+     * org.kuali.kra.protocol.ProtocolBase)
      */
+    @Override
     public void setLeadUnit(ProtocolUnitBase newLeadUnit, ProtocolPersonBase principalInvestigator, ProtocolBase protocol) {
         if (principalInvestigator != null) {
             ProtocolUnitBase currentLeadUnit = getLeadUnit(principalInvestigator);
-            
+
             if (newLeadUnit != null && protocol != null) {
                 newLeadUnit.setPersonId(principalInvestigator.getPersonId());
                 newLeadUnit.setProtocolNumber(protocol.getProtocolNumber());
@@ -511,83 +572,89 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
             }
         }
     }
-    
-    
-    
-    
+
     /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#syncPersonRoleAndUnit(org.kuali.kra.protocol.personnel.ProtocolPersonBase)
+     * @see
+     * org.kuali.kra.protocol.personnel.ProtocolPersonnelService#syncPersonRoleAndUnit(org.kuali.kra.protocol.personnel.ProtocolPersonBase)
      */
+    @Override
     public void syncPersonRoleAndUnit(ProtocolPersonBase protocolPerson) {
-        if(!isUnitDetailsRequired(protocolPerson)) {
+        if (!isUnitDetailsRequired(protocolPerson)) {
             protocolPerson.getProtocolUnits().removeAll(protocolPerson.getProtocolUnits());
         }
     }
 
     /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#syncPersonRoleAndAffiliation(org.kuali.kra.protocol.personnel.ProtocolPersonBase)
+     * @see
+     * org.kuali.kra.protocol.personnel.ProtocolPersonnelService#syncPersonRoleAndAffiliation(org.kuali.kra.protocol.personnel.ProtocolPersonBase)
      */
+    @Override
     public void syncPersonRoleAndAffiliation(ProtocolPersonBase protocolPerson) {
-        if(!isAffiliationDetailsRequired(protocolPerson)) {
+        if (!isAffiliationDetailsRequired(protocolPerson)) {
             protocolPerson.setAffiliationTypeCode(null);
         }
     }
-    
+
     /**
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#isValidStudentFacultyMatch(java.util.List)
+     * @see
+     * org.kuali.kra.protocol.personnel.ProtocolPersonnelService#isValidStudentFacultyMatch(java.util.List)
      */
+    @Override
     public boolean isValidStudentFacultyMatch(List<ProtocolPersonBase> protocolPersons) {
         boolean validInvestigator = true;
         HashMap<Integer, Integer> investigatorAffiliation = new HashMap<Integer, Integer>();
-        for(ProtocolPersonBase protocolPerson : protocolPersons) {
-            if(isAffiliationStudentInvestigatorOrFacultySupervisor(protocolPerson)) {
+        for (ProtocolPersonBase protocolPerson : protocolPersons) {
+            if (isAffiliationStudentInvestigatorOrFacultySupervisor(protocolPerson)) {
                 updateAffiliationCount(protocolPerson, investigatorAffiliation);
             }
         }
         Integer studentAffiliationCount = investigatorAffiliation.get(getStudentAffiliationType()) == null
-                                          ? 0 : investigatorAffiliation.get(getStudentAffiliationType());
+                ? 0 : investigatorAffiliation.get(getStudentAffiliationType());
         Integer facultySupervisorAffiliationCount = investigatorAffiliation.get(getFacultySupervisorAffiliationType()) == null
-                                                    ? 0 : investigatorAffiliation.get(getFacultySupervisorAffiliationType());
-        if(studentAffiliationCount > 0 && studentAffiliationCount.compareTo(facultySupervisorAffiliationCount) != 0) {
+                ? 0 : investigatorAffiliation.get(getFacultySupervisorAffiliationType());
+        if (studentAffiliationCount > 0 && studentAffiliationCount.compareTo(facultySupervisorAffiliationCount) != 0) {
             validInvestigator = false;
         }
         return validInvestigator;
     }
-    
+
     /**
-     * This method is to check whether affiliation code is student investigator or
-     * faculty supervisor
+     * This method is to check whether affiliation code is student investigator
+     * or faculty supervisor
+     *
      * @param protocolPerson
      * @return true / false
      */
     protected boolean isAffiliationStudentInvestigatorOrFacultySupervisor(ProtocolPersonBase protocolPerson) {
-        if(protocolPerson.getAffiliationTypeCode() != null &&
-             ((protocolPerson.getAffiliationTypeCode().compareTo(getStudentAffiliationType()) == 0 || 
-                 protocolPerson.getAffiliationTypeCode().compareTo(getFacultySupervisorAffiliationType()) == 0))) {
-                 return true;
+        if (protocolPerson.getAffiliationTypeCode() != null
+                && ((protocolPerson.getAffiliationTypeCode().compareTo(getStudentAffiliationType()) == 0
+                || protocolPerson.getAffiliationTypeCode().compareTo(getFacultySupervisorAffiliationType()) == 0))) {
+            return true;
         }
         return false;
     }
 
     /**
      * This method is to set the total count for each affiliation type
+     *
      * @param protocolPerson
      * @param investigatorAffiliation
      */
     protected void updateAffiliationCount(ProtocolPersonBase protocolPerson, HashMap<Integer, Integer> investigatorAffiliation) {
         Integer totalCountForAffiliation = 0;
         totalCountForAffiliation = investigatorAffiliation.get(protocolPerson.getAffiliationTypeCode());
-        if(totalCountForAffiliation == null) {
+        if (totalCountForAffiliation == null) {
             investigatorAffiliation.put(protocolPerson.getAffiliationTypeCode(), 1);
-        }else {
+        } else {
             investigatorAffiliation.remove(protocolPerson.getAffiliationTypeCode());
             investigatorAffiliation.put(protocolPerson.getAffiliationTypeCode(), totalCountForAffiliation++);
         }
     }
-    
-    public List<Integer>getAffiliationStudentMap(List<ProtocolPersonBase> protocolPersons) {
+
+    @Override
+    public List<Integer> getAffiliationStudentMap(List<ProtocolPersonBase> protocolPersons) {
         List<Integer> results = new ArrayList<Integer>();
-        for(int i=0; i<protocolPersons.size(); i++) {
+        for (int i = 0; i < protocolPersons.size(); i++) {
             ProtocolPersonBase protocolPerson = protocolPersons.get(i);
             if (isAffiliationStudentInvestigatorOrFacultySupervisor(protocolPerson)) {
                 results.add(new Integer(i));
@@ -595,10 +662,10 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
         }
         return results;
     }
-    
+
     /**
      * Gets the businessObjectService attribute.
-     * 
+     *
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -607,16 +674,16 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
     /**
      * Gets the SequenceAccessorService attribute.
-     * 
+     *
      * @return Returns the SequenceAccessorService.
      */
     public SequenceAccessorService getSequenceAccessorService() {
@@ -625,27 +692,25 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
 
     /**
      * Sets the SequenceAccessorService attribute value.
-     * 
+     *
      * @param sequenceAccessorService The SequenceAccessorService to set.
      */
     public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
         this.sequenceAccessorService = sequenceAccessorService;
     }
 
-    
-    
-     /**
+    /**
      * This method is to get principal investigator role
+     *
      * @return String - PI role
      */
     protected String getPrincipalInvestigatorRole() {
         return Constants.PRINCIPAL_INVESTIGATOR_ROLE;
     }
-    
-    
 
     /**
      * This method is to get co-investigator role
+     *
      * @return String - CO-Investigator role
      */
     protected String getCoInvestigatorRole() {
@@ -654,6 +719,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
 
     /**
      * This method is to get student investigator affiliation type
+     *
      * @return Integer
      */
     protected Integer getStudentAffiliationType() {
@@ -662,6 +728,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
 
     /**
      * This method is to get faculty supervisor affiliation type
+     *
      * @return
      */
     protected Integer getFacultySupervisorAffiliationType() {
@@ -670,7 +737,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
 
     /**
      * Gets the protocolPersonTrainingService attribute.
-     * 
+     *
      * @return Returns the protocolPersonTrainingService.
      */
     public ProtocolPersonTrainingService getProtocolPersonTrainingService() {
@@ -681,11 +748,9 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
         this.personEditableService = personEditableService;
     }
 
-
     public KcPersonService getKcPersonService() {
         return kcPersonService;
     }
-
 
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
@@ -695,11 +760,9 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
         return unitService;
     }
 
-
     public void setUnitService(UnitService unitService) {
         this.unitService = unitService;
     }
-
 
     protected void populateUnitFromPrimaryDepartmentCode(ProtocolBase protocol, ProtocolPersonBase protocolPerson) {
         if (protocolPerson.getPersonId() != null) {
@@ -707,7 +770,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
             String unitNumber = person.getOrganizationIdentifier();
             if (unitNumber != null) {
                 Unit unit = getUnitService().getUnit(unitNumber);
-                
+
                 if (unit != null) {
                     ProtocolUnitBase newProtocolPersonUnit = createNewProtocolUnitInstanceHook();
                     newProtocolPersonUnit.setUnit(unit);
@@ -717,14 +780,14 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
                     newProtocolPersonUnit.setProtocolPersonId(protocolPerson.getProtocolPersonId());
                     newProtocolPersonUnit.setPersonId(protocolPerson.getPersonId());
                     newProtocolPersonUnit.setLeadUnitFlag(true);
-        
+
                     protocolPerson.addProtocolUnit(newProtocolPersonUnit);
                     if (newProtocolPersonUnit.getLeadUnitFlag()) {
                         protocolPerson.setSelectedUnit(protocolPerson.getProtocolUnits().size() - 1);
                         setLeadUnit(protocolPerson);
                     }
                 }
-               
+
             }
         }
 

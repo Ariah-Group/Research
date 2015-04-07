@@ -21,6 +21,7 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.protocol.ProtocolNumberService;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
@@ -73,6 +74,11 @@ public class ProtocolCopyServiceImpl extends ProtocolCopyServiceImplBase<Protoco
         return "SEQ_PROTOCOL_ID";
     }
 
+    @Override
+    protected String getProtocolPersonSequenceNumberNameHook() {
+        return ProtocolPerson.SEQUENCE_NAME_IRB_PROTOCOL_PERSONID;
+    }
+    
     @Override
     protected ProtocolNumberService getProtocolNumberServiceHook() {
         return protocolNumberService;
