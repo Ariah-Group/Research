@@ -14,6 +14,13 @@ update BUDGET_DETAILS set BUDGET_CATEGORY_CODE = BUDGET_CATEGORY_CODE_TEMP;
 alter table person_training add constraint FK_PERTRAIN_CODE FOREIGN KEY (TRAINING_CODE) references TRAINING (TRAINING_CODE);
 
 
+-- Generate new sequence for IRB Protocol Person ID, using max of existing protocol person id's.
+Declare
+  nextnum NUMBER;
+ BEGIN
+  select (max(PROTOCOL_PERSON_ID)+1) into nextnum from PROTOCOL_PERSONS
+  execute immediate 'CREATE SEQUENCE "SEQ_IRB_PROTOCOL_PERSON_ID" MINVALUE 1 MAXVALUE 999999999999999999 INCREMENT BY 1 START WITH ' || nextnum || ' NOCACHE  ORDER  NOCYCLE';
+END;
 
 commit;
 exit
