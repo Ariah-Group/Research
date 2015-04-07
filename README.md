@@ -9,6 +9,13 @@ License :
 
 The initial base code for Ariah Research is based on Kuali Coeus version 5.2.1 which was released under the Education Community License v 2.0 : http://opensource.org/licenses/ecl2.php .
 
+Jira / Issues : https://jira.ariahgroup.org
+
+Wiki / Documentation : https://wiki.ariahgroup.org
+
+Ariah Questions : https://wiki.ariahgroup.org/questions
+
+
 All NEW code in this project is being licensed under the Apache License 2.0 :  http://www.apache.org/licenses/LICENSE-2.0.html 
 
 
