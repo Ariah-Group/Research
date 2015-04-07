@@ -181,7 +181,7 @@
     </class-descriptor>
         
     <class-descriptor class="org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevel" table="PROTOCOL_RISK_LEVELS">
-        <field-descriptor name="protocolRiskLevelId" column="PROTOCOL_RISK_LEVELS_ID" jdbc-type="INTEGER" primarykey="true"  sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
+        <field-descriptor name="protocolRiskLevelId" column="PROTOCOL_RISK_LEVELS_ID" jdbc-type="INTEGER" primarykey="true"  sequence-name="SEQ_IRB_PROTOCOL_RISKLEVEL_ID" autoincrement="true"/>
         <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />

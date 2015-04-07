@@ -55,5 +55,13 @@ Declare
 END;
 
 
+-- Generate new sequence for IRB Protocol Risk levels, using max of existing protocol risk levels
+Declare
+  nextnum NUMBER;
+ BEGIN
+  select (nvl(max(PROTOCOL_RISK_LEVELS_ID),0)+1) into nextnum from PROTOCOL_RISK_LEVELS;
+  execute immediate 'CREATE SEQUENCE "SEQ_IRB_PROTOCOL_RISKLEVEL_ID" MINVALUE 1 MAXVALUE 999999999999999999 INCREMENT BY 1 START WITH ' || nextnum || ' NOCACHE  ORDER  NOCYCLE';
+END;
+
 commit;
 exit
