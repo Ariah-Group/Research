@@ -18,11 +18,10 @@ package org.kuali.kra.irb.personnel;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;
 
 /**
- * This class represents Rolodex contact details
- * Class extends Rolodex
- * This business object is used to list contact details of external person
- * in protocol personnel tab.
- * Details not found when compared to Person object are listed here.
+ * This class represents Rolodex contact details Class extends Rolodex This
+ * business object is used to list contact details of external person in
+ * protocol personnel tab. Details not found when compared to Person object are
+ * listed here.
  */
 public class ProtocolPersonRolodex extends ProtocolPersonRolodexBase {
 

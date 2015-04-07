@@ -19,11 +19,11 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
 import org.kuali.kra.protocol.personnel.ProtocolAttachmentPersonnelRuleBase;
 
-
 public class ProtocolAttachmentPersonnelRule extends ProtocolAttachmentPersonnelRuleBase {
-    
+
     /**
      * This method is to get protocol attachment service
+     *
      * @return ProtocolAttachmentService
      */
     protected ProtocolAttachmentService getProtocolAttachmentService() {

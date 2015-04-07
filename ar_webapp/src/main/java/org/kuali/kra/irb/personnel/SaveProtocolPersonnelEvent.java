@@ -23,21 +23,21 @@ import org.kuali.kra.rule.BusinessRuleInterface;
  * Represents the event to save a ProtocolPersonnel.
  */
 public class SaveProtocolPersonnelEvent extends SaveProtocolPersonnelEventBase {
-    
+
     /**
      * Constructs an SaveProtocolPersonnelEvent.
+     *
      * @param errorPathPrefix The error path prefix
      * @param document The document to validate
      */
     public SaveProtocolPersonnelEvent(String errorPathPrefix, ProtocolDocument document) {
         super(errorPathPrefix, document);
     }
-    
 
     @Override
     @SuppressWarnings("unchecked")
     public BusinessRuleInterface getRule() {
         return new SaveProtocolPersonnelRule();
     }
-    
+
 }

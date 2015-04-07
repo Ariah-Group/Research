@@ -27,7 +27,9 @@ public class SaveProtocolPersonnelRule extends ProtocolPersonnelRuleBase impleme
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     *
+     * @see
+     * org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
      */
     public boolean processRules(SaveProtocolPersonnelEvent event) {
         return processSaveProtocolPersonnelEvent(event);
@@ -35,7 +37,7 @@ public class SaveProtocolPersonnelRule extends ProtocolPersonnelRuleBase impleme
 
     @Override
     public org.kuali.kra.protocol.personnel.ProtocolPersonnelService getProtocolPersonnelServiceHook() {
-        return (ProtocolPersonnelService)KraServiceLocator.getService(ProtocolPersonnelService.class);
+        return (ProtocolPersonnelService) KraServiceLocator.getService(ProtocolPersonnelService.class);
     }
-    
+
 }

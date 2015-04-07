@@ -149,6 +149,9 @@ public class PersonTraining extends KraPersistableBusinessObjectBase implements 
     }
 
     public Training getTraining() {
+        if(training == null) {
+            this.refreshReferenceObject("training");
+        }        
         return training;
     }
 

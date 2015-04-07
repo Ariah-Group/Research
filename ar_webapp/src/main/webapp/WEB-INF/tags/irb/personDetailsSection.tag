@@ -12,20 +12,33 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
+ 
+ 
+ Updates made after January 1, 2015 are :
+Copyright 2015 The Ariah Group, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 --%>
- <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
- <%@ attribute name="personIndex" description="Index of a ProposalPerson" required="true" %>
- <%@ attribute name="protocolPerson" description="Index of a Protocol person" required="true" %>
-
- <c:set var="protocolPersonAttributes" value="${DataDictionary.ProtocolPerson.attributes}" />
- <c:set var="personAttributes" value="${DataDictionary.KcPerson.attributes}" />
- <c:set var="protocolUnitsAttributes" value="${DataDictionary.ProtocolUnit.attributes}" />
- <c:set var="unitAttributes" value="${DataDictionary.Unit.attributes}" />
- <c:set var="protocolAttachmentPersonnelAttributes" value="${DataDictionary.ProtocolAttachmentPersonnel.attributes}" />
- <c:set var="attachmentFileAttributes" value="${DataDictionary.AttachmentFile.attributes}" />
- <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" />
-
+ <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"
+%><%@ attribute name="personIndex" description="Index of a ProposalPerson" required="true" 
+%><%@ attribute name="protocolPerson" description="Index of a Protocol person" required="true" 
+%><c:set var="protocolPersonAttributes" value="${DataDictionary.ProtocolPerson.attributes}" 
+/><c:set var="personAttributes" value="${DataDictionary.KcPerson.attributes}" 
+/><c:set var="protocolUnitsAttributes" value="${DataDictionary.ProtocolUnit.attributes}" 
+/><c:set var="unitAttributes" value="${DataDictionary.Unit.attributes}" 
+/><c:set var="protocolAttachmentPersonnelAttributes" value="${DataDictionary.ProtocolAttachmentPersonnel.attributes}" 
+/><c:set var="attachmentFileAttributes" value="${DataDictionary.AttachmentFile.attributes}"
+/><c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" />
 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 <c:set target="${paramMap}" property="sourceRoleId" value="${KualiForm.document.protocolList[0].protocolPersons[personIndex].protocolPersonRoleId}" />
 <c:choose>
@@ -40,7 +53,11 @@
 <c:set var="personTrainingRequired" value="${KualiForm.document.protocolList[0].protocolPersons[personIndex].protocolPersonRole.trainingDetailsRequired}" />
 <c:set var="commentsRequired" value="${KualiForm.document.protocolList[0].protocolPersons[personIndex].protocolPersonRole.commentsDetailsRequired}" />
 <c:set var="readOnly" value="${!KualiForm.personnelHelper.modifyPersonnel}" />
-
+<script type="text/javascript">
+    	jq(document).ready(function() {
+           jq("#viewTrainingLink").fancybox(); 
+        });
+</script>
 <table cellpadding=0 cellspacing=0 summary="">
 	<tr>
 		<td>
@@ -110,8 +127,21 @@
 	              							<kul:htmlControlAttribute property="${protocolPerson}.trained" attributeEntry="${protocolPersonAttributes.trained}" readOnly="true"/>
 	                   					</td>
 	                				</tr>              
+                    <tr>
+                        <th>&nbsp;</th>
+                        <td colspan="3">
+                            <a href="#training-div${personIndex}" id="viewTrainingLink" >
+                                <img src="${ConfigProperties.kra.externalizable.images.url}tinybutton-viewtrainingdetails.gif" alt="View Training Details" class="tinybutton addButton" />
+                            </a>
+                        </td>
+                    </tr>
     							</c:if> 
-                                
+                   <c:set var="displayTrainingTitle" value="Training Details for : ${KualiForm.document.protocolList[0].protocolPersons[personIndex].personName}" />
+		   <c:set var="trainingCollectionReference" value="${KualiForm.document.protocolList[0].protocolPersons[personIndex].personTrainings}" />
+   		  <kra-irb:protocolPersonTraining 
+                    personIndex="${personIndex}"
+                    displayTitle="${displayTrainingTitle}"
+                    trainingCollectionReference="${trainingCollectionReference}"/>
                                 <c:if test="${commentsRequired}">
                                     <tr>
                                     <th>

@@ -27,13 +27,13 @@ import java.util.List;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 /**
- * This class is to get valid values for protocol person role
- * based on an assigned role. A source role can be change only to 
- * specific target roles in the list. This list is obtained from 
- * person role mapping. Include source role first and then start adding
- * target roles to the list.
+ * This class is to get valid values for protocol person role based on an
+ * assigned role. A source role can be change only to specific target roles in
+ * the list. This list is obtained from person role mapping. Include source role
+ * first and then start adding target roles to the list.
  */
 public class ProtocolPersonRoleValuesFinder extends UifKeyValuesFinderBase {
+
     private String sourceRoleId;
     private String sourceRoleReferenceObject = "sourceRole";
     private String targetRoleReferenceObject = "targetRole";
@@ -41,40 +41,44 @@ public class ProtocolPersonRoleValuesFinder extends UifKeyValuesFinderBase {
     @Override
     public List<KeyValue> getKeyValues() {
         final List<ProtocolPersonRoleMappingBase> validPersonRoles = getProtocolPersonnelService().getPersonRoleMapping(getSourceRoleId());
-        
+
         List<ConcreteKeyValue> keyValues = new ArrayList<ConcreteKeyValue>();
         keyValues.add(new ConcreteKeyValue(getSourceRoleId(), getSourceRoleDescription()));
-        for(ProtocolPersonRoleMappingBase protocolPersonRole : validPersonRoles) {
+        for (ProtocolPersonRoleMappingBase protocolPersonRole : validPersonRoles) {
             keyValues.add(new ConcreteKeyValue(protocolPersonRole.getTargetRoleId(), getTargetRoleDescription(protocolPersonRole)));
         }
         Collections.sort(keyValues);
-        
+
         List<KeyValue> returnKeyValues = new ArrayList<KeyValue>();
         returnKeyValues.addAll(keyValues);
         return returnKeyValues;
     }
 
     /**
-     * This method is used to lookup the source role object and return description
+     * This method is used to lookup the source role object and return
+     * description
+     *
      * @return String - source role name
      */
     private String getSourceRoleDescription() {
         return getProtocolPersonnelService().getProtocolPersonRole(getSourceRoleId()).getDescription();
     }
-    
+
     /**
      * This method is used to refresh target role object and return description
+     *
      * @param protocolPersonRole
      * @return String - target role name
      */
     private String getTargetRoleDescription(ProtocolPersonRoleMappingBase protocolPersonRole) {
         protocolPersonRole.refreshReferenceObject(targetRoleReferenceObject);
-        return protocolPersonRole.getTargetRole().getDescription(); 
+        return protocolPersonRole.getTargetRole().getDescription();
     }
 
     /**
-     * Locate from Spring a singleton instance of the <code>{@link ProtocolPersonnelService}</code>.
-     * 
+     * Locate from Spring a singleton instance of the
+     * <code>{@link ProtocolPersonnelService}</code>.
+     *
      * @return ProtocolPersonnelService
      */
     private ProtocolPersonnelService getProtocolPersonnelService() {

@@ -27,5 +27,5 @@ public class ProtocolAffiliationType extends ProtocolAffiliationTypeBase {
     public ProtocolAffiliationType() {
         super();
     }
-    
+
 }

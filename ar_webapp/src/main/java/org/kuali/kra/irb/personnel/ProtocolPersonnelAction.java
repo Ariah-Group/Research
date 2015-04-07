@@ -88,6 +88,10 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         // check any business rules
         boolean rulePassed = applyRules(new AddProtocolPersonnelEvent(Constants.EMPTY_STRING, (ProtocolDocument) protocolForm.getProtocolDocument(), newProtocolPerson));
         if (rulePassed) {
+            // this sync below LOADS the training from database so ensure it is displayed in 
+            // the user interface when the user clicks the the View Training Details button
+            newProtocolPerson.syncTrainings();
+            
             getProtocolPersonnelService().addProtocolPerson(protocol, newProtocolPerson);
             //If we are adding a new principal investigator, make sure we update the person id
             if (StringUtils.equals(newProtocolPerson.getProtocolPersonRoleId(), ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)) {

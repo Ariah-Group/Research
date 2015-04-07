@@ -21,9 +21,8 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.personnel.*;
 import org.kuali.kra.service.KraAuthorizationService;
 
-
 public class ProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceImplBase implements ProtocolPersonnelService {
-    
+
     @Override
     protected ProtocolUnitBase createNewProtocolUnitInstanceHook() {
         return new ProtocolUnit();
@@ -46,13 +45,15 @@ public class ProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceImplBa
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.irb.personnel.ProtocolPersonnelService#setPrincipalInvestigator(org.kuali.kra.irb.personnel.ProtocolPerson, 
-     *                                                                                    org.kuali.kra.irb.Protocol)
+     *
+     * @see
+     * org.kuali.kra.irb.personnel.ProtocolPersonnelService#setPrincipalInvestigator(org.kuali.kra.irb.personnel.ProtocolPerson,
+     * org.kuali.kra.irb.Protocol)
      */
     public void setPrincipalInvestigator(ProtocolPersonBase newPrincipalInvestigator, ProtocolBase protocol) {
         if (protocol != null) {
             ProtocolPerson currentPrincipalInvestigator = (ProtocolPerson) getPrincipalInvestigator(protocol.getProtocolPersons());
-            
+
             if (newPrincipalInvestigator != null) {
                 newPrincipalInvestigator.setProtocolPersonRoleId(getPrincipalInvestigatorRole());
                 if (currentPrincipalInvestigator == null) {
@@ -61,7 +62,7 @@ public class ProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceImplBa
                     protocol.getProtocolPersons().remove(currentPrincipalInvestigator);
                     protocol.getProtocolPersons().add(newPrincipalInvestigator);
                 }
-                
+
                 // Assign the PI the APPROVER role if PI has a personId (for doc cancel).
                 if (newPrincipalInvestigator.getPersonId() != null) {
                     personEditableService.populateContactFieldsFromPersonId(newPrincipalInvestigator);

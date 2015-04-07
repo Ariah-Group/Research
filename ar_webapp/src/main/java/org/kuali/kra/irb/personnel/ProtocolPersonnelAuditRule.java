@@ -19,14 +19,14 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonnelAuditRuleBase;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
-
 /**
  * Rules that invoke audit mode for KeyPersonnel
  */
 public class ProtocolPersonnelAuditRule extends ProtocolPersonnelAuditRuleBase {
-    
+
     /**
      * This method is to get personnel sevice
+     *
      * @return ProtocolPersonnelService
      */
     protected ProtocolPersonnelService getProtocolPersonnelService() {

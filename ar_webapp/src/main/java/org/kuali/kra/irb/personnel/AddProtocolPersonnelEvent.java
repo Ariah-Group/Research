@@ -23,10 +23,10 @@ import org.kuali.kra.rule.BusinessRuleInterface;
  * Represents the event to add a ProtocolPersonnel.
  */
 public class AddProtocolPersonnelEvent extends AddProtocolPersonnelEventBase {
-    
+
     /**
      * Constructs a AddProtocolPersonnelEvent.
-     * 
+     *
      * @param errorPathPrefix The error path prefix
      * @param document The document to validate
      * @param protocolPerson the person to add

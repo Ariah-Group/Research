@@ -19,12 +19,14 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.personnel.ProtocolUnitRuleBase;
 
 /**
- * This class contains rules to validate protocol units for each protocol personnel.
+ * This class contains rules to validate protocol units for each protocol
+ * personnel.
  */
 public class ProtocolUnitRule extends ProtocolUnitRuleBase {
 
     /**
      * This method is to get protocol personnel service
+     *
      * @return ProtocolPersonnelService
      */
     protected ProtocolPersonnelService getProtocolPersonnelService() {

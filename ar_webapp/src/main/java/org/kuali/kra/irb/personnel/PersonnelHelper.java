@@ -29,7 +29,7 @@ import org.kuali.kra.protocol.personnel.PersonnelHelperBase;
 import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
 
 public class PersonnelHelper extends PersonnelHelperBase {
-    
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -38,13 +38,13 @@ public class PersonnelHelper extends PersonnelHelperBase {
     public PersonnelHelper(ProtocolForm form) {
         super(form);
         setNewProtocolPerson(new ProtocolPerson());
-    }    
-    
+    }
+
     protected void initializeModifyProtocolPermission(ProtocolBase protocol) {
         ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_PERSONNEL, (Protocol) protocol);
-        modifyPersonnel = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);     
+        modifyPersonnel = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
-    
+
     protected void initializeTrainingSection() {
         setPersonTrainingSectionRequired(Boolean.parseBoolean(getParameterValue(Constants.PARAMETER_PROTOCOL_PERSON_TRAINING_SECTION)));
     }
