@@ -103,9 +103,10 @@
                    <td>                   
                       <kul:htmlControlAttribute property="${proposalPerson}.middleName" attributeEntry="${proposalPersonAttributes.middleName}" 
                                                 readOnly="${personEditableFields['middleName'] }"/>
-                   
                   </td>
-                  <tr>
+                  <th>&nbsp;</th>
+                  <td>&nbsp;</td>
+                  </tr>
                   <tr>
                     <th colspan="4">Organization</th>
                   </tr>
