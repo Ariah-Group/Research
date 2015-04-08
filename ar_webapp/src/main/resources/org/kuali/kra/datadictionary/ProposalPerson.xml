@@ -151,10 +151,10 @@
 
   <bean id="ProposalPerson-rolodexId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericSystemId">
     <property name="name" value="rolodexId" />
-    <property name="label" value="Rolodex Id" />
-    <property name="shortLabel" value="Rolodex Id" />
-    <property name="summary" value="Rolodex Id" />
-    <property name="description" value="Rolodex Id" />
+    <property name="label" value="Address Book Id" />
+    <property name="shortLabel" value="Address Book Id" />
+    <property name="summary" value="Address Book Id" />
+    <property name="description" value="Address Book Id" />
   </bean>
   <bean id="ProposalPerson-socialSecurityNumber" parent="ProposalPerson-socialSecurityNumber-parentBean" />
 

@@ -6206,7 +6206,7 @@ or  substring(  AwardDetails/ApprvdSubcontractIndicator , 2 ) = &quot;1&quot;">
 																													</xsl:when>
 																												</xsl:choose>
 																												<fo:inline>
-																													<xsl:text> to Rolodex Id </xsl:text>
+																													<xsl:text> to Address Book Id </xsl:text>
 																												</fo:inline>
 																												<xsl:for-each select="RolodexId">
 																													<xsl:variable name="value-of-template">
@@ -6639,7 +6639,7 @@ or ( ../PrintRequirement/CloseoutRequired = 1 and  count(  CloseOutDeadlines  ) 
 																																		</xsl:choose>
 																																	</xsl:for-each>
 																																	<fo:inline>
-																																		<xsl:text> (For complete address, see following address page Rolodex ID </xsl:text>
+																																		<xsl:text> (For complete address, see following address page Address Book ID </xsl:text>
 																																	</fo:inline>
 																																	<xsl:for-each select="RolodexId">
 																																		<xsl:variable name="value-of-template">
@@ -8012,7 +8012,7 @@ or ( ../PrintRequirement/CloseoutRequired = 1 and  count(  CloseOutDeadlines  ) 
 																	<fo:block>
 																		<fo:inline font-weight="bold"
 																			text-decoration="underline">
-																			<xsl:text>Rolodex Id:</xsl:text>
+																			<xsl:text>Address Book Id:</xsl:text>
 																		</fo:inline>
 																	</fo:block>
 																</fo:table-cell>

@@ -83,8 +83,8 @@
 	<bean id="AwardTemplateContact-rolodexId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="rolodexId" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Rolodex Id" />
-		<property name="shortLabel" value="Rolodex Id" />
+		<property name="label" value="Address Book Id" />
+		<property name="shortLabel" value="Address Book Id" />
 		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
@@ -93,8 +93,8 @@
 			<bean parent="TextControlDefinition"
 				p:size="10" />
 		</property>
-		<property name="summary" value="Rolodex Id" />
-		<property name="description" value="Rolodex Id" />
+		<property name="summary" value="Address Book Id" />
+		<property name="description" value="Address Book Id" />
 	</bean>
 
 	<bean id="AwardTemplateContact-versionNumber" parent="AwardTemplateContact-versionNumber-parentBean" />

@@ -516,7 +516,7 @@
 																		<fo:table-cell font-family="Arial" padding="2pt" display-align="center">
 																			<fo:block>
 																				<fo:inline font-weight="bold" text-decoration="underline">
-																					<xsl:text>Rolodex ID: </xsl:text>
+																					<xsl:text>Address Book ID: </xsl:text>
 																				</fo:inline>
 																				<fo:inline font-weight="bold">
 																					<xsl:text>&#160;&#160;&#160;&#160;&#160; </xsl:text>
@@ -1512,7 +1512,7 @@
 																																				</xsl:when>
 																																			</xsl:choose>
 																																			<fo:inline>
-																																				<xsl:text> to Rolodex Id </xsl:text>
+																																				<xsl:text> to Address Book Id </xsl:text>
 																																			</fo:inline>
 																																			<xsl:for-each select="RolodexId">
 																																				<xsl:variable name="value-of-template">

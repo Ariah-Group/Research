@@ -339,8 +339,8 @@
     <bean id="IacucProtocolOnlineReview-lookupReviewerRolodexId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="lookupReviewerRolodexId" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Reviewer Rolodex Id" />
-        <property name="shortLabel" value="Reviewer Rolodex Id" />
+        <property name="label" value="Reviewer Address Book Id" />
+        <property name="shortLabel" value="Reviewer Address Book Id" />
         <property name="maxLength" value="60" />
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern"
@@ -350,14 +350,14 @@
             <bean parent="TextControlDefinition"
                 p:size="20" />
         </property>
-        <property name="summary" value="Reviewer Rolodex Id" />
-        <property name="description" value="Reviewer Rolodex Id" />
+        <property name="summary" value="Reviewer Address Book Id" />
+        <property name="description" value="Reviewer Address Book Id" />
     </bean>
     <bean id="IacucProtocolOnlineReview-lookupReviwerRolodex.lastName" parent="IacucProtocolOnlineReview-lookupReviwerRolodex.lastName-parentBean"/>
     <bean abstract="true" id="IacucProtocolOnlineReview-lookupReviwerRolodex.lastName-parentBean" parent="Rolodex-lastName">
         <property name="name" value="lookupReviewerRolodex.lastName"/>
-        <property name="label" value="Rolodex Last Name"/>
-        <property name="shortLabel" value="Rolodex Last Name"/>
+        <property name="label" value="Address Book Last Name"/>
+        <property name="shortLabel" value="Address Book Last Name"/>
     </bean>
 -->    
     

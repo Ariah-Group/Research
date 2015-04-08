@@ -159,8 +159,8 @@
 			<bean parent="TextControlDefinition"
 				p:size="10" />
 		</property>
-		<property name="summary" value="Contact - Rolodex Id" />
-		<property name="description" value="Contact - Rolodex Id" />
+		<property name="summary" value="Contact - Address Book Id" />
+		<property name="description" value="Contact - Address Book Id" />
 	</bean>
 
 	<bean id="IacucProtocolLocation-versionNumber" parent="IacucProtocolLocation-versionNumber-parentBean" />

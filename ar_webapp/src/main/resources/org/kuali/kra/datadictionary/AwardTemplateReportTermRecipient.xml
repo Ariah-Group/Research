@@ -124,16 +124,16 @@
 	            p:keyAttribute="contactTypeCodeAndRolodexId"
 	            p:labelAttribute="contactTypeCodeAndRolodexId" />
 	    </property>
-		<property name="summary" value="Contact Type And Rolodex" />
-		<property name="description" value="Contact Type And Rolodex" />
+		<property name="summary" value="Contact Type And Address Book" />
+		<property name="description" value="Contact Type And Address Book" />
 	</bean>
 
 	<bean id="AwardTemplateReportTermRecipient-rolodexId" parent="AwardTemplateReportTermRecipient-rolodexId-parentBean" />
 	<bean id="AwardTemplateReportTermRecipient-rolodexId-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="rolodexId" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Rolodex Id" />
-		<property name="shortLabel" value="Rolodex Id" />
+		<property name="label" value="Address Book Id" />
+		<property name="shortLabel" value="Address Book Id" />
 		<property name="maxLength" value="22" />
 		<property name="validationPattern" >
 			<bean parent="NumericValidationPattern" />
@@ -142,23 +142,23 @@
 			<bean parent="TextControlDefinition"
 				p:size="10" />
 		</property>
-		<property name="summary" value="Rolodex Id" />
-		<property name="description" value="Rolodex Id" />
+		<property name="summary" value="Address Book Id" />
+		<property name="description" value="Address Book Id" />
 	</bean>
 	
 	<bean id="AwardTemplateReportTermRecipient-rolodexNameOrganization" parent="AwardTemplateReportTermRecipient-rolodexNameOrganization-parentBean" />
 	<bean id="AwardTemplateReportTermRecipient-rolodexNameOrganization-parentBean" abstract="true" parent="AttributeDefinition" >
 		<property name="name" value="rolodexNameOrganization" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Rolodex Name/Organization" />
-		<property name="shortLabel" value="Rolodex Name/Organization" />
+		<property name="label" value="Address Book Name/Organization" />
+		<property name="shortLabel" value="Address Book Name/Organization" />
 		<property name="maxLength" value="100" />
 		<property name="control" >
 			<bean parent="TextControlDefinition"
 				p:size="100" />
 		</property>
-		<property name="summary" value="Rolodex Name/Organization" />
-		<property name="description" value="Rolodex Name/Organization" />
+		<property name="summary" value="Address Book Name/Organization" />
+		<property name="description" value="Address Book Name/Organization" />
 	</bean>
 
 	<bean id="AwardTemplateReportTermRecipient-numberOfCopies" parent="AwardTemplateReportTermRecipient-numberOfCopies-parentBean" />

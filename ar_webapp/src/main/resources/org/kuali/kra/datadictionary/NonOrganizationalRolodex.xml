@@ -8,7 +8,7 @@
 
   <bean id="NonOrganizationalRolodex-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.NonOrganizationalRolodex" />
-		<property name="objectLabel" value="Non Organizational Rolodex" />
+		<property name="objectLabel" value="Non Organizational Address Book" />
     <property name="inquiryDefinition" >
       <ref bean="NonOrganizationalRolodex-inquiryDefinition" />
     </property>
@@ -123,8 +123,8 @@
       <bean parent="TextControlDefinition"
             p:size="6" />
     </property>
-    <property name="summary" value="Rolodex Id" />
-    <property name="description" value="Rolodex Id" />
+    <property name="summary" value="Address Book Id" />
+    <property name="description" value="Address Book Id" />
   </bean>
   <bean id="NonOrganizationalRolodex-addressLine1" parent="NonOrganizationalRolodex-addressLine1-parentBean" />
 

@@ -7338,7 +7338,7 @@
 																																</xsl:choose>
 																															</xsl:for-each>
 																															<fo:inline>
-																																<xsl:text>&#160; (For complete address, see following address page Rolodex ID&#160; </xsl:text>
+																																<xsl:text>&#160; (For complete address, see following address page Address Book ID&#160; </xsl:text>
 																															</fo:inline>
 																															<xsl:for-each select="RolodexId">
 																																<xsl:variable name="value-of-template">
@@ -8070,7 +8070,7 @@
 																																										</xsl:choose>
 																																									</xsl:for-each>
 																																									<fo:inline>
-																																										<xsl:text> (For complete address, see following address page Rolodex ID </xsl:text>
+																																										<xsl:text> (For complete address, see following address page Address Book ID </xsl:text>
 																																									</fo:inline>
 																																									<xsl:for-each
 																																										select="RolodexId">
@@ -8796,7 +8796,7 @@
 																																</xsl:choose>
 																															</xsl:for-each>
 																															<fo:inline>
-																																<xsl:text>&#160; (For complete address, see following address page Rolodex ID&#160; </xsl:text>
+																																<xsl:text>&#160; (For complete address, see following address page Address Book ID&#160; </xsl:text>
 																															</fo:inline>
 																															<xsl:for-each select="RolodexId">
 																																<xsl:variable name="value-of-template">
@@ -9680,7 +9680,7 @@
 																		<fo:block>
 																			<fo:inline font-weight="bold"
 																				text-decoration="underline">
-																				<xsl:text>Rolodex Id:</xsl:text>
+																				<xsl:text>Address Book Id:</xsl:text>
 																			</fo:inline>
 																		</fo:block>
 																	</fo:table-cell>
