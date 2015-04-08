@@ -228,7 +228,7 @@
                     <property name="taskName" value="viewSubaward" />
                 </bean>
                 
-                 <bean class="org.kuali.kra.subaward.document.authorizer.ModifySubAwardAutherizer" parent="parentSubAwardAuthorizer">
+                 <bean class="org.kuali.kra.subaward.document.authorizer.ModifySubAwardAuthorizer" parent="parentSubAwardAuthorizer">
                     <property name="taskName" value="modifySubaward" />
                 </bean>
                 
