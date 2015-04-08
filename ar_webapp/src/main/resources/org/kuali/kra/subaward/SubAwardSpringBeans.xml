@@ -232,7 +232,7 @@
                     <property name="taskName" value="modifySubaward" />
                 </bean>
                 
-                <bean class="org.kuali.kra.subaward.document.authorizer.addInvoiceSubAwardAuthorizer" parent="parentSubAwardAuthorizer">
+                <bean class="org.kuali.kra.subaward.document.authorizer.AddInvoiceSubAwardAuthorizer" parent="parentSubAwardAuthorizer">
                     <property name="taskName" value="addInvoiceSubAward" />
                 </bean>          
             </list>
