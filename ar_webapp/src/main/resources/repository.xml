@@ -1352,6 +1352,7 @@
         <field-descriptor name="fundingSourceTypeFlag" column="FUNDING_SOURCE_TYPE_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="disablCoeusModuleId" column="DISABLED_COEUS_MODULE_ID" jdbc-type="INTEGER" />
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.bo.AccountType" table="ACCOUNT_TYPE">

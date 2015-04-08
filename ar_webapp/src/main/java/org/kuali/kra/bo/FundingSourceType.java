@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-
 public class FundingSourceType extends KraPersistableBusinessObjectBase {
 
     public static final String SPONSOR = "1";
@@ -35,6 +34,8 @@ public class FundingSourceType extends KraPersistableBusinessObjectBase {
     private String description;
 
     private boolean fundingSourceTypeFlag;
+
+    private int disablCoeusModuleId;
 
     public FundingSourceType() {
     }
@@ -103,5 +104,19 @@ public class FundingSourceType extends KraPersistableBusinessObjectBase {
             return false;
         }
         return true;
+    }
+
+    /**
+     * @return the disablCoeusModuleId
+     */
+    public int getDisablCoeusModuleId() {
+        return disablCoeusModuleId;
+    }
+
+    /**
+     * @param disablCoeusModuleId the disablCoeusModuleId to set
+     */
+    public void setDisablCoeusModuleId(int disablCoeusModuleId) {
+        this.disablCoeusModuleId = disablCoeusModuleId;
     }
 }
