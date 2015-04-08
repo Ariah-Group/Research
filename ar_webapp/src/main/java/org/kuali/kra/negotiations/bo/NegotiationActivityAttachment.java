@@ -18,6 +18,9 @@ package org.kuali.kra.negotiations.bo;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * Negotiation Activity Attachment BO.
@@ -46,7 +49,11 @@ public class NegotiationActivityAttachment extends KraPersistableBusinessObjectB
     private transient FormFile newFile;
 
     public NegotiationActivityAttachment() {
-        restricted = Boolean.TRUE;
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+
+        restricted = paramServ.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_NEGOTIATION,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ARIAH_NEGO_ACTIVITY_DEFAULT_RESTRICTED_ENABLED, true);
+
     }
 
     public Long getAttachmentId() {

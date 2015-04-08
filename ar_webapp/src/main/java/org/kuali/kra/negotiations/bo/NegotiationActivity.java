@@ -24,6 +24,9 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * Negotiation Activity BO.
@@ -74,7 +77,12 @@ public class NegotiationActivity extends KraPersistableBusinessObjectBase {
     private transient boolean updated;
 
     public NegotiationActivity() {
-        restricted = Boolean.TRUE;
+        
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+
+        restricted = paramServ.getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_NEGOTIATION,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ARIAH_NEGO_ACTIVITY_DEFAULT_RESTRICTED_ENABLED, true);
+        
         attachments = new ArrayList<NegotiationActivityAttachment>();
         newAttachment = new NegotiationActivityAttachment();
     }

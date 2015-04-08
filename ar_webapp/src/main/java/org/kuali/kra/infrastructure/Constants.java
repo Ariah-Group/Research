@@ -976,7 +976,8 @@ public interface Constants {
     
     //Parameter Constants for Negotiations
     public static final String ARIAH_NEGO_HIDE_AND_DEFAULT_NEGO_DOC_DESC = "ARIAH_NEGO_HIDE_AND_DEFAULT_NEGO_DOC_DESC";
-    public static final String ARIAH_NEGO_ACTIVITY_FOLLOWUP_DATE_ALLOW_ALL = "ARIAH_NEGO_ACTIVITY_FOLLOWUP_DATE_ALLOW_ALL";    
+    public static final String ARIAH_NEGO_ACTIVITY_FOLLOWUP_DATE_ALLOW_ALL = "ARIAH_NEGO_ACTIVITY_FOLLOWUP_DATE_ALLOW_ALL";
+    public static final String ARIAH_NEGO_ACTIVITY_DEFAULT_RESTRICTED_ENABLED = "ARIAH_NEGO_ACTIVITY_DEFAULT_RESTRICTED_ENABLED";
     
     // Parameter constants for Institutional Proposals
     public static final String ARIAH_INSTPROP_SHOW_INTELLPROPREVIEW_TAB = "ARIAH_INSTPROP_SHOW_INTELLPROPREVIEW_TAB";
