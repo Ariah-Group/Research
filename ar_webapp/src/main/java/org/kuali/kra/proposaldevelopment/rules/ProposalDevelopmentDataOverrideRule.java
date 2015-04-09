@@ -67,6 +67,12 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
         String overriddenName = dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, columnToAttributesMap.get(proposalOverriddenData.getColumnName()));
         Boolean isRequiredField = dataDictionaryService.isAttributeRequired(DevelopmentProposal.class, columnToAttributesMap.get(proposalOverriddenData.getColumnName()));
         
+        // this NULL check is REQUIRED as the dataDictionaryService could return NULL for the Boolean object
+        // if the required attribute is not specified for the field in the datadictionary XML for the specific object.
+        if(isRequiredField == null) {
+            isRequiredField = false;
+        }
+        
         if (StringUtils.isEmpty(proposalOverriddenData.getColumnName())) {
             valid = false;
             GlobalVariables.getMessageMap().putError("newProposalChangedData.columnName", KeyConstants.ERROR_NO_FIELD_TO_EDIT);
@@ -85,6 +91,7 @@ public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBas
         if(proposalOverriddenData != null && StringUtils.isNotEmpty(proposalOverriddenData.getComments())) {
             int commentsMaxLength = dataDictionaryService.getAttributeMaxLength(ProposalChangedData.class, "comments");
             String commentsLabel = dataDictionaryService.getAttributeLabel(ProposalChangedData.class, "comments");
+            
             if (commentsMaxLength < proposalOverriddenData.getComments().length()) {
                 GlobalVariables.getMessageMap().putError(Constants.PROPOSALDATA_COMMENTS_KEY, RiceKeyConstants.ERROR_MAX_LENGTH,
                         new String[] { commentsLabel, commentsMaxLength+""});
