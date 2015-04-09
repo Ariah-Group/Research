@@ -86,6 +86,16 @@ public class ProposalOverview extends KraPersistableBusinessObjectBase {
     private String budgetStatus;
 
     private String creationStatusCode;
+    
+    private String executiveSummary;
+    
+    private String deadlineTime;
+    
+    private String proposalCoordinatorPrincipalName;
+    
+    private String linkToOpportunity;
+
+    private boolean locked;    
 
     public String getProposalNumber() {
         return proposalNumber;
@@ -349,5 +359,75 @@ public class ProposalOverview extends KraPersistableBusinessObjectBase {
 
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
+    }
+
+    /**
+     * @return the executiveSummary
+     */
+    public String getExecutiveSummary() {
+        return executiveSummary;
+    }
+
+    /**
+     * @param executiveSummary the executiveSummary to set
+     */
+    public void setExecutiveSummary(String executiveSummary) {
+        this.executiveSummary = executiveSummary;
+    }
+
+    /**
+     * @return the deadlineTime
+     */
+    public String getDeadlineTime() {
+        return deadlineTime;
+    }
+
+    /**
+     * @param deadlineTime the deadlineTime to set
+     */
+    public void setDeadlineTime(String deadlineTime) {
+        this.deadlineTime = deadlineTime;
+    }
+
+    /**
+     * @return the proposalCoordinatorPrincipalName
+     */
+    public String getProposalCoordinatorPrincipalName() {
+        return proposalCoordinatorPrincipalName;
+    }
+
+    /**
+     * @param proposalCoordinatorPrincipalName the proposalCoordinatorPrincipalName to set
+     */
+    public void setProposalCoordinatorPrincipalName(String proposalCoordinatorPrincipalName) {
+        this.proposalCoordinatorPrincipalName = proposalCoordinatorPrincipalName;
+    }
+
+    /**
+     * @return the linkToOpportunity
+     */
+    public String getLinkToOpportunity() {
+        return linkToOpportunity;
+    }
+
+    /**
+     * @param linkToOpportunity the linkToOpportunity to set
+     */
+    public void setLinkToOpportunity(String linkToOpportunity) {
+        this.linkToOpportunity = linkToOpportunity;
+    }
+
+    /**
+     * @return the locked
+     */
+    public boolean isLocked() {
+        return locked;
+    }
+
+    /**
+     * @param locked the locked to set
+     */
+    public void setLocked(boolean locked) {
+        this.locked = locked;
     }
 }
