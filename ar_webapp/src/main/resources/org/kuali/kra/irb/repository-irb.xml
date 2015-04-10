@@ -497,7 +497,7 @@
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.irb.specialreview.ProtocolSpecialReview" table="PROTOCOL_SPECIAL_REVIEW">
-        <field-descriptor name="protocolSpecialReviewId" column="PROTOCOL_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROTOCOL_ID"/>
+        <field-descriptor name="protocolSpecialReviewId" column="PROTOCOL_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IRB_PROTOCOL_SPECREV_ID"/>
         <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" access="anonymous"/>
         <field-descriptor name="specialReviewNumber" column="SPECIAL_REVIEW_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="specialReviewTypeCode" column="SPECIAL_REVIEW_CODE" jdbc-type="VARCHAR" />
