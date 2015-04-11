@@ -311,7 +311,6 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
     </class-descriptor>
     
-        
     <class-descriptor class="org.kuali.kra.irb.protocol.funding.ProtocolFundingSource" table="PROTOCOL_FUNDING_SOURCE">
         <field-descriptor name="protocolFundingSourceId" column="PROTOCOL_FUNDING_SOURCE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_IRB_PROTOCOL_FUNDSRC_ID" autoincrement="true"/>
         <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
@@ -332,7 +331,6 @@
         </reference-descriptor>
          
     </class-descriptor>
-    
 
     <class-descriptor class="org.kuali.kra.irb.personnel.ProtocolPersonRole" table="PROTOCOL_PERSON_ROLES">
         <field-descriptor name="protocolPersonRoleId" column="PROTOCOL_PERSON_ROLE_ID" jdbc-type="VARCHAR" primarykey="true" />
@@ -481,7 +479,7 @@
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.irb.personnel.ProtocolPersonRoleMapping" table="PROTOCOL_PERSON_ROLE_MAPPING">
-        <field-descriptor name="roleMappingId" column="ROLE_MAPPING_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
+        <field-descriptor name="roleMappingId" column="ROLE_MAPPING_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_IRB_PROTOCOL_PERROLEMAP_ID" autoincrement="true"/>
         <field-descriptor name="sourceRoleId" column="SOURCE_ROLE_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="targetRoleId" column="TARGET_ROLE_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
