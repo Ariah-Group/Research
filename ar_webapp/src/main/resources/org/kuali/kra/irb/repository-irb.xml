@@ -524,7 +524,7 @@
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.irb.specialreview.ProtocolSpecialReviewExemption" table="PROTOCOL_EXEMPT_NUMBER">
-        <field-descriptor name="protocolSpecialReviewExemptionId" column="PROTOCOL_EXEMPT_NUMBER_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROTOCOL_ID"/>
+        <field-descriptor name="protocolSpecialReviewExemptionId" column="PROTOCOL_EXEMPT_NUMBER_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IRB_PROTOCOL_EXEMPT_NUM_ID"/>
         <field-descriptor name="protocolSpecialReviewId" column="PROTOCOL_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" access="anonymous"/>
         <field-descriptor name="exemptionTypeCode" column="EXEMPTION_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />

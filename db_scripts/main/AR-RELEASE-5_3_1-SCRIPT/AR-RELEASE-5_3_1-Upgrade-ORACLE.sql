@@ -104,6 +104,17 @@ Declare
   execute immediate 'CREATE SEQUENCE "SEQ_IRB_PROTOCOL_PERROLEMAP_ID" MINVALUE 1 MAXVALUE 999999999999999999 INCREMENT BY 1 START WITH ' || nextnum || ' NOCACHE  ORDER  NOCYCLE';
 END;
 
+-- Generate new sequence for IRB Protocol Exempt Number, using max of existing protocol Exempt Number
+Declare
+  nextnum NUMBER;
+ BEGIN
+  select (nvl(max(PROTOCOL_EXEMPT_NUMBER_ID),0)+1) into nextnum from PROTOCOL_EXEMPT_NUMBER;
+  execute immediate 'CREATE SEQUENCE "SEQ_IRB_PROTOCOL_EXEMPT_NUM_ID" MINVALUE 1 MAXVALUE 999999999999999999 INCREMENT BY 1 START WITH ' || nextnum || ' NOCACHE  ORDER  NOCYCLE';
+END;
+
+
+
+
 -- module-dsiable feature for funding source type
 alter table FUNDING_SOURCE_TYPE add DISABLED_COEUS_MODULE_ID NUMBER;
 update FUNDING_SOURCE_TYPE set DISABLED_COEUS_MODULE_ID=0;
