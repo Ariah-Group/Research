@@ -720,7 +720,7 @@
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.irb.actions.ProtocolAction" table="PROTOCOL_ACTIONS">
-        <field-descriptor name="protocolActionId" column="PROTOCOL_ACTION_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROTOCOL_ID" />
+        <field-descriptor name="protocolActionId" column="PROTOCOL_ACTION_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IRB_PROTOCOL_ACTIONS_ID" />
         <field-descriptor name="actionId" column="ACTION_ID" jdbc-type="INTEGER" />
         <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
         <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
