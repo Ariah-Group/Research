@@ -27,6 +27,6 @@ public class ModifyProtocolSubmissionUnavailableAuthorizer extends ProtocolAutho
     @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
         return hasPermission(userId, task.getProtocol(), PermissionConstants.MODIFY_PROTOCOL_SUBMISSION) 
-            && !canExecuteAction(task.getProtocol(), ProtocolActionType.MODIFY_PROTOCOL_SUBMISISON);
+            && !canExecuteAction(task.getProtocol(), ProtocolActionType.MODIFY_PROTOCOL_SUBMISSION);
     }
 }

@@ -482,10 +482,10 @@
                     <property name="taskName" value="irbAcknowledgementUnavailable" />
                 </bean>
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolSubmissionAuthorizer" parent="parentProtocolAuthorizer">
-                	<property name="taskName" value="modifyProtocolSubmisison"/>
+                	<property name="taskName" value="modifyProtocolSubmission"/>
                 </bean>
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolSubmissionUnavailableAuthorizer" parent="parentProtocolAuthorizer">
-                	<property name="taskName" value="modifyProtocolSubmisisonUnavailable"/>
+                	<property name="taskName" value="modifyProtocolSubmissionUnavailable"/>
                 </bean>
                 <bean class="org.kuali.kra.irb.auth.ProtocolDeferAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolDefer" />

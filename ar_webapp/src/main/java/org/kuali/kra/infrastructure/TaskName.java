@@ -182,8 +182,8 @@ public interface TaskName {
     public static final String ENTER_RISK_LEVEL = "protocolEnterRiskLevel";
     public static final String IRB_ACKNOWLEDGEMENT = "irbAcknowledgement";
     public static final String IRB_ACKNOWLEDGEMENT_UNAVAILABLE = "irbAcknowledgementUnavailable";
-    public static final String MODIFY_PROTOCOL_SUBMISSION = "modifyProtocolSubmisison";
-    public static final String MODIFY_PROTOCOL_SUBMISSION_UNAVAILABLE = "modifyProtocolSubmisisonUnavailable";
+    public static final String MODIFY_PROTOCOL_SUBMISSION = "modifyProtocolSubmission";
+    public static final String MODIFY_PROTOCOL_SUBMISSION_UNAVAILABLE = "modifyProtocolSubmissionUnavailable";
     public static final String DEFER_PROTOCOL = "protocolDefer";
     public static final String DEFER_PROTOCOL_UNAVAILABLE = "protocolDeferUnavailable";
     public static final String PROTOCOL_REVIEW_NOT_REQUIRED = "protocolReviewNotRequired";
