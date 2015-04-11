@@ -33,7 +33,7 @@ import java.util.List;
 
 /**
  * 
- * This class tracks the data associated with the submisison of a protocol for review.
+ * This class tracks the data associated with the submission of a protocol for review.
  */
 public abstract class ProtocolSubmissionBase extends ProtocolAssociateBase {
 
