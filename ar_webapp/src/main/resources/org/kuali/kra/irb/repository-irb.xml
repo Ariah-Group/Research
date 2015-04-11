@@ -769,7 +769,7 @@
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.irb.actions.submit.ProtocolSubmission" table="PROTOCOL_SUBMISSION">
-        <field-descriptor name="submissionId" column="SUBMISSION_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROTOCOL_ID" />
+        <field-descriptor name="submissionId" column="SUBMISSION_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IRB_PROTOCOL_SUBMISS_ID" />
         <field-descriptor name="submissionNumber" column="SUBMISSION_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
