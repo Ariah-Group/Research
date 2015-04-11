@@ -112,6 +112,14 @@ Declare
   execute immediate 'CREATE SEQUENCE "SEQ_IRB_PROTOCOL_EXEMPT_NUM_ID" MINVALUE 1 MAXVALUE 999999999999999999 INCREMENT BY 1 START WITH ' || nextnum || ' NOCACHE  ORDER  NOCYCLE';
 END;
 
+-- Generate new sequence for IRB Protocol Attachment Type Group, using max of existing protocol attachment type group
+Declare
+  nextnum NUMBER;
+ BEGIN
+  select (nvl(max(TYPE_GROUP_ID),0)+1) into nextnum from PROTOCOL_ATTACHMENT_TYPE_GROUP;
+  execute immediate 'CREATE SEQUENCE "SEQ_IRB_PROTOCOL_ATTTYPEGRP_ID" MINVALUE 1 MAXVALUE 999999999999999999 INCREMENT BY 1 START WITH ' || nextnum || ' NOCACHE  ORDER  NOCYCLE';
+END;
+
 
 
 
