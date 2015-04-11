@@ -603,7 +603,7 @@
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol" table="PROTOCOL_ATTACHMENT_PROTOCOL">
-        <field-descriptor name="id" column="PA_PROTOCOL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
+        <field-descriptor name="id" column="PA_PROTOCOL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_IRB_PROTOCOL_ATTACHPROT_ID" autoincrement="true"/>
         <field-descriptor name="protocolId" column="PROTOCOL_ID_FK" jdbc-type="BIGINT" />
         <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
