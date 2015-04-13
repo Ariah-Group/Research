@@ -171,6 +171,16 @@ Declare
   execute immediate 'CREATE SEQUENCE "SEQ_IRB_PROTOCOL_EXEMPTCHK_ID" MINVALUE 1 MAXVALUE 999999999999999999 INCREMENT BY 1 START WITH ' || nextnum || ' NOCACHE  ORDER  NOCYCLE';
 END;
 
+-- Generate new sequence for IRB Protocol Expedited Checklist, using max of existing protocol Expedited Checklist
+Declare
+  nextnum NUMBER;
+ BEGIN
+  select (nvl(max(PROTOCOL_EXPEDITED_CHKLST_ID),0)+1) into nextnum from PROTOCOL_EXPIDITED_CHKLST;
+  execute immediate 'CREATE SEQUENCE "SEQ_IRB_PROTOCOL_EXPEDITCHK_ID" MINVALUE 1 MAXVALUE 999999999999999999 INCREMENT BY 1 START WITH ' || nextnum || ' NOCACHE  ORDER  NOCYCLE';
+END;
+
+
+
 
 -- module-dsiable feature for funding source type
 alter table FUNDING_SOURCE_TYPE add DISABLED_COEUS_MODULE_ID NUMBER;

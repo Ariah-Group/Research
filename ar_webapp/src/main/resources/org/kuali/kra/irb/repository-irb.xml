@@ -933,7 +933,7 @@
     </class-descriptor> 
     
     <class-descriptor class="org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem" table="PROTOCOL_EXPIDITED_CHKLST">
-        <field-descriptor name="protocolExpeditedCheckListId" column="PROTOCOL_EXPEDITED_CHKLST_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROTOCOL_ID"/>
+        <field-descriptor name="protocolExpeditedCheckListId" column="PROTOCOL_EXPEDITED_CHKLST_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IRB_PROTOCOL_EXPEDITCHK_ID"/>
         <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
         <field-descriptor name="submissionIdFk" column="SUBMISSION_ID_FK" jdbc-type="BIGINT" />
         <field-descriptor name="protocolNumber" column="PROTOCOL_NUMBER" jdbc-type="VARCHAR" />
