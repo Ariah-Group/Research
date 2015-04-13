@@ -1284,7 +1284,7 @@
     
     
     <class-descriptor class="org.kuali.kra.irb.actions.notification.ProtocolNotificationTemplate" table="PROTO_NOTIFICATION_TEMPL">
-        <field-descriptor name="notificationTemplateId" column="NOTIFICATION_TEMPL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true" />
+        <field-descriptor name="notificationTemplateId" column="NOTIFICATION_TEMPL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_IRB_PROTOCOL_NOTIFTMPL_ID" autoincrement="true" />
         <field-descriptor name="actionTypeCode" column="ACTION_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="notificationTemplate" column="NOTIFICATION_TEMPLATE" jdbc-type="LONGVARBINARY" />
