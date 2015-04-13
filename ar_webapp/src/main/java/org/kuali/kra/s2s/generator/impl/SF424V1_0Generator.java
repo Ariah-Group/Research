@@ -640,7 +640,7 @@ public class SF424V1_0Generator extends SF424BaseGenerator {
 	/**
 	 * 
 	 * This method returns Submission type details for the Submission type.It
-	 * returns enumeration value for the subission type. Submission type can be
+	 * returns enumeration value for the submission type. Submission type can be
 	 * Construction,Non construction, Application, Pre application.
 	 * 
 	 * @param pdDoc
