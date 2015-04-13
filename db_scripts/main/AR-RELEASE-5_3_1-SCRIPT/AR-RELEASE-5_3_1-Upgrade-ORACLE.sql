@@ -180,6 +180,15 @@ Declare
 END;
 
 
+-- Generate new sequence for IRB Protocol Reviewer, using max of existing protocol Reviewer
+Declare
+  nextnum NUMBER;
+ BEGIN
+  select (nvl(max(PROTOCOL_REVIEWER_ID),0)+1) into nextnum from PROTOCOL_REVIEWERS;
+  execute immediate 'CREATE SEQUENCE "SEQ_IRB_PROTOCOL_REVIEWER_ID" MINVALUE 1 MAXVALUE 999999999999999999 INCREMENT BY 1 START WITH ' || nextnum || ' NOCACHE  ORDER  NOCYCLE';
+END;
+
+
 
 
 -- module-dsiable feature for funding source type
