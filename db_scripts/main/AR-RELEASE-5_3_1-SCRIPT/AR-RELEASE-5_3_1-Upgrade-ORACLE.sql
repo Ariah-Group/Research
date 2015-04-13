@@ -235,7 +235,13 @@ Declare
 END;
 
 
-
+-- Generate new sequence for IRB Protocol Batch Correspondence Detail, using max of existing protocol Batch Correspondence Detail
+Declare
+  nextnum NUMBER;
+ BEGIN
+  select (nvl(max(BATCH_CORRESPONDENCE_DETAIL_ID),0)+1) into nextnum from BATCH_CORRESPONDENCE_DETAIL;
+  execute immediate 'CREATE SEQUENCE "SEQ_IRB_PROTOCOL_BATCORRDET_ID" MINVALUE 1 MAXVALUE 999999999999999999 INCREMENT BY 1 START WITH ' || nextnum || ' NOCACHE  ORDER  NOCYCLE';
+END;
 
 
 -- module-dsiable feature for funding source type

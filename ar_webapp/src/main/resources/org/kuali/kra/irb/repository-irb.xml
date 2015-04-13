@@ -1268,7 +1268,7 @@
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.irb.correspondence.BatchCorrespondenceDetail" table="BATCH_CORRESPONDENCE_DETAIL">
-        <field-descriptor name="batchCorrespondenceDetailId" column="BATCH_CORRESPONDENCE_DETAIL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true"/>
+        <field-descriptor name="batchCorrespondenceDetailId" column="BATCH_CORRESPONDENCE_DETAIL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_IRB_PROTOCOL_BATCORRDET_ID" autoincrement="true"/>
         <field-descriptor name="batchCorrespondenceTypeCode" column="BATCH_CORRESPONDENCE_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="protoCorrespTypeCode" column="PROTO_CORRESP_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="daysToEvent" column="DAYS_TO_EVENT" jdbc-type="INTEGER" />
