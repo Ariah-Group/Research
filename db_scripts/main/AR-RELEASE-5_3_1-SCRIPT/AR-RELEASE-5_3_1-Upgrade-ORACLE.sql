@@ -189,6 +189,15 @@ Declare
 END;
 
 
+-- Generate new sequence for IRB Protocol Online Review, using max of existing protocol Online Review
+Declare
+  nextnum NUMBER;
+ BEGIN
+  select (nvl(max(PROTOCOL_ONLN_RVW_ID),0)+1) into nextnum from PROTOCOL_ONLN_RVWS;
+  execute immediate 'CREATE SEQUENCE "SEQ_IRB_PROTOCOL_ONLINEREV_ID" MINVALUE 1 MAXVALUE 999999999999999999 INCREMENT BY 1 START WITH ' || nextnum || ' NOCACHE  ORDER  NOCYCLE';
+END;
+
+
 
 
 -- module-dsiable feature for funding source type

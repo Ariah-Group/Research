@@ -1008,17 +1008,17 @@
     </class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.irb.onlinereview.ProtocolOnlineReview" table="PROTOCOL_ONLN_RVWS">
-        <field-descriptor name="protocolOnlineReviewId" column="PROTOCOL_ONLN_RVW_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROTOCOL_ID"/>
+        <field-descriptor name="protocolOnlineReviewId" column="PROTOCOL_ONLN_RVW_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_IRB_PROTOCOL_ONLINEREV_ID"/>
         <field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" access="anonymous"/> 
         <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
         <field-descriptor name="submissionIdFk" column="SUBMISSION_ID_FK" jdbc-type="BIGINT" />
         <field-descriptor name="protocolReviewerId" column = "PROTOCOL_REVIEWER_FK" jdbc-type = "BIGINT"/>
         <field-descriptor name="protocolOnlineReviewStatusCode" column="PROTOCOL_ONLN_RVW_STATUS_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="protocolOnlineReviewDeterminationRecommendationCode" column = "REVIEW_DETERM_RECOM_CD" jdbc-type = "BIGINT"/>
-		<field-descriptor name="dateDue" column = "DATE_DUE" jdbc-type = "DATE"/>
-		<field-descriptor name="dateRequested" column = "DATE_REQUESTED" jdbc-type = "DATE"/>
+	<field-descriptor name="dateDue" column = "DATE_DUE" jdbc-type = "DATE"/>
+	<field-descriptor name="dateRequested" column = "DATE_REQUESTED" jdbc-type = "DATE"/>
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+	<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="actionsPerformed" column="ACTIONS_PERFORMED" jdbc-type="VARCHAR" />
