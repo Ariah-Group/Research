@@ -76,7 +76,7 @@ public abstract class BatchCorrespondenceDetailBase extends KraPersistableBusine
 
     public int compareTo(BatchCorrespondenceDetailBase arg) {
         if(!this.getClass().isAssignableFrom(arg.getClass())) {
-           throw new ClassCastException("Type mismatch while comparing two objects of type BatchCprrespondenceDetail"); 
+           throw new ClassCastException("Type mismatch while comparing two objects of type BatchCorrespondenceDetail"); 
         }
         int result = this.batchCorrespondenceTypeCode.compareTo(arg.batchCorrespondenceTypeCode);
         if (result == 0) {
