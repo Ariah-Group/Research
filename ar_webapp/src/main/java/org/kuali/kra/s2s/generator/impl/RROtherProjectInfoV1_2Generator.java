@@ -371,7 +371,7 @@ public class RROtherProjectInfoV1_2Generator extends
     private void setExemptions(ProposalSpecialReview proposalSpecialReview,
             HumanSubjectsSupplement humanSubjectsSupplement,
             HumanSubjectsSupplement.ExemptionNumbers exemptionNumbers) {
-        if (Integer.parseInt(proposalSpecialReview.getApprovalTypeCode()) == APPROVAL_TYPE_EXCEMPT) {
+        if (Integer.parseInt(proposalSpecialReview.getApprovalTypeCode()) == APPROVAL_TYPE_EXEMPT) {
             if (proposalSpecialReview.getSpecialReviewExemptions() != null) {
                 List<HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum> exemptionNumberList = new ArrayList<HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum>();
                 HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum exemptionNumberEnum = null;

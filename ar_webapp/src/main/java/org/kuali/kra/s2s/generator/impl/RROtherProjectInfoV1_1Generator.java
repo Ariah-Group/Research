@@ -309,7 +309,7 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
         HumanSubjectsSupplement.ExemptionNumbers exemptionNumbers = HumanSubjectsSupplement.ExemptionNumbers.Factory
                 .newInstance();
         if (proposalSpecialReview.getApprovalTypeCode() != null) {
-            if (Integer.parseInt(proposalSpecialReview.getApprovalTypeCode()) == APPROVAL_TYPE_EXCEMPT) {
+            if (Integer.parseInt(proposalSpecialReview.getApprovalTypeCode()) == APPROVAL_TYPE_EXEMPT) {
                 if (proposalSpecialReview.getSpecialReviewExemptions() != null) {
                     List<HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum> exemptionNumberList = new ArrayList<HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum>();
                     HumanSubjectsSupplement.ExemptionNumbers.ExemptionNumber.Enum exemptionNumberEnum = null;

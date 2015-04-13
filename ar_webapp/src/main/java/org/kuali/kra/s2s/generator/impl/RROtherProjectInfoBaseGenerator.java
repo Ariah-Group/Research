@@ -65,7 +65,7 @@ public abstract class RROtherProjectInfoBaseGenerator extends
     public static final int SUPPLIMENTARY_ATTACHMENT = 15;
     public static final String SPECIAL_REVIEW_HUMAN_SUBJECTS = "1";
     public static final String SPECIAL_REVIEW_ANIMAL_USAGE = "1";
-    public static final int APPROVAL_TYPE_EXCEMPT = 4;
+    public static final int APPROVAL_TYPE_EXEMPT = 4;
     protected static final int EXPLANATION_MAX_LENGTH = 55;
 
     public static final String NOT_ANSWERED = "No";

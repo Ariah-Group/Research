@@ -415,9 +415,9 @@
             <xs:element name="IncorporatedIn" type="xs:string" minOccurs="0"/>
             <xs:element name="IncorporatedDate" type="xs:date" minOccurs="0"/>
             <xs:element name="NumberOfEmployees" type="xs:int" minOccurs="0"/>
-            <xs:element name="IrsTaxExcemption" type="xs:string" minOccurs="0"/>
+            <xs:element name="IrsTaxExemption" type="xs:string" minOccurs="0"/>
             <xs:element name="FedralEmployerId" type="xs:string" minOccurs="0"/>
-            <xs:element name="MassTaxExcemptNum" type="xs:string" minOccurs="0"/>
+            <xs:element name="MassTaxExemptNum" type="xs:string" minOccurs="0"/>
             <xs:element name="AgencySymbol" type="xs:string" minOccurs="0"/>
             <xs:element name="VendorCode" type="xs:string" minOccurs="0"/>
             <xs:element name="ComGovEntityCode" type="xs:string" minOccurs="0"/>
