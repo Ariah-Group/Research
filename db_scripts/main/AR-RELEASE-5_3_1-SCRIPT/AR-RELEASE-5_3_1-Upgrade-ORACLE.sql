@@ -216,6 +216,13 @@ Declare
 END;
 
 
+-- Generate new sequence for IRB Protocol Amend Renewal Modules, using max of existing protocol Amend Renewal Modules
+Declare
+  nextnum NUMBER;
+ BEGIN
+  select (nvl(max(PROTO_AMEND_RENEW_MODULES_ID),0)+1) into nextnum from PROTO_AMEND_RENEW_MODULES;
+  execute immediate 'CREATE SEQUENCE "SEQ_IRB_PROTOCOL_AMDRNWMOD_ID" MINVALUE 1 MAXVALUE 999999999999999999 INCREMENT BY 1 START WITH ' || nextnum || ' NOCACHE  ORDER  NOCYCLE';
+END;
 
 
 
