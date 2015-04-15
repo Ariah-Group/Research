@@ -1307,7 +1307,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             String sendNotificationImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_send_notification.gif";
             addExtraButton("methodToCall.sendNotification", sendNotificationImage, "Send Notification");
         }
-        
+
         System.out.println("ProposalDevelopmentForm.getExtraActionsButtons.... 1");
 
         setLockAdminTypes(Arrays.asList(getAdminTypesAuthorizedToLock()));
@@ -2624,4 +2624,53 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
         return isPersonOnPersonnel && proposalLockedByAdmin;
     }
+
+    /**
+     * Whether or not the Proposal Development Internal Attachments should be
+     * hidden or not.
+     *
+     * @return If true then the attachments are hidden EXCEPT from users with 
+     * specific Unit Admin Role Types. If false everyone with 
+     * permissions to see the proposal can see the attachments.
+     */
+    public boolean isHideInternalAttachments() {
+        
+        // check the value of system parameter
+        Boolean hideInternalAtts = getParameterService().getParameterValueAsBoolean(
+                Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT,
+                Constants.ARIAH_PROPDEV_HIDE_PD_INTERNAL_ATTACHMENTS, false);
+        
+        if (!hideInternalAtts) {
+            // param was false or not found
+            return false;
+        } else {
+            
+            final DevelopmentProposal developmentProposal = ((ProposalDevelopmentDocument) getProposalDevelopmentDocument()).getDevelopmentProposal();
+            UnitService unitService = KraServiceLocator.getService(UnitService.class);
+            if (unitService.isQualifiedUnitAdminForProposal(developmentProposal,
+                    GlobalVariables.getUserSession().getPrincipalId(),
+                    Arrays.asList(getAdminTypesAuthorizedToViewInternalAttachments()))) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+    
+    public String[] getAdminTypesAuthorizedToViewInternalAttachments() {
+
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+
+        String unitAdminTypeCodes = paramServ.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ARIAH_PROPDEV_UNITADMIN_TYPECODES_AUTHORIZED_TO_VIEWINTERNALATTACHMENTS);
+
+        String[] adminTypes = null;
+
+        if (unitAdminTypeCodes != null) {
+            adminTypes = unitAdminTypeCodes.split("[,]");
+        }
+
+        return adminTypes;
+    }    
 }
