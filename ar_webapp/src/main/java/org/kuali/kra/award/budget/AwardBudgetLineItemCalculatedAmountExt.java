@@ -30,14 +30,17 @@ public class AwardBudgetLineItemCalculatedAmountExt extends BudgetLineItemCalcul
     private BudgetDecimal obligatedAmount;
 
     /**
-     * Gets the obligatedAmount attribute. 
+     * Gets the obligatedAmount attribute.
+     *
      * @return Returns the obligatedAmount.
      */
     public BudgetDecimal getObligatedAmount() {
-        return obligatedAmount==null?BudgetDecimal.ZERO:obligatedAmount;
+        return obligatedAmount == null ? BudgetDecimal.ZERO : obligatedAmount;
     }
+
     /**
      * Sets the obligatedAmount attribute value.
+     *
      * @param obligatedAmount The obligatedAmount to set.
      */
     public void setObligatedAmount(BudgetDecimal obligatedAmount) {

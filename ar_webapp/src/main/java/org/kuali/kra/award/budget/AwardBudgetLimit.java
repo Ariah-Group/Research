@@ -21,12 +21,13 @@ import org.kuali.kra.award.AwardAssociate;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 /**
- * 
- * Award Budget Limit is intended to linked to either an award or a budget, not both, and defines limits
- * on the budgets. If linked to the award, will persist across versions of the award and budget and
- * copied into each new budget or via user interaction. Limit type is intended to be
- * a constant value in the local enum LIMIT_TYPES, but designed to be expanded to any object code
- * if future features as discussed are ever implemented.
+ *
+ * Award Budget Limit is intended to linked to either an award or a budget, not
+ * both, and defines limits on the budgets. If linked to the award, will persist
+ * across versions of the award and budget and copied into each new budget or
+ * via user interaction. Limit type is intended to be a constant value in the
+ * local enum LIMIT_TYPES, but designed to be expanded to any object code if
+ * future features as discussed are ever implemented.
  */
 public class AwardBudgetLimit extends AwardAssociate {
 
@@ -50,8 +51,10 @@ public class AwardBudgetLimit extends AwardAssociate {
     }
 
     /**
-     * 
-     * Constructs a AwardBudgetLimit.java by copying relevant info from the AwardBudgetLimit (limitTypeCode and limit)
+     *
+     * Constructs a AwardBudgetLimit.java by copying relevant info from the
+     * AwardBudgetLimit (limitTypeCode and limit)
+     *
      * @param budget
      * @param budgetLimit
      */

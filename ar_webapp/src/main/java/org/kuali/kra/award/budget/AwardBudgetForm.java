@@ -42,6 +42,7 @@ import java.util.Date;
 import java.util.List;
 
 public class AwardBudgetForm extends BudgetForm {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -49,23 +50,28 @@ public class AwardBudgetForm extends BudgetForm {
     private String awardInMultipleNodeHierarchy;
     private String budgetParentId;
     private AwardBudgetPeriodSummaryCalculatedAmount awardBudgetPeriodSummaryCalculatedAmount;
-    
-    /** {@inheritDoc} */
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected String getDefaultDocumentTypeName() {
         return "AwardBudgetDocument";
     }
-    
+
     public AwardBudgetForm() {
         super();
         awardBudgetPeriodSummaryCalculatedAmount = new AwardBudgetPeriodSummaryCalculatedAmount();
     }
+
     public void initialize() {
         super.initialize();
         getBudgetDocument().initialize();
     }
+
     /**
-     * Gets the awardInMultipleNodeHierarchy attribute. 
+     * Gets the awardInMultipleNodeHierarchy attribute.
+     *
      * @return Returns the awardInMultipleNodeHierarchy.
      */
     public String getAwardInMultipleNodeHierarchy() {
@@ -74,18 +80,22 @@ public class AwardBudgetForm extends BudgetForm {
 
     /**
      * Sets the awardInMultipleNodeHierarchy attribute value.
-     * @param awardInMultipleNodeHierarchy The awardInMultipleNodeHierarchy to set.
+     *
+     * @param awardInMultipleNodeHierarchy The awardInMultipleNodeHierarchy to
+     * set.
      */
     public void setAwardInMultipleNodeHierarchy(String awardInMultipleNodeHierarchy) {
         this.awardInMultipleNodeHierarchy = awardInMultipleNodeHierarchy;
     }
-    public String getActionPrefix(){
+
+    public String getActionPrefix() {
         return "awardBudget";
     }
 
     public AwardBudgetDocument getAwardBudgetDocument() {
-        return (AwardBudgetDocument)super.getBudgetDocument();
+        return (AwardBudgetDocument) super.getBudgetDocument();
     }
+
     public List<ExtraButton> getExtraActionsButtons() {
         // clear out the extra buttons array
         extraButtons.clear();
@@ -93,64 +103,71 @@ public class AwardBudgetForm extends BudgetForm {
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
         String krImageURL = Constants.KR_EXTERNALIZABLE_IMAGES_URI_KEY;
         ConfigurationService configurationService = CoreApiServiceLocator.getKualiConfigurationService();
-        
+
         TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
         if (tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new AwardBudgetTask(TaskName.TOGGLE_AWARD_BUDGET_STATUS, doc))) {
             String toggleAwardStatusButtonImage = buildExtraButtonSourceURI("buttonsmall_toggleBudgetStatus.gif");
             addExtraButton("methodToCall.toggleAwardBudgetStatus", toggleAwardStatusButtonImage, "Toggle Budget Status");
         }
-        if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new AwardBudgetTask(TaskName.POST_AWARD_BUDGET,doc ))) {
+        if (tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new AwardBudgetTask(TaskName.POST_AWARD_BUDGET, doc))) {
             String postAwardBudgetImage = buildExtraButtonSourceURI("buttonsmall_postawardbudget.gif");
             addExtraButton("methodToCall.postAwardBudget", postAwardBudgetImage, "Post Budget");
         }
-        
-        if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new BudgetTask("awardBudget", "rejectBudget", doc))) {
+
+        if (tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new BudgetTask("awardBudget", "rejectBudget", doc))) {
             addExtraButton("methodToCall.reject", configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_reject.gif", "Reject");
         }
-        if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new BudgetTask("awardBudget", "cancelBudget", doc))) {
+        if (tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new BudgetTask("awardBudget", "cancelBudget", doc))) {
             addExtraButton("methodToCall.cancel", configurationService.getPropertyValueAsString(krImageURL) + "buttonsmall_cancel.gif", "Cancel");
         }
-        
+
         return extraButtons;
     }
-    
+
     /**
      * This is a utility method to add a new button to the extra buttons
      * collection.
-     *   
+     *
      * @param property
      * @param source
      * @param altText
-     */ 
-    protected void addExtraButton(String property, String source, String altText){
-        
+     */
+    protected void addExtraButton(String property, String source, String altText) {
+
         ExtraButton newButton = new ExtraButton();
-        
+
         newButton.setExtraButtonProperty(property);
         newButton.setExtraButtonSource(source);
         newButton.setExtraButtonAltText(altText);
-        
+
         extraButtons.add(newButton);
     }
+
     /**
      * Sets the budgetParentId attribute value.
+     *
      * @param budgetParentId The budgetParentId to set.
      */
     public void setBudgetParentId(String budgetParentId) {
         this.budgetParentId = budgetParentId;
     }
+
     /**
-     * Gets the budgetParentId attribute. 
+     * Gets the budgetParentId attribute.
+     *
      * @return Returns the budgetParentId.
      */
     public String getBudgetParentId() {
         return budgetParentId;
     }
+
     /**
-     * This method is to define whether FnA rate type is editable in Budget Overview panel.
+     * This method is to define whether FnA rate type is editable in Budget
+     * Overview panel.
+     *
      * @return true if any FnA rates defined in award
      */
-    public String getFnARateFlagEditable(){
+    public String getFnARateFlagEditable() {
         return Boolean.toString(!getAwardBudgetDocument().getAwardBudget().getOhRatesNonEditable());
     }
 
@@ -160,37 +177,42 @@ public class AwardBudgetForm extends BudgetForm {
      */
     @Override
     protected HeaderField getHeaderDocNumber() {
-        return new HeaderField("DataDictionary.DocumentHeader.attributes.documentNumber", getBudgetDocument() == null ? null : getBudgetDocument().getDocumentNumber()); 
+        return new HeaderField("DataDictionary.DocumentHeader.attributes.documentNumber", getBudgetDocument() == null ? null : getBudgetDocument().getDocumentNumber());
     }
 
     @Override
-    protected HeaderField getHeaderDocStatus (WorkflowDocument parentWorkflowDocument) {
+    protected HeaderField getHeaderDocStatus(WorkflowDocument parentWorkflowDocument) {
         AwardBudgetExt abe = this.getAwardBudgetDocument().getAwardBudget();
         return new HeaderField("DataDictionary.AttributeReference.attributes.workflowDocumentStatus", abe.getAwardBudgetStatus().getDescription());
     }
-    
+
     @Override
     protected HeaderField getHeaderDocInitiator(WorkflowDocument parentWorkflowDocument) {
         WorkflowDocument doc = getBudgetDocument().getDocumentHeader().getWorkflowDocument();
         return new HeaderField("DataDictionary.AttributeReference.attributes.initiatorNetworkId", doc.getInitiatorPrincipalId());
     }
-    
+
     @Override
     protected HeaderField getHeaderDocCreateDate(WorkflowDocument parentWorkflowDocument) {
         Date ts = getBudgetDocument().getDocumentHeader().getWorkflowDocument().getDateCreated().toDate();
         String updateDateStr = CoreApiServiceLocator.getDateTimeService().toString(ts, "hh:mm a MM/dd/yyyy");
         return new HeaderField("DataDictionary.AttributeReference.attributes.createDate", updateDateStr);
     }
+
     /**
-     * Gets the awardBudgetPeriodSummaryCalculatedAmount attribute. 
+     * Gets the awardBudgetPeriodSummaryCalculatedAmount attribute.
+     *
      * @return Returns the awardBudgetPeriodSummaryCalculatedAmount.
      */
     public AwardBudgetPeriodSummaryCalculatedAmount getAwardBudgetPeriodSummaryCalculatedAmount() {
         return awardBudgetPeriodSummaryCalculatedAmount;
     }
+
     /**
      * Sets the awardBudgetPeriodSummaryCalculatedAmount attribute value.
-     * @param awardBudgetPeriodSummaryCalculatedAmount The awardBudgetPeriodSummaryCalculatedAmount to set.
+     *
+     * @param awardBudgetPeriodSummaryCalculatedAmount The
+     * awardBudgetPeriodSummaryCalculatedAmount to set.
      */
     public void setAwardBudgetPeriodSummaryCalculatedAmount(
             AwardBudgetPeriodSummaryCalculatedAmount awardBudgetPeriodSummaryCalculatedAmount) {
@@ -199,14 +221,15 @@ public class AwardBudgetForm extends BudgetForm {
     /*
      * Remove "Modular Budget" tab from award budget  
      * */
+
     @Override
     public HeaderNavigation[] getHeaderNavigationTabs() {
         HeaderNavigation[] navigation = super.getHeaderNavigationTabs();
         List<HeaderNavigation> resultList = new ArrayList<HeaderNavigation>();
- 
+
         for (HeaderNavigation nav : navigation) {
-            if (StringUtils.equals(nav.getHeaderTabNavigateTo(),"modularBudget")) {
-           
+            if (StringUtils.equals(nav.getHeaderTabNavigateTo(), "modularBudget")) {
+
             } else {
                 resultList.add(nav);
             }
@@ -215,42 +238,47 @@ public class AwardBudgetForm extends BudgetForm {
         resultList.toArray(result);
         return result;
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kra.budget.web.struts.form.BudgetForm#getCanModifyBudgetRates()
+     *
+     * @see
+     * org.kuali.kra.budget.web.struts.form.BudgetForm#getCanModifyBudgetRates()
      */
     @Override
     public boolean getCanModifyBudgetRates() {
         boolean retVal = this.getEditingMode().containsKey("modifyBudgets");
         return retVal;
     }
-    
+
     /**
-     * 
+     *
      * This method returns the award associated with the award budget.
+     *
      * @return
-    */ 
+     */
     public Award getAward() {
         AwardDocument ad = (AwardDocument) this.getAwardBudgetDocument().getParentDocument();
         ad.getBudgetDocumentVersions();
         Award award = ad.getAward();
         return award;
     }
-    
+
     /**
-     * 
-     * This method returns the obligated total for this award budget, which is getPreviousObligatedTotal().add(getObligatedChange()).
+     *
+     * This method returns the obligated total for this award budget, which is
+     * getPreviousObligatedTotal().add(getObligatedChange()).
+     *
      * @return
      */
     public BudgetDecimal getObligatedTotal() {
         // getPreviousObligatedTotal + getObligatedChange
         return getPreviousObligatedTotal().add(getObligatedChange());
     }
-    
+
     /**
-     * 
+     *
      * This method returns the previous budget's obligation amount.
+     *
      * @return
      */
     public BudgetDecimal getPreviousObligatedTotal() {
@@ -264,10 +292,12 @@ public class AwardBudgetForm extends BudgetForm {
         }
         return getSumOfAllPreviousBudgetChanges(awardBudgetExt, allBudgets);
     }
-    
+
     /**
-     * 
-     * This method sums up all the previous changes of the prior budget versions.
+     *
+     * This method sums up all the previous changes of the prior budget
+     * versions.
+     *
      * @param curentAwardBudgetExt
      * @param allBudgets
      * @return
@@ -280,10 +310,12 @@ public class AwardBudgetForm extends BudgetForm {
         }
         return BudgetDecimal.ZERO;
     }
-    
+
     /**
-     * 
-     * This method finds a particular budget in the list of budgets based on the budget id.  If no budget is found, a null is returned.
+     *
+     * This method finds a particular budget in the list of budgets based on the
+     * budget id. If no budget is found, a null is returned.
+     *
      * @param budgetId
      * @param allBudgets
      * @return
@@ -296,10 +328,12 @@ public class AwardBudgetForm extends BudgetForm {
         }
         return null;
     }
-    
+
     /**
-     * 
-     * This method returns the difference in the obligation total between this budget, and the previous.
+     *
+     * This method returns the difference in the obligation total between this
+     * budget, and the previous.
+     *
      * @return
      */
     public BudgetDecimal getObligatedChange() {

@@ -21,9 +21,9 @@ import org.kuali.rice.core.api.util.type.KualiDecimal;
 import java.io.Serializable;
 
 public class AwardBudgetLimitsBean implements Serializable {
-    
+
     private AwardForm awardForm;
-    
+
     public AwardBudgetLimitsBean(AwardForm awardForm) {
         this.awardForm = awardForm;
     }
@@ -31,24 +31,27 @@ public class AwardBudgetLimitsBean implements Serializable {
     public KualiDecimal getTotalCostBudgetLimit() {
         return getSpecificBudgetLimit(AwardBudgetLimit.LIMIT_TYPE.TOTAL_COST).getLimit();
     }
+
     public void setTotalCostBudgetLimit(KualiDecimal newLimit) {
         setSpecificBudgetLimit(newLimit, AwardBudgetLimit.LIMIT_TYPE.TOTAL_COST);
     }
-    
+
     public KualiDecimal getDirectCostBudgetLimit() {
         return getSpecificBudgetLimit(AwardBudgetLimit.LIMIT_TYPE.DIRECT_COST).getLimit();
     }
+
     public void setDirectCostBudgetLimit(KualiDecimal newLimit) {
         setSpecificBudgetLimit(newLimit, AwardBudgetLimit.LIMIT_TYPE.DIRECT_COST);
     }
-    
+
     public KualiDecimal getIndirectCostBudgetLimit() {
         return getSpecificBudgetLimit(AwardBudgetLimit.LIMIT_TYPE.INDIRECT_COST).getLimit();
     }
+
     public void setIndirectCostBudgetLimit(KualiDecimal newLimit) {
         setSpecificBudgetLimit(newLimit, AwardBudgetLimit.LIMIT_TYPE.INDIRECT_COST);
     }
-    
+
     protected AwardBudgetLimit getSpecificBudgetLimit(AwardBudgetLimit.LIMIT_TYPE type) {
         for (AwardBudgetLimit limit : awardForm.getAwardDocument().getAward().getAwardBudgetLimits()) {
             if (limit.getLimitType() == type) {
@@ -57,6 +60,7 @@ public class AwardBudgetLimitsBean implements Serializable {
         }
         return new AwardBudgetLimit(type);
     }
+
     protected void setSpecificBudgetLimit(KualiDecimal newLimit, AwardBudgetLimit.LIMIT_TYPE type) {
         for (AwardBudgetLimit limit : awardForm.getAwardDocument().getAward().getAwardBudgetLimits()) {
             if (limit.getLimitType() == type) {
@@ -66,6 +70,6 @@ public class AwardBudgetLimitsBean implements Serializable {
         }
         AwardBudgetLimit limit = new AwardBudgetLimit(type);
         limit.setLimit(newLimit);
-        awardForm.getAwardDocument().getAward().getAwardBudgetLimits().add(limit);       
+        awardForm.getAwardDocument().getAward().getAwardBudgetLimits().add(limit);
     }
 }

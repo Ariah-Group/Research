@@ -38,32 +38,33 @@ import java.util.List;
 import static org.kuali.rice.kns.util.KNSGlobalVariables.getAuditErrorMap;
 
 /**
- * 
- * Audits the budget and warns if the budget limits set by the award have changed and
- * errors if any of the defined limits have been exceeded.
+ *
+ * Audits the budget and warns if the budget limits set by the award have
+ * changed and errors if any of the defined limits have been exceeded.
  */
 public class AwardBudgetCostLimitAuditRule implements DocumentAuditRule {
+
     public static final String AWARD_BUDGET_COST_LIMIT_ERROR_KEY = "awardBudgetCostLimitAuditErrors";
     public static final String AWARD_BUDGET_COST_LIMIT_WARNING_KEY = "awardBudgetCostLimitAuditWarnings";
-    
+
     private BusinessObjectService businessObjectService;
     private AwardBudgetCalculationService awardBudgetCalculationService;
     private AwardBudgetService awardBudgetService;
 
     public boolean processRunAuditBusinessRules(Document document) {
         AwardBudgetDocument awardBudgetDocument = (AwardBudgetDocument) document;
-        AwardBudgetExt budget = (AwardBudgetExt)((BudgetDocument)document).getBudget();
+        AwardBudgetExt budget = (AwardBudgetExt) ((BudgetDocument) document).getBudget();
 
         Award currentAward = getAwardBudgetService().getActiveOrNewestAward(((AwardDocument) awardBudgetDocument.getParentDocument()).getAward().getAwardNumber());
         boolean valid = true;
         valid &= limitsMatch(currentAward.getAwardBudgetLimits(),
                 budget.getAwardBudgetLimits());
-        
+
         AwardBudgetExt prevBudget = loadBudget(budget.getPrevBudget());
         if (prevBudget != null) {
             getAwardBudgetCalculationService().calculateBudgetSummaryTotals(prevBudget, true);
         }
-        
+
         for (AwardBudgetLimit budgetLimit : budget.getAwardBudgetLimits()) {
             if (budgetLimit.getLimitType() == AwardBudgetLimit.LIMIT_TYPE.TOTAL_COST) {
                 //total cost is validated as the budget change total so ignore here
@@ -85,30 +86,32 @@ public class AwardBudgetCostLimitAuditRule implements DocumentAuditRule {
         }
         return valid;
     }
-    
+
     private AwardBudgetExt loadBudget(BudgetVersionOverview budgetOverview) {
         AwardBudgetExt retval = null;
-        if (budgetOverview != null && budgetOverview.getBudgetId() != null) { 
+        if (budgetOverview != null && budgetOverview.getBudgetId() != null) {
             retval = getBusinessObjectService().findBySinglePrimaryKey(AwardBudgetExt.class, budgetOverview.getBudgetId());
         }
         return retval;
     }
-    
+
     /**
      * This method is a convenience method for obtaining audit errors.
+     *
      * @return List of AuditError instances
-     */    
+     */
     private List<AuditError> getAuditErrors() {
         return getAuditProblems(AWARD_BUDGET_COST_LIMIT_ERROR_KEY, Constants.AUDIT_ERRORS);
     }
-    
+
     private List<AuditError> getAuditWarnings() {
         return getAuditProblems(AWARD_BUDGET_COST_LIMIT_WARNING_KEY, Constants.AUDIT_WARNINGS);
     }
-    
+
     /**
-     * 
+     *
      * Get the specific budget limit from the budget list
+     *
      * @param type
      * @param budgetLimits
      * @return
@@ -122,10 +125,11 @@ public class AwardBudgetCostLimitAuditRule implements DocumentAuditRule {
         //return empty budget limit to simplify logic above
         return new AwardBudgetLimit(type);
     }
-    
+
     /**
-     * 
+     *
      * Compares the budget limit lists to make sure they match.
+     *
      * @param awardLimits
      * @param budgetLimits
      * @return
@@ -137,38 +141,38 @@ public class AwardBudgetCostLimitAuditRule implements DocumentAuditRule {
                     Constants.BUDGET_PERIOD_PAGE + "." + "BudgetPeriodsTotals"));
             return true;
         }
-        
+
         for (AwardBudgetLimit limit : awardLimits) {
             AwardBudgetLimit budgetLimit = getBudgetLimit(limit.getLimitType(), budgetLimits);
-            if (budgetLimit == null 
+            if (budgetLimit == null
                     || !org.apache.commons.lang.ObjectUtils.equals(limit.getLimit(), budgetLimit.getLimit())) {
-               getAuditWarnings().add(new AuditError("document.budget.awardBudgetLimits",
+                getAuditWarnings().add(new AuditError("document.budget.awardBudgetLimits",
                         KeyConstants.AUDIT_ERROR_SPECIFIC_COST_LIMITS_CHANGED,
                         Constants.BUDGET_PERIOD_PAGE + "." + "BudgetPeriodsTotals",
-                        new String[]{budgetLimit.getLimitType().getDesc(), 
-                            budgetLimit == null || budgetLimit.getLimit() == null ? "N/A" : budgetLimit.getLimit().toString(), 
+                        new String[]{budgetLimit.getLimitType().getDesc(),
+                            budgetLimit == null || budgetLimit.getLimit() == null ? "N/A" : budgetLimit.getLimit().toString(),
                             limit == null || limit.getLimit() == null ? "N/A" : limit.getLimit().toString()}));
             }
         }
         return true;
     }
-    
-    
+
     /**
-     * This method should only be called if an audit error is intending to be added because it will actually 
-     * add a <code>{@link List<AuditError>}</code> to the auditErrorMap.
+     * This method should only be called if an audit error is intending to be
+     * added because it will actually add a
+     * <code>{@link List<AuditError>}</code> to the auditErrorMap.
+     *
      * @return List of AuditError instances
      */
     private List<AuditError> getAuditProblems(String auditKey, String problemType) {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
-        
+
         if (!getAuditErrorMap().containsKey(auditKey)) {
             getAuditErrorMap().put(auditKey, new AuditCluster("Award Budget Limits", auditErrors, problemType));
-        }
-        else {
+        } else {
             auditErrors = ((AuditCluster) getAuditErrorMap().get(auditKey)).getAuditErrorList();
         }
-        
+
         return auditErrors;
     }
 
@@ -204,9 +208,5 @@ public class AwardBudgetCostLimitAuditRule implements DocumentAuditRule {
     public void setAwardBudgetService(AwardBudgetService awardBudgetService) {
         this.awardBudgetService = awardBudgetService;
     }
-    
-    
-
-
 
 }

@@ -30,35 +30,42 @@ public class AwardBudgetLineItemExt extends BudgetLineItem {
      */
     private static final long serialVersionUID = 6909566795823678487L;
     private BudgetDecimal obligatedAmount;
+
     /**
-     * 
+     *
      * This method is to create new BudgetpersonnelDetails object
+     *
      * @return
      */
     public BudgetPersonnelDetails getNewBudgetPersonnelLineItem() {
         return new AwardBudgetPersonnelDetailsExt();
     }
+
     /**
-     * 
-     * @see org.kuali.kra.budget.nonpersonnel.BudgetLineItem#getNewBudgetLineItemCalculatedAmount()
+     *
+     * @see
+     * org.kuali.kra.budget.nonpersonnel.BudgetLineItem#getNewBudgetLineItemCalculatedAmount()
      */
     public AbstractBudgetCalculatedAmount getNewBudgetLineItemCalculatedAmount() {
         return new AwardBudgetLineItemCalculatedAmountExt();
     }
 
     /**
-     * Gets the obligatedAmount attribute. 
+     * Gets the obligatedAmount attribute.
+     *
      * @return Returns the obligatedAmount.
      */
     public BudgetDecimal getObligatedAmount() {
-        return obligatedAmount==null?BudgetDecimal.ZERO:obligatedAmount;
+        return obligatedAmount == null ? BudgetDecimal.ZERO : obligatedAmount;
     }
+
     /**
      * Sets the obligatedAmount attribute value.
+     *
      * @param obligatedAmount The obligatedAmount to set.
      */
     public void setObligatedAmount(BudgetDecimal obligatedAmount) {
         this.obligatedAmount = obligatedAmount;
     }
-    
+
 }

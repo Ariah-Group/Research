@@ -60,7 +60,7 @@ public class AwardBudgetExt extends Budget {
     private List<AwardBudgetLimit> awardBudgetLimits;
 
     private BudgetVersionOverview firstBudget;
-    
+
     private SortedMap<CostElement, BudgetDecimal> objectCodeBudgetTotals;
 
     private SortedMap<RateType, BudgetDecimal> calculatedExpenseBudgetTotals;
@@ -123,7 +123,8 @@ public class AwardBudgetExt extends Budget {
     }
 
     /**
-     * Gets the ohRatesNonEditable attribute. 
+     * Gets the ohRatesNonEditable attribute.
+     *
      * @return Returns the ohRatesNonEditable.
      */
     public boolean getOhRatesNonEditable() {
@@ -132,7 +133,8 @@ public class AwardBudgetExt extends Budget {
     }
 
     /**
-     * Gets the ebRatesNonEditable attribute. 
+     * Gets the ebRatesNonEditable attribute.
+     *
      * @return Returns the ebRatesNonEditable.
      */
     public boolean getEbRatesNonEditable() {
@@ -141,8 +143,10 @@ public class AwardBudgetExt extends Budget {
     }
 
     /**
-     * Gets the obligatedTotal attribute - which actually contains the BudgetTotalCostLimit which is
-     * the lesser of the obligated distributable amount and the award total cost budget limit. 
+     * Gets the obligatedTotal attribute - which actually contains the
+     * BudgetTotalCostLimit which is the lesser of the obligated distributable
+     * amount and the award total cost budget limit.
+     *
      * @return Returns the obligatedTotal.
      */
     public BudgetDecimal getObligatedTotal() {
@@ -150,8 +154,10 @@ public class AwardBudgetExt extends Budget {
     }
 
     /**
-     * Sets the obligatedTotal attribute value -  which should actually be the BudgetTotalCostLimit which is
-     * the lesser of the obligated distributable amount and the award total cost budget limit.
+     * Sets the obligatedTotal attribute value - which should actually be the
+     * BudgetTotalCostLimit which is the lesser of the obligated distributable
+     * amount and the award total cost budget limit.
+     *
      * @param obligatedTotal The obligatedTotal to set.
      */
     public void setObligatedTotal(BudgetDecimal obligatedAmount) {
@@ -159,7 +165,8 @@ public class AwardBudgetExt extends Budget {
     }
 
     /**
-     * Gets the obligatedAmount attribute. 
+     * Gets the obligatedAmount attribute.
+     *
      * @return Returns the obligatedAmount.
      */
     public BudgetDecimal getObligatedAmount() {
@@ -168,6 +175,7 @@ public class AwardBudgetExt extends Budget {
 
     /**
      * Sets the obligatedAmount attribute value.
+     *
      * @param obligatedAmount The obligatedAmount to set.
      */
     public void setObligatedAmount(BudgetDecimal obligatedAmount) {
@@ -175,7 +183,8 @@ public class AwardBudgetExt extends Budget {
     }
 
     /**
-     * Gets the description attribute. 
+     * Gets the description attribute.
+     *
      * @return Returns the description.
      */
     public String getDescription() {
@@ -184,6 +193,7 @@ public class AwardBudgetExt extends Budget {
 
     /**
      * Sets the description attribute value.
+     *
      * @param description The description to set.
      */
     public void setDescription(String description) {
@@ -191,7 +201,8 @@ public class AwardBudgetExt extends Budget {
     }
 
     /**
-     * Gets the budgetInitiator attribute. 
+     * Gets the budgetInitiator attribute.
+     *
      * @return Returns the budgetInitiator.
      */
     public String getBudgetInitiator() {
@@ -200,6 +211,7 @@ public class AwardBudgetExt extends Budget {
 
     /**
      * Sets the budgetInitiator attribute value.
+     *
      * @param budgetInitiator The budgetInitiator to set.
      */
     public void setBudgetInitiator(String budgetInitiator) {
@@ -211,10 +223,10 @@ public class AwardBudgetExt extends Budget {
             Integer version = 0;
             for (BudgetDocumentVersion budgetDocumentVersion : this.getBudgetDocument().getParentDocument().getBudgetDocumentVersions()) {
                 for (BudgetVersionOverview budgetVersionOverview : budgetDocumentVersion.getBudgetVersionOverviews()) {
-                    if (budgetVersionOverview != null && budgetVersionOverview.getBudgetVersionNumber() > version 
-                    		&& getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_POSTED).equals(
-                    				((AwardBudgetVersionOverviewExt) budgetVersionOverview).getAwardBudgetStatusCode()) 
-                    		&& budgetVersionOverview.getBudgetVersionNumber() < this.getBudgetVersionNumber()) {
+                    if (budgetVersionOverview != null && budgetVersionOverview.getBudgetVersionNumber() > version
+                            && getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_POSTED).equals(
+                                    ((AwardBudgetVersionOverviewExt) budgetVersionOverview).getAwardBudgetStatusCode())
+                            && budgetVersionOverview.getBudgetVersionNumber() < this.getBudgetVersionNumber()) {
                         version = budgetVersionOverview.getBudgetVersionNumber();
                         prevBudget = budgetVersionOverview;
                     }
@@ -239,7 +251,7 @@ public class AwardBudgetExt extends Budget {
             for (BudgetDocumentVersion budgetDocumentVersion : this.getBudgetDocument().getParentDocument().getBudgetDocumentVersions()) {
                 for (BudgetVersionOverview budgetVersionOverview : budgetDocumentVersion.getBudgetVersionOverviews()) {
                     if (budgetVersionOverview != null && getParameterValue(KeyConstants.AWARD_BUDGET_STATUS_POSTED).equals(
-                                    ((AwardBudgetVersionOverviewExt)budgetVersionOverview).getAwardBudgetStatusCode())) {
+                            ((AwardBudgetVersionOverviewExt) budgetVersionOverview).getAwardBudgetStatusCode())) {
                         firstBudget = budgetVersionOverview;
                         return firstBudget;
                     }
@@ -257,7 +269,7 @@ public class AwardBudgetExt extends Budget {
         }
         return firstBudget;
     }
-    
+
     public void setPrevBudget(BudgetVersionOverview prevBudget) {
         this.prevBudget = prevBudget;
     }
@@ -285,7 +297,7 @@ public class AwardBudgetExt extends Budget {
         String rebudgetTypeCode = getParameterValue(KeyConstants.AWARD_BUDGET_TYPE_REBUDGET);
         return Boolean.toString(getAwardBudgetTypeCode().equals(rebudgetTypeCode));
     }
-    
+
     private String getParameterValue(String parameter) {
         return CoreFrameworkServiceLocator.getParameterService().getParameterValueAsString(AwardBudgetDocument.class, parameter);
     }
@@ -361,6 +373,7 @@ public class AwardBudgetExt extends Budget {
 
     /**
      * Gets the sum of the Direct Cost Amount for all budget periods.
+     *
      * @return the amount
      */
     public BudgetDecimal getSumDirectCostAmountFromPeriods() {
