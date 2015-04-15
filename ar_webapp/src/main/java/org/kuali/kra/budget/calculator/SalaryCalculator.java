@@ -398,7 +398,7 @@ public class SalaryCalculator {
                 tempStartDate = rateChangeDate;
             }
         }
-        
+
         Boundary boundary = new Boundary(tempStartDate, endDate);
         salaryDetails = new SalaryDetails();
         salaryDetails.setBoundary(boundary);
@@ -738,7 +738,7 @@ public class SalaryCalculator {
         QueryList<BudgetRate> qlist = filterInflationRates(p1StartDate, startDate);
         for (BudgetRate budgetProposalrate : qlist) {
             if (budgetProposalrate.getStartDate().after(budgetPerson.getEffectiveDate())
-                    || budgetProposalrate.getStartDate().before(startDate)) {
+                    && budgetProposalrate.getStartDate().before(startDate)) {
                 calBase = calBase.add(calBase.multiply(budgetProposalrate.getApplicableRate()).divide(new BudgetDecimal(100.00)));
             }
         }
