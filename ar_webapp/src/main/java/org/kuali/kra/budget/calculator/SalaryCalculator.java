@@ -398,7 +398,7 @@ public class SalaryCalculator {
                 tempStartDate = rateChangeDate;
             }
         }
-        salaryDetails = new SalaryDetails();
+        
         Boundary boundary = new Boundary(tempStartDate, endDate);
         salaryDetails = new SalaryDetails();
         salaryDetails.setBoundary(boundary);
