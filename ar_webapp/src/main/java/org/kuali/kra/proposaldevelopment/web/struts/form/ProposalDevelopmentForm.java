@@ -1278,6 +1278,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
         TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
         ConfigurationService configurationService = CoreApiServiceLocator.getKualiConfigurationService();
+        
         if (tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProposalTask("submitToSponsor", doc))) {
             if (isCanSubmitToSponsor()) {
                 String submitToGrantsGovImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_submittosponsor.gif";
@@ -1308,27 +1309,23 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             addExtraButton("methodToCall.sendNotification", sendNotificationImage, "Send Notification");
         }
 
-        System.out.println("ProposalDevelopmentForm.getExtraActionsButtons.... 1");
-
         setLockAdminTypes(Arrays.asList(getAdminTypesAuthorizedToLock()));
 
         UnitService unitService = KraServiceLocator.getService(UnitService.class);
 
         if (unitService.isQualifiedUnitAdminForProposal(developmentProposal, GlobalVariables.getUserSession().getPrincipalId(), getLockAdminTypes())) {
-            System.out.println("ProposalDevelopmentForm.getExtraActionsButtons.... 2");
+
             if (developmentProposal.isLocked()) {
-                System.out.println("ProposalDevelopmentForm.getExtraActionsButtons.... 3");
+
                 addExtraButton(Constants.METHOD_PROPOSAL_UNLOCK, configurationService.getPropertyValueAsString(externalImageURL)
                         + Constants.BUTTON_PROPOSAL_UNLOCK_NAME, Constants.BUTTON_PROPOSAL_UNLOCK_ALT);
 
             } else {
                 //it is unlocked
-                System.out.println("ProposalDevelopmentForm.getExtraActionsButtons.... 4");
                 addExtraButton(Constants.METHOD_PROPOSAL_LOCK, configurationService.getPropertyValueAsString(externalImageURL)
                         + Constants.BUTTON_PROPOSAL_LOCK_NAME, Constants.BUTTON_PROPOSAL_LOCK_ALT);
             }
 
-            System.out.println("ProposalDevelopmentForm.getExtraActionsButtons.... 5");
         }
 
         return extraButtons;
@@ -2629,23 +2626,23 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      * Whether or not the Proposal Development Internal Attachments should be
      * hidden or not.
      *
-     * @return If true then the attachments are hidden EXCEPT from users with 
-     * specific Unit Admin Role Types. If false everyone with 
-     * permissions to see the proposal can see the attachments.
+     * @return If true then the attachments are hidden EXCEPT from users with
+     * specific Unit Admin Role Types. If false everyone with permissions to see
+     * the proposal can see the attachments.
      */
     public boolean isHideInternalAttachments() {
-        
+
         // check the value of system parameter
         Boolean hideInternalAtts = getParameterService().getParameterValueAsBoolean(
                 Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
                 Constants.PARAMETER_COMPONENT_DOCUMENT,
                 Constants.ARIAH_PROPDEV_HIDE_PD_INTERNAL_ATTACHMENTS, false);
-        
+
         if (!hideInternalAtts) {
             // param was false or not found
             return false;
         } else {
-            
+
             final DevelopmentProposal developmentProposal = ((ProposalDevelopmentDocument) getProposalDevelopmentDocument()).getDevelopmentProposal();
             UnitService unitService = KraServiceLocator.getService(UnitService.class);
             if (unitService.isQualifiedUnitAdminForProposal(developmentProposal,
@@ -2657,7 +2654,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             }
         }
     }
-    
+
     public String[] getAdminTypesAuthorizedToViewInternalAttachments() {
 
         ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
@@ -2672,5 +2669,36 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         }
 
         return adminTypes;
-    }    
+    }
+
+    /**
+     */
+    public boolean isDisplayProposalReportButton() {
+
+        // check the value of system parameter
+        Boolean displayButton = getParameterService().getParameterValueAsBoolean(
+                Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT,
+                Constants.ARIAH_PROPDEV_DISPLAY_PROPOSAL_REPORT_BUTTON, false);
+
+        return displayButton;
+    }
+
+    /**
+     */
+    public String getProposalReportButtonUrl() {
+
+        // check the value of system parameter
+        String reportUrl = getParameterService().getParameterValueAsString(
+                Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT,
+                Constants.ARIAH_PROPDEV_PROPOSAL_REPORT_BUTTON_URL, "");
+
+        if (reportUrl == null || reportUrl.trim().isEmpty()) {
+            return null;
+        } else {
+            return reportUrl + getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber();
+        }
+
+    }
 }
