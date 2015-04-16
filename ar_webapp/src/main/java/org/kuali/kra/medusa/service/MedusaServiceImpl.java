@@ -380,13 +380,22 @@ public class MedusaServiceImpl implements MedusaService {
             if (StringUtils.equals(specialReview.getSpecialReviewTypeCode(), SpecialReviewType.HUMAN_SUBJECTS)
                     && specialReviewLinking.get(SpecialReviewType.HUMAN_SUBJECTS)
                     && !StringUtils.equals(specialReview.getApprovalTypeCode(), SpecialReviewApprovalType.NOT_YET_APPLIED)) {
+
                 Protocol protocol = getProtocol(specialReview.getProtocolNumber());
-                addToGraph(graph, protocol, existingBo);
+
+                if (protocol != null) {
+                    addToGraph(graph, protocol, existingBo);
+                }
+
             } else if (StringUtils.equals(specialReview.getSpecialReviewTypeCode(), SpecialReviewType.ANIMAL_USAGE)
                     && specialReviewLinking.get(SpecialReviewType.ANIMAL_USAGE)
                     && !StringUtils.equals(specialReview.getApprovalTypeCode(), SpecialReviewApprovalType.NOT_YET_APPLIED)) {
+
                 IacucProtocol protocol = getIacuc(specialReview.getProtocolNumber());
-                addToGraph(graph, protocol, existingBo);
+                if (protocol != null) {
+                    addToGraph(graph, protocol, existingBo);
+                }
+
             }
         }
     }
@@ -617,8 +626,8 @@ public class MedusaServiceImpl implements MedusaService {
 
     /**
      *
-     * Returns the newest active if available or the newest no canceled award
-     * if it is not
+     * Returns the newest active if available or the newest no canceled award if
+     * it is not
      *
      * @param awardId
      * @return
