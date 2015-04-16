@@ -692,7 +692,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     /**
-     * This method returns all key persons
+     * This method returns all key persons.
      *
      * @return
      */
@@ -720,22 +720,24 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         }
         return count;
     }
-    
+
     /**
-     * This method returns true if there is at least one unit across all award personnel.
+     * This method returns true if there is at least one unit across all award
+     * personnel.
      *
-     * @return atLeastOne is true if there is at least 1 unit across all personnel.
+     * @return atLeastOne is true if there is at least 1 unit across all
+     * personnel.
      */
     public boolean isTotalUnitCountAtLeastOne() {
         boolean atLeastOne = false;
         for (AwardPerson person : projectPersons) {
-            if(person.getUnits()!=null && person.getUnits().size() > 0) {
+            if (person.getUnits() != null && person.getUnits().size() > 0) {
                 atLeastOne = true;
                 break;
             }
         }
         return atLeastOne;
-    }    
+    }
 
     /**
      * @return
@@ -774,6 +776,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     /**
      *
+     * @param awardApprovedEquipmentItems
      */
     public void setApprovedEquipmentItems(List<AwardApprovedEquipment> awardApprovedEquipmentItems) {
         this.approvedEquipmentItems = awardApprovedEquipmentItems;
@@ -781,6 +784,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     /**
      *
+     * @param approvedForeignTravelTrips
      */
     public void setApprovedForeignTravelTrips(List<AwardApprovedForeignTravel> approvedForeignTravelTrips) {
         this.approvedForeignTravelTrips = approvedForeignTravelTrips;
@@ -888,7 +892,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * This method sets the project end date which is housed in the Amount Info
      * list index[0] on the award.
      *
-     * @return
+     * @param date
      */
     public void setProjectEndDate(Date date) {
         this.awardAmountInfos.get(0).setFinalExpirationDate(date);
@@ -1711,6 +1715,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      *
      * Get the award Proposal IP Review Comments. If the comment has not been
      * set...... initialize and return new Comment.
+     * @return 
      */
     public AwardComment getAwardProposalIPReviewComment() {
         return getAwardCommentByType(Constants.PROPOSAL_IP_REVIEW_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST, true);
@@ -1723,7 +1728,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
         AwardComment awardComment = getCommentMap().get(awardTypeCode);
         if ((awardComment == null && createNew)) {
-            awardComment = awardCommentFactory.createAwardComment(awardTypeCode, (checklistPrintFlag == null ? false : checklistPrintFlag.booleanValue()));
+            awardComment = awardCommentFactory.createAwardComment(awardTypeCode, (checklistPrintFlag == null ? false : checklistPrintFlag));
             add(awardComment);
             commentMap.put(awardComment.getCommentType().getCommentTypeCode(), awardComment);
         }
@@ -1764,7 +1769,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * This method calculates the total Cost Share Met amount for all Award Cost
      * Shares.
      *
-     * @param valuableItems
      * @return The total value
      */
     public KualiDecimal getTotalCostShareMetAmount() {
@@ -1939,6 +1943,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     /**
      * Add AwardSpecialReview to the AwardSpecialReview list
      *
+     * @param specialReview
      * @see
      * org.kuali.kra.document.SpecialReviewHandler#addSpecialReview(java.lang.Object)
      */
@@ -1950,6 +1955,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     /**
      * Get AwardSpecialReview from special review list
      *
+     * @param index
+     * @return 
      * @see org.kuali.kra.document.SpecialReviewHandler#getSpecialReview(int)
      */
     public AwardSpecialReview getSpecialReview(int index) {
@@ -1959,6 +1966,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     /**
      * Get special review list
      *
+     * @return 
      * @see org.kuali.kra.document.SpecialReviewHandler#getSpecialReviews()
      */
     public List<AwardSpecialReview> getSpecialReviews() {
@@ -1968,7 +1976,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     /**
      * Add an ApprovedEquipment item
      *
-     * @param newAwardApprovedEquipment
+     * @param approvedEquipmentItem
      */
     public void add(AwardApprovedEquipment approvedEquipmentItem) {
         approvedEquipmentItems.add(0, approvedEquipmentItem);
@@ -2036,7 +2044,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     /**
      * Add an Award Unit or Central Administration contact
      *
-     * @param newAwardApprovedEquipment
+     * @param awardUnitContact
      */
     public void add(AwardUnitContact awardUnitContact) {
         awardUnitContacts.add(awardUnitContact);
@@ -2067,7 +2075,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     /**
-     * This method adds a Project Person to the award
+     * This method adds a Project Person to the award.
      *
      * @param projectPerson
      */
@@ -2077,9 +2085,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     /**
-     * Add an
+     * Add an AwardPaymentSchedule to the List of AwardPaymentSchedules.
      *
-     * @param newAwardPaymentSchedule
+     * @param paymentScheduleItem
      */
     public void add(AwardPaymentSchedule paymentScheduleItem) {
         paymentScheduleItems.add(paymentScheduleItem);
@@ -2211,7 +2219,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * This method adds template comments to award when sync to template is
      * being applied.
      *
-     * @param awardComment
+     * @param awardTemplateComments
      */
     public void addTemplateComments(List<AwardTemplateComment> awardTemplateComments) {
         AwardCommentFactory awardCommentFactory = new AwardCommentFactory();
@@ -2268,6 +2276,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * This method adds AwardDirectFandADistribution to the given index in the
      * list.
      *
+     * @param index
      * @param awardDirectFandADistribution
      */
     public void add(int index, AwardDirectFandADistribution awardDirectFandADistribution) {
@@ -2280,7 +2289,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     /**
      * This method...
      *
-     * @param institutionaProposalNotepad
+     * @param awardNotepad
      */
     public void add(AwardNotepad awardNotepad) {
         awardNotepad.setEntryNumber(awardNotepads.size() + 1);
@@ -2369,7 +2378,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     /**
-     * @return
+     * @param awardSponsorContacts
      */
     public void setSponsorContacts(List<AwardSponsorContact> awardSponsorContacts) {
         this.sponsorContacts = awardSponsorContacts;
@@ -2473,8 +2482,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     /**
      * Sets the awardDirectFandADistribution attribute value.
      *
-     * @param awardDirectFandADistribution The awardDirectFandADistribution to
-     * set.
+     * @param awardDirectFandADistributions
      */
     public void setAwardDirectFandADistributions(List<AwardDirectFandADistribution> awardDirectFandADistributions) {
         for (AwardDirectFandADistribution awardDirectFandADistribution : awardDirectFandADistributions) {
@@ -3032,6 +3040,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     /**
+     * @param newOwner
      * @see
      * org.kuali.kra.SequenceAssociate#setSequenceOwner(org.kuali.kra.SequenceOwner)
      */
@@ -3081,6 +3090,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * It also removes the AwardFundingProposal from the InstitutionalProposal
      *
      * @param index
+     * @return 
      */
     public AwardFundingProposal removeFundingProposal(int index) {
         AwardFundingProposal afp = (index >= 0) ? fundingProposals.remove(index) : null;
@@ -3145,7 +3155,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     /**
-     * This method...
+     * This method returns a Person matching the specified personid
      *
      * @param personId
      */
@@ -3219,7 +3229,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     /**
-     * Gets the attachmentsw. Cannot return {@code null}.
+     * Gets the attachments. Cannot return {@code null}.
      *
      * @return the attachments
      */
@@ -3262,7 +3272,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     /**
-     * This method indicates if the Awrd has been persisted
+     * This method indicates if the Award has been persisted
      *
      * @return True if persisted
      */
@@ -3551,21 +3561,25 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
             awardCloseoutItems.removeAll(staticCloseoutItems);
 
             for (AwardCloseout awardCloseout : staticCloseoutItems) {
-                if (awardCloseout.getCloseoutReportCode() != null && awardCloseout.getCloseoutReportCode().equalsIgnoreCase(CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT)) {
-                    awardCloseoutNewItems.remove(awardCloseout);
-                    awardCloseoutNewItems.add(0, awardCloseout);
-                } else if (awardCloseout.getCloseoutReportCode() != null && awardCloseout.getCloseoutReportCode().equalsIgnoreCase(CLOSE_OUT_REPORT_TYPE_TECHNICAL)) {
-                    awardCloseoutNewItems.remove(awardCloseout);
-                    awardCloseoutNewItems.add(1, awardCloseout);
-                } else if (awardCloseout.getCloseoutReportCode() != null && awardCloseout.getCloseoutReportCode().equalsIgnoreCase(CLOSE_OUT_REPORT_TYPE_PATENT)) {
-                    awardCloseoutNewItems.remove(awardCloseout);
-                    awardCloseoutNewItems.add(2, awardCloseout);
-                } else if (awardCloseout.getCloseoutReportCode() != null && awardCloseout.getCloseoutReportCode().equalsIgnoreCase(CLOSE_OUT_REPORT_TYPE_PROPERTY)) {
-                    awardCloseoutNewItems.remove(awardCloseout);
-                    awardCloseoutNewItems.add(3, awardCloseout);
-                } else if (awardCloseout.getCloseoutReportCode() != null && awardCloseout.getCloseoutReportCode().equalsIgnoreCase(CLOSE_OUT_REPORT_TYPE_INVOICE)) {
-                    awardCloseoutNewItems.remove(awardCloseout);
-                    awardCloseoutNewItems.add(4, awardCloseout);
+
+                if (awardCloseout.getCloseoutReportCode() != null) {
+
+                    if (awardCloseout.getCloseoutReportCode().equalsIgnoreCase(CLOSE_OUT_REPORT_TYPE_FINANCIAL_REPORT)) {
+                        awardCloseoutNewItems.remove(awardCloseout);
+                        awardCloseoutNewItems.add(0, awardCloseout);
+                    } else if (awardCloseout.getCloseoutReportCode().equalsIgnoreCase(CLOSE_OUT_REPORT_TYPE_TECHNICAL)) {
+                        awardCloseoutNewItems.remove(awardCloseout);
+                        awardCloseoutNewItems.add(1, awardCloseout);
+                    } else if (awardCloseout.getCloseoutReportCode().equalsIgnoreCase(CLOSE_OUT_REPORT_TYPE_PATENT)) {
+                        awardCloseoutNewItems.remove(awardCloseout);
+                        awardCloseoutNewItems.add(2, awardCloseout);
+                    } else if (awardCloseout.getCloseoutReportCode().equalsIgnoreCase(CLOSE_OUT_REPORT_TYPE_PROPERTY)) {
+                        awardCloseoutNewItems.remove(awardCloseout);
+                        awardCloseoutNewItems.add(3, awardCloseout);
+                    } else if (awardCloseout.getCloseoutReportCode().equalsIgnoreCase(CLOSE_OUT_REPORT_TYPE_INVOICE)) {
+                        awardCloseoutNewItems.remove(awardCloseout);
+                        awardCloseoutNewItems.add(4, awardCloseout);
+                    }
                 }
             }
             awardCloseoutItems.addAll(0, awardCloseoutNewItems);
@@ -3653,10 +3667,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     @Override
     public Integer getParentInvestigatorFlag(String personId, Integer flag) {
         for (AwardPerson aPerson : this.getProjectPersons()) {
-            if (aPerson.getPersonId() != null
-                    && aPerson.getPersonId().equals(personId)
-                    || aPerson.getRolodexId() != null
-                    && aPerson.getRolodexId().equals(personId)) {
+            if (aPerson.getPersonId() != null && aPerson.getPersonId().equals(personId)
+                    || aPerson.getRolodexId() != null && aPerson.getRolodexId().toString().equals(personId)) {
                 flag = 2;
                 if (aPerson.isPrincipalInvestigator()) {
                     flag = 1;
@@ -3671,7 +3683,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * This method gets the current rate. If there are multiple current rates,
      * return the one with the higher rate
      *
-     * @param award
      * @return currentFandaRate
      */
     public AwardFandaRate getCurrentFandaRate() {
@@ -3748,13 +3759,11 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     @Override
     public String getProjectName() {
-        // TODO Auto-generated method stub
         return getTitle();
     }
 
     @Override
     public String getProjectId() {
-        // TODO Auto-generated method stub
         return getAwardNumber();
     }
 
@@ -3765,7 +3774,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     /**
      *
      * Setting this value to false will prevent the update timestamp field from
-     * being upddate just once. After that, the update timestamp field will
+     * being update just once. After that, the update timestamp field will
      * update as regular.
      *
      * @param allowUpdateTimestampToBeReset
