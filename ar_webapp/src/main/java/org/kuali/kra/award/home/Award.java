@@ -720,6 +720,22 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         }
         return count;
     }
+    
+    /**
+     * This method returns true if there is at least one unit across all award personnel.
+     *
+     * @return atLeastOne is true if there is at least 1 unit across all personnel.
+     */
+    public boolean isTotalUnitCountAtLeastOne() {
+        boolean atLeastOne = false;
+        for (AwardPerson person : projectPersons) {
+            if(person.getUnits()!=null && person.getUnits().size() > 0) {
+                atLeastOne = true;
+                break;
+            }
+        }
+        return atLeastOne;
+    }    
 
     /**
      * @return

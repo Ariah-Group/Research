@@ -322,7 +322,7 @@
             </table>
         </kul:innerTab>
 
-        <c:if test="${KualiForm.awardCreditSplitBean.awardCreditsLimitApplicable && KualiForm.document.awardList[0].totalUnitCount > 0}" > 
+        <c:if test="${KualiForm.awardCreditSplitBean.awardCreditsLimitApplicable && KualiForm.document.awardList[0].totalUnitCountAtLeastOne}" > 
             <kra-a:creditSplit/>
         </c:if>	    
     </div>    
