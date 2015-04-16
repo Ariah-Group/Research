@@ -84,10 +84,12 @@ public class MedusaServiceImpl implements MedusaService {
 
     /**
      *
+     * @param moduleId
      * @see
      * org.kuali.kra.medusa.service.MedusaService#getMedusaNode(java.lang.String,
      * java.lang.Long)
      */
+    @Override
     public MedusaNode getMedusaNode(String moduleName, Long moduleId) {
         MedusaNode curNode = new MedusaNode();
         curNode.setType(moduleName);
@@ -144,6 +146,7 @@ public class MedusaServiceImpl implements MedusaService {
      * org.kuali.kra.medusa.service.MedusaService#getMedusaByProposal(java.lang.String,
      * java.lang.Long)
      */
+    @Override
     public List<MedusaNode> getMedusaByProposal(String moduleName, Long moduleIdentifier) {
         String preferredModule = Constants.INSTITUTIONAL_PROPOSAL_MODULE;
         return getMedusaTree(moduleName, moduleIdentifier, preferredModule);
@@ -155,6 +158,7 @@ public class MedusaServiceImpl implements MedusaService {
      * org.kuali.kra.medusa.service.MedusaService#getMedusaByAward(java.lang.String,
      * java.lang.Long)
      */
+    @Override
     public List<MedusaNode> getMedusaByAward(String moduleName, Long moduleIdentifier) {
         String preferredModule = Constants.AWARD_MODULE;
         return getMedusaTree(moduleName, moduleIdentifier, preferredModule);
