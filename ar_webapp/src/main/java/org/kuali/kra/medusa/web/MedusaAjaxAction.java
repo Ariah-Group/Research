@@ -30,38 +30,48 @@ import org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.irb.Protocol;
 
 public class MedusaAjaxAction extends KualiDocumentActionBase {
 
+    @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        MedusaForm medusaForm = (MedusaForm)form;
+        MedusaForm medusaForm = (MedusaForm) form;
         MedusaService medusaService = KraServiceLocator.getService(MedusaService.class);
         medusaForm.getMedusaBean().setCurrentNode(medusaService.getMedusaNode(medusaForm.getMedusaBean().getModuleName(), medusaForm.getMedusaBean().getModuleIdentifier()));
-        
+
         return super.execute(mapping, medusaForm, request, response);
     }
-    
+
+    @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        MedusaForm medusaForm = (MedusaForm)form;
+        MedusaForm medusaForm = (MedusaForm) form;
         medusaForm.setCommand("displayDocSearchView");
-        
+
         MedusaService medusaService = KraServiceLocator.getService(MedusaService.class);
         MedusaNode node = medusaService.getMedusaNode(medusaForm.getMedusaBean().getModuleName(), medusaForm.getMedusaBean().getModuleIdentifier());
-        
+
         if (StringUtils.equals(node.getType(), "IP")) {
-            InstitutionalProposal proposal = (InstitutionalProposal)node.getBo();
+            InstitutionalProposal proposal = (InstitutionalProposal) node.getBo();
             medusaForm.setDocId(proposal.getInstitutionalProposalDocument().getDocumentNumber());
         } else if (StringUtils.equals(node.getType(), "award")) {
-            Award award = (Award)node.getBo();
+            Award award = (Award) node.getBo();
             medusaForm.setDocId(award.getAwardDocument().getDocumentNumber());
         } else if (StringUtils.equals(node.getType(), "DP")) {
-            DevelopmentProposal devProposal = (DevelopmentProposal)node.getBo();
+            DevelopmentProposal devProposal = (DevelopmentProposal) node.getBo();
             medusaForm.setDocId(devProposal.getProposalDocument().getDocumentNumber());
-        }else if (StringUtils.equals(node.getType(), "subaward")) {
-            SubAward subAward = (SubAward)node.getBo();
+        } else if (StringUtils.equals(node.getType(), "subaward")) {
+            SubAward subAward = (SubAward) node.getBo();
             medusaForm.setDocId(subAward.getSubAwardDocument().getDocumentNumber());
+        } else if (StringUtils.equals(node.getType(), "irb")) {
+            Protocol protocol = (Protocol) node.getBo();
+            medusaForm.setDocId(protocol.getProtocolDocument().getDocumentNumber());
+        } else if (StringUtils.equals(node.getType(), "iacuc")) {
+            IacucProtocol protocol = (IacucProtocol) node.getBo();
+            medusaForm.setDocId(protocol.getIacucProtocolDocument().getDocumentNumber());
         }
-            
+
         return super.docHandler(mapping, form, request, response);
     }
 }
