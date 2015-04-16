@@ -280,32 +280,17 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
      * Creates the list of <code>{@link PersonEditableField}</code> field names.
      */
     public void populatePersonEditableFields() {
-        // TODO : should refactor this editablefields related to parent class, so it can be shared by other 
-        // modules
-        debug("Adding PersonEditableFields");
 
         setPersonEditableFields(new HashMap<String, Boolean>());
 
         @SuppressWarnings("unchecked")
-        //   Collection<PersonEditableField> fields = getBusinessObjectService().findAll(PersonEditableField.class);
+
         Map fieldValues = new HashMap();
         fieldValues.put("moduleCode", getModuleCode());
         Collection<PersonEditableField> fields = getBusinessObjectService().findMatching(PersonEditableField.class, fieldValues);
         for (PersonEditableField field : fields) {
-            debug("found field " + field.getFieldName());
-            getPersonEditableFields().put(field.getFieldName(), Boolean.valueOf(field.isActive()));
+            getPersonEditableFields().put(field.getFieldName(), field.isActive());
         }
-        // if "All" is implemented
-//        fieldValues.clear();
-//        fieldValues.put("moduleCode", "0");
-//        fields = getBusinessObjectService().findMatching(PersonEditableField.class, fieldValues);
-//        for (PersonEditableField field : fields) {
-//            debug("found field " + field.getFieldName());
-//            if (!getPersonEditableFields().containsKey(field.getFieldName())) {
-//                getPersonEditableFields().put(field.getFieldName(), Boolean.valueOf(field.isActive()));
-//            }
-//        }
-
     }
 
     private BusinessObjectService getBusinessObjectService() {
