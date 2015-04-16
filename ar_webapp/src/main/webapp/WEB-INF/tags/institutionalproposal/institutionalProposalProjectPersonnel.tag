@@ -212,7 +212,7 @@
 				</tr>	                     
 	    	</c:forEach>	    	
 	    </table>
-	    <c:if test="${KualiForm.institutionalProposalCreditSplitBean.institutionalProposalCreditsLimitApplicable && KualiForm.document.institutionalProposalList[0].totalUnitCount > 0}" >
+	    <c:if test="${KualiForm.institutionalProposalCreditSplitBean.institutionalProposalCreditsLimitApplicable && KualiForm.document.institutionalProposalList[0].totalUnitCountAtLeastOne}" >
 	    	<kra-ip:creditSplit/>
 	    </c:if>  
     </div>    

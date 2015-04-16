@@ -71,6 +71,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.*;
+import org.kuali.kra.award.contacts.AwardPerson;
 
 public class InstitutionalProposal extends KraPersistableBusinessObjectBase implements
         KeywordsManager<InstitutionalProposalScienceKeyword>, SequenceOwner<InstitutionalProposal>, Sponsorable, Negotiable {
@@ -1761,6 +1762,24 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
             count += person.getUnits().size();
         }
         return count;
+    }
+
+    /**
+     * This method returns true if there is at least one unit across all project
+     * personnel.
+     *
+     * @return atLeastOne is true if there is at least 1 unit across all
+     * personnel.
+     */
+    public boolean isTotalUnitCountAtLeastOne() {
+        boolean atLeastOne = false;
+        for (InstitutionalProposalPerson person : projectPersons) {
+            if (person.getUnits() != null && person.getUnits().size() > 0) {
+                atLeastOne = true;
+                break;
+            }
+        }
+        return atLeastOne;
     }
 
     @Override
