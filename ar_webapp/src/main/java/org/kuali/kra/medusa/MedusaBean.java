@@ -23,7 +23,7 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
-public class MedusaBean implements Serializable{
+public class MedusaBean implements Serializable {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -34,13 +34,14 @@ public class MedusaBean implements Serializable{
     private Long moduleIdentifier;
     private List<MedusaNode> parentNodes;
     private MedusaNode currentNode;
-    
+
     public MedusaBean() {
         setMedusaViewRadio("0");
     }
-    
+
     /**
-     * Gets the medudaViewRadio attribute. 
+     * Gets the medudaViewRadio attribute.
+     *
      * @return Returns the medudaViewRadio.
      */
     public String getMedusaViewRadio() {
@@ -48,8 +49,9 @@ public class MedusaBean implements Serializable{
     }
 
     /**
-     * Sets the medudaViewRadio attribute value.
-     * @param medudaViewRadio The medudaViewRadio to set.
+     * Sets the medusaViewRadio attribute value.
+     *
+     * @param medusaViewRadio The medusaViewRadio to set.
      */
     public void setMedusaViewRadio(String medusaViewRadio) {
         if (!StringUtils.equals(this.medusaViewRadio, medusaViewRadio)) {
@@ -59,7 +61,8 @@ public class MedusaBean implements Serializable{
     }
 
     /**
-     * Gets the moduleName attribute. 
+     * Gets the moduleName attribute.
+     *
      * @return Returns the moduleName.
      */
     public String getModuleName() {
@@ -68,6 +71,7 @@ public class MedusaBean implements Serializable{
 
     /**
      * Sets the moduleName attribute value.
+     *
      * @param moduleName The moduleName to set.
      */
     public void setModuleName(String moduleName) {
@@ -75,7 +79,8 @@ public class MedusaBean implements Serializable{
     }
 
     /**
-     * Gets the moduleIdentifier attribute. 
+     * Gets the moduleIdentifier attribute.
+     *
      * @return Returns the moduleIdentifier.
      */
     public Long getModuleIdentifier() {
@@ -84,29 +89,30 @@ public class MedusaBean implements Serializable{
 
     /**
      * Sets the moduleIdentifier attribute value.
+     *
      * @param moduleIdentifier The moduleIdentifier to set.
      */
     public void setModuleIdentifier(Long moduleIdentifier) {
         this.moduleIdentifier = moduleIdentifier;
     }
-    
+
     /**
      * This method...
+     *
      * @return
      */
     private MedusaService getMedusaService() {
         return KraServiceLocator.getService(MedusaService.class);
     }
-    
-    public void generateParentNodes() {
-        if(StringUtils.equalsIgnoreCase("0", getMedusaViewRadio())){
-            setParentNodes(getMedusaService().getMedusaByProposal(getModuleName(), getModuleIdentifier()));    
-        }else if(StringUtils.equalsIgnoreCase("1", getMedusaViewRadio())){
-            setParentNodes(getMedusaService().getMedusaByAward(getModuleName(), getModuleIdentifier()));    
-        }
-        sortNodes(parentNodes);        
-    }
 
+    public void generateParentNodes() {
+        if (StringUtils.equalsIgnoreCase("0", getMedusaViewRadio())) {
+            setParentNodes(getMedusaService().getMedusaByProposal(getModuleName(), getModuleIdentifier()));
+        } else if (StringUtils.equalsIgnoreCase("1", getMedusaViewRadio())) {
+            setParentNodes(getMedusaService().getMedusaByAward(getModuleName(), getModuleIdentifier()));
+        }
+        sortNodes(parentNodes);
+    }
 
     public List<MedusaNode> getParentNodes() {
         if (parentNodes == null) {
@@ -114,11 +120,11 @@ public class MedusaBean implements Serializable{
         }
         return parentNodes;
     }
-    
-    private void sortNodes(List<MedusaNode> nodes){
+
+    private void sortNodes(List<MedusaNode> nodes) {
         Collections.sort(nodes, new MedusaNodeComparator());
-        for(MedusaNode mNode: nodes){
-            if(!mNode.getChildNodes().isEmpty()){
+        for (MedusaNode mNode : nodes) {
+            if (!mNode.getChildNodes().isEmpty()) {
                 sortNodes(mNode.getChildNodes());
             }
         }
@@ -127,13 +133,13 @@ public class MedusaBean implements Serializable{
     public void setParentNodes(List<MedusaNode> parentNodes) {
         this.parentNodes = parentNodes;
     }
-    
+
     public MedusaNode getCurrentNode() {
         return currentNode;
     }
-    
+
     public void setCurrentNode(MedusaNode currentNode) {
         this.currentNode = currentNode;
     }
-    
+
 }
