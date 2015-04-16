@@ -325,9 +325,10 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
 
     /**
      * This is a duplication of
-     * KualiTransactionalDocumentFormBase.populateFalseCheckboxes with the cavet
-     * that this function puts a NULL in for fields that contain "answer", which
-     * are the field names of radio Y/N buttons for the questionnaire framework.
+     * KualiTransactionalDocumentFormBase.populateFalseCheckboxes with the
+     * caveat that this function puts a NULL in for fields that contain
+     * "answer", which are the field names of radio Y/N buttons for the
+     * questionnaire framework.
      *
      * @see
      * org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase#populateFalseCheckboxes(javax.servlet.http.HttpServletRequest)
