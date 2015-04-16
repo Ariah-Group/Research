@@ -40,6 +40,8 @@ import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.krad.bo.BusinessObject;
 
 import java.util.Comparator;
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.irb.Protocol;
 
 public class MedusaNodeComparator implements Comparator<MedusaNode> {
 
@@ -63,6 +65,10 @@ public class MedusaNodeComparator implements Comparator<MedusaNode> {
                 return nodeType + ((Negotiation) mBo).getNegotiationId();
             } else if (StringUtils.equals(nodeType, "subaward")) {
                 return nodeType + ((SubAward) mBo).getSubAwardId();
+            } else if (StringUtils.equals(nodeType, "irb")) {
+                return nodeType + ((Protocol) mBo).getProtocolNumber();
+            } else if (StringUtils.equals(nodeType, "iacuc")) {
+                return nodeType + ((IacucProtocol) mBo).getProtocolNumber();
             } else {
                 return "project: unsupported project node type";
             }
