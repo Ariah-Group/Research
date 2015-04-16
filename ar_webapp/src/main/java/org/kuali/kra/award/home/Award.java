@@ -97,6 +97,7 @@ import java.sql.Timestamp;
 import java.util.*;
 import org.kuali.kra.krms.KcKrmsContextBo;
 import org.kuali.kra.krms.KrmsRulesContext;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  *
@@ -2751,7 +2752,26 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         AwardPerson pi = getPrincipalInvestigator();
         if (pi != null) {
             if (pi.getIsRolodexPerson()) {
-                principalInvestigatorName = pi.getRolodex().getOrganization();
+
+                ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+
+                boolean awardPiAddressBookUseNameEnabled = paramServ.getParameterValueAsBoolean(
+                        Constants.MODULE_NAMESPACE_AWARD,
+                        Constants.PARAMETER_COMPONENT_DOCUMENT,
+                        Constants.ARIAH_AWARD_HEADER_PI_NONEMP_FULLNAME_OVERRIDE, false);
+
+                if (awardPiAddressBookUseNameEnabled) {
+                    String fullName = pi.getRolodex().getFullName();
+
+                    if (fullName != null && !fullName.trim().isEmpty()) {
+                        principalInvestigatorName = fullName;
+                    } else {
+                        principalInvestigatorName = pi.getRolodex().getOrganization();
+                    }
+                } else {
+                    principalInvestigatorName = pi.getRolodex().getOrganization();
+                }
+
             } else {
                 principalInvestigatorName = pi.getFullName();
             }

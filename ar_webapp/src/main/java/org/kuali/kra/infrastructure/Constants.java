@@ -942,13 +942,10 @@ public interface Constants {
     public static final String ARIAH_IRB_PROTOCOL_NUMBER_PATTERN = "ARIAH_IRB_PROTOCOL_NUMBER_PATTERN";
     public static final String ARIAH_IRB_HIDE_QUESTIONNAIRES_ON_HISTORY = "ARIAH_IRB_HIDE_QUESTIONNAIRES_ON_HISTORY";
     
-    
-    
-    public static final String ARIAH_PARAM_IACUC_DEFAULT_PERFORMING_ORG_ID = "ARIAH_IACUC_DEFAULT_PERFORMING_ORG_ID";
+    // Parameter constants used for Awards
+    public static final String ARIAH_AWARD_HEADER_PI_NONEMP_FULLNAME_OVERRIDE = "ARIAH_AWARD_HEADER_PI_NONEMP_FULLNAME_OVERRIDE";
     public static final String ARIAH_AWARD_HIDE_AND_DEFAULT_AWARD_DOC_DESC = "ARIAH_AWARD_HIDE_AND_DEFAULT_AWARD_DOC_DESC";
-    public static final String ARIAH_IACUC_HIDE_AND_DEFAULT_IACUC_PROTOCOL_DOC_DESC = "ARIAH_IACUC_HIDE_AND_DEFAULT_IACUC_PROTOCOL_DOC_DESC";
-    public static final String ARIAH_SUBAWARD_HIDE_AND_DEFAULT_SUBAWARD_DOC_DESC = "ARIAH_SUBAWARD_HIDE_AND_DEFAULT_SUBAWARD_DOC_DESC";
-
+    
     // Parameter Constants for Dev Proposals
     public static final String ARIAH_PARAM_PROPDEV_DEFAULT_PERFORMING_ORG_ID = "ARIAH_PROPDEV_DEFAULT_PERFORMING_ORG_ID";
     public static final String ARIAH_PROPDEV_DEFAULT_ANTICIPATED_AWARD_TYPE = "ARIAH_PROPDEV_DEFAULT_ANTICIPATED_AWARD_TYPE";
@@ -975,6 +972,7 @@ public interface Constants {
     public static final String ARIAH_PROPDEV_DISPLAY_PROPOSAL_REPORT_BUTTON = "ARIAH_PROPDEV_DISPLAY_PROPOSAL_REPORT_BUTTON";
     public static final String ARIAH_PROPDEV_PROPOSAL_REPORT_BUTTON_URL = "ARIAH_PROPDEV_PROPOSAL_REPORT_BUTTON_URL";
     
+    
     // Parameter Constants for Budgets
     public static final String ARIAH_PROPDEV_BUDGET_DEFAULT_SUBMIT_COST_SHARING_FLAG = "ARIAH_PROPDEV_BUDGET_DEFAULT_SUBMIT_COST_SHARING_FLAG";
     
@@ -986,6 +984,13 @@ public interface Constants {
     // Parameter constants for Institutional Proposals
     public static final String ARIAH_INSTPROP_SHOW_INTELLPROPREVIEW_TAB = "ARIAH_INSTPROP_SHOW_INTELLPROPREVIEW_TAB";
     
+    // Parameter Constants for IACUC Protocols
+    public static final String ARIAH_PARAM_IACUC_DEFAULT_PERFORMING_ORG_ID = "ARIAH_IACUC_DEFAULT_PERFORMING_ORG_ID";
+    public static final String ARIAH_IACUC_HIDE_AND_DEFAULT_IACUC_PROTOCOL_DOC_DESC = "ARIAH_IACUC_HIDE_AND_DEFAULT_IACUC_PROTOCOL_DOC_DESC";
+    
+    // Parameter Constants for Subawards
+    public static final String ARIAH_SUBAWARD_HIDE_AND_DEFAULT_SUBAWARD_DOC_DESC = "ARIAH_SUBAWARD_HIDE_AND_DEFAULT_SUBAWARD_DOC_DESC";
+
     /**
      * Module Code for "Award" records in as defined in COEUS_MODULE database table.
      */
