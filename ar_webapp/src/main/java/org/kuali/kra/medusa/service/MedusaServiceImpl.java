@@ -490,7 +490,7 @@ public class MedusaServiceImpl implements MedusaService {
 
     protected void addToGraph(HashMap<BusinessObject, List<BusinessObject>> graph, BusinessObject newBo, BusinessObject existingBo) {
         if (newBo == null || existingBo == null) {
-            throw new RuntimeException("Inavlid or null Medusa link found");
+            throw new RuntimeException("Invalid or null Medusa link found");
         }
         if (findMatchingBo(graph.keySet(), newBo) == null) {
             addEdge(graph, existingBo, newBo);
@@ -533,7 +533,7 @@ public class MedusaServiceImpl implements MedusaService {
 
     /**
      *
-     * Checks the buisness objects for equality assuming they are medusa
+     * Checks the business objects for equality assuming they are medusa
      * supported BOs (Development Proposal, Institutional Proposal or Award),
      * this is because the current BOs do not support equality checking.
      *
@@ -617,7 +617,7 @@ public class MedusaServiceImpl implements MedusaService {
 
     /**
      *
-     * Returns the newest active if available or the newest no cancelled award
+     * Returns the newest active if available or the newest no canceled award
      * if it is not
      *
      * @param awardId
@@ -692,7 +692,7 @@ public class MedusaServiceImpl implements MedusaService {
 
     /**
      *
-     * Gets the active or if not available the most current, not cancelled
+     * Gets the active or if not available the most current, not canceled
      * version of a versioned BO. Currently only Awards use the Version History
      * framework though
      *
