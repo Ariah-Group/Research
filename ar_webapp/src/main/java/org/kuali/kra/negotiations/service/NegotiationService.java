@@ -46,7 +46,7 @@ public interface NegotiationService {
     
     /**
      * 
-     * This method returns the associated Negotiable implemetned BO for the passed in negotiation.
+     * This method returns the associated Negotiable implemented BO for the passed in negotiation.
      * @param negotiation
      * @return
      */
