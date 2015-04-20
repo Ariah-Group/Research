@@ -357,7 +357,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      * Updates an Editable Proposal Field and adds it to the Proposal Change
      * History
      *
-     * @param mapping the Struct's Action Mapping.
+     * @param mapping the Strut's Action Mapping.
      * @param form the Proposal Development Form.
      * @param request the HTTP request.
      * @param response the HTTP response
@@ -480,7 +480,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      * Copies a Proposal Development Document based upon user-specified
      * criteria.
      *
-     * @param mapping the Struct's Action Mapping.
+     * @param mapping the Strut's Action Mapping.
      * @param form the Proposal Development Form.
      * @param request the HTTP request.
      * @param response the HTTP response
@@ -1774,7 +1774,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     /**
      * Updates an Editable Budget Field and adds it to the Budget Change History
      *
-     * @param mapping the Struct's Action Mapping.
+     * @param mapping the Strut's Action Mapping.
      * @param form the Proposal Development Form.
      * @param request the HTTP request.
      * @param response the HTTP response
