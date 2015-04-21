@@ -5,6 +5,7 @@
             <name>IacucProtocolDocument</name>
             <description>Manage IACUC Protocol</description>
             <label>IACUC Protocol</label>
+            <parent>AR</parent>
             <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
             <superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
             <blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
@@ -12,15 +13,15 @@
             <docHandler>${kuali.docHandler.url.prefix}/iacucProtocolProtocol.do?methodToCall=docHandler</docHandler>
             <helpDefinitionURL>default.htm?turl=Documents/iacucProtocol.htm</helpDefinitionURL>
             <active>true</active>
-			<policies>
-				<policy>
-					<name>DEFAULT_APPROVE</name>
-					<value>false</value>
-					<!--
-						this should be false in a production scenario
-					-->
-				</policy>
-				<policy>
+            <policies>
+                <policy>
+                    <name>DEFAULT_APPROVE</name>
+                    <value>false</value>
+                    <!--
+                            this should be false in a production scenario
+                    -->
+                </policy>
+                <policy>
                     <name>LOOK_FUTURE</name>
                     <value>true</value>
                 </policy>
@@ -32,13 +33,13 @@
                     <name>INITIATOR_MUST_CANCEL</name>
                     <value>false</value>
                 </policy>                
-			</policies>            
+            </policies>            
             <routingVersion>2</routingVersion>
             <routePaths>
                 <routePath>
                     <start name="Initiated" nextNode="PeopleFlows" />
                     <requests name="PeopleFlows" nextNode="IACUCReview" />
-					<requests name="IACUCReview" />
+                    <requests name="IACUCReview" />
                 </routePath>
             </routePaths>
             <routeNodes>
@@ -51,33 +52,32 @@
                     <activationType>R</activationType>
                     <rulesEngine executorClass="org.kuali.kra.iacuc.IacucProtocolRulesEngineExecutorImpl"/>
                 </requests>
-                 <role name="IACUCReview">
-					<qualifierResolver>IACUC ProtocolApprover-XPathQualifierResolver</qualifierResolver> 
+                <role name="IACUCReview">
+                    <qualifierResolver>IACUC ProtocolApprover-XPathQualifierResolver</qualifierResolver> 
                     <activationType>S</activationType>
-	            </role>   
+                </role>   
             </routeNodes>
-            <parent>AR</parent>
         </documentType>
     </documentTypes>    
 
-	<ruleAttributes xmlns="ns:workflow/RuleAttribute"
-		xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
-		<ruleAttribute>
-			<name>IACUC ProtocolApprover-XPathQualifierResolver</name>
-			<className>org.kuali.kra.iacuc.IacucProtocolQualifierResolver</className>
-			<label>IACUC ProtocolApprover-XPathQualifierResolver</label>
-			<description>To limit the Approval Request to be routed to IACUC ProtocolApprovers for this protocol only</description>
-			<type>QualifierResolver</type>
-			<serviceNamespace>KC</serviceNamespace>
-			<resolverConfig>
-				<attributes name="protocol">
-					<xPathExpression>//document/protocolList[1]/org.kuali.kra.iacuc.IacucProtocol[1]/protocolNumber[1]</xPathExpression>
-				</attributes>
-				<attributes name="unitNumber">
-					<xPathExpression>//document/protocolList[1]/org.kuali.kra.iacuc.IacucProtocol[1]/leadUnitNumber[1]</xPathExpression>
-				</attributes>
-			</resolverConfig>
-		</ruleAttribute>
+    <ruleAttributes xmlns="ns:workflow/RuleAttribute"
+                        xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+        <ruleAttribute>
+            <name>IACUC ProtocolApprover-XPathQualifierResolver</name>
+            <className>org.kuali.kra.iacuc.IacucProtocolQualifierResolver</className>
+            <label>IACUC ProtocolApprover-XPathQualifierResolver</label>
+            <description>To limit the Approval Request to be routed to IACUC ProtocolApprovers for this protocol only</description>
+            <type>QualifierResolver</type>
+            <serviceNamespace>KC</serviceNamespace>
+            <resolverConfig>
+                <attributes name="protocol">
+                    <xPathExpression>//document/protocolList[1]/org.kuali.kra.iacuc.IacucProtocol[1]/protocolNumber[1]</xPathExpression>
+                </attributes>
+                <attributes name="unitNumber">
+                    <xPathExpression>//document/protocolList[1]/org.kuali.kra.iacuc.IacucProtocol[1]/leadUnitNumber[1]</xPathExpression>
+                </attributes>
+            </resolverConfig>
+        </ruleAttribute>
     </ruleAttributes>
 
 	

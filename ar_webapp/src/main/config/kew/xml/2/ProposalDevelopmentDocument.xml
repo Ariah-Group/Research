@@ -61,7 +61,7 @@
                             <requests name="ProposalUnitDeansRouting" nextNode="ProposalFinanceRouting"/>
                             <requests name="ProposalFinanceRouting" nextNode="ProposalPresidentRouting"/>
                             <requests name="ProposalPresidentRouting" nextNode="OSPOfficeRouting"/>
-                              <requests name="OSPOfficeRouting" nextNode = "Join" />
+                            <requests name="OSPOfficeRouting" nextNode = "Join" />
                         </branch>
                         <branch name = "True">
                             <!-- The document is a child in a hierarchy. This node will have the system user as an approver.  If the parent moves to final approval, is rejected, or cancelled
@@ -230,7 +230,7 @@
             <serviceNamespace>KC</serviceNamespace>
             <searchingConfig>
                 <fieldDef name="narrativeWriter"
-                                          title="Narrative Writer">
+                          title="Narrative Writer">
                     <display>
                         <type>text</type>
                     </display>

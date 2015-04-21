@@ -5,14 +5,14 @@
             <name>IACUCAdmin</name>
             <namespace>KC-WKFLW</namespace>
             <description>IACUC Administrator</description>
-			<members>
-				<principalName>kr</principalName>
-			</members>
+            <members>
+                <principalName>kr</principalName>
+            </members>
         </group>
     </groups>
 
     <documentTypes xmlns="ns:workflow/DocumentType"
-        xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+                   xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
         <documentType>
             <name>IacucProtocolOnlineReviewDocument</name>
             <description>Create a IACUC Protocol Review Document</description>
@@ -27,58 +27,58 @@
             <!-- Using the same security attribute as in IRB Protocol since the logic for blocking
             both is / should be the same. -->
             <security>
-             <securityAttribute name="ProtocolOnlineReviewSecurityAttribute"/>
+                <securityAttribute name="ProtocolOnlineReviewSecurityAttribute"/>
             </security>
-			<policies>
-				<policy>
-					<name>DEFAULT_APPROVE</name>
-					<value>false</value>
-					<!--
-						this should be false in a production scenario
-					-->
-				</policy>
-				<policy>
+            <policies>
+                <policy>
+                    <name>DEFAULT_APPROVE</name>
+                    <value>false</value>
+                    <!--
+                            this should be false in a production scenario
+                    -->
+                </policy>
+                <policy>
                     <name>LOOK_FUTURE</name>
                     <value>true</value>
                 </policy>
-			</policies>
-			<routePaths>
-				<routePath>
-					<start name="Initiated" nextNode="IACUCAdminInitialReview" />
-					<requests name="IACUCAdminInitialReview" nextNode = "IACUCOnlineReviewer"/>
+            </policies>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" nextNode="IACUCAdminInitialReview" />
+                    <requests name="IACUCAdminInitialReview" nextNode = "IACUCOnlineReviewer"/>
                     <requests name="IACUCOnlineReviewer" nextNode="IACUCAdminReview" />
-					<requests name="IACUCAdminReview" />
-				</routePath>
-			</routePaths>
-			<routeNodes>
-				<start name="Initiated">
-					<activationType>S</activationType>
-				</start>
-				 <!--  This role is for a requested review.  When a PI requests a review via submit protocol action,  it will wait here
-				       for IACUC Admin approval before being routed to the reviewer. -->
-				 <role name="IACUCAdminInitialReview">
-					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+                    <requests name="IACUCAdminReview" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>S</activationType>
+                </start>
+                <!--  This role is for a requested review.  When a PI requests a review via submit protocol action,  it will wait here
+                for IACUC Admin approval before being routed to the reviewer. -->
+                <role name="IACUCAdminInitialReview">
+                    <qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
                     <activationType>S</activationType>
                     <finalApproval>false</finalApproval>
                     <mandatoryRoute>false</mandatoryRoute>
-	            </role>                
-	            <role name="IACUCOnlineReviewer">
-					<qualifierResolver>IacucProtocolOnlineReviewReviewer-XPathQualifierResolver</qualifierResolver>
+                </role>                
+                <role name="IACUCOnlineReviewer">
+                    <qualifierResolver>IacucProtocolOnlineReviewReviewer-XPathQualifierResolver</qualifierResolver>
                     <activationType>S</activationType>
                     <finalApproval>false</finalApproval>
                     <mandatoryRoute>false</mandatoryRoute>
-	            </role>                
+                </role>                
                 <role name="IACUCAdminReview">
-					<qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+                    <qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
                     <activationType>P</activationType>
                     <mandatoryRoute>false</mandatoryRoute>
-	            </role>                     
-			</routeNodes>
+                </role>                     
+            </routeNodes>
         </documentType>
     </documentTypes>
 
     <ruleAttributes xmlns="ns:workflow/RuleAttribute"
-        xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+                    xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
 
         <ruleAttribute>
             <name>ProtocolOnlineReviewSecurityAttribute</name>
