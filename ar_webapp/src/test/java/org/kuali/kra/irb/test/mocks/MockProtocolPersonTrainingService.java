@@ -19,6 +19,7 @@ import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 
 import java.util.List;
+import org.kuali.kra.bo.PersonTraining;
 
 /**
  * A Mock for the ProtocolPersonTrainingService.
@@ -36,6 +37,11 @@ public class MockProtocolPersonTrainingService implements ProtocolPersonTraining
 
     public void setTrainedFlag(ProtocolPersonBase protocolPerson) {
         protocolPerson.setTrained(true);
+    }
+
+    @Override
+    public List<PersonTraining> getPersonTrainingDetails(String personId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
