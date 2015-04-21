@@ -12,7 +12,7 @@
             <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
             <superUserWorkgroupName>KC-WKFLW:OSP Superuser</superUserWorkgroupName>
             <defaultExceptionWorkgroupName>KC-WKFLW:ProposalAdmin</defaultExceptionWorkgroupName>
-            <blanketApprovePolicy>NONE</blanketApprovePolicy>
+            <blanketApproveWorkgroupName>KC-WKFLW:ProposalAdmin</blanketApproveWorkgroupName>
             <docHandler>${kuali.docHandler.url.prefix}/proposalDevelopmentProposal.do?methodToCall=docHandler</docHandler>
             <helpDefinitionURL>default.htm?turl=Documents/proposaldevelopment.htm</helpDefinitionURL>
             <authorizer>org.kuali.kra.proposaldevelopment.document.authorization.ProposalDevelopmentWorkflowDocumentAuthorizer</authorizer>
