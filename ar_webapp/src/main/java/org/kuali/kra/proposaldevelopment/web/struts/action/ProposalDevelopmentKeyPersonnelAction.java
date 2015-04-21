@@ -592,10 +592,29 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
                     answerHeadersToSave.addAll(helper.getAnswerHeaders());
                 }
             }
+            
+            
+             /**
+             * Simply saving answerHeadersToSave causes an OLE,
+             * with the error saying that OJB thinks the object has already been
+             * modified by another user. This avoids that situation.
+             */
             if (!answerHeadersToSave.isEmpty()) {
-                this.getBusinessObjectService().save(answerHeadersToSave);
+                List<AnswerHeader> freshHeaders = new ArrayList<AnswerHeader>();
+                for (AnswerHeader header : answerHeadersToSave) {
+                    Map primaryKeys = new HashMap();
+                    primaryKeys.put("QUESTIONNAIRE_ANSWER_HEADER_ID", header.getAnswerHeaderId());
+                    AnswerHeader ah = (AnswerHeader) this.getBusinessObjectService().findByPrimaryKey(AnswerHeader.class, primaryKeys);
+                    if (ah != null) {
+                        freshHeaders.add(ah);
+                    }
+                }
+                if (!freshHeaders.isEmpty()) {
+                    this.getBusinessObjectService().save(freshHeaders);
+                }
+                answerHeadersToSave.clear();
             }
-
+            
             /**
              * Simply deleting pdform.getAnswerHeadersToDelete() causes an OLE,
              * with the error saying that OJB thinks the object has already been

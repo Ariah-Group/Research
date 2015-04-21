@@ -418,6 +418,13 @@
     <property name="shortLabel" value="Perc Eff" />
     <property name="summary" value="Percentage Effort" />
     <property name="description" value="Percentage Effort" />
+    <property name="maxLength" value="6"/>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="5" p:watermarkText="##.##"/>
+    </property>
+    <property name="validationPattern">
+      <bean parent="FixedPointValidationPattern" p:precision="5" p:allowNegative="false" p:scale="2"/>
+    </property> 
   </bean>
   <bean id="ProposalPerson-fedrDebrFlag" parent="ProposalPerson-fedrDebrFlag-parentBean" />
 
