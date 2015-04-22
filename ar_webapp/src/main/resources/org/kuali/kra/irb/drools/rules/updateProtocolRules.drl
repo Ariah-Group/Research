@@ -27,7 +27,7 @@ function void setProtocolStatusCode(ProtocolActionUpdateMapping protocolAction, 
     protocolAction.getProtocol().setProtocolStatusCode(newProtocolStatusCode);  
 } 
 
-rule "fn_assign_to_agenda: Submission Status = 101 (Assiged to Agenda);"
+rule "fn_assign_to_agenda: Submission Status = 101 (Assigned to Agenda);"
 salience 100
 when
 	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "200")
