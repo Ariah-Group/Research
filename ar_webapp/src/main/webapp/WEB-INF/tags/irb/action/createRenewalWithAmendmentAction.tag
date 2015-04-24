@@ -115,7 +115,7 @@
 	            					    <kul:htmlControlAttribute property="actionHelper.protocolRenewAmendmentBean.others" 
 	            					                              attributeEntry="${attributes.others}" 
 	            					                              disabled="${!KualiForm.actionHelper.protocolRenewAmendmentBean.othersEnabled}" />
-	            					    Others
+	            					    Custom Fields
 	            					</td>
 	            				</tr>
 	            				<tr>
