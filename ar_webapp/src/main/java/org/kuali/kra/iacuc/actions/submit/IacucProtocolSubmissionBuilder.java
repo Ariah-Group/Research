@@ -209,7 +209,7 @@ public class IacucProtocolSubmissionBuilder {
     }
     
     /*
-     * save notify irb attachments.
+     * save notify attachments.
      */
     private void saveAttachments() {
         for (ProtocolActionAttachment attachment : actionAttachments) {
