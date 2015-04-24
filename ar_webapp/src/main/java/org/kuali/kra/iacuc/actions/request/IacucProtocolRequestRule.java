@@ -24,27 +24,29 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
- * Business rule for a protocol request.  If the mandatory option has been
- * set in the system params, the committee must be selected.
+ * Business rule for a protocol request. If the mandatory option has been set in
+ * the system params, the committee must be selected.
  */
 @SuppressWarnings("unchecked")
 public class IacucProtocolRequestRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<IacucProtocolRequestEvent> {
-    
+
     private static final String MANDATORY = "M";
 
     /**
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+     * @see
+     * org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
      */
+    @Override
     public boolean processRules(IacucProtocolRequestEvent event) {
-        
+
         boolean valid = true;
-        
+
         if (isMandatory()) {
             valid &= validateCommittee(event.getPropertyKey(), event.getRequestBean());
         }
         return valid;
     }
-    
+
     /**
      * If the committee is mandatory, verify that a committee has been selected.
      */
@@ -52,20 +54,20 @@ public class IacucProtocolRequestRule extends ResearchDocumentRuleBase implement
         boolean valid = true;
         if (StringUtils.isBlank(requestBean.getCommitteeId())) {
             valid = false;
-            GlobalVariables.getMessageMap().putError(propertyKey + ".committeeId", 
+            GlobalVariables.getMessageMap().putError(propertyKey + ".committeeId",
                     KeyConstants.ERROR_PROTOCOL_COMMITTEE_NOT_SELECTED);
         }
         return valid;
     }
 
-//TODO: Check parm in following method    
     /**
      * Is it mandatory for the submission to contain the committee and schedule?
+     *
      * @return true if mandatory; otherwise false
      */
     private boolean isMandatory() {
-        final String param = this.getParameterService().getParameterValueAsString(IacucProtocolDocument.class, Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
-        
-        return StringUtils.equalsIgnoreCase(MANDATORY, param);  
+        final String param = this.getParameterService().getParameterValueAsString(IacucProtocolDocument.class, Constants.PARAMETER_IACUC_COMM_SELECTION_DURING_SUBMISSION);
+
+        return StringUtils.equalsIgnoreCase(MANDATORY, param);
     }
 }
