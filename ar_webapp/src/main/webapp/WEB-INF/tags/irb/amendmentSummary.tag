@@ -134,7 +134,7 @@
 		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentSummaryBean.others" 
 		                                                                  attributeEntry="${attributes.others}" 
 		                                                                  disabled="true" />
-		                                        Others
+		                                        Custom Fields
 		                                    </td>
 		                                </tr>
 		                                <tr>
