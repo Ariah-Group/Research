@@ -162,7 +162,7 @@
 	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.others" 
 	            					                              attributeEntry="${attributes.others}" 
 	            					                              disabled="${!KualiForm.actionHelper.protocolAmendmentBean.othersEnabled}" />
-	            					    Others
+	            					    Custom Fields
 	            					</td>
 	            				</tr>
 
