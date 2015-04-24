@@ -454,7 +454,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
         ReviewCommentsBeanBase reviewCommentsBean = protocolForm.getOnlineReviewsActionHelper().getReviewCommentsBeanFromHelperMap(onlineReviewDocumentNumber);
         ReviewAttachmentsBeanBase reviewAttachmentsBean = protocolForm.getOnlineReviewsActionHelper().getReviewAttachmentsBeanFromHelperMap(onlineReviewDocumentNumber);
         boolean isApproveReview = StringUtils.equals(IacucProtocolOnlineReviewStatus.SAVED_STATUS_CD, prDoc.getProtocolOnlineReview().getProtocolOnlineReviewStatusCode());
-        //check to see if we are the reviewer and this is an approval to the irb admin.
+        //check to see if we are the reviewer and this is an approval to the iacuc admin.
 
         boolean validComments = applyRules(new RouteProtocolOnlineReviewEvent(prDoc, reviewCommentsBean.getReviewComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)));
         boolean statusIsOk = false;
