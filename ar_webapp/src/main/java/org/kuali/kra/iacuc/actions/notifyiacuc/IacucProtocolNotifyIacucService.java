@@ -19,16 +19,16 @@ import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
- * Protocol Notify IRB Service.
+ * Protocol Notify IACUC Service.
  */
 public interface IacucProtocolNotifyIacucService {
 
     /**
-     * Submit a notification to the IRB office.
-     * The corresponding submission and protocol action
-     * entries will be added to the database.
+     * Submit a notification to the IACUC office. The corresponding submission
+     * and protocol action entries will be added to the database.
+     *
      * @param protocol the protocol
-     * @param notifyIrbBean the irb notification data
+     * @param notifyIacucBean the iacuc notification data
      */
-    public void submitIacucNotification(IacucProtocol protocol, IacucProtocolNotifyIacucBean notifyIacucBean) throws WorkflowException ;
+    public void submitIacucNotification(IacucProtocol protocol, IacucProtocolNotifyIacucBean notifyIacucBean) throws WorkflowException;
 }
