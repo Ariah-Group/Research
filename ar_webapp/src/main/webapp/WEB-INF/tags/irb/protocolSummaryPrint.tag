@@ -95,7 +95,7 @@ limitations under the License.
                            <div align="left">
                                 <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.otherData" 
                                                           attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
-                                                          readOnly="false" styleClass="printOptions"/>Other Data
+                                                          readOnly="false" styleClass="printOptions"/>Custom Fields
                             </div>
                         </td>
                     </tr>
