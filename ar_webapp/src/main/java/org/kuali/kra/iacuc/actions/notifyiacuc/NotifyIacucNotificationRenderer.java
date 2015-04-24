@@ -21,23 +21,24 @@ import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import java.util.Map;
 
 /**
- * Renders additional fields for the Notify IRB notification.
+ * Renders additional fields for the Notify IACUC notification.
  */
 public class NotifyIacucNotificationRenderer extends IacucProtocolNotificationRenderer {
 
     private String actionComments;
 
     /**
-     * Constructs a Notify IRB notification renderer.
+     * Constructs a Notify IACUC notification renderer.
+     *
      * @param protocol
      * @param actionComments
      */
     public NotifyIacucNotificationRenderer(IacucProtocol protocol, String actionComments) {
         super(protocol);
-        
+
         this.actionComments = actionComments;
     }
-    
+
     public String getActionComments() {
         return actionComments;
     }
@@ -45,10 +46,12 @@ public class NotifyIacucNotificationRenderer extends IacucProtocolNotificationRe
     public void setActionComments(String actionComments) {
         this.actionComments = actionComments;
     }
-    
+
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContext#replaceContextVariables(java.lang.String)
+     *
+     * @see
+     * org.kuali.kra.common.notification.NotificationContext#replaceContextVariables(java.lang.String)
      */
     @Override
     public Map<String, String> getDefaultReplacementParameters() {
