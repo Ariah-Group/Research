@@ -32,7 +32,7 @@ import java.util.List;
 
 /**
  * Assembles the Protocol Review Types to display in the drop-down menu when
- * submitting a protocol to the IRB office for review.
+ * submitting a protocol to the IACUC office for review.
  */
 public class IacucProtocolReviewTypeValuesFinder extends IacucActionsKeyValuesBase {
 
