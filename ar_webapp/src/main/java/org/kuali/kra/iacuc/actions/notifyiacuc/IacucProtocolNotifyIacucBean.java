@@ -23,7 +23,7 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import java.io.Serializable;
 
 /**
- * This class is really just a "form" for notifying the IRB.
+ * This class is really just a "form" for notifying the IACUC.
  */
 public class IacucProtocolNotifyIacucBean extends  IacucProtocolRequestBean implements Serializable {
     
@@ -33,7 +33,7 @@ public class IacucProtocolNotifyIacucBean extends  IacucProtocolRequestBean impl
     private String comment = "";
     
     /**
-     * Constructs a ProtocolNotifyIrbBean.
+     * Constructs a IacucProtocolNotifyIacucBean.
      * @param actionHelper Reference back to the action helper for this bean
      */
     public IacucProtocolNotifyIacucBean(IacucActionHelper actionHelper, String beanName) {
