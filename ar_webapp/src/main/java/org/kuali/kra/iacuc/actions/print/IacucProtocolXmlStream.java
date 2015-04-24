@@ -382,18 +382,18 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
     }
 
     /**
-     * Sets the irbPrintXmlUtilService attribute value.
+     * Sets the printXmlUtilService attribute value.
      * 
-     * @param irbPrintXmlUtilService The irbPrintXmlUtilService to set.
+     * @param printXmlUtilService The printXmlUtilService to set.
      */
     public void setPrintXmlUtilService(IacucPrintXmlUtilService printXmlUtilService) {
         this.printXmlUtilService = printXmlUtilService;
     }
 
     /**
-     * Gets the irbPrintXmlUtilService attribute.
+     * Gets the printXmlUtilService attribute.
      * 
-     * @return Returns the irbPrintXmlUtilService.
+     * @return Returns the printXmlUtilService.
      */
     public IacucPrintXmlUtilService getPrintXmlUtilService() {
         return printXmlUtilService;
