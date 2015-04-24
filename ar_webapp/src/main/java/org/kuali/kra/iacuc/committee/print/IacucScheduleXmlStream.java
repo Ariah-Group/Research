@@ -541,7 +541,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
      *
      * @param printXmlUtilService The printXmlUtilService to set.
      */
-    public void setPrintXmlUtilService(IacucPrintXmlUtilService PrintXmlUtilService) {
+    public void setPrintXmlUtilService(IacucPrintXmlUtilService printXmlUtilService) {
         this.printXmlUtilService = printXmlUtilService;
     }
 
