@@ -39,7 +39,7 @@ import org.kuali.kra.infrastructure.Constants;
 /**
  * This class encapsulates the notion of a protocol review. Essentially a join
  * between protocol, submission, and a reviewer. The ProtocolReview is created
- * by the IRB Admin as request.
+ * by the IACUC Admin as request.
  */
 public class IacucProtocolOnlineReview extends ProtocolOnlineReviewBase {
 
