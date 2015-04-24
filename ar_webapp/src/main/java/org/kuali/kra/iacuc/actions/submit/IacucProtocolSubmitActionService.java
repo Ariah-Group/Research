@@ -18,7 +18,7 @@ package org.kuali.kra.iacuc.actions.submit;
 import org.kuali.kra.iacuc.IacucProtocol;
 
 /**
- * Handles the processing of submitting a protocol to the IRB office.
+ * Handles the processing of submitting a protocol to the IACUC office.
  */
 public interface IacucProtocolSubmitActionService {
     
