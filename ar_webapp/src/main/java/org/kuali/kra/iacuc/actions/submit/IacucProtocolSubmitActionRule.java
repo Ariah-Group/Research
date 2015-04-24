@@ -34,7 +34,7 @@ import java.util.List;
 import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
 
 /**
- * Validate a protocol submission to the IRB for review.
+ * Validate a protocol submission to the IACUC for review.
  */
 /**
  * This class...
@@ -49,10 +49,6 @@ public class IacucProtocolSubmitActionRule extends ProtocolSubmitActionRuleBase 
     private static final String PRINCIPLES_ANCHOR_NAME = "Alternate Search";
 
     
-    /**
-     * @see org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule#processSubmitAction(org.kuali.kra.iacuc.IacucProtocolDocument,
-     *      org.kuali.kra.irb.actions.submit.ProtocolSubmitAction)
-     */
     @Override
     public boolean processSubmitAction(ProtocolDocumentBase document, ProtocolSubmitAction submitAction) {
 
