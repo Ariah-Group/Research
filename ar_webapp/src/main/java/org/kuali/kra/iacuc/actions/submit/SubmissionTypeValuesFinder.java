@@ -47,7 +47,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * Finds the available set of Submission Types when a protocol
- * is submitted for review by the IRB Committee.
+ * is submitted for review by the IACUC Committee.
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
