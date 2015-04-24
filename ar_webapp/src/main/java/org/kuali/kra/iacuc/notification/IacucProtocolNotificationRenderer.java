@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Renders fields for the IRB and IACUC notifications.
+ * Renders fields for the IACUC notifications.
  */
 public class IacucProtocolNotificationRenderer extends ProtocolNotificationRendererBase {
 
