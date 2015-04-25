@@ -1563,14 +1563,21 @@ public class AwardAction extends BudgetParentActionBase {
                 if (StringUtils.isNotEmpty(currentScope.getDisplayPropertyName())) {
                     scopeSyncLabel = kualiConfiguration.getPropertyValueAsString(currentScope.getDisplayPropertyName());
                 }
+
+                String awardTemplateDescription = "";
+
+                if (awardDocument.getAward().getAwardTemplate() != null && awardDocument.getAward().getAwardTemplate().getDescription() != null) {
+                    awardTemplateDescription = awardDocument.getAward().getAwardTemplate().getDescription();
+                }
+
                 if (StringUtils.equals(scopeSyncLabel, REPORTS_PROPERTY_NAME) || StringUtils.equals(scopeSyncLabel, PAYMENT_INVOICES_PROPERTY_NAME)) {
                     confirmationQuestion = buildAwardSyncParameterizedConfirmationQuestion(mapping, form, request, response, (QUESTION_VERIFY_SYNC + ":" + currentScope),
                             currentScope.equals(AwardTemplateSyncScope.FULL) ? KeyConstants.QUESTION_SYNC_FULL : KeyConstants.QUESTION_SYNC_PANEL,
-                            scopeSyncLabel, awardDocument.getAward().getAwardTemplate().getDescription(), getScopeMessageToAddQuestion(currentScope));
+                            scopeSyncLabel, awardTemplateDescription, getScopeMessageToAddQuestion(currentScope));
                 } else {
                     confirmationQuestion = buildParameterizedConfirmationQuestion(mapping, form, request, response, (QUESTION_VERIFY_SYNC + ":" + currentScope),
                             currentScope.equals(AwardTemplateSyncScope.FULL) ? KeyConstants.QUESTION_SYNC_FULL : KeyConstants.QUESTION_SYNC_PANEL,
-                            scopeSyncLabel, awardDocument.getAward().getAwardTemplate().getDescription(), getScopeMessageToAddQuestion(currentScope));
+                            scopeSyncLabel, awardTemplateDescription, getScopeMessageToAddQuestion(currentScope));
                 }
                 confirmationQuestion.setCaller("processSyncAward");
                 awardForm.setCurrentSyncQuestionId((QUESTION_VERIFY_SYNC + ":" + currentScope));
