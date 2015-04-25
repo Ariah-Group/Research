@@ -987,6 +987,7 @@ public interface Constants {
     // Parameter Constants for IACUC Protocols
     public static final String ARIAH_PARAM_IACUC_DEFAULT_PERFORMING_ORG_ID = "ARIAH_IACUC_DEFAULT_PERFORMING_ORG_ID";
     public static final String ARIAH_IACUC_HIDE_AND_DEFAULT_IACUC_PROTOCOL_DOC_DESC = "ARIAH_IACUC_HIDE_AND_DEFAULT_IACUC_PROTOCOL_DOC_DESC";
+    public static final String ARIAH_IACUC_CORRESP_TYPE_CODE_ROSTER = "ARIAH_IACUC_CORRESP_TYPE_CODE_ROSTER";
     
     // Parameter Constants for Subawards
     public static final String ARIAH_SUBAWARD_HIDE_AND_DEFAULT_SUBAWARD_DOC_DESC = "ARIAH_SUBAWARD_HIDE_AND_DEFAULT_SUBAWARD_DOC_DESC";

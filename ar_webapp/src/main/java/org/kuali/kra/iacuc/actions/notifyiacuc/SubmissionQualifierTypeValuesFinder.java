@@ -28,7 +28,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import java.util.*;
 
 /**
- * Finds the available set of Submission Qualifier Types for a Notify IRB request.
+ * Finds the available set of Submission Qualifier Types for a Notify IACUC request.
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
@@ -66,7 +66,7 @@ public class SubmissionQualifierTypeValuesFinder extends IacucActionsKeyValuesBa
     }
 
     /**
-     * There are many submission qualifier types but only a few are available for a Notify IRB request.
+     * There are many submission qualifier types but only a few are available for a Notify IACUC request.
      * 
      * @param submissionQualifierType the submission qualifier type
      * @return true if applicable; otherwise false

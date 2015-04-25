@@ -183,7 +183,7 @@
 		<property name="protocolCorrespondenceTemplateService" ref="iacucProtocolCorrespondenceTemplateService" />
 	</bean>
 	
-	<bean id="iacucCommitteeRosterPrint" class="org.kuali.kra.iacuc.committee.print.IacucCommitteeRosterPrint" scope="prototype" parent="templatePrint">
+	<bean id="iacucCommitteeRosterPrint" class="org.ariahgroup.research.iacuc.committee.print.IacucCommitteeRosterPrint" scope="prototype" parent="templatePrint">
 		<property name="xmlStream" ref="iacucCommitteeXmlStream" />
 		<property name="protocolCorrespondenceTemplateService" ref="iacucProtocolCorrespondenceTemplateService" />
 	</bean>

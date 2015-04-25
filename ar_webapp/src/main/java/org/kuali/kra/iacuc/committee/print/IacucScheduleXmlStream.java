@@ -101,7 +101,11 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
         setNextSchedule(committeeSchedule, nextScheduleType.addNewScheduleMasterData());
 
         //For some reason Spring isn't always populating this service.  SIGH!
+        
+        System.out.println("IacucScheduleXMmlStream.getSchedule about to check getPrintXmlUtilService for null");
+        
         if (getPrintXmlUtilService() == null) {
+            System.out.println("IacucScheduleXMmlStream.getSchedule getPrintXmlUtilService is null, so retrieving via KraServiceLocator");
             printXmlUtilService = KraServiceLocator.getService(IacucPrintXmlUtilService.class);
         }
 

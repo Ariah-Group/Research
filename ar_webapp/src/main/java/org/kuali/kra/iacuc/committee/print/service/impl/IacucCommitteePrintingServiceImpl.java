@@ -31,6 +31,7 @@
  */
 package org.kuali.kra.iacuc.committee.print.service.impl;
 
+import org.ariahgroup.research.iacuc.committee.print.IacucCommitteeRosterPrint;
 import org.kuali.kra.common.committee.print.CommitteeReportType;
 import org.kuali.kra.common.committee.print.ScheduleTemplatePrintBase;
 import org.kuali.kra.common.committee.print.TemplatePrintBase;
