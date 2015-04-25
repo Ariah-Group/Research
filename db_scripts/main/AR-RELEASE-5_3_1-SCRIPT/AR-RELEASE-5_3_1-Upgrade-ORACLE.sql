@@ -253,12 +253,16 @@ Declare
 END;
 
 
--- module-dsiable feature for funding source type
+-- module-disable feature for funding source type
 alter table FUNDING_SOURCE_TYPE add DISABLED_COEUS_MODULE_ID NUMBER;
 update FUNDING_SOURCE_TYPE set DISABLED_COEUS_MODULE_ID=0;
 update FUNDING_SOURCE_TYPE set DISABLED_COEUS_MODULE_ID=3 where DESCRIPTION='Development Proposal';
 update FUNDING_SOURCE_TYPE set DISABLED_COEUS_MODULE_ID=2 where DESCRIPTION='Institutional Proposal';
 update FUNDING_SOURCE_TYPE set DISABLED_COEUS_MODULE_ID=1 where DESCRIPTION='Award';
+
+-- fix for IACUC Committee Roster Report
+Insert into IACUC_PROTOCOL_CORRESP_TYPE (PROTO_CORRESP_TYPE_CODE,DESCRIPTION,MODULE_ID,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) 
+values ('30','Committee Roster Report','Y',SYSDATE,'admin',1,SYS_GUID());
 
 
 
