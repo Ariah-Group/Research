@@ -98,11 +98,11 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
      */
     @Override
     public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
-        
+
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
         AwardNoticeDocument awardNoticeDocument = AwardNoticeDocument.Factory.newInstance();
         initialize((Award) printableBusinessObject);
-        
+
         if (award != null) {
             awardNoticeDocument.setAwardNotice(getAwardNotice(reportParameters));
         }
@@ -119,7 +119,7 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
         this.award = award;
         List<AwardAmountInfo> awardAmountInfos = award.getAwardAmountInfos();
         if (awardAmountInfos != null && !awardAmountInfos.isEmpty()) {
-            awardAmountInfo = awardAmountInfos.get(0);
+            awardAmountInfo = award.getLastAwardAmountInfo();
         }
     }
 
