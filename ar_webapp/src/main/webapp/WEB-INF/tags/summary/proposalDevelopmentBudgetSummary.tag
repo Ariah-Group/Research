@@ -21,7 +21,6 @@
 	value="${DataDictionary.BudgetPeriod.attributes}" />
 <c:set var="budgetRatesAttributes"
 	value="${DataDictionary.BudgetRate.attributes}" />
-
 <c:set var="ProposalDevelopmentForm" value="${KualiForm}"
 	scope="session" />
 <c:set var="action" value="proposalDevelopmentApproverView" />
@@ -35,7 +34,6 @@
 	value="${DataDictionary.BudgetPeriod.attributes}" />
 <c:set var="budgetRatesAttributes"
 	value="${DataDictionary.BudgetRate.attributes}" />
-
 <kul:tab tabTitle="Budget Summary" defaultOpen="false" transparentBackground="${transparentBackground }">
 	<kul:innerTab tabTitle="Budget Periods" parentTab=""
 		defaultOpen="false">
@@ -86,38 +84,31 @@
 
 								<td width="10%" class="${tdClass}">
 									<div align=center>
-										<span class="copy"> <bean:write name="KualiForm"
-												property="${budgetPeriod}.startDate" /> </span>
+										<span class="copy"> <bean:write name="KualiForm" property="${budgetPeriod}.startDate" /> </span>
 									</div></td>
 								<td width="10%" class="${tdClass}">
 									<div align=center>
-										<span class="copy"> <bean:write name="KualiForm"
-												property="${budgetPeriod}.endDate" /> </span>
+										<span class="copy"> <bean:write name="KualiForm" property="${budgetPeriod}.endDate" /> </span>
 									</div></td>
 								<td width="10%" class="${tdClass}">
 									<div align=center>
-										<span class="copy"> $<bean:write name="KualiForm"
-												property="${budgetPeriod}.totalDirectCost" /> </span>
+										<span class="copy"> $<bean:write name="KualiForm" property="${budgetPeriod}.totalDirectCost" /> </span>
 									</div></td>
 								<td width="10%" class="${tdClass}">
 									<div align=center>
-										<span class="copy"> $<bean:write name="KualiForm"
-												property="${budgetPeriod}.totalIndirectCost" /> </span>
+										<span class="copy"> $<bean:write name="KualiForm" property="${budgetPeriod}.totalIndirectCost" /> </span>
 									</div></td>
 								<td width="10%" class="${tdClass}">
 									<div align=center>
-										<span class="copy"> $<bean:write name="KualiForm"
-												property="${budgetPeriod}.underrecoveryAmount" /> </span>
+										<span class="copy"> $<bean:write name="KualiForm" property="${budgetPeriod}.underrecoveryAmount" /> </span>
 									</div></td>
 								<td width="10%" class="${tdClass}">
 									<div align=center>
-										<span class="copy"> $<bean:write name="KualiForm"
-												property="${budgetPeriod}.costSharingAmount" /> </span>
+										<span class="copy"> $<bean:write name="KualiForm" property="${budgetPeriod}.costSharingAmount" /> </span>
 									</div></td>
 								<td width="10%" class="${tdClass}">
 									<div align=center>
-										<span class="copy"> $<bean:write name="KualiForm"
-												property="${budgetPeriod}.totalCost" /> </span>
+										<span class="copy"> $<bean:write name="KualiForm" property="${budgetPeriod}.totalCost" /> </span>
 									</div></td>
 							</tr>
 						</c:forEach>
@@ -126,26 +117,15 @@
 			</table>
 		</div>
 	</kul:innerTab>
-
 	<c:forEach items="${KualiForm.budgetToSummarize.rateClassTypes}"
 		var="rates" varStatus="gps">
-		<bean:define id="rateClass" name="KualiForm"
-			property="budgetToSummarize.rateClassTypes[${gps.index}].description" />
-
-		<c:if
-			test="${KualiForm.budgetToSummarize.rateClassTypes[gps.index].rateClassType == 'O'}">
-
-			<kul:innerTab tabTitle="${rateClass}" parentTab=""
-				defaultOpen="false" auditCluster="" tabAuditKey="">
-				<c:if
-			test="${KualiForm.budgetToSummarize.rateClassTypes[gps.index].rateClassType != null}">
-			
-					<table cellpadding=0 cellspacing="0" class="result-table"
-						summary="">
+		<bean:define id="rateClass" name="KualiForm" property="budgetToSummarize.rateClassTypes[${gps.index}].description" />
+		<c:if test="${KualiForm.budgetToSummarize.rateClassTypes[gps.index].rateClassType == 'O'}">
+			<kul:innerTab tabTitle="${rateClass}" parentTab="" defaultOpen="false" auditCluster="" tabAuditKey="">
+				<c:if test="${KualiForm.budgetToSummarize.rateClassTypes[gps.index].rateClassType != null}">
+					<table cellpadding=0 cellspacing="0" class="result-table" summary="">
 						<c:if test="${KualiForm.document.budgetDocumentVersions[0]!=null}">
-							<c:if
-								test="${KualiForm.document.budgetDocumentVersions[0].budgetVersionOverviews[0].rateClass.rateClassTypeT!=null}">
-							
+							<c:if test="${KualiForm.document.budgetDocumentVersions[0].budgetVersionOverviews[0].rateClass.rateClassTypeT!=null}">
 								<bean:define id="rateClass" name="KualiForm"
 									property="budgetToSummarize.rateClassTypes[0].description" />
 								<bean:define id="rateClassType" name="KualiForm"
@@ -165,28 +145,15 @@
 											value="${tabKey},budgetRates[${status.index}]*" />
 									</c:if>
 								</c:forEach>
-	
-								<th>
-									<div align="center">Rate Type</div>
-								</th>
-								<th>
-									<div align="center">On Campus</div>
-								</th>
-								<th>
-									<div align="center">Fiscal Year</div>
-								</th>
-								<th>
-									<div align="center">Start Date</div>
-								</th>
-								<th>
-									<div align="center">Institute Rate</div>
-								</th>
-								<th>
-									<div align="center">Applicable Rate</div></th>
-									
+								<th><div align="center">Rate Type</div></th>
+								<th><div align="center">On Campus</div></th>
+								<th><div align="center">Fiscal Year</div></th>
+								<th><div align="center">Start Date</div></th>
+								<th><div align="center">Institute Rate</div></th>
+								<th><div align="center">Applicable Rate</div></th>
 								<c:set var="rowIndex" value="1" />
-								<bean:define id="budgetRates" name="KualiForm"
-									property="budgetToSummarize.budgetRates" />
+								<bean:define id="budgetRates" name="KualiForm" property="budgetToSummarize.budgetRates" />
+							    <c:set var="finalBudgetProposalRateClassCode" value="${KualiForm.document.finalrateClassCode}"/>
 								<c:forEach items="${budgetRates}" var="proposalRates"
 									varStatus="status">
 									<c:set var="budgetRate"
@@ -199,18 +166,14 @@
 									</c:if>
 									<kra-summary:proposalDevelopmentBudgetRates
 										budgetRate="${budgetRate}" rateClassType="${rateClassType}"
-										styleClass="${styleClass}" />
+										styleClass="${styleClass}" finalBudgetProposalRateClassCode="${finalBudgetProposalRateClassCode}"/>
 								</c:forEach>
-					
 							</c:if>
-								
 						</c:if>
-							
 					</table>
 			</c:if>
 			</kul:innerTab>
 		</c:if>
-
 	</c:forEach>
 	<c:if
 		test="${KualiForm.budgetToSummarize.rateClassTypes[0].rateClassType == null}">
