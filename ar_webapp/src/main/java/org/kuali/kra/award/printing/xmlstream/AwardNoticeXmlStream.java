@@ -111,7 +111,7 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
     }
 
     /*
-     * This method initializes the awardDocument ,award and awardAamountInfo
+     * This method initializes the awardDocument ,award and awardAmountInfo
      * reference variables
      */
     private void initialize(Award award) {
