@@ -13,31 +13,23 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
-
-
-<%@ attribute name="noteObject" required="true" type="org.kuali.kra.infrastructure.KraNotepadInterface" %>
-<%@ attribute name="noteParmeterString" required="true"%>
-<%@ attribute name="viewRestrictedNotes" required="true" type="java.lang.Boolean" %>
-<%@ attribute name="statusIndex" required="true"%>
-<%@ attribute name="modifyPermission" required="true" type="java.lang.Boolean" %>
-<%@ attribute name="hasAdministratorRole" required="true" type="java.lang.Boolean" %>
-<%@ attribute name="action" required="true"%>
-<%@ attribute name="isAddLine" required="true" type="java.lang.Boolean" %>
-
-<%@ attribute name="displayProjectId" required="false" type="java.lang.Boolean" %>
-<%@ attribute name="displayFinancialEntityId" required="false" type="java.lang.Boolean" %>
-<%@ attribute name="isMasterDisclosure" required="false" type="java.lang.Boolean" %>
-
-<%@ attribute name="showUpdate" required="false" type="java.lang.Boolean" %>
-
+<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"
+%><%@ attribute name="noteObject" required="true" type="org.kuali.kra.infrastructure.KraNotepadInterface" 
+%><%@ attribute name="noteParmeterString" required="true"
+%><%@ attribute name="viewRestrictedNotes" required="true" type="java.lang.Boolean" 
+%><%@ attribute name="statusIndex" required="true"
+%><%@ attribute name="modifyPermission" required="true" type="java.lang.Boolean" 
+%><%@ attribute name="hasAdministratorRole" required="true" type="java.lang.Boolean" 
+%><%@ attribute name="action" required="true"
+%><%@ attribute name="isAddLine" required="true" type="java.lang.Boolean" 
+%><%@ attribute name="displayProjectId" required="false" type="java.lang.Boolean" 
+%><%@ attribute name="displayFinancialEntityId" required="false" type="java.lang.Boolean" 
+%><%@ attribute name="isMasterDisclosure" required="false" type="java.lang.Boolean" 
+%><%@ attribute name="showUpdate" required="false" type="java.lang.Boolean" %>
 <c:if test="${displayProjectId == null}"><c:set var="displayProjectId" value="${false}" /></c:if>
 <c:if test="${displayFinancialEntityId == null}"><c:set var="displayFinancialEntityId" value="${false}" /></c:if>
 <c:if test="${isMasterDisclosure == null}"><c:set var="isMasterDisclosure" value="${false}" /></c:if>
-
 <c:set var="notesAttributes" value="${DataDictionary.CoiDisclosureNotepad.attributes}" />
-
-
 <%--<c:if test="${viewRestrictedNotes || !protocolNotepad.restrictedView}"> --%>
 <c:if test="${!noteObject.restrictedView || (viewRestrictedNotes && noteObject.restrictedView)}">
 	<tr>
@@ -145,7 +137,6 @@
 				</div>
 			</td>
 		</c:if>
-		
 		<c:if test="${displayFinancialEntityId }">
 			<td valign="middle">
 				<div align="left">
@@ -154,13 +145,10 @@
 				</div>
 			</td>
 		</c:if>
-		
-		
 		<td valign="middle">
 			<div align="center">
 				<kul:htmlControlAttribute property="${noteParmeterString }.restrictedView" attributeEntry="${notesAttributes.restrictedView}" 
 					readOnly="${!modifyPermission || ((!viewRestrictedNotes || !noteObject.editable) && !hasAdministratorRole)}" />
-					
 			</div>
 		</td>
 		<td>
