@@ -66,6 +66,7 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
 
     /**
      * Constructs a institutionalProposalPersonUnit.
+     *
      * @param institutionalProposalPerson
      */
     InstitutionalProposalPersonUnit(InstitutionalProposalPerson institutionalProposalPerson) {
@@ -75,6 +76,7 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
 
     /**
      * Constructs a institutionalProposalPersonUnit.
+     *
      * @param institutionalProposalPerson
      * @param unit
      * @param isLeadUnit
@@ -87,7 +89,9 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
     }
 
     /**
-     * Find the lead unit from among institutionalProposal institutionalProposalPerson units.
+     * Find the lead unit from among institutionalProposal
+     * institutionalProposalPerson units.
+     *
      * @param institutionalProposalPersonUnits
      * @return
      */
@@ -103,11 +107,14 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
 
     public List<UnitAdministrator> getOspAdministrators() {
         List<UnitAdministrator> ospAdministrators = new ArrayList<UnitAdministrator>();
-        for (UnitAdministrator unitAdministrator : getUnit().getUnitAdministrators()) {
-            if (unitAdministrator.getUnitAdministratorType().getDescription().equals("OSP_ADMINISTRATOR")) {
-                ospAdministrators.add(unitAdministrator);
+        if (getUnit() != null) {
+            for (UnitAdministrator unitAdministrator : getUnit().getUnitAdministrators()) {
+                if (unitAdministrator.getUnitAdministratorType().getDescription().equals("OSP_ADMINISTRATOR")) {
+                    ospAdministrators.add(unitAdministrator);
+                }
             }
         }
+
         return ospAdministrators;
     }
 
@@ -120,7 +127,7 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
     }
 
     /**
-     * This method will initialize required credit splits and populate them with 
+     * This method will initialize required credit splits and populate them with
      * default credits of 100%.
      */
     @SuppressWarnings("unchecked")
@@ -172,7 +179,8 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
     }
 
     /**
-     * Gets the institutionalProposalPersonId attribute. 
+     * Gets the institutionalProposalPersonId attribute.
+     *
      * @return Returns the institutionalProposalPersonId.
      */
     public Long getInstitutionalProposalContactId() {
@@ -187,7 +195,8 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
     }
 
     /**
-     * Gets the institutionalProposalPersonUnitId attribute. 
+     * Gets the institutionalProposalPersonUnitId attribute.
+     *
      * @return Returns theinstitutionalProposalPersonUnitId.
      */
     public Long getInstitutionalProposalPersonUnitId() {
@@ -203,7 +212,8 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
     }
 
     /**
-     * Gets the creditSplits attribute. 
+     * Gets the creditSplits attribute.
+     *
      * @return Returns the creditSplits.
      */
     public List<InstitutionalProposalPersonUnitCreditSplit> getCreditSplits() {
@@ -260,7 +270,9 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
 
     /**
      * Sets the institutionalProposalPersonId attribute value.
-     * @param institutionalProposalPersonId The institutionalProposalPersonId to set.
+     *
+     * @param institutionalProposalPersonId The institutionalProposalPersonId to
+     * set.
      */
     public void setInstitutionalProposalContactId(Long institutionalProposalPersonId) {
         this.institutionalProposalContactId = institutionalProposalPersonId;
@@ -276,7 +288,9 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
 
     /**
      * Sets the institutionalProposalPersonUnitId attribute value.
-     * @param institutionalProposalPersonUnitId The institutionalProposalPersonUnitId to set.
+     *
+     * @param institutionalProposalPersonUnitId The
+     * institutionalProposalPersonUnitId to set.
      */
     public void setInstitutionalProposalPersonUnitId(Long institutionalProposalPersonUnitId) {
         this.institutionalProposalPersonUnitId = institutionalProposalPersonUnitId;
@@ -284,6 +298,7 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
 
     /**
      * Sets the creditSplits attribute value.
+     *
      * @param creditSplits The creditSplits to set.
      */
     public void setCreditSplits(List<InstitutionalProposalPersonUnitCreditSplit> creditSplits) {
@@ -307,6 +322,7 @@ public class InstitutionalProposalPersonUnit extends KraPersistableBusinessObjec
 
     /**
      * Sets the unitNumber attribute value.
+     *
      * @param unitNumber The unitNumber to set.
      */
     public void setUnitNumber(String unitNumber) {
