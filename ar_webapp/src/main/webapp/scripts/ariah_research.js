@@ -15,7 +15,7 @@
  */
 
 var propCoordId = "document.developmentProposalList[0].proposalCoordinatorPrincipalName".replace(/(:|\.|\[|\])/g, '\\$1');
-var relativeUrl = "ariah_research/proposalCoordinatorsForUnit/";
+var relativeUrl = "ariah/proposalCoordinatorsForUnit/";
 var jq = jQuery.noConflict();
 
 /**

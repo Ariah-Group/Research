@@ -268,7 +268,7 @@
 	</servlet>
 	
 	<!-- KRAD Servlet -->
-	<servlet>
+    <servlet>
         <servlet-name>krad</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>3</load-on-startup>
@@ -277,6 +277,17 @@
         <servlet-name>krad</servlet-name>
         <url-pattern>/kr-krad/*</url-pattern>
     </servlet-mapping>
+
+   <!-- Ariah Servlet -->
+   <servlet>
+      <servlet-name>ariah</servlet-name>
+      <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+      <load-on-startup>4</load-on-startup>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>ariah</servlet-name>
+      <url-pattern>/ariah/*</url-pattern>
+   </servlet-mapping>
 
 	<servlet>
 		<servlet-name>remoting</servlet-name>
@@ -326,11 +337,11 @@
 	    <servlet-class>org.kuali.rice.kns.web.servlet.PostDataLoadEncryptionServlet</servlet-class>
 	</servlet>
 	
-	<servlet-mapping>
-		<servlet-name>postDataLoadEncryption</servlet-name>
-		<url-pattern>/postDataLoadEncryption</url-pattern>
-	</servlet-mapping>
-	-->
+    <servlet-mapping>
+            <servlet-name>postDataLoadEncryption</servlet-name>
+            <url-pattern>/postDataLoadEncryption</url-pattern>
+    </servlet-mapping>
+    -->
 
     <!-- Notification system servlets -->
     <!-- Notification System Spring MVC UI -->
@@ -393,70 +404,70 @@
         <url-pattern>*.kcb</url-pattern>
     </servlet-mapping>
     
-	<servlet-mapping>
-		<servlet-name>remoting</servlet-name>
-		<url-pattern>/remoting/*</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>remoting</servlet-name>
+        <url-pattern>/remoting/*</url-pattern>
+    </servlet-mapping>
 
-	<servlet-mapping>
-		<servlet-name>action</servlet-name>
-		<url-pattern>*.do</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>action</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
 
-	<servlet-mapping>
-		<servlet-name>dwr-invoker</servlet-name>
-		<url-pattern>/dwr/*</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>dwr-invoker</servlet-name>
+        <url-pattern>/dwr/*</url-pattern>
+    </servlet-mapping>
 
-	<servlet-mapping>
-		<servlet-name>export</servlet-name>
-		<url-pattern>/export/*</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>export</servlet-name>
+        <url-pattern>/export/*</url-pattern>
+    </servlet-mapping>
 
-	<servlet-mapping>
-		<servlet-name>exportsecurity</servlet-name>
-		<url-pattern>/exportsecurity/*</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>exportsecurity</servlet-name>
+        <url-pattern>/exportsecurity/*</url-pattern>
+    </servlet-mapping>
 
-	<servlet-mapping>
-		<servlet-name>attachment</servlet-name>
-		<url-pattern>/kew/attachment/*</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>attachment</servlet-name>
+        <url-pattern>/kew/attachment/*</url-pattern>
+    </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>login</servlet-name>
         <url-pattern>/kr-login/*</url-pattern>
     </servlet-mapping>
     
-	<session-config>
-		<session-timeout>60</session-timeout>
-	</session-config>
+    <session-config>
+        <session-timeout>60</session-timeout>
+    </session-config>
 
-	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
         <welcome-file>index.jsp</welcome-file>
-	</welcome-file-list>
+    </welcome-file-list>
 
-	<!-- only need to include this for the kuali tlds
-	     since tld file will only be searched from within other jars -->
-	<jsp-config>
-		<taglib>
-			<taglib-uri>http://www.kuali.org/jsp/jstl/functions</taglib-uri>
-			<taglib-location>/WEB-INF/tld/kuali-func.tld</taglib-location>
-		</taglib>
+    <!-- only need to include this for the kuali tlds
+    since tld file will only be searched from within other jars -->
+    <jsp-config>
+        <taglib>
+            <taglib-uri>http://www.kuali.org/jsp/jstl/functions</taglib-uri>
+            <taglib-location>/WEB-INF/tld/kuali-func.tld</taglib-location>
+        </taglib>
 		
-		<!-- customized struts tags -->
-		<taglib>
-			<taglib-uri>http://www.kuali.org/struts.apache.org/tags-html</taglib-uri>
-			<taglib-location>/WEB-INF/tld/kuali-struts-html.tld</taglib-location>
-		</taglib>
-		<taglib>
-			<taglib-uri>http://www.kuali.org/struts.apache.org/tags-html-el</taglib-uri>
-			<taglib-location>/WEB-INF/tld/kuali-struts-html-el.tld</taglib-location>
-		</taglib>
-	</jsp-config>
+        <!-- customized struts tags -->
+        <taglib>
+            <taglib-uri>http://www.kuali.org/struts.apache.org/tags-html</taglib-uri>
+            <taglib-location>/WEB-INF/tld/kuali-struts-html.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>http://www.kuali.org/struts.apache.org/tags-html-el</taglib-uri>
+            <taglib-location>/WEB-INF/tld/kuali-struts-html-el.tld</taglib-location>
+        </taglib>
+    </jsp-config>
 	
-<!-- Rice content End -->
+    <!-- Rice content End -->
 
 </web-app>
 
