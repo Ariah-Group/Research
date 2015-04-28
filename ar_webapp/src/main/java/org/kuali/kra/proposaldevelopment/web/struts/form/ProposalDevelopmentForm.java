@@ -268,13 +268,14 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private NarrativeStatus narrativeStatusesChange;
     private BudgetDecimal faPercentageCalculated;
     private String[] adminTypesAuthorizedToLock;
+    private transient String defaultAbstractType;
     private List<String> lockAdminTypes;
 
     public ProposalDevelopmentForm() {
         super();
         initialize();
         sponsorFormTemplates = new ArrayList<SponsorFormTemplateList>();
-
+        defaultAbstractType = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.ARIAH_PROPDEV_DEFAULT_ABSTRACT_TYPE_CODE);
         projectDatesRequired = getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, Constants.ARIAH_PROPDEV_REQUIRE_PROJECT_DATES, false);
     }
 
@@ -1278,7 +1279,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
         TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
         ConfigurationService configurationService = CoreApiServiceLocator.getKualiConfigurationService();
-        
+
         if (tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProposalTask("submitToSponsor", doc))) {
             if (isCanSubmitToSponsor()) {
                 String submitToGrantsGovImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_submittosponsor.gif";
@@ -2699,6 +2700,13 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         } else {
             return reportUrl + getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber();
         }
+    }
 
+    public String getDefaultAbstractType() {
+        return defaultAbstractType;
+    }
+
+    public void setDefaultAbstractType(String defaultAbstractType) {
+        this.defaultAbstractType = defaultAbstractType;
     }
 }
