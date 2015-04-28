@@ -33,7 +33,7 @@ $jq(document).ready(function() {
 });
 </script>
 
-<kul:tab tabTitle="Activities & Attachments" defaultOpen="false" tabErrorKey="" innerTabErrorKey="document.negotiationList[0].activities*,negotiationActivityHelper.*">
+<kul:tab tabTitle="Activities & Attachments" defaultOpen="${KualiForm.negotiationAddActivityPanelOpenedByDefault}" tabErrorKey="" innerTabErrorKey="document.negotiationList[0].activities*,negotiationActivityHelper.*">
 <div class="tab-container"  align="center">
 
 <c:if test="${KualiForm.editingMode['create_activity']}">

@@ -200,6 +200,10 @@ public class NegotiationDocument extends ResearchDocumentBase implements Seriali
     public boolean isDefaultDocumentDescription() {
         return KraServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean(NegotiationDocument.class, Constants.ARIAH_NEGO_HIDE_AND_DEFAULT_NEGO_DOC_DESC);
     }
+    
+    public boolean isNegotiationAddActivityPanelOpenedByDefault() {
+        return KraServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean(NegotiationDocument.class, Constants.ARIAH_NEGO_ADD_ACTIVITY_PANEL_OPENED, false);
+    }
 
     public void defaultDocumentDescription() {
         Negotiation negotiation = getNegotiation();
