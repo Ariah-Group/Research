@@ -758,4 +758,8 @@ public class AwardDocument extends BudgetParentDocument<Award> implements Copyab
 
         getDocumentHeader().setDocumentDescription(desc);
     }
+    
+    public boolean isAttachmentsPanelDefaultOpen() {
+        return getParameterService().getParameterValueAsBoolean(AwardDocument.class, Constants.ARIAH_AWARD_DEFAULT_ATTACHMENTS_TAB_OPEN, false);
+    }
 }

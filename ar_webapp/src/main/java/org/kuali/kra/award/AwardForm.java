@@ -1664,4 +1664,8 @@ public class AwardForm extends BudgetVersionFormBase
     public String getQuestionnaireExpression() {
         return "^undefined$";
     }    
+    
+    public boolean isAttachmentsPanelDefaultOpen() {
+        return getAwardDocument().isAttachmentsPanelDefaultOpen();
+    }    
 }

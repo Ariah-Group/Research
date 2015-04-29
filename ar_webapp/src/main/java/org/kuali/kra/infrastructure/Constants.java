@@ -945,6 +945,7 @@ public interface Constants {
     // Parameter constants used for Awards
     public static final String ARIAH_AWARD_HEADER_PI_NONEMP_FULLNAME_OVERRIDE = "ARIAH_AWARD_HEADER_PI_NONEMP_FULLNAME_OVERRIDE";
     public static final String ARIAH_AWARD_HIDE_AND_DEFAULT_AWARD_DOC_DESC = "ARIAH_AWARD_HIDE_AND_DEFAULT_AWARD_DOC_DESC";
+    public static final String ARIAH_AWARD_DEFAULT_ATTACHMENTS_TAB_OPEN = "ARIAH_AWARD_DEFAULT_ATTACHMENTS_TAB_OPEN";
     
     // Parameter Constants for Dev Proposals
     public static final String ARIAH_PARAM_PROPDEV_DEFAULT_PERFORMING_ORG_ID = "ARIAH_PROPDEV_DEFAULT_PERFORMING_ORG_ID";
