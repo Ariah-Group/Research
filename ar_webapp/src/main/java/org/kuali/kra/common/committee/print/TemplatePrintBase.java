@@ -51,8 +51,15 @@ public abstract class TemplatePrintBase extends AbstractPrint {
     public List<Source> getXSLTemplates() {
         Source src = new StreamSource();
         ArrayList<Source> sourceList = new ArrayList<Source>();
-        ProtocolCorrespondenceTemplateBase template = protocolCorrespondenceTemplateService.getProtocolCorrespondenceTemplate(
-                getCommitteeId() , getProtoCorrespTypeCode());
+        ProtocolCorrespondenceTemplateBase template = null;
+        
+        try {
+            template = protocolCorrespondenceTemplateService.getProtocolCorrespondenceTemplate(getCommitteeId() , getProtoCorrespTypeCode());
+        } catch (Exception e) {
+            System.err.println("getProtoCorrespTypeCode() : " + getProtoCorrespTypeCode());
+            e.printStackTrace();
+        }
+
         if (template != null) {
             src = new StreamSource(new ByteArrayInputStream(template.getCorrespondenceTemplate()));
             sourceList.add(src);

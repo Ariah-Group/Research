@@ -15,13 +15,15 @@
  */
 package org.kuali.kra.iacuc.committee.print;
 
-import org.kuali.kra.common.committee.print.CommitteeReportType;
-import org.kuali.kra.printing.print.AbstractPrint;
-import org.kuali.kra.printing.util.PrintingUtils;
-
-import javax.xml.transform.Source;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.transform.Source;
+import org.kuali.kra.common.committee.print.CommitteeReportType;
+import org.kuali.kra.common.committee.print.TemplatePrintBase;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.printing.util.PrintingUtils;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This class provides the implementation for printing Committee Future Scheduled Meetings.
@@ -31,7 +33,7 @@ import java.util.List;
  * streaming etc.
  * 
  */
-public class IacucCommitteeFutureScheduledMeetingsPrint extends AbstractPrint {
+public class IacucCommitteeFutureScheduledMeetingsPrint extends TemplatePrintBase {
 
     private static final long serialVersionUID = 8304676699437574667L;
 
@@ -41,8 +43,20 @@ public class IacucCommitteeFutureScheduledMeetingsPrint extends AbstractPrint {
      * 
      * @return {@link ArrayList}} of {@link Source} XSLs
      */
+    @Override
     public List<Source> getXSLTemplates() {
         return PrintingUtils.getXSLTforReport(CommitteeReportType.FUTURE_SCHEDULED_MEETINGS.getCommitteeReportType());
     }
+    
+    @Override
+    public String getProtoCorrespTypeCode() {
+
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+
+        String iacucFutureScheduledCorrespTypeCode = paramServ.getParameterValueAsString(Constants.MODULE_NAMESPACE_IACUC,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ARIAH_IACUC_CORRESP_TYPE_CODE_SCHEDULED_MEETINGS);
+
+        return iacucFutureScheduledCorrespTypeCode;
+    }    
 
 }

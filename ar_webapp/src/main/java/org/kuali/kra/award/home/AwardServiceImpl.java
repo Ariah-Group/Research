@@ -45,6 +45,8 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
 import java.util.*;
+import org.kuali.kra.subaward.bo.SubAward;
+import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 
 /**
  * {@inheritDoc}
@@ -100,10 +102,12 @@ public class AwardServiceImpl implements AwardService {
 
     @Override
     public AwardDocument createNewAwardVersion(AwardDocument awardDocument) throws VersionException, WorkflowException {
-        Award newVersion = getVersioningService().createNewVersion(awardDocument.getAward());
+
+        Award oldVersion = awardDocument.getAward();
+        Award newVersion = getVersioningService().createNewVersion(oldVersion);
 
         for (AwardAttachment attach : newVersion.getAwardAttachments()) {
-            AwardAttachment orignalAttachment = findMatchingAwardAttachment(awardDocument.getAward().getAwardAttachments(), attach.getFileId());
+            AwardAttachment orignalAttachment = findMatchingAwardAttachment(oldVersion.getAwardAttachments(), attach.getFileId());
             attach.setUpdateUser(orignalAttachment.getUpdateUser());
             attach.setUpdateTimestamp(orignalAttachment.getUpdateTimestamp());
             attach.setUpdateUserSet(true);
@@ -124,7 +128,57 @@ public class AwardServiceImpl implements AwardService {
         newVersion.getAwardAmountInfos().get(0).setTimeAndMoneyDocumentNumber(null);
         newVersion.getAwardAmountInfos().get(0).setSequenceNumber(newVersion.getSequenceNumber());
 
-        synchNewCustomAttributes(newVersion, awardDocument.getAward());
+        List<SubAward> oldSubs = oldVersion.getSubAwardList();
+
+        if (oldSubs == null) {
+            
+            System.out.println("AwardServiceImpl.createNewAwardVersion : oldVersion.getSubAwardList() is null");
+            
+        } else {
+            
+            System.out.println("AwardServiceImpl.createNewAwardVersion : oldVersion.getSubAwardList() is NOT null");
+            
+            for (SubAward oldSub : oldSubs) {
+                
+                System.out.println("AwardServiceImpl.createNewAwardVersion : getSubAwardId = " + oldSub.getSubAwardId());
+
+                List<SubAwardFundingSource> subFundSources = oldSub.getSubAwardFundingSourceList();
+
+                for (SubAwardFundingSource sfs : subFundSources) {
+
+                    System.out.println("SubAwardFundingSource : " + sfs.getSubAwardFundingSourceId() + " , awardId = " + sfs.getAwardId());
+                }
+
+            }
+        }
+
+        System.out.println("----------------------------------");
+        
+        List<SubAward> newSubs = newVersion.getSubAwardList();
+
+        if (newSubs == null) {
+            
+            System.out.println("AwardServiceImpl.createNewAwardVersion : newVersion.getSubAwardList() is null");
+            
+        } else {
+            
+            System.out.println("AwardServiceImpl.createNewAwardVersion : newVersion.getSubAwardList() is NOT null");
+            
+            for (SubAward newSub : newSubs) {
+                
+                System.out.println("AwardServiceImpl.createNewAwardVersion : getSubAwardId = " + newSub.getSubAwardId());
+
+                List<SubAwardFundingSource> subFundSources = newSub.getSubAwardFundingSourceList();
+
+                for (SubAwardFundingSource sfs : subFundSources) {
+
+                    System.out.println("SubAwardFundingSource : " + sfs.getSubAwardFundingSourceId() + " , awardId = " + sfs.getAwardId());
+                }
+
+            }
+        }
+        
+        synchNewCustomAttributes(newVersion, oldVersion);
 
         return newAwardDocument;
     }

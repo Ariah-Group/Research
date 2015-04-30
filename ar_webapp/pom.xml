@@ -2051,6 +2051,17 @@ module of int tests -->
                 <enabled>true</enabled>
             </snapshots>
         </pluginRepository>
+        <pluginRepository>
+            <id>ariahgroup</id>
+            <name>Ariah Group Nexus Repository Manager</name>
+            <url>http://nexus.ariahgroup.org/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>        
     </pluginRepositories>
 
     <issueManagement>
