@@ -35,6 +35,9 @@ public class DeadlineTypeValuesFinder extends UifKeyValuesFinderBase {
 
     private BusinessObjectService businessObjectService;
 
+    /**
+     * 
+     */
     public DeadlineTypeValuesFinder() {
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
     }
@@ -62,6 +65,10 @@ public class DeadlineTypeValuesFinder extends UifKeyValuesFinderBase {
         return result;
     }
 
+    /**
+     * 
+     * @return 
+     */
     protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }

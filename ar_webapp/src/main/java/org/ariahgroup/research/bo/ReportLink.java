@@ -109,20 +109,36 @@ public class ReportLink extends KraPersistableBusinessObjectBase implements Muta
         this.description = description;
     }
 
+    /**
+     * 
+     * @param active 
+     */
     @Override
     public void setActive(boolean active) {
         this.active = active;
     }
 
+    /**
+     * 
+     * @return 
+     */
     @Override
     public boolean isActive() {
         return active;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public CoeusModule getCoeusModule() {
         return coeusModule;
     }
 
+    /**
+     * 
+     * @param coeusModule 
+     */
     public void setCoeusModule(CoeusModule coeusModule) {
         this.coeusModule = coeusModule;
     }

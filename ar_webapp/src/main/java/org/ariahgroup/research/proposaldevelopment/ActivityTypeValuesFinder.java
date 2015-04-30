@@ -62,6 +62,10 @@ public class ActivityTypeValuesFinder extends UifKeyValuesFinderBase {
         return result;
     }
 
+    /**
+     * 
+     * @return 
+     */
     protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }

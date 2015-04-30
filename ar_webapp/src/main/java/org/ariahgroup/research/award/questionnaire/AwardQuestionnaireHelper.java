@@ -77,11 +77,19 @@ public class AwardQuestionnaireHelper extends org.kuali.kra.questionnaire.Questi
         return new AwardTask(TaskName.MODIFY_AWARD_QUESTIONNAIRE, (Award) award);
     }
 
+    /**
+     * 
+     * @return 
+     */
     @Override
     public String getModuleCode() {
         return CoeusModule.AWARD_MODULE_CODE;
     }
 
+    /**
+     * 
+     * @return 
+     */
     @Override
     public ModuleQuestionnaireBean getModuleQnBean() {
         AwardModuleQuestionnaireBeanBase moduleQuestionnaireBean = getAwardModuleQuestionnaireBeanHook(getAward());
@@ -89,21 +97,37 @@ public class AwardQuestionnaireHelper extends org.kuali.kra.questionnaire.Questi
 
     }
 
+    /**
+     * 
+     * @param award
+     * @return 
+     */
     protected AwardModuleQuestionnaireBeanBase getAwardModuleQuestionnaireBeanHook(Award award) {
         return new AwardModuleQuestionnaireBeanBase((Award) award);
     }
 
+    /**
+     * 
+     */
     @Override
     public void populateAnswers() {
         super.populateAnswers();
         setQuestionnaireActiveStatuses();
     }
 
+    /**
+     * 
+     * @param answerHeaderIndex 
+     */
     @Override
     public void updateQuestionnaireAnswer(int answerHeaderIndex) {
         super.updateQuestionnaireAnswer(answerHeaderIndex);
     }
 
+    /**
+     * 
+     * @return 
+     */
     private Award getAward() {
         AwardDocument document = form.getAwardDocument();
         if (document == null || document.getAward() == null) {
@@ -112,26 +136,50 @@ public class AwardQuestionnaireHelper extends org.kuali.kra.questionnaire.Questi
         return document.getAward();
     }
 
+    /**
+     * 
+     * @return 
+     */
     public String getAwardNumber() {
         return awardNumber;
     }
 
+    /**
+     * 
+     * @param awardNumber 
+     */
     public void setAwardNumber(String awardNumber) {
         this.awardNumber = awardNumber;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public List<AnswerHeader> getPrintAnswerHeaders() {
         return printAnswerHeaders;
     }
 
+    /**
+     * 
+     * @param printAnswerHeaders 
+     */
     public void setPrintAnswerHeaders(List<AnswerHeader> printAnswerHeaders) {
         this.printAnswerHeaders = printAnswerHeaders;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public List<String> getPrintHeaderLabels() {
         return printHeaderLabels;
     }
 
+    /**
+     * 
+     * @param printHeaderLabels 
+     */
     public void setPrintHeaderLabels(List<String> printHeaderLabels) {
         this.printHeaderLabels = printHeaderLabels;
     }
@@ -174,7 +222,11 @@ public class AwardQuestionnaireHelper extends org.kuali.kra.questionnaire.Questi
         }
     }
     
-    
+    /**
+     * 
+     * @param answerHeader
+     * @return 
+     */
     @Override
     public boolean isQuestionnaireActive(AnswerHeader answerHeader) {        
         Integer questionnaireId = answerHeader.getQuestionnaire().getQuestionnaireIdAsInteger();

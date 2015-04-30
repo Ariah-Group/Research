@@ -21,10 +21,19 @@ import org.apache.ojb.broker.accesslayer.LookupException;
 import org.ariahgroup.research.bo.ReportLink;
 
 /**
+ * Interface representing the data access object for external report links.
+ * 
  * @author The Ariah Group, Inc.
  */
 public interface ReportsDao {
 
+    /**
+     * Retrieve a List of all report links by module code.
+     * 
+     * @return
+     * @throws LookupException
+     * @throws SQLException 
+     */
     public List<ReportLink> getAllReportLinksByCoeusModule() throws LookupException, SQLException;
 
 }

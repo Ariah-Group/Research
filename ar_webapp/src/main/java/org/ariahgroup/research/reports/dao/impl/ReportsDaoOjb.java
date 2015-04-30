@@ -27,10 +27,16 @@ import org.ariahgroup.research.reports.dao.ReportsDao;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 /**
+ *
  * @author The Ariah Group, Inc.
  */
 public class ReportsDaoOjb extends PlatformAwareDaoBaseOjb implements ReportsDao {
 
+    /**
+     *
+     * @return @throws LookupException
+     * @throws SQLException
+     */
     @Override
     public List<ReportLink> getAllReportLinksByCoeusModule() throws LookupException, SQLException {
 
@@ -48,7 +54,7 @@ public class ReportsDaoOjb extends PlatformAwareDaoBaseOjb implements ReportsDao
             rs = pstmt.executeQuery();
             rs.setFetchSize(100);
 
-           // int tempModuleId = -1;
+            // int tempModuleId = -1;
             while (rs.next()) {
 
                 int reportId = rs.getInt(1);
@@ -57,7 +63,7 @@ public class ReportsDaoOjb extends PlatformAwareDaoBaseOjb implements ReportsDao
                 String reportUrl = rs.getString(4);
                 String moduleName = rs.getString(5);
 
-               // if(tempModuleId != moduleId) {
+                // if(tempModuleId != moduleId) {
                 // records for different module
                 //}
                 ReportLink rep = new ReportLink();

@@ -27,12 +27,18 @@ import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
+ * Generic base bean for award questionnaires.
+ *
  * @author The Ariah Group, Inc.
  */
 public class AwardModuleQuestionnaireBeanBase extends ModuleQuestionnaireBean {
 
     private Award award;
 
+    /**
+     * Create a new instance of AwardModuleQuestionnaireBeanBase object using the specified Award parameter.
+     * @param award Award to use to populate the bean.
+     */
     public AwardModuleQuestionnaireBeanBase(Award award) {
         super(CoeusModule.AWARD_MODULE_CODE, award.getAwardNumber(), CoeusSubModule.ZERO_SUBMODULE, award.getSequenceNumber().toString(),
                 award.getAwardDocument().getDocumentHeader().getWorkflowDocument().isApproved());
@@ -40,15 +46,31 @@ public class AwardModuleQuestionnaireBeanBase extends ModuleQuestionnaireBean {
         setAwardSubItemCode(award);
     }
 
+    /**
+     * 
+     * @param moduleItemCode
+     * @param moduleItemKey
+     * @param moduleSubItemCode
+     * @param moduleSubItemKey
+     * @param finalDoc 
+     */
     public AwardModuleQuestionnaireBeanBase(String moduleItemCode, String moduleItemKey, String moduleSubItemCode, String moduleSubItemKey, boolean finalDoc) {
         super(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
     }
 
+    /**
+     * 
+     * @param award 
+     */
     protected void setAwardSubItemCode(Award award) {
         String subModuleCode = CoeusSubModule.ZERO_SUBMODULE;
         setModuleSubItemCode(subModuleCode);
     }
 
+    /**
+     * 
+     * @return 
+     */
     @Override
     public KrmsRulesContext getKrmsRulesContextFromBean() {
         if (getAward() != null) {
@@ -66,6 +88,11 @@ public class AwardModuleQuestionnaireBeanBase extends ModuleQuestionnaireBean {
         }
     }
 
+    /**
+     * 
+     * @param o
+     * @return 
+     */
     @Override
     public boolean equals(Object o) {
         boolean retVal = false;
@@ -80,10 +107,18 @@ public class AwardModuleQuestionnaireBeanBase extends ModuleQuestionnaireBean {
         return retVal;
     }
 
+    /**
+     * Get the award used by this bean.
+     * @return 
+     */
     public Award getAward() {
         return award;
     }
 
+    /**
+     * Set the award used by this bean.
+     * @param award 
+     */
     public void setAward(Award award) {
         this.award = award;
     }

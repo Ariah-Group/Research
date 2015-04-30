@@ -20,14 +20,21 @@ import org.kuali.kra.award.document.authorizer.AwardAuthorizer;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
+/**
+ * Authorizer class to determine ability to add answers to Award Questionnaires. 
+ * If the award is NOT in view only mode, and is NOT in workflow, and the current 
+ * user has "Modify Award" permission, then the user is able to add answers to the questionnaire.
+ * 
+ * @author The Ariah Group, Inc.
+ */
 public class AwardQuestionnaireAuthorizer extends AwardAuthorizer {
 
     /**
-     * @author The Ariah Group, Inc.
+     * Checks to see if the current user is authorized to answer an award questionnaire.
      * 
-     * @param userId
-     * @param task
-     * @return 
+     * @param userId Principal ID of the current user.
+     * @param task AwardTask type.
+     * @return True if the user is authorized to answer an award questionnaire. False otherwise.
      */
     @Override
     public boolean isAuthorized(String userId, AwardTask task) {

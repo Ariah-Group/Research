@@ -43,6 +43,10 @@ import org.kuali.rice.kew.rule.QualifiedRoleName;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.w3c.dom.NodeList;
 
+/**
+ * 
+ * @author The Ariah Group, Inc.
+ */
 public class ProposalPresidentRoleAttribute extends GenericRoleAttribute {
 
     private static final long serialVersionUID = -4407634595023746251L;

@@ -35,6 +35,10 @@ import org.kuali.rice.kew.rule.QualifiedRoleName;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.w3c.dom.NodeList;
 
+/**
+ * 
+ * @author The Ariah Group, Inc.
+ */
 public class ProposalPrincipalInvestigatorRoleAttribute extends GenericRoleAttribute {
 
     KcPersonService personService;

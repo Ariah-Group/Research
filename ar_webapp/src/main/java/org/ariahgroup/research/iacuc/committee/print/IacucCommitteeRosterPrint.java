@@ -23,11 +23,17 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 /**
  * This class provides the implementation for printing IACUC Committee Roster.
  *
+ * @author The Ariah Group, Inc.
  */
 public class IacucCommitteeRosterPrint extends TemplatePrintBase {
 
     private static final long serialVersionUID = -4077775486854400861L;
 
+    /**
+     * Get the IACUC Protocol Correspondence type code for Roster printing.
+     *
+     * @return Type code.
+     */
     @Override
     public String getProtoCorrespTypeCode() {
 

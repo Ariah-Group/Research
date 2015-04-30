@@ -35,6 +35,9 @@ public class ProposalTypeValuesFinder extends UifKeyValuesFinderBase {
 
     private BusinessObjectService businessObjectService;
 
+    /**
+     * 
+     */
     public ProposalTypeValuesFinder() {
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
     }
@@ -62,6 +65,10 @@ public class ProposalTypeValuesFinder extends UifKeyValuesFinderBase {
         return result;
     }
 
+    /**
+     * 
+     * @return 
+     */
     protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
