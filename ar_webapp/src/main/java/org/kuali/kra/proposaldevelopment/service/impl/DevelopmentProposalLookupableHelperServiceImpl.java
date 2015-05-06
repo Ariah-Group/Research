@@ -172,14 +172,14 @@ public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupabl
     protected void setRows() {
         super.setRows();
 
-        for (Row row : getRows()) {
+      //  for (Row row : getRows()) {
 
-            for (Field field : row.getFields()) {
+          //  for (Field field : row.getFields()) {
 
-                System.out.println("-----------------------");
-                System.out.println("getFieldLabel : " + field.getFieldLabel());
-                System.out.println("getFieldType : " + field.getFieldType());
-                System.out.println("getFieldDataType : " + field.getFieldDataType());
+//                System.out.println("-----------------------");
+//                System.out.println("getFieldLabel : " + field.getFieldLabel());
+//                System.out.println("getFieldType : " + field.getFieldType());
+//                System.out.println("getFieldDataType : " + field.getFieldDataType());
 
 //                if (StringUtils.equalsIgnoreCase(field.getPropertyName(), "associatedNegotiable.sponsorCode")) {
 //                    field.setQuickFinderClassNameImpl("org.kuali.kra.bo.Sponsor");
@@ -198,8 +198,8 @@ public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupabl
 //                    field.setInquiryParameters("associatedNegotiable.leadUnitNumber:unitNumber");
 //                    field.setFieldDirectInquiryEnabled(true);
 //                }
-            }
-        }
+           // }
+      //  }
 
     }
 }
