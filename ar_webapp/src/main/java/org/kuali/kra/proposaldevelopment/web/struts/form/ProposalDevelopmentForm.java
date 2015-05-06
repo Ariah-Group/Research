@@ -500,12 +500,18 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         // an element is removed.
         for (int i = 0; i < localHeaderFields.size(); i++) {
             HeaderField hdr = localHeaderFields.get(i);
-            if (hdr.getDdAttributeEntryName().equals(Constants.ATTR_INITIATOR_NETWORK_ID_DD)) {
-                localHeaderFields.remove(hdr);
-                i--;
-            }
 
-            if (hdr.getDdAttributeEntryName().equals(Constants.ATTR_INITIATED_DATE_ID_DD)) {
+            if (hdr.getDdAttributeEntryName() != null) {
+                if (hdr.getDdAttributeEntryName().equals(Constants.ATTR_INITIATOR_NETWORK_ID_DD)) {
+                    localHeaderFields.remove(hdr);
+                    i--;
+                }
+
+                if (hdr.getDdAttributeEntryName().equals(Constants.ATTR_INITIATED_DATE_ID_DD)) {
+                    localHeaderFields.remove(hdr);
+                    i--;
+                }
+            } else {
                 localHeaderFields.remove(hdr);
                 i--;
             }
