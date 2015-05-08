@@ -119,7 +119,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
                 if (moduleQuestionnaireBean.isFinalDoc() || (getQuestionnaireService().isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire()) && questionnaireUsage.getQuestionnaire().isActive())) {
                     if (StringUtils.isNotBlank(questionnaireUsage.getRuleId())) {
-                        if (ruleResults.containsKey(questionnaireUsage.getRuleId()) && ruleResults.get(questionnaireUsage.getRuleId())) {
+                        if (ruleResults.containsKey(questionnaireUsage.getRuleId()) && ruleResults.get(questionnaireUsage.getRuleId()).booleanValue()) {
                             usages.add(questionnaireUsage);
                         }
                     } else {
@@ -598,7 +598,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 if (StringUtils.isNotBlank(ruleId)) {
                     // TODO : need to implement rulematched
                     //  if (ruleMatched(answer.getQuestionnaireQuestion().getConditionValue())) {
-                    if (ruleResults.containsKey(ruleId) && ruleResults.get(ruleId)) {
+                    if (ruleResults.containsKey(ruleId) && ruleResults.get(ruleId).booleanValue()) {
                         answer.setMatchedChild(YES);
                         answer.setRuleMatched(true);
                     } else {
@@ -621,14 +621,15 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                     if (ConditionType.RULE_EVALUATION.getCondition().equals(questionnaireQuestion.getCondition())) {
                         // evaluate this rule, so the ruleReferenced map can be populated
                         String ruleId = questionnaireQuestion.getConditionValue();
-                        if (ruleResults.containsKey(ruleId) && ruleResults.get(ruleId)) {
+                         if (ruleResults.containsKey(ruleId) && ruleResults.get(ruleId).booleanValue()) {
                             answer.setRuleMatched(true);
                         } else {
                             answer.setRuleMatched(false);
                         }
                     }
-                } else if ((ConditionType.RULE_EVALUATION.getCondition().equals(questionnaireQuestion.getCondition())
-                        && ruleResults.containsKey(questionnaireQuestion.getConditionValue()) && ruleResults.get(questionnaireQuestion.getConditionValue()))
+                }
+                else if ((ConditionType.RULE_EVALUATION.getCondition().equals(questionnaireQuestion.getCondition()) 
+                            && ruleResults.containsKey(questionnaireQuestion.getConditionValue()) && ruleResults.get(questionnaireQuestion.getConditionValue()).booleanValue()) 
                         || isAnyAnswerMatched(questionnaireQuestion.getCondition(),
                                 parentAnswers.get(questionnaireQuestion.getParentQuestionNumber()), questionnaireQuestion.getConditionValue())) {
                     answer.setMatchedChild(YES);
@@ -752,7 +753,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 valid = (ConditionType.BEFORE_DATE.getCondition().equals(condition) && (date1.before(date2)))
                         || (ConditionType.AFTER_DATE.getCondition().equals(condition) && (date1.after(date2)));
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
 
         }

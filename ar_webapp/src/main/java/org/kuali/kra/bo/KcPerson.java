@@ -256,6 +256,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * Gets the value of lastName.
      * @return the value of lastName
      */
+    @Override
     public String getLastName() {
         final EntityNameContract name = this.entity.getDefaultName();
         if (name == null) {
@@ -269,6 +270,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * Gets the value of firstName.
      * @return the value of firstName
      */
+    @Override
     public String getFirstName() {
         final EntityNameContract name = this.entity.getDefaultName();
         if (name == null) {
@@ -297,6 +299,7 @@ public class KcPerson implements Contactable, BusinessObject {
      *
      * @return the value of fullName
      */
+    @Override
     public String getFullName() {
         final String middleName = this.getMiddleName() != null ? this.getMiddleName() + " " : "";
         
@@ -332,6 +335,7 @@ public class KcPerson implements Contactable, BusinessObject {
      *
      * @return the value of emailAddress
      */
+    @Override
     public String getEmailAddress() {
         return selectSingleValue(this.getEntityType().getEmailAddresses(), new Selector<EntityEmailContract, String>() {
             public String notFoundValue() { return ""; }
@@ -574,11 +578,11 @@ public class KcPerson implements Contactable, BusinessObject {
     }
 
     /**
-     * Gets the value of saluation.
+     * Gets the value of salutation.
      *
-     * @return the value of saluation
+     * @return the value of salutation
      */
-    public String getSaluation() {
+    public String getSalutation() {
         final EntityNameContract name = this.entity.getDefaultName();
         if (name == null) {
             return "";

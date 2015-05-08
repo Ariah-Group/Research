@@ -49,7 +49,7 @@
         <ref bean="ProposalPerson-school" />
         <ref bean="ProposalPerson-yearGraduated" />
         <ref bean="ProposalPerson-directoryDepartment" />
-        <ref bean="ProposalPerson-saluation" />
+        <ref bean="ProposalPerson-salutation" />
         <ref bean="ProposalPerson-primaryTitle" />
         <ref bean="ProposalPerson-directoryTitle" />
         <ref bean="ProposalPerson-homeUnit" />
@@ -280,9 +280,9 @@
 
   <bean id="ProposalPerson-directoryDepartment-parentBean" abstract="true" parent="KcPersonExtendedAttributes-directoryDepartment">
   </bean>
-  <bean id="ProposalPerson-saluation" parent="ProposalPerson-saluation-parentBean" />
+  <bean id="ProposalPerson-salutation" parent="ProposalPerson-salutation-parentBean" />
 
-  <bean id="ProposalPerson-saluation-parentBean" abstract="true" parent="KcPerson-saluation">
+  <bean id="ProposalPerson-salutation-parentBean" abstract="true" parent="KcPerson-salutation">
   </bean>
   <bean id="ProposalPerson-primaryTitle" parent="ProposalPerson-primaryTitle-parentBean" />
 

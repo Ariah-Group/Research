@@ -149,7 +149,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
 
     private String directoryDepartment;
 
-    private String saluation;
+    private String salutation;
 
     private String countryOfCitizenship;
 
@@ -884,13 +884,13 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         this.directoryDepartment = directoryDepartment;
     }
 
-    public String getSaluation() {
-        return saluation;
+    public String getSalutation() {
+        return salutation;
     }
 
     @Override
-    public void setSaluation(String saluation) {
-        this.saluation = saluation;
+    public void setSalutation(String salutation) {
+        this.salutation = salutation;
     }
 
     public String getCountryOfCitizenship() {

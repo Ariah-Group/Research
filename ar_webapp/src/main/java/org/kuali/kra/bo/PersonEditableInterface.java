@@ -87,7 +87,7 @@ public interface PersonEditableInterface {
 
     void setDirectoryDepartment(String directoryDepartment);
 
-    void setSaluation(String saluation);
+    void setSalutation(String salutation);
 
     void setCountryOfCitizenship(String countryOfCitizenship);
 

@@ -68,6 +68,7 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
     private DateTimeService dateTimeService;
     private ReviewCommentsService reviewCommentsService;
     
+    @Override
     public void setPersonXml(KcPerson person, Person personType) {
         personType.setPersonID(person.getPersonId());
         personType.setFullname(person.getFullName());
@@ -75,7 +76,7 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
         personType.setFirstname(person.getFirstName());
         // case 1646 start
         personType.setDegree(person.getDegree() != null ? person.getDegree() : null);
-        personType.setSalutation(person.getSaluation() != null ? person.getSaluation() : null);
+        personType.setSalutation(person.getSalutation() != null ? person.getSalutation() : null);
         // case 1646 end
         personType.setEmail(person.getEmailAddress() != null ? person.getEmailAddress() : null);
         personType.setOfficeLocation(person.getOfficeLocation() != null ? person.getOfficeLocation() : null);

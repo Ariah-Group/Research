@@ -179,7 +179,7 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
 
     private String directoryDepartment;
 
-    private String saluation;
+    private String salutation;
 
     private String countryOfCitizenship;
 
@@ -1485,21 +1485,21 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     }
 
     /**
-     * Gets the value of saluation
+     * Gets the value of salutation
      *
-     * @return the value of saluation
+     * @return the value of salutation
      */
-    public String getSaluation() {
-        return this.saluation;
+    public String getSalutation() {
+        return this.salutation;
     }
 
     /**
-     * Sets the value of saluation
+     * Sets the value of salutation
      *
-     * @param argSaluation Value to assign to this.saluation
+     * @param argSalutation Value to assign to this.salutation
      */
-    public void setSaluation(String argSaluation) {
-        this.saluation = argSaluation;
+    public void setSalutation(String argSalutation) {
+        this.salutation = argSalutation;
     }
 
     /**

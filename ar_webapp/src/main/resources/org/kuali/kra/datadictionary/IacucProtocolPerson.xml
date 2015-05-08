@@ -78,7 +78,7 @@
         		<ref bean="IacucProtocolPerson-school" />
         		<ref bean="IacucProtocolPerson-yearGraduated" />
         		<ref bean="IacucProtocolPerson-directoryDepartment" />
-        		<ref bean="IacucProtocolPerson-saluation" />
+        		<ref bean="IacucProtocolPerson-salutation" />
         		<ref bean="IacucProtocolPerson-primaryTitle" />
         		<ref bean="IacucProtocolPerson-directoryTitle" />
         		<ref bean="IacucProtocolPerson-homeUnit" />
@@ -420,9 +420,9 @@
 
   <bean id="IacucProtocolPerson-directoryDepartment-parentBean" abstract="true" parent="KcPersonExtendedAttributes-directoryDepartment">
   </bean>
-  <bean id="IacucProtocolPerson-saluation" parent="IacucProtocolPerson-saluation-parentBean" />
+  <bean id="IacucProtocolPerson-salutation" parent="IacucProtocolPerson-salutation-parentBean" />
 
-  <bean id="IacucProtocolPerson-saluation-parentBean" abstract="true" parent="KcPerson-saluation">
+  <bean id="IacucProtocolPerson-salutation-parentBean" abstract="true" parent="KcPerson-salutation">
   </bean>
   <bean id="IacucProtocolPerson-primaryTitle" parent="IacucProtocolPerson-primaryTitle-parentBean" />
 

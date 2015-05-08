@@ -69,7 +69,7 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
         personType.setFirstname(person.getFirstName());
         // case 1646 start
         personType.setDegree(person.getDegree() != null ? person.getDegree() : null);
-        personType.setSalutation(person.getSaluation() != null ? person.getSaluation() : null);
+        personType.setSalutation(person.getSalutation() != null ? person.getSalutation() : null);
         // case 1646 end
         personType.setEmail(person.getEmailAddress() != null ? person.getEmailAddress() : null);
         personType.setOfficeLocation(person.getOfficeLocation() != null ? person.getOfficeLocation() : null);

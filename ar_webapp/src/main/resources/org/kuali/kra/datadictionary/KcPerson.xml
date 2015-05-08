@@ -49,7 +49,7 @@
         <ref bean="KcPerson-extendedAttributes.school" />
         <ref bean="KcPerson-extendedAttributes.yearGraduated" />
         <ref bean="KcPerson-extendedAttributes.directoryDepartment" />
-        <ref bean="KcPerson-saluation" />
+        <ref bean="KcPerson-salutation" />
         <ref bean="KcPerson-countryOfCitizenship" />
         <ref bean="KcPerson-extendedAttributes.primaryTitle" />
         <ref bean="KcPerson-extendedAttributes.directoryTitle" />
@@ -543,10 +543,10 @@
   <bean id="KcPerson-extendedAttributes.directoryDepartment-parentBean" abstract="true" parent="KcPersonExtendedAttributes-directoryDepartment">
     <property name="name" value="extendedAttributes.directoryDepartment" />
   </bean>
-  <bean id="KcPerson-saluation" parent="KcPerson-saluation-parentBean" />
+  <bean id="KcPerson-salutation" parent="KcPerson-salutation-parentBean" />
 
-  <bean id="KcPerson-saluation-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="saluation" />
+  <bean id="KcPerson-salutation-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="salutation" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Salutation" />
     <property name="shortLabel" value="Salutation" />
@@ -930,7 +930,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="extendedAttributes.directoryDepartment" />
               <bean parent="FieldDefinition"
-                    p:attributeName="saluation" />
+                    p:attributeName="salutation" />
               <bean parent="FieldDefinition"
                     p:attributeName="countryOfCitizenship" />
               <bean parent="FieldDefinition"

@@ -78,7 +78,7 @@
         		<ref bean="ProtocolPerson-school" />
         		<ref bean="ProtocolPerson-yearGraduated" />
         		<ref bean="ProtocolPerson-directoryDepartment" />
-        		<ref bean="ProtocolPerson-saluation" />
+        		<ref bean="ProtocolPerson-salutation" />
         		<ref bean="ProtocolPerson-primaryTitle" />
         		<ref bean="ProtocolPerson-directoryTitle" />
         		<ref bean="ProtocolPerson-homeUnit" />
@@ -420,9 +420,9 @@
 
   <bean id="ProtocolPerson-directoryDepartment-parentBean" abstract="true" parent="KcPersonExtendedAttributes-directoryDepartment">
   </bean>
-  <bean id="ProtocolPerson-saluation" parent="ProtocolPerson-saluation-parentBean" />
+  <bean id="ProtocolPerson-salutation" parent="ProtocolPerson-salutation-parentBean" />
 
-  <bean id="ProtocolPerson-saluation-parentBean" abstract="true" parent="KcPerson-saluation">
+  <bean id="ProtocolPerson-salutation-parentBean" abstract="true" parent="KcPerson-salutation">
   </bean>
   <bean id="ProtocolPerson-primaryTitle" parent="ProtocolPerson-primaryTitle-parentBean" />
 

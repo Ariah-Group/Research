@@ -417,7 +417,7 @@
         <field-descriptor name="school" column="SCHOOL" jdbc-type="VARCHAR" />
         <field-descriptor name="yearGraduated" column="YEAR_GRADUATED" jdbc-type="VARCHAR" />
         <field-descriptor name="directoryDepartment" column="DIRECTORY_DEPARTMENT" jdbc-type="VARCHAR" />
-        <field-descriptor name="saluation" column="SALUTATION" jdbc-type="VARCHAR" />
+        <field-descriptor name="salutation" column="SALUTATION" jdbc-type="VARCHAR" />
         <field-descriptor name="countryOfCitizenship" column="COUNTRY_OF_CITIZENSHIP" jdbc-type="VARCHAR" />
         <field-descriptor name="primaryTitle" column="PRIMARY_TITLE" jdbc-type="VARCHAR" />
         <field-descriptor name="directoryTitle" column="DIRECTORY_TITLE" jdbc-type="VARCHAR" />
