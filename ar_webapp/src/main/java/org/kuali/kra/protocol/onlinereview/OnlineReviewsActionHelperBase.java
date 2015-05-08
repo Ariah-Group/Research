@@ -117,7 +117,7 @@ public abstract class OnlineReviewsActionHelperBase implements Serializable {
                     String piLastName = principalInvestigator.getLastName();
                     this.newReviewDocumentDescription = getProtocolOnlineReviewService().getProtocolOnlineReviewDocumentDescription(protocolDocument.getProtocol().getProtocolNumber(), piLastName);
                 }
-                List<String> reviewerIds = getReviewerIds();
+                //List<String> reviewerIds = getReviewerIds();
                 for (ProtocolOnlineReviewDocumentBase pDoc : protocolOnlineReviewDocuments) {
                     Map<String, Object> pDocMap = new LinkedHashMap<String, Object>();
                     documentHelperMap.put(pDoc.getDocumentNumber(), pDocMap);
@@ -163,15 +163,14 @@ public abstract class OnlineReviewsActionHelperBase implements Serializable {
 
     protected abstract ReviewCommentsBeanBase getNewReviewCommentsBeanInstanceHook(String errorPropertyKey);
 
-    private List<String> getReviewerIds() {
-        List<String> reviewerIds = new ArrayList<String>();
-        for (ProtocolOnlineReviewDocumentBase pDoc : protocolOnlineReviewDocuments) {
-            reviewerIds.add(pDoc.getProtocolOnlineReview().getProtocolReviewer().getPersonId());
-        }
-        return reviewerIds;
-
-    }
-
+//    private List<String> getReviewerIds() {
+//        List<String> reviewerIds = new ArrayList<String>();
+//        for (ProtocolOnlineReviewDocumentBase pDoc : protocolOnlineReviewDocuments) {
+//            reviewerIds.add(pDoc.getProtocolOnlineReview().getProtocolReviewer().getPersonId());
+//        }
+//        return reviewerIds;
+//
+//    }
     /**
      * This method...
      *
