@@ -118,7 +118,7 @@ buffer := 'ray" display-align="before" number-columns-spanned="2" text-align="ce
                                                     <fo:table-row>
                                                         <fo:table-cell background-color="gray" display-align="before" number-columns-spanned="2" number-rows-spanned="2" text-align="center" width="1.75in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" border-style="solid" border-width="1pt" border-color="black">
                                                             <fo:block>
-                                                                <fo:inline font-size="8pt">SPOSOR PROPOSAL NUMBER</fo:inline>
+                                                                <fo:inline font-size="8pt">SPONSOR PROPOSAL NUMBER</fo:inline>
                                                             </fo:block>
                                                         </fo:table-cell>
                                                     </fo:table-row>

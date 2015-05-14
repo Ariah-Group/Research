@@ -98,7 +98,7 @@
 																		<styles background-color="gray"/>
 																		<properties align="center" colspan="2" rowspan="2" valign="top" width="1.75in"/>
 																		<children>
-																			<text fixtext="SPOSOR PROPOSAL NUMBER">
+																			<text fixtext="SPONSOR PROPOSAL NUMBER">
 																				<styles font-family="Verdana" font-size="8pt"/>
 																			</text>
 																		</children>

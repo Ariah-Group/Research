@@ -22,7 +22,7 @@ public interface SponsorHierarchyDao {
     
     /**
      * 
-     * This method is to get the sposor hierarchy name for the drop down
+     * This method is to get the sponsor hierarchy name for the drop down
      * @return
      */
     
@@ -37,7 +37,7 @@ public interface SponsorHierarchyDao {
     public Iterator getAllSponsors(String hierarchyName);
     
     /**
-     * Get the unique grouping names at specificed level in the specified hierarchy.
+     * Get the unique grouping names at specified level in the specified hierarchy.
      * @param hierarchyName
      * @param depth
      * @return
