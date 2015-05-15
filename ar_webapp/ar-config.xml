@@ -4,7 +4,7 @@
 	<param name="http.port">8080</param>
 	<param name="app.context.name">research</param>
      	<param name="application.url">${application.http.scheme}://${application.host}:${http.port}/${app.context.name}</param>
-	<param name="build.version">5.3.1</param>        
+	<param name="build.version">5.3.2</param>        
     
 	<!-- KC Client DB -->
 	<param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:KUALI</param>
@@ -206,7 +206,7 @@
     <param name="feedback.linkText">Report an Issue</param>
         
     <param name="displayVersion.enabled">true</param>
-    <param name="displayVersion">5.3.1</param>
+    <param name="displayVersion">5.3.2</param>
         
     <param name="displayEnvironment.enabled">true</param>
     <param name="displayEnvironment.highlightcolor">red</param>
