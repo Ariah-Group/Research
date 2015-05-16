@@ -420,7 +420,9 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
             proposalMaster.setMAILADDRESS(getMailingAddressXMLObject(proposalSite.getRolodex()));
         }
         
-        proposalMaster.setLEADUNIT(getProposalLeadUnit(developmentProposal.getProposalPersons()));
+        List<ProposalPerson> proposalPersons = developmentProposal.getProposalPersons();
+        
+        proposalMaster.setLEADUNIT(getProposalLeadUnit(proposalPersons));
         proposalMaster.setTITLE(developmentProposal.getTitle());
         proposalMaster.setPERIOD(getProjectPeriod(developmentProposal.getRequestedStartDateInitial(), developmentProposal.getRequestedEndDateInitial()));
         proposalMaster.setSPONSORCOST(getSponsorCost(budget));
@@ -434,15 +436,13 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
                 developmentProposal.getProposalAbstracts(),
                 ABSTRACT_TYPE_CODE_MAILING));
         proposalMaster.setCENTERINST(getCenterInstitute(developmentProposal
-                .getProposalChangedDataList(), developmentProposal
-                .getProposalPersons()));
+                .getProposalChangedDataList(), proposalPersons));
         proposalMaster.setSPONSOR(getSponsorXMLObject(developmentProposal.getSponsorName()));
         proposalMaster
                 .setPRIMESPONSOR(getPrimeSponsorXMLObject(developmentProposal
                                 .getPrimeSponsorCode()));
         proposalMaster
-                .setPROPINVESTIGATORS(getProposalInvestigatorXMLObject(developmentProposal
-                                .getProposalPersons()));
+                .setPROPINVESTIGATORS(getProposalInvestigatorXMLObject(proposalPersons));
         proposalMaster.setPROPOSALTYPE(getProposalTypeXMLObject(developmentProposal
                                 .getProposalType().getDescription()));
         proposalMaster.setACTIVITYTYPE(getActivityTypeXMLObject(developmentProposal
