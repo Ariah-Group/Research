@@ -46,6 +46,8 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * Represents a person in KC.
@@ -63,6 +65,7 @@ public class KcPerson implements Contactable, BusinessObject {
     private KcPersonExtendedAttributes extendedAttributes;
     
     private transient CountryService countryService;
+    private ParameterService parameterService;
 
     /**
      * When using this ctor {@link #setPersonId(String)} must be call else this call is in an invalid state.
@@ -527,8 +530,16 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of officePhone
      */
     public String getOfficePhone() {
-        //office phone is migrated as WRK type default
-        return this.getPhoneNumber("WRK", true);
+        
+        if(parameterService == null) {
+            parameterService = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        }
+        
+        String defaultOfficePhoneTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE, 
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
+                Constants.ARIAH_PERSON_PHONE_TYPE_OFFICE, "WRK");
+        
+        return this.getPhoneNumber(defaultOfficePhoneTypeCode, true);
     }
 
     /**
@@ -1122,6 +1133,13 @@ public class KcPerson implements Contactable, BusinessObject {
         }
         
         return selector.notFoundValue();
+    }
+
+    /**
+     * @return the parameterService
+     */
+    public ParameterService getParameterService() {
+        return parameterService;
     }
     
     /**

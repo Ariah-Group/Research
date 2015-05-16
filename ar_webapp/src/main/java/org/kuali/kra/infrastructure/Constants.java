@@ -760,6 +760,7 @@ public interface Constants {
     public static final String FEDERAL_SPONSOR_TYPE_CODE = "FEDERAL_SPONSOR_TYPE_CODE";
     
     public static final String INSTITUTIONAL_PROPOSAL_NAMESPACE = "KC-IP";
+    public static final String IDENTITY_MANAGEMENT_NAMESPACE = "KC-IDM";
 
     // Maintenance documents
     public static final String VALID_SPECIAL_REVIEW_APPROVAL_TYPE_CODE_KEY = "document.newMaintainableObject.approvalTypeCode";
@@ -996,6 +997,9 @@ public interface Constants {
     // Parameter Constants for Subawards
     public static final String ARIAH_SUBAWARD_HIDE_AND_DEFAULT_SUBAWARD_DOC_DESC = "ARIAH_SUBAWARD_HIDE_AND_DEFAULT_SUBAWARD_DOC_DESC";
 
+    // Parameter Constants for a Person
+    public static final String ARIAH_PERSON_PHONE_TYPE_OFFICE = "ARIAH_PERSON_PHONE_TYPE_OFFICE";
+    
     /**
      * Module Code for "Award" records in as defined in COEUS_MODULE database table.
      */
