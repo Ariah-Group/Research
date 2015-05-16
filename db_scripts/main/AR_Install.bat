@@ -26,7 +26,7 @@ echo Invalid Database Type <%dbtype%>
 goto dbtype
 
 :Version
-set /p Version="Enter Currently Installed Version (NEW, 3.1.1, 5.0, 5.0.1, 5.1, 5.1.1, 5.2, 5.2.1, 5.3.0) <%Version%>: "
+set /p Version="Enter Currently Installed Version (NEW, 3.1.1, 5.0, 5.0.1, 5.1, 5.1.1, 5.2, 5.2.1, 5.3.0, 5.3.1, 5.3.2) <%Version%>: "
 if /i "%Version%" == "NEW" goto User
 if /i "%Version%" == "3.1.1" goto User
 if /i "%Version%" == "5.0" goto User
@@ -36,6 +36,8 @@ if /i "%Version%" == "5.1.1" goto User
 if /i "%Version%" == "5.2" goto User
 if /i "%Version%" == "5.2.1" goto User
 if /i "%Version%" == "5.3.0" goto User
+if /i "%Version%" == "5.3.1" goto User
+if /i "%Version%" == "5.3.2" goto User
 echo Invalid Version <%Version%>
 goto Version
 
@@ -327,9 +329,19 @@ sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-5_3_1-Upgrade-ORACLE.
 move *.log ../LOGS
 cd ..
 
+:5.3.1ORACLE
+cd AR-RELEASE-5_3_3-SCRIPT
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < AR-RELEASE-5_3_3-Upgrade-ORACLE.sql
+sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-5_3_3-Upgrade-ORACLE.sql
+move *.log ../LOGS
+cd ..
 
-
-
+:5.3.2ORACLE
+cd AR-RELEASE-5_3_3-SCRIPT
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < AR-RELEASE-5_3_3-Upgrade-ORACLE.sql
+sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-5_3_3-Upgrade-ORACLE.sql
+move *.log ../LOGS
+cd ..
 
 cd KC-RELEASE-99_9_9-SCRIPT
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-99_9_9-Upgrade-ORACLE.sql
