@@ -960,7 +960,7 @@ public class KcPerson implements Contactable, BusinessObject {
     
     /**
      * Checks if the KIM entity has an affiliation based on a type code.
-     * @param affilTypeCode the affliation type code
+     * @param affilTypeCode the affiliation type code
      * @return true if the entity has an affiliation
      */
     private boolean hasAffiliation(final String affilTypeCode) {
