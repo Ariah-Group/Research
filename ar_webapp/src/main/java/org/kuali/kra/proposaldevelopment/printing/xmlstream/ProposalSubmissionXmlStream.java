@@ -96,6 +96,7 @@ public class ProposalSubmissionXmlStream extends ProposalBaseStream {
      * @throws PrintingException in case of any errors occur during XML
      * generation.
      */
+    @Override
     public Map<String, XmlObject> generateXmlStream(
             KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         DevelopmentProposal developmentProposal = (DevelopmentProposal) printableBusinessObject;
