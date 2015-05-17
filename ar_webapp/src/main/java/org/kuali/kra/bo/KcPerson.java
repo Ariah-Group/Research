@@ -557,8 +557,17 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of secondaryOfficePhone
      */
     public String getSecondaryOfficePhone() {
-        //2nd office phone is migrated as WRK type non-default
-        return this.getPhoneNumber("WRK", false);
+        
+        if(parameterService == null) {
+            parameterService = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        }
+        
+        // this uses the same value as getOfficePhone as 
+        String defaultOfficePhoneTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE, 
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
+                Constants.ARIAH_PERSON_PHONE_TYPE_OFFICE, "WRK");
+        
+        return this.getPhoneNumber(defaultOfficePhoneTypeCode, false);
     }
 
     /**
