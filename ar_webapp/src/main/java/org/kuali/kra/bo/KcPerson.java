@@ -826,7 +826,17 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of faxNumber
      */
     public String getFaxNumber() {
-        return this.getPhoneNumber("FAX");
+        
+        if(parameterService == null) {
+            parameterService = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        }
+        
+        // this uses the same value as getOfficePhone as 
+        String defaultFaxPhoneTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE, 
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
+                Constants.ARIAH_PERSON_PHONE_TYPE_FAX, "FAX");
+        
+        return this.getPhoneNumber(defaultFaxPhoneTypeCode);
     }
     
     /**

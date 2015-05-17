@@ -999,6 +999,7 @@ public interface Constants {
 
     // Parameter Constants for a Person
     public static final String ARIAH_PERSON_PHONE_TYPE_OFFICE = "ARIAH_PERSON_PHONE_TYPE_OFFICE";
+    public static final String ARIAH_PERSON_PHONE_TYPE_FAX = "ARIAH_PERSON_PHONE_TYPE_FAX";
     
     /**
      * Module Code for "Award" records in as defined in COEUS_MODULE database table.
