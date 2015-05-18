@@ -850,7 +850,6 @@ public class KcPerson implements Contactable, BusinessObject {
             parameterService = (ParameterService) KraServiceLocator.getService(ParameterService.class);
         }
         
-        // this uses the same value as getOfficePhone as 
         String defaultPagerPhoneTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE, 
                 Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
                 Constants.ARIAH_PERSON_PHONE_TYPE_PAGER, "PGR");
@@ -864,7 +863,16 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of mobilePhoneNumber
      */
     public String getMobilePhoneNumber() {
-        return this.getPhoneNumber("MBL");
+        
+        if(parameterService == null) {
+            parameterService = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        }
+        
+        String defaultMobilePhoneTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE, 
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
+                Constants.ARIAH_PERSON_PHONE_TYPE_MOBILE, "MBL");
+        
+        return this.getPhoneNumber(defaultMobilePhoneTypeCode);
     }
 
     /**

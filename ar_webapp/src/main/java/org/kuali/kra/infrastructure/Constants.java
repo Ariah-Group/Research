@@ -1001,6 +1001,7 @@ public interface Constants {
     public static final String ARIAH_PERSON_PHONE_TYPE_OFFICE = "ARIAH_PERSON_PHONE_TYPE_OFFICE";
     public static final String ARIAH_PERSON_PHONE_TYPE_FAX = "ARIAH_PERSON_PHONE_TYPE_FAX";
     public static final String ARIAH_PERSON_PHONE_TYPE_PAGER = "ARIAH_PERSON_PHONE_TYPE_PAGER";
+    public static final String ARIAH_PERSON_PHONE_TYPE_MOBILE = "ARIAH_PERSON_PHONE_TYPE_MOBILE";
     
     /**
      * Module Code for "Award" records in as defined in COEUS_MODULE database table.
