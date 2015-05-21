@@ -979,6 +979,7 @@ public interface Constants {
     
     // Parameter Constants for Budgets
     public static final String ARIAH_PROPDEV_BUDGET_DEFAULT_SUBMIT_COST_SHARING_FLAG = "ARIAH_PROPDEV_BUDGET_DEFAULT_SUBMIT_COST_SHARING_FLAG";
+    public static final String ARIAH_BUDGET_INFLATION_FLAG_NONPERSONNEL_OFF = "ARIAH_BUDGET_INFLATION_FLAG_NONPERSONNEL_OFF";
     
     //Parameter Constants for Negotiations
     public static final String ARIAH_NEGO_HIDE_AND_DEFAULT_NEGO_DOC_DESC = "ARIAH_NEGO_HIDE_AND_DEFAULT_NEGO_DOC_DESC";

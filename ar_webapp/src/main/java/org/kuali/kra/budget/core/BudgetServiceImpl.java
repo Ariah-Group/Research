@@ -925,7 +925,13 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         newBudgetLineItem.setEndDate(budgetPeriod.getEndDate());
         newBudgetLineItem.setBudgetId(budget.getBudgetId());
         newBudgetLineItem.setLineItemNumber(budget.getBudgetDocument().getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER));
-        newBudgetLineItem.setApplyInRateFlag(true);
+
+        if (getParameterService().getParameterValueAsBoolean(BudgetDocument.class, Constants.ARIAH_BUDGET_INFLATION_FLAG_NONPERSONNEL_OFF, false)) {
+            newBudgetLineItem.setApplyInRateFlag(false);
+        } else {
+            newBudgetLineItem.setApplyInRateFlag(true);
+        }
+
         newBudgetLineItem.setSubmitCostSharingFlag(budget.getSubmitCostSharingFlag());
         newBudgetLineItem.refreshReferenceObject("costElementBO");
 
