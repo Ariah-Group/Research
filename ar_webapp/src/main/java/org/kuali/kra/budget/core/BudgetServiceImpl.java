@@ -443,7 +443,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     public String getApplicableCostElementsForAjaxCall(Long budgetId, String personSequenceNumber,
             String budgetCategoryTypeCode) {
 
-        String resultStr = "";
+        StringBuilder resultStr = new StringBuilder(100);
 
         if (isAuthorizedToAccess(budgetCategoryTypeCode)) {
             if (StringUtils.isNotBlank(budgetCategoryTypeCode) && budgetCategoryTypeCode.contains(Constants.COLON)) {
@@ -457,23 +457,29 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
                     Map fieldValues = new HashMap();
                     fieldValues.put("costElement", validCE.getCostElement());
                     CostElement costElement = (CostElement) businessObjectService.findByPrimaryKey(CostElement.class, fieldValues);
-                    resultStr += "," + validCE.getCostElement() + ";" + costElement.getDescription();
+                    resultStr.append(",");
+                    resultStr.append(validCE.getCostElement());
+                    resultStr.append(";");
+                    resultStr.append(costElement.getDescription());
                 }
-                resultStr += ",ceLookup;false";
+                resultStr.append(",ceLookup;false");
             } else {
                 CostElementValuesFinder ceValuesFinder = new CostElementValuesFinder();
                 ceValuesFinder.setBudgetCategoryTypeCode(budgetCategoryTypeCode);
                 List<KeyValue> allPersonnelCostElements = ceValuesFinder.getKeyValues();
                 for (KeyValue keyValue : allPersonnelCostElements) {
                     if (StringUtils.isNotEmpty(keyValue.getKey())) {
-                        resultStr += "," + keyValue.getKey() + ";" + keyValue.getValue();
+                        resultStr.append(",");
+                        resultStr.append(keyValue.getKey());
+                        resultStr.append(";");
+                        resultStr.append(keyValue.getValue());
                     }
                 }
-                resultStr += ",ceLookup;true";
+                resultStr.append(",ceLookup;true");
             }
         }
 
-        return resultStr;
+        return resultStr.toString();
     }
 
     @Override
