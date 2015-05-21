@@ -32,11 +32,14 @@ import java.util.TreeMap;
 public class BudgetJustificationServiceImpl implements BudgetJustificationService {
 
     /**
-     * 
-     * @see org.kuali.kra.budget.nonpersonnel.BudgetJustificationService#consolidateExpenseJustifications(org.kuali.kra.budget.document.BudgetDocument, org.kuali.kra.budget.nonpersonnel.BudgetJustificationWrapper)
+     *
+     * @see
+     * org.kuali.kra.budget.nonpersonnel.BudgetJustificationService#consolidateExpenseJustifications(org.kuali.kra.budget.document.BudgetDocument,
+     * org.kuali.kra.budget.nonpersonnel.BudgetJustificationWrapper)
      */
+    @Override
     public void consolidateExpenseJustifications(Budget budget, BudgetJustificationWrapper budgetJustificationWrapper) throws BudgetException {
-        if(budget.areLineItemJustificationsPresent()) {
+        if (budget.areLineItemJustificationsPresent()) {
             addConsolidatedLineItemJustificationText(budget, budgetJustificationWrapper);
         } else {
             throw new BudgetException();
@@ -44,31 +47,36 @@ public class BudgetJustificationServiceImpl implements BudgetJustificationServic
     }
 
     /**
-     * 
-     * @see org.kuali.kra.budget.nonpersonnel.BudgetJustificationService#preSave(org.kuali.kra.budget.document.BudgetDocument, org.kuali.kra.budget.nonpersonnel.BudgetJustificationWrapper)
+     *
+     * @see
+     * org.kuali.kra.budget.nonpersonnel.BudgetJustificationService#preSave(org.kuali.kra.budget.document.BudgetDocument,
+     * org.kuali.kra.budget.nonpersonnel.BudgetJustificationWrapper)
      */
+    @Override
     public void preSave(Budget budget, BudgetJustificationWrapper budgetJustificationWrapper) {
         updateJustficationMetaData(budgetJustificationWrapper);
         budget.setBudgetJustification(budgetJustificationWrapper.toString());
     }
-    
+
     /**
      * This method looks up user id. Protected to allow stubbing
+     *
      * @return
      */
     protected String getLoggedInUserNetworkId() {
         return GlobalVariables.getUserSession().getPrincipalName();
     }
-    
+
     /**
      * This method loads Cost Elements, mapping them to their cost element code
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
     protected Map<String, CostElement> loadCostElements() {
         Collection<CostElement> costElements = (Collection<CostElement>) KraServiceLocator.getService(BusinessObjectService.class).findAll(CostElement.class);
-        Map<String, CostElement> costElementsMappedToCostElementCode = new TreeMap<String, CostElement>(); 
-        for(CostElement costElement: costElements) {
+        Map<String, CostElement> costElementsMappedToCostElementCode = new TreeMap<String, CostElement>();
+        for (CostElement costElement : costElements) {
             costElementsMappedToCostElementCode.put(costElement.getCostElement(), costElement);
         }
         return costElementsMappedToCostElementCode;
@@ -76,6 +84,7 @@ public class BudgetJustificationServiceImpl implements BudgetJustificationServic
 
     /**
      * This method adds the required footer between budget period justifications
+     *
      * @param sb
      */
     protected void addBudgetPeriodFooter(StringBuilder sb) {
@@ -84,6 +93,7 @@ public class BudgetJustificationServiceImpl implements BudgetJustificationServic
 
     /**
      * This method adds the required header for each budget period
+     *
      * @param sb
      * @param budgetPeriodNumber
      */
@@ -94,47 +104,51 @@ public class BudgetJustificationServiceImpl implements BudgetJustificationServic
     }
 
     /**
-     * This method adds consolidated Line Item Justification text to any existing text
+     * This method adds consolidated Line Item Justification text to any
+     * existing text
+     *
      * @param budget
      * @param budgetJustificationWrapper
      */
     protected void addConsolidatedLineItemJustificationText(Budget budget, BudgetJustificationWrapper budgetJustificationWrapper) {
         String existingJustificationText = budgetJustificationWrapper.getJustificationText();
         StringBuilder sb = new StringBuilder();
-        
-        if(!StringUtils.isEmpty(existingJustificationText)) {
+
+        if (!StringUtils.isEmpty(existingJustificationText)) {
             sb.append(existingJustificationText);
             addLineItemJustificationTextSeparatorText(sb);
         }
-        
-        for(BudgetPeriod budgetPeriod: budget.getBudgetPeriods()) {
-            if(budgetPeriod.getBudgetLineItems().size() > 0) {
-                addJustificationTextByBudgetPeriod(budgetPeriod, sb);                        
+
+        for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
+            if (budgetPeriod.getBudgetLineItems().size() > 0) {
+                addJustificationTextByBudgetPeriod(budgetPeriod, sb);
             }
         }
         budgetJustificationWrapper.setJustificationText(sb.toString());
     }
 
     /**
-     * 
+     *
      * This method aggregates Justification text by BudgetPeriod
+     *
      * @param budgetPeriod
      * @param sb
      */
     protected void addJustificationTextByBudgetPeriod(BudgetPeriod budgetPeriod, StringBuilder sb) {
         Map<String, CostElement> costElementsMappedToCostElementCode = loadCostElements();
-        
+
         boolean periodHeaderAdded = false;
-        for(BudgetLineItem lineItem: budgetPeriod.getBudgetLineItems()) {
+        for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
             periodHeaderAdded = addLineItemJustificationText(costElementsMappedToCostElementCode, sb, budgetPeriod.getBudgetPeriod(), periodHeaderAdded, lineItem);
         }
-        if(periodHeaderAdded) {
+        if (periodHeaderAdded) {
             addBudgetPeriodFooter(sb);
         }
     }
 
     /**
-     * This method aggregates Line Item Justification text for a budget period 
+     * This method aggregates Line Item Justification text for a budget period
+     *
      * @param costElementsMappedToCostElementCode
      * @param sb
      * @param budgetPeriodNumber
@@ -143,9 +157,9 @@ public class BudgetJustificationServiceImpl implements BudgetJustificationServic
      * @return
      */
     protected boolean addLineItemJustificationText(Map<String, CostElement> costElementsMappedToCostElementCode, StringBuilder sb,
-                                                    int budgetPeriodNumber, boolean periodHeaderAdded, BudgetLineItem lineItem) {
+            int budgetPeriodNumber, boolean periodHeaderAdded, BudgetLineItem lineItem) {
         String lineItemJustification = lineItem.getBudgetJustification();
-        if(!StringUtils.isEmpty(lineItemJustification)) {
+        if (!StringUtils.isEmpty(lineItemJustification)) {
             if (!periodHeaderAdded) {
                 addBudgetPeriodHeader(sb, budgetPeriodNumber);
                 periodHeaderAdded = true;
@@ -154,17 +168,17 @@ public class BudgetJustificationServiceImpl implements BudgetJustificationServic
         }
         return periodHeaderAdded;
     }
-    
 
     /**
      * This method adds the line item justification elements to the buffer
+     *
      * @param costElementsMappedToCostElementCode
      * @param sb
      * @param lineItem
      * @param lineItemJustification
      */
     protected void addLineItemJustificationTextElements(Map<String, CostElement> costElementsMappedToCostElementCode, StringBuilder sb,
-                                                        BudgetLineItem lineItem, String lineItemJustification) {
+            BudgetLineItem lineItem, String lineItemJustification) {
         sb.append(costElementsMappedToCostElementCode.get(lineItem.getCostElement()).getDescription());
         sb.append("\n");
         sb.append(lineItemJustification);
@@ -172,7 +186,8 @@ public class BudgetJustificationServiceImpl implements BudgetJustificationServic
     }
 
     /**
-     * This method adds the required seprator text
+     * This method adds the required separator text
+     *
      * @param sb
      */
     protected void addLineItemJustificationTextSeparatorText(StringBuilder sb) {
@@ -182,7 +197,9 @@ public class BudgetJustificationServiceImpl implements BudgetJustificationServic
     }
 
     /**
-     * This method updates the Justification text meta-data with the user and date/time
+     * This method updates the Justification text meta-data with the user and
+     * date/time
+     *
      * @param budgetJustificationWrapper
      */
     protected void updateJustficationMetaData(BudgetJustificationWrapper budgetJustificationWrapper) {
