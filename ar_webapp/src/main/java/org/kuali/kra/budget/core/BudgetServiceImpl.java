@@ -560,11 +560,13 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     public boolean validateBudgetAuditRuleBeforeSaveBudgetVersion(BudgetParentDocument<T> proposalDevelopmentDocument)
             throws Exception {
         boolean valid = true;
+
+        final String budgetStatusCompleteCode = this.parameterService.getParameterValueAsString(BudgetDocument.class,
+                Constants.BUDGET_STATUS_COMPLETE_CODE);
+
         for (BudgetDocumentVersion budgetDocumentVersion : proposalDevelopmentDocument.getBudgetDocumentVersions()) {
             BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
 
-            String budgetStatusCompleteCode = this.parameterService.getParameterValueAsString(BudgetDocument.class,
-                    Constants.BUDGET_STATUS_COMPLETE_CODE);
             // if status is complete and version is not final, then business rule will take care of it
             if (budgetVersion.isFinalVersionFlag() && budgetVersion.getBudgetStatus() != null
                     && budgetVersion.getBudgetStatus().equals(budgetStatusCompleteCode)) {
