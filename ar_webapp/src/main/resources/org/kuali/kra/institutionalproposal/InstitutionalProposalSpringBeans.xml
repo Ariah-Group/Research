@@ -8,11 +8,11 @@
 
 	http://www.opensource.org/licenses/ecl1.php
 
-	Unless required by applicable law or agreed to in writing, software
-	distributed under the License is distributed on an "AS IS" BASIS,
-	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	See the License for the specific language governing permissions and
-	limitations under the License.
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
@@ -47,25 +47,25 @@
     
     <bean id="institutionalProposalModuleConfiguration" parent="institutionalProposalModuleConfiguration-parentBean" />
     <bean id="institutionalProposalModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
-    	<property name="namespaceCode" value="KC-IP" />
-		<property name="initializeDataDictionary" value="true" />
-		<property name="packagePrefixes">
+        <property name="namespaceCode" value="KC-IP" />
+        <property name="initializeDataDictionary" value="true" />
+        <property name="packagePrefixes">
             <list>
                 <value>org.kuali.kra.institutionalproposal</value>
             </list>
         </property>
-		<property name="databaseRepositoryFilePaths">
-			<list>
-				<value>org/kuali/kra/institutionalproposal/repository-institutionalproposal.xml</value>
-			</list>
-		</property>
-		<property name="dataDictionaryPackages">
+        <property name="databaseRepositoryFilePaths">
+            <list>
+                <value>org/kuali/kra/institutionalproposal/repository-institutionalproposal.xml</value>
+            </list>
+        </property>
+        <property name="dataDictionaryPackages">
             <list>
                 <value>org/kuali/kra/institutionalproposal/datadictionary</value>
                 <value>org/kuali/kra/institutionalproposal/datadictionary/docs</value>
             </list>
         </property>
-	</bean>
+    </bean>
 	
     <bean id="businessObjectService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="businessObjectService" />
@@ -151,7 +151,7 @@
         <property name="lookupResultsService" ref="lookupResultsService" />
     </bean>
 	
-	<!--  Proposal Log Services -->
+    <!--  Proposal Log Services -->
 	
     <bean id="proposalLogService" class="org.kuali.kra.institutionalproposal.proposallog.service.impl.ProposalLogServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
@@ -170,9 +170,9 @@
           class="org.kuali.kra.institutionalproposal.proposallog.service.impl.ProposalLogPiDerivedRoleTypeServiceImpl" />
     
     <bean id="proposalLogPiDerivedRoleTypeServiceCallback" parent="kcCallbackService" 
-		p:callbackService-ref="proposalLogPiDerivedRoleTypeService" 
-		p:localServiceName="proposalLogPiDerivedRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+          p:callbackService-ref="proposalLogPiDerivedRoleTypeService" 
+          p:localServiceName="proposalLogPiDerivedRoleTypeService" 
+          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
     
     <!-- Proposal Log Printing Services -->
     
@@ -234,9 +234,9 @@
     </bean>
   
     <bean id="institutionalProposalAllUnitAdministratorDerivedRoleTypeServiceCallback" parent="kcCallbackService"
-		p:callbackService-ref="institutionalProposalAllUnitAdministratorDerivedRoleTypeService" 
-		p:localServiceName="institutionalProposalAllUnitAdministratorDerivedRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+          p:callbackService-ref="institutionalProposalAllUnitAdministratorDerivedRoleTypeService" 
+          p:localServiceName="institutionalProposalAllUnitAdministratorDerivedRoleTypeService" 
+          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
     
     <bean id="institutionalProposalInvestigatorsRoleTypeService" 
           class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalInvestigatorDerivedRoleTypeServiceImpl">
@@ -244,9 +244,9 @@
     </bean>
     
     <bean id="institutionalProposalInvestigatorsRoleTypeServiceCallback" parent="kcCallbackService"
-		p:callbackService-ref="institutionalProposalInvestigatorsRoleTypeService" 
-		p:localServiceName="institutionalProposalInvestigatorsRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+          p:callbackService-ref="institutionalProposalInvestigatorsRoleTypeService" 
+          p:localServiceName="institutionalProposalInvestigatorsRoleTypeService" 
+          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
     
     <bean id="institutionalProposalVersioningService" class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalVersioningServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
@@ -270,8 +270,8 @@
         <property name="institutionalProposalPersonService" ref="institutionalProposalPersonService" />
     </bean>
 
-	<bean id="institutionalProposalFactBuilderService" class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalFactBuilderServiceImpl">
-		  <property name="documentService" ref="documentService" />
-	</bean>
+    <bean id="institutionalProposalFactBuilderService" class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalFactBuilderServiceImpl">
+        <property name="documentService" ref="documentService" />
+    </bean>
 
 </beans>
