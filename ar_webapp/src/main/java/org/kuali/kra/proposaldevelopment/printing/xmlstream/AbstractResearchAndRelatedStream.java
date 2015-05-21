@@ -75,8 +75,10 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.*;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStream {
+
     private static final Log LOG = LogFactory.getLog(AbstractResearchAndRelatedStream.class);
 
     protected static final String EMPTY_STRING = " ";
@@ -92,7 +94,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     private static final String CATEGORY_CODE_PARTICIPANT_SUBSISTANCE = "36";
     private static final String CATEGORY_CODE_PARTICIPANT_STIPENDS = "32";
     private static final String CATEGORY_CODE_PARTICIPANT_OTHER = "2";
-    private static final String CATEGORY_CODE_PARTICIPANT_TUITION = "35"; 
+    private static final String CATEGORY_CODE_PARTICIPANT_TUITION = "35";
     private static final String CATEGORY_CODE_OUTPATIENT = "33";
     private static final String CATEGORY_CODE_INPATIENT = "9";
     protected static final String DEFAULT_VALUE_UNKNOWN = "Unknown";
@@ -121,7 +123,6 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     private static final String PERIOD_TYPE_ACADEMIC_MONTHS = "2";
     private static final String PERIOD_TYPE_CALENDAR_MONTHS = "3";
     private static final String PERIOD_TYPE_SUMMER_MONTHS = "4";
-    private static final String SENIOR_PERSONNEL_CATEGORY_CODE = "1";    
     private static final String KEYPERSON_OTHER = "Other (Specify)";
     private static final String APPOINTMENT_TYPE_SUM_EMPLOYEE = "SUM EMPLOYEE";
     private static final String APPOINTMENT_TYPE_TMP_EMPLOYEE = "TMP EMPLOYEE";
@@ -147,8 +148,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
                     }
                     if (proposalSpecialReview.getApplicationDate() != null) {
                         animalSubject.setIACUCApprovalDate(getDateTimeService().getCalendar(proposalSpecialReview.getApplicationDate()));
-                    }
-                    else {
+                    } else {
                         animalSubject.setIACUCApprovalPending(IACU_APPROVAL_PENDING_VALUE);
                     }
                     break;
@@ -223,14 +223,14 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     /*
      * This method gets arrays of otherDirectCost XMLObject from List of BudgetLineItems by checking the budgetCategoryCode as Other
      */
-    protected OtherDirectCosts[] getOtherDirectCosts(DevelopmentProposal developmentProposal,List<BudgetLineItem> budgetLineItems) {
+    protected OtherDirectCosts[] getOtherDirectCosts(DevelopmentProposal developmentProposal, List<BudgetLineItem> budgetLineItems) {
         List<OtherDirectCosts> otherDirectCostList = new ArrayList<OtherDirectCosts>();
         for (BudgetLineItem budgetLineItem : budgetLineItems) {
             if (isBudgetCategoryOther(budgetLineItem)) {
                 OtherDirectCosts otherDirectCost = OtherDirectCosts.Factory.newInstance();
                 otherDirectCost.setCost(budgetLineItem.getLineItemCost().bigDecimalValue());
                 otherDirectCost.setDescription(budgetLineItem.getLineItemDescription());
-                otherDirectCost.setType(getOtherCategoryMapTypeDescription(developmentProposal,budgetLineItem));// budgetLineItem.getBudgetCategory().getDescription()));
+                otherDirectCost.setType(getOtherCategoryMapTypeDescription(developmentProposal, budgetLineItem));// budgetLineItem.getBudgetCategory().getDescription()));
                 otherDirectCostList.add(otherDirectCost);
             }
         }
@@ -239,36 +239,37 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
 
     private String getOtherCategoryMapTypeDescription(DevelopmentProposal developmentProposal, BudgetLineItem budgetLineItem) {
         BudgetCategoryMap budgetCategoryMap = getBudgetCategoryMap(developmentProposal, budgetLineItem);
-        if(budgetCategoryMap!=null){
+        if (budgetCategoryMap != null) {
             return budgetCategoryMap.getDescription();
-        }else{
-            return "Other Direct Costs"; 
+        } else {
+            return "Other Direct Costs";
         }
     }
 
     /**
      * This method...
+     *
      * @param developmentProposal
      * @param budgetLineItem
      * @return
      */
     private BudgetCategoryMap getBudgetCategoryMap(DevelopmentProposal developmentProposal, BudgetLineItem budgetLineItem) {
-        boolean isNih = getSponsorService().isSponsorNihOsc(developmentProposal) 
-                                || getSponsorService().isSponsorNihMultiplePi(developmentProposal);
-        String mappingName = isNih?"NIH_PRINTING":"NSF_PRINTING";
+        boolean isNih = getSponsorService().isSponsorNihOsc(developmentProposal)
+                || getSponsorService().isSponsorNihMultiplePi(developmentProposal);
+        String mappingName = isNih ? "NIH_PRINTING" : "NSF_PRINTING";
         BudgetCategoryMap budgetCategoryMap = null;
         Map<String, String> categoryMap = new HashMap<String, String>();
         categoryMap.put("budgetCategoryCode", budgetLineItem.getBudgetCategoryCode());
         categoryMap.put(KEY_MAPPING_NAME, mappingName);
         List<BudgetCategoryMapping> budgetCategoryList = getBudgetCategoryMappings(categoryMap);
-        if(!budgetCategoryList.isEmpty()){
+        if (!budgetCategoryList.isEmpty()) {
             BudgetCategoryMapping budgetCategoryMapping = budgetCategoryList.get(0);
             categoryMap = new HashMap<String, String>();
             categoryMap.put(KEY_MAPPING_NAME, mappingName);
             categoryMap.put("targetCategoryCode", budgetCategoryMapping.getTargetCategoryCode());
-            List<BudgetCategoryMap> budgetCategoryMaps = (List)getBusinessObjectService().findMatching(BudgetCategoryMap.class, categoryMap);
-            if(!budgetCategoryMaps.isEmpty()){
-                budgetCategoryMap =  budgetCategoryMaps.get(0);
+            List<BudgetCategoryMap> budgetCategoryMaps = (List) getBusinessObjectService().findMatching(BudgetCategoryMap.class, categoryMap);
+            if (!budgetCategoryMaps.isEmpty()) {
+                budgetCategoryMap = budgetCategoryMaps.get(0);
             }
         }
         return budgetCategoryMap;
@@ -276,6 +277,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
 
     /**
      * This method...
+     *
      * @return
      */
     private SponsorService getSponsorService() {
@@ -289,8 +291,8 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     protected boolean isBudgetCategoryOther(BudgetLineItem budgetLineItem) {
         boolean isOther = true;
         if (isBudgetCategoryEquipment(budgetLineItem) || isBudgetCategoryTravel(budgetLineItem)
-                || isBudgetCategoryParticipantPatient(budgetLineItem) || 
-                budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equals(Constants.BUDGET_CATEGORY_PERSONNEL) || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_TUITION) ) {
+                || isBudgetCategoryParticipantPatient(budgetLineItem)
+                || budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equals(Constants.BUDGET_CATEGORY_PERSONNEL) || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_TUITION)) {
             isOther = false;
         }
         return isOther;
@@ -330,14 +332,13 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      * This method check budgetCagegoryCode for Participant and Patient in BudgetLineItem
      */
     protected boolean isBudgetCategoryParticipantPatient(BudgetLineItem budgetLineItem) {
-        return 
-       budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_OTHER)||
-               budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_STIPENDS)  ||
-                budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_SUBSISTANCE) ||
-               budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_TRAVEL) ||
-                budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_INPATIENT)
-                || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_OUTPATIENT)||
-                budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_TUITION);
+        return budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_OTHER)
+                || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_STIPENDS)
+                || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_SUBSISTANCE)
+                || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_TRAVEL)
+                || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_INPATIENT)
+                || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_OUTPATIENT)
+                || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_TUITION);
     }
 
     /*
@@ -381,8 +382,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
                     .getMiddleName()));
             orgContactPerson.setPositionTitle(rolodex.getTitle());
             orgContactPerson.setContactInformation(getPersonContactInformation(rolodex));
-        }
-        else {
+        } else {
             orgContactPerson.setName(getContactPersonFullName(DEFAULT_VALUE_UNKNOWN, DEFAULT_VALUE_UNKNOWN, DEFAULT_VALUE_UNKNOWN));
             orgContactPerson.setPositionTitle(DEFAULT_VALUE_UNKNOWN);
             orgContactPerson.setContactInformation(getOrganizationPersonContactInformationWithDefaultValues());
@@ -436,7 +436,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         String postalCode = rolodex.getPostalCode();
         postalAddressType
                 .setPostalCode((postalCode == null || postalCode.trim().equals(Constants.EMPTY_STRING)) ? DEFAULT_VALUE_UNKNOWN
-                        : postalCode);
+                                : postalCode);
         String county = rolodex.getCounty();
         postalAddressType.setCountry((county == null || county.trim().equals(Constants.EMPTY_STRING)) ? DEFAULT_VALUE_UNKNOWN
                 : county);
@@ -516,8 +516,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
                 }
                 setProjectSurvey(projectSurvey, questionAnswered, questionId, explanation);
             }
-        }
-        else {
+        } else {
             setDefaultValuesToProjectSurvey(projectSurvey);
         }
         if (getProposalYNQ(LOBBYING_ACTIVITIES) != null) {
@@ -555,33 +554,25 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         if (questionId.equals(HAZARDOUS_MATERIALS)) {
             projectSurvey.setG3Question(questionAnswered);
             projectSurvey.setG3Text(explanation);
-        }
-        else if (questionId.equals(GENETICALLY_ENGINEERED)) {
+        } else if (questionId.equals(GENETICALLY_ENGINEERED)) {
             projectSurvey.setG4Question(questionAnswered);
             projectSurvey.setG4Text(explanation);
-        }
-        else if (questionId.equals(HISTORICAL_SITES)) {
+        } else if (questionId.equals(HISTORICAL_SITES)) {
             projectSurvey.setG6Question(questionAnswered);
             projectSurvey.setG6Text(explanation);
-        }
-        else if (questionId.equals(PROPRIETARY_INFO)) {
+        } else if (questionId.equals(PROPRIETARY_INFO)) {
             projectSurvey.setG8Question(questionAnswered);
             projectSurvey.setG8Text(explanation);
-        }
-        else if (questionId.equals(INTERNATIONAL_ACTIVITIES)) {
+        } else if (questionId.equals(INTERNATIONAL_ACTIVITIES)) {
             projectSurvey.setH1Question(questionAnswered);
             projectSurvey.setH1Text(explanation);
-        }
-        else if (questionId.equals(LOBBYING_ACTIVITIES)) {
+        } else if (questionId.equals(LOBBYING_ACTIVITIES)) {
             projectSurvey.setH4Question(questionAnswered);
-        }
-        else if (questionId.equals(NSFSMALL_GRANT)) {
+        } else if (questionId.equals(NSFSMALL_GRANT)) {
             projectSurvey.setSmallGrantQuestion(questionAnswered);
-        }
-        else if (questionId.equals(NSF_BEGINNING_INV)) {
+        } else if (questionId.equals(NSF_BEGINNING_INV)) {
             projectSurvey.setNSFbeginningInvestQuestion(questionAnswered);
-        }
-        else if (questionId.equals(STEMCELL)) {
+        } else if (questionId.equals(STEMCELL)) {
             projectSurvey.setStemCellQuestion(questionAnswered);
             projectSurvey.setStemCellText(explanation);
         }
@@ -676,12 +667,11 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         rateAndBase.refreshNonUpdateableReferences();
         if (rateAndBase.getRateClass() != null
                 && (RateClassType.EMPLOYEE_BENEFITS.getRateClassType().equals(rateAndBase.getRateClass().getRateClassType()) && !rateAndBase
-                        .getRateTypeCode().equals("3"))
+                .getRateTypeCode().equals("3"))
                 || (RateClassType.VACATION.getRateClassType().equals(rateAndBase.getRateClass().getRateClassType()) && !rateAndBase
-                        .getRateTypeCode().equals("2"))) {
+                .getRateTypeCode().equals("2"))) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -699,7 +689,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
                 && RateClassType.EMPLOYEE_BENEFITS.getRateClassType().equals(rateAndBase.getRateClass().getRateClassType())
                 && !rateAndBase.getRateTypeCode().equals("3")) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
@@ -717,8 +707,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
                 && RateClassType.VACATION.getRateClassType().equals(rateAndBase.getRateClass().getRateClassType())
                 && !rateAndBase.getRateTypeCode().equals("2")) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -762,8 +751,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
                 TravelCosts travelCost = TravelCosts.Factory.newInstance();
                 if (CATEGORY_CODE_TRAVEL_FOREIGN.equals(budgetLineItem.getBudgetCategoryCode())) {
                     travelCost.setType(TravelType.FOREIGN);
-                }
-                else { // if (CATEGORY_CODE_TRAVEL_DOMESTIC.equals(budgetLineItem.getBudgetCategoryCode())) {
+                } else { // if (CATEGORY_CODE_TRAVEL_DOMESTIC.equals(budgetLineItem.getBudgetCategoryCode())) {
                     travelCost.setType(TravelType.DOMESTIC);
                 }
 
@@ -780,7 +768,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      * as paricipantPatient
      */
     protected ParticipantPatientCosts[] getParticipantPatientCost(DevelopmentProposal developmentProposal,
-                                                                                List<BudgetLineItem> budgetLineItems) {
+            List<BudgetLineItem> budgetLineItems) {
         List<ParticipantPatientCosts> participantPatientCostList = new ArrayList<ParticipantPatientCosts>();
         for (BudgetLineItem budgetLineItem : budgetLineItems) {
             if (isBudgetCategoryParticipantPatient(budgetLineItem)) {
@@ -801,22 +789,21 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     private ParticipantType.Enum getParticipantPatientType(DevelopmentProposal developmentProposal, BudgetLineItem budgetLineItem) {
         BudgetCategoryMap budgetCategoryMap = getBudgetCategoryMap(developmentProposal, budgetLineItem);
         ParticipantType.Enum participantType = null;
-        if(budgetCategoryMap!=null){
-            if(budgetCategoryMap.getTargetCategoryCode().equals("41")){
+        if (budgetCategoryMap != null) {
+            if (budgetCategoryMap.getTargetCategoryCode().equals("41")) {
                 participantType = ParticipantType.INPATIENT;
-            }else if(budgetCategoryMap.getTargetCategoryCode().equals("90")){
+            } else if (budgetCategoryMap.getTargetCategoryCode().equals("90")) {
                 participantType = ParticipantType.OUTPATIENT;
-            }else if(budgetCategoryMap.getTargetCategoryCode().equals("79")){//SUBSISTANCE
-                participantType = ParticipantType.SUBSISTENCE ;
-            }else if(budgetCategoryMap.getTargetCategoryCode().equals("77")){//TRAVEL
-                participantType = ParticipantType.TRAVEL ;
-            }else if(budgetCategoryMap.getTargetCategoryCode().equals("75")){//STIPENDS
+            } else if (budgetCategoryMap.getTargetCategoryCode().equals("79")) {//SUBSISTANCE
+                participantType = ParticipantType.SUBSISTENCE;
+            } else if (budgetCategoryMap.getTargetCategoryCode().equals("77")) {//TRAVEL
+                participantType = ParticipantType.TRAVEL;
+            } else if (budgetCategoryMap.getTargetCategoryCode().equals("75")) {//STIPENDS
                 participantType = ParticipantType.STIPENDS;
-            }
-            else{
+            } else {
                 participantType = ParticipantType.OTHER;
             }
-        }else{
+        } else {
             participantType = ParticipantType.OTHER;
         }
         return participantType;
@@ -855,14 +842,14 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     protected gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProjectRoleType.Enum getProjectRoleType(
             DevelopmentProposal developmentProposal, BudgetPerson budgetPerson) {
         gov.nih.era.projectmgmt.sbir.cgap.researchandrelatedNamespace.ProjectRoleType.Enum roleType = ProjectRoleType.Enum
-        .forString(budgetPerson.getRole());
-        if(isPI(developmentProposal,budgetPerson)){
+                .forString(budgetPerson.getRole());
+        if (isPI(developmentProposal, budgetPerson)) {
             roleType = ProjectRoleType.PI_PD;
-        }else if(isCoPI(developmentProposal,budgetPerson)){
+        } else if (isCoPI(developmentProposal, budgetPerson)) {
             roleType = ProjectRoleType.CO_PI_PD;
-        }else if(isKeyPerson(developmentProposal,budgetPerson)){
+        } else if (isKeyPerson(developmentProposal, budgetPerson)) {
             roleType = ProjectRoleType.KEY_PERSON;
-        }else if (roleType == null) {
+        } else if (roleType == null) {
             roleType = ProjectRoleType.OTHER;
         }
         return roleType;
@@ -871,7 +858,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     private boolean isKeyPerson(DevelopmentProposal developmentProposal, BudgetPerson budgetPerson) {
         List<ProposalPerson> proposalPersons = developmentProposal.getProposalPersons();
         for (ProposalPerson proposalPerson : proposalPersons) {
-            if(isSamePerson(budgetPerson, proposalPerson)){
+            if (isSamePerson(budgetPerson, proposalPerson)) {
                 return true;
             }
         }
@@ -881,7 +868,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     private boolean isCoPI(DevelopmentProposal developmentProposal, BudgetPerson budgetPerson) {
         List<ProposalPerson> proposalPersons = developmentProposal.getInvestigators();
         for (ProposalPerson proposalPerson : proposalPersons) {
-            if(isSamePerson(budgetPerson, proposalPerson)){
+            if (isSamePerson(budgetPerson, proposalPerson)) {
                 return true;
             }
         }
@@ -895,14 +882,15 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
 
     /**
      * This method...
+     *
      * @param budgetPerson
      * @param proposalPerson
      */
     private boolean isSamePerson(BudgetPerson budgetPerson, ProposalPerson proposalPerson) {
-        if(proposalPerson.getPersonId()!=null && proposalPerson.getPersonId().equals(budgetPerson.getPersonId())){
+        if (proposalPerson.getPersonId() != null && proposalPerson.getPersonId().equals(budgetPerson.getPersonId())) {
             return true;
         }
-        if(proposalPerson.getRolodexId()!=null && proposalPerson.getRolodexId().equals(budgetPerson.getRolodexId())){
+        if (proposalPerson.getRolodexId() != null && proposalPerson.getRolodexId().equals(budgetPerson.getRolodexId())) {
             return true;
         }
         return false;
@@ -997,8 +985,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
                 coreBudgetTotalsType.setFederalCost(budget.getTotalCost().bigDecimalValue());
                 coreBudgetTotalsType.setOtherCost(budget.getTotalIndirectCost().bigDecimalValue());
             }
-        }
-        else {
+        } else {
             coreBudgetTotalsType.setApplicantCost(BigDecimal.ZERO);
             coreBudgetTotalsType.setFederalCost(BigDecimal.ZERO);
             coreBudgetTotalsType.setOtherCost(BigDecimal.ZERO);
@@ -1035,7 +1022,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         String postalCode = proposalPerson.getPostalCode();
         postalAddressType
                 .setPostalCode((postalCode == null || postalCode.trim().equals(Constants.EMPTY_STRING)) ? DEFAULT_VALUE_UNKNOWN
-                        : postalCode);
+                                : postalCode);
         String country = proposalPerson.getCountryCode();
         postalAddressType.setCountry((country == null || country.trim().equals(Constants.EMPTY_STRING)) ? DEFAULT_VALUE_UNKNOWN
                 : country);
@@ -1046,8 +1033,9 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      * This method gets contactInfoType XMLObject and set email, faxNumber, phoneNumber, postalAddress to it from proposalPerson
      */
     protected ContactInfoType getPersonContactInformation(ProposalPerson proposalPerson) {
-        if (proposalPerson == null)
+        if (proposalPerson == null) {
             return null;
+        }
         ContactInfoType contactInfoType = ContactInfoType.Factory.newInstance();
         String emailAddress = proposalPerson.getEmailAddress();
         if (emailAddress != null) {
@@ -1072,7 +1060,6 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
             }
         });
     }
-
 
     protected List<KeyPersonInfo> getBudgetPersonsForCategoryMap(DevelopmentProposal developmentProposal,
             BudgetPeriod budgetPeriod, String categoryCode, String categoryMappingName) {
@@ -1115,12 +1102,10 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
                         if (budgetPersonnelDetails.getBudgetPerson().getRolodexId() != null) {
                             keyPerson = getKeyPersonFromRolodex(budgetPersonnelDetails);
                             keyPersons.add(keyPerson);
-                        }
-                        else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getTbnId())) {
+                        } else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getTbnId())) {
                             keyPerson = getKeyPersonFromTbnPerson(budgetPersonnelDetails);
                             keyPersons.add(keyPerson);
-                        }
-                        else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getPersonId())) {
+                        } else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getPersonId())) {
                             keyPerson = getKeyPersonFromKcPerson(budgetPersonnelDetails.getPersonId());
                             keyPersons.add(keyPerson);
                         }
@@ -1129,10 +1114,16 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
             }
         }
 
+        ParameterService parameterService = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+
+        String budgetCatCodePersonnel = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT,
+                Constants.ARIAH_PROPDEV_PRINTFORMS_BUDGET_CATCODE_PERSONNEL);
+        
         for (KeyPersonInfo keyPersonInfo : keyPersons) {
             KeyPersonInfo keyPersonComp = keyPersonInfo;
             CompensationInfo compensationInfo = new CompensationInfo();
-            setCompensation(keyPersonComp, budgetPeriod,compensationInfo);
+            setCompensation(keyPersonComp, budgetPeriod, compensationInfo, budgetCatCodePersonnel);
             keyPersonComp.setAcademicMonths(compensationInfo.getAcademicMonths());
             keyPersonComp.setCalendarMonths(compensationInfo.getCalendarMonths());
             keyPersonComp.setSummerMonths(compensationInfo.getSummerMonths());
@@ -1162,7 +1153,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         categoryMap.put(KEY_TARGET_CATEGORY_CODE, categoryCode);
         categoryMap.put(KEY_MAPPING_NAME, categoryMappingName);
         List<BudgetCategoryMapping> budgetCategoryList = getBudgetCategoryMappings(categoryMap);
-        
+
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
             for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
@@ -1187,12 +1178,10 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
                             if (budgetPersonnelDetails.getBudgetPerson().getRolodexId() != null) {
                                 keyPerson = getKeyPersonFromRolodex(budgetPersonnelDetails);
                                 addToKeyPersonList(keyPerson, keyPersons);
-                            }
-                            else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getTbnId())) {
+                            } else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getTbnId())) {
                                 keyPerson = getKeyPersonFromTbnPerson(budgetPersonnelDetails);
                                 addToKeyPersonList(keyPerson, keyPersons);
-                            }
-                            else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getPersonId())) {
+                            } else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getPersonId())) {
                                 keyPerson = getKeyPersonFromKcPerson(budgetPersonnelDetails.getPersonId());
                                 addToKeyPersonList(keyPerson, keyPersons);
                             }
@@ -1201,8 +1190,15 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
                 }
             }
         }
+
+        ParameterService parameterService = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+
+        String budgetCatCodePersonnel = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT,
+                Constants.ARIAH_PROPDEV_PRINTFORMS_BUDGET_CATCODE_PERSONNEL);
+
         for (KeyPersonInfo keyPersonComp : keyPersons) {
-            CompensationInfo compensationInfo = getCompensation(keyPersonComp,budget);
+            CompensationInfo compensationInfo = getCompensation(keyPersonComp, budget, budgetCatCodePersonnel);
             keyPersonComp.setAcademicMonths(compensationInfo.getAcademicMonths());
             keyPersonComp.setCalendarMonths(compensationInfo.getCalendarMonths());
             keyPersonComp.setSummerMonths(compensationInfo.getSummerMonths());
@@ -1215,21 +1211,20 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
             keyPersonComp.setFringeCostSharing(compensationInfo.getFringeCostSharing());
         }
 
-
         return keyPersons;
     }
 
     /**
      * This method...
+     *
      * @param keyPerson
      * @param keyPersons
      */
     private void addToKeyPersonList(KeyPersonInfo keyPerson, List<KeyPersonInfo> keyPersons) {
-        if(!keyPersons.contains(keyPerson)){
+        if (!keyPersons.contains(keyPerson)) {
             keyPersons.add(keyPerson);
         }
     }
-
 
     private KeyPersonInfo getKeyPersonFromProposalPerson(ProposalPerson proposalPerson) {
         KeyPersonInfo keyPerson = null;
@@ -1237,8 +1232,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
             proposalPerson.refreshReferenceObject("rolodex");
             Rolodex rolodexPerson = getBusinessObjectService().findBySinglePrimaryKey(Rolodex.class, proposalPerson.getRolodexId());
             keyPerson = getKeyPeronInfo(rolodexPerson);
-        }
-        else if (StringUtils.isNotBlank(proposalPerson.getPersonId())) {
+        } else if (StringUtils.isNotBlank(proposalPerson.getPersonId())) {
             keyPerson = getKeyPersonFromKcPerson(proposalPerson.getPersonId());
         }
         return keyPerson;
@@ -1249,8 +1243,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         KcPerson kcPerson = null;
         try {
             kcPerson = kcPersonService.getKcPersonByPersonId(personId);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             LOG.error("Person not found " + e);
         }
         if (kcPerson != null) {
@@ -1287,7 +1280,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
 
     /**
      * This method...
-     * 
+     *
      * @param budgetPersonnelDetails
      * @return
      */
@@ -1301,7 +1294,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
 
     /**
      * This method...
-     * 
+     *
      * @param rolodexPerson
      * @return
      */
@@ -1327,51 +1320,52 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         return budgetCategoryMappings;
     }
 
-    private void setCompensation(KeyPersonInfo keyPerson, BudgetPeriod budgetPeriod,CompensationInfo compensationInfo) {
-        setCompensationForPeriod(keyPerson, budgetPeriod, compensationInfo);
+    private void setCompensation(KeyPersonInfo keyPerson, BudgetPeriod budgetPeriod, CompensationInfo compensationInfo, String budgetCatCodePersonnel) {
+        setCompensationForPeriod(keyPerson, budgetPeriod, compensationInfo, budgetCatCodePersonnel);
     }
-    private CompensationInfo getCompensation(KeyPersonInfo keyPerson, Budget budget) {
+
+    private CompensationInfo getCompensation(KeyPersonInfo keyPerson, Budget budget, String budgetCatCodePersonnel) {
         CompensationInfo compensationInfo = new CompensationInfo();
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
-            setCompensationForPeriod(keyPerson, budgetPeriod, compensationInfo);
+            setCompensationForPeriod(keyPerson, budgetPeriod, compensationInfo, budgetCatCodePersonnel);
         }
         return compensationInfo;
     }
 
     /**
      * This method is to get the compensation for period
+     *
      * @param keyPerson
      * @param budgetPeriod
      * @param compensationInfo
      * @return
      */
     private void setCompensationForPeriod(KeyPersonInfo keyPerson, BudgetPeriod budgetPeriod,
-            CompensationInfo compensationInfo) {
+            CompensationInfo compensationInfo, String budgetCatCodePersonnel) {
+
         for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
             for (BudgetPersonnelDetails personDetails : lineItem.getBudgetPersonnelDetailsList()) {
                 if (s2SUtilService.keyPersonEqualsBudgetPerson(keyPerson, personDetails)) {
                     BudgetDecimal numberOfMonths = s2SUtilService.getNumberOfMonths(personDetails.getStartDate(), personDetails.getEndDate());
                     if (personDetails.getPeriodTypeCode().equals(PERIOD_TYPE_ACADEMIC_MONTHS)) {
                         BudgetDecimal academicMonths = personDetails.getPercentEffort().multiply(numberOfMonths).multiply(new BudgetDecimal(0.01));
-                        if (lineItem.getBudgetCategoryCode().equals(SENIOR_PERSONNEL_CATEGORY_CODE)) {
+                        if (lineItem.getBudgetCategoryCode().equals(budgetCatCodePersonnel)) {
                             compensationInfo.setAcademicMonths(compensationInfo.getAcademicMonths().add(academicMonths));
                         }
-                    }
-                    else if (personDetails.getPeriodTypeCode().equals(PERIOD_TYPE_SUMMER_MONTHS)) {
+                    } else if (personDetails.getPeriodTypeCode().equals(PERIOD_TYPE_SUMMER_MONTHS)) {
                         BudgetDecimal summerMonths = personDetails.getPercentEffort().multiply(numberOfMonths).multiply(new BudgetDecimal(0.01));
-                        if (lineItem.getBudgetCategoryCode().equals(SENIOR_PERSONNEL_CATEGORY_CODE)) {
+                        if (lineItem.getBudgetCategoryCode().equals(budgetCatCodePersonnel)) {
                             compensationInfo.setSummerMonths(compensationInfo.getSummerMonths().add(summerMonths));
                         }
-                    }
-                    else {
+                    } else {
                         BudgetDecimal calendarMonths = personDetails.getPercentEffort().multiply(numberOfMonths).multiply(new BudgetDecimal(0.01));
-                        if (lineItem.getBudgetCategoryCode().equals(SENIOR_PERSONNEL_CATEGORY_CODE)) {
+                        if (lineItem.getBudgetCategoryCode().equals(budgetCatCodePersonnel)) {
                             compensationInfo.setCalendarMonths(compensationInfo.getCalendarMonths().add(calendarMonths));
                         }
                     }
                     BudgetDecimal totalSal = personDetails.getSalaryRequested();
-                    if (lineItem.getBudgetCategoryCode().equals(SENIOR_PERSONNEL_CATEGORY_CODE)) {
+                    if (lineItem.getBudgetCategoryCode().equals(budgetCatCodePersonnel)) {
                         compensationInfo.setRequestedSalary(compensationInfo.getRequestedSalary().add(totalSal));
                     }
                     BudgetDecimal totalSalCostSharing = personDetails.getCostSharingAmount();
@@ -1381,7 +1375,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
                         if ((personCalculatedAmt.getRateClass().getRateClassType().equals(RATE_CLASS_TYPE_EMPLOYEE_BENEFITS) && !personCalculatedAmt
                                 .getRateTypeCode().equals(RATE_TYPE_SUPPORT_STAFF_SALARIES))
                                 || (personCalculatedAmt.getRateClass().getRateClassType().equals(RATE_CLASS_TYPE_VACATION) && !personCalculatedAmt
-                                        .getRateTypeCode().equals(RATE_TYPE_ADMINISTRATIVE_SALARIES))) {
+                                .getRateTypeCode().equals(RATE_TYPE_ADMINISTRATIVE_SALARIES))) {
                             BudgetDecimal fringe = personCalculatedAmt.getCalculatedCost();
                             compensationInfo.setFringe(compensationInfo.getFringe().add(fringe));
                             BudgetDecimal fringeCostSharing = personCalculatedAmt.getCalculatedCostSharing();
@@ -1391,7 +1385,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
                     BudgetPerson budgetPerson = personDetails.getBudgetPerson();
                     if (budgetPerson != null) {
                         compensationInfo.setBaseSalary(budgetPerson.getCalculationBase());
-                        
+
                         String apptTypeCode = budgetPerson.getAppointmentType().getAppointmentTypeCode();
                         if (!apptTypeCode.equals(APPOINTMENT_TYPE_SUM_EMPLOYEE)
                                 && !apptTypeCode.equals(APPOINTMENT_TYPE_TMP_EMPLOYEE)) {
@@ -1407,7 +1401,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
 
     /**
      * Gets the businessObjectService attribute.
-     * 
+     *
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -1416,7 +1410,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -1425,7 +1419,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
 
     /**
      * Gets the kcPersonService attribute.
-     * 
+     *
      * @return Returns the kcPersonService.
      */
     public KcPersonService getKcPersonService() {
@@ -1434,7 +1428,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
 
     /**
      * Sets the kcPersonService attribute value.
-     * 
+     *
      * @param kcPersonService The kcPersonService to set.
      */
     public void setKcPersonService(KcPersonService kcPersonService) {
@@ -1443,7 +1437,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
 
     /**
      * Gets the s2SUtilService attribute.
-     * 
+     *
      * @return Returns the s2SUtilService.
      */
     public S2SUtilService getS2SUtilService() {
@@ -1452,7 +1446,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
 
     /**
      * Sets the s2SUtilService attribute value.
-     * 
+     *
      * @param utilService The s2SUtilService to set.
      */
     public void setS2SUtilService(S2SUtilService utilService) {
