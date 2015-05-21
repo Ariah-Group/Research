@@ -16,22 +16,19 @@
 package org.kuali.kra.iacuc.committee.print;
 
 import java.util.ArrayList;
-import java.util.List;
 import javax.xml.transform.Source;
-import org.kuali.kra.common.committee.print.CommitteeReportType;
 import org.kuali.kra.common.committee.print.TemplatePrintBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
- * This class provides the implementation for printing Committee Future Scheduled Meetings.
- * It generates XML that conforms with Certification Report XSD, fetches
- * XSL style-sheets applicable to this XML, returns XML and XSL for any consumer
- * that would use this XML and XSls for any purpose like report generation, PDF
- * streaming etc.
- * 
+ * This class provides the implementation for printing Committee Future
+ * Scheduled Meetings. It generates XML that conforms with Certification Report
+ * XSD, fetches XSL style-sheets applicable to this XML, returns XML and XSL for
+ * any consumer that would use this XML and XSls for any purpose like report
+ * generation, PDF streaming etc.
+ *
  */
 public class IacucCommitteeFutureScheduledMeetingsPrint extends TemplatePrintBase {
 
@@ -40,14 +37,13 @@ public class IacucCommitteeFutureScheduledMeetingsPrint extends TemplatePrintBas
     /**
      * This method fetches the XSL style-sheets required for transforming the
      * generated XML into PDF.
-     * 
+     *
      * @return {@link ArrayList}} of {@link Source} XSLs
      */
-    @Override
-    public List<Source> getXSLTemplates() {
-        return PrintingUtils.getXSLTforReport(CommitteeReportType.FUTURE_SCHEDULED_MEETINGS.getCommitteeReportType());
-    }
-    
+//    @Override
+//    public List<Source> getXSLTemplates() {
+//        return PrintingUtils.getXSLTforReport(CommitteeReportType.FUTURE_SCHEDULED_MEETINGS.getCommitteeReportType());
+//    }
     @Override
     public String getProtoCorrespTypeCode() {
 
@@ -57,6 +53,6 @@ public class IacucCommitteeFutureScheduledMeetingsPrint extends TemplatePrintBas
                 Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ARIAH_IACUC_CORRESP_TYPE_CODE_SCHEDULED_MEETINGS);
 
         return iacucFutureScheduledCorrespTypeCode;
-    }    
+    }
 
 }

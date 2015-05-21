@@ -190,6 +190,7 @@
 	
 	<bean id="iacucCommitteeFutureScheduledMeetingsPrint" class="org.kuali.kra.iacuc.committee.print.IacucCommitteeFutureScheduledMeetingsPrint" scope="prototype">
 		<property name="xmlStream" ref="iacucCommitteeXmlStream" />
+                <property name="protocolCorrespondenceTemplateService" ref="iacucProtocolCorrespondenceTemplateService" />
 	</bean>
 	
 	<bean id="iacucProtocolBatchCorrespondencePrint" class="org.kuali.kra.iacuc.committee.print.IacucProtocolBatchCorrespondencePrint" scope="prototype" parent="templatePrint">
