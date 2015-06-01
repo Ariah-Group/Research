@@ -169,9 +169,9 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      * @param request HttpServletRequest
      */
     void prepare(ActionForm form, HttpServletRequest request) {
-        
+
         System.out.println("ProposalDevelopmentKeyPersonnelAction.prepare running...");
-        
+
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         request.setAttribute(NEW_PERSON_LOOKUP_FLAG, EMPTY_STRING);
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
@@ -599,33 +599,52 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
                     answerHeadersToSave.addAll(helper.getAnswerHeaders());
                 }
             }
-            
-            
-             /**
-             * Simply saving answerHeadersToSave causes an OLE,
-             * with the error saying that OJB thinks the object has already been
-             * modified by another user. This avoids that situation.
-             */
-            if (!answerHeadersToSave.isEmpty()) {
-                List<AnswerHeader> freshHeaders = new ArrayList<AnswerHeader>();
-                for (AnswerHeader header : answerHeadersToSave) {
-                    Map primaryKeys = new HashMap();
-                    primaryKeys.put("QUESTIONNAIRE_ANSWER_HEADER_ID", header.getAnswerHeaderId());
-                    AnswerHeader ah = (AnswerHeader) this.getBusinessObjectService().findByPrimaryKey(AnswerHeader.class, primaryKeys);
-                    if (ah != null) {
-                        // retrieved fresh one from database
-                        freshHeaders.add(ah);
-                    } else {
-                        // ELSE NOT IN DATABASE, so this should be an actual new one entered in UI
-                        freshHeaders.add(header);
-                    }
+
+            try {
+                if (!answerHeadersToSave.isEmpty()) {
+                    this.getBusinessObjectService().save(answerHeadersToSave);
                 }
-                if (!freshHeaders.isEmpty()) {
-                    this.getBusinessObjectService().save(freshHeaders);
-                }
-                answerHeadersToSave.clear();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            
+            /**
+             * Simply saving answerHeadersToSave causes an OLE, with the error
+             * saying that OJB thinks the object has already been modified by
+             * another user. This avoids that situation.
+             */
+//            if (!answerHeadersToSave.isEmpty()) {
+//                List<AnswerHeader> freshHeaders = new ArrayList<AnswerHeader>();
+//                System.out.println("PDKeyPersonnelAction.save looping through answerHeadersToSave");
+//                try {
+//                for (AnswerHeader header : answerHeadersToSave) {
+//                   // Map primaryKeys = new HashMap();
+//                   // primaryKeys.put("QUESTIONNAIRE_ANSWER_HEADER_ID", header.getAnswerHeaderId());
+//                    System.out.println("PDKeyPersonnelAction.save header.getAnswerHeaderId() : " + header.getAnswerHeaderId());
+//                   // AnswerHeader ah = (AnswerHeader) this.getBusinessObjectService().findByPrimaryKey(AnswerHeader.class, primaryKeys);
+//                    //if (ah != null) {
+//                  //      System.out.println("PDKeyPersonnelAction.save ah != null");
+//                        // retrieved fresh one from database
+//                   //     freshHeaders.add(ah);
+//                  //  } else {
+//                     //   System.out.println("PDKeyPersonnelAction.save ah == null, header.getAnswerHeaderId() = " + header.getAnswerHeaderId());
+//                        // ELSE NOT IN DATABASE, so this should be an actual new one entered in UI
+//                        
+//                    //ObjectUtils.deepCopy
+//                    freshHeaders.add(header);
+//                   // }
+//                }
+//                if (!freshHeaders.isEmpty()) {
+//                    System.out.println("PDKeyPersonnelAction.save freshHeaders.size : " + freshHeaders.size());
+//                    this.getBusinessObjectService().save(freshHeaders);
+//                }
+//                
+//                } catch(Exception e) {
+//                    e.printStackTrace();
+//                }
+//                
+//                answerHeadersToSave.clear();
+//            }
+
             /**
              * Simply deleting pdform.getAnswerHeadersToDelete() causes an OLE,
              * with the error saying that OJB thinks the object has already been
