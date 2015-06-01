@@ -1003,6 +1003,7 @@ public interface Constants {
     
     // Parameter Constants for Subawards
     public static final String ARIAH_SUBAWARD_HIDE_AND_DEFAULT_SUBAWARD_DOC_DESC = "ARIAH_SUBAWARD_HIDE_AND_DEFAULT_SUBAWARD_DOC_DESC";
+    public static final String ARIAH_SUBAWARD_ORGID_SUBAWARD_REPORTS = "ARIAH_SUBAWARD_ORGID_SUBAWARD_REPORTS";
 
     // Parameter Constants for a Person
     public static final String ARIAH_PERSON_PHONE_TYPE_OFFICE = "ARIAH_PERSON_PHONE_TYPE_OFFICE";

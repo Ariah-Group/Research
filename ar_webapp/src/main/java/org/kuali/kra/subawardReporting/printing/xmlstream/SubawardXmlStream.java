@@ -64,13 +64,12 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 public class SubawardXmlStream implements XmlStream {
 
     private static final String SF_295_REPORT = "SF295";
-    private static final String ORGANIZATION_ID = "000001";
 
     private BusinessObjectService businessObjectService;
     private String awardNumber;
 
     /**
-     * This method get's the businessObjectService
+     * This method gets the businessObjectService
      */
     @Override
     public BusinessObjectService getBusinessObjectService() {
@@ -120,8 +119,19 @@ public class SubawardXmlStream implements XmlStream {
     }
 
     public void setCompanyInfo(SubcontractReports subcontractReports) {
+
+        String mainOrgId = "";
+
+        try {
+            ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+            mainOrgId = paramServ.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                    ParameterConstants.DOCUMENT_COMPONENT, Constants.ARIAH_SUBAWARD_ORGID_SUBAWARD_REPORTS);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         Map<String, String> organizationMap = new HashMap<String, String>();
-        organizationMap.put("organizationId", ORGANIZATION_ID);
+        organizationMap.put("organizationId", mainOrgId);
         Organization organization = businessObjectService.findByPrimaryKey(Organization.class, organizationMap);
 
         Map<String, String> rolodexMap = new HashMap<String, String>();

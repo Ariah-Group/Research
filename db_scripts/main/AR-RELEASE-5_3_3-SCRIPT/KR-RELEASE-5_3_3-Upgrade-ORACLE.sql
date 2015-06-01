@@ -63,6 +63,11 @@ INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VA
 VALUES  ('KC-UNT','Document','ARIAH_UNIT_TOP_MOST_UNIT_NUMBER', sys_guid(),0,'CONFG','000001','Unit number representing the top-most unit the unit hierarchy.','A','KUALI');
 
 
+-- Parameter representing the primary Organization used to reflect the Org on Subaward Reporting, particularly for SF-294 and 295.
+INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
+VALUES  ('KC-SUBAWARD','Document','ARIAH_SUBAWARD_ORGID_SUBAWARD_REPORTS', sys_guid(),0,'CONFG','000001','Parameter representing the primary Organization ID used to reflect the Org on Subaward Reporting, particularly for SF-294 and 295.','A','KUALI');
+
+
 
 commit;
 exit
