@@ -43,7 +43,7 @@ public class AwardModuleQuestionnaireBeanBase extends ModuleQuestionnaireBean {
         super(CoeusModule.AWARD_MODULE_CODE, award.getAwardNumber(), CoeusSubModule.ZERO_SUBMODULE, award.getSequenceNumber().toString(),
                 award.getAwardDocument().getDocumentHeader().getWorkflowDocument().isApproved());
         this.award = award;
-        setAwardSubItemCode(award);
+        setAwardSubItemCode(CoeusSubModule.ZERO_SUBMODULE);
     }
 
     /**
@@ -60,10 +60,9 @@ public class AwardModuleQuestionnaireBeanBase extends ModuleQuestionnaireBean {
 
     /**
      * 
-     * @param award 
+     * @param subModuleCode 
      */
-    protected void setAwardSubItemCode(Award award) {
-        String subModuleCode = CoeusSubModule.ZERO_SUBMODULE;
+    protected void setAwardSubItemCode(String subModuleCode) {
         setModuleSubItemCode(subModuleCode);
     }
 
