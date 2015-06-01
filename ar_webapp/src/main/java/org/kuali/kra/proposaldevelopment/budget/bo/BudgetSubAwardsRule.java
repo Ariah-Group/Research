@@ -84,16 +84,16 @@ public class BudgetSubAwardsRule {
         FormFile newBudgetSubAwardFile = budgetSubAwards.getNewSubAwardFile();
         try {
             if (ArrayUtils.isEmpty(newBudgetSubAwardFile.getFileData())) {
-                GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
+                GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIRED);
                 success = false;
             }
         } catch(FileNotFoundException fnfe) {
             fnfe.printStackTrace();
-            GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
+            GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIRED);
             success = false;
         } catch(IOException ioe) {
             ioe.printStackTrace();
-            GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
+            GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIRED);
             success = false;
         }
         return success;
@@ -119,7 +119,7 @@ public class BudgetSubAwardsRule {
                 //should never happen as this would be caught in verifyNonXFDAttachment
             }
             if(subAwardData==null || subAwardData.length==0 || !contentType.equals(Constants.PDF_REPORT_CONTENT_TYPE)){
-                GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
+                GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIRED);
                 success = false;
             } else {
                 if(budgetSubAwards.getBudgetSubAwardFiles().isEmpty() || budgetSubAwards.getBudgetSubAwardFiles().get(0).getSubAwardXmlFileData()==null){

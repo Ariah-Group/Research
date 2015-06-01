@@ -415,7 +415,7 @@ public interface Constants {
      * Subaward budget information
      */
     public static final String SUBAWARD_FILE_FIELD_NAME = "subAwardFile";
-    public static final String SUBAWARD_FILE_REQUIERED = "newSubAward.subAwardFile.required";
+    public static final String SUBAWARD_FILE_REQUIRED = "newSubAward.subAwardFile.required";
     public static final String SUBAWARD_ORG_NAME_REQUIRED = "newSubAward.organizationName.required";
     public static final String SUBAWARD_ORG_NAME_INVALID = "newSubAward.organizationName.invalid";
     public static final String SUBAWARD_FILE_SPECIAL_CHARACTER = "newSubAward.subAwardFile.special.character";
