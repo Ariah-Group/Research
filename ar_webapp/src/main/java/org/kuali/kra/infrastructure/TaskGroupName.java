@@ -33,6 +33,7 @@ public interface TaskGroupName {
     public static final String IACUC_PROTOCOL = "iacucProtocol";
     public static final String COMMITTEE = "committee";
     public static final String AWARD = "award";
+    public static final String INSTPROPOSAL = "institutionalproposal";
     public static final String TIME_AND_MONEY = "timeAndMoney";
     public static final String PROTOCOL_ONLINEREVIEW = "protocolOnlineReview";
     public static final String NEGOTIATION = "negotiation";

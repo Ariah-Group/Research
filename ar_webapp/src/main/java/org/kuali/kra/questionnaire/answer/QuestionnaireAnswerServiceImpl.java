@@ -60,6 +60,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import org.ariahgroup.research.award.questionnaire.AwardModuleQuestionnaireBeanBase;
+import org.ariahgroup.research.institutionalproposal.questionnaire.InstitutionalProposalModuleQuestionnaireBeanBase;
 
 /**
  *
@@ -932,6 +933,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             return new IacucProtocolModuleQuestionnaireBean(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
         } else if (CoeusModule.AWARD_MODULE_CODE.equals(moduleItemCode)) {
             return new AwardModuleQuestionnaireBeanBase(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
+        } else if (CoeusModule.INSTITUTIONAL_PROPOSAL_MODULE_CODE.equals(moduleItemCode)) {
+            return new InstitutionalProposalModuleQuestionnaireBeanBase(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);            
         } else if (CoeusModule.IRB_MODULE_CODE.equals(moduleItemCode)) {
             return new ProtocolModuleQuestionnaireBean(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
         } else if (CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE.equals(moduleItemCode)) {
@@ -943,7 +946,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 return new ProposalDevelopmentModuleQuestionnaireBean(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
             }
         } else {
-            throw new IllegalArgumentException("Unrecognized moduleItemCode");
+            throw new IllegalArgumentException("Unrecognized moduleItemCode : " + moduleItemCode);
         }
     }
 

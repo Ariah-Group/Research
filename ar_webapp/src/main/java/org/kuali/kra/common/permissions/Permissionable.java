@@ -25,6 +25,7 @@ public interface Permissionable {
     
     String PROPOSAL_KEY = "proposal";
     String AWARD_KEY = "award";
+    String INST_PROPOSAL_KEY = "institutionalProposal";
     String TIME_AND_MONEY_KEY = "timeandmoney";
     
     //these keys dont seem to be used now

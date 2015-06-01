@@ -58,6 +58,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         permissionModuleMap.put(AwardPermissionConstants.MODIFY_AWARD.getAwardPermission() + ":" + Constants.MODULE_NAMESPACE_AWARD_BUDGET, "1");
         permissionModuleMap.put(PermissionConstants.MAINTAIN_QUESTIONNAIRE_USAGE + ":" + Constants.MODULE_NAMESPACE_AWARD, "1");
         permissionModuleMap.put(PermissionConstants.EDIT_INSTITUTE_PROPOSAL + ":" + Constants.INSTITUTIONAL_PROPOSAL_NAMESPACE, "2");
+        permissionModuleMap.put(PermissionConstants.MAINTAIN_QUESTIONNAIRE_USAGE + ":" + Constants.INSTITUTIONAL_PROPOSAL_NAMESPACE, "2");
         permissionModuleMap.put(PermissionConstants.MAINTAIN_QUESTIONNAIRE_USAGE + ":" + Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, "3");
         //permissionModuleMap.put(PermissionConstants.MODIFY_PROPOSAL + ":" + "KC-PD", "3");
         // permissionModuleMap.put(PermissionConstants.SUBCONTRACT,"4");

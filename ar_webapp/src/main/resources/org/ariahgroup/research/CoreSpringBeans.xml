@@ -997,6 +997,7 @@ limitations under the License.
                 <value>coiDisclosureTaskAuthorizers</value>
                 <value>committeeTaskAuthorizers</value>
                 <value>iacucCommitteeTaskAuthorizers</value>
+                <value>instProposalTaskAuthorizers</value>
             </set>
         </property>
     </bean>

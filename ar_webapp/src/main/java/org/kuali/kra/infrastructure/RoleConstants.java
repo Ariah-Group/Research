@@ -45,6 +45,7 @@ public interface RoleConstants {
     public static final String PROTOCOL_ROLE_TYPE = Constants.MODULE_NAMESPACE_PROTOCOL;
     public static final String PROTOCOL_DOC_ROLE_TYPE = Constants.MODULE_DOC_ROLE_NAMESPACE_PROTOCOL;
     public static final String AWARD_ROLE_TYPE = Constants.MODULE_NAMESPACE_AWARD;
+    public static final String INSTITUTIONAL_PROPOSAL_ROLE_TYPE = Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL;
     public static final String NEGOTIATION_ROLE_TYPE = Constants.MODULE_NAMESPACE_NEGOTIATION;
     public static final String COI_DISCLOSURE_ROLE_TYPE = Constants.MODULE_NAMESPACE_COIDISCLOSURE;
     public static final String IACUC_ROLE_TYPE = Constants.MODULE_NAMESPACE_IACUC;

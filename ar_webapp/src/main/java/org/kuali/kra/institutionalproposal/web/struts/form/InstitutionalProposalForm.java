@@ -66,7 +66,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.ariahgroup.research.institutionalproposal.questionnaire.InstitutionalProposalQuestionnaireHelper;
 import org.kuali.kra.bo.SpecialReviewUsage;
+import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -111,6 +113,8 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     private boolean viewFundingSource;
     private boolean docOpenedFromIPSearch;
 
+    private QuestionnaireHelperBase questionnaireHelper;
+
     /**
      *
      * Constructs a AwardForm.
@@ -147,6 +151,8 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
         unitContactsBean = new InstitutionalProposalUnitContactsBean(this);
         centralAdminContactsBean = new InstitutionalProposalCentralAdminContactsBean(this);
         docOpenedFromIPSearch = false;
+
+        setQuestionnaireHelper(new InstitutionalProposalQuestionnaireHelper(this));
     }
 
     /**
@@ -588,4 +594,11 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
         return extraButtons;
     }
 
+    public QuestionnaireHelperBase getQuestionnaireHelper() {
+        return questionnaireHelper;
+    }
+
+    public void setQuestionnaireHelper(QuestionnaireHelperBase questionnaireHelper) {
+        this.questionnaireHelper = questionnaireHelper;
+    }
 }

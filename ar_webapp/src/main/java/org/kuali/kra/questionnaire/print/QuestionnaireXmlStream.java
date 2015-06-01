@@ -72,6 +72,7 @@ import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
 
 import java.util.*;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
 /**
  * This class generates XML that conforms with the XSD related to Budget total
@@ -482,6 +483,14 @@ public class QuestionnaireXmlStream implements XmlStream {
             moduleItemKey = award.getAwardNumber();
             moduleSubItemCode = (String) params.get("moduleSubItemCode");
             moduleSubItemKey = award.getSequenceNumber().toString();
+            
+        } else if (printableBusinessObject instanceof InstitutionalProposal) {
+
+            InstitutionalProposal institutionalProposal = (InstitutionalProposal) printableBusinessObject;
+            moduleItemCode = CoeusModule.INSTITUTIONAL_PROPOSAL_MODULE_CODE;
+            moduleItemKey = institutionalProposal.getProposalNumber();
+            moduleSubItemCode = (String) params.get("moduleSubItemCode");
+            moduleSubItemKey = institutionalProposal.getSequenceNumber().toString();
 
         } else if (printableBusinessObject instanceof ProposalPerson) {
             ProposalPerson person = (ProposalPerson) printableBusinessObject;

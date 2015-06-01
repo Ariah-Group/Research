@@ -71,10 +71,15 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.*;
-import org.kuali.kra.award.contacts.AwardPerson;
+import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.krms.KcKrmsContextBo;
+import org.kuali.kra.krms.KrmsRulesContext;
+import org.kuali.kra.service.SystemAuthorizationService;
+import org.kuali.rice.kim.api.role.Role;
 
 public class InstitutionalProposal extends KraPersistableBusinessObjectBase implements
-        KeywordsManager<InstitutionalProposalScienceKeyword>, SequenceOwner<InstitutionalProposal>, Sponsorable, Negotiable {
+        KeywordsManager<InstitutionalProposalScienceKeyword>, SequenceOwner<InstitutionalProposal>, Sponsorable, Negotiable, Permissionable, KcKrmsContextBo {
 
     public static final String PROPOSAL_ID_PROPERTY_STRING = "proposalId";
     public static final String PROPOSAL_NUMBER_PROPERTY_STRING = "proposalNumber";
@@ -1218,6 +1223,47 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         return projectPersons;
     }
 
+    @Override
+    public String getDocumentNumberForPermission() {
+        return proposalId != null ? proposalId.toString() : "";
+    }
+
+    @Override
+    public String getDocumentKey() {
+        return Permissionable.INST_PROPOSAL_KEY;
+    }
+
+    @Override
+    public List<String> getRoleNames() {
+
+        List<String> roles = new ArrayList<String>();
+
+        SystemAuthorizationService systemAuthorizationService = KraServiceLocator.getService("systemAuthorizationService");
+        List<Role> roleBOs = systemAuthorizationService.getRoles(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL);
+        for (Role role : roleBOs) {
+            roles.add(role.getName());
+        }
+
+        return roles;
+    }
+
+    @Override
+    public String getNamespace() {
+        return Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL;
+    }
+
+    @Override
+    public String getDocumentRoleTypeCode() {
+        return RoleConstants.INSTITUTIONAL_PROPOSAL_ROLE_TYPE;
+    }
+
+    @Override
+    public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
+
+        String documentNumber = getInstitutionalProposalDocument() != null ? getInstitutionalProposalDocument().getDocumentNumber() : "";
+        qualifiedRoleAttributes.put("documentNumber", documentNumber);
+    }
+
     @SuppressWarnings("rawtypes")
     class ProjectPersonComparator implements Comparator {
 
@@ -1912,5 +1958,10 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         } else {
             setAllowUpdateTimestampToBeReset(true);
         }
+    }
+
+    @Override
+    public KrmsRulesContext getKrmsRulesContext() {
+        return getInstitutionalProposalDocument();
     }
 }

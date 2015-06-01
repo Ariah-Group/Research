@@ -92,6 +92,10 @@ public interface TaskName {
     */
     public static final String MODIFY_AWARD_QUESTIONNAIRE = "modifyAwardQuestionnaire";
     
+    /*
+    * Institutional Proposal Tasks.
+    */
+    public static final String MODIFY_INSTPROP_QUESTIONNAIRE = "modifyInstProposalQuestionnaire";
     
     /*
      * Protocol Tasks.

@@ -346,6 +346,7 @@
           <forward name="home" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalHome.jsp" />
           <forward name="contacts" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalContacts.jsp" />
           <forward name="specialReview" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalSpecialReview.jsp" />
+          <forward name="instProposalQuestionnaire" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalQuestionnaire.jsp" />
           <forward name="customData" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalCustomData.jsp" />
           <forward name="intellectualPropertyReview" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalIntellectualPropertyReview.jsp" />
           <forward name="distribution" path="/WEB-INF/jsp/institutionalproposal/InstitutionalProposalDistribution.jsp" />

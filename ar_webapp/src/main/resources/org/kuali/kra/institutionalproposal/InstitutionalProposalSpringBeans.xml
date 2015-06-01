@@ -274,4 +274,34 @@
         <property name="documentService" ref="documentService" />
     </bean>
 
+     <!-- Inst Proposal Task Authorizers -->
+     
+    <bean id="unitAuthorizationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="unitAuthorizationService" />
+    </bean>
+    
+    <bean id="kraWorkflowService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kraWorkflowService" />
+    </bean>    
+    
+    <bean id="kraAuthorizationService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kraAuthorizationService" />
+    </bean>    
+         
+     <bean id="parentInstProposalAuthorizer" abstract="true">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="kraWorkflowService" ref="kraWorkflowService" />
+        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+    </bean>
+
+    <bean id="instProposalTaskAuthorizers" class="org.kuali.kra.authorization.TaskAuthorizerGroup">
+        <property name="groupName" value="institutionalproposal" />
+        <property name="taskAuthorizers">
+            <list>
+                <bean class="org.ariahgroup.research.institutionalproposal.auth.InstProposalQuestionnaireAuthorizer" parent="parentInstProposalAuthorizer">
+                	<property name="taskName" value="modifyInstProposalQuestionnaire"/>
+                </bean>                
+            </list>
+         </property>
+     </bean>
 </beans>
