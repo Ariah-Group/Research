@@ -1721,8 +1721,12 @@ public class NIHResearchAndRelatedXmlStream extends
                     break;
                 } else {
                     String comments = getSpecialReviewComments(proposalSpecialReview);
-                    exemptionNumber[arrayIndex] = comments;
-                    arrayIndex++;
+
+                    if (arrayIndex < exemptionNumber.length) {
+                        exemptionNumber[arrayIndex] = comments;
+                        arrayIndex++;
+                    }
+
                 }
             }
         }
