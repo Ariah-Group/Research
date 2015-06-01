@@ -737,6 +737,7 @@ public interface Constants {
     //Award Template Constants
     public static final String AWARD_TEMP_RECPNT_CONTACT_TYPE_CODE_ROLODEX_ID_SEPARATOR = "***";
     
+    public static final String PARAMETER_MODULE_UNIT = "KC-UNT";
     // Questionnaire
     public static final String PARAMETER_MODULE_QUESTIONNAIRE = "KC-QUESTIONNAIRE";
     public static final String PARAMETER_COMPONENT_PERMISSION = "P";

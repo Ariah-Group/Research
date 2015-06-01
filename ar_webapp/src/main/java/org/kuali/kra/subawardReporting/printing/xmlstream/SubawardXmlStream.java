@@ -318,7 +318,7 @@ public class SubawardXmlStream implements XmlStream {
 
         try {
             ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
-            topMostUnitNumber = paramServ.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+            topMostUnitNumber = paramServ.getParameterValueAsString(Constants.PARAMETER_MODULE_UNIT,
                     ParameterConstants.DOCUMENT_COMPONENT, Constants.ARIAH_UNIT_TOP_MOST_UNIT_NUMBER);
         } catch (Exception e) {
             e.printStackTrace();
