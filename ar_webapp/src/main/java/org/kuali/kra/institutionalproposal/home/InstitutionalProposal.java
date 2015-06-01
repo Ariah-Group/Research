@@ -1239,7 +1239,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
         List<String> roles = new ArrayList<String>();
 
         SystemAuthorizationService systemAuthorizationService = KraServiceLocator.getService("systemAuthorizationService");
-        List<Role> roleBOs = systemAuthorizationService.getRoles(Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL);
+        List<Role> roleBOs = systemAuthorizationService.getRoles(Constants.MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL);
         for (Role role : roleBOs) {
             roles.add(role.getName());
         }
@@ -1249,7 +1249,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     @Override
     public String getNamespace() {
-        return Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL;
+        return Constants.MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL;
     }
 
     @Override

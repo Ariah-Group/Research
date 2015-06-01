@@ -232,7 +232,7 @@ public class InstitutionalProposalDocument extends ResearchDocumentBase implemen
 
     @Override
     public void populateContextQualifiers(Map<String, String> qualifiers) {
-        qualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL);
+        qualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL);
         qualifiers.put("name", KcKrmsConstants.InstitutionalProposal.INSTITUTIONAL_PROPOSAL_CONTEXT);
     }
 

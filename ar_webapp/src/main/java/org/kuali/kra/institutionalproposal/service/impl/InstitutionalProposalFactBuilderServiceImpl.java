@@ -50,7 +50,7 @@ public class InstitutionalProposalFactBuilderServiceImpl extends KcKrmsFactBuild
     }
     
     private void addProposalFacts(Builder factsBuilder, InstitutionalProposal institutionalProposal) {
-        addObjectMembersAsFacts(factsBuilder,institutionalProposal,KcKrmsConstants.InstitutionalProposal.INSTITUTIONAL_PROPOSAL_CONTEXT_ID,Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL);
+        addObjectMembersAsFacts(factsBuilder,institutionalProposal,KcKrmsConstants.InstitutionalProposal.INSTITUTIONAL_PROPOSAL_CONTEXT_ID,Constants.MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL);
         factsBuilder.addFact(KcKrmsConstants.InstitutionalProposal.INSTITUTIONAL_PROPOSAL, institutionalProposal);
     }
 

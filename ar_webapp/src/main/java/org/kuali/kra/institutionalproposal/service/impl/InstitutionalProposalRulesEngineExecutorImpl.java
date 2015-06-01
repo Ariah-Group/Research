@@ -34,7 +34,7 @@ public class InstitutionalProposalRulesEngineExecutorImpl extends KcRulesEngineE
 
     public EngineResults performExecute(RouteContext routeContext, Engine engine) {
         Map<String, String> contextQualifiers = new HashMap<String, String>();
-        contextQualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_INSITUTIONAL_PROPOSAL);
+        contextQualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL);
         contextQualifiers.put("name", KcKrmsConstants.InstitutionalProposal.INSTITUTIONAL_PROPOSAL_CONTEXT);
         // extract facts from routeContext
         String docContent = routeContext.getDocument().getDocContent();
