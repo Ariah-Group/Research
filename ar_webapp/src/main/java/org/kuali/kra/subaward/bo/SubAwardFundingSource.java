@@ -47,7 +47,7 @@ public class SubAwardFundingSource extends SubAwardAssociate {
     private Long awardId;
 
     private String accountNumber;
-
+    
     private Integer statusCode;
 
     private String sponsorCode;
