@@ -57,6 +57,9 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.math.BigDecimal;
 import java.util.*;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 public class SubawardXmlStream implements XmlStream {
 
@@ -311,8 +314,18 @@ public class SubawardXmlStream implements XmlStream {
     public void setOfficials(SubcontractReports subcontractReports) {
         AdministeringOfficial administeringOfficial = AdministeringOfficial.Factory.newInstance();
 
+        String topMostUnitNumber = "";
+
+        try {
+            ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+            topMostUnitNumber = paramServ.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                    ParameterConstants.DOCUMENT_COMPONENT, Constants.ARIAH_UNIT_TOP_MOST_UNIT_NUMBER);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         Map<String, String> unitAdministratorMap = new HashMap<String, String>();
-        unitAdministratorMap.put("unitNumber", "000001");
+        unitAdministratorMap.put("unitNumber", topMostUnitNumber);
         unitAdministratorMap.put("unitAdministratorTypeCode", UnitAdministratorType.OSP_ADMINISTRATOR_TYPE_CODE);
         List<UnitAdministrator> unitAdministratorList = (List<UnitAdministrator>) businessObjectService.findMatching(
                 UnitAdministrator.class, unitAdministratorMap);
