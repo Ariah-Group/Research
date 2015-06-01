@@ -170,8 +170,6 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
      */
     void prepare(ActionForm form, HttpServletRequest request) {
 
-        System.out.println("ProposalDevelopmentKeyPersonnelAction.prepare running...");
-
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         request.setAttribute(NEW_PERSON_LOOKUP_FLAG, EMPTY_STRING);
         ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
@@ -182,16 +180,14 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
                 person.getRole().setReadOnly(getKeyPersonnelService().isRoleReadOnly(person.getRole()));
             }
         }
-        System.out.println("ProposalDevelopmentKeyPersonnelAction.prepare 1");
+
         for (ProposalPersonQuestionnaireHelper helper : pdform.getProposalPersonQuestionnaireHelpers()) {
-            System.out.println("ProposalDevelopmentKeyPersonnelAction.prepare loop");
             helper.prepareView();
             for (int i = 0; i < helper.getAnswerHeaders().size(); i++) {
-                System.out.println("ProposalDevelopmentKeyPersonnelAction.prepare loop 2 , i = " + i);
                 helper.updateChildIndicator(i);
             }
         }
-        System.out.println("ProposalDevelopmentKeyPersonnelAction.prepare 2");
+
         //need to set this based on route status, permissions...
         pdform.populatePersonEditableFields();
         handleRoleChangeEvents(pdform.getProposalDevelopmentDocument());
