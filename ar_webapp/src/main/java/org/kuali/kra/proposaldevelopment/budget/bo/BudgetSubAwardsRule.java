@@ -65,7 +65,7 @@ public class BudgetSubAwardsRule {
     protected boolean verifyOrganizationName(){
         boolean success = true;
         if (StringUtils.isBlank(budgetSubAwards.getOrganizationName())) {
-            GlobalVariables.getMessageMap().putError(SUBAWARD_ORG_NAME_FIELD_NAME, Constants.SUBAWARD_ORG_NAME_REQUIERED);
+            GlobalVariables.getMessageMap().putError(SUBAWARD_ORG_NAME_FIELD_NAME, Constants.SUBAWARD_ORG_NAME_REQUIRED);
             success = false;
         } else {
             Map params = new HashMap();
