@@ -61,15 +61,13 @@ public class SubAwardFundingSourceValuesFinder extends FormViewAwareUifKeyValues
                 .getService(BusinessObjectService.class).findMatching(SubAwardFundingSource.class, fieldValues);
 
         for (SubAwardFundingSource subAwardFunding : fundingSource) {
-
             fundingValues.append(subAwardFunding.getAward().getAwardNumber());
-            keyValues.add(new ConcreteKeyValue(subAwardFunding.getSubAwardFundingSourceId().toString(), "Award:" + subAwardFunding.getAward().getAwardNumber()));
-
+            keyValues.add(new ConcreteKeyValue(subAwardFunding.getSubAwardFundingSourceId().toString(), "Award:" + subAwardFunding.getAward().getAwardNumber() + " , Sequence: " + subAwardFunding.getAward().getSequenceNumber()));
         }
+
         if (fundingValues.length() == 0) {
             keyValues.add(0, new ConcreteKeyValue("", "No Funding Source has been added to this Subaward"));
         }
         return keyValues;
     }
-
 }
