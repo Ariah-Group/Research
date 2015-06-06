@@ -501,25 +501,37 @@ public class SubAwardFDPPrintXmlStream implements XmlStream {
         PrimeRecipientContacts primeReceipient = PrimeRecipientContacts.Factory.newInstance();
         OrganizationType organisation = OrganizationType.Factory.newInstance();
         RolodexDetailsType rolodexDetails = RolodexDetailsType.Factory.newInstance();
+        
+      String primeOrgId = "";
+
+        try {
+            ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+            primeOrgId = paramServ.getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD,
+                    ParameterConstants.DOCUMENT_COMPONENT, Constants.ARIAH_SUBAWARD_ORGID_SUBAWARD_REPORTS);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }        
+        
         Map<String, String> primeUniversityMap = new HashMap<String, String>();
-        primeUniversityMap.put("organizationId", "000001");
-        //UnitService unitService = KraServiceLocator.getService(UnitService.class);
+        primeUniversityMap.put("organizationId", primeOrgId);
         Organization primeOrganisation = businessObjectService.findByPrimaryKey(Organization.class, primeUniversityMap);
-        if (primeOrganisation.getRolodex() != null) {
+        
+        Rolodex primeOrgRolodex = primeOrganisation.getRolodex();
+        if (primeOrgRolodex != null) {
             organisation.setOrganizationName(primeOrganisation.getOrganizationName());
-            rolodexDetails.setAddress1(primeOrganisation.getRolodex().getAddressLine1());
-            rolodexDetails.setAddress2(primeOrganisation.getRolodex().getAddressLine2());
-            rolodexDetails.setAddress3(primeOrganisation.getRolodex().getAddressLine3());
-            rolodexDetails.setCity(primeOrganisation.getRolodex().getCity());
-            String countryCode = primeOrganisation.getRolodex().getCountryCode();
-            String stateName = primeOrganisation.getRolodex().getState();
+            rolodexDetails.setAddress1(primeOrgRolodex.getAddressLine1());
+            rolodexDetails.setAddress2(primeOrgRolodex.getAddressLine2());
+            rolodexDetails.setAddress3(primeOrgRolodex.getAddressLine3());
+            rolodexDetails.setCity(primeOrgRolodex.getCity());
+            String countryCode = primeOrgRolodex.getCountryCode();
+            String stateName = primeOrgRolodex.getState();
             if (countryCode != null && countryCode.length() > 0 && stateName != null && stateName.length() > 0) {
                 State state = KraServiceLocator.getService(PrintingUtils.class).getStateFromName(countryCode, stateName);
                 if (state != null) {
                     rolodexDetails.setStateDescription(state.getName());
                 }
             }
-            rolodexDetails.setPincode(primeOrganisation.getRolodex().getPostalCode());
+            rolodexDetails.setPincode(primeOrgRolodex.getPostalCode());
 
         }
         primeReceipient.setOrgRolodexDetails(rolodexDetails);
