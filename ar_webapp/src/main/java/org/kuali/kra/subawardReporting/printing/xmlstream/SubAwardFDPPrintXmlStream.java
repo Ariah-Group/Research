@@ -388,49 +388,56 @@ public class SubAwardFDPPrintXmlStream implements XmlStream {
         RolodexDetailsType rolodexDetails = RolodexDetailsType.Factory.newInstance();
         RolodexDetailsType rolodexDetailsType = RolodexDetailsType.Factory.newInstance();
         OrganizationType organisation = OrganizationType.Factory.newInstance();
-        if (subaward.getRolodex() != null) {
-            subcontractDetail.setSiteInvestigator(subaward.getRolodex().getFullName());
-            if (subaward.getRolodex().getFullName() != null && subaward.getRolodex().getFullName().length() > 0) {
-                rolodexDetails.setRolodexName(subaward.getRolodex().getFullName());
+        
+        Rolodex rolodex = subaward.getRolodex();
+        
+        if (rolodex != null) {
+            subcontractDetail.setSiteInvestigator(rolodex.getFullName());
+            if (rolodex.getFullName() != null && rolodex.getFullName().length() > 0) {
+                rolodexDetails.setRolodexName(rolodex.getFullName());
             } else {
-                rolodexDetails.setRolodexName(subaward.getRolodex().getOrganization());
+                rolodexDetails.setRolodexName(rolodex.getOrganization());
             }
-            rolodexDetails.setAddress1(subaward.getRolodex().getAddressLine1());
-            rolodexDetails.setAddress2(subaward.getRolodex().getAddressLine2());
-            rolodexDetails.setAddress3(subaward.getRolodex().getAddressLine3());
-            rolodexDetails.setCity(subaward.getRolodex().getCity());
-            String countryCode = subaward.getRolodex().getCountryCode();
-            String stateName = subaward.getRolodex().getState();
+            rolodexDetails.setAddress1(rolodex.getAddressLine1());
+            rolodexDetails.setAddress2(rolodex.getAddressLine2());
+            rolodexDetails.setAddress3(rolodex.getAddressLine3());
+            rolodexDetails.setCity(rolodex.getCity());
+            String countryCode = rolodex.getCountryCode();
+            String stateName = rolodex.getState();
             if (countryCode != null && countryCode.length() > 0 && stateName != null && stateName.length() > 0) {
                 State state = KraServiceLocator.getService(PrintingUtils.class).getStateFromName(countryCode, stateName);
                 if (state != null) {
                     rolodexDetails.setStateDescription(state.getName());
                 }
             }
-            rolodexDetails.setPincode(subaward.getRolodex().getPostalCode());
-            rolodexDetails.setPhoneNumber(subaward.getRolodex().getPhoneNumber());
-            rolodexDetails.setFax(subaward.getRolodex().getFaxNumber());
-            rolodexDetails.setEmail(subaward.getRolodex().getEmailAddress());
+            rolodexDetails.setPincode(rolodex.getPostalCode());
+            rolodexDetails.setPhoneNumber(rolodex.getPhoneNumber());
+            rolodexDetails.setFax(rolodex.getFaxNumber());
+            rolodexDetails.setEmail(rolodex.getEmailAddress());
         }
         subcontractDetail.setPONumber(subaward.getPurchaseOrderNum());
-        if (subaward.getOrganization() != null) {
-            subcontractDetail.setSubcontractorName(subaward.getOrganization().getOrganizationName());
-            rolodexDetailsType.setAddress1(subaward.getOrganization().getRolodex().getAddressLine1());
-            rolodexDetailsType.setAddress2(subaward.getOrganization().getRolodex().getAddressLine2());
-            rolodexDetailsType.setAddress3(subaward.getOrganization().getRolodex().getAddressLine3());
-            rolodexDetailsType.setCity(subaward.getOrganization().getRolodex().getCity());
-            String countryCode = subaward.getOrganization().getRolodex().getCountryCode();
-            String stateName = subaward.getOrganization().getRolodex().getState();
+        
+        Organization organization = subaward.getOrganization();
+        
+        if (organization != null) {
+            Rolodex orgRolodex = organization.getRolodex();
+            subcontractDetail.setSubcontractorName(organization.getOrganizationName());
+            rolodexDetailsType.setAddress1(orgRolodex.getAddressLine1());
+            rolodexDetailsType.setAddress2(orgRolodex.getAddressLine2());
+            rolodexDetailsType.setAddress3(orgRolodex.getAddressLine3());
+            rolodexDetailsType.setCity(orgRolodex.getCity());
+            String countryCode = orgRolodex.getCountryCode();
+            String stateName = orgRolodex.getState();
             if (countryCode != null && countryCode.length() > 0 && stateName != null && stateName.length() > 0) {
                 State state = KraServiceLocator.getService(PrintingUtils.class).getStateFromName(countryCode, stateName);
                 if (state != null) {
                     rolodexDetailsType.setStateDescription(state.getName());
                 }
             }
-            rolodexDetailsType.setPincode(subaward.getOrganization().getRolodex().getPostalCode());
-            organisation.setFedralEmployerId(subaward.getOrganization().getFederalEmployerId());
-            organisation.setDunsNumber(subaward.getOrganization().getDunsNumber());
-            organisation.setCongressionalDistrict(subaward.getOrganization().getCongressionalDistrict());
+            rolodexDetailsType.setPincode(orgRolodex.getPostalCode());
+            organisation.setFedralEmployerId(organization.getFederalEmployerId());
+            organisation.setDunsNumber(organization.getDunsNumber());
+            organisation.setCongressionalDistrict(organization.getCongressionalDistrict());
         }
         if (subaward.getStartDate() != null) {
             subcontractDetail.setStartDate(getDateTimeService().getCalendar(subaward.getStartDate()));
@@ -496,7 +503,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream {
         RolodexDetailsType rolodexDetails = RolodexDetailsType.Factory.newInstance();
         Map<String, String> primeUniversityMap = new HashMap<String, String>();
         primeUniversityMap.put("organizationId", "000001");
-        UnitService unitService = KraServiceLocator.getService(UnitService.class);
+        //UnitService unitService = KraServiceLocator.getService(UnitService.class);
         Organization primeOrganisation = businessObjectService.findByPrimaryKey(Organization.class, primeUniversityMap);
         if (primeOrganisation.getRolodex() != null) {
             organisation.setOrganizationName(primeOrganisation.getOrganizationName());
