@@ -202,7 +202,7 @@ public class NegotiationDocument extends ResearchDocumentBase implements Seriali
     }
 
     public boolean isNegotiationAddActivityPanelOpenedByDefault() {
-        return KraServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean(org.kuali.kra.negotiations.document.NegotiationDocument.class, Constants.ARIAH_NEGO_ADD_ACTIVITY_PANEL_OPENED, false);
+        return KraServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean(NegotiationDocument.class, Constants.ARIAH_NEGO_ADD_ACTIVITY_PANEL_OPENED, false);
     }
 
     public void defaultDocumentDescription() {
