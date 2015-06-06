@@ -38,7 +38,6 @@ import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposa
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.printing.util.PrintingUtils;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
