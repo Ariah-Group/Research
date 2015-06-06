@@ -104,9 +104,7 @@ public class InstitutionalProposalXmlStream extends
             InstitutionalProposal institutionalProposal) {
         InstituteProposal instituteProposalXmlObject = InstituteProposal.Factory
                 .newInstance();
-        List<ProposalPerson> proposalPersons = institutionalProposalPersonService
-                .getInvestigatorsFromDevelopmentProposal(institutionalProposal
-                        .getProposalNumber());
+        //List<ProposalPerson> proposalPersons = institutionalProposalPersonService.getInvestigatorsFromDevelopmentProposal(institutionalProposal.getProposalNumber());
         instituteProposalXmlObject
                 .setInstProposalMaster(getInstProposalMasterData(institutionalProposal));
         instituteProposalXmlObject.setInvestigatorsArray(getInvestigatorTypes(
