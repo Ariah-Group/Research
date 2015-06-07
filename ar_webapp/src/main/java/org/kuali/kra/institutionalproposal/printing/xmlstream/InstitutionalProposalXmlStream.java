@@ -153,13 +153,18 @@ public class InstitutionalProposalXmlStream extends
      * This method will iterate over  InstitutionalProposalCustomData 
      * and set records with group name 'other' to the xmlObject 'otherGroup'. 
      */
-    private OtherGroupTypes getCustomData(
-            InstitutionalProposal institutionalProposal) {
+    private OtherGroupTypes getCustomData(InstitutionalProposal institutionalProposal) {
+
         CustomAttributeService customAttributeService = KraServiceLocator.getService(CustomAttributeService.class);
         Map<String, CustomAttributeDocument> customAttributeDocuments = customAttributeService.getDefaultCustomAttributeDocuments(institutionalProposal.getInstitutionalProposalDocument().getDocumentTypeCode(), institutionalProposal.getInstitutionalProposalCustomDataList());
         OtherGroupTypes otherGroup = OtherGroupTypes.Factory.newInstance();
         List<OtherGroupDetailsTypes> otherGroupDetailsTypesList = new LinkedList<OtherGroupDetailsTypes>();
 
+        String otherGroupName = KraServiceLocator.getService(ParameterService.class).
+                getParameterValueAsString(InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE,
+                        ParameterConstants.DOCUMENT_COMPONENT, Constants.INSTITUTE_PROPOSAL_OTHER_GROUP);
+        
+        
         for (Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry : customAttributeDocuments.entrySet()) {
             OtherGroupDetailsTypes otherGroupDetails = OtherGroupDetailsTypes.Factory.newInstance();
 
@@ -167,8 +172,7 @@ public class InstitutionalProposalXmlStream extends
 
                 if (custData.getCustomAttributeId() == (long) customAttributeDocumentEntry.getValue().getCustomAttribute().getId()
                         && customAttributeDocuments.get(custData.getCustomAttributeId().toString()).getCustomAttribute().getGroupName()
-                        .equalsIgnoreCase(KraServiceLocator.getService(ParameterService.class).
-                                getParameterValueAsString(InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, ParameterConstants.DOCUMENT_COMPONENT, Constants.INSTITUTE_PROPOSAL_OTHER_GROUP))) {
+                        .equalsIgnoreCase(otherGroupName)) {
 
                     otherGroup.setGroupName(customAttributeDocuments.get(custData.getCustomAttributeId().toString()).getCustomAttribute().getGroupName());
                     otherGroupDetails.setColumnValue(custData.getValue());
