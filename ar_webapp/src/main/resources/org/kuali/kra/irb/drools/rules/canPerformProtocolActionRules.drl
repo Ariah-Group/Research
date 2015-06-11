@@ -203,7 +203,8 @@ end
 rule "Create new Amendment"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "103", protocolStatusCode in ("200", "201", "202", "203", "308", "311", "302"), submissionStatusCode not in ("100", "101"))
+        # Ariah customization 6-11-2015. Add protocolStatusCode 305 (Expired) as allowable to Create Amendment
+	protocolAction : ProtocolActionMapping(actionTypeCode == "103", protocolStatusCode in ("200", "201", "202", "203", "308", "311", "302", "305"), submissionStatusCode not in ("100", "101"))
 then	
 	setAction(protocolAction, true);
 end
