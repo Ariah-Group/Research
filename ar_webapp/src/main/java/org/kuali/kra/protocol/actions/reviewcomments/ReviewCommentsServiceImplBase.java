@@ -698,7 +698,7 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
     private List<String> getActiveMemberId(ProtocolReviewableBase reviewComment) {
         List<String> activeMemberIds = new ArrayList<String>();
         List<CommitteeMembershipBase> members = new ArrayList<CommitteeMembershipBase>();
-        if (reviewComment.isReviewComment()) {
+        if (reviewComment.isReviewComment() && ((CommitteeScheduleMinuteBase) reviewComment).getCommitteeSchedule()!=null) {
             members = ((CommitteeScheduleMinuteBase) reviewComment).getCommitteeSchedule().getParentCommittee().getCommitteeMemberships();
         } else {
             members = ((PRA) reviewComment).getProtocol().getProtocolSubmission().getCommittee()
