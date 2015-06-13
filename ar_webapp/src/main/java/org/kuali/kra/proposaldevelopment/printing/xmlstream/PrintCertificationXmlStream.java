@@ -97,6 +97,7 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
      * @throws PrintingException in case of any errors occur during XML
      * generation.
      */
+    @Override
     public Map<String, XmlObject> generateXmlStream(
             KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
@@ -339,10 +340,10 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
      * returns SchoolInfoType XML Object
      */
     private PCschoolInfoType getSchoolInfoType() {
-        PCschoolInfoType schoolInfoType = PCschoolInfoType.Factory
-                .newInstance();
+        PCschoolInfoType schoolInfoType = PCschoolInfoType.Factory.newInstance();
         String schoolName = getCertificationParameterValue(SCHOOL_NAME);
         String schoolAcronym = getCertificationParameterValue(SCHOOL_ACRONYM);
+
         if (schoolName != null) {
             schoolInfoType.setSchoolName(schoolName);
         }
@@ -360,8 +361,7 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
         Investigator investigator = Investigator.Factory.newInstance();
         investigator.setPersonID(proposalPerson.getPersonId());
         investigator.setPersonName(getPersonName(proposalPerson));
-        investigator.setPrincipalInvFlag(proposalPerson
-                .getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE));
+        investigator.setPrincipalInvFlag(proposalPerson.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE));
         return investigator;
     }
 
@@ -417,15 +417,20 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
     }
 
     /*
-     * This method check availability of sponsorGroup, sponsorCode and level1 in
-     * SponsorHirarchy
+     * This method looks up a SponsorHierarchy named "SPONSOR GROUPS", looks up 
+     * the parameters for the NIH sponsor code and NSF sponsor code and sees if 
+     * those 2 sponsor codes are in the named hierarchy and have a Level1 value 
+     * of NIH or NSF.
      */
     private boolean isSponsorCodeInSponsorHierarchy() {
 
+        //TODO - no sponsor code is passed in here. this is probably a bug..
+        // Test this feature out by walking up the callstack and see if it is even being used 
+        // higher up the call tree.
         boolean available = false;
-        Map<String, String> sponsorHirarchyMap = new HashMap<String, String>();
-        sponsorHirarchyMap.put(Constants.HIERARCHY_NAME, SPONSOR_GROUPS);
-        List<SponsorHierarchy> sponsorHierarchyList = (List<SponsorHierarchy>) getBusinessObjectService().findMatching(SponsorHierarchy.class, sponsorHirarchyMap);
+        Map<String, String> sponsorHierarchyMap = new HashMap<String, String>();
+        sponsorHierarchyMap.put(Constants.HIERARCHY_NAME, SPONSOR_GROUPS);
+        List<SponsorHierarchy> sponsorHierarchyList = (List<SponsorHierarchy>) getBusinessObjectService().findMatching(SponsorHierarchy.class, sponsorHierarchyMap);
 
         ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
 
@@ -473,6 +478,7 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
         try {
             value = PrintingUtils.getParameterValue(param);
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return value;
     }
