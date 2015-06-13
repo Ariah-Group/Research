@@ -180,8 +180,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
         BigDecimal totalOtherDirectCostsRequested = new BigDecimal("0");
         /**
          * ******************************
-         * get budget periods
-         ********************************
+         * get budget periods *******************************
          */
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
@@ -213,7 +212,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             /**
              * ****************************
              * add to cumulative amounts for tuition and costs
-             *****************************
+             * ****************************
              */
             cumUndergradTuition = cumUndergradTuition.add(phs398TrainingBudgetYearDataType
                     .getUndergraduateTuitionAndFeesRequested());
@@ -234,8 +233,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
 
             /**
              * **********************
-             * getting first two indirect cost type
-             ***********************
+             * getting first two indirect cost type **********************
              */
             IndirectCostInfo indirectCostInfo = s2sBudgetCalculatorService.getIndirectCosts(budgetPeriod.getBudget(), budgetPeriod);
             List<IndirectCostDetails> cvIndirectCost = indirectCostInfo.getIndirectCostDetails();
@@ -291,7 +289,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             /**
              * ******************************************************
              * get questionnaire answers for undergrads and predocs and others
-             *******************************************************
+             * ******************************************************
              */
             String answer = null;
             int preDocCountFull = 0, preDocCountShort = 0;
@@ -516,7 +514,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             /**
              * *********************************************************
              * set post doc non degree full time total number
-             **********************************************************
+             * *********************************************************
              */
             int postDocNumNonDegreeFullTime = Integer.parseInt(hmNonDegree.get("fulllevel0"))
                     + Integer.parseInt(hmNonDegree.get("fulllevel1"))
@@ -532,7 +530,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             /**
              * *********************************************************
              * set post doc non degree short term total number
-             **********************************************************
+             * *********************************************************
              */
             int postDocNumNonDegreeShortTerm = Integer.parseInt(hmNonDegree.get("shortlevel0"))
                     + Integer.parseInt(hmNonDegree.get("shortlevel1"))
@@ -548,7 +546,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             /**
              * **********************************************
              * set post doc non degree level numbers
-             ************************************************
+             * ***********************************************
              */
             phs398TrainingBudgetYearDataType.setPostdocNumNonDegreeStipendLevel0(Integer.parseInt(hmNonDegree.get("fulllevel0"))
                     + Integer.parseInt(hmNonDegree.get("shortlevel0")));
@@ -717,7 +715,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             /**
              * ****************************************************
              * set post doc degree seeking numbers for each level
-             *****************************************************
+             * ****************************************************
              */
             phs398TrainingBudgetYearDataType.setPostdocNumDegreeStipendLevel0(Integer.parseInt(hmDegree.get("fulllevel0"))
                     + Integer.parseInt(hmDegree.get("shortlevel0")));
@@ -739,7 +737,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             /**
              * **********************************************
              * set post doc degree seeking full time number
-             *********************************************
+             * ********************************************
              */
             int postDocNumDegreeFulltime = Integer.parseInt(hmDegree.get("fulllevel0"))
                     + Integer.parseInt(hmDegree.get("fulllevel1"))
@@ -806,7 +804,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             /**
              * ****************************************************
              * get stipend amounts
-             *****************************************************
+             * ****************************************************
              */
             // undergrad
             numPeople = phs398TrainingBudgetYearDataType.getUndergraduateNumFirstYearSophomoreStipends();
@@ -895,7 +893,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             /**
              * ****************************************************
              * set total amounts
-             *****************************************************
+             * ****************************************************
              */
             phs398TrainingBudgetYearDataType.setPostdocTotalTuitionAndFeesRequested(phs398TrainingBudgetYearDataType
                     .getPostdocDegreeTuitionAndFeesRequested().add(
@@ -956,7 +954,7 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
             /**
              * ****************************************************
              * add to cumulative amounts
-             *****************************************************
+             * ****************************************************
              */
             cumPostDocNonDegStipends = cumPostDocNonDegStipends.add(phs398TrainingBudgetYearDataType.getPostdocNonDegreeStipendsRequested());
             cumPostDocDegStipends = cumPostDocDegStipends.add(phs398TrainingBudgetYearDataType.getPostdocDegreeStipendsRequested());
@@ -1044,7 +1042,8 @@ public class PHS398TrainingBudgetV1_0Generator extends S2SBaseFormGenerator {
 
     private BudgetDecimal getBudgetPeriodCost(BudgetPeriod budgetPeriod, String costType) {
         BudgetDecimal totalLineItemCost = BudgetDecimal.ZERO;
-        String costElementsStrValue = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, costType);
+        String costElementsStrValue = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, costType);
         String[] costElements = costElementsStrValue.split(",");
         for (int i = 0; i < costElements.length; i++) {
             String costElement = costElements[i];
