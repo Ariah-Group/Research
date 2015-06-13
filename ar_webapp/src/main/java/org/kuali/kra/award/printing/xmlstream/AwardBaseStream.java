@@ -78,7 +78,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -90,6 +89,7 @@ import org.kuali.rice.location.api.state.State;
 
 import java.math.BigDecimal;
 import java.util.*;
+import org.kuali.kra.infrastructure.Constants;
 
 /**
  * This class will contain all common methods that can be used across all XML
@@ -217,7 +217,8 @@ public abstract class AwardBaseStream implements XmlStream {
     }
 
     private String getProposalParameterValue(String param) {
-        return parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, param);
+        return parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
+                Constants.PARAMETER_COMPONENT_DOCUMENT, param);
     }
 
     /**
