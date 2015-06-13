@@ -99,7 +99,9 @@ public class PendingReportBean extends ReportBean {
         
         institutionalProposalCustomDataList = new ArrayList<InstitutionalProposalCustomData>();
         parameterService = KraServiceLocator.getService(ParameterService.class);
-        String customGroupName = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.CURRENT_PENDING_REPORT_GROUP_NAME);
+        String customGroupName = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
+                Constants.PARAMETER_COMPONENT_DOCUMENT, 
+                Constants.CURRENT_PENDING_REPORT_GROUP_NAME);
       
         for(InstitutionalProposalCustomData custData:proposal.getInstitutionalProposalCustomDataList()){
                 if(custData.getCustomAttributeId()!=null){
