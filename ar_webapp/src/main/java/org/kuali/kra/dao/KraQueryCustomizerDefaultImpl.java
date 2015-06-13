@@ -37,79 +37,96 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import org.kuali.kra.infrastructure.Constants;
+
 /**
- * 
- * This class used for supplying customized query to OJB repository <code>collection-descriptor</code> tag.
- * Eg: 
+ *
+ * This class used for supplying customized query to OJB repository
+ * <code>collection-descriptor</code> tag. Eg: 
  *      <code>
- *          <query-customizer
+ * <query-customizer
  *               class="org.kuali.kra.proposaldevelopment.dao.NarrativeQueryCustomizer">
- *             <attribute
+ * <attribute
  *                 attribute-name="narrativeType.narrativeTypeGroup"
  *                 attribute-value="P"
  *             />
- *           </query-customizer>
- *       </code>
+ * </query-customizer>
+ * </code>
+ *
  * @author KRADEV team
  * @version 1.0
  */
 public class KraQueryCustomizerDefaultImpl extends org.apache.ojb.broker.accesslayer.QueryCustomizerDefaultImpl {
-    private final Map<String,String> queryMap = new HashMap<String,String>();
-    private final Map<String,String> proposalSystemQueryMap = new HashMap<String,String>();
+
+    private final Map<String, String> queryMap = new HashMap<String, String>();
+    private final Map<String, String> proposalSystemQueryMap = new HashMap<String, String>();
     private ParameterService parameterService;
-    
+
     /**
      * Looks up and returns the ParameterService.
-     * @return the parameter service. 
+     *
+     * @return the parameter service.
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }
+
     /**
-     * 
-     * @see org.apache.ojb.broker.accesslayer.QueryCustomizerDefaultImpl#customizeQuery(java.lang.Object, org.apache.ojb.broker.PersistenceBroker, org.apache.ojb.broker.metadata.CollectionDescriptor, org.apache.ojb.broker.query.QueryByCriteria)
+     *
+     * @see
+     * org.apache.ojb.broker.accesslayer.QueryCustomizerDefaultImpl#customizeQuery(java.lang.Object,
+     * org.apache.ojb.broker.PersistenceBroker,
+     * org.apache.ojb.broker.metadata.CollectionDescriptor,
+     * org.apache.ojb.broker.query.QueryByCriteria)
      */
     @Override
     public Query customizeQuery(Object anObject,
             PersistenceBroker aBroker,
-            CollectionDescriptor aCod, QueryByCriteria aQuery){
+            CollectionDescriptor aCod, QueryByCriteria aQuery) {
         Iterator<String> keys = queryMap.keySet().iterator();
         Criteria crit = aQuery.getCriteria();
-        while(keys.hasNext()){
+        while (keys.hasNext()) {
             String key = keys.next();
             crit.addEqualTo(key, queryMap.get(key));
         }
         Iterator<String> systemKeys = proposalSystemQueryMap.keySet().iterator();
-        while(systemKeys.hasNext()){
+        while (systemKeys.hasNext()) {
             String key = systemKeys.next();
             String value = proposalSystemQueryMap.get(key);
-            String sysParamVal = this.getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, value);
-            crit.addEqualTo(key, sysParamVal==null?value:sysParamVal);
+            String sysParamVal = this.getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                    Constants.PARAMETER_COMPONENT_DOCUMENT, value);
+            crit.addEqualTo(key, sysParamVal == null ? value : sysParamVal);
         }
         return aQuery;
     }
 
     /**
-     * Override this method, if developer needs more than just supplying values to the 'where' clause
-     * @see org.apache.ojb.broker.accesslayer.QueryCustomizerDefaultImpl#addAttribute(java.lang.String, java.lang.String)
+     * Override this method, if developer needs more than just supplying values
+     * to the 'where' clause
+     *
+     * @see
+     * org.apache.ojb.broker.accesslayer.QueryCustomizerDefaultImpl#addAttribute(java.lang.String,
+     * java.lang.String)
      */
     @Override
     public void addAttribute(String name, String value) {
         queryMap.put(name, value);
     }
+
     /**
      * Helper method to add system parameter values to customized query criteria
-     * If customizer class needs to add proposal system parameter, override <code>addAttribute</code> method 
-     * and call <code>addProposalSystemAttribute</code> method.
+     * If customizer class needs to add proposal system parameter, override
+     * <code>addAttribute</code> method and call
+     * <code>addProposalSystemAttribute</code> method.
+     *
      * @param name
      * @param value
      */
