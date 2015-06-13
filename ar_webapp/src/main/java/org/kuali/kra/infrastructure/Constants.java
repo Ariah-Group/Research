@@ -1066,6 +1066,61 @@ public interface Constants {
      * database table representing the Sponsor Attachments in the Subaward Actions Print panel.
      */
     public static final int SUBAWARD_FORM_SPONSOR_TEMPLATE_ID = 2;
+
+    // Award Print Type constants
+    public static final String AWARD_PRINT_TYPE_REPORT_NOTICE = "awardNoticeReport";
+    public static final String AWARD_PRINT_TYPE_REPORT_DELTA = "awardDeltaReport";
+    public static final String AWARD_PRINT_TYPE_TEMPLATE = "awardTemplate";
+    public static final String AWARD_PRINT_TYPE_BUDGET_HIERARCHY = "awardBudgetHierarchy";
+    public static final String AWARD_PRINT_TYPE_BUDGET_HISTORY_TRANS = "awardBudgetHistoryTransaction";
+    public static final String AWARD_PRINT_TYPE_MONEY_DATES = "moneyAndEndDatesHistory";
+    public static final String AWARD_PRINT_TYPE_REPORT_TRACKING = "awardReportTracking";
     
+    // Proposal Log print constants
+    public final static String PROPOSAL_LOG_REPORT_TYPE = "Proposal Log Report";
+    
+    // Institutional Proposal print constants
+    public final static String INST_PROPOSAL_REPORT = "Institutional Proposal Report";
+    
+    // COI print constants
+    public final static String COI_APPROVED_DISCLOSURE_TYPE = "approved_disclosure";
+    
+    // Committee print constants
+    public final static String COMMITTEE_ROSTER_REPORT = "roster";
+    public final static String COMMITTEE_FUTURE_MEETINGS_REPORT = "futureScheduledMeetings";
+    
+    // Negotiation print constants
+    public final static String NEGOTIATION_ACTIVITY_REPORT = "negotiationActivityReport";
+    
+    // Current/Pending Report constants
+    public static final String CURRENT_REPORT_TYPE = "Current Report";
+    public static final String PENDING_REPORT_TYPE = "Pending Report";
+    public static final String CURRENT_REPORT_BEANS_KEY = "Current Report Beans";
+    public static final String PENDING_REPORT_BEANS_KEY = "Pending Report Beans";
+    public static final String PERSON_ID_KEY = "personId";
+    public static final String CURRENT_REPORT_ROWS_KEY = "currentReportRows";
+    public static final String PENDING_REPORT_ROWS_KEY = "pendingReportRows";
+    public static final String REPORT_PERSON_NAME_KEY = "reportPersonName";
+    
+    // Proposal Development print constants
+    public static final String PRINT_CERTIFICATION_REPORT = "Print Certification";
+    
+    // Subaward print constants
+    public static final String SUBAWARD_PRINT_TYPE_SF_294 = "SF294";
+    public static final String SUBAWARD_PRINT_TYPE_SF_295 = "SF295";
+    public static final String SUBAWARD_PRINT_TYPE_FDP_TEMPLATE = "fdpAgreement";
+    public static final String SUBAWARD_PRINT_TYPE_FDP_MODIFICATION = "fdpModification";
+    
+    // Budget print constants
+    public static final String BUDGET_PRINT_SUMMARY_REPORT = "Budget Summary Report";
+    public static final String BUDGET_PRINT_COST_SHARE_SUMMARY_REPORT = "Budget Costshare Summary Report";
+    public static final String BUDGET_PRINT_INDUSTRIAL_CUMULATIVE_BUDGET_REPORT = "Industrial Cumulative Budget Report";
+    public static final String BUDGET_PRINT_SALARY_REPORT = "Budget Salary Report";
+    public static final String BUDGET_PRINT_TOTAL_REPORT = "Budget Total Report";
+    public static final String BUDGET_PRINT_SUMMARY_TOTAL_REPORT = "Budget Summary Total Report";
+    public static final String BUDGET_PRINT_CUMULATIVE_REPORT = "Budget Cumulative Report";
+    public static final String BUDGET_PRINT_INDUSTRIAL_REPORT = "Industrial Budget Report";
+   
+   
 }
 
