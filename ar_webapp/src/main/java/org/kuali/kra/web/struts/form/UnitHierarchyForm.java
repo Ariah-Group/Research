@@ -18,7 +18,6 @@ package org.kuali.kra.web.struts.form;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -26,7 +25,7 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 
+ *
  * This class manages the form attributes for UnitHierarchy.
  */
 public class UnitHierarchyForm extends KualiForm {
@@ -36,13 +35,13 @@ public class UnitHierarchyForm extends KualiForm {
     private String units;
     private String selectedUnitNumber;
     private transient ParameterService parameterService;
-    
+
     private boolean displayWholeTree = false;
-    
+
     /**
      * Constructs a UnitHierarchyForm.
      */
-    public UnitHierarchyForm() {        
+    public UnitHierarchyForm() {
         resetUnits();
     }
 
@@ -52,15 +51,17 @@ public class UnitHierarchyForm extends KualiForm {
         // need to investigate this.
         this.setMethodToCall("");
     }
+
     /**
-     * 
-     * This method reset the Units string based on the initial depth.
-     * To display the whole tree, simply set the displayWholeTree attribute to true before calling this method.
+     *
+     * This method reset the Units string based on the initial depth. To display
+     * the whole tree, simply set the displayWholeTree attribute to true before
+     * calling this method.
      */
     public void resetUnits() {
         units = KraServiceLocator.getService(UnitService.class).getInitialUnitsForUnitHierarchy(this.getInitialUnitDepth());
     }
-    
+
     public String getUnits() {
         return units;
     }
@@ -79,24 +80,27 @@ public class UnitHierarchyForm extends KualiForm {
 
     /**
      * Gets the Initial Unit Depth from a system parameter.
+     *
      * @return Initial Unit Depth
      */
     public int getInitialUnitDepth() {
-        if (getDisplayWholeTree()){
+        if (getDisplayWholeTree()) {
             return KraServiceLocator.getService(UnitService.class).getMaxUnitTreeDepth();
         } else {
-            final String param = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INITIAL_UNIT_HIERARCHY_LOAD_DEPTH);
+            final String param = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                    Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.INITIAL_UNIT_HIERARCHY_LOAD_DEPTH);
             return Integer.parseInt(param);
         }
     }
-    
+
     /**
      * Looks up and returns the ParameterService.
-     * @return the parameter service. 
+     *
+     * @return the parameter service.
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }
@@ -107,5 +111,5 @@ public class UnitHierarchyForm extends KualiForm {
 
     public void setDisplayWholeTree(boolean displayWholeTree) {
         this.displayWholeTree = displayWholeTree;
-    }    
+    }
 }
