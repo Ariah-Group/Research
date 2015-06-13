@@ -62,7 +62,6 @@ import org.kuali.kra.irb.protocol.reference.ProtocolReference;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.protocol.actions.print.ProtocolSummaryPrintOptions;
 import org.kuali.kra.protocol.actions.print.ProtocolSummaryXmlStreamBase;
 import org.kuali.kra.service.SponsorService;
@@ -181,7 +180,8 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
 
     private String getProposalParameterValue(String param) {
         ParameterService parameterService = KraServiceLocator.getService(ParameterService.class);
-        return parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, param);
+        return parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
+                Constants.PARAMETER_COMPONENT_DOCUMENT, param);
     }
 
     private void setProtocolDocuments(ProtocolSummary protocolSummary, Protocol protocol) {
