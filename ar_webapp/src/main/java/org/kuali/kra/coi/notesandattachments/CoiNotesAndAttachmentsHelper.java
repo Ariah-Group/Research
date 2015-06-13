@@ -31,7 +31,6 @@
  */
 package org.kuali.kra.coi.notesandattachments;
 
-import edu.mit.irb.irbnamespace.ProtocolDocument;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts.upload.FormFile;
@@ -389,7 +388,8 @@ public class CoiNotesAndAttachmentsHelper {
 
         //Lets see if there is a default set for the attachment sort
         try {
-            String defaultSortBy = parameterService.getParameterValueAsString(ProtocolDocument.class, Constants.PARAMETER_COI_ATTACHMENT_DEFAULT_SORT);
+            String defaultSortBy = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROTOCOL,
+                    Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_COI_ATTACHMENT_DEFAULT_SORT);
             if (StringUtils.isNotBlank(defaultSortBy)) {
                 disclosureFilter.setSortBy(defaultSortBy);
             }
