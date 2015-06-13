@@ -415,13 +415,15 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
 
     public boolean isGrantsGovEnabledForProposal(DevelopmentProposal devProposal) {
-        String federalSponsorTypeCode = parameterService.getParameterValueAsString(AwardDocument.class, Constants.FEDERAL_SPONSOR_TYPE_CODE);
+        String federalSponsorTypeCode = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_AWARD, 
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.FEDERAL_SPONSOR_TYPE_CODE);
         return !devProposal.isChild() && devProposal.getSponsor() != null
                 && StringUtils.equals(devProposal.getSponsor().getSponsorTypeCode(), federalSponsorTypeCode);
     }
 
     public boolean isGrantsGovEnabledOnSponsorChange(String proposalNumber, String sponsorCode) {
-        String federalSponsorTypeCode = parameterService.getParameterValueAsString(AwardDocument.class, Constants.FEDERAL_SPONSOR_TYPE_CODE);
+        String federalSponsorTypeCode = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_AWARD, 
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.FEDERAL_SPONSOR_TYPE_CODE);
         DevelopmentProposal proposal = (DevelopmentProposal) getBusinessObjectService().findBySinglePrimaryKey(
                 DevelopmentProposal.class, proposalNumber);
         Sponsor sponsor = (Sponsor) getBusinessObjectService().findBySinglePrimaryKey(Sponsor.class, sponsorCode);
