@@ -22,27 +22,29 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
 public abstract class KcKrmsJavaFunctionTermServiceBase {
+
     public static final String TRUE = "true";
     public static final String FALSE = "false";
-    public static final String[] restrictedElements = { " ", "`", "@", "#", "!", "$", "%", "^", "&", "*", "(", ")", "[", "]", "{",
-            "}", "|", "\\", "/", "?", "<", ">", ",", ";", ":", "'", "\"", "`", "+" };
+    public static final String[] restrictedElements = {" ", "`", "@", "#", "!", "$", "%", "^", "&", "*", "(", ")", "[", "]", "{",
+        "}", "|", "\\", "/", "?", "<", ">", ",", ";", ":", "'", "\"", "`", "+"};
     private BusinessObjectService businessObjectService;
     private UnitService unitService;
     private ParameterService parameterService;
     private DocumentService documentService;
 
     protected String[] buildArrayFromCommaList(String commaList) {
-        String[] newArray = commaList.split(","); // MIT Equity Interests
+        String[] newArray = commaList.split(",");
         if (commaList != null && newArray.length == 0) {
-            newArray = new String[] { commaList.trim() };
+            newArray = new String[]{commaList.trim()};
         }
         return newArray;
     }
 
     /**
-     * 
-     * This method returns 'true' if 'stringToCheck' does not contain a special character, otherwise returns 'false'.
-     * 
+     *
+     * This method returns 'true' if 'stringToCheck' does not contain a special
+     * character, otherwise returns 'false'.
+     *
      * @param stringToCheck
      * @return
      */
