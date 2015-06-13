@@ -371,7 +371,9 @@ public class BudgetAction extends BudgetActionBase {
             }
         }
         ParameterService parameterService = KraServiceLocator.getService(ParameterService.class);
-        String enableBudgetSalaryByPeriod = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.ENABLE_BUDGET_CALCULATED_SALARY);
+        String enableBudgetSalaryByPeriod = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
+                Constants.PARAMETER_COMPONENT_DOCUMENT, 
+                Constants.ENABLE_BUDGET_CALCULATED_SALARY);
         budgetForm.setEnableBudgetSalaryByPeriod(enableBudgetSalaryByPeriod);
         return mapping.findForward(Constants.BUDGET_PERSONNEL_PAGE);
     }
