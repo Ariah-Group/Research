@@ -16,7 +16,6 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.S2SQuestionnairing;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
@@ -25,32 +24,32 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.kuali.kra.infrastructure.Constants;
 
 /**
  * This abstract class has methods that are common to all the versions of
  * PHS398FellowshipSupplementalBaseGenerator form.
- * 
+ *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public abstract class PHS398FellowshipSupplementalBaseGenerator extends
-		S2SBaseFormGenerator implements S2SQuestionnairing{
+        S2SBaseFormGenerator implements S2SQuestionnairing {
 
-	protected S2SUtilService s2sUtilService;
-	protected S2SBudgetCalculatorService s2SBudgetCalculatorService;
-	protected ParameterService parameterService;
-    
+    protected S2SUtilService s2sUtilService;
+    protected S2SBudgetCalculatorService s2SBudgetCalculatorService;
+    protected ParameterService parameterService;
 
-	protected static final String NSR_SUPPORT_NO = "No";
-	protected static final String NSR_SUPPORT_YES = "Yes";
-	protected static final String QUESTION_ANSWER_NO = "N";
-	
-	protected static final String TUITION_COST_ELEMENTS = "TUITION_COST_ELEMENTS";
-	protected static final String STIPEND_COST_ELEMENTS = "STIPEND_COST_ELEMENTS";
-	protected static final char STRING_SEPRATOR = '-';
-	protected static final String SUB_CATEGORY_NOT_FOUND = "SUB CATEGORY NOT FOUND";
-	protected static final String PROPOSAL_TYPE_CODE_NEW7 = "7";
-	protected static final Integer QUESTIONNAIRE_ID_1 = 1;
-	
+    protected static final String NSR_SUPPORT_NO = "No";
+    protected static final String NSR_SUPPORT_YES = "Yes";
+    protected static final String QUESTION_ANSWER_NO = "N";
+
+    protected static final String TUITION_COST_ELEMENTS = "TUITION_COST_ELEMENTS";
+    protected static final String STIPEND_COST_ELEMENTS = "STIPEND_COST_ELEMENTS";
+    protected static final char STRING_SEPRATOR = '-';
+    protected static final String SUB_CATEGORY_NOT_FOUND = "SUB CATEGORY NOT FOUND";
+    protected static final String PROPOSAL_TYPE_CODE_NEW7 = "7";
+    protected static final Integer QUESTIONNAIRE_ID_1 = 1;
+
     protected static final int INTRODUCTION_TO_APPLICATION = 97;
     protected static final int SPECIFIC_AIMS = 98;
     protected static final int INCLUSION_ENROLLMENT_REPORT = 102;
@@ -71,17 +70,19 @@ public abstract class PHS398FellowshipSupplementalBaseGenerator extends
     protected static final int DISSERTATION = 93;
     protected static final int ACTIVITIES = 94;
 
-	/**
-	 * 
-	 * Constructs a PHS398FellowshipSupplementalBaseGenerator.java.
-	 */
-	public PHS398FellowshipSupplementalBaseGenerator() {
-		s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
-		s2SBudgetCalculatorService = KraServiceLocator.getService(S2SBudgetCalculatorService.class);
-		parameterService = KraServiceLocator.getService(ParameterService.class);
-	}
+    /**
+     *
+     * Constructs a PHS398FellowshipSupplementalBaseGenerator.java.
+     */
+    public PHS398FellowshipSupplementalBaseGenerator() {
+        s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);
+        s2SBudgetCalculatorService = KraServiceLocator.getService(S2SBudgetCalculatorService.class);
+        parameterService = KraServiceLocator.getService(ParameterService.class);
+    }
+
     protected List<String> getCostElementsByParam(String costElementParam) {
-        String costElementsParamValue = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, costElementParam);
+        String costElementsParamValue = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, costElementParam);
         String[] costElements = costElementsParamValue.split(",");
         List<String> costElementList = new ArrayList<String>();
         for (int i = 0; i < costElements.length; i++) {
