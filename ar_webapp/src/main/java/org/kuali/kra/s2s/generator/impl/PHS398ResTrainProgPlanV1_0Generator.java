@@ -51,6 +51,7 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import org.kuali.kra.infrastructure.Constants;
 
 /**
  *
@@ -229,15 +230,20 @@ public class PHS398ResTrainProgPlanV1_0Generator extends S2SBaseFormGenerator {
 
     private gov.grants.apply.forms.phs398ResearchTrainingProgramPlanV10.PHS398ResearchTrainingProgramPlanDocument.PHS398ResearchTrainingProgramPlan.ApplicationType.TypeOfApplication.Enum getTypeOfApplication(String proposalTypeCode) {
         String proposalTypeCodeRenewal
-                = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
+                = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                        Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RENEWAL);
         String proposalTypeCodeRevision
-                = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
+                = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                        Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
         String proposalTypeCodeContinuation
-                = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
+                = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                        Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
         String proposalTypeCodeNew
-                = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW);
+                = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                        Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_NEW);
         String proposalTypeCodeResubmission
-                = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RESUBMISSION);
+                = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                        Constants.PARAMETER_COMPONENT_DOCUMENT, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RESUBMISSION);
         gov.grants.apply.forms.phs398ResearchTrainingProgramPlanV10.PHS398ResearchTrainingProgramPlanDocument.PHS398ResearchTrainingProgramPlan.ApplicationType.TypeOfApplication.Enum proposalTypeEnum = null;
         if (proposalTypeCode.equals(proposalTypeCodeRenewal)) {
             proposalTypeEnum = ApplicationType.TypeOfApplication.RENEWAL;
