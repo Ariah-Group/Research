@@ -19,14 +19,20 @@ import java.util.List;
 /**
  * This class is a DTO bean for storing data for the Current Report
  *
- * Note 1: At the time of the development of the Current and Pending Reports, Contacts hadn't been implemented in InstitutionalProposal
- * As a workaround, any data coming from Key Personnel will come from the originating DevelopmentProposal. If there is no DevelopmentProposal, then the
- * AwardPersons are searched if there's a linked AwardFundingProposal. If there's no DevelopmentProposal and no linked Award, an UnsupportedOperationException
- * will be thrown during the creation of the report
+ * Note 1: At the time of the development of the Current and Pending Reports,
+ * Contacts hadn't been implemented in InstitutionalProposal As a workaround,
+ * any data coming from Key Personnel will come from the originating
+ * DevelopmentProposal. If there is no DevelopmentProposal, then the
+ * AwardPersons are searched if there's a linked AwardFundingProposal. If
+ * there's no DevelopmentProposal and no linked Award, an
+ * UnsupportedOperationException will be thrown during the creation of the
+ * report
  *
- * Rice foolishly requires beans used in DisplayTag to be BusinessObjects, so this class implements an interface whose behavior is completely inapplicable
+ * Rice foolishly requires beans used in DisplayTag to be BusinessObjects, so
+ * this class implements an interface whose behavior is completely inapplicable
  */
 public class CurrentReportBean extends ReportBean {
+
     /**
      * Award.awardNumber
      */
@@ -47,8 +53,10 @@ public class CurrentReportBean extends ReportBean {
     private String awardTitle;
 
     /**
-     * Source: The mocks suggest Award.timeAndMoney.obligatedAmount would be useful, but at the time of the development of the Current report, Award Time and
-     * Money hadn't been completed. So, we'll sum the awardAmountInfo.obliDistributableAmount values for a total.
+     * Source: The mocks suggest Award.timeAndMoney.obligatedAmount would be
+     * useful, but at the time of the development of the Current report, Award
+     * Time and Money hadn't been completed. So, we'll sum the
+     * awardAmountInfo.obliDistributableAmount values for a total.
      */
     private KualiDecimal awardAmount;
 
@@ -58,8 +66,10 @@ public class CurrentReportBean extends ReportBean {
     private Date projectStartDate;
 
     /**
-     * Source: The mocks suggest Award.timeAndMoney.projectEndDate would be useful, but at the time of the development of the Current report, Award Time and
-     * Money hadn't been completed. So, we'll use the latest awardAmountInfo.obligationExpirationDate values for the projectEndDate. 
+     * Source: The mocks suggest Award.timeAndMoney.projectEndDate would be
+     * useful, but at the time of the development of the Current report, Award
+     * Time and Money hadn't been completed. So, we'll use the latest
+     * awardAmountInfo.obligationExpirationDate values for the projectEndDate.
      */
     private Date projectEndDate;
 
@@ -103,17 +113,18 @@ public class CurrentReportBean extends ReportBean {
         parameterService = KraServiceLocator.getService(ParameterService.class);
         String directIndirectEnabledValue = parameterService.getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
 
-        for(AwardAmountInfo awardAmountInfo:award.getAwardAmountInfos()){
-            if(directIndirectEnabledValue.equals("1")){
-                this.totalDirectCostTotal =  awardAmountInfo.getObligatedTotalDirect();
+        for (AwardAmountInfo awardAmountInfo : award.getAwardAmountInfos()) {
+            if (directIndirectEnabledValue.equals("1")) {
+                this.totalDirectCostTotal = awardAmountInfo.getObligatedTotalDirect();
                 this.totalIndirectCostTotal = awardAmountInfo.getObligatedTotalIndirect();
             }
         }
         awardCustomDataList = new ArrayList<AwardCustomData>();
-        
-        String customGroupName = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.CURRENT_PENDING_REPORT_GROUP_NAME);
-        for(AwardCustomData awardcutomdata :award.getAwardCustomDataList()) {
-            if(awardcutomdata.getCustomAttribute()!=null && awardcutomdata.getCustomAttribute().getGroupName().equals(customGroupName)){
+
+        String customGroupName = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.CURRENT_PENDING_REPORT_GROUP_NAME);
+        for (AwardCustomData awardcutomdata : award.getAwardCustomDataList()) {
+            if (awardcutomdata.getCustomAttribute() != null && awardcutomdata.getCustomAttribute().getGroupName().equals(customGroupName)) {
                 awardCustomDataList.add(awardcutomdata);
             }
         }
@@ -121,8 +132,12 @@ public class CurrentReportBean extends ReportBean {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof CurrentReportBean)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof CurrentReportBean)) {
+            return false;
+        }
         return awardNumber.equals(((CurrentReportBean) o).awardNumber);
 
     }
@@ -179,9 +194,9 @@ public class CurrentReportBean extends ReportBean {
         columns.add(createColumn("Role", "roleCode", roleCode, String.class));
         columns.add(createColumn("Title", "awardTitle", awardTitle, String.class));
         String directIndirectEnabledValue = parameterService.getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
-        if(directIndirectEnabledValue.equals("1")){
-            columns.add(createColumn("Total Direct Cost","totalDirectCostTotal",totalDirectCostTotal,KualiDecimal.class));
-            columns.add(createColumn("Total F&A Cost","totalIndirectCostTotal",totalIndirectCostTotal,KualiDecimal.class));
+        if (directIndirectEnabledValue.equals("1")) {
+            columns.add(createColumn("Total Direct Cost", "totalDirectCostTotal", totalDirectCostTotal, KualiDecimal.class));
+            columns.add(createColumn("Total F&A Cost", "totalIndirectCostTotal", totalIndirectCostTotal, KualiDecimal.class));
         }
         columns.add(createColumn("Award Amount", "awardAmount", awardAmount, KualiDecimal.class));
         columns.add(createColumn("Effective Date", "projectStartDate", projectStartDate, Date.class));
@@ -190,8 +205,8 @@ public class CurrentReportBean extends ReportBean {
         columns.add(createColumn("Academic Year Effort %", "academicYearEffort", academicYearEffort, KualiDecimal.class));
         columns.add(createColumn("Summer Effort %", "summerEffort", summerEffort, KualiDecimal.class));
         columns.add(createColumn("Calendar Year Effort %", "calendarYearEffort", calendarYearEffort, KualiDecimal.class));
-        if(awardCustomDataList.size()>0){
-            for(AwardCustomData awardcutomdata :awardCustomDataList) {
+        if (awardCustomDataList.size() > 0) {
+            for (AwardCustomData awardcutomdata : awardCustomDataList) {
                 columns.add(createColumn(awardcutomdata.getCustomAttribute().getLabel(), "awardCustomDataList", awardcutomdata.getValue(), String.class));
             }
         }
@@ -237,6 +252,5 @@ public class CurrentReportBean extends ReportBean {
     public List<AwardCustomData> getAwardCustomDataList() {
         return awardCustomDataList;
     }
-
 
 }
