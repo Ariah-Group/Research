@@ -16,34 +16,34 @@
 package org.kuali.kra.iacuc.protocol.funding;
 
 import org.kuali.kra.bo.SpecialReviewType;
-import org.kuali.kra.iacuc.IacucProtocolDocument;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.protocol.funding.impl.ProtocolProposalDevelopmentDocumentServiceImplBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
- * 
- * This service creates Proposal Development Document from ProtocolBase for users authorized to create proposal. This created
- * proposal is then added to ProtocolBase Funding sources. 
+ *
+ * This service creates Proposal Development Document from ProtocolBase for
+ * users authorized to create proposal. This created proposal is then added to
+ * ProtocolBase Funding sources.
  */
 public class IacucProtocolProposalDevelopmentDocumentServiceImpl extends ProtocolProposalDevelopmentDocumentServiceImplBase implements IacucProtocolProposalDevelopmentDocumentService {
 
     public final static String IACUC_PROJECT_END_DATE_NUMBER_OF_YEARS = "iacucProtocolProjectEndDateNumberOfYears";
     ParameterService parameterService;
-    @Override 
-    protected String getSpecialReviewTypeHook()
-    {
+
+    @Override
+    protected String getSpecialReviewTypeHook() {
         return SpecialReviewType.ANIMAL_USAGE;
     }
-    
+
     @Override
-    protected String getProjectEndDateNumberOfYearsHook()
-    {
-        if ( parameterService ==null)
-        {
+    protected String getProjectEndDateNumberOfYearsHook() {
+        if (parameterService == null) {
             parameterService = KraServiceLocator.getService(ParameterService.class);
         }
-        String parameter= parameterService.getParameterValueAsString(IacucProtocolDocument.class, IACUC_PROJECT_END_DATE_NUMBER_OF_YEARS);
+        String parameter = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_IACUC,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, IACUC_PROJECT_END_DATE_NUMBER_OF_YEARS);
         return parameter;
     }
 
