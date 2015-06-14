@@ -121,7 +121,9 @@ public class NegotiationActivityRuleImpl implements NegotiationActivityAddRule {
 
             ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
 
-            boolean allowAnyDate = paramServ.getParameterValueAsBoolean(NegotiationDocument.class,
+            boolean allowAnyDate = paramServ.getParameterValueAsBoolean(
+                    Constants.MODULE_NAMESPACE_NEGOTIATION,
+                    Constants.PARAMETER_COMPONENT_DOCUMENT,
                     Constants.ARIAH_NEGO_ACTIVITY_FOLLOWUP_DATE_ALLOW_ALL, false);
 
             if (!allowAnyDate) {
