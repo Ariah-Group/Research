@@ -548,7 +548,8 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
             includeSpecialReviews = false;
         }
 
-        boolean includeIntellPropReview = getParameterService().getParameterValueAsBoolean(InstitutionalProposalDocument.class,
+        boolean includeIntellPropReview = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL,
+                Constants.PARAMETER_COMPONENT_DOCUMENT,
                 Constants.ARIAH_INSTPROP_SHOW_INTELLPROPREVIEW_TAB, true);
 
         //We have to copy the HeaderNavigation elements into a new collection as the 
