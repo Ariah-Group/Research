@@ -18,7 +18,6 @@ package org.kuali.kra.irb.actions.request;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -63,7 +62,8 @@ public class ProtocolRequestRule extends ResearchDocumentRuleBase implements Bus
      * @return true if mandatory; otherwise false
      */
     private boolean isMandatory() {
-        final String param = this.getParameterService().getParameterValueAsString(ProtocolDocument.class, Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
+        final String param = this.getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROTOCOL, 
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
         
         return StringUtils.equalsIgnoreCase(MANDATORY, param);  
     }
