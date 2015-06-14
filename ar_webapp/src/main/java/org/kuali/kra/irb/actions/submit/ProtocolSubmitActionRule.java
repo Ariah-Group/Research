@@ -55,7 +55,7 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
      */
     public boolean processSubmitAction(ProtocolDocumentBase document, org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction submitAction) {
 
-        boolean isValid = validateSubmissionType((ProtocolDocument) document, (ProtocolSubmitAction) submitAction);
+        boolean isValid = validateSubmissionType((ProtocolSubmitAction) submitAction);
         isValid &= validateProtocolReviewType((ProtocolSubmitAction) submitAction);
         if (StringUtils.isNotBlank(submitAction.getSubmissionTypeCode())
                 && StringUtils.isNotBlank(submitAction.getProtocolReviewTypeCode())) {
@@ -102,7 +102,7 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
     /**
      * Validate the Submission Type.
      */
-    private boolean validateSubmissionType(ProtocolDocument document, ProtocolSubmitAction submitAction) {
+    private boolean validateSubmissionType(ProtocolSubmitAction submitAction) {
         boolean isValid = true;
         String submissionTypeCode = submitAction.getSubmissionTypeCode();
         if (StringUtils.isBlank(submissionTypeCode)) {
