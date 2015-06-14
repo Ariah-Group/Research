@@ -19,7 +19,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
@@ -29,31 +28,36 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 
+ *
  * This class is to get the drop down list of institute attachment type.
  */
-public class InstituteAttachmentTypeValuesFinder  extends UifKeyValuesFinderBase {
-    
+public class InstituteAttachmentTypeValuesFinder extends UifKeyValuesFinderBase {
+
     private transient ParameterService parameterService;
-    
+
     /**
      * Looks up and returns the ParameterService.
-     * @return the parameter service. 
+     *
+     * @return the parameter service.
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }
-    
-    private KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
+
+    private KeyValueFinderService keyValueFinderService = (KeyValueFinderService) KraServiceLocator.getService("keyValueFinderService");
+
     @Override
     public List<KeyValue> getKeyValues() {
-            String instituteNarrativeTypeGroup = this.getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.INSTITUTE_NARRATIVE_TYPE_GROUP);
-            Map<String,String> queryMap = new HashMap<String,String>();
-            queryMap.put("narrativeTypeGroup", instituteNarrativeTypeGroup);
-            queryMap.put("systemGenerated", "N");
-            return keyValueFinderService.getKeyValues(NarrativeType.class, "narrativeTypeCode", "description",queryMap);
-        }
+        String instituteNarrativeTypeGroup = this.getParameterService().getParameterValueAsString(
+                Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT,
+                Constants.INSTITUTE_NARRATIVE_TYPE_GROUP);
+        Map<String, String> queryMap = new HashMap<String, String>();
+        queryMap.put("narrativeTypeGroup", instituteNarrativeTypeGroup);
+        queryMap.put("systemGenerated", "N");
+        return keyValueFinderService.getKeyValues(NarrativeType.class, "narrativeTypeCode", "description", queryMap);
+    }
 }
