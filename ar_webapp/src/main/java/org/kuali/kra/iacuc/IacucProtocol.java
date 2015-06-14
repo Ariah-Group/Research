@@ -92,37 +92,37 @@ import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
- * 
+ *
  * This class is ProtocolBase Business Object.
  */
 public class IacucProtocol extends ProtocolBase {
-    
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 7380281405644745576L;
-    
+
     private boolean isBillable;
-    private String layStatement1; 
+    private String layStatement1;
     private String layStatement2;
-    
-    private String protocolProjectTypeCode; 
-    
-    private String overviewTimeline; 
-    private String speciesStudyGroupIndicator; 
-    private String alternativeSearchIndicator; 
-    private String scientificJustifIndicator; 
+
+    private String protocolProjectTypeCode;
+
+    private String overviewTimeline;
+    private String speciesStudyGroupIndicator;
+    private String alternativeSearchIndicator;
+    private String scientificJustifIndicator;
 
     private Timestamp createTimestamp;
     private String createUser;
-    
+
     private IacucProtocolProjectType protocolProjectType;
-    
+
     private List<IacucProtocolCustomData> iacucProtocolCustomDataList;
 
     private List<IacucPrinciples> iacucPrinciples;
     private List<IacucAlternateSearch> iacucAlternateSearches;
-      
+
     private List<IacucProtocolSpecies> iacucProtocolSpeciesList;
     private List<IacucProtocolException> iacucProtocolExceptions;
 
@@ -134,11 +134,11 @@ public class IacucProtocol extends ProtocolBase {
     private List<IacucProtocolSpeciesStudyGroup> iacucProtocolStudyGroupSpeciesList;
 
     // lookup field
-    private Integer speciesCode; 
-    private Integer exceptionCategoryCode; 
+    private Integer speciesCode;
+    private Integer exceptionCategoryCode;
     private static final CharSequence CONTINUATION_LETTER = "C";
 
-    public IacucProtocol() {         
+    public IacucProtocol() {
         setCreateTimestamp(new Timestamp(new java.util.Date().getTime()));
         if (GlobalVariables.getUserSession() != null) {
             setCreateUser(GlobalVariables.getUserSession().getPrincipalId());
@@ -160,8 +160,8 @@ public class IacucProtocol extends ProtocolBase {
         setIacucProtocolStudyGroupLocations(new ArrayList<IacucProtocolStudyGroupLocation>());
         setIacucProtocolStudyGroupSpeciesList(new ArrayList<IacucProtocolSpeciesStudyGroup>());
         initIacucPrinciples();
-    } 
-    
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -169,11 +169,11 @@ public class IacucProtocol extends ProtocolBase {
         managedLists.add(getIacucProtocolCustomDataList());
         managedLists.add(getIacucPrinciples());
         managedLists.add(getIacucAlternateSearches());
-        
+
         List<IacucProtocolStudyGroupLocation> locationResponsibleProcedures = new ArrayList<IacucProtocolStudyGroupLocation>();
         List<IacucProcedurePersonResponsible> personResponsibleProcedures = new ArrayList<IacucProcedurePersonResponsible>();
         List<IacucProtocolStudyGroup> iacucProtocolStudyGroups = new ArrayList<IacucProtocolStudyGroup>();
-        for(IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean : getIacucProtocolStudyGroups()) {
+        for (IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean : getIacucProtocolStudyGroups()) {
             iacucProtocolStudyGroups.addAll(iacucProtocolStudyGroupBean.getIacucProtocolStudyGroups());
             for (IacucProtocolStudyGroup iacucProtocolStudyGroup : iacucProtocolStudyGroupBean.getIacucProtocolStudyGroups()) {
                 personResponsibleProcedures.addAll(iacucProtocolStudyGroup.getIacucProcedurePersonResponsibleList());
@@ -184,16 +184,16 @@ public class IacucProtocol extends ProtocolBase {
         managedLists.add(locationResponsibleProcedures);
         managedLists.add(personResponsibleProcedures);
         managedLists.add(iacucProtocolStudyGroups);
-        
+
         managedLists.add(getIacucProtocolStudyGroups());
         managedLists.add(getIacucProtocolExceptions());
         managedLists.add(getIacucProtocolSpeciesList());
-        
+
         return managedLists;
     }
 
     public IacucProtocolSubmission getIacucProtocolSubmission() {
-        return (IacucProtocolSubmission)getProtocolSubmission();
+        return (IacucProtocolSubmission) getProtocolSubmission();
     }
 
     public boolean getIsBillable() {
@@ -203,7 +203,7 @@ public class IacucProtocol extends ProtocolBase {
     public void setIsBillable(boolean isBillable) {
         this.isBillable = isBillable;
     }
-    
+
     public String getLayStatement1() {
         return layStatement1;
     }
@@ -251,8 +251,6 @@ public class IacucProtocol extends ProtocolBase {
     public void setScientificJustifIndicator(String scientificJustifIndicator) {
         this.scientificJustifIndicator = scientificJustifIndicator;
     }
-    
-    
 
     public void setIacucProtocolDocument(IacucProtocolDocument iacucProtocolDocument) {
         this.setProtocolDocument(iacucProtocolDocument);
@@ -281,26 +279,22 @@ public class IacucProtocol extends ProtocolBase {
     public void setCreateUser(String createUser) {
         this.createUser = createUser;
     }
-    
 
     @Override
     // implementation of hook method
     protected IacucProtocolPersonnelService getProtocolPersonnelService() {
-        return (IacucProtocolPersonnelService)KraServiceLocator.getService("iacucProtocolPersonnelService");
+        return (IacucProtocolPersonnelService) KraServiceLocator.getService("iacucProtocolPersonnelService");
     }
-
 
     @Override
     public String getNamespace() {
         return Constants.MODULE_NAMESPACE_IACUC;
     }
 
-
     @Override
     protected String getDefaultProtocolStatusCodeHook() {
         return IacucProtocolStatus.IN_PROGRESS;
     }
-
 
     @Override
     protected String getDefaultProtocolTypeCodeHook() {
@@ -308,71 +302,61 @@ public class IacucProtocol extends ProtocolBase {
         return null;
     }
 
-
     @Override
     protected ProtocolSubmissionStatusBase getProtocolSubmissionStatusNewInstanceHook() {
         return new IacucProtocolSubmissionStatus();
     }
-
 
     @Override
     protected ProtocolSubmissionTypeBase getProtocolSubmissionTypeNewInstanceHook() {
         return new IacucProtocolSubmissionType();
     }
 
-
     @Override
     protected ProtocolSubmissionBase getProtocolSubmissionNewInstanceHook() {
         return new IacucProtocolSubmission();
     }
-
 
     @Override
     protected ProtocolStatusBase getProtocolStatusNewInstanceHook() {
         return new IacucProtocolStatus();
     }
 
-
     @Override
     public String getDocumentRoleTypeCode() {
         return RoleConstants.IACUC_ROLE_TYPE;
-    }    
+    }
 
     @Override
     public List<String> getRoleNames() {
-      List<String> roleNames = new ArrayList<String>();
+        List<String> roleNames = new ArrayList<String>();
 
-      roleNames.add(RoleConstants.IACUC_PROTOCOL_AGGREGATOR);
-      roleNames.add(RoleConstants.IACUC_PROTOCOL_VIEWER);
+        roleNames.add(RoleConstants.IACUC_PROTOCOL_AGGREGATOR);
+        roleNames.add(RoleConstants.IACUC_PROTOCOL_VIEWER);
 
-      return roleNames;        
+        return roleNames;
     }
-
 
     public List<IacucPrinciples> getIacucPrinciples() {
         return iacucPrinciples;
     }
 
-
     public void setIacucPrinciples(List<IacucPrinciples> iacucPrinciples) {
         this.iacucPrinciples = iacucPrinciples;
     }
-    
+
     public List<IacucProtocolSpecies> getIacucProtocolSpeciesList() {
         return iacucProtocolSpeciesList;
     }
-
 
     public void setIacucProtocolSpeciesList(List<IacucProtocolSpecies> iacucProtocolSpeciesList) {
         this.iacucProtocolSpeciesList = iacucProtocolSpeciesList;
     }
 
-
     @Override
     protected ProtocolResearchAreaBase getNewProtocolResearchAreaInstance() {
         return new IacucProtocolResearchArea();
     }
-
 
     public List<IacucAlternateSearch> getIacucAlternateSearches() {
         return iacucAlternateSearches;
@@ -412,8 +396,8 @@ public class IacucProtocol extends ProtocolBase {
 
     public void setIacucProtocolExceptions(List<IacucProtocolException> iacucProtocolExceptions) {
         this.iacucProtocolExceptions = iacucProtocolExceptions;
-    }    
-    
+    }
+
     private void initIacucPrinciples() {
         List<IacucPrinciples> newPrinciples = new ArrayList<IacucPrinciples>();
         IacucPrinciples iPrinciples = new IacucPrinciples();
@@ -441,10 +425,10 @@ public class IacucProtocol extends ProtocolBase {
     /*
      * get submit for review questionnaire answerheaders
      */
-    public List <AnswerHeader> getAnswerHeaderForProtocol(ProtocolBase protocol) {
+    public List<AnswerHeader> getAnswerHeaderForProtocol(ProtocolBase protocol) {
         ModuleQuestionnaireBean moduleQuestionnaireBean = new IacucProtocolModuleQuestionnaireBean((IacucProtocol) protocol);
         moduleQuestionnaireBean.setModuleSubItemCode("0");
-        List <AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
+        List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
         answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
         return answerHeaders;
     }
@@ -452,21 +436,21 @@ public class IacucProtocol extends ProtocolBase {
     @Override
     public void initializeProtocolAttachmentFilter() {
         ProtocolAttachmentFilterBase protocolAttachmentFilter = new IacucProtocolAttachmentFilter();
-  
+
         //Lets see if there is a default set for the attachment sort
         try {
-            String defaultSortBy = getParameterService().getParameterValueAsString(IacucProtocolDocument.class, Constants.PARAMETER_IACUC_PROTOCOL_ATTACHMENT_DEFAULT_SORT);
+            String defaultSortBy = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_IACUC,
+                    Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PARAMETER_IACUC_PROTOCOL_ATTACHMENT_DEFAULT_SORT);
             if (StringUtils.isNotBlank(defaultSortBy)) {
                 protocolAttachmentFilter.setSortBy(defaultSortBy);
             }
         } catch (Exception e) {
             //No default found, do nothing.
         }
-        
+
         setProtocolAttachmentFilter(protocolAttachmentFilter);
-    } 
-    
-    
+    }
+
     public String getDocumentKey() {
         // TODO need to change this to IACUC PROTOCOL KEY!!!!
         return Permissionable.PROTOCOL_KEY;
@@ -481,13 +465,13 @@ public class IacucProtocol extends ProtocolBase {
         addOrganizationSummaries(protocolSummary);
         addSpecialReviewSummaries(protocolSummary);
         addAdditionalInfoSummary(protocolSummary);
-        addThreeRsSummary((IacucProtocolSummary)protocolSummary);
-        addSpeciesAndGroupsSummaries((IacucProtocolSummary)protocolSummary);
-        addExceptionsSummaries((IacucProtocolSummary)protocolSummary);
-        addProceduresSummaries((IacucProtocolSummary)protocolSummary);
+        addThreeRsSummary((IacucProtocolSummary) protocolSummary);
+        addSpeciesAndGroupsSummaries((IacucProtocolSummary) protocolSummary);
+        addExceptionsSummaries((IacucProtocolSummary) protocolSummary);
+        addProceduresSummaries((IacucProtocolSummary) protocolSummary);
         return protocolSummary;
     }
-    
+
     @Override
     protected ProtocolSummary createProtocolSummary() {
         IacucProtocolSummary summary = new IacucProtocolSummary();
@@ -508,25 +492,25 @@ public class IacucProtocol extends ProtocolBase {
         }
         summary.setStatus(getProtocolStatus().getDescription());
         summary.setTitle(getTitle());
-        
-        summary.setLayStmt1(getLayStatement1()); 
+
+        summary.setLayStmt1(getLayStatement1());
         summary.setLayStmt2(getLayStatement2());
-        
+
         if (getProtocolProjectType() == null) {
             refreshReferenceObject("protocolProjectType");
         }
-        summary.setProjectType((protocolProjectType != null) ? protocolProjectType.getDescription() : "N/A"); 
+        summary.setProjectType((protocolProjectType != null) ? protocolProjectType.getDescription() : "N/A");
         return summary;
     }
 
     protected void addThreeRsSummary(IacucProtocolSummary protocolSummary) {
         IacucThreeRsSummary threeRsSummary = new IacucThreeRsSummary();
-        if(getIacucPrinciples().size() > 0) {
+        if (getIacucPrinciples().size() > 0) {
             IacucPrinciples principles = getIacucPrinciples().get(0);
             threeRsSummary.setReduction(principles.getReduction());
             threeRsSummary.setRefinement(principles.getRefinement());
             threeRsSummary.setReplacement(principles.getReplacement());
-            for (IacucAlternateSearch alternateSearch:iacucAlternateSearches) {
+            for (IacucAlternateSearch alternateSearch : iacucAlternateSearches) {
                 threeRsSummary.getAlternateSearchSummaries().add(new IacucAlternateSearchSummary(alternateSearch));
                 threeRsSummary.setSearchRequired("Y".equals(principles.getSearchRequired()));
             }
@@ -550,7 +534,7 @@ public class IacucProtocol extends ProtocolBase {
 
     protected void addProceduresSummaries(IacucProtocolSummary protocolSummary) {
         protocolSummary.setProcedureOverviewSummary(overviewTimeline);
-        for(IacucProtocolStudyGroupBean studyGroupBean : getIacucProtocolStudyGroups()) {
+        for (IacucProtocolStudyGroupBean studyGroupBean : getIacucProtocolStudyGroups()) {
             for (IacucProtocolStudyGroup studyGroup : studyGroupBean.getIacucProtocolStudyGroups()) {
                 IacucProcedureSummary newSummary = new IacucProcedureSummary(studyGroup, studyGroupBean.getIacucProcedureCategory(),
                         studyGroupBean.getIacucProcedure());
@@ -579,76 +563,58 @@ public class IacucProtocol extends ProtocolBase {
     protected String getProtocolModuleAddModifyAttachmentCodeHook() {
         return IacucProtocolModule.ADD_MODIFY_ATTACHMENTS;
     }
-    
+
     @Override
     protected boolean isExpirationDateToBeUpdated(ProtocolBase protocol) {
-        return (super.isExpirationDateToBeUpdated(protocol) ||  ((IacucProtocol) protocol).isContinuation());
+        return (super.isExpirationDateToBeUpdated(protocol) || ((IacucProtocol) protocol).isContinuation());
     }
-
 
     @Override
     public void merge(ProtocolBase amendment, String protocolModuleTypeCode) {
         if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.GENERAL_INFO)) {
             mergeGeneralInfo(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.AREAS_OF_RESEARCH)) {
+        } else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.AREAS_OF_RESEARCH)) {
             mergeResearchAreas(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.FUNDING_SOURCE)) {
+        } else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.FUNDING_SOURCE)) {
             mergeFundingSources(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.PROTOCOL_ORGANIZATIONS)) {
+        } else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.PROTOCOL_ORGANIZATIONS)) {
             mergeOrganizations(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.PROTOCOL_PERSONNEL)) {
+        } else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.PROTOCOL_PERSONNEL)) {
             mergePersonnel(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.ADD_MODIFY_ATTACHMENTS)) {
+        } else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.ADD_MODIFY_ATTACHMENTS)) {
             if (amendment.isAmendment() || amendment.isRenewal()
                     || (!amendment.getAttachmentProtocols().isEmpty() && this.getAttachmentProtocols().isEmpty())) {
                 mergeAttachments(amendment);
-            }
-            else {
+            } else {
                 restoreAttachments(this);
             }
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.PROTOCOL_REFERENCES)) {
+        } else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.PROTOCOL_REFERENCES)) {
             mergeReferences(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.SPECIAL_REVIEW)) {
+        } else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.SPECIAL_REVIEW)) {
             mergeSpecialReview(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.OTHERS)) {
+        } else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.OTHERS)) {
             mergeOthers(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.PROTOCOL_PERMISSIONS)) {
+        } else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.PROTOCOL_PERMISSIONS)) {
             mergeProtocolPermissions(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.QUESTIONNAIRE)) {
+        } else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.QUESTIONNAIRE)) {
             mergeProtocolQuestionnaire(amendment);
-        }
-
-        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.THREE_RS)) {
+        } else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.THREE_RS)) {
             mergeProtocolThreers(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.SPECIES_GROUPS)) {
+        } else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.SPECIES_GROUPS)) {
             mergeProtocolSpeciesAndGroups(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.PROCEDURES)) {
+        } else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.PROCEDURES)) {
             mergeProtocolProcedures(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.EXCEPTIONS)) {
+        } else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.EXCEPTIONS)) {
             mergeProtocolExceptions(amendment);
         }
     }
-    
-    
+
     /*
      * merge amendment/renewal protocol action to original protocol when A/R is approved
      */
     @SuppressWarnings("unchecked")
     protected void mergeProtocolAction(ProtocolBase amendment) {
-        List<ProtocolActionBase> protocolActions = (List<ProtocolActionBase>) deepCopy(amendment.getProtocolActions());  
+        List<ProtocolActionBase> protocolActions = (List<ProtocolActionBase>) deepCopy(amendment.getProtocolActions());
         Collections.sort(protocolActions, new Comparator<ProtocolActionBase>() {
             public int compare(ProtocolActionBase action1, ProtocolActionBase action2) {
                 return action1.getActionId().compareTo(action2.getActionId());
@@ -667,71 +633,69 @@ public class IacucProtocol extends ProtocolBase {
             protocolAction.setActionId(getNextValue(NEXT_ACTION_ID_KEY));
             String type = getProtocolMergeType(amendment);
             /*
-            String type = "Amendment";
-            if (amendment.isRenewal()) {
-                type = "Renewal";
-            }
-            */
+             String type = "Amendment";
+             if (amendment.isRenewal()) {
+             type = "Renewal";
+             }
+             */
             if (StringUtils.isNotBlank(protocolAction.getComments())) {
                 protocolAction.setComments(type + "-" + index + ": " + protocolAction.getComments());
             } else {
                 protocolAction.setComments(type + "-" + index + ": ");
             }
             // reset persistence state for copied notifications so they break ties with old document
-            for (KcNotification notification: protocolAction.getProtocolNotifications()) {
+            for (KcNotification notification : protocolAction.getProtocolNotifications()) {
                 notification.setDocumentNumber(getProtocolDocument().getDocumentNumber());
                 notification.setNotificationId(null);
             }
             // reset persistence state for copied notifications so they break ties with old document
-            for (KcNotification notification: protocolAction.getProtocolNotifications()) {
+            for (KcNotification notification : protocolAction.getProtocolNotifications()) {
                 notification.setDocumentNumber(getProtocolDocument().getDocumentNumber());
                 notification.setNotificationId(null);
             }
             this.getProtocolActions().add(protocolAction);
         }
     }
-    
-    
+
     @Override
     protected void mergeGeneralInfo(ProtocolBase amendment) {
         super.mergeGeneralInfo(amendment);
-        this.layStatement1 = ((IacucProtocol)amendment).layStatement1;
-        this.layStatement2 = ((IacucProtocol)amendment).layStatement2;
-        this.overviewTimeline = ((IacucProtocol)amendment).overviewTimeline;
-        this.protocolProjectTypeCode = ((IacucProtocol)amendment).protocolProjectTypeCode;
+        this.layStatement1 = ((IacucProtocol) amendment).layStatement1;
+        this.layStatement2 = ((IacucProtocol) amendment).layStatement2;
+        this.overviewTimeline = ((IacucProtocol) amendment).overviewTimeline;
+        this.protocolProjectTypeCode = ((IacucProtocol) amendment).protocolProjectTypeCode;
     }
-        
+
     protected void mergeProtocolThreers(ProtocolBase amendment) {
-        getProtocolCopyService().copyProtocolThreers((IacucProtocol)amendment, this);
+        getProtocolCopyService().copyProtocolThreers((IacucProtocol) amendment, this);
     }
 
     protected void mergeProtocolSpeciesAndGroups(ProtocolBase amendment) {
-        getProtocolProcedureService().mergeProtocolSpecies((IacucProtocol)amendment, this);
+        getProtocolProcedureService().mergeProtocolSpecies((IacucProtocol) amendment, this);
     }
-    
+
     protected void mergeProtocolProcedures(ProtocolBase amendment) {
-        getProtocolProcedureService().mergeProtocolProcedures((IacucProtocol)amendment, this);
+        getProtocolProcedureService().mergeProtocolProcedures((IacucProtocol) amendment, this);
     }
 
     protected void mergeProtocolExceptions(ProtocolBase amendment) {
-        getProtocolCopyService().copyProtocolExceptions((IacucProtocol)amendment, this);
+        getProtocolCopyService().copyProtocolExceptions((IacucProtocol) amendment, this);
     }
-    
+
     protected IacucProtocolCopyService getProtocolCopyService() {
-        return (IacucProtocolCopyService)KraServiceLocator.getService("iacucProtocolCopyService");
+        return (IacucProtocolCopyService) KraServiceLocator.getService("iacucProtocolCopyService");
     }
 
     public boolean isContinuation() {
         return getProtocolNumber().contains(CONTINUATION_LETTER);
     }
 
-
     protected String getProtocolMergeType(ProtocolBase amendment) {
-        IacucProtocol protocolAmend = (IacucProtocol)amendment;
+        IacucProtocol protocolAmend = (IacucProtocol) amendment;
         String type = "Amendment";
         if (protocolAmend.isRenewal()) {
             type = "Renewal";
-        }else if(protocolAmend.isContinuation()) {
+        } else if (protocolAmend.isContinuation()) {
             type = "Continuation";
         }
         return type;
@@ -741,7 +705,7 @@ public class IacucProtocol extends ProtocolBase {
     public boolean isNew() {
         return !isAmendment() && !isRenewal() && !isContinuation();
     }
-    
+
     public boolean isContinuationWithoutAmendment() {
         return isContinuation() && CollectionUtils.isEmpty(this.getProtocolAmendRenewal().getModules());
     }
@@ -750,13 +714,13 @@ public class IacucProtocol extends ProtocolBase {
     public String getAmendedProtocolNumber() {
         if (isAmendment()) {
             return StringUtils.substringBefore(getProtocolNumber(), AMENDMENT_LETTER.toString());
-            
+
         } else if (isRenewal()) {
             return StringUtils.substringBefore(getProtocolNumber(), RENEWAL_LETTER.toString());
-        
+
         } else if (isContinuation()) {
             return StringUtils.substringBefore(getProtocolNumber(), CONTINUATION_LETTER.toString());
-                
+
         } else {
             return null;
         }
@@ -775,13 +739,13 @@ public class IacucProtocol extends ProtocolBase {
     public KrmsRulesContext getKrmsRulesContext() {
         return getIacucProtocolDocument();
     }
-    
+
     @Override
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
         if (qualifiedRoleAttributes == null) {
             qualifiedRoleAttributes = new HashMap<String, String>();
         }
-        String protocolNumber = this.getProtocolNumber()  != null ? this.getProtocolNumber() : "*";
+        String protocolNumber = this.getProtocolNumber() != null ? this.getProtocolNumber() : "*";
         qualifiedRoleAttributes.put(KcKimAttributes.PROTOCOL, protocolNumber);
     }
 
@@ -811,6 +775,5 @@ public class IacucProtocol extends ProtocolBase {
         super.mergePersonnel(amendment);
         getProtocolProcedureService().mergeProtocolProcedurePersonnel(this);
     }
-
 
 }
