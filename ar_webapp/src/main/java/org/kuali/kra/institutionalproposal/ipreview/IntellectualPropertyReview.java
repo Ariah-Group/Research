@@ -38,7 +38,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
 import org.kuali.kra.institutionalproposal.ProposalComment;
 import org.kuali.kra.institutionalproposal.ProposalIpReviewJoin;
-import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
@@ -51,6 +50,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.kuali.kra.infrastructure.Constants;
 
 /**
  * This class represents an Intellectual Property Review.
@@ -412,14 +412,16 @@ public class IntellectualPropertyReview extends InstitutionalProposalAssociate i
 
     String getGeneralCommentCode() {
         if (generalCommentCode == null) {
-            generalCommentCode = this.getParameterService().getParameterValueAsString(InstitutionalProposalDocument.class, GENERAL_COMMENT_CODE_PARM_NM);
+            generalCommentCode = this.getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL,
+                    Constants.PARAMETER_COMPONENT_DOCUMENT, GENERAL_COMMENT_CODE_PARM_NM);
         }
         return generalCommentCode;
     }
 
     String getReviewerCommentCode() {
         if (reviewerCommentCode == null) {
-            reviewerCommentCode = this.getParameterService().getParameterValueAsString(InstitutionalProposalDocument.class, REVIEWER_COMMENT_CODE_PARM_NM);
+            reviewerCommentCode = this.getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL,
+                    Constants.PARAMETER_COMPONENT_DOCUMENT, REVIEWER_COMMENT_CODE_PARM_NM);
         }
         return reviewerCommentCode;
     }
