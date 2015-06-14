@@ -79,7 +79,8 @@ public class PrintingUtils {
      */
     public static String getParameterValue(String parameter) {
         ParameterService parameterService = KraServiceLocator.getService(ParameterService.class);
-        return parameterService.getParameterValueAsString("KC-PD", "Document", parameter);
+        return parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, parameter);
     }
 
     /**
