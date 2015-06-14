@@ -16,7 +16,6 @@
 package org.kuali.kra.rules;
 
 import org.apache.commons.collections.keyvalue.DefaultMapEntry;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
@@ -151,7 +150,8 @@ public abstract class ResearchDocumentRuleBase extends DocumentRuleBase implemen
                 }
             }
 
-            final String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_STATUS_COMPLETE_CODE);
+            final String budgetStatusCompleteCode = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_BUDGET,
+                    Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.BUDGET_STATUS_COMPLETE_CODE);
 
             if (budgetStatusCompleteCode.equalsIgnoreCase(budgetVersion.getBudgetStatus())) {
                 if (!budgetVersion.isFinalVersionFlag()) {
