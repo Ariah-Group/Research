@@ -130,20 +130,19 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * The form helper class for the ProtocolBase Actions tab.
  */
 public class IacucActionHelper extends ActionHelperBase {
-  
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 777750088765246427L;
-    
+
     /**
-     * Each Helper must contain a reference to its document form
-     * so that it can access the document.
+     * Each Helper must contain a reference to its document form so that it can
+     * access the document.
      */
     private boolean canDeleteIacucProtocol;
     private boolean canDeleteIacucProtocolUnavailable;
-    
+
     private boolean canReviewNotRequired;
     private boolean canReviewNotRequiredUnavailable;
     private boolean canNotifyIacuc = false;
@@ -189,12 +188,12 @@ public class IacucActionHelper extends ActionHelperBase {
     protected IacucProtocolGenericActionBean iacucProtocolLiftHoldBean;
     protected IacucProtocolGenericActionBean iacucProtocolRemoveFromAgendaBean;
     protected ProtocolReviewNotRequiredBean iacucProtocolReviewNotRequiredBean;
-    
+
     protected IacucProtocolRequestBean iacucProtocolDeactivateRequestBean;
     protected IacucProtocolRequestBean iacucProtocolLiftHoldRequestBean;
     protected IacucProtocolRequestBean iacucProtocolSuspendRequestBean;
     protected IacucProtocolRequestBean iacucProtocolWithdrawSubmissionBean;
-    
+
     protected boolean canCreateContinuation = false;
     protected boolean canCreateContinuationUnavailable = false;
     protected boolean hasContinuations;
@@ -202,18 +201,18 @@ public class IacucActionHelper extends ActionHelperBase {
     protected ProtocolAmendmentBean protocolContinuationAmendmentBean;
 
     private List<KeyValue> assignCmtActionCommitteeIdByUnitKeyValues;
-    
-    private List<KeyValue> modifySubmissionActionCommitteeIdByUnitKeyValues;
 
+    private List<KeyValue> modifySubmissionActionCommitteeIdByUnitKeyValues;
 
     /**
      * Constructs an ActionHelperBase.
+     *
      * @param form the protocol form
-     * @throws Exception 
+     * @throws Exception
      */
     public IacucActionHelper(ProtocolFormBase form) throws Exception {
         super(form);
-        
+
         protocolAssignCmtBean = new IacucProtocolAssignCmtBean(this);
         iacucProtocolTableBean = new IacucProtocolTableBean(this);
         iacucProtocolModifySubmissionBean = new IacucProtocolModifySubmissionBean(this);
@@ -233,12 +232,14 @@ public class IacucActionHelper extends ActionHelperBase {
         iacucProtocolRemoveFromAgendaBean = new IacucProtocolGenericActionBean(this, "actionHelper.iacucProtocolRemoveFromAgendaBean");
         iacucProtocolReviewNotRequiredBean = new IacucProtocolReviewNotRequiredBean(this);
         initIacucSpecificActionBeanTaskMap();
-   }
-    
+    }
 
     /**
-     * Initializes the mapping between the task names and the beans.  This is used to get the bean associated to the task name passed in from the tag file.
-     * The reason TaskName (a text code) is used and ProtocolActionType (a number code) is not is because not every task is mapped to a ProtocolActionType.
+     * Initializes the mapping between the task names and the beans. This is
+     * used to get the bean associated to the task name passed in from the tag
+     * file. The reason TaskName (a text code) is used and ProtocolActionType (a
+     * number code) is not is because not every task is mapped to a
+     * ProtocolActionType.
      */
     private void initIacucSpecificActionBeanTaskMap() {
         actionBeanTaskMap.put(TaskName.IACUC_MODIFY_PROTOCOL_SUBMISSION, iacucProtocolModifySubmissionBean);
@@ -258,7 +259,6 @@ public class IacucActionHelper extends ActionHelperBase {
         actionBeanTaskMap.put(TaskName.CREATE_PROTOCOL_CONTINUATION, protocolContinuationAmendmentBean);
     }
 
-        
     public IacucProtocolAssignCmtBean getProtocolAssignCmtBean() {
         return protocolAssignCmtBean;
     }
@@ -274,7 +274,7 @@ public class IacucActionHelper extends ActionHelperBase {
     public void setIacucProtocolModifySubmissionBean(IacucProtocolModifySubmissionBean iacucProtocolModifySubmissionBean) {
         this.iacucProtocolModifySubmissionBean = iacucProtocolModifySubmissionBean;
     }
-    
+
     public IacucProtocolTableBean getIacucProtocolTableBean() {
         return iacucProtocolTableBean;
     }
@@ -283,21 +283,23 @@ public class IacucActionHelper extends ActionHelperBase {
         this.iacucProtocolTableBean = iacucProtocolTableBean;
     }
 
-
     /**
-     * Builds an approval date, defaulting to the approval date from the protocol.
-     * 
-     * If the approval date from the protocol is null, or if the protocol is new or a renewal, then if the committee has scheduled a meeting to approve the 
-     * protocol, sets to the scheduled approval date; otherwise, sets to the current date.
-     * 
+     * Builds an approval date, defaulting to the approval date from the
+     * protocol.
+     *
+     * If the approval date from the protocol is null, or if the protocol is new
+     * or a renewal, then if the committee has scheduled a meeting to approve
+     * the protocol, sets to the scheduled approval date; otherwise, sets to the
+     * current date.
+     *
      * @param protocol
      * @return a non-null approval date
      */
     @Override
     protected Date buildApprovalDate(ProtocolBase protocol) {
         Date approvalDate = protocol.getApprovalDate();
-        
-        if (approvalDate == null || protocol.isNew() || protocol.isRenewal() || ((IacucProtocol)protocol).isContinuation()) {
+
+        if (approvalDate == null || protocol.isNew() || protocol.isRenewal() || ((IacucProtocol) protocol).isContinuation()) {
             CommitteeScheduleBase committeeSchedule = protocol.getProtocolSubmission().getCommitteeSchedule();
             if (committeeSchedule != null) {
                 approvalDate = committeeSchedule.getScheduledDate();
@@ -305,16 +307,18 @@ public class IacucActionHelper extends ActionHelperBase {
                 approvalDate = new Date(System.currentTimeMillis());
             }
         }
-        
+
         return approvalDate;
     }
-    
+
     /**
-     * Builds an expiration date, defaulting to the expiration date from the protocol.  
-     * 
-     * If the expiration date from the protocol is null, or if the protocol is new or a renewal, creates an expiration date exactly one year ahead and one day 
-     * less than the approval date.
-     * 
+     * Builds an expiration date, defaulting to the expiration date from the
+     * protocol.
+     *
+     * If the expiration date from the protocol is null, or if the protocol is
+     * new or a renewal, creates an expiration date exactly one year ahead and
+     * one day less than the approval date.
+     *
      * @param protocol
      * @param approvalDate
      * @return a non-null expiration date
@@ -322,26 +326,25 @@ public class IacucActionHelper extends ActionHelperBase {
     @Override
     protected Date buildExpirationDate(ProtocolBase protocol, Date approvalDate) {
         Date expirationDate = protocol.getExpirationDate();
-        
-        if (expirationDate == null || protocol.isNew() || protocol.isRenewal() || ((IacucProtocol)protocol).isContinuation()) {
+
+        if (expirationDate == null || protocol.isNew() || protocol.isRenewal() || ((IacucProtocol) protocol).isContinuation()) {
             java.util.Date newExpirationDate = DateUtils.addYears(approvalDate, getDefaultExpirationDateDifference());
             newExpirationDate = DateUtils.addDays(newExpirationDate, -1);
             expirationDate = DateUtils.convertToSqlDate(newExpirationDate);
         }
-        
+
         return expirationDate;
     }
 
-  
     public void prepareView() throws Exception {
         super.prepareView();
-        prepareModifySubmissionActionView(); 
-       
+        prepareModifySubmissionActionView();
+
         // IACUC-specific actions
         prepareAssignCommitteeActionView();
         canNotifyIacuc = hasPermission(TaskName.IACUC_NOTIFY_IACUC);
         canNotifyIacucUnavailable = hasPermission(TaskName.IACUC_NOTIFY_IACUC_UNAVAILABLE);
-        
+
         canHold = hasPermission(TaskName.IACUC_PROTOCOL_HOLD);
         canHoldUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_HOLD_UNAVAILABLE);
         canLiftHold = hasPermission(TaskName.IACUC_PROTOCOL_LIFT_HOLD);
@@ -372,11 +375,11 @@ public class IacucActionHelper extends ActionHelperBase {
         canReviewNotRequiredUnavailable = hasPermission(TaskName.REVIEW_NOT_REQUIRED_IACUC_PROTOCOL_UNAVAILABLE);
         canTable = hasPermission(TaskName.IACUC_PROTOCOL_TABLE);
         canTableUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_TABLE_UNAVAILABLE);
-        
+
         canAddDeactivateReviewerComments = hasDeactivateRequestLastAction();
-        
+
         canRemoveFromAgenda = hasPermission(TaskName.REMOVE_FROM_AGENDA);
-        
+
         canCreateContinuation = hasCreateContinuationPermission();
         canCreateContinuationUnavailable = hasCreateContinuationUnavailablePermission();
         hidePrivateFinalFlagsForPublicCommentsAttachments = checkToHidePrivateFinalFlagsForPublicCommentsAttachments();
@@ -384,31 +387,28 @@ public class IacucActionHelper extends ActionHelperBase {
         initSummaryDetails();
         setAmendmentDetails();
         initFilterDatesView();
-        
-        if(canSubmitProtocol) {
+
+        if (canSubmitProtocol) {
             canAssignReviewersCmtSel = hasAssignReviewersCmtSel();
-        } 
-        else {
+        } else {
             canAssignReviewersCmtSel = false;
         }
-        
 
     }
- 
-    
+
     /**
-     * Refreshes the comments for all the beans from the database.  Use sparingly since this will erase non-persisted comments.
+     * Refreshes the comments for all the beans from the database. Use sparingly
+     * since this will erase non-persisted comments.
      */
     public void prepareCommentsView() {
         super.prepareCommentsView();
         iacucProtocolDeactivateBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        
+
         iacucAcknowledgeBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         iacucProtocolRemoveFromAgendaBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         iacucProtocolHoldBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         iacucProtocolLiftHoldBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
     }
-
 
     public static boolean hasAssignCmtSchedPermission(String userId, String protocolNumber) {
         Map<String, String> fieldValues = new HashMap<String, String>();
@@ -416,22 +416,22 @@ public class IacucActionHelper extends ActionHelperBase {
         BusinessObjectService bos = KraServiceLocator.getService(BusinessObjectService.class);
         IacucProtocol protocol = ((List<IacucProtocol>) bos.findMatching(IacucProtocol.class, fieldValues)).get(0);
         IacucProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL, protocol);
-        TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);        
+        TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
         return tas.isAuthorized(userId, task);
     }
 
     protected boolean hasFollowupAction(String actionCode) {
         return false;
     }
-    
+
     public IacucProtocolSubmitAction getIacucProtocolSubmitAction() {
-        return (IacucProtocolSubmitAction)protocolSubmitAction;
+        return (IacucProtocolSubmitAction) protocolSubmitAction;
     }
 
     public ProtocolFormBase getProtocolForm() {
         return form;
     }
-    
+
     public IacucProtocol getProtocol() {
         return (IacucProtocol) form.getProtocolDocument().getProtocol();
     }
@@ -443,11 +443,10 @@ public class IacucActionHelper extends ActionHelperBase {
     public void setIacucProtocolDeactivateBean(IacucProtocolGenericActionBean iacucProtocolDeactivateBean) {
         this.iacucProtocolDeactivateBean = iacucProtocolDeactivateBean;
     }
-    
+
     protected ModuleQuestionnaireBean getQuestionnaireBean(String moduleCode, String moduleKey, String subModuleCode, String subModuleKey, boolean finalDoc) {
         return new IacucProtocolModuleQuestionnaireBean(moduleCode, moduleKey, subModuleCode, subModuleKey, finalDoc);
     }
-
 
     public ProtocolActionBean getActionBean(String taskName) {
         return actionBeanTaskMap.get(taskName);
@@ -482,8 +481,8 @@ public class IacucActionHelper extends ActionHelperBase {
     }
 
     public boolean isOpenForFollowup() {
-        return getIsApproveOpenForFollowup() || getIsDisapproveOpenForFollowup() ||
-               getIsReturnForSMROpenForFollowup() || getIsReturnForSRROpenForFollowup();
+        return getIsApproveOpenForFollowup() || getIsDisapproveOpenForFollowup()
+                || getIsReturnForSMROpenForFollowup() || getIsReturnForSRROpenForFollowup();
     }
 
     public boolean isCanDesignatedMemberApproval() {
@@ -517,7 +516,7 @@ public class IacucActionHelper extends ActionHelperBase {
     public boolean isCanRequestToLiftHoldUnavailable() {
         return canRequestToLiftHoldUnavailable;
     }
-    
+
     public boolean isCanRequestSuspend() {
         return canRequestSuspend;
     }
@@ -533,11 +532,11 @@ public class IacucActionHelper extends ActionHelperBase {
     public boolean isCanTableUnavailable() {
         return canTableUnavailable;
     }
-    
+
     public boolean isCanNotifyIacuc() {
         return canNotifyIacuc;
     }
-    
+
     public boolean isCanNotifyIacucUnavailable() {
         return canNotifyIacucUnavailable;
     }
@@ -545,15 +544,15 @@ public class IacucActionHelper extends ActionHelperBase {
     public boolean isCanDeleteIacucProtocol() {
         return canDeleteIacucProtocol;
     }
-    
+
     public boolean isCanDeleteIacucProtocolUnavailable() {
         return canDeleteIacucProtocolUnavailable;
     }
-    
+
     public boolean isCanReviewNotRequired() {
         return canReviewNotRequired;
     }
-    
+
     public boolean isCanReviewNotRequiredUnavailable() {
         return canReviewNotRequiredUnavailable;
     }
@@ -561,13 +560,14 @@ public class IacucActionHelper extends ActionHelperBase {
     public boolean isCanIacucRequestDeactivate() {
         return canIacucRequestDeactivate;
     }
-    
+
     public boolean isCanIacucRequestDeactivateUnavailable() {
         return canIacucRequestDeactivateUnavailable;
     }
 
     protected String getParameterValue(String parameterName) {
-        String result = getParameterService().getParameterValueAsString(IacucProtocolDocument.class, parameterName);
+        String result = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_IACUC,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, parameterName);
         if (result == null) {
             result = super.getParameterValue(parameterName);
         }
@@ -575,9 +575,9 @@ public class IacucActionHelper extends ActionHelperBase {
     }
 
     protected IacucProtocol getIacucProtocol() {
-        return (IacucProtocol)getProtocol();
+        return (IacucProtocol) getProtocol();
     }
-    
+
     public boolean getCanAssignCmt() {
         return canAssignCmt;
     }
@@ -598,26 +598,22 @@ public class IacucActionHelper extends ActionHelperBase {
     protected IacucProtocolTask createNewAmendRenewDeleteTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.PROTOCOL_AMEND_RENEW_DELETE, (IacucProtocol) protocol);
     }
-    
+
     public boolean isCanWithdrawSubmission() {
         return canWithdrawSubmission;
     }
-
 
     public void setCanWithdrawSubmission(boolean canWithdrawSubmission) {
         this.canWithdrawSubmission = canWithdrawSubmission;
     }
 
-
     public boolean isCanWithdrawSubmissionUnavailable() {
         return canWithdrawSubmissionUnavailable;
     }
 
-
     public void setCanWithdrawSubmissionUnavailable(boolean canWithdrawSubmissionUnavailable) {
         this.canWithdrawSubmissionUnavailable = canWithdrawSubmissionUnavailable;
     }
-
 
     @Override
     protected IacucProtocolTask createNewAmendRenewDeleteUnavailableTaskInstanceHook(ProtocolBase protocol) {
@@ -626,32 +622,31 @@ public class IacucActionHelper extends ActionHelperBase {
 
     @Override
     protected ProtocolDeleteBean getNewProtocolDeleteBeanInstanceHook(ActionHelperBase actionHelper) {
-        return new IacucProtocolDeleteBean((IacucActionHelper)actionHelper);
+        return new IacucProtocolDeleteBean((IacucActionHelper) actionHelper);
     }
 
-    
     protected Class<? extends ReviewCommentsService> getReviewCommentsServiceClassHook() {
         return IacucReviewCommentsService.class;
     }
-    
+
     protected IacucProtocolGenericActionBean buildProtocolGenericActionBean(String actionTypeCode, String errorPropertyKey) {
         IacucProtocolGenericActionBean bean = new IacucProtocolGenericActionBean(this, errorPropertyKey);
-        
+
         bean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        bean.getReviewCommentsBean().setHideReviewerName(getReviewCommentsService().setHideReviewerName(bean.getReviewCommentsBean().getReviewComments()));            
+        bean.getReviewCommentsBean().setHideReviewerName(getReviewCommentsService().setHideReviewerName(bean.getReviewCommentsBean().getReviewComments()));
         IacucProtocolAction protocolAction = (IacucProtocolAction) findProtocolAction(actionTypeCode, getProtocol().getProtocolActions(), getProtocol().getProtocolSubmission());
         if (protocolAction != null) {
             bean.setComments(protocolAction.getComments());
             bean.setActionDate(new Date(protocolAction.getActionDate().getTime()));
         }
-        
+
         return bean;
     }
-    
+
     public ProtocolOnlineReviewService getOnlineReviewService() {
         return KraServiceLocator.getService(IacucProtocolOnlineReviewService.class);
     }
-    
+
     public List<String> getReviewRecommendations() {
         List<String> recommendations = new ArrayList<String>();
         List<ProtocolOnlineReviewDocumentBase> reviewDocs = getOnlineReviewService().getProtocolReviewDocumentsForCurrentSubmission(getProtocol());
@@ -661,23 +656,23 @@ public class IacucActionHelper extends ActionHelperBase {
                 recommendations.add(review.getProtocolReviewer().getFullName() + "--" + getReviewType(review.getDeterminationReviewTypeCode()));
             }
         }
-        return recommendations;        
+        return recommendations;
     }
-    
+
     protected String getReviewType(String code) {
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("reviewTypeCode", code);
         List<IacucProtocolReviewType> types = (List<IacucProtocolReviewType>) getBusinessObjectService().findMatching(IacucProtocolReviewType.class, criteria);
-        return !types.isEmpty() ? types.get(0).getDescription() : "";        
+        return !types.isEmpty() ? types.get(0).getDescription() : "";
     }
-    
+
     @Override
     protected ProtocolTaskBase createNewAbandonTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.IACUC_ABANDON_PROTOCOL, (IacucProtocol) protocol);
     }
 
     @Override
-    protected String getAbandonActionTypeHook() {    
+    protected String getAbandonActionTypeHook() {
         return IacucProtocolActionType.IACUC_ABANDON;
     }
 
@@ -685,25 +680,25 @@ public class IacucActionHelper extends ActionHelperBase {
     protected String getAbandonPropertyKeyHook() {
         return Constants.PROTOCOL_ABANDON_ACTION_PROPERTY_KEY;
     }
-    
+
     @Override
     protected String getExpireKeyHook() {
         return IacucProtocolActionType.EXPIRED;
     }
-    
+
     @Override
     protected String getTerminateKeyHook() {
         return IacucProtocolActionType.TERMINATED;
     }
-    
-    @Override 
+
+    @Override
     protected String getSuspendKeyHook() {
         return IacucProtocolActionType.SUSPENDED;
     }
 
     @Override
     protected ProtocolSubmitAction getNewProtocolSubmitActionInstanceHook(ActionHelperBase actionHelper) {
-       return new IacucProtocolSubmitAction((IacucActionHelper) actionHelper);
+        return new IacucProtocolSubmitAction((IacucActionHelper) actionHelper);
     }
 
     @Override
@@ -711,10 +706,9 @@ public class IacucActionHelper extends ActionHelperBase {
         return new IacucProtocolNotifyCommitteeBean((IacucActionHelper) actionHelper);
     }
 
-
     @Override
     protected ProtocolModuleQuestionnaireBeanBase getNewProtocolModuleQuestionnaireBeanInstanceHook(ProtocolBase protocol) {
-        return new IacucProtocolModuleQuestionnaireBean((IacucProtocol)protocol);
+        return new IacucProtocolModuleQuestionnaireBean((IacucProtocol) protocol);
     }
 
     @Override
@@ -727,7 +721,7 @@ public class IacucActionHelper extends ActionHelperBase {
     protected ProtocolTaskBase getModifySubmissionUnavailableTaskHook() {
         return new IacucProtocolTask(TaskName.IACUC_MODIFY_PROTOCOL_SUBMISSION_UNAVAILABLE, (IacucProtocol) getProtocol());
     }
-    
+
     @Override
     protected ProtocolTaskBase getNewSubmitProtocolTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.SUBMIT_IACUC_PROTOCOL, (IacucProtocol) protocol);
@@ -737,7 +731,7 @@ public class IacucActionHelper extends ActionHelperBase {
     protected ProtocolTaskBase getNewSubmitProtocolUnavailableTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.SUBMIT_IACUC_PROTOCOL_UNAVAILABLE, (IacucProtocol) protocol);
     }
-    
+
     @Override
     protected ProtocolTaskBase getNewNotifyCommitteeTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.NOTIFY_COMMITTEE, (IacucProtocol) protocol);
@@ -748,17 +742,16 @@ public class IacucActionHelper extends ActionHelperBase {
         return new IacucProtocolTask(TaskName.NOTIFY_COMMITTEE_UNAVAILABLE, (IacucProtocol) protocol);
     }
 
-
     @Override
     protected ProtocolWithdrawBean getNewProtocolWithdrawBeanInstanceHook(ActionHelperBase actionHelper) {
         return new IacucProtocolWithdrawBean((IacucActionHelper) actionHelper);
     }
-    
+
     @Override
     protected ProtocolAdministrativelyWithdrawBean getNewProtocolAdminWithdrawBeanInstanceHook(ActionHelperBase actionHelper) {
         return new IacucProtocolAdministrativelyWithdrawBean((IacucActionHelper) actionHelper);
     }
-    
+
     @Override
     protected ProtocolAdministrativelyIncompleteBean getNewProtocolAdminIncompleteBeanInstanceHook(ActionHelperBase actionHelper) {
         return new IacucProtocolAdministrativelyIncompleteBean((IacucActionHelper) actionHelper);
@@ -768,7 +761,6 @@ public class IacucActionHelper extends ActionHelperBase {
     protected ProtocolAmendmentBean getNewProtocolAmendmentBeanInstanceHook(ActionHelperBase actionHelper) {
         return new IacucProtocolAmendmentBean((IacucActionHelper) actionHelper);
     }
-    
 
     @Override
     protected ProtocolTaskBase getNewAmendmentProtocolTaskInstanceHook(ProtocolBase protocol) {
@@ -779,7 +771,7 @@ public class IacucActionHelper extends ActionHelperBase {
     protected ProtocolTaskBase getNewAmendmentProtocolUnavailableTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.CREATE_IACUC_PROTOCOL_AMENDMENT_UNAVAILABLE, (IacucProtocol) protocol);
     }
-    
+
     @Override
     protected ProtocolTaskBase getNewWithdrawProtocolTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.PROTOCOL_WITHDRAW, (IacucProtocol) protocol);
@@ -793,7 +785,7 @@ public class IacucActionHelper extends ActionHelperBase {
     @Override
     protected ProtocolVersionService getProtocolVersionService() {
         if (this.protocolVersionService == null) {
-            this.protocolVersionService = KraServiceLocator.getService(IacucProtocolVersionService.class);        
+            this.protocolVersionService = KraServiceLocator.getService(IacucProtocolVersionService.class);
         }
         return this.protocolVersionService;
     }
@@ -805,7 +797,8 @@ public class IacucActionHelper extends ActionHelperBase {
 
     /**
      * Sets up the summary details subpanel.
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     @Override
     public void initSummaryDetails() throws Exception {
@@ -814,22 +807,22 @@ public class IacucActionHelper extends ActionHelperBase {
         } else if (currentSequenceNumber > getProtocol().getSequenceNumber()) {
             currentSequenceNumber = getProtocol().getSequenceNumber();
         }
-        
-        IacucProtocolSummary iacucProtocolSummary =  null;
+
+        IacucProtocolSummary iacucProtocolSummary = null;
         String protocolNumber = getProtocol().getProtocolNumber();
-        IacucProtocol protocol = (IacucProtocol)getProtocolVersionService().getProtocolVersion(protocolNumber, currentSequenceNumber);
+        IacucProtocol protocol = (IacucProtocol) getProtocolVersionService().getProtocolVersion(protocolNumber, currentSequenceNumber);
         if (protocol != null) {
-            iacucProtocolSummary = (IacucProtocolSummary)protocol.getProtocolSummary();
+            iacucProtocolSummary = (IacucProtocolSummary) protocol.getProtocolSummary();
         }
-        
+
         IacucProtocolSummary iacucPrevProtocolSummary = null;
         if (currentSequenceNumber > 0) {
             protocol = (IacucProtocol) getProtocolVersionService().getProtocolVersion(protocolNumber, currentSequenceNumber - 1);
             if (protocol != null) {
-                iacucPrevProtocolSummary = (IacucProtocolSummary)protocol.getProtocolSummary();
+                iacucPrevProtocolSummary = (IacucProtocolSummary) protocol.getProtocolSummary();
             }
         }
-        
+
         if (iacucProtocolSummary != null && iacucPrevProtocolSummary != null) {
             iacucProtocolSummary.compare(iacucPrevProtocolSummary);
             iacucPrevProtocolSummary.compare(iacucProtocolSummary);
@@ -845,8 +838,9 @@ public class IacucActionHelper extends ActionHelperBase {
     }
 
     /**
-     * This method populates the protocolAmendmentBean with the amendment details from the 
-     * current submission.
+     * This method populates the protocolAmendmentBean with the amendment
+     * details from the current submission.
+     *
      * @throws Exception
      */
     protected void setAmendmentDetails() throws Exception {
@@ -856,11 +850,11 @@ public class IacucActionHelper extends ActionHelperBase {
          * will be populated in the protocolAmendmentBean.
          */
         if (!currentTaskName.equalsIgnoreCase(TaskName.MODIFY_IACUC_PROTOCOL_AMENDMENT_SECTIONS)) {
-            IacucProtocolAmendmentBean amendmentBean = (IacucProtocolAmendmentBean)getProtocolAmendmentBean();
+            IacucProtocolAmendmentBean amendmentBean = (IacucProtocolAmendmentBean) getProtocolAmendmentBean();
             String originalProtocolNumber;
             // Use the submission number to get the correct amendment details
             if (getProtocol().isAmendment()) {
-                originalProtocolNumber = getProtocol().getProtocolAmendRenewal().getProtocolNumber();           
+                originalProtocolNumber = getProtocol().getProtocolAmendRenewal().getProtocolNumber();
             } else {
                 // We want to display amendment details even if the document is not an amendment.
                 // Amendment details needs to be displayed even after the amendment has been merged with the protocol.
@@ -896,23 +890,23 @@ public class IacucActionHelper extends ActionHelperBase {
     }
 
     /**
-     * This method returns the amendRenewal bean with the current submission number. 
+     * This method returns the amendRenewal bean with the current submission
+     * number.
+     *
      * @param protocols
      * @return
      */
     protected IacucProtocolAmendRenewal getCorrectAmendment(List<ProtocolBase> protocols) {
         for (ProtocolBase protocol : protocols) {
             // There should always be an amendment with the current submission number.
-            if ((protocol.isAmendment() || protocol.isRenewalWithAmendment()) && ObjectUtils.isNotNull(protocol.getProtocolSubmission().getSubmissionNumber()) 
-                && protocol.getProtocolSubmission().getSubmissionNumber() == currentSubmissionNumber) {
-                IacucProtocol iacucProtocol = (IacucProtocol)protocol;
+            if ((protocol.isAmendment() || protocol.isRenewalWithAmendment()) && ObjectUtils.isNotNull(protocol.getProtocolSubmission().getSubmissionNumber())
+                    && protocol.getProtocolSubmission().getSubmissionNumber() == currentSubmissionNumber) {
+                IacucProtocol iacucProtocol = (IacucProtocol) protocol;
                 return (IacucProtocolAmendRenewal) iacucProtocol.getProtocolAmendRenewal();
             }
         }
         return null;
     }
-    
-
 
     @Override
     protected String getAdminApprovalProtocolActionTypeHook() {
@@ -933,40 +927,40 @@ public class IacucActionHelper extends ActionHelperBase {
     protected ProtocolTaskBase getNewAdminApproveUnavailableProtocolTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.ADMIN_APPROVE_PROTOCOL_UNAVAILABLE, (IacucProtocol) protocol);
     }
-    
+
     @Override
     protected ProtocolTaskBase getExpireTaskInstanceHook(ProtocolBase protocol) {
-        IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.EXPIRE_PROTOCOL, (IacucProtocol)protocol);
+        IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.EXPIRE_PROTOCOL, (IacucProtocol) protocol);
         return task;
     }
-    
+
     @Override
     protected ProtocolTaskBase getExpireUnavailableTaskInstanceHook(ProtocolBase protocol) {
-        IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.EXPIRE_UNAVAILABLE_PROTOCOL, (IacucProtocol)protocol);
+        IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.EXPIRE_UNAVAILABLE_PROTOCOL, (IacucProtocol) protocol);
         return task;
     }
-    
+
     @Override
     protected ProtocolTaskBase getTerminateTaskInstanceHook(ProtocolBase protocol) {
-        IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.TERMINATE_PROTOCOL, (IacucProtocol)protocol);
+        IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.TERMINATE_PROTOCOL, (IacucProtocol) protocol);
         return task;
     }
-    
+
     @Override
     protected ProtocolTaskBase getTerminateUnavailableTaskInstanceHook(ProtocolBase protocol) {
-        IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.TERMINATE_UNAVAILBLE_PROTOCOL, (IacucProtocol)protocol);
+        IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.TERMINATE_UNAVAILBLE_PROTOCOL, (IacucProtocol) protocol);
         return task;
     }
-    
+
     @Override
     protected ProtocolTaskBase getSuspendTaskInstanceHook(ProtocolBase protocol) {
-        IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.SUSPEND_PROTOCOL, (IacucProtocol)protocol);
+        IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.SUSPEND_PROTOCOL, (IacucProtocol) protocol);
         return task;
     }
-    
+
     @Override
     protected ProtocolTaskBase getSuspendUnavailableTaskInstanceHook(ProtocolBase protocol) {
-        IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.SUSPEND_UNAVAILABLE_PROTOCOL, (IacucProtocol)protocol);
+        IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.SUSPEND_UNAVAILABLE_PROTOCOL, (IacucProtocol) protocol);
         return task;
     }
 
@@ -1004,7 +998,7 @@ public class IacucActionHelper extends ActionHelperBase {
     protected ProtocolTaskBase createNewAssignToAgendaUnavailableTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.ASSIGN_TO_AGENDA_UNAVAILABLE, (IacucProtocol) protocol);
     }
-    
+
     public IacucProtocolNotifyIacucBean getIacucProtocolNotifyIacucBean() {
         return iacucProtocolNotifyIacucBean;
     }
@@ -1020,19 +1014,18 @@ public class IacucActionHelper extends ActionHelperBase {
     }
 
     public boolean validFile(final ProtocolActionAttachment attachment, String propertyName) {
-        
+
         boolean valid = true;
-        
+
         //this got much more complex using anon keys
         if (attachment.getFile() == null || StringUtils.isBlank(attachment.getFile().getFileName())) {
             valid = false;
             new ErrorReporter().reportError("actionHelper." + propertyName + ".newActionAttachment.file",
-                KeyConstants.ERROR_ATTACHMENT_REQUIRED);
+                    KeyConstants.ERROR_ATTACHMENT_REQUIRED);
         }
-        
+
         return valid;
     }
-
 
     @Override
     protected CommitteeDecisionService<? extends CommitteeDecision<? extends CommitteePersonBase>> getCommitteeDecisionService() {
@@ -1043,7 +1036,7 @@ public class IacucActionHelper extends ActionHelperBase {
     public int getTotalSubmissions() {
         return getProtocolSubmitActionService().getTotalSubmissions(getProtocol());
     }
-    
+
     private IacucProtocolSubmitActionService getProtocolSubmitActionService() {
         return KraServiceLocator.getService(IacucProtocolSubmitActionService.class);
     }
@@ -1082,7 +1075,7 @@ public class IacucActionHelper extends ActionHelperBase {
     protected String getSRRProtocolActionTypeHook() {
         return IacucProtocolActionType.IACUC_MAJOR_REVISIONS_REQUIRED;
     }
-    
+
     @Override
     protected String getReturnToPIActionTypeHook() {
         return IacucProtocolActionType.RETURNED_TO_PI;
@@ -1108,123 +1101,93 @@ public class IacucActionHelper extends ActionHelperBase {
     public boolean isCanIacucAcknowledgeUnavailable() {
         return canIacucAcknowledgeUnavailable;
     }
-    
+
     @Override
     protected void populateExistingAmendmentBean(ProtocolAmendmentBean amendmentBean, List<String> moduleTypeCodes) {
-        IacucProtocolAmendRenewal protocolAmendRenewal = (IacucProtocolAmendRenewal)getProtocol().getProtocolAmendRenewal();
+        IacucProtocolAmendRenewal protocolAmendRenewal = (IacucProtocolAmendRenewal) getProtocol().getProtocolAmendRenewal();
         amendmentBean.setSummary(protocolAmendRenewal.getSummary());
         for (ProtocolAmendRenewModuleBase module : protocolAmendRenewal.getModules()) {
             moduleTypeCodes.add(module.getProtocolModuleTypeCode());
             if (StringUtils.equals(IacucProtocolModule.GENERAL_INFO, module.getProtocolModuleTypeCode())) {
                 amendmentBean.setGeneralInfo(true);
-            } 
-            else if (StringUtils.equals(IacucProtocolModule.ADD_MODIFY_ATTACHMENTS, module.getProtocolModuleTypeCode())) {
+            } else if (StringUtils.equals(IacucProtocolModule.ADD_MODIFY_ATTACHMENTS, module.getProtocolModuleTypeCode())) {
                 amendmentBean.setAddModifyAttachments(true);
-            }
-            else if (StringUtils.equals(IacucProtocolModule.AREAS_OF_RESEARCH, module.getProtocolModuleTypeCode())) {
+            } else if (StringUtils.equals(IacucProtocolModule.AREAS_OF_RESEARCH, module.getProtocolModuleTypeCode())) {
                 amendmentBean.setAreasOfResearch(true);
-            }
-            else if (StringUtils.equals(IacucProtocolModule.FUNDING_SOURCE, module.getProtocolModuleTypeCode())) {
+            } else if (StringUtils.equals(IacucProtocolModule.FUNDING_SOURCE, module.getProtocolModuleTypeCode())) {
                 amendmentBean.setFundingSource(true);
-            }
-            else if (StringUtils.equals(IacucProtocolModule.OTHERS, module.getProtocolModuleTypeCode())) {
+            } else if (StringUtils.equals(IacucProtocolModule.OTHERS, module.getProtocolModuleTypeCode())) {
                 amendmentBean.setOthers(true);
-            }
-            else if (StringUtils.equals(IacucProtocolModule.PROTOCOL_ORGANIZATIONS, module.getProtocolModuleTypeCode())) {
+            } else if (StringUtils.equals(IacucProtocolModule.PROTOCOL_ORGANIZATIONS, module.getProtocolModuleTypeCode())) {
                 amendmentBean.setProtocolOrganizations(true);
-            }
-            else if (StringUtils.equals(IacucProtocolModule.PROTOCOL_PERSONNEL, module.getProtocolModuleTypeCode())) {
+            } else if (StringUtils.equals(IacucProtocolModule.PROTOCOL_PERSONNEL, module.getProtocolModuleTypeCode())) {
                 amendmentBean.setProtocolPersonnel(true);
-            }
-            else if (StringUtils.equals(IacucProtocolModule.PROTOCOL_REFERENCES, module.getProtocolModuleTypeCode())) {
+            } else if (StringUtils.equals(IacucProtocolModule.PROTOCOL_REFERENCES, module.getProtocolModuleTypeCode())) {
                 amendmentBean.setProtocolReferencesAndOtherIdentifiers(true);
-            }
-            else if (StringUtils.equals(IacucProtocolModule.SPECIAL_REVIEW, module.getProtocolModuleTypeCode())) {
+            } else if (StringUtils.equals(IacucProtocolModule.SPECIAL_REVIEW, module.getProtocolModuleTypeCode())) {
                 amendmentBean.setSpecialReview(true);
-            }
-            else if (StringUtils.equals(IacucProtocolModule.SUBJECTS, module.getProtocolModuleTypeCode())) {
+            } else if (StringUtils.equals(IacucProtocolModule.SUBJECTS, module.getProtocolModuleTypeCode())) {
                 amendmentBean.setSubjects(true);
-            }
-            else if (StringUtils.equals(IacucProtocolModule.PROTOCOL_PERMISSIONS, module.getProtocolModuleTypeCode())) {
+            } else if (StringUtils.equals(IacucProtocolModule.PROTOCOL_PERMISSIONS, module.getProtocolModuleTypeCode())) {
                 amendmentBean.setProtocolPermissions(true);
-            }
-            else if (StringUtils.equals(IacucProtocolModule.QUESTIONNAIRE, module.getProtocolModuleTypeCode())) {
+            } else if (StringUtils.equals(IacucProtocolModule.QUESTIONNAIRE, module.getProtocolModuleTypeCode())) {
                 amendmentBean.setQuestionnaire(true);
+            } else if (StringUtils.equals(IacucProtocolModule.THREE_RS, module.getProtocolModuleTypeCode())) {
+                ((IacucProtocolAmendmentBean) amendmentBean).setThreers(true);
+            } else if (StringUtils.equals(IacucProtocolModule.SPECIES_GROUPS, module.getProtocolModuleTypeCode())) {
+                ((IacucProtocolAmendmentBean) amendmentBean).setSpeciesAndGroups(true);
+            } else if (StringUtils.equals(IacucProtocolModule.PROCEDURES, module.getProtocolModuleTypeCode())) {
+                ((IacucProtocolAmendmentBean) amendmentBean).setProcedures(true);
+            } else if (StringUtils.equals(IacucProtocolModule.EXCEPTIONS, module.getProtocolModuleTypeCode())) {
+                ((IacucProtocolAmendmentBean) amendmentBean).setProtocolExceptions(true);
             }
-            else if (StringUtils.equals(IacucProtocolModule.THREE_RS, module.getProtocolModuleTypeCode())) {
-                ((IacucProtocolAmendmentBean)amendmentBean).setThreers(true);
-            }
-            else if (StringUtils.equals(IacucProtocolModule.SPECIES_GROUPS, module.getProtocolModuleTypeCode())) {
-                ((IacucProtocolAmendmentBean)amendmentBean).setSpeciesAndGroups(true);
-            }
-            else if (StringUtils.equals(IacucProtocolModule.PROCEDURES, module.getProtocolModuleTypeCode())) {
-                ((IacucProtocolAmendmentBean)amendmentBean).setProcedures(true);
-            }
-            else if (StringUtils.equals(IacucProtocolModule.EXCEPTIONS, module.getProtocolModuleTypeCode())) {
-                ((IacucProtocolAmendmentBean)amendmentBean).setProtocolExceptions(true);
-            }
-            
+
         }
     }
 
     @Override
     protected ProtocolAmendRenewService getProtocolAmendRenewServiceHook() {
-        return KraServiceLocator.getService(IacucProtocolAmendRenewService.class);        
+        return KraServiceLocator.getService(IacucProtocolAmendRenewService.class);
     }
 
     @Override
     protected void enableModuleOption(String moduleTypeCode, ProtocolEditableBean amendmentBean) {
         if (StringUtils.equals(IacucProtocolModule.GENERAL_INFO, moduleTypeCode)) {
             amendmentBean.setGeneralInfoEnabled(true);
-        } 
-        else if (StringUtils.equals(IacucProtocolModule.ADD_MODIFY_ATTACHMENTS, moduleTypeCode)) {
+        } else if (StringUtils.equals(IacucProtocolModule.ADD_MODIFY_ATTACHMENTS, moduleTypeCode)) {
             amendmentBean.setAddModifyAttachmentsEnabled(true);
-        }
-        else if (StringUtils.equals(IacucProtocolModule.AREAS_OF_RESEARCH, moduleTypeCode)) {
+        } else if (StringUtils.equals(IacucProtocolModule.AREAS_OF_RESEARCH, moduleTypeCode)) {
             amendmentBean.setAreasOfResearchEnabled(true);
-        }
-        else if (StringUtils.equals(IacucProtocolModule.FUNDING_SOURCE, moduleTypeCode)) {
+        } else if (StringUtils.equals(IacucProtocolModule.FUNDING_SOURCE, moduleTypeCode)) {
             amendmentBean.setFundingSourceEnabled(true);
-        }
-        else if (StringUtils.equals(IacucProtocolModule.OTHERS, moduleTypeCode)) {
+        } else if (StringUtils.equals(IacucProtocolModule.OTHERS, moduleTypeCode)) {
             amendmentBean.setOthersEnabled(true);
-        }
-        else if (StringUtils.equals(IacucProtocolModule.PROTOCOL_ORGANIZATIONS, moduleTypeCode)) {
+        } else if (StringUtils.equals(IacucProtocolModule.PROTOCOL_ORGANIZATIONS, moduleTypeCode)) {
             amendmentBean.setProtocolOrganizationsEnabled(true);
-        }
-        else if (StringUtils.equals(IacucProtocolModule.PROTOCOL_PERSONNEL, moduleTypeCode)) {
+        } else if (StringUtils.equals(IacucProtocolModule.PROTOCOL_PERSONNEL, moduleTypeCode)) {
             amendmentBean.setProtocolPersonnelEnabled(true);
-        }
-        else if (StringUtils.equals(IacucProtocolModule.PROTOCOL_REFERENCES, moduleTypeCode)) {
+        } else if (StringUtils.equals(IacucProtocolModule.PROTOCOL_REFERENCES, moduleTypeCode)) {
             amendmentBean.setProtocolReferencesEnabled(true);
-        }
-        else if (StringUtils.equals(IacucProtocolModule.SPECIAL_REVIEW, moduleTypeCode)) {
+        } else if (StringUtils.equals(IacucProtocolModule.SPECIAL_REVIEW, moduleTypeCode)) {
             amendmentBean.setSpecialReviewEnabled(true);
-        }
-        else if (StringUtils.equals(IacucProtocolModule.SUBJECTS,moduleTypeCode)) {
+        } else if (StringUtils.equals(IacucProtocolModule.SUBJECTS, moduleTypeCode)) {
             amendmentBean.setSubjectsEnabled(true);
-        }
-        else if (StringUtils.equals(IacucProtocolModule.PROTOCOL_PERMISSIONS,moduleTypeCode)) {
+        } else if (StringUtils.equals(IacucProtocolModule.PROTOCOL_PERMISSIONS, moduleTypeCode)) {
             amendmentBean.setProtocolPermissionsEnabled(true);
-        }
-        else if (StringUtils.equals(IacucProtocolModule.QUESTIONNAIRE,moduleTypeCode)) {
+        } else if (StringUtils.equals(IacucProtocolModule.QUESTIONNAIRE, moduleTypeCode)) {
             amendmentBean.setQuestionnaireEnabled(true);
+        } else if (StringUtils.equals(IacucProtocolModule.THREE_RS, moduleTypeCode)) {
+            ((IacucProtocolEditableBean) amendmentBean).setThreersEnabled(true);
+        } else if (StringUtils.equals(IacucProtocolModule.SPECIES_GROUPS, moduleTypeCode)) {
+            ((IacucProtocolEditableBean) amendmentBean).setSpeciesAndGroupsEnabled(true);
+        } else if (StringUtils.equals(IacucProtocolModule.PROCEDURES, moduleTypeCode)) {
+            ((IacucProtocolEditableBean) amendmentBean).setProceduresEnabled(true);
+        } else if (StringUtils.equals(IacucProtocolModule.EXCEPTIONS, moduleTypeCode)) {
+            ((IacucProtocolEditableBean) amendmentBean).setProtocolExceptionsEnabled(true);
         }
-        else if (StringUtils.equals(IacucProtocolModule.THREE_RS,moduleTypeCode)) {
-            ((IacucProtocolEditableBean)amendmentBean).setThreersEnabled(true);
-        }
-        else if (StringUtils.equals(IacucProtocolModule.SPECIES_GROUPS,moduleTypeCode)) {
-            ((IacucProtocolEditableBean)amendmentBean).setSpeciesAndGroupsEnabled(true);
-        }
-        else if (StringUtils.equals(IacucProtocolModule.PROCEDURES,moduleTypeCode)) {
-            ((IacucProtocolEditableBean)amendmentBean).setProceduresEnabled(true);
-        }
-        else if (StringUtils.equals(IacucProtocolModule.EXCEPTIONS,moduleTypeCode)) {
-            ((IacucProtocolEditableBean)amendmentBean).setProtocolExceptionsEnabled(true);
-        }
-    
+
     }
-    
+
     @Override
     protected void enableModuleOption(ProtocolAmendmentBean amendmentBean, ProtocolAmendRenewalBase correctAmendment) {
         amendmentBean.setGeneralInfo((correctAmendment.hasModule(IacucProtocolModule.GENERAL_INFO)) ? true : false);
@@ -1239,37 +1202,35 @@ public class IacucActionHelper extends ActionHelperBase {
         amendmentBean.setQuestionnaire((correctAmendment.hasModule(IacucProtocolModule.QUESTIONNAIRE)) ? true : false);
         amendmentBean.setSpecialReview((correctAmendment.hasModule(IacucProtocolModule.SPECIAL_REVIEW)) ? true : false);
         amendmentBean.setSubjects((correctAmendment.hasModule(IacucProtocolModule.SUBJECTS)) ? true : false);
-        ((IacucProtocolAmendmentBean)amendmentBean).setThreers((correctAmendment.hasModule(IacucProtocolModule.THREE_RS)) ? true : false);
-        ((IacucProtocolAmendmentBean)amendmentBean).setSpecialReview((correctAmendment.hasModule(IacucProtocolModule.SPECIES_GROUPS)) ? true : false);
-        ((IacucProtocolAmendmentBean)amendmentBean).setProcedures((correctAmendment.hasModule(IacucProtocolModule.PROCEDURES)) ? true : false);
-        ((IacucProtocolAmendmentBean)amendmentBean).setProtocolExceptions((correctAmendment.hasModule(IacucProtocolModule.EXCEPTIONS)) ? true : false);
-    
+        ((IacucProtocolAmendmentBean) amendmentBean).setThreers((correctAmendment.hasModule(IacucProtocolModule.THREE_RS)) ? true : false);
+        ((IacucProtocolAmendmentBean) amendmentBean).setSpecialReview((correctAmendment.hasModule(IacucProtocolModule.SPECIES_GROUPS)) ? true : false);
+        ((IacucProtocolAmendmentBean) amendmentBean).setProcedures((correctAmendment.hasModule(IacucProtocolModule.PROCEDURES)) ? true : false);
+        ((IacucProtocolAmendmentBean) amendmentBean).setProtocolExceptions((correctAmendment.hasModule(IacucProtocolModule.EXCEPTIONS)) ? true : false);
+
     }
-    
-    
+
     private void prepareAssignCommitteeActionView() {
         canAssignCmt = hasPermission(TaskName.IACUC_ASSIGN_TO_COMMITTEE);
         canAssignCmtUnavailable = hasPermission(TaskName.IACUC_ASSIGN_TO_COMMITTEE_UNAVAILABLE);
         // Initialize the assign cmt key values (expensive call) only after checking the conditions for the display of the committee selection
-        if(canAssignCmt) {
+        if (canAssignCmt) {
             // pass in the current committee id (if any), the protocol lead unit and the doc route status to the committee finder service
-            Collection<? extends CommitteeBase<?, ?, ?>> committees = 
-                getCommitteeIdByUnitValuesFinderService().getAssignmentCommittees(getProtocol().getLeadUnitNumber(), getDocRouteStatus(), protocolAssignCmtBean.getCommitteeId());
+            Collection<? extends CommitteeBase<?, ?, ?>> committees
+                    = getCommitteeIdByUnitValuesFinderService().getAssignmentCommittees(getProtocol().getLeadUnitNumber(), getDocRouteStatus(), protocolAssignCmtBean.getCommitteeId());
             assignCmtActionCommitteeIdByUnitKeyValues = getKeyValuesForCommitteeSelection(committees);
         }
     }
-    
+
     private void prepareModifySubmissionActionView() {
         iacucProtocolModifySubmissionBean.prepareView();
         // modify action permission vars have already been initialized in parent
-        if(canModifyProtocolSubmission) {            
+        if (canModifyProtocolSubmission) {
             // pass in the current committee id (if any), the protocol lead unit and the doc route status to the committee finder service
-            Collection<? extends CommitteeBase<?, ?, ?>> committees = 
-                getCommitteeIdByUnitValuesFinderService().getAssignmentCommittees(getProtocol().getLeadUnitNumber(), getDocRouteStatus(), iacucProtocolModifySubmissionBean.getCommitteeId());
-            modifySubmissionActionCommitteeIdByUnitKeyValues = getKeyValuesForCommitteeSelection(committees);            
+            Collection<? extends CommitteeBase<?, ?, ?>> committees
+                    = getCommitteeIdByUnitValuesFinderService().getAssignmentCommittees(getProtocol().getLeadUnitNumber(), getDocRouteStatus(), iacucProtocolModifySubmissionBean.getCommitteeId());
+            modifySubmissionActionCommitteeIdByUnitKeyValues = getKeyValuesForCommitteeSelection(committees);
         }
     }
-    
 
     @Override
     protected ProtocolTaskBase getModifyAmendmentSectionsProtocolTaskInstanceHook(ProtocolBase protocol) {
@@ -1285,31 +1246,25 @@ public class IacucActionHelper extends ActionHelperBase {
         return IacucProtocolActionType.REQUEST_DEACTIVATE.equals(getLastPerformedAction().getProtocolActionTypeCode());
     }
 
-
     public boolean isCanIacucDeactivate() {
         return canIacucDeactivate;
     }
-
 
     public void setCanIacucDeactivate(boolean canIacucDeactivate) {
         this.canIacucDeactivate = canIacucDeactivate;
     }
 
-
     public boolean isCanIacucDeactivateUnavailable() {
         return canIacucDeactivateUnavailable;
     }
-
 
     public void setCanIacucDeactivateUnavailable(boolean canIacucDeactivateUnavailable) {
         this.canIacucDeactivateUnavailable = canIacucDeactivateUnavailable;
     }
 
-
     public boolean isCanAddDeactivateReviewerComments() {
         return canAddDeactivateReviewerComments;
     }
-
 
     public void setCanAddDeactivateReviewerComments(boolean canAddDeactivateReviewerComments) {
         this.canAddDeactivateReviewerComments = canAddDeactivateReviewerComments;
@@ -1318,7 +1273,6 @@ public class IacucActionHelper extends ActionHelperBase {
     public IacucProtocolRequestBean getIacucProtocolDeactivateRequestBean() {
         return iacucProtocolDeactivateRequestBean;
     }
-
 
     public void setIacucProtocolDeactivateRequestBean(IacucProtocolRequestBean iacucProtocolDeactivateRequestBean) {
         this.iacucProtocolDeactivateRequestBean = iacucProtocolDeactivateRequestBean;
@@ -1340,106 +1294,86 @@ public class IacucActionHelper extends ActionHelperBase {
         this.canIacucRequestDeactivateUnavailable = canIacucRequestDeactivateUnavailable;
     }
 
-
     public boolean isSubmissionQuestionnaireExist() {
         return submissionQuestionnaireExist;
     }
-
 
     public void setSubmissionQuestionnaireExist(boolean submissionQuestionnaireExist) {
         this.submissionQuestionnaireExist = submissionQuestionnaireExist;
     }
 
-
     public boolean isToAnswerSubmissionQuestionnaire() {
         return toAnswerSubmissionQuestionnaire;
     }
-
 
     public void setToAnswerSubmissionQuestionnaire(boolean toAnswerSubmissionQuestionnaire) {
         this.toAnswerSubmissionQuestionnaire = toAnswerSubmissionQuestionnaire;
     }
 
-
     public IacucProtocolGenericActionBean getIacucProtocolHoldBean() {
         return iacucProtocolHoldBean;
     }
-
 
     public void setIacucProtocolHoldBean(IacucProtocolGenericActionBean iacucProtocolHoldBean) {
         this.iacucProtocolHoldBean = iacucProtocolHoldBean;
     }
 
-
     public IacucProtocolGenericActionBean getIacucProtocolLiftHoldBean() {
         return iacucProtocolLiftHoldBean;
     }
-
 
     @Override
     protected ProtocolTaskBase getAdminCorrectionProtocolTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.IACUC_PROTOCOL_ADMIN_CORRECTION, (IacucProtocol) protocol);
     }
 
-
     @Override
     protected ProtocolTaskBase getAdminCorrectionUnavailableProtocolTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.IACUC_PROTOCOL_ADMIN_CORRECTION_UNAVAILABLE, (IacucProtocol) protocol);
     }
-
 
     @Override
     protected AdminCorrectionBean getNewAdminCorrectionBeanInstanceHook(ActionHelperBase actionHelper) {
         return new IacucAdminCorrectionBean((IacucActionHelper) actionHelper);
     }
 
-
     public IacucProtocolRequestBean getIacucProtocolSuspendRequestBean() {
         return iacucProtocolSuspendRequestBean;
     }
-
 
     public void setIacucProtocolSuspendRequestBean(IacucProtocolRequestBean iacucProtocolSuspendRequestBean) {
         this.iacucProtocolSuspendRequestBean = iacucProtocolSuspendRequestBean;
     }
 
-
     public IacucProtocolRequestBean getIacucProtocolWithdrawSubmissionBean() {
         return iacucProtocolWithdrawSubmissionBean;
     }
-
 
     public void setIacucProtocolWithdrawSubmissionBean(IacucProtocolRequestBean iacucProtocolWithdrawSubmissionBean) {
         this.iacucProtocolWithdrawSubmissionBean = iacucProtocolWithdrawSubmissionBean;
     }
 
-
     @Override
     protected UndoLastActionBean getNewUndoLastActionBeanInstanceHook() {
         return new IacucProtocolUndoLastActionBean(this, "actionHelper.undoLastActionBean");
     }
-    
 
     @Override
     protected ProtocolQuestionnairePrintingService getProtocolQuestionnairePrintingServiceHook() {
         return KraServiceLocator.getService(IacucProtocolQuestionnairePrintingService.class);
     }
 
-
     public boolean getCanRemoveFromAgenda() {
         return canRemoveFromAgenda;
     }
-
 
     public void setCanRemoveFromAgenda(boolean canRemoveFromAgenda) {
         this.canRemoveFromAgenda = canRemoveFromAgenda;
     }
 
-
     public IacucProtocolGenericActionBean getIacucProtocolRemoveFromAgendaBean() {
         return iacucProtocolRemoveFromAgendaBean;
     }
-
 
     public void setIacucProtocolRemoveFromAgendaBean(IacucProtocolGenericActionBean iacucProtocolRemoveFromAgendaBean) {
         this.iacucProtocolRemoveFromAgendaBean = iacucProtocolRemoveFromAgendaBean;
@@ -1449,17 +1383,14 @@ public class IacucActionHelper extends ActionHelperBase {
         return iacucProtocolReviewNotRequiredBean;
     }
 
-
     public void setProtocolReviewNotRequiredBean(ProtocolReviewNotRequiredBean iacucProtocolReviewNotRequiredBean) {
         this.iacucProtocolReviewNotRequiredBean = iacucProtocolReviewNotRequiredBean;
     }
-
 
     @Override
     protected ProtocolTaskBase getNewRenewalProtocolTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.CREATE_IACUC_PROTOCOL_RENEWAL, (IacucProtocol) protocol);
     }
-
 
     @Override
     protected ProtocolTaskBase getNewRenewalProtocolUnavailableTaskInstanceHook(ProtocolBase protocol) {
@@ -1473,7 +1404,7 @@ public class IacucActionHelper extends ActionHelperBase {
             protocolContinuationAmendmentBean = createAmendmentBean();
         }
     }
-    
+
     @Override
     protected ProtocolAmendmentBean createAmendmentBean() throws Exception {
         protocolAmendmentBean = super.createAmendmentBean();
@@ -1486,32 +1417,32 @@ public class IacucActionHelper extends ActionHelperBase {
     protected ProtocolAmendmentBean configureAmendmentBean(ProtocolAmendmentBean amendmentBean) throws Exception {
         List<String> moduleTypeCodes;
 
-        if (StringUtils.isNotEmpty(getProtocol().getProtocolNumber()) && (getProtocol().isAmendment() || getProtocol().isRenewal() || 
-                getProtocol().isContinuation())) {
+        if (StringUtils.isNotEmpty(getProtocol().getProtocolNumber()) && (getProtocol().isAmendment() || getProtocol().isRenewal()
+                || getProtocol().isContinuation())) {
             moduleTypeCodes = getProtocolAmendRenewServiceHook().getAvailableModules(getProtocol().getAmendedProtocolNumber());
             populateExistingAmendmentBean(amendmentBean, moduleTypeCodes);
         } else {
             moduleTypeCodes = getProtocolAmendRenewServiceHook().getAvailableModules(getProtocol().getProtocolNumber());
         }
-        
+
         for (String moduleTypeCode : moduleTypeCodes) {
             enableModuleOption(moduleTypeCode, amendmentBean);
         }
-        
+
         return amendmentBean;
     }
 
     @Override
     protected boolean hasModifyAmendmentSectionsPermission() {
         ProtocolTaskBase task = getModifyAmendmentSectionsProtocolTaskInstanceHook(getProtocol());
-        return ((!getProtocol().isRenewalWithoutAmendment() && !getProtocol().isContinuationWithoutAmendment())&&(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task)));
+        return ((!getProtocol().isRenewalWithoutAmendment() && !getProtocol().isContinuationWithoutAmendment()) && (getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task)));
     }
 
     protected boolean hasCreateContinuationPermission() {
         ProtocolTaskBase task = getNewContinuationProtocolTaskInstance(getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
-    
+
     protected boolean hasCreateContinuationUnavailablePermission() {
         ProtocolTaskBase task = getNewContinuationProtocolUnavailableTaskInstance(getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
@@ -1537,7 +1468,7 @@ public class IacucActionHelper extends ActionHelperBase {
         if (getProtocol().isContinuation()) {
             hasContinuations = true;
         } else {
-            List<IacucProtocol> protocols = (List<IacucProtocol>) ((IacucProtocolAmendRenewService)getProtocolAmendRenewServiceHook()).getContinuations(getProtocol().getProtocolNumber());
+            List<IacucProtocol> protocols = (List<IacucProtocol>) ((IacucProtocolAmendRenewService) getProtocolAmendRenewServiceHook()).getContinuations(getProtocol().getProtocolNumber());
             hasContinuations = protocols.isEmpty() ? false : true;
         }
         return hasContinuations;
@@ -1547,25 +1478,22 @@ public class IacucActionHelper extends ActionHelperBase {
         return continuationSummary;
     }
 
-
     public void setContinuationSummary(String continuationSummary) {
         this.continuationSummary = continuationSummary;
     }
-
 
     public ProtocolAmendmentBean getProtocolContinuationAmendmentBean() {
         return protocolContinuationAmendmentBean;
     }
 
-
     public void setProtocolContinuationAmendmentBean(ProtocolAmendmentBean protocolContinuationAmendmentBean) {
         this.protocolContinuationAmendmentBean = protocolContinuationAmendmentBean;
     }
-    
+
     @Override
     public int getDefaultExpirationDateDifference() {
         try {
-            int retVal = Integer.parseInt(this.getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_IACUC, Constants.PARAMETER_COMPONENT_DOCUMENT, 
+            int retVal = Integer.parseInt(this.getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_IACUC, Constants.PARAMETER_COMPONENT_DOCUMENT,
                     Constants.IACUC_PROTOCOL_DEFAULT_EXPIRATION_TIME_DIFFERENCE_PARAMETER, "1"));
             return retVal;
         } catch (Exception e) {
@@ -1574,18 +1502,15 @@ public class IacucActionHelper extends ActionHelperBase {
         }
     }
 
-
     @Override
     protected Class<? extends CommitteeScheduleServiceBase> getCommitteeScheduleServiceClassHook() {
         return IacucCommitteeScheduleService.class;
     }
 
-
     @Override
     protected Class<? extends ProtocolDocumentBase> getProtocolDocumentBOClassHook() {
         return IacucProtocolDocument.class;
     }
-
 
     @Override
     protected ProtocolSubmissionQuestionnaireHelper getProtocolSubmissionQuestionnaireHelperHook(ProtocolBase protocol,
@@ -1593,41 +1518,35 @@ public class IacucActionHelper extends ActionHelperBase {
         return new IacucSubmissionQuestionnaireHelper(protocol, actionTypeCode, submissionNumber, finalDoc);
     }
 
-
     @Override
     protected boolean hasApproveOtherPermission() {
         IacucProtocolTask task = new IacucProtocolTask(TaskName.PROTOCOL_APPROVE_OTHER, getIacucProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 
-
     @Override
     protected void initializeSubmissionConstraintHook() {
         submissionConstraint = getParameterValue(Constants.PARAMETER_IACUC_COMM_SELECTION_DURING_SUBMISSION);
     }
-    
 
     @Override
     protected ProtocolTaskBase getNewProtocolTaskInstanceHook(String taskName) {
         return new IacucProtocolTask(taskName, getIacucProtocol());
     }
 
-
     @Override
     protected Class<? extends ProtocolCorrespondenceAuthorizationService> getProtocolCorrespondenceAuthorizationServiceClassHook() {
         return IacucProtocolCorrespondenceAuthorizationService.class;
     }
 
-
     @Override
     protected Class<? extends CommitteeIdByUnitValuesFinderService<?>> getCommitteeIdByUnitValuesFinderServiceClassHook() {
         return IacucCommitteeIdByUnitValuesFinderService.class;
     }
-    
+
     public List<KeyValue> getAssignCmtActionCommitteeIdByUnitKeyValues() {
         return assignCmtActionCommitteeIdByUnitKeyValues;
     }
-    
 
     public List<KeyValue> getModifySubmissionActionCommitteeIdByUnitKeyValues() {
         return modifySubmissionActionCommitteeIdByUnitKeyValues;
@@ -1637,10 +1556,9 @@ public class IacucActionHelper extends ActionHelperBase {
     protected void initPrintCorrespondence() {
         List<CorrespondencePrintOption> printOptions = new ArrayList<CorrespondencePrintOption>();
         Map<String, Object> values = new HashMap<String, Object>();
-        List<IacucProtocolCorrespondenceType> correspondenceTypes = (List<IacucProtocolCorrespondenceType>)
-                KraServiceLocator.getService(BusinessObjectService.class).findMatching(IacucProtocolCorrespondenceType.class,values);
-        for(IacucProtocolCorrespondenceType correspondenceType : correspondenceTypes) {
-            if(StringUtils.equals(correspondenceType.getModuleId(),CorrespondenceTypeModuleIdConstants.PROTOCOL.getCode())) {
+        List<IacucProtocolCorrespondenceType> correspondenceTypes = (List<IacucProtocolCorrespondenceType>) KraServiceLocator.getService(BusinessObjectService.class).findMatching(IacucProtocolCorrespondenceType.class, values);
+        for (IacucProtocolCorrespondenceType correspondenceType : correspondenceTypes) {
+            if (StringUtils.equals(correspondenceType.getModuleId(), CorrespondenceTypeModuleIdConstants.PROTOCOL.getCode())) {
                 CorrespondencePrintOption printOption = new CorrespondencePrintOption();
                 printOption.setDescription(correspondenceType.getDescription());
                 printOption.setLabel(correspondenceType.getDescription());
@@ -1656,15 +1574,15 @@ public class IacucActionHelper extends ActionHelperBase {
         IacucProtocolTask task = new IacucProtocolTask(TaskName.IACUC_ASSIGN_REVIEWERS_CMT_SEL, getIacucProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
- 
+
     public boolean isReviewersDisplayToBeSuppressed() {
         boolean retVal = false;
-        IacucProtocolSubmitAction submitBean = (IacucProtocolSubmitAction) this.getProtocolSubmitAction(); 
-        if( (!this.canAssignReviewersCmtSel) || 
-            (StringUtils.isBlank(submitBean.getScheduleId())  || (StringUtils.isBlank(submitBean.getCommitteeId())))) {
+        IacucProtocolSubmitAction submitBean = (IacucProtocolSubmitAction) this.getProtocolSubmitAction();
+        if ((!this.canAssignReviewersCmtSel)
+                || (StringUtils.isBlank(submitBean.getScheduleId()) || (StringUtils.isBlank(submitBean.getCommitteeId())))) {
             retVal = true;
         }
         return retVal;
     }
-    
+
 }
