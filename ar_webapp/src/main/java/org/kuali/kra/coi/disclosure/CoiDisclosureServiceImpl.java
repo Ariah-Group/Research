@@ -35,7 +35,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.contacts.AwardPerson;
-import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.KcPerson;
@@ -49,17 +48,14 @@ import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.iacuc.protocol.IacucProtocolType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.DisclosureEventTypeConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
-import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.protocol.ProtocolType;
 import org.kuali.kra.krms.UnitAgendaTypeService;
@@ -68,7 +64,6 @@ import org.kuali.kra.medusa.MedusaNode;
 import org.kuali.kra.medusa.service.MedusaService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -106,7 +101,6 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private MedusaService medusaService;
     private KrmsRulesExecutionService krmsRulesExecutionService;
 
-    
     private static final String PROTOCOL_DISCLOSE_STATUS_CODES = "PROTOCOL_DISCLOSE_STATUS_CODES";
     private static final String IACUC_DISCLOSE_STATUS_CODES = "IACUC_DISCLOSE_STATUS_CODES";
     private static final String PROPOSAL_DISCLOSE_STATUS_CODES = "PROPOSAL_DISCLOSE_STATUS_CODES";
@@ -118,6 +112,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private static final String ALL_SPONSORS_FOR_PROTOCOL_DISCLOSE = "ALL_SPONSORS_FOR_PROTOCOL_DISCLOSE";
     private static final String ALL_SPONSORS_FOR_IACUC_PROTOCOL_DISCLOSE = "ALL_SPONSORS_FOR_IACUC_PROTOCOL_DISCLOSE";
     private static Map<String, String> eventModuleMap = new HashMap<String, String>();
+
     static {
         eventModuleMap.put(CoiDisclosureEventType.AWARD, CoeusModule.AWARD_MODULE_CODE);
         eventModuleMap.put(CoiDisclosureEventType.DEVELOPMENT_PROPOSAL, CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE);
@@ -135,8 +130,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private static final String MODULE_SUB_ITEM_KEY = "moduleSubItemKey";
 
     /**
-     * 
-     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getDisclosureReporter(java.lang.String, java.lang.Long)
+     *
+     * @see
+     * org.kuali.kra.coi.disclosure.CoiDisclosureService#getDisclosureReporter(java.lang.String,
+     * java.lang.Long)
      */
     @SuppressWarnings("rawtypes")
     @Override
@@ -160,8 +157,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 reporter.getDisclosurePersonUnits().add(leadUnit);
             }
             return reporter;
-        }
-        else {
+        } else {
             int i = 0;
             for (DisclosurePersonUnit disclosurePersonUnit : reporters.get(0).getDisclosurePersonUnits()) {
                 if (disclosurePersonUnit.isLeadUnitFlag()) {
@@ -175,13 +171,15 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     }
 
     /**
-     * 
-     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#addDisclosureReporterUnit(org.kuali.kra.coi.DisclosureReporter, org.kuali.kra.coi.DisclosureReporterUnit)
+     *
+     * @see
+     * org.kuali.kra.coi.disclosure.CoiDisclosureService#addDisclosureReporterUnit(org.kuali.kra.coi.DisclosureReporter,
+     * org.kuali.kra.coi.DisclosureReporterUnit)
      */
     @Override
-    public void addDisclosureReporterUnit(DisclosureReporter disclosureReporter , DisclosureReporterUnit newDisclosureReporterUnit) {
-        
-        List<DisclosureReporterUnit> disclosureReporterUnits = (List<DisclosureReporterUnit>)disclosureReporter.getDisclosureReporterUnits();
+    public void addDisclosureReporterUnit(DisclosureReporter disclosureReporter, DisclosureReporterUnit newDisclosureReporterUnit) {
+
+        List<DisclosureReporterUnit> disclosureReporterUnits = (List<DisclosureReporterUnit>) disclosureReporter.getDisclosureReporterUnits();
         if (newDisclosureReporterUnit.isLeadUnitFlag()) {
             resetLeadUnit(disclosureReporterUnits);
             disclosureReporter.setSelectedUnit(disclosureReporterUnits.size());
@@ -190,16 +188,18 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     }
 
     /**
-     * 
-     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#deleteDisclosureReporterUnit(org.kuali.kra.coi.DisclosureReporter, java.util.List, int)
+     *
+     * @see
+     * org.kuali.kra.coi.disclosure.CoiDisclosureService#deleteDisclosureReporterUnit(org.kuali.kra.coi.DisclosureReporter,
+     * java.util.List, int)
      */
     @Override
-    public void deleteDisclosureReporterUnit(DisclosureReporter disclosureReporter,List<? extends DisclosureReporterUnit> deletedUnits, int unitIndex) {
-        
-        List<DisclosureReporterUnit> disclosureReporterUnits = (List<DisclosureReporterUnit>)disclosureReporter.getDisclosureReporterUnits();
+    public void deleteDisclosureReporterUnit(DisclosureReporter disclosureReporter, List<? extends DisclosureReporterUnit> deletedUnits, int unitIndex) {
+
+        List<DisclosureReporterUnit> disclosureReporterUnits = (List<DisclosureReporterUnit>) disclosureReporter.getDisclosureReporterUnits();
         DisclosureReporterUnit deletedUnit = disclosureReporterUnits.get(unitIndex);
         if (deletedUnit.getReporterUnitId() != null) {
-            ((List<DisclosureReporterUnit>)deletedUnits).add(deletedUnit);
+            ((List<DisclosureReporterUnit>) deletedUnits).add(deletedUnit);
         }
         disclosureReporterUnits.remove(unitIndex);
         if (deletedUnit.isLeadUnitFlag() && !disclosureReporterUnits.isEmpty()) {
@@ -209,8 +209,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     }
 
     /**
-     * 
-     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#resetLeadUnit(org.kuali.kra.coi.DisclosureReporter)
+     *
+     * @see
+     * org.kuali.kra.coi.disclosure.CoiDisclosureService#resetLeadUnit(org.kuali.kra.coi.DisclosureReporter)
      */
     @Override
     public void resetLeadUnit(DisclosureReporter disclosureReporter) {
@@ -225,13 +226,13 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     public boolean setDisclProjectForSave(CoiDisclosure coiDisclosure, MasterDisclosureBean masterDisclosureBean) {
         coiDisclosure.setCoiDisclProjects(new ArrayList<CoiDisclProject>());
         // reset disclosure's disclprojects from master disclosure bean
-        if (masterDisclosureBean != null ) {
+        if (masterDisclosureBean != null) {
             for (List<CoiDisclosureProjectBean> projects : masterDisclosureBean.getProjectLists()) {
                 for (CoiDisclosureProjectBean coiDisclProject : projects) {
-                   // coiDisclProjects.add(createDisclProject(coiDisclosure, coiDisclProject.getProjectId(), coiDisclProject.getProjectName()));
+                    // coiDisclProjects.add(createDisclProject(coiDisclosure, coiDisclProject.getProjectId(), coiDisclProject.getProjectName()));
                     coiDisclosure.getCoiDisclProjects().add(coiDisclProject.getCoiDisclProject());
                 }
-            }        
+            }
             return true;
         }
         return false;
@@ -242,10 +243,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * set all units leadunitflag to false
      */
     private void resetLeadUnit(List<? extends DisclosureReporterUnit> disclosureReporterUnits) {
-        for (DisclosureReporterUnit  disclosureReporterUnit : disclosureReporterUnits) {
+        for (DisclosureReporterUnit disclosureReporterUnit : disclosureReporterUnits) {
             disclosureReporterUnit.setLeadUnitFlag(false);
         }
-        
+
     }
 
     /*
@@ -264,10 +265,11 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
         return leadUnit;
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#initializeDisclosureDetails(org.kuali.kra.coi.CoiDisclosure)
+     *
+     * @see
+     * org.kuali.kra.coi.disclosure.CoiDisclosureService#initializeDisclosureDetails(org.kuali.kra.coi.CoiDisclosure)
      */
     @Override
     public void initializeDisclosureDetails(CoiDisclosure coiDisclosure) {
@@ -281,23 +283,23 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
         if (coiDisclosure.isIacucProtocolEvent() || coiDisclosure.isAnnualEvent()) {
             initIacucProtocols(coiDisclProjects, financialEntities, coiDisclosure);
-        } 
+        }
         if (coiDisclosure.isProposalEvent() || coiDisclosure.isAnnualEvent()) {
             initProposals(coiDisclProjects, financialEntities, coiDisclosure);
-        } 
+        }
         if (coiDisclosure.isInstitutionalProposalEvent() || coiDisclosure.isAnnualEvent()) {
             initInstitutionalProposals(coiDisclProjects, financialEntities, coiDisclosure);
-        } 
+        }
         if (coiDisclosure.isAwardEvent() || coiDisclosure.isAnnualEvent()) {
             initAwards(coiDisclProjects, financialEntities, coiDisclosure);
-        } 
+        }
         coiDisclosure.setCoiDisclProjects(coiDisclProjects);
     }
-    
+
     /*
      * set up protocols, that need disclosure, with FE relationship
      */
-    private void initProtocols(List<CoiDisclProject> coiDisclProjects, List<PersonFinIntDisclosure> financialEntities, CoiDisclosure coiDisclosure) {      
+    private void initProtocols(List<CoiDisclProject> coiDisclProjects, List<PersonFinIntDisclosure> financialEntities, CoiDisclosure coiDisclosure) {
         List<Protocol> protocols = getProtocols(GlobalVariables.getUserSession().getPrincipalId());
         for (Protocol protocol : protocols) {
             CoiDisclProject coiDisclProject = createNewCoiDisclProject(coiDisclosure, CoiDisclosureEventType.IRB_PROTOCOL);
@@ -311,17 +313,17 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 coiDisclProject.getCoiDiscDetails().add(disclosureDetail);
             }
             coiDisclProjects.add(coiDisclProject);
-        }     
+        }
     }
-    
+
     /*
      * set up IACUC protocols, that need disclosure, with FE relationship
      */
-    private void initIacucProtocols(List<CoiDisclProject> coiDisclProjects, List<PersonFinIntDisclosure> financialEntities, CoiDisclosure coiDisclosure) {      
+    private void initIacucProtocols(List<CoiDisclProject> coiDisclProjects, List<PersonFinIntDisclosure> financialEntities, CoiDisclosure coiDisclosure) {
         List<IacucProtocol> protocols = getIacucProtocols(GlobalVariables.getUserSession().getPrincipalId());
         for (IacucProtocol protocol : protocols) {
             CoiDisclProject coiDisclProject = createNewCoiDisclProject(coiDisclosure, CoiDisclosureEventType.IACUC_PROTOCOL);
-            coiDisclProject.setIacucProtocolType((IacucProtocolType)protocol.getProtocolType());
+            coiDisclProject.setIacucProtocolType((IacucProtocolType) protocol.getProtocolType());
             coiDisclProject.setCoiProjectId(protocol.getProtocolId().toString()); //Project Id
             coiDisclProject.setModuleItemKey(protocol.getProtocolNumber()); //Module Item Key
             coiDisclProject.setCoiProjectTitle(protocol.getTitle()); //Project Title
@@ -331,9 +333,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 coiDisclProject.getCoiDiscDetails().add(disclosureDetail);
             }
             coiDisclProjects.add(coiDisclProject);
-        }     
+        }
     }
-    
+
     /*
      * set up proposals, that need disclosure, with FE relationship
      */
@@ -354,28 +356,28 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             coiDisclProjects.add(coiDisclProject);
         }
     }
-    
+
     /*
      * set up institutional proposals, that need disclosure, with FE relationship
      */
     private void initInstitutionalProposals(List<CoiDisclProject> coiDisclProjects, List<PersonFinIntDisclosure> financialEntities, CoiDisclosure coiDisclosure) {
         List<InstitutionalProposal> iProposals = getInstitutionalProposals(GlobalVariables.getUserSession().getPrincipalId());
         for (InstitutionalProposal proposal : iProposals) {
-                CoiDisclProject coiDisclProject = createNewCoiDisclProject(coiDisclosure, CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL);
-                coiDisclProject.setProposalType(proposal.getProposalType());
-                coiDisclProject.setCoiProjectId(proposal.getProposalId().toString()); //Project Id
-                coiDisclProject.setModuleItemKey(proposal.getProposalNumber()); //Module Item Key
-                coiDisclProject.setCoiProjectTitle(proposal.getTitle()); //Project Title
-                
-                for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
-                    CoiDiscDetail disclosureDetail = createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure,
-                                proposal.getProposalNumber(), proposal.getProposalId().toString(), CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL);
-                    coiDisclProject.getCoiDiscDetails().add(disclosureDetail);
-                }
-                coiDisclProjects.add(coiDisclProject);
+            CoiDisclProject coiDisclProject = createNewCoiDisclProject(coiDisclosure, CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL);
+            coiDisclProject.setProposalType(proposal.getProposalType());
+            coiDisclProject.setCoiProjectId(proposal.getProposalId().toString()); //Project Id
+            coiDisclProject.setModuleItemKey(proposal.getProposalNumber()); //Module Item Key
+            coiDisclProject.setCoiProjectTitle(proposal.getTitle()); //Project Title
+
+            for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
+                CoiDiscDetail disclosureDetail = createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure,
+                        proposal.getProposalNumber(), proposal.getProposalId().toString(), CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL);
+                coiDisclProject.getCoiDiscDetails().add(disclosureDetail);
             }
+            coiDisclProjects.add(coiDisclProject);
         }
-    
+    }
+
     /*
      * set up awards, that need disclosure, with FE relationship
      */
@@ -388,7 +390,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 coiDisclProject.setCoiProjectId(award.getAwardId().toString()); //Project Id
                 coiDisclProject.setModuleItemKey(award.getAwardNumber()); //Module Item Key
                 coiDisclProject.setCoiProjectTitle(award.getTitle()); //Project Title
-                
+
                 for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
                     CoiDiscDetail disclosureDetail = createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure,
                             award.getAwardNumber(), award.getAwardId().toString(), CoiDisclosureEventType.AWARD);
@@ -397,12 +399,12 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 coiDisclProjects.add(coiDisclProject);
             }
         }
-        
+
     }
-    
+
     private boolean isAwardHierarchyIncluded(List<String> rootAwardNumbers, Award award) {
         boolean isIncluded = true;
-        
+
         if (rootAwardNumbers.isEmpty()) {
             String rootAwardNumber = getRootAwardNumber(award.getAwardNumber());
             if (StringUtils.isNotBlank(rootAwardNumber)) {
@@ -420,40 +422,40 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             }
         }
         return isIncluded;
-        
+
     }
-    
+
     private String getRootAwardNumber(String awardNumber) {
         HashMap<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("awardNumber", awardNumber);
-        List<AwardHierarchy> awardHierarchies  = (List<AwardHierarchy>)businessObjectService.findMatching(AwardHierarchy.class, fieldValues);
+        List<AwardHierarchy> awardHierarchies = (List<AwardHierarchy>) businessObjectService.findMatching(AwardHierarchy.class, fieldValues);
         if (CollectionUtils.isNotEmpty(awardHierarchies)) {
-               return awardHierarchies.get(0).getRootAwardNumber();                
-            
+            return awardHierarchies.get(0).getRootAwardNumber();
+
         }
         return null;
-        
+
     }
 
-    
     /**
-     * 
-     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#initializeDisclosureDetails(org.kuali.kra.coi.CoiDisclProject)
+     *
+     * @see
+     * org.kuali.kra.coi.disclosure.CoiDisclosureService#initializeDisclosureDetails(org.kuali.kra.coi.CoiDisclProject)
      */
     @Override
     public void initializeDisclosureDetails(CoiDisclProject coiDisclProject) {
         List<CoiDiscDetail> disclosureDetails = new ArrayList<CoiDiscDetail>();
         List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(coiDisclProject.getCoiDisclosure().getPersonId(), true);
         for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
-            CoiDiscDetail disclosureDetail =createNewCoiDiscDetail(coiDisclProject.getCoiDisclosure(), personFinIntDisclosure, coiDisclProject.getProjectId(), coiDisclProject.getProjectId(), coiDisclProject.getDisclosureEventType());
+            CoiDiscDetail disclosureDetail = createNewCoiDiscDetail(coiDisclProject.getCoiDisclosure(), personFinIntDisclosure, coiDisclProject.getProjectId(), coiDisclProject.getProjectId(), coiDisclProject.getDisclosureEventType());
             disclosureDetail.setCoiDisclProject(coiDisclProject);
             disclosureDetail.setProjectType(coiDisclProject.getDisclosureEventType());
             disclosureDetails.add(disclosureDetail);
         }
         coiDisclProject.setCoiDiscDetails(disclosureDetails);
 
-    }    
-    
+    }
+
     /*
      * get moduleitemkey from different project bo
      */
@@ -461,40 +463,32 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         // TODO : this is a temp method, should add interface and 'getmoduleitemkey' in the disclosurable bos    
         String moduleItemKey = null;
         if (coiDisclosure.isProtocolEvent()) {
-            moduleItemKey = ((Protocol)eventBo).getProtocolNumber();
+            moduleItemKey = ((Protocol) eventBo).getProtocolNumber();
+        } else if (coiDisclosure.isIacucProtocolEvent()) {
+            moduleItemKey = ((IacucProtocol) eventBo).getProtocolNumber();
+        } else if (coiDisclosure.isProposalEvent()) {
+            moduleItemKey = ((DevelopmentProposal) eventBo).getProposalNumber();
+        } else if (coiDisclosure.isInstitutionalProposalEvent()) {
+            moduleItemKey = ((InstitutionalProposal) eventBo).getProposalNumber();
+        } else if (coiDisclosure.isAwardEvent()) {
+            moduleItemKey = ((Award) eventBo).getAwardNumber();
         }
-        else if (coiDisclosure.isIacucProtocolEvent()) {
-            moduleItemKey = ((IacucProtocol)eventBo).getProtocolNumber();
-        }
-        else if (coiDisclosure.isProposalEvent()) {
-            moduleItemKey = ((DevelopmentProposal)eventBo).getProposalNumber();
-        } 
-        else if (coiDisclosure.isInstitutionalProposalEvent()) {
-            moduleItemKey = ((InstitutionalProposal)eventBo).getProposalNumber();
-        } 
-        else if (coiDisclosure.isAwardEvent()) {
-            moduleItemKey = ((Award)eventBo).getAwardNumber();
-       }
         return moduleItemKey;
     }
-    
+
     private String getProjectIdFk(CoiDisclosure coiDisclosure, KraPersistableBusinessObjectBase eventBo) {
-    // TODO : this is a temp method, should add interface and 'getmoduleitemkey' in the disclosurable bos    
+        // TODO : this is a temp method, should add interface and 'getmoduleitemkey' in the disclosurable bos    
         String projectIdFk = null;
         if (coiDisclosure.isProtocolEvent()) {
-            projectIdFk = ((Protocol)eventBo).getProtocolId().toString();
-        }
-        else if (coiDisclosure.isIacucProtocolEvent()) {
-            projectIdFk = ((IacucProtocol)eventBo).getProtocolId().toString();
-        }
-        else if (coiDisclosure.isProposalEvent()) {
-            projectIdFk = ((DevelopmentProposal)eventBo).getProposalNumber();
-        } 
-        else if (coiDisclosure.isInstitutionalProposalEvent()) {
-            projectIdFk = ((InstitutionalProposal)eventBo).getProposalId().toString();
-        } 
-        else if (coiDisclosure.isAwardEvent()) {
-            projectIdFk = ((Award)eventBo).getAwardId().toString();
+            projectIdFk = ((Protocol) eventBo).getProtocolId().toString();
+        } else if (coiDisclosure.isIacucProtocolEvent()) {
+            projectIdFk = ((IacucProtocol) eventBo).getProtocolId().toString();
+        } else if (coiDisclosure.isProposalEvent()) {
+            projectIdFk = ((DevelopmentProposal) eventBo).getProposalNumber();
+        } else if (coiDisclosure.isInstitutionalProposalEvent()) {
+            projectIdFk = ((InstitutionalProposal) eventBo).getProposalId().toString();
+        } else if (coiDisclosure.isAwardEvent()) {
+            projectIdFk = ((Award) eventBo).getAwardId().toString();
         }
         return projectIdFk;
     }
@@ -505,22 +499,19 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private String getProjectTitle(CoiDisclosure coiDisclosure, KraPersistableBusinessObjectBase eventBo) {
         String projectTitle = null;
         if (coiDisclosure.isProtocolEvent()) {
-            projectTitle = ((Protocol)eventBo).getTitle();
-        }
-        else if (coiDisclosure.isIacucProtocolEvent()) {
-            projectTitle = ((IacucProtocol)eventBo).getTitle();
-        }
-        else if (coiDisclosure.isProposalEvent()) {
-            projectTitle = ((DevelopmentProposal)eventBo).getTitle();
+            projectTitle = ((Protocol) eventBo).getTitle();
+        } else if (coiDisclosure.isIacucProtocolEvent()) {
+            projectTitle = ((IacucProtocol) eventBo).getTitle();
+        } else if (coiDisclosure.isProposalEvent()) {
+            projectTitle = ((DevelopmentProposal) eventBo).getTitle();
         } else if (coiDisclosure.isInstitutionalProposalEvent()) {
-            projectTitle = ((InstitutionalProposal)eventBo).getTitle();
-        } 
-        else if (coiDisclosure.isAwardEvent()) {
-            projectTitle = ((Award)eventBo).getTitle();
-       }
+            projectTitle = ((InstitutionalProposal) eventBo).getTitle();
+        } else if (coiDisclosure.isAwardEvent()) {
+            projectTitle = ((Award) eventBo).getTitle();
+        }
         return projectTitle;
     }
-    
+
     /*
      * set up the eventbo based on disclosure event and projectid
      */
@@ -528,20 +519,17 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         KraPersistableBusinessObjectBase eventBo = null;
         if (coiDisclosure.isProtocolEvent()) {
             eventBo = getProtocol(Long.valueOf(projectId));
-        }
-        else if (coiDisclosure.isIacucProtocolEvent()) {
+        } else if (coiDisclosure.isIacucProtocolEvent()) {
             eventBo = getIacucProtocol(Long.valueOf(projectId));
-        }
-        else if (coiDisclosure.isProposalEvent()) {
+        } else if (coiDisclosure.isProposalEvent()) {
             eventBo = getDevelopmentProposal(projectId);
         } else if (coiDisclosure.isInstitutionalProposalEvent()) {
-                eventBo = getInstitutionalProposal(projectId);
-        }
-        else if (coiDisclosure.isAwardEvent()) {
+            eventBo = getInstitutionalProposal(projectId);
+        } else if (coiDisclosure.isAwardEvent()) {
             // TODO : for award
             eventBo = getAwardById(projectId);
-       }
-       return eventBo;
+        }
+        return eventBo;
 
     }
 
@@ -552,9 +540,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         HashMap<String, Object> pkMap = new HashMap<String, Object>();
         pkMap.put("protocolId", protocolId);
         return (Protocol) this.businessObjectService.findByPrimaryKey(Protocol.class, pkMap);
-    
+
     }
-    
+
     /*
      * get protocol by using protocolid
      */
@@ -562,9 +550,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         HashMap<String, Object> pkMap = new HashMap<String, Object>();
         pkMap.put("protocolId", protocolId);
         return (IacucProtocol) this.businessObjectService.findByPrimaryKey(IacucProtocol.class, pkMap);
-    
+
     }
-    
+
 
     /*
      * check if there is new FE added since last update. if there is, then set up the coi disclose FE
@@ -573,11 +561,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
             if (!disclEntityNumbers.contains(personFinIntDisclosure.getEntityNumber())) {
                 coiDiscDetails.add(createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure, projectId, projectIdFk, projectType));
-               // coiDiscDetails.get(coiDiscDetails.size() - 1).setProjectType(projectType);
+                // coiDiscDetails.get(coiDiscDetails.size() - 1).setProjectType(projectType);
             }
         }
-        
-        
+
     }
 
     /*
@@ -590,25 +577,25 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             coiDiscDetail.setPersonFinIntDisclosureId(financialEntity.getPersonFinIntDisclosureId());
             coiDiscDetail.setPersonFinIntDisclosure(financialEntity);
         }
-        
+
     }
-        
+
     /*
      * retrieve award by awardid
      */
     private Award getAwardById(String awardId) {
         Map<String, Object> values = new HashMap<String, Object>();
         values.put("awardId", awardId);
-        return (Award)businessObjectService.findByPrimaryKey(Award.class, values);
+        return (Award) businessObjectService.findByPrimaryKey(Award.class, values);
     }
-    
+
     /*
      * retrieve award by awardnumber
      */
     private Award getAward(String awardNumber) {
         Map<String, Object> values = new HashMap<String, Object>();
         values.put("awardNumber", awardNumber);
-        List<Award> awards = (List<Award>)businessObjectService.findMatchingOrderBy(Award.class, values, "sequenceNumber", false);
+        List<Award> awards = (List<Award>) businessObjectService.findMatchingOrderBy(Award.class, values, "sequenceNumber", false);
         return awards.get(0);
     }
 
@@ -621,7 +608,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         DevelopmentProposal currentProposal = (DevelopmentProposal) businessObjectService.findByPrimaryKey(DevelopmentProposal.class, primaryKeys);
         return currentProposal;
     }
-    
+
     /*
      * get IP by using proposalNumber
      */
@@ -634,14 +621,15 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     }
 
     /**
-     * 
-     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#updateDisclosureDetails(org.kuali.kra.coi.CoiDisclProject)
+     *
+     * @see
+     * org.kuali.kra.coi.disclosure.CoiDisclosureService#updateDisclosureDetails(org.kuali.kra.coi.CoiDisclProject)
      */
     @Override
     public void updateDisclosureDetails(CoiDisclProject coiDisclProject) {
         // When creating a disclosure. the detail will be created at first
         // TODO : what if FE is deactivate
-        Map <String, Object> fieldValues = new HashMap<String, Object>();
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("coiDisclProjectId", coiDisclProject.getCoiDisclProjectsId());
         List<String> disclEntityNumbers = new ArrayList<String>();
         List<CoiDiscDetail> activeDetails = new ArrayList<CoiDiscDetail>();
@@ -655,14 +643,14 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                     disclEntityNumbers.add(coiDiscDetail.getPersonFinIntDisclosure().getEntityNumber());
                 }
                 activeDetails.add(coiDiscDetail);
-            }            
+            }
         }
         checkToAddNewFinancialEntity(financialEntities, activeDetails, disclEntityNumbers, coiDisclProject.getProjectId(), coiDisclProject.getCoiDisclosure(), coiDisclProject.getDisclosureEventType(), coiDisclProject.getProjectId());
 
         coiDisclProject.setCoiDiscDetails(activeDetails);
 
     }
-    
+
     /*
      * utility method to create a new coi discl project
      */
@@ -678,14 +666,14 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         coiDisclProject.setDisclosureStatusCode(CoiDisclosureStatus.IN_PROGRESS);
         coiDisclProject.setDisclosureDispositionCode(CoiDispositionStatus.IN_PROGRESS);
         coiDisclProject.refreshReferenceObject("coiDispositionStatus");
-        
+
         return coiDisclProject;
     }
 
     /*
      * utility method to create new coidiscl object
      */
-    private CoiDiscDetail createNewCoiDiscDetail(CoiDisclosure coiDisclosure,PersonFinIntDisclosure personFinIntDisclosure, String moduleItemKey, String projectIdFk, String projectType) {
+    private CoiDiscDetail createNewCoiDiscDetail(CoiDisclosure coiDisclosure, PersonFinIntDisclosure personFinIntDisclosure, String moduleItemKey, String projectIdFk, String projectType) {
         CoiDiscDetail disclosureDetail = new CoiDiscDetail(personFinIntDisclosure);
         disclosureDetail.setModuleItemKey(moduleItemKey);
         disclosureDetail.setProjectIdFk(projectIdFk);
@@ -698,16 +686,17 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         disclosureDetail.setSequenceNumber(coiDisclosure.getSequenceNumber());
         disclosureDetail.setDescription("Sample Description"); // this is from coeus.
         return disclosureDetail;
-        
+
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getProtocols(java.lang.String)
+     *
+     * @see
+     * org.kuali.kra.coi.disclosure.CoiDisclosureService#getProtocols(java.lang.String)
      */
     @Override
     public List<Protocol> getProtocols(String personId) {
-        return getProtocols(getProtocolPersons(personId));    
+        return getProtocols(getProtocolPersons(personId));
     }
 
     private List<ProtocolPerson> getProtocolPersons(String personId) {
@@ -717,7 +706,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 fieldValues);
         return protocolPersons;
     }
-    
+
     private List<Protocol> getProtocols(List<ProtocolPerson> protocolPersons) {
         List<Protocol> protocols = new ArrayList<Protocol>();
         for (ProtocolPerson protocolPerson : protocolPersons) {
@@ -730,10 +719,11 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
         return protocols;
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getProtocols(java.lang.String)
+     *
+     * @see
+     * org.kuali.kra.coi.disclosure.CoiDisclosureService#getProtocols(java.lang.String)
      */
     @Override
     public List<IacucProtocol> getIacucProtocols(String personId) {
@@ -744,32 +734,33 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("personId", personId);
         List<IacucProtocolPerson> protocolPersons = (List<IacucProtocolPerson>) businessObjectService.findMatching(IacucProtocolPerson.class,
-                        fieldValues);
+                fieldValues);
         return protocolPersons;
     }
-    
+
     private List<IacucProtocol> getIacucProtocols(List<IacucProtocolPerson> protocolPersons) {
         List<IacucProtocol> protocols = new ArrayList<IacucProtocol>();
         for (IacucProtocolPerson protocolPerson : protocolPersons) {
             if (protocolPerson.getProtocol().isActive()
                     && isIacucProtocolDisclosurable(protocolPerson.getIacucProtocol())
                     && !isProjectReported(protocolPerson.getProtocol().getProtocolNumber(),
-                                    CoiDisclosureEventType.IACUC_PROTOCOL, protocolPerson.getPersonId())) {
+                            CoiDisclosureEventType.IACUC_PROTOCOL, protocolPerson.getPersonId())) {
                 protocols.add(protocolPerson.getIacucProtocol());
             }
         }
         return protocols;
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getProposals(java.lang.String)
+     *
+     * @see
+     * org.kuali.kra.coi.disclosure.CoiDisclosureService#getProposals(java.lang.String)
      */
     @Override
     public List<DevelopmentProposal> getProposals(String personId) {
         return getProposals(getProposalPersons(personId));
     }
-    
+
     private List<ProposalPerson> getProposalPersons(String personId) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("personId", personId);
@@ -777,7 +768,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 fieldValues);
         return proposalPersons;
     }
-    
+
     private List<DevelopmentProposal> getProposals(List<ProposalPerson> proposalPersons) {
         List<DevelopmentProposal> proposals = new ArrayList<DevelopmentProposal>();
         for (ProposalPerson proposalPerson : proposalPersons) {
@@ -789,24 +780,25 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
         return proposals;
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getInstitutionalProposals(java.lang.String)
+     *
+     * @see
+     * org.kuali.kra.coi.disclosure.CoiDisclosureService#getInstitutionalProposals(java.lang.String)
      */
     @SuppressWarnings("unchecked")
     @Override
     public List<InstitutionalProposal> getInstitutionalProposals(String personId) {
         return getInstitutionalProposals(getInstituteProposalPersons(personId));
     }
-    
+
     private List<InstitutionalProposalPerson> getInstituteProposalPersons(String personId) {
         Map<String, Object> propFieldValues = new HashMap<String, Object>();
         propFieldValues.put("personId", personId);
         List<InstitutionalProposalPerson> proposalPersons = (List<InstitutionalProposalPerson>) businessObjectService.findMatching(InstitutionalProposalPerson.class, propFieldValues);
         return proposalPersons;
     }
-    
+
     private List<InstitutionalProposal> getInstitutionalProposals(List<InstitutionalProposalPerson> proposalPersons) {
         List<InstitutionalProposal> proposals = new ArrayList<InstitutionalProposal>();
         Map<String, Integer> propNumbers = new HashMap<String, Integer>();
@@ -814,39 +806,39 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         for (InstitutionalProposalPerson proposalPerson : proposalPersons) {
             Integer newSequenceNumber = proposalPerson.getSequenceNumber();
             Integer oldSequenceNumber = propNumbers.get(proposalPerson.getProposalNumber());
-            if ((oldSequenceNumber == null) || (oldSequenceNumber.compareTo(newSequenceNumber) < 0)) { 
+            if ((oldSequenceNumber == null) || (oldSequenceNumber.compareTo(newSequenceNumber) < 0)) {
                 propNumbers.put(proposalPerson.getProposalNumber(), newSequenceNumber);
                 propPerson.put(proposalPerson.getProposalNumber(), proposalPerson.getPersonId());
             }
         }
-        for (String propNumber: propNumbers.keySet()) {
+        for (String propNumber : propNumbers.keySet()) {
             Map<String, Object> ipFieldValues = new HashMap<String, Object>();
             ipFieldValues.put("proposalNumber", propNumber);
             ipFieldValues.put("sequenceNumber", propNumbers.get(propNumber));
             String personId = propPerson.get(propNumber);
             // get singleton list of IP's that match IP number
             List<InstitutionalProposal> searchResults = (List<InstitutionalProposal>) businessObjectService.findMatching(InstitutionalProposal.class, ipFieldValues);
-            for (InstitutionalProposal institutionalProposal: searchResults) {
-                if (isInstitutionalProposalDisclosurable(institutionalProposal) && 
-                    !isProjectReported(institutionalProposal.getProposalNumber(), CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, personId)) {
+            for (InstitutionalProposal institutionalProposal : searchResults) {
+                if (isInstitutionalProposalDisclosurable(institutionalProposal)
+                        && !isProjectReported(institutionalProposal.getProposalNumber(), CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, personId)) {
                     proposals.add(institutionalProposal);
                 }
             }
         }
         return proposals;
-        
+
     }
-    
- 
+
     /**
-     * 
-     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getAwards(java.lang.String)
+     *
+     * @see
+     * org.kuali.kra.coi.disclosure.CoiDisclosureService#getAwards(java.lang.String)
      */
     @Override
     public List<Award> getAwards(String personId) {
         return getAwards(getAwardPersons(personId));
     }
-    
+
     private List<AwardPerson> getAwardPersons(String personId) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("personId", personId);
@@ -854,7 +846,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 fieldValues, "awardNumber", true);
         return awardPersons;
     }
-    
+
     private List<Award> getAwards(List<AwardPerson> awardPersons) {
         List<Award> awards = new ArrayList<Award>();
         for (AwardPerson awardPerson : awardPersons) {
@@ -867,13 +859,12 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
         return awards;
     }
-    
- 
+
     private boolean isCurrentAward(Award award) {
         Award currentAward = getAward(award.getAwardNumber());
         return award.getAwardId().equals(currentAward.getAwardId());
     }
-    
+
     /*
      * check if project has been reported in the current report year
      */
@@ -891,7 +882,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         List<CoiDisclProject> disclProjects = (List<CoiDisclProject>) businessObjectService.findMatching(CoiDisclProject.class, fieldValues);
         Date currentDate = dateTimeService.getCurrentSqlDateMidnight();
         for (CoiDisclProject disclProject : disclProjects) {
-            if (StringUtils.equals(disclProject.getCoiDisclosure().getPersonId(), personId) 
+            if (StringUtils.equals(disclProject.getCoiDisclosure().getPersonId(), personId)
                     && disclProject.getCoiDisclosure().getExpirationDate().after(currentDate)) {
                 isDisclosed = true;
                 break;
@@ -909,23 +900,24 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         awardNumbers.add(projectId);
         HashMap<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("awardNumber", projectId);
-        List<AwardHierarchy> awardHierarchies  = (List<AwardHierarchy>) businessObjectService.findMatching(AwardHierarchy.class, fieldValues);
+        List<AwardHierarchy> awardHierarchies = (List<AwardHierarchy>) businessObjectService.findMatching(AwardHierarchy.class, fieldValues);
         if (CollectionUtils.isNotEmpty(awardHierarchies)) {
             fieldValues.clear();
             fieldValues.put("rootAwardNumber", awardHierarchies.get(0).getRootAwardNumber());
-            awardHierarchies  = (List<AwardHierarchy>) businessObjectService.findMatching(AwardHierarchy.class, fieldValues);
+            awardHierarchies = (List<AwardHierarchy>) businessObjectService.findMatching(AwardHierarchy.class, fieldValues);
             for (AwardHierarchy awardHierarchy : awardHierarchies) {
-                awardNumbers.add(awardHierarchy.getAwardNumber());                
+                awardNumbers.add(awardHierarchy.getAwardNumber());
             }
-            
+
         }
         return awardNumbers;
-        
+
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#versionCoiDisclosure()
+     *
+     * @see
+     * org.kuali.kra.coi.disclosure.CoiDisclosureService#versionCoiDisclosure()
      */
     @Override
     public CoiDisclosure versionCoiDisclosure() throws VersionException {
@@ -968,90 +960,106 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     }
 
     /**
-     * 
+     *
      * This method is to check is award is active for disclosure
+     *
      * @param award
      * @return
      */
     private boolean isAwardDisclosurable(Award award) {
-         Collection<String> params = parameterService.getParameterValuesAsString(AwardDocument.class, AWARD_DISCLOSE_STATUS_CODES);
-        return params.contains(award.getStatusCode().toString()) && isSponsorForDisclosure(ProposalDevelopmentDocument.class, award.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
-   
+        
+        Collection<String> params = parameterService.getParameterValuesAsString(Constants.MODULE_NAMESPACE_AWARD, 
+                Constants.PARAMETER_COMPONENT_DOCUMENT, AWARD_DISCLOSE_STATUS_CODES);
+        
+        return params.contains(award.getStatusCode().toString()) && isSponsorForDisclosure(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, award.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
+
     }
-    
+
     /*
      * check if PD is active for disclosure
      */
     private boolean isProposalDisclosurable(DevelopmentProposal proposal) {
-        Collection<String> params = parameterService.getParameterValuesAsString(ProposalDevelopmentDocument.class, PROPOSAL_DISCLOSE_STATUS_CODES);
-        return params.contains(proposal.getProposalStateTypeCode()) && isSponsorForDisclosure(ProposalDevelopmentDocument.class, proposal.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
-   
+        
+        Collection<String> params = parameterService.getParameterValuesAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
+                Constants.PARAMETER_COMPONENT_DOCUMENT, PROPOSAL_DISCLOSE_STATUS_CODES);
+        
+        return params.contains(proposal.getProposalStateTypeCode()) && isSponsorForDisclosure(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, proposal.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
+
     }
 
     /*
      * check if institutional proposal is active for disclosure
      */
     private boolean isInstitutionalProposalDisclosurable(InstitutionalProposal proposal) {
-        Collection<String> params = parameterService.getParameterValuesAsString(InstitutionalProposalDocument.class, INSTITUTIONAL_PROPOSAL_DISCLOSE_STATUS_CODES);
-        return params.contains(proposal.getStatusCode().toString()) && isSponsorForDisclosure(ProposalDevelopmentDocument.class, proposal.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
-   
+        
+        Collection<String> params = parameterService.getParameterValuesAsString(Constants.MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL, 
+                Constants.PARAMETER_COMPONENT_DOCUMENT, INSTITUTIONAL_PROPOSAL_DISCLOSE_STATUS_CODES);
+        
+        return params.contains(proposal.getStatusCode().toString()) && isSponsorForDisclosure(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, proposal.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
+
     }
-    
+
     /*
      * check if protocol is active for disclosure
      */
     private boolean isProtocolDisclosurable(Protocol protocol) {
-        Collection<String> params = parameterService.getParameterValuesAsString(ProtocolDocument.class, PROTOCOL_DISCLOSE_STATUS_CODES);
+        
+        Collection<String> params = parameterService.getParameterValuesAsString(Constants.MODULE_NAMESPACE_PROTOCOL,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, PROTOCOL_DISCLOSE_STATUS_CODES);
+        
         return params.contains(protocol.getProtocolStatusCode()) && isProtocolFundedByActiveSponsor(protocol);
-   
+
     }
 
     /*
      * check if protocol is active for disclosure
      */
     private boolean isIacucProtocolDisclosurable(IacucProtocol protocol) {
-        Collection<String> params = parameterService.getParameterValuesAsString(IacucProtocolDocument.class, IACUC_DISCLOSE_STATUS_CODES);
+        
+        Collection<String> params = parameterService.getParameterValuesAsString(Constants.MODULE_NAMESPACE_IACUC,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, IACUC_DISCLOSE_STATUS_CODES);
+        
         return params.contains(protocol.getProtocolStatusCode()) && isProtocolFundedByActiveSponsor(protocol);
-   
+
     }
 
     /*
      * check if protocol funding source sponsor is in disclose list
      */
     private boolean isProtocolFundedByActiveSponsor(Protocol protocol) {
-         boolean isActive = false;
-         for (ProtocolFundingSourceBase fundingSource : protocol.getProtocolFundingSources()) {
-             if (fundingSource.isSponsorFunding() && isSponsorForDisclosure(ProtocolDocument.class, fundingSource.getFundingSourceNumber(), SPONSORS_FOR_PROTOCOL_DISCLOSE, ALL_SPONSORS_FOR_PROTOCOL_DISCLOSE)) {
-                 isActive = true;
-                 break;
-             }
-         } 
-         // it is ok if there is no sponsor set up for protocol
-         if (CollectionUtils.isEmpty(protocol.getProtocolFundingSources())) {
-             isActive = isAllSponsorActiveForDisclose(ProtocolDocument.class, ALL_SPONSORS_FOR_PROTOCOL_DISCLOSE);
-         }
-         return isActive;
-         
+        boolean isActive = false;
+        for (ProtocolFundingSourceBase fundingSource : protocol.getProtocolFundingSources()) {
+            if (fundingSource.isSponsorFunding() && isSponsorForDisclosure(Constants.MODULE_NAMESPACE_PROTOCOL, fundingSource.getFundingSourceNumber(), SPONSORS_FOR_PROTOCOL_DISCLOSE, ALL_SPONSORS_FOR_PROTOCOL_DISCLOSE)) {
+                isActive = true;
+                break;
+            }
+        }
+        // it is ok if there is no sponsor set up for protocol
+        if (CollectionUtils.isEmpty(protocol.getProtocolFundingSources())) {
+            isActive = isAllSponsorActiveForDisclose(Constants.MODULE_NAMESPACE_PROTOCOL, ALL_SPONSORS_FOR_PROTOCOL_DISCLOSE);
+        }
+        return isActive;
+
     }
-    
+
     /*
      * check if protocol funding source sponsor is in disclose list
      */
     private boolean isProtocolFundedByActiveSponsor(IacucProtocol protocol) {
-         boolean isActive = false;
-         for (org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase fundingSource : protocol.getProtocolFundingSources()) {
-             if (fundingSource.isSponsorFunding() && isSponsorForDisclosure(ProtocolDocument.class, fundingSource.getFundingSourceNumber(), SPONSORS_FOR_PROTOCOL_DISCLOSE, ALL_SPONSORS_FOR_PROTOCOL_DISCLOSE)) {
-                 isActive = true;
-                 break;
-             }
-         } 
-         // it is ok if there is no sponsor set up for protocol
-         if (CollectionUtils.isEmpty(protocol.getProtocolFundingSources())) {
-             isActive = isAllSponsorActiveForDisclose(ProtocolDocument.class, ALL_SPONSORS_FOR_IACUC_PROTOCOL_DISCLOSE);
-         }
-         return isActive;
+        boolean isActive = false;
+        for (org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase fundingSource : protocol.getProtocolFundingSources()) {
+            if (fundingSource.isSponsorFunding() && isSponsorForDisclosure(Constants.MODULE_NAMESPACE_IACUC, fundingSource.getFundingSourceNumber(), SPONSORS_FOR_PROTOCOL_DISCLOSE, ALL_SPONSORS_FOR_PROTOCOL_DISCLOSE)) {
+                isActive = true;
+                break;
+            }
+        }
+        // it is ok if there is no sponsor set up for protocol
+        if (CollectionUtils.isEmpty(protocol.getProtocolFundingSources())) {
+            isActive = isAllSponsorActiveForDisclose(Constants.MODULE_NAMESPACE_PROTOCOL, ALL_SPONSORS_FOR_IACUC_PROTOCOL_DISCLOSE);
+        }
+        return isActive;
     }
-    
+
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
@@ -1060,20 +1068,20 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         this.dateTimeService = dateTimeService;
     }
 
-    private boolean isSponsorForDisclosure(Class clazz, String sponsorCode, String paramName, String paramNameAllSponsor) {
-        return isAllSponsorActiveForDisclose(clazz, paramNameAllSponsor) || isSponsorHierarchyActiveForDisclose(clazz, sponsorCode, paramName);    
+    private boolean isSponsorForDisclosure(String namespaceCode, String sponsorCode, String paramName, String paramNameAllSponsor) {
+        return isAllSponsorActiveForDisclose(namespaceCode, paramNameAllSponsor) || isSponsorHierarchyActiveForDisclose(namespaceCode, sponsorCode, paramName);
     }
-    
+
     /*
      * check if sponsorcode in in sponsor hierarchy
      */
-    private boolean isSponsorHierarchyActiveForDisclose(Class clazz, String sponsorCode, String paramName) {
-        
+    private boolean isSponsorHierarchyActiveForDisclose(String namespaceCode, String sponsorCode, String paramName) {
+
         Collection<String> params = new ArrayList<String>();
         try {
-            params = parameterService.getParameterValuesAsString(clazz, paramName);
+            params = parameterService.getParameterValuesAsString(namespaceCode, Constants.PARAMETER_COMPONENT_DOCUMENT, paramName);
         } catch (Exception e) {
-            
+            e.printStackTrace();
         }
         List<String> sponsorCodes = new ArrayList<String>();
         for (String hierarchyName : params) {
@@ -1085,9 +1093,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             for (SponsorHierarchy sponsor : sponsors) {
                 sponsorCodes.add(sponsor.getSponsorCode());
             }
-            
+
         }
-   
+
         if (sponsorCodes.isEmpty()) {
             return true;
         } else {
@@ -1104,16 +1112,16 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     /*
      * check if the all sponsor active for disclosure flag is true
      */
-    private boolean isAllSponsorActiveForDisclose(Class clazz,  String paramName) {
 
-        
+    private boolean isAllSponsorActiveForDisclose(String namespaceCode, String paramName) {
+
         boolean isAllSponsors = false;
         try {
-            isAllSponsors = parameterService.getParameterValueAsBoolean(clazz, paramName);
+            isAllSponsors = parameterService.getParameterValueAsBoolean(namespaceCode, Constants.PARAMETER_COMPONENT_DOCUMENT, paramName);
         } catch (Exception e) {
-            
+            e.printStackTrace();
         }
-   
+
         return isAllSponsors;
     }
 
@@ -1126,7 +1134,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return hasExistingCoiDisclosure() || CollectionUtils.isNotEmpty(getProtocols(personId)) || CollectionUtils.isNotEmpty(getProposals(personId))
                 || CollectionUtils.isNotEmpty(getAwards(personId)) || CollectionUtils.isNotEmpty(getInstitutionalProposals(personId));
     }
-    
+
     private boolean hasExistingCoiDisclosure() {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("personId", GlobalVariables.getUserSession().getPrincipalId());
@@ -1134,10 +1142,11 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return businessObjectService.countMatching(CoiDisclosure.class, fieldValues) > 0;
 
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getMasterDisclosureDetail(org.kuali.kra.coi.CoiDisclosure)
+     *
+     * @see
+     * org.kuali.kra.coi.disclosure.CoiDisclosureService#getMasterDisclosureDetail(org.kuali.kra.coi.CoiDisclosure)
      */
     @Override
     public MasterDisclosureBean getMasterDisclosureDetail(CoiDisclosure coiDisclosure) {
@@ -1163,7 +1172,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
         masterDisclosureBean.setAnswerHeaders(answerHeaders);
         for (CoiDisclProject coiDisclProject : coiDisclosure.getCoiDisclProjects()) {
-            CoiDisclProject coiDisclProject1 = (CoiDisclProject)ObjectUtils.deepCopy(coiDisclProject);
+            CoiDisclProject coiDisclProject1 = (CoiDisclProject) ObjectUtils.deepCopy(coiDisclProject);
             coiDisclProject1.setCoiDispositionStatus(coiDisclProject.getCoiDispositionStatus());
             if (CollectionUtils.isNotEmpty(coiDisclProject1.getCoiDiscDetails())) {
                 for (CoiDiscDetail coiDiscDetail : coiDisclProject1.getCoiDiscDetails()) {
@@ -1186,7 +1195,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             } else {
                 disclosureProjectBean = getCoiDisclosureProjectBean(coiDisclProject1);
                 masterDisclosureBean.addProject(disclosureProjectBean, coiDisclProject1.getDisclosureEventType());
-                    projectType = coiDisclProject1.getDisclosureEventType();
+                projectType = coiDisclProject1.getDisclosureEventType();
                 moduleItemKey = coiDisclProject1.getModuleItemKey();
                 if (newMaster) {
                     versionProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, currentDisclosure);
@@ -1195,32 +1204,33 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 }
             }
         }
-        
+
         // unless we are doing an update
         if (coiDisclosure.isApprovedDisclosure() || coiDisclosure.isDisapprovedDisclosure() || (!coiDisclosure.isUpdateEvent() && !coiDisclosure.isAnnualEvent())) {
             setupDisclosures(masterDisclosureBean, coiDisclosure);
         }
-        
+
         createDisclosuresGroupedByEvent(masterDisclosureBean);
-        
+
         return masterDisclosureBean;
     }
 
     /**
-     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#createDisclosuresGroupedByEvent(org.kuali.kra.coi.disclosure.MasterDisclosureBean)
+     * @see
+     * org.kuali.kra.coi.disclosure.CoiDisclosureService#createDisclosuresGroupedByEvent(org.kuali.kra.coi.disclosure.MasterDisclosureBean)
      */
     @Override
     public void createDisclosuresGroupedByEvent(MasterDisclosureBean masterDisclosureBean) {
         List<CoiGroupedMasterDisclosureBean> disclosuresGroupedByEvent = new ArrayList<CoiGroupedMasterDisclosureBean>();
-        for(CoiDisclosureProjectBean coiDisclosureProjectBean : masterDisclosureBean.getAllDisclosureProjects()) {
+        for (CoiDisclosureProjectBean coiDisclosureProjectBean : masterDisclosureBean.getAllDisclosureProjects()) {
             CoiGroupedMasterDisclosureBean coiGroupedMasterDisclosureBean = new CoiGroupedMasterDisclosureBean();
             CoiDisclosure coiDisclosure = null;
-            if(coiDisclosureProjectBean.getCoiDisclProject().getOriginalCoiDisclosureId() != null) {
+            if (coiDisclosureProjectBean.getCoiDisclProject().getOriginalCoiDisclosureId() != null) {
                 coiDisclosure = coiDisclosureProjectBean.getCoiDisclProject().getOriginalCoiDisclosure();
-            }else {
+            } else {
                 coiDisclosure = coiDisclosureProjectBean.getCoiDisclProject().getCoiDisclosure();
             }
-            String projectEventTypeDescription =coiDisclosureProjectBean.getCoiDisclProject().getCoiDisclosureEventType().getDescription(); 
+            String projectEventTypeDescription = coiDisclosureProjectBean.getCoiDisclProject().getCoiDisclosureEventType().getDescription();
             coiGroupedMasterDisclosureBean.setDisclosureEventType(projectEventTypeDescription);
             coiGroupedMasterDisclosureBean.setDisclosureStatus(coiDisclosure.getCoiDisclosureStatus().getDescription());
             coiGroupedMasterDisclosureBean.setDispositionStatus(coiDisclosure.getCoiDispositionStatus().getDescription());
@@ -1232,14 +1242,15 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         masterDisclosureBean.setDisclosureGroupedByEvent(true);
         masterDisclosureBean.setAllDisclosuresGroupedByProjects(disclosuresGroupedByEvent);
     }
-    
+
     /**
-     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getUndisclosedProjectsGroupedByEvent(java.util.List)
+     * @see
+     * org.kuali.kra.coi.disclosure.CoiDisclosureService#getUndisclosedProjectsGroupedByEvent(java.util.List)
      */
     @Override
     public List<CoiGroupedMasterDisclosureBean> getUndisclosedProjectsGroupedByEvent(List<CoiDisclProject> coiDisclProjects) {
         List<CoiGroupedMasterDisclosureBean> disclosuresGroupedByEvent = new ArrayList<CoiGroupedMasterDisclosureBean>();
-        for(CoiDisclProject coiDisclProject : coiDisclProjects) {
+        for (CoiDisclProject coiDisclProject : coiDisclProjects) {
             CoiGroupedMasterDisclosureBean coiGroupedMasterDisclosureBean = new CoiGroupedMasterDisclosureBean();
             CoiDisclosureProjectBean coiDisclosureProjectBean = new CoiDisclosureProjectBean();
             coiDisclosureProjectBean.setCoiDisclProject(coiDisclProject);
@@ -1251,22 +1262,23 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
         return disclosuresGroupedByEvent;
     }
-    
+
     /**
-     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getUndisclosedProjectsGroupedByFinancialEntity(java.util.List)
+     * @see
+     * org.kuali.kra.coi.disclosure.CoiDisclosureService#getUndisclosedProjectsGroupedByFinancialEntity(java.util.List)
      */
     @Override
     public List<CoiGroupedMasterDisclosureBean> getUndisclosedProjectsGroupedByFinancialEntity(List<CoiDisclProject> coiDisclProjects) {
         List<CoiGroupedMasterDisclosureBean> disclosureGroupedByFinancialEntity = new ArrayList<CoiGroupedMasterDisclosureBean>();
         String personId = coiDisclProjects.get(0).getCoiDiscDetails().get(0).getPersonFinIntDisclosure().getPersonId();
         List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(personId, true);
-        for(PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
+        for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
             CoiGroupedMasterDisclosureBean coiGroupedMasterDisclosureBean = getPersonEntityDisclosureBean(personFinIntDisclosure);
             List<CoiDisclosureProjectBean> entityRelatedProjects = new ArrayList<CoiDisclosureProjectBean>();
-            for(CoiDisclProject coiDisclProject : coiDisclProjects) {
+            for (CoiDisclProject coiDisclProject : coiDisclProjects) {
                 List<CoiDiscDetail> coiDiscDetails = coiDisclProject.getCoiDiscDetails();
-                for(CoiDiscDetail coiDiscDetail : coiDiscDetails) {
-                    if(coiDiscDetail.getPersonFinIntDisclosureId().equals(personFinIntDisclosure.getPersonFinIntDisclosureId())) {
+                for (CoiDiscDetail coiDiscDetail : coiDiscDetails) {
+                    if (coiDiscDetail.getPersonFinIntDisclosureId().equals(personFinIntDisclosure.getPersonFinIntDisclosureId())) {
                         CoiDisclosureProjectBean coiDisclosureProjectBean = new CoiDisclosureProjectBean();
                         coiDisclosureProjectBean.setCoiDisclProject(coiDisclProject);
                         entityRelatedProjects.add(coiDisclosureProjectBean);
@@ -1281,40 +1293,42 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     }
 
     /**
-     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#createDisclosuresGroupedByFinancialEntity(org.kuali.kra.coi.CoiDisclosure, org.kuali.kra.coi.disclosure.MasterDisclosureBean)
+     * @see
+     * org.kuali.kra.coi.disclosure.CoiDisclosureService#createDisclosuresGroupedByFinancialEntity(org.kuali.kra.coi.CoiDisclosure,
+     * org.kuali.kra.coi.disclosure.MasterDisclosureBean)
      */
     @Override
     public void createDisclosuresGroupedByFinancialEntity(CoiDisclosure coiDisclosure, MasterDisclosureBean masterDisclosureBean) {
         List<CoiGroupedMasterDisclosureBean> disclosureGroupedByFinancialEntity = new ArrayList<CoiGroupedMasterDisclosureBean>();
         String personId = coiDisclosure.getPersonId();
         List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(personId, true);
-        for(PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
+        for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
             disclosureGroupedByFinancialEntity.add(getMasterDisclosureBeanGroupedByFinancialEntity(masterDisclosureBean, personFinIntDisclosure));
         }
         masterDisclosureBean.setAllDisclosuresGroupedByProjects(disclosureGroupedByFinancialEntity);
         masterDisclosureBean.setDisclosureGroupedByEvent(false);
     }
-    
+
     private CoiGroupedMasterDisclosureBean getMasterDisclosureBeanGroupedByFinancialEntity(MasterDisclosureBean masterDisclosureBean, PersonFinIntDisclosure personFinIntDisclosure) {
         CoiGroupedMasterDisclosureBean coiGroupedMasterDisclosureBean = getPersonEntityDisclosureBean(personFinIntDisclosure);
         coiGroupedMasterDisclosureBean.getAllRelatedProjects().addAll(getAllFinancialEntityRelatedProjects(masterDisclosureBean, personFinIntDisclosure));
         return coiGroupedMasterDisclosureBean;
     }
-    
+
     private CoiGroupedMasterDisclosureBean getPersonEntityDisclosureBean(PersonFinIntDisclosure personFinIntDisclosure) {
         CoiGroupedMasterDisclosureBean coiGroupedMasterDisclosureBean = new CoiGroupedMasterDisclosureBean();
         coiGroupedMasterDisclosureBean.setEntityNumber(personFinIntDisclosure.getEntityNumber());
         coiGroupedMasterDisclosureBean.setEntityName(personFinIntDisclosure.getEntityName());
         return coiGroupedMasterDisclosureBean;
     }
-    
+
     private List<CoiDisclosureProjectBean> getAllFinancialEntityRelatedProjects(MasterDisclosureBean masterDisclosureBean, PersonFinIntDisclosure personFinIntDisclosure) {
         List<CoiDisclosureProjectBean> coiDisclosureProjectBeans = new ArrayList<CoiDisclosureProjectBean>();
-        for(CoiDisclosureProjectBean coiDisclosureProjectBean : masterDisclosureBean.getAllDisclosureProjects()) {
+        for (CoiDisclosureProjectBean coiDisclosureProjectBean : masterDisclosureBean.getAllDisclosureProjects()) {
             List<CoiDiscDetail> coiDiscDetails = coiDisclosureProjectBean.getCoiDisclProject().getCoiDiscDetails();
-            for(CoiDiscDetail coiDiscDetail : coiDiscDetails) {
-                if(coiDiscDetail.getPersonFinIntDisclosureId().equals(personFinIntDisclosure.getPersonFinIntDisclosureId()) &&
-                        coiDiscDetail.getEntityDispositionCode() != null) {
+            for (CoiDiscDetail coiDiscDetail : coiDiscDetails) {
+                if (coiDiscDetail.getPersonFinIntDisclosureId().equals(personFinIntDisclosure.getPersonFinIntDisclosureId())
+                        && coiDiscDetail.getEntityDispositionCode() != null) {
                     coiDisclosureProjectBeans.add(coiDisclosureProjectBean);
                     break;
                 }
@@ -1322,7 +1336,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
         return coiDisclosureProjectBeans;
     }
-    
+
     private List<AnswerHeader> retrieveAnswerHeaders(CoiDisclosure coiDisclosure) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(MODULE_ITEM_CODE, CoeusModule.COI_DISCLOSURE_MODULE_CODE);
@@ -1330,33 +1344,33 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         fieldValues.put(MODULE_SUB_ITEM_KEY, "-1");
         return (List<AnswerHeader>) businessObjectService.findMatching(AnswerHeader.class, fieldValues);
     }
-    
+
     private void addProjectDisclQuestionnaires(CoiDisclosureProjectBean disclosureProjectBean, List<AnswerHeader> answerHeaders, CoiDisclosure originalDisclosure) {
         disclosureProjectBean.populateAnswers(originalDisclosure);
     }
-    
+
     private void versionProjectDisclQuestionnaires(CoiDisclosureProjectBean disclosureProjectBean, List<AnswerHeader> answerHeaders, CoiDisclosure originalDisclosure) {
         disclosureProjectBean.versionDisclosureAnswers(originalDisclosure);
     }
-    
+
     private void addProjectDisclAttachments(CoiDisclosureProjectBean disclosureProjectBean, CoiDisclosure coiDisclosure, Long originalDisclosureId) {
         for (CoiDisclosureAttachment disclattachment : coiDisclosure.getCoiDisclosureAttachments()) {
-            if ((disclattachment.getOriginalCoiDisclosureId() == null && originalDisclosureId == null) || 
-                    (disclattachment.getOriginalCoiDisclosureId() != null && originalDisclosureId != null && disclattachment.getOriginalCoiDisclosureId().equals(originalDisclosureId))) {
+            if ((disclattachment.getOriginalCoiDisclosureId() == null && originalDisclosureId == null)
+                    || (disclattachment.getOriginalCoiDisclosureId() != null && originalDisclosureId != null && disclattachment.getOriginalCoiDisclosureId().equals(originalDisclosureId))) {
                 disclosureProjectBean.getProjectDiscAttachments().add(disclattachment);
             }
-        }        
+        }
     }
-    
+
     private void addProjectDisclNotepads(CoiDisclosureProjectBean disclosureProjectBean, CoiDisclosure coiDisclosure, Long originalDisclosureId) {
         for (CoiDisclosureNotepad disclNotepad : coiDisclosure.getCoiDisclosureNotepads()) {
-            if ((disclNotepad.getOriginalCoiDisclosureId() == null && originalDisclosureId == null) || 
-                    (disclNotepad.getOriginalCoiDisclosureId() != null && originalDisclosureId != null && disclNotepad.getOriginalCoiDisclosureId().equals(originalDisclosureId))) {
+            if ((disclNotepad.getOriginalCoiDisclosureId() == null && originalDisclosureId == null)
+                    || (disclNotepad.getOriginalCoiDisclosureId() != null && originalDisclosureId != null && disclNotepad.getOriginalCoiDisclosureId().equals(originalDisclosureId))) {
                 disclosureProjectBean.getProjectDiscNotepads().add(disclNotepad);
             }
-        }        
+        }
     }
-    
+
     /*
      * set up a list of disclosures that will be rendered in 'Disclosures' panel for master disclosure
      */
@@ -1383,12 +1397,12 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 disclosureProjectBean.setCoiDisclosure(disclosureHistory.getCoiDisclosure());
                 String projectId = null;
                 String projectTitle = null;
-                if(coiDiscDetail != null) {
+                if (coiDiscDetail != null) {
                     projectId = coiDiscDetail.getCoiDisclProject().getCoiProjectId();
                     projectTitle = coiDiscDetail.getCoiDisclProject().getCoiProjectTitle();
-                }else {
+                } else {
                     CoiDisclProject coiDisclProject = getCurrentProject(disclosureHistory.getCoiDisclosure(), coiDisclProjects);
-                    if(coiDisclProject != null) {
+                    if (coiDisclProject != null) {
                         projectId = coiDisclProject.getCoiProjectId();
                         projectTitle = coiDisclProject.getCoiProjectTitle();
                     }
@@ -1399,7 +1413,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             }
         }
     }
-    
+
     /*
      * get the approved disclosure history record for the associated disclosure
      */
@@ -1411,18 +1425,19 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
         return null;
     }
-    
+
     public void setCoiDisclosureDao(CoiDisclosureDao coiDisclosureDao) {
         this.coiDisclosureDao = coiDisclosureDao;
     }
-    
+
     public CoiDisclosureDao getCoiDisclosureDao() {
         return coiDisclosureDao;
     }
     /*
      * get the approved and disapproved disclosure history for the specified disclosurenumber
      */
-    @SuppressWarnings({ "unused", "unchecked" })
+
+    @SuppressWarnings({"unused", "unchecked"})
     protected List<CoiDisclosureHistory> getDisclosureHistory(String coiDisclosureNumber) {
         return getCoiDisclosureDao().getApprovedAndDisapprovedDisclosureHistory(coiDisclosureNumber);
     }
@@ -1440,31 +1455,31 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 if (coiDiscDetail.getOriginalCoiDisclosure() == null || coiDisclProject.getCoiDisclosureId().equals(coiDiscDetail.getOriginalCoiDisclosureId())) {
                     return coiDiscDetail;
                 }
-    
+
             }
         }
         return null;
     }
-    
+
     protected CoiDisclProject getCurrentProject(CoiDisclosure historyDisclosure, List<CoiDisclProject> coiDisclProjects) {
         CoiDisclProject currentDisclProject = null;
         for (CoiDisclProject coiDisclProject : coiDisclProjects) {
-            Long projectDisclosureId = coiDisclProject.getOriginalCoiDisclosureId()== null ? coiDisclProject.getCoiDisclosureId() : coiDisclProject.getOriginalCoiDisclosureId(); 
-            if (projectDisclosureId.equals(historyDisclosure.getCoiDisclosureId())){
+            Long projectDisclosureId = coiDisclProject.getOriginalCoiDisclosureId() == null ? coiDisclProject.getCoiDisclosureId() : coiDisclProject.getOriginalCoiDisclosureId();
+            if (projectDisclosureId.equals(historyDisclosure.getCoiDisclosureId())) {
                 currentDisclProject = coiDisclProject;
                 break;
             }
         }
         return currentDisclProject;
     }
-    
+
     private List<CoiDisclProject> getCoiDisclProjects(CoiDisclosure coiDisclosure) {
-        Map <String, Object> fieldValues = new HashMap<String, Object>();
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("coiDisclosureNumber", coiDisclosure.getCoiDisclosureNumber());
         List<CoiDisclProject> coiDisclProjects = (List<CoiDisclProject>) businessObjectService.findMatching(CoiDisclProject.class, fieldValues);
         return coiDisclProjects;
     }
-    
+
     /*
      * set up form bean for each project
      */
@@ -1475,34 +1490,32 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             if (disclosureProjectBean.getCoiDisclProject().isManualEvent()) {
                 disclosureProjectBean.getCoiDisclProject().initHeaderItems();
             }
-        } 
+        }
         return disclosureProjectBean;
     }
-    
+
     // a quick hacky for release 5.0 should refactor
     protected CoiDisclosureProjectBean getCoiDisclosureProjectBean(CoiDisclProject coiDisclProject) {
         CoiDisclosureProjectBean disclosureProjectBean = new CoiDisclosureProjectBean();
-            disclosureProjectBean.setCoiDisclProject(coiDisclProject);
-            if (disclosureProjectBean.getCoiDisclProject().isManualEvent()) {
-                disclosureProjectBean.getCoiDisclProject().initHeaderItems();
-            }
+        disclosureProjectBean.setCoiDisclProject(coiDisclProject);
+        if (disclosureProjectBean.getCoiDisclProject().isManualEvent()) {
+            disclosureProjectBean.getCoiDisclProject().initHeaderItems();
+        }
         return disclosureProjectBean;
     }
-    
+
     @Override
     public List<CoiDispositionStatus> getDispositionStatuses(String disclosureStatusCode) {
-        List<CoiDispositionStatus> coiDispositionStatuses  = new ArrayList<CoiDispositionStatus>();
+        List<CoiDispositionStatus> coiDispositionStatuses = new ArrayList<CoiDispositionStatus>();
         if (ObjectUtils.isNotNull(disclosureStatusCode)) {
             Map<String, String> criteria = new HashMap<String, String>();
-            criteria.put("coiDisclosureStatusCode",disclosureStatusCode);
-            coiDispositionStatuses = 
-                (List<CoiDispositionStatus>) businessObjectService.findMatching(CoiDispositionStatus.class, criteria);
+            criteria.put("coiDisclosureStatusCode", disclosureStatusCode);
+            coiDispositionStatuses
+                    = (List<CoiDispositionStatus>) businessObjectService.findMatching(CoiDispositionStatus.class, criteria);
         }
         return coiDispositionStatuses;
     }
-    
-    
-    
+
     @Override
     public void initDisclosureFromMasterDisclosure(CoiDisclosure coiDisclosure) {
         CoiDisclosure masterDisclosure = getCurrentDisclosure();
@@ -1531,40 +1544,40 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
     }
 
-    private void  copyCollections(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
-        
+    private void copyCollections(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
+
         copyDisclosureProjects(masterCoiDisclosure, coiDisclosure);
         copyDisclosureNotePads(masterCoiDisclosure, coiDisclosure);
         copyDisclosureAttachments(masterCoiDisclosure, coiDisclosure);
         copyDisclosureQuestionnaire(masterCoiDisclosure, coiDisclosure);
     }
-    
+
     private List<AnswerHeader> copyDisclosureQuestionnaire(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
 
         List<AnswerHeader> newAnswerHeaders = versioningQuestionnaireAnswer(masterCoiDisclosure);
-         if (!newAnswerHeaders.isEmpty()) {
-             for (AnswerHeader answerHeader : newAnswerHeaders) {
-                 if (coiDisclosure.getCoiDisclosureId() != null) {
-                     answerHeader.setModuleItemKey(coiDisclosure.getCoiDisclosureId().toString());
-                 }                 
-             }
+        if (!newAnswerHeaders.isEmpty()) {
+            for (AnswerHeader answerHeader : newAnswerHeaders) {
+                if (coiDisclosure.getCoiDisclosureId() != null) {
+                    answerHeader.setModuleItemKey(coiDisclosure.getCoiDisclosureId().toString());
+                }
+            }
         }
         return newAnswerHeaders;
     }
-    
+
     private List<AnswerHeader> versioningQuestionnaireAnswer(CoiDisclosure coiDisclosure) {
         List<AnswerHeader> newAnswerHeaders = new ArrayList<AnswerHeader>();
         for (AnswerHeader answerHeader : retrieveAnswerHeaders(coiDisclosure)) {
-               AnswerHeader copiedAnswerHeader = (AnswerHeader) ObjectUtils.deepCopy(answerHeader);
-                copiedAnswerHeader.setAnswerHeaderId(null);
-                for (Answer answer : copiedAnswerHeader.getAnswers()) {
-                    answer.setId(null);
-                }
-                newAnswerHeaders.add(copiedAnswerHeader);
+            AnswerHeader copiedAnswerHeader = (AnswerHeader) ObjectUtils.deepCopy(answerHeader);
+            copiedAnswerHeader.setAnswerHeaderId(null);
+            for (Answer answer : copiedAnswerHeader.getAnswers()) {
+                answer.setId(null);
+            }
+            newAnswerHeaders.add(copiedAnswerHeader);
         }
         return newAnswerHeaders;
     }
-    
+
     private void copyDisclosureDetails(List<CoiDiscDetail> originalDiscDetails, CoiDisclProject copiedDisclProject) {
         List<CoiDiscDetail> copiedDiscDetails = new ArrayList<CoiDiscDetail>();
         for (CoiDiscDetail coiDiscDetail : originalDiscDetails) {
@@ -1580,63 +1593,66 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
         copiedDisclProject.setCoiDiscDetails(copiedDiscDetails);
         if (copiedDisclProject.getOriginalCoiDisclosureId() == null) {
-        copiedDisclProject.setOriginalCoiDisclosureId(copiedDisclProject.getCoiDisclosureId());
+            copiedDisclProject.setOriginalCoiDisclosureId(copiedDisclProject.getCoiDisclosureId());
         }
-   }
-    
+    }
+
     //TODO: finish project copy and work in subsequent details gettting copied
     private void copyDisclosureProjects(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
         List<CoiDisclProject> copiedDisclProjects = new ArrayList<CoiDisclProject>();
         for (CoiDisclProject coiDisclProject : masterCoiDisclosure.getCoiDisclProjects()) {
-                List<CoiDiscDetail> coiDiscDetails = coiDisclProject.getCoiDiscDetails();
-                CoiDisclProject copiedDisclProject = (CoiDisclProject) ObjectUtils.deepCopy(coiDisclProject);
-                copiedDisclProject.setCoiDispositionStatus(coiDisclProject.getCoiDispositionStatus());
-                if (copiedDisclProject.getCoiDispositionStatus() == null) {
-                    copiedDisclProject.refreshReferenceObject("coiDispositionStatus");
-                }
-                copiedDisclProject.setSequenceNumber(coiDisclosure.getSequenceNumber());
-                copiedDisclProject.setCoiDisclProjectsId(null);
-                // copy disc details
-                copyDisclosureDetails(coiDiscDetails, copiedDisclProject);
-                copiedDisclProjects.add(copiedDisclProject);
-                copiedDisclProject.setCoiDisclosure(coiDisclosure);
-                copiedDisclProject.setCoiDisclosureId(null);
+            List<CoiDiscDetail> coiDiscDetails = coiDisclProject.getCoiDiscDetails();
+            CoiDisclProject copiedDisclProject = (CoiDisclProject) ObjectUtils.deepCopy(coiDisclProject);
+            copiedDisclProject.setCoiDispositionStatus(coiDisclProject.getCoiDispositionStatus());
+            if (copiedDisclProject.getCoiDispositionStatus() == null) {
+                copiedDisclProject.refreshReferenceObject("coiDispositionStatus");
+            }
+            copiedDisclProject.setSequenceNumber(coiDisclosure.getSequenceNumber());
+            copiedDisclProject.setCoiDisclProjectsId(null);
+            // copy disc details
+            copyDisclosureDetails(coiDiscDetails, copiedDisclProject);
+            copiedDisclProjects.add(copiedDisclProject);
+            copiedDisclProject.setCoiDisclosure(coiDisclosure);
+            copiedDisclProject.setCoiDisclosureId(null);
         }
         coiDisclosure.setCoiDisclProjects(copiedDisclProjects);
     }
-    
+
     private void copyDisclosureNotePads(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
         // may also need to add note/attachment to new master disclosure
         for (CoiDisclosureNotepad coiDisclosureNotepad : masterCoiDisclosure.getCoiDisclosureNotepads()) {
-                CoiDisclosureNotepad copiedCoiDisclosureNotepad = copyCoiDisclosureNotepad(coiDisclosureNotepad);
-                copiedCoiDisclosureNotepad.setSequenceNumber(coiDisclosure.getSequenceNumber());
-                copiedCoiDisclosureNotepad.setId(null);
-                if (copiedCoiDisclosureNotepad.getOriginalCoiDisclosureId() == null) {
-                    copiedCoiDisclosureNotepad.setOriginalCoiDisclosureId(masterCoiDisclosure.getCoiDisclosureId());
-                }
-                coiDisclosure.getCoiDisclosureNotepads().add(copiedCoiDisclosureNotepad);
+            CoiDisclosureNotepad copiedCoiDisclosureNotepad = copyCoiDisclosureNotepad(coiDisclosureNotepad);
+            copiedCoiDisclosureNotepad.setSequenceNumber(coiDisclosure.getSequenceNumber());
+            copiedCoiDisclosureNotepad.setId(null);
+            if (copiedCoiDisclosureNotepad.getOriginalCoiDisclosureId() == null) {
+                copiedCoiDisclosureNotepad.setOriginalCoiDisclosureId(masterCoiDisclosure.getCoiDisclosureId());
+            }
+            coiDisclosure.getCoiDisclosureNotepads().add(copiedCoiDisclosureNotepad);
         }
     }
 
     private void copyDisclosureAttachments(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
         // may also need to add note/attachment to new master disclosure
         for (CoiDisclosureAttachment coiDisclosureAttachment : masterCoiDisclosure.getCoiDisclosureAttachments()) {
-                CoiDisclosureAttachment copiedCoiDisclosureAttachment = copyCoiDisclosureAttachment(coiDisclosureAttachment);
-                copiedCoiDisclosureAttachment.setSequenceNumber(coiDisclosure.getSequenceNumber());
-                copiedCoiDisclosureAttachment.setAttachmentId(null);
-                copiedCoiDisclosureAttachment.setFileId(coiDisclosureAttachment.getFileId());
-                copiedCoiDisclosureAttachment.setFile(coiDisclosureAttachment.getFile());
-                if (copiedCoiDisclosureAttachment.getOriginalCoiDisclosureId() == null) {
-                    copiedCoiDisclosureAttachment.setOriginalCoiDisclosureId(masterCoiDisclosure.getCoiDisclosureId());
-                }
-                coiDisclosure.getCoiDisclosureAttachments().add(copiedCoiDisclosureAttachment);
+            CoiDisclosureAttachment copiedCoiDisclosureAttachment = copyCoiDisclosureAttachment(coiDisclosureAttachment);
+            copiedCoiDisclosureAttachment.setSequenceNumber(coiDisclosure.getSequenceNumber());
+            copiedCoiDisclosureAttachment.setAttachmentId(null);
+            copiedCoiDisclosureAttachment.setFileId(coiDisclosureAttachment.getFileId());
+            copiedCoiDisclosureAttachment.setFile(coiDisclosureAttachment.getFile());
+            if (copiedCoiDisclosureAttachment.getOriginalCoiDisclosureId() == null) {
+                copiedCoiDisclosureAttachment.setOriginalCoiDisclosureId(masterCoiDisclosure.getCoiDisclosureId());
+            }
+            coiDisclosure.getCoiDisclosureAttachments().add(copiedCoiDisclosureAttachment);
         }
     }
 
-    
     /**
-     * Called during a "Report Coi" instance for System Events.  This method assumes a 1:1 disclosure to project relationship
-     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#initializeDisclosureProject(org.kuali.kra.coi.CoiDisclosure, java.lang.String)
+     * Called during a "Report Coi" instance for System Events. This method
+     * assumes a 1:1 disclosure to project relationship
+     *
+     * @see
+     * org.kuali.kra.coi.disclosure.CoiDisclosureService#initializeDisclosureProject(org.kuali.kra.coi.CoiDisclosure,
+     * java.lang.String)
      */
     @Override
     public void initializeDisclosureProject(CoiDisclosure coiDisclosure, String projectId) {
@@ -1644,12 +1660,12 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         if (CollectionUtils.isEmpty(coiDisclProjects)) {
             coiDisclProjects = new ArrayList<CoiDisclProject>();
         }
-        
+
         coiDisclosure.setEventBo(getEventBo(coiDisclosure, projectId));
         String moduleItemKey = getModuleItemKey(coiDisclosure, coiDisclosure.getEventBo());
         String projectIdFk = getProjectIdFk(coiDisclosure, coiDisclosure.getEventBo());
         String projectTitle = getProjectTitle(coiDisclosure, coiDisclosure.getEventBo());
-        
+
         CoiDisclProject newProject = new CoiDisclProject();
         newProject.setCoiDisclosureId(coiDisclosure.getCoiDisclosureId());
         newProject.setDisclosureEventType(coiDisclosure.getEventTypeCode());
@@ -1663,27 +1679,26 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         newProject.setDisclosureDispositionCode(CoiDispositionStatus.IN_PROGRESS);
         newProject.refreshReferenceObject("coiDispositionStatus");
         newProject.setDisclosureStatusCode(CoiDisclosureStatus.IN_PROGRESS);
-        
+
         this.initializeDisclosureDetails(newProject);
         coiDisclProjects.add(newProject);
         coiDisclosure.setCoiDisclProjects(coiDisclProjects);
     }
-    
-    
+
     /*
      * This method is compare the person FE and the FE disclosed.  If there is any addition/activate/inactivate,
      * then the disclosed FE should be updated accordingly.
      * This is mainly for 'Update Disclosure' or update annual disclosure
      */
     private void updateMasterDisclosureDetails(CoiDisclosure coiDisclosure) {
-        Map <Long, List<CoiDiscDetail>> projectDetailMap = setupDetailMap(coiDisclosure);
+        Map<Long, List<CoiDiscDetail>> projectDetailMap = setupDetailMap(coiDisclosure);
         String personId = coiDisclosure.getPersonId();
         List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(personId, true);
         Long disclosureId = coiDisclosure.getCoiDisclosureId();
         for (CoiDisclProject coiDisclProject : coiDisclosure.getCoiDisclProjects()) {
 
             List<CoiDiscDetail> coiDiscDetails = new ArrayList<CoiDiscDetail>();
-            if(coiDisclProject.getCoiDiscDetails().size() == 0 && financialEntities.size() > 0) {
+            if (coiDisclProject.getCoiDiscDetails().size() == 0 && financialEntities.size() > 0) {
                 initializeDisclosureDetails(coiDisclProject);
                 checkToAddNewFinancialEntity(financialEntities, coiDiscDetails, disclosureId, coiDisclosure,
                         projectDetailMap.get(disclosureId), coiDisclProject);
@@ -1701,18 +1716,17 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 }
             }
             //if there aren't new coiDiscDetails, then we don't need to update.
-            if(coiDiscDetails.size() > 0) {
+            if (coiDiscDetails.size() > 0) {
                 coiDisclProject.setCoiDiscDetails(coiDiscDetails);
             }
         }
     }
-    
-    
+
     /*
      * set up the detail list map for each reported disclosure.
      */
-    private Map <Long, List<CoiDiscDetail>> setupDetailMap(CoiDisclosure coiDisclosure) {
-        Map <Long, List<CoiDiscDetail>> projectDetailMap = new HashMap<Long, List<CoiDiscDetail>>();
+    private Map<Long, List<CoiDiscDetail>> setupDetailMap(CoiDisclosure coiDisclosure) {
+        Map<Long, List<CoiDiscDetail>> projectDetailMap = new HashMap<Long, List<CoiDiscDetail>>();
         for (CoiDisclProject disclProject : coiDisclosure.getCoiDisclProjects()) {
             for (CoiDiscDetail detail : disclProject.getCoiDiscDetails()) {
                 if (detail.getOriginalCoiDisclosureId() == null) {
@@ -1725,7 +1739,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             }
         }
         return projectDetailMap;
-        
+
     }
 
     /*
@@ -1739,8 +1753,8 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             String projectIdFk = Constants.EMPTY_STRING;
             String moduleItemKey = Constants.EMPTY_STRING;
             boolean isSet = false;
-            
-            if(!(projectDetails == null)) {
+
+            if (!(projectDetails == null)) {
                 for (CoiDiscDetail detail : projectDetails) {
                     if (detail.getPersonFinIntDisclosure().getEntityNumber().equals(personFinIntDisclosure.getEntityNumber())) {
                         isNewFe = false;
@@ -1758,7 +1772,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 projectIdFk = coiDisclProject.getCoiDiscDetails().get(0).getProjectIdFk();
                 moduleItemKey = coiDisclProject.getCoiDiscDetails().get(0).getModuleItemKey();
             }
-            
+
             if (isNewFe) {
                 // if this is newversion, do we keep the related information and comment ?
                 CoiDiscDetail newDetail = createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure, moduleItemKey, projectIdFk, projectType);
@@ -1768,14 +1782,11 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             }
         }
 
+    }
 
-    }   
-
-    
-    
     private CoiDisclosureAttachment copyCoiDisclosureAttachment(CoiDisclosureAttachment attachment) {
         CoiDisclosureAttachment attachCopy = new CoiDisclosureAttachment();
-        
+
         attachCopy.setAttachmentId(attachment.getAttachmentId());
         attachCopy.setAttachmentIdForPermission(attachment.getAttachmentIdForPermission());
         attachCopy.setCoiAttachmentType(attachment.getCoiAttachmentType());
@@ -1797,20 +1808,19 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         attachCopy.setProjectId(attachment.getProjectId());
         attachCopy.setSequenceNumber(attachment.getSequenceNumber());
         attachCopy.setTypeCode(attachment.getTypeCode());
-        
+
         attachCopy.setUpdateTimestamp(attachment.getUpdateTimestamp());
         attachCopy.setUpdateUser(attachment.getUpdateUser());
         attachCopy.setUpdateUserFullName(attachment.getUpdateUserFullName());
         attachCopy.setVersionNumber(attachment.getVersionNumber());
         attachCopy.setObjectId(attachment.getObjectId());
-        
+
         return attachCopy;
-    }  
-    
-    
+    }
+
     private CoiDisclosureNotepad copyCoiDisclosureNotepad(CoiDisclosureNotepad notepad) {
         CoiDisclosureNotepad notesCopy = new CoiDisclosureNotepad();
-        
+
         notesCopy.setCoiDisclosure(notepad.getCoiDisclosure());
         notesCopy.setCoiDisclosureId(notepad.getCoiDisclosureId());
         notesCopy.setCoiDisclosureNumber(notepad.getCoiDisclosureNumber());
@@ -1834,13 +1844,14 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         notesCopy.setUpdateUser(notepad.getUpdateUser());
         notesCopy.setUpdateUserFullName(notepad.getUpdateUserFullName());
         notesCopy.setVersionNumber(notepad.getVersionNumber());
-        
+
         return notesCopy;
     }
-    
-    
+
     /**
-     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#populateProposalsAndAwardToCompleteDisclosure(java.lang.String, org.kuali.kra.coi.disclosure.DisclosureHelper)
+     * @see
+     * org.kuali.kra.coi.disclosure.CoiDisclosureService#populateProposalsAndAwardToCompleteDisclosure(java.lang.String,
+     * org.kuali.kra.coi.disclosure.DisclosureHelper)
      */
     @Override
     public void populateProposalsAndAwardToCompleteDisclosure(String userId, DisclosureHelper disclosureHelper) {
@@ -1852,57 +1863,61 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         disclosedProjects.addAll(getDisclosedProjectsBasedOnDevelopmentProposalLink(initDevProposalsToCompleteDiscl, userId));
         disclosedProjects.addAll(getDisclosedProjectsBasedOnInstituteProposalLink(initInstProposalsToCompleteDiscl, userId));
         disclosedProjects.addAll(getDisclosedProjectsBasedOnAwardLink(initAwardsToCompleteDiscl, userId));
-        
+
         CoiProjectsToCompleteDisclosureBean projectsToCompleteDisclosure = getRevisedProposalsAndAwardsToCompleteDisclosure(disclosedProjects, initDevProposalsToCompleteDiscl, initInstProposalsToCompleteDiscl, initAwardsToCompleteDiscl);
         disclosureHelper.setNewProposals(projectsToCompleteDisclosure.getDevProposalsToDisclose());
         disclosureHelper.setNewInstitutionalProposals(projectsToCompleteDisclosure.getInstituteProposalsToDisclose());
         disclosureHelper.setNewAwards(projectsToCompleteDisclosure.getAwardsToDisclose());
     }
-    
+
     /**
-     * This method is to set a revised list of proposals and awards to complete disclosure.
-     * Compare the initial list with the disclosed chain of proposals and awards and remove
-     * those that are already disclosed as part of the proposal-award link.
+     * This method is to set a revised list of proposals and awards to complete
+     * disclosure. Compare the initial list with the disclosed chain of
+     * proposals and awards and remove those that are already disclosed as part
+     * of the proposal-award link.
+     *
      * @param disclosedProjects
      * @param initDevProposalsToCompleteDiscl
      * @param initInstProposalsToCompleteDiscl
      * @param initAwardsToCompleteDiscl
      */
-    private CoiProjectsToCompleteDisclosureBean getRevisedProposalsAndAwardsToCompleteDisclosure(List<CoiDisclosedProjectBean> disclosedProjects, 
+    private CoiProjectsToCompleteDisclosureBean getRevisedProposalsAndAwardsToCompleteDisclosure(List<CoiDisclosedProjectBean> disclosedProjects,
             List<DevelopmentProposal> initDevProposalsToCompleteDiscl, List<InstitutionalProposal> initInstProposalsToCompleteDiscl, List<Award> initAwardsToCompleteDiscl) {
         CoiProjectsToCompleteDisclosureBean projectsToCompleteDisclosure = new CoiProjectsToCompleteDisclosureBean();
         List<DevelopmentProposal> disclosedDevProposals = new ArrayList<DevelopmentProposal>();
         List<InstitutionalProposal> disclosedInstProposals = new ArrayList<InstitutionalProposal>();
         List<Award> disclosedAwards = new ArrayList<Award>();
-        for(CoiDisclosedProjectBean disclosedProjectBean : disclosedProjects) {
-            if(disclosedProjectBean.isProjectDisclosed()) {
+        for (CoiDisclosedProjectBean disclosedProjectBean : disclosedProjects) {
+            if (disclosedProjectBean.isProjectDisclosed()) {
                 disclosedDevProposals.addAll(disclosedProjectBean.getDisclosedDevProposals());
                 disclosedInstProposals.addAll(disclosedProjectBean.getDisclosedInstProposals());
                 disclosedAwards.addAll(disclosedProjectBean.getDisclosedAwards());
             }
         }
-        
+
         projectsToCompleteDisclosure.setDevProposalsToDisclose(getRevisedDevProposalToCompleteDiscl(initDevProposalsToCompleteDiscl, disclosedDevProposals));
         projectsToCompleteDisclosure.setInstituteProposalsToDisclose(getRevisedInstProposalToCompleteDiscl(initInstProposalsToCompleteDiscl, disclosedInstProposals));
         projectsToCompleteDisclosure.setAwardsToDisclose(getRevisedAwardsToCompleteDiscl(initAwardsToCompleteDiscl, disclosedAwards));
         return projectsToCompleteDisclosure;
     }
-    
+
     /**
-     * This method is to find disclosed projects based on medusa link by traversing through
-     * each development proposal where a disclosure is required.
-     * The requirement is that there needs to be only one disclosure required in the chain.
-     * Say for example - if Development proposal is disclosed, then entire link based on that development
-     * proposal is considered as disclosed.
-     * This applies moving from Development proposal to Award and back.
+     * This method is to find disclosed projects based on medusa link by
+     * traversing through each development proposal where a disclosure is
+     * required. The requirement is that there needs to be only one disclosure
+     * required in the chain. Say for example - if Development proposal is
+     * disclosed, then entire link based on that development proposal is
+     * considered as disclosed. This applies moving from Development proposal to
+     * Award and back.
+     *
      * @param devProposalsToCompleteDiscl
      * @param userId
      * @return
      */
-    private List<CoiDisclosedProjectBean> getDisclosedProjectsBasedOnDevelopmentProposalLink(List<DevelopmentProposal> devProposalsToCompleteDiscl, 
+    private List<CoiDisclosedProjectBean> getDisclosedProjectsBasedOnDevelopmentProposalLink(List<DevelopmentProposal> devProposalsToCompleteDiscl,
             String userId) {
         List<CoiDisclosedProjectBean> disclosedProjects = new ArrayList<CoiDisclosedProjectBean>();
-        for(DevelopmentProposal devProposal : devProposalsToCompleteDiscl) {
+        for (DevelopmentProposal devProposal : devProposalsToCompleteDiscl) {
             List<MedusaNode> medusaNodes = getMedusaService().getMedusaByProposal(Constants.DEVELOPMENT_PROPOSAL_MODULE, Long.parseLong(devProposal.getProposalNumber()));
             CoiDisclosedProjectBean disclosedProjectBean = new CoiDisclosedProjectBean();
             populateDisclosedAwardsAndProposals(medusaNodes, userId, disclosedProjectBean);
@@ -1912,20 +1927,22 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     }
 
     /**
-     * This method is to find disclosed projects based on medusa link by traversing through
-     * each institute proposal where a disclosure is required.
-     * The requirement is that there needs to be only one disclosure required in the chain.
-     * Say for example - if Development proposal is disclosed, then entire link based on that development
-     * proposal is considered as disclosed.
-     * This applies moving from Development proposal to Award and back.
+     * This method is to find disclosed projects based on medusa link by
+     * traversing through each institute proposal where a disclosure is
+     * required. The requirement is that there needs to be only one disclosure
+     * required in the chain. Say for example - if Development proposal is
+     * disclosed, then entire link based on that development proposal is
+     * considered as disclosed. This applies moving from Development proposal to
+     * Award and back.
+     *
      * @param instProposalsToCompleteDiscl
      * @param userId
      * @return
      */
-    private List<CoiDisclosedProjectBean> getDisclosedProjectsBasedOnInstituteProposalLink(List<InstitutionalProposal> instProposalsToCompleteDiscl, 
+    private List<CoiDisclosedProjectBean> getDisclosedProjectsBasedOnInstituteProposalLink(List<InstitutionalProposal> instProposalsToCompleteDiscl,
             String userId) {
         List<CoiDisclosedProjectBean> disclosedProjects = new ArrayList<CoiDisclosedProjectBean>();
-        for(InstitutionalProposal instProposal : instProposalsToCompleteDiscl) {
+        for (InstitutionalProposal instProposal : instProposalsToCompleteDiscl) {
             List<MedusaNode> medusaNodes = getMedusaService().getMedusaByProposal(Constants.INSTITUTIONAL_PROPOSAL_MODULE, instProposal.getProposalId());
             CoiDisclosedProjectBean disclosedProjectBean = new CoiDisclosedProjectBean();
             populateDisclosedAwardsAndProposals(medusaNodes, userId, disclosedProjectBean);
@@ -1935,20 +1952,22 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     }
 
     /**
-     * This method is to find disclosed projects based on medusa link by traversing through
-     * each award where a disclosure is required.
-     * The requirement is that there needs to be only one disclosure required in the chain.
-     * Say for example - if Development proposal is disclosed, then entire link based on that development
-     * proposal is considered as disclosed.
-     * This applies moving from Development proposal to Award and back.
+     * This method is to find disclosed projects based on medusa link by
+     * traversing through each award where a disclosure is required. The
+     * requirement is that there needs to be only one disclosure required in the
+     * chain. Say for example - if Development proposal is disclosed, then
+     * entire link based on that development proposal is considered as
+     * disclosed. This applies moving from Development proposal to Award and
+     * back.
+     *
      * @param awardsToCompleteDiscl
      * @param userId
      * @return
      */
-    private List<CoiDisclosedProjectBean> getDisclosedProjectsBasedOnAwardLink(List<Award> awardsToCompleteDiscl, 
+    private List<CoiDisclosedProjectBean> getDisclosedProjectsBasedOnAwardLink(List<Award> awardsToCompleteDiscl,
             String userId) {
         List<CoiDisclosedProjectBean> disclosedProjects = new ArrayList<CoiDisclosedProjectBean>();
-        for(Award award : awardsToCompleteDiscl) {
+        for (Award award : awardsToCompleteDiscl) {
             List<MedusaNode> medusaNodes = getMedusaService().getMedusaByAward(Constants.AWARD_MODULE, award.getAwardId());
             CoiDisclosedProjectBean disclosedProjectBean = new CoiDisclosedProjectBean();
             populateDisclosedAwardsAndProposals(medusaNodes, userId, disclosedProjectBean);
@@ -1956,11 +1975,12 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
         return disclosedProjects;
     }
-    
+
     /**
-     * This method is to get a revised list of awards to complete disclosure.
-     * We need to eliminate awards that are already disclosed as part of the
+     * This method is to get a revised list of awards to complete disclosure. We
+     * need to eliminate awards that are already disclosed as part of the
      * proposal-award link.
+     *
      * @param initAwardsToCompleteDiscl
      * @param disclosedAwards
      * @return
@@ -1968,9 +1988,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private List<Award> getRevisedAwardsToCompleteDiscl(List<Award> initAwardsToCompleteDiscl, List<Award> disclosedAwards) {
         List<Award> revisedAwardsToCompleteDiscl = initAwardsToCompleteDiscl;
         List<Award> awardsDisclosed = new ArrayList<Award>();
-        for(Award initAward : revisedAwardsToCompleteDiscl) {
-            for(Award disclAward : disclosedAwards) {
-                if(initAward.getAwardNumber().equals(disclAward.getAwardNumber())) {
+        for (Award initAward : revisedAwardsToCompleteDiscl) {
+            for (Award disclAward : disclosedAwards) {
+                if (initAward.getAwardNumber().equals(disclAward.getAwardNumber())) {
                     awardsDisclosed.add(initAward);
                     break;
                 }
@@ -1981,9 +2001,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     }
 
     /**
-     * This method is to get a revised list of institute proposals to complete disclosure.
-     * We need to eliminate awards that are already disclosed as part of the
-     * proposal-award link.
+     * This method is to get a revised list of institute proposals to complete
+     * disclosure. We need to eliminate awards that are already disclosed as
+     * part of the proposal-award link.
+     *
      * @param initInstProposalsToCompleteDiscl
      * @param disclosedInstProposals
      * @return
@@ -1991,9 +2012,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private List<InstitutionalProposal> getRevisedInstProposalToCompleteDiscl(List<InstitutionalProposal> initInstProposalsToCompleteDiscl, List<InstitutionalProposal> disclosedInstProposals) {
         List<InstitutionalProposal> revisedProposalToCompleteDiscl = initInstProposalsToCompleteDiscl;
         List<InstitutionalProposal> proposalsDisclosed = new ArrayList<InstitutionalProposal>();
-        for(InstitutionalProposal initInstProposal : revisedProposalToCompleteDiscl) {
-            for(InstitutionalProposal disclInstProposal : disclosedInstProposals) {
-                if(initInstProposal.getProposalNumber().equals(disclInstProposal.getProposalNumber())) {
+        for (InstitutionalProposal initInstProposal : revisedProposalToCompleteDiscl) {
+            for (InstitutionalProposal disclInstProposal : disclosedInstProposals) {
+                if (initInstProposal.getProposalNumber().equals(disclInstProposal.getProposalNumber())) {
                     proposalsDisclosed.add(initInstProposal);
                     break;
                 }
@@ -2004,9 +2025,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     }
 
     /**
-     * This method is to get a revised list of development proposals to complete disclosure.
-     * We need to eliminate awards that are already disclosed as part of the
-     * proposal-award link.
+     * This method is to get a revised list of development proposals to complete
+     * disclosure. We need to eliminate awards that are already disclosed as
+     * part of the proposal-award link.
+     *
      * @param initDevProposalsToCompleteDiscl
      * @param disclosedDevProposals
      * @return
@@ -2014,9 +2036,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private List<DevelopmentProposal> getRevisedDevProposalToCompleteDiscl(List<DevelopmentProposal> initDevProposalsToCompleteDiscl, List<DevelopmentProposal> disclosedDevProposals) {
         List<DevelopmentProposal> revisedProposalToCompleteDiscl = initDevProposalsToCompleteDiscl;
         List<DevelopmentProposal> proposalsDisclosed = new ArrayList<DevelopmentProposal>();
-        for(DevelopmentProposal initDevProposal : revisedProposalToCompleteDiscl) {
-            for(DevelopmentProposal disclDevProposal : disclosedDevProposals) {
-                if(initDevProposal.getProposalNumber().equals(disclDevProposal.getProposalNumber())) {
+        for (DevelopmentProposal initDevProposal : revisedProposalToCompleteDiscl) {
+            for (DevelopmentProposal disclDevProposal : disclosedDevProposals) {
+                if (initDevProposal.getProposalNumber().equals(disclDevProposal.getProposalNumber())) {
                     proposalsDisclosed.add(initDevProposal);
                     break;
                 }
@@ -2025,23 +2047,25 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         revisedProposalToCompleteDiscl.removeAll(proposalsDisclosed);
         return revisedProposalToCompleteDiscl;
     }
-    
+
     /**
      * This method is to get all nodes in medusa.
+     *
      * @param medusaNodes
      * @param userId
      * @param projectDisclosureHelper
      */
     private void populateDisclosedAwardsAndProposals(List<MedusaNode> medusaNodes, String userId, CoiDisclosedProjectBean projectDisclosureHelper) {
-        for(MedusaNode medusaNode : medusaNodes) {
+        for (MedusaNode medusaNode : medusaNodes) {
             addAwardAndProposalNodes(medusaNode, userId, projectDisclosureHelper);
             populateDisclosedAwardsAndProposals(medusaNode.getChildNodes(), userId, projectDisclosureHelper);
         }
     }
 
     /**
-     * This method is to separate all proposal and award nodes.
-     * Also to identify any of these in the chain are already disclosed.
+     * This method is to separate all proposal and award nodes. Also to identify
+     * any of these in the chain are already disclosed.
+     *
      * @param medusaNode
      * @param userId
      * @param projectDisclosureHelper
@@ -2049,17 +2073,17 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private void addAwardAndProposalNodes(MedusaNode medusaNode, String userId, CoiDisclosedProjectBean projectDisclosureHelper) {
         boolean isAwardOrProposalDisclosed = false;
         if (StringUtils.equals(medusaNode.getType(), Constants.AWARD_MODULE)) {
-            Award award = (Award)medusaNode.getBo();
+            Award award = (Award) medusaNode.getBo();
             projectDisclosureHelper.getDisclosedAwards().add(award);
             isAwardOrProposalDisclosed = isProjectReported(award.getAwardNumber(),
                     CoiDisclosureEventType.AWARD, userId);
-        }else if(StringUtils.equals(medusaNode.getType(), Constants.DEVELOPMENT_PROPOSAL_MODULE)) {
-            DevelopmentProposal devProposal = (DevelopmentProposal)medusaNode.getBo();
+        } else if (StringUtils.equals(medusaNode.getType(), Constants.DEVELOPMENT_PROPOSAL_MODULE)) {
+            DevelopmentProposal devProposal = (DevelopmentProposal) medusaNode.getBo();
             projectDisclosureHelper.getDisclosedDevProposals().add(devProposal);
             isAwardOrProposalDisclosed = isProjectReported(devProposal.getProposalNumber(),
                     CoiDisclosureEventType.DEVELOPMENT_PROPOSAL, userId);
-        }else if(StringUtils.equals(medusaNode.getType(), Constants.INSTITUTIONAL_PROPOSAL_MODULE)) {
-            InstitutionalProposal instProposal = (InstitutionalProposal)medusaNode.getBo();
+        } else if (StringUtils.equals(medusaNode.getType(), Constants.INSTITUTIONAL_PROPOSAL_MODULE)) {
+            InstitutionalProposal instProposal = (InstitutionalProposal) medusaNode.getBo();
             projectDisclosureHelper.getDisclosedInstProposals().add(instProposal);
             isAwardOrProposalDisclosed = isProjectReported(instProposal.getProposalNumber(),
                     CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, userId);
@@ -2067,9 +2091,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         isAwardOrProposalDisclosed |= projectDisclosureHelper.isProjectDisclosed();
         projectDisclosureHelper.setProjectDisclosed(isAwardOrProposalDisclosed);
     }
-    
+
     public MedusaService getMedusaService() {
-        if(ObjectUtils.isNull(medusaService)) {
+        if (ObjectUtils.isNull(medusaService)) {
             this.medusaService = KraServiceLocator.getService(MedusaService.class);
         }
         return medusaService;
@@ -2080,20 +2104,21 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     }
 
     /**
-     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getUndisclosedEvents(java.util.Map)
+     * @see
+     * org.kuali.kra.coi.disclosure.CoiDisclosureService#getUndisclosedEvents(java.util.Map)
      */
     @Override
     public List<CoiDisclosureUndisclosedEvents> getUndisclosedEvents(Map<String, String> searchCriteria) {
-        List<CoiDisclosureUndisclosedEvents>  undisclosedEvents = new ArrayList<CoiDisclosureUndisclosedEvents>();
+        List<CoiDisclosureUndisclosedEvents> undisclosedEvents = new ArrayList<CoiDisclosureUndisclosedEvents>();
         String eventType = searchCriteria.get(CoiDisclosureUndisclosedEvents.SEARCH_CRITERIA_EVENT_TYPE);
         DisclosureEventTypeConstants selectedEventType = null;
-        if(StringUtils.isBlank(eventType)) {
+        if (StringUtils.isBlank(eventType)) {
             selectedEventType = DisclosureEventTypeConstants.AllEvents;
-        }else {
+        } else {
             selectedEventType = DisclosureEventTypeConstants.valueOf(eventType);
         }
-        
-        switch(selectedEventType) {
+
+        switch (selectedEventType) {
             case AllEvents:
                 undisclosedEvents = getAllUndisclosedEvents(searchCriteria);
                 break;
@@ -2118,6 +2143,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
     /**
      * This method is to identify the events that needs disclosure
+     *
      * @param selectedEventType
      * @param searchCriteria
      * @return
@@ -2130,8 +2156,8 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         Map<String, List<IacucProtocolPerson>> personAndIacucProtocols = new HashMap<String, List<IacucProtocolPerson>>();
 
         List<CoiProjectsToCompleteDisclosureBean> allProjectsToDisclose = new ArrayList<CoiProjectsToCompleteDisclosureBean>();
-        
-        switch(selectedEventType) {
+
+        switch (selectedEventType) {
             case AllEvents:
                 personAndDevelopmentProposals = getDevelopmentProposalPersonsForUndisclosedEvents(searchCriteria);
                 personAndInstituteProposals = getInstitutionalProposalPersonsForUndisclosedEvents(searchCriteria);
@@ -2157,11 +2183,13 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
         allProjectsToDisclose = getAllProjectsToCompleteDisclosure(personAndDevelopmentProposals, personAndInstituteProposals, personAndAwards, personAndIrbProtocols, personAndIacucProtocols);
         return allProjectsToDisclose;
-        
+
     }
-    
+
     /**
-     * This method is to get all projects required to complete disclosure for each person
+     * This method is to get all projects required to complete disclosure for
+     * each person
+     *
      * @param personAndDevelopmentProposals
      * @param personAndInstituteProposals
      * @param personAndAwards
@@ -2169,8 +2197,8 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      */
     private List<CoiProjectsToCompleteDisclosureBean> getAllProjectsToCompleteDisclosure(Map<String, List<ProposalPerson>> personAndDevelopmentProposals, Map<String, List<InstitutionalProposalPerson>> personAndInstituteProposals,
             Map<String, List<AwardPerson>> personAndAwards, Map<String, List<ProtocolPerson>> personAndIrbProtocols, Map<String, List<IacucProtocolPerson>> personAndIacucProtocols) {
-        
-        HashMap<String, String> allProjectPersonsForDisclosure = getAllProjectPersonsForUndisclosedEvents(personAndDevelopmentProposals, personAndInstituteProposals, personAndAwards, personAndIrbProtocols, personAndIacucProtocols); 
+
+        HashMap<String, String> allProjectPersonsForDisclosure = getAllProjectPersonsForUndisclosedEvents(personAndDevelopmentProposals, personAndInstituteProposals, personAndAwards, personAndIrbProtocols, personAndIacucProtocols);
         Set<String> allProjectPersons = allProjectPersonsForDisclosure.keySet();
         List<CoiDisclosedProjectBean> disclosedProjects = new ArrayList<CoiDisclosedProjectBean>();
         List<DevelopmentProposal> initDevProposalsToCompleteDiscl = new ArrayList<DevelopmentProposal>();
@@ -2182,13 +2210,13 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             List<InstitutionalProposalPerson> instProposalPersons = personAndInstituteProposals.get(personId);
             List<AwardPerson> awardPersons = personAndAwards.get(personId);
 
-            if(devProposalPersons != null && !devProposalPersons.isEmpty()) {
+            if (devProposalPersons != null && !devProposalPersons.isEmpty()) {
                 initDevProposalsToCompleteDiscl = getProposals(devProposalPersons);
             }
-            if(instProposalPersons != null && !instProposalPersons.isEmpty()) {
+            if (instProposalPersons != null && !instProposalPersons.isEmpty()) {
                 initInstProposalsToCompleteDiscl = getInstitutionalProposals(instProposalPersons);
             }
-            if(awardPersons != null && !awardPersons.isEmpty()) {
+            if (awardPersons != null && !awardPersons.isEmpty()) {
                 initAwardsToCompleteDiscl = getAwards(awardPersons);
             }
 
@@ -2199,17 +2227,17 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             CoiProjectsToCompleteDisclosureBean personProjectsToCompleteDisclosure = getRevisedProposalsAndAwardsToCompleteDisclosure(disclosedProjects, initDevProposalsToCompleteDiscl, initInstProposalsToCompleteDiscl, initAwardsToCompleteDiscl);
             personProjectsToCompleteDisclosure.setPersonId(personId);
             personProjectsToCompleteDisclosure.setPersonName(allProjectPersonsForDisclosure.get(personId));
-            
+
             List<ProtocolPerson> irbProtocolPersons = personAndIrbProtocols.get(personId);
             List<Protocol> initIrbProtocolsToCompleteDiscl = new ArrayList<Protocol>();
-            if(irbProtocolPersons != null && !irbProtocolPersons.isEmpty()) {
+            if (irbProtocolPersons != null && !irbProtocolPersons.isEmpty()) {
                 initIrbProtocolsToCompleteDiscl = getProtocols(irbProtocolPersons);
             }
             personProjectsToCompleteDisclosure.setIrbProtocolsToDisclose(initIrbProtocolsToCompleteDiscl);
 
             List<IacucProtocolPerson> iacucProtocolPersons = personAndIacucProtocols.get(personId);
             List<IacucProtocol> initIacucProtocolsToCompleteDiscl = new ArrayList<IacucProtocol>();
-            if(iacucProtocolPersons != null && !iacucProtocolPersons.isEmpty()) {
+            if (iacucProtocolPersons != null && !iacucProtocolPersons.isEmpty()) {
                 initIacucProtocolsToCompleteDiscl = getIacucProtocols(iacucProtocolPersons);
             }
             personProjectsToCompleteDisclosure.setIacucProtocolsToDisclose(initIacucProtocolsToCompleteDiscl);
@@ -2218,10 +2246,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
         return allProjectsToDisclose;
     }
-    
 
     /**
      * This method is to get a complete list of all project persons
+     *
      * @param personAndDevelopmentProposals
      * @param personAndInstituteProposals
      * @param personAndAwards
@@ -2232,13 +2260,13 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private HashMap<String, String> getAllProjectPersonsForUndisclosedEvents(Map<String, List<ProposalPerson>> personAndDevelopmentProposals, Map<String, List<InstitutionalProposalPerson>> personAndInstituteProposals,
             Map<String, List<AwardPerson>> personAndAwards, Map<String, List<ProtocolPerson>> personAndIrbProtocols, Map<String, List<IacucProtocolPerson>> personAndIacucProtocols) {
         HashMap<String, String> allProjectPersons = new HashMap<String, String>();
-        
+
         for (Map.Entry<String, List<ProposalPerson>> person : personAndDevelopmentProposals.entrySet()) {
             String personId = person.getKey();
             String personName = person.getValue().get(0).getFullName();
             allProjectPersons.put(personId, personName);
         }
-        
+
         for (Map.Entry<String, List<InstitutionalProposalPerson>> person : personAndInstituteProposals.entrySet()) {
             String personId = person.getKey();
             String personName = person.getValue().get(0).getFullName();
@@ -2250,7 +2278,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             String personName = person.getValue().get(0).getFullName();
             allProjectPersons.put(personId, personName);
         }
-        
+
         for (Map.Entry<String, List<ProtocolPerson>> person : personAndIrbProtocols.entrySet()) {
             String personId = person.getKey();
             String personName = person.getValue().get(0).getFullName();
@@ -2265,10 +2293,11 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
         return allProjectPersons;
     }
-    
+
     /**
-     * This method is to get undisclosed events for all projects.
-     * Include prop dev, inst prop, award, irb and iacuc protocols
+     * This method is to get undisclosed events for all projects. Include prop
+     * dev, inst prop, award, irb and iacuc protocols
+     *
      * @param searchCriteria
      * @return
      */
@@ -2276,9 +2305,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         List<CoiProjectsToCompleteDisclosureBean> allProjectsToCompleteDisclosure = getAllProjectsToDisclose(DisclosureEventTypeConstants.AllEvents, searchCriteria);
         return getFormattedUndsclosedEvents(allProjectsToCompleteDisclosure);
     }
-    
+
     /**
      * This method is to get undisclosed events for development proposal.
+     *
      * @param searchCriteria
      * @return
      */
@@ -2286,9 +2316,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         List<CoiProjectsToCompleteDisclosureBean> allProjectsToCompleteDisclosure = getAllProjectsToDisclose(DisclosureEventTypeConstants.DevelopmentProposal, searchCriteria);
         return getFormattedUndsclosedEvents(allProjectsToCompleteDisclosure);
     }
-    
+
     /**
      * This method is to get undisclosed events for institute proposal.
+     *
      * @param searchCriteria
      * @return
      */
@@ -2296,9 +2327,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         List<CoiProjectsToCompleteDisclosureBean> allProjectsToCompleteDisclosure = getAllProjectsToDisclose(DisclosureEventTypeConstants.InstituteProposal, searchCriteria);
         return getFormattedUndsclosedEvents(allProjectsToCompleteDisclosure);
     }
-    
+
     /**
      * This method is to get undisclosed events for awards.
+     *
      * @param searchCriteria
      * @return
      */
@@ -2309,6 +2341,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
     /**
      * This method is to get undisclosed events for irb protocols.
+     *
      * @param searchCriteria
      * @return
      */
@@ -2316,9 +2349,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         List<CoiProjectsToCompleteDisclosureBean> allProjectsToCompleteDisclosure = getAllProjectsToDisclose(DisclosureEventTypeConstants.IRBProtocol, searchCriteria);
         return getFormattedUndsclosedEvents(allProjectsToCompleteDisclosure);
     }
-    
+
     /**
      * This method is to get undisclosed events for iacuc protocols.
+     *
      * @param searchCriteria
      * @return
      */
@@ -2326,16 +2360,17 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         List<CoiProjectsToCompleteDisclosureBean> allProjectsToCompleteDisclosure = getAllProjectsToDisclose(DisclosureEventTypeConstants.IACUCProtocol, searchCriteria);
         return getFormattedUndsclosedEvents(allProjectsToCompleteDisclosure);
     }
-    
+
     /**
      * This method is to format undisclosed events to display in the result.
      * Look for all projects that requires a disclosure and format it.
+     *
      * @param allProjectsToCompleteDisclosure
      * @return
      */
     private List<CoiDisclosureUndisclosedEvents> getFormattedUndsclosedEvents(List<CoiProjectsToCompleteDisclosureBean> allProjectsToCompleteDisclosure) {
-        List<CoiDisclosureUndisclosedEvents>  undisclosedEvents = new ArrayList<CoiDisclosureUndisclosedEvents>();
-        for(CoiProjectsToCompleteDisclosureBean projectsToCompleteDisclosure : allProjectsToCompleteDisclosure) {
+        List<CoiDisclosureUndisclosedEvents> undisclosedEvents = new ArrayList<CoiDisclosureUndisclosedEvents>();
+        for (CoiProjectsToCompleteDisclosureBean projectsToCompleteDisclosure : allProjectsToCompleteDisclosure) {
             String personId = projectsToCompleteDisclosure.getPersonId();
             String personName = projectsToCompleteDisclosure.getPersonName();
             undisclosedEvents.addAll(getUndisclosedEventsForDevProposal(projectsToCompleteDisclosure.getDevProposalsToDisclose(), personId, personName));
@@ -2346,15 +2381,16 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
         return undisclosedEvents;
     }
-    
+
     /**
      * This method is to build undisclosed events for Development proposal
+     *
      * @param devProposalsToDisclose
      * @param personId
      * @return
      */
     private List<CoiDisclosureUndisclosedEvents> getUndisclosedEventsForDevProposal(List<DevelopmentProposal> devProposalsToDisclose, String personId, String personName) {
-        List<CoiDisclosureUndisclosedEvents>  undisclosedEvents = new ArrayList<CoiDisclosureUndisclosedEvents>();
+        List<CoiDisclosureUndisclosedEvents> undisclosedEvents = new ArrayList<CoiDisclosureUndisclosedEvents>();
         for (DevelopmentProposal devProposal : devProposalsToDisclose) {
             String projectId = devProposal.getProjectId();
             String projectTitle = devProposal.getProjectName();
@@ -2368,12 +2404,13 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
     /**
      * This method is to build undisclosed events for Institutional proposal
+     *
      * @param instProposalsToDisclose
      * @param personId
      * @return
      */
     private List<CoiDisclosureUndisclosedEvents> getUndisclosedEventsForInstProposal(List<InstitutionalProposal> instProposalsToDisclose, String personId, String personName) {
-        List<CoiDisclosureUndisclosedEvents>  undisclosedEvents = new ArrayList<CoiDisclosureUndisclosedEvents>();
+        List<CoiDisclosureUndisclosedEvents> undisclosedEvents = new ArrayList<CoiDisclosureUndisclosedEvents>();
         for (InstitutionalProposal instProposal : instProposalsToDisclose) {
             String projectId = instProposal.getProposalNumber();
             String projectTitle = instProposal.getTitle();
@@ -2387,12 +2424,13 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
     /**
      * This method is to build undisclosed events for Award
+     *
      * @param awardsToDisclose
      * @param personId
      * @return
      */
     private List<CoiDisclosureUndisclosedEvents> getUndisclosedEventsForAward(List<Award> awardsToDisclose, String personId, String personName) {
-        List<CoiDisclosureUndisclosedEvents>  undisclosedEvents = new ArrayList<CoiDisclosureUndisclosedEvents>();
+        List<CoiDisclosureUndisclosedEvents> undisclosedEvents = new ArrayList<CoiDisclosureUndisclosedEvents>();
         for (Award award : awardsToDisclose) {
             String projectId = award.getAwardNumber();
             String projectTitle = award.getTitle();
@@ -2406,12 +2444,13 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
     /**
      * This method is to build undisclosed events for IRB protocol
+     *
      * @param protocolsToDisclose
      * @param personId
      * @return
      */
     private List<CoiDisclosureUndisclosedEvents> getUndisclosedEventsForIrbProtocol(List<Protocol> protocolsToDisclose, String personId, String personName) {
-        List<CoiDisclosureUndisclosedEvents>  undisclosedEvents = new ArrayList<CoiDisclosureUndisclosedEvents>();
+        List<CoiDisclosureUndisclosedEvents> undisclosedEvents = new ArrayList<CoiDisclosureUndisclosedEvents>();
         for (Protocol protocol : protocolsToDisclose) {
             String projectId = protocol.getProtocolNumber();
             String projectTitle = protocol.getTitle();
@@ -2425,12 +2464,13 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
     /**
      * This method is to build undisclosed events for IACUC protocol
+     *
      * @param protocolsToDisclose
      * @param personId
      * @return
      */
     private List<CoiDisclosureUndisclosedEvents> getUndisclosedEventsForIacucProtocol(List<IacucProtocol> protocolsToDisclose, String personId, String personName) {
-        List<CoiDisclosureUndisclosedEvents>  undisclosedEvents = new ArrayList<CoiDisclosureUndisclosedEvents>();
+        List<CoiDisclosureUndisclosedEvents> undisclosedEvents = new ArrayList<CoiDisclosureUndisclosedEvents>();
         for (IacucProtocol protocol : protocolsToDisclose) {
             String projectId = protocol.getProtocolNumber();
             String projectTitle = protocol.getTitle();
@@ -2441,10 +2481,11 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
         return undisclosedEvents;
     }
-    
+
     /**
-     * This method is to create a new instance of undisclosed events.
-     * Set all values required to display the result.
+     * This method is to create a new instance of undisclosed events. Set all
+     * values required to display the result.
+     *
      * @param personId
      * @param projectId
      * @param projectTitle
@@ -2463,26 +2504,28 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         event.setProjectStatus(projectStatus);
         return event;
     }
-    
+
     /**
      * This method is to check if there is any criteria that we need to consider
+     *
      * @param searchCriteria
      * @return
      */
     private boolean isSearchByCriteriaRequired(Map<String, String> searchCriteria) {
         boolean isCriteriaQueryRequired = false;
-        for(String criteriaKey : getAllSearchCriteriasForUndisclosedEvents()) {
-            if(StringUtils.isNotBlank(searchCriteria.get(criteriaKey))) {
+        for (String criteriaKey : getAllSearchCriteriasForUndisclosedEvents()) {
+            if (StringUtils.isNotBlank(searchCriteria.get(criteriaKey))) {
                 isCriteriaQueryRequired = true;
                 break;
             }
         }
         return isCriteriaQueryRequired;
     }
-    
+
     /**
-     * This method is to get a list of all search criteria to build
-     * undisclosed event list.
+     * This method is to get a list of all search criteria to build undisclosed
+     * event list.
+     *
      * @return
      */
     private Set<String> getAllSearchCriteriasForUndisclosedEvents() {
@@ -2493,88 +2536,94 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         searchCriterias.add(CoiDisclosureUndisclosedEvents.SEARCH_CRITERIA_SPONSOR);
         return searchCriterias;
     }
-    
+
     /**
-     * This method is to get a list of IRB protocol persons based on search criteria.
-     * If not criteria is defined, we need to get all IRB protocol persons
-     * Let us return as person and their related iacuc protocols (which is linked to each person).
+     * This method is to get a list of IRB protocol persons based on search
+     * criteria. If not criteria is defined, we need to get all IRB protocol
+     * persons Let us return as person and their related iacuc protocols (which
+     * is linked to each person).
+     *
      * @param searchCriteria
      * @return
      */
     private Map<String, List<ProtocolPerson>> getIrbProtocolPersonsForUndisclosedEvents(Map<String, String> searchCriteria) {
         List<ProtocolPerson> protocolPersons = new ArrayList<ProtocolPerson>();
-        if(isSearchByCriteriaRequired(searchCriteria)) {
+        if (isSearchByCriteriaRequired(searchCriteria)) {
             protocolPersons = getCoiDisclosureUndisclosedEventsDao().getIrbProtocolPersons(searchCriteria);
         } else {
             protocolPersons = (List<ProtocolPerson>) businessObjectService.findAll(ProtocolPerson.class);
-        }    
+        }
 
         Map<String, List<ProtocolPerson>> personAndProtocols = new HashMap<String, List<ProtocolPerson>>();
         List<ProtocolPerson> personProtocols = null;
-        for(ProtocolPerson protocolPerson : protocolPersons) {
+        for (ProtocolPerson protocolPerson : protocolPersons) {
             String personId = protocolPerson.getPersonId();
             personProtocols = personAndProtocols.get(personId);
-            if(personProtocols == null) {
+            if (personProtocols == null) {
                 personProtocols = new ArrayList<ProtocolPerson>();
             }
             personProtocols.add(protocolPerson);
             personAndProtocols.put(personId, personProtocols);
         }
-        
+
         return personAndProtocols;
     }
 
     /**
-     * This method is to get a list of IACUC protocol persons based on search criteria.
-     * If not criteria is defined, we need to get all IACUC protocol persons
-     * Let us return as person and their related iacuc protocols (which is linked to each person).
+     * This method is to get a list of IACUC protocol persons based on search
+     * criteria. If not criteria is defined, we need to get all IACUC protocol
+     * persons Let us return as person and their related iacuc protocols (which
+     * is linked to each person).
+     *
      * @param searchCriteria
      * @return
      */
     private Map<String, List<IacucProtocolPerson>> getIacucProtocolPersonsForUndisclosedEvents(Map<String, String> searchCriteria) {
         List<IacucProtocolPerson> protocolPersons = new ArrayList<IacucProtocolPerson>();
-        if(isSearchByCriteriaRequired(searchCriteria)) {
+        if (isSearchByCriteriaRequired(searchCriteria)) {
             protocolPersons = getCoiDisclosureUndisclosedEventsDao().getIacucProtocolPersons(searchCriteria);
         } else {
-            protocolPersons =  (List<IacucProtocolPerson>) businessObjectService.findAll(IacucProtocolPerson.class);
-        }    
+            protocolPersons = (List<IacucProtocolPerson>) businessObjectService.findAll(IacucProtocolPerson.class);
+        }
 
         Map<String, List<IacucProtocolPerson>> personAndProtocols = new HashMap<String, List<IacucProtocolPerson>>();
         List<IacucProtocolPerson> personProtocols = null;
-        for(IacucProtocolPerson protocolPerson : protocolPersons) {
+        for (IacucProtocolPerson protocolPerson : protocolPersons) {
             String personId = protocolPerson.getPersonId();
             personProtocols = personAndProtocols.get(personId);
-            if(personProtocols == null) {
+            if (personProtocols == null) {
                 personProtocols = new ArrayList<IacucProtocolPerson>();
             }
             personProtocols.add(protocolPerson);
             personAndProtocols.put(personId, personProtocols);
         }
-        
+
         return personAndProtocols;
     }
 
     /**
-     * This method is to get a list of Development proposal persons based on search criteria.
-     * If not criteria is defined, we need to get all Development proposal persons
-     * Let us return as person and their related proposals (which is linked to each person).
+     * This method is to get a list of Development proposal persons based on
+     * search criteria. If not criteria is defined, we need to get all
+     * Development proposal persons Let us return as person and their related
+     * proposals (which is linked to each person).
+     *
      * @param searchCriteria
      * @return
      */
     private Map<String, List<ProposalPerson>> getDevelopmentProposalPersonsForUndisclosedEvents(Map<String, String> searchCriteria) {
         List<ProposalPerson> proposalPersons = new ArrayList<ProposalPerson>();
-        if(isSearchByCriteriaRequired(searchCriteria)) {
+        if (isSearchByCriteriaRequired(searchCriteria)) {
             proposalPersons = getCoiDisclosureUndisclosedEventsDao().getDevelopmentProposalPersons(searchCriteria);
         } else {
-            proposalPersons =  (List<ProposalPerson>) businessObjectService.findAll(ProposalPerson.class);
-        }  
-        
+            proposalPersons = (List<ProposalPerson>) businessObjectService.findAll(ProposalPerson.class);
+        }
+
         Map<String, List<ProposalPerson>> personAndProposals = new HashMap<String, List<ProposalPerson>>();
         List<ProposalPerson> personProposals = null;
-        for(ProposalPerson proposalPerson : proposalPersons) {
+        for (ProposalPerson proposalPerson : proposalPersons) {
             String personId = proposalPerson.getPersonId();
             personProposals = personAndProposals.get(personId);
-            if(personProposals == null) {
+            if (personProposals == null) {
                 personProposals = new ArrayList<ProposalPerson>();
             }
             personProposals.add(proposalPerson);
@@ -2584,65 +2633,69 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     }
 
     /**
-     * This method is to get a list of Institute proposal persons based on search criteria.
-     * If not criteria is defined, we need to get all Institute proposal persons
-     * Let us return as person and their related proposals (which is linked to each person).
+     * This method is to get a list of Institute proposal persons based on
+     * search criteria. If not criteria is defined, we need to get all Institute
+     * proposal persons Let us return as person and their related proposals
+     * (which is linked to each person).
+     *
      * @param searchCriteria
      * @return
      */
     private Map<String, List<InstitutionalProposalPerson>> getInstitutionalProposalPersonsForUndisclosedEvents(Map<String, String> searchCriteria) {
         List<InstitutionalProposalPerson> proposalPersons = new ArrayList<InstitutionalProposalPerson>();
-        if(isSearchByCriteriaRequired(searchCriteria)) {
+        if (isSearchByCriteriaRequired(searchCriteria)) {
             proposalPersons = getCoiDisclosureUndisclosedEventsDao().getInstituteProposalPersons(searchCriteria);
         } else {
-            proposalPersons =  (List<InstitutionalProposalPerson>) businessObjectService.findAll(InstitutionalProposalPerson.class);
-        }    
-        
+            proposalPersons = (List<InstitutionalProposalPerson>) businessObjectService.findAll(InstitutionalProposalPerson.class);
+        }
+
         Map<String, List<InstitutionalProposalPerson>> personAndProposals = new HashMap<String, List<InstitutionalProposalPerson>>();
         List<InstitutionalProposalPerson> personProposals = null;
-        for(InstitutionalProposalPerson proposalPerson : proposalPersons) {
+        for (InstitutionalProposalPerson proposalPerson : proposalPersons) {
             String personId = proposalPerson.getPersonId();
             personProposals = personAndProposals.get(personId);
-            if(personProposals == null) {
+            if (personProposals == null) {
                 personProposals = new ArrayList<InstitutionalProposalPerson>();
             }
             personProposals.add(proposalPerson);
             personAndProposals.put(personId, personProposals);
         }
-        
+
         return personAndProposals;
     }
 
     /**
      * This method is to get a list of Award persons based on search criteria.
-     * If not criteria is defined, we need to get all Award persons
-     * Let us return as person and their related awards (which is linked to each person).
+     * If not criteria is defined, we need to get all Award persons Let us
+     * return as person and their related awards (which is linked to each
+     * person).
+     *
      * @param searchCriteria
      * @return
      */
     private Map<String, List<AwardPerson>> getAwardPersonsForUndisclosedEvents(Map<String, String> searchCriteria) {
         List<AwardPerson> awardPersons = new ArrayList<AwardPerson>();
-        if(isSearchByCriteriaRequired(searchCriteria)) {
+        if (isSearchByCriteriaRequired(searchCriteria)) {
             awardPersons = getCoiDisclosureUndisclosedEventsDao().getAwardPersons(searchCriteria);
         } else {
-            awardPersons =  (List<AwardPerson>) businessObjectService.findAll(AwardPerson.class);
-        }    
-        
+            awardPersons = (List<AwardPerson>) businessObjectService.findAll(AwardPerson.class);
+        }
+
         Map<String, List<AwardPerson>> personAndAwards = new HashMap<String, List<AwardPerson>>();
         List<AwardPerson> personAwards = null;
-        for(AwardPerson awardPerson : awardPersons) {
+        for (AwardPerson awardPerson : awardPersons) {
             String personId = awardPerson.getPersonId();
             personAwards = personAndAwards.get(personId);
-            if(personAwards == null) {
+            if (personAwards == null) {
                 personAwards = new ArrayList<AwardPerson>();
             }
             personAwards.add(awardPerson);
             personAndAwards.put(personId, personAwards);
         }
-        
+
         return personAndAwards;
     }
-    
+
     private String getFormattedCreateDate(Timestamp updateTimeStamp) {
         return (new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN).format(updateTimeStamp));
     }
@@ -2654,19 +2707,20 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     public void setCoiDisclosureUndisclosedEventsDao(CoiDisclosureUndisclosedEventsDao coiDisclosureUndisclosedEventsDao) {
         this.coiDisclosureUndisclosedEventsDao = coiDisclosureUndisclosedEventsDao;
     }
-    
+
     @Override
     public List<CoiDisclosure> getAllDisclosuresForUser(String personId) {
         Map fieldValues = new HashMap();
         fieldValues.put("personId", personId);
         List<CoiDisclosure> disclosures = (List<CoiDisclosure>) businessObjectService.findMatching(CoiDisclosure.class,
-            fieldValues);
+                fieldValues);
         return disclosures;
     }
 
     @Override
     public boolean checkScreeningQuestionnaireRule(CoiDisclosureDocument coiDisclosureDocument) {
-        String krmsRuleId = parameterService.getParameterValueAsString(CoiDisclosureDocument.class, Constants.COI_SCREENING_QUESTIONNAIRE_KRMS_RULE);
+        String krmsRuleId = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_COIDISCLOSURE, 
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.COI_SCREENING_QUESTIONNAIRE_KRMS_RULE);
         if (StringUtils.isNotBlank(krmsRuleId)) {
             Map<String, Boolean> krmsResults = getKrmsRulesExecutionService().runApplicableRules(Arrays.asList(new String[]{krmsRuleId}), coiDisclosureDocument, UnitAgendaTypeService.UNIT_AGENDA_TYPE_ID);
             Boolean result = krmsResults.get(krmsRuleId);
@@ -2687,7 +2741,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     public void setKrmsRulesExecutionService(KrmsRulesExecutionService krmsRulesExecutionService) {
         this.krmsRulesExecutionService = krmsRulesExecutionService;
     }
-    
+
     protected Integer calculateMaximumDispositionStatusCode(CoiDisclosure coiDisclosure) {
         Integer defaultDisposition = getDefaultDispositionStatus(coiDisclosure);
         Integer retval = null;
@@ -2711,7 +2765,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
         return retval;
     }
-    
+
     protected Integer getDefaultDispositionStatus(CoiDisclosure coiDisclosure) {
         Integer retval;
         if (coiDisclosure.getDisclosureStatusCode() == null || StringUtils.equals(coiDisclosure.getDisclosureStatusCode(), CoiDisclosureStatus.IN_PROGRESS)) {
@@ -2721,12 +2775,12 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
         return retval;
     }
-    
+
     @Override
     public CoiDispositionStatus calculateMaximumDispositionStatus(CoiDisclosure coiDisclosure) {
         return businessObjectService.findBySinglePrimaryKey(CoiDispositionStatus.class, calculateMaximumDispositionStatusCode(coiDisclosure));
     }
-    
+
     @Override
     public void updateDisclosureAndProjectDisposition(CoiDisclosure coiDisclosure) {
         CoiDispositionStatus disposition = calculateMaximumDispositionStatus(coiDisclosure);
@@ -2734,5 +2788,3 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         coiDisclosure.setCoiDispositionStatus(disposition);
     }
 }
-
-
