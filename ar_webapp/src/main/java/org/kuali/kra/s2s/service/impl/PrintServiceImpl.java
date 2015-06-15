@@ -136,9 +136,7 @@ public class PrintServiceImpl implements PrintService {
      * org.kuali.kra.s2s.service.PrintService#printForm(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
     @Override
-    public org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource printForm(
-            ProposalDevelopmentDocument pdDoc) throws S2SException,
-            PrintingException {
+    public AttachmentDataSource printForm(ProposalDevelopmentDocument pdDoc) throws S2SException, PrintingException {
         List<Printable> printableList = null;
         S2sAppSubmission s2sAppSubmission = getLatestS2SAppSubmission(pdDoc);
         if (s2sAppSubmission != null

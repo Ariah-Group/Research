@@ -65,6 +65,7 @@ import java.util.*;
 
 import static java.util.Collections.sort;
 import static org.apache.commons.lang.StringUtils.*;
+import org.ariahgroup.research.bo.AttachmentDataSource;
 import static org.kuali.kra.infrastructure.Constants.*;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.BufferedLogger.info;

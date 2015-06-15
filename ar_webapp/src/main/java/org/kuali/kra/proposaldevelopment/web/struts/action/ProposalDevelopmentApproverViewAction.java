@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.ariahgroup.research.bo.AttachmentDataSource;
 
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 
@@ -61,7 +62,7 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
-    throws Exception {
+            throws Exception {
         ActionForward forward = super.execute(mapping, form, request, response);
         super.refresh(mapping, form, request, response);
         return forward;
@@ -71,7 +72,6 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
         return super.printForms(mapping, form, request, response);
     }
 
-
     public ActionForward downloadProposalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
@@ -80,12 +80,13 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
         Narrative narrative = pd.getDevelopmentProposal().getNarratives().get(lineNumber);
         NarrativeAttachment narrativeAttachment = findNarrativeAttachment(narrative);
-        if(narrativeAttachment==null && !narrative.getNarrativeAttachmentList().isEmpty()){//get it from the memory
+        if (narrativeAttachment == null && !narrative.getNarrativeAttachmentList().isEmpty()) {//get it from the memory
             narrativeAttachment = narrative.getNarrativeAttachmentList().get(0);
         }
-        streamToResponse(narrativeAttachment,response);
+        streamToResponse(narrativeAttachment, response);
         return null;
     }
+
     public ActionForward viewPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
@@ -93,16 +94,16 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
         String line = request.getParameter(LINE_NUMBER);
         int lineNumber = line == null ? 0 : Integer.parseInt(line);
         ProposalPersonBiography propPersonBio = pd.getDevelopmentProposal().getPropPersonBios().get(lineNumber);
-        Map<String,String> propPersonBioAttVal = new HashMap<String,String>();
+        Map<String, String> propPersonBioAttVal = new HashMap<String, String>();
         propPersonBioAttVal.put(PROPOSAL_NUMBER, propPersonBio.getProposalNumber());
-        propPersonBioAttVal.put(BIOGRAPHY_NUMBER, propPersonBio.getBiographyNumber()+"");
-        propPersonBioAttVal.put(PROPOSAL_PERSON_NUMBER, propPersonBio.getProposalPersonNumber()+"");
-        ProposalPersonBiographyAttachment propPersonBioAttachment = (ProposalPersonBiographyAttachment)getBusinessObjectService().findByPrimaryKey(ProposalPersonBiographyAttachment.class, propPersonBioAttVal);
-        if(propPersonBioAttachment==null && !propPersonBio.getPersonnelAttachmentList().isEmpty()){//get it from the memory
+        propPersonBioAttVal.put(BIOGRAPHY_NUMBER, propPersonBio.getBiographyNumber() + "");
+        propPersonBioAttVal.put(PROPOSAL_PERSON_NUMBER, propPersonBio.getProposalPersonNumber() + "");
+        ProposalPersonBiographyAttachment propPersonBioAttachment = (ProposalPersonBiographyAttachment) getBusinessObjectService().findByPrimaryKey(ProposalPersonBiographyAttachment.class, propPersonBioAttVal);
+        if (propPersonBioAttachment == null && !propPersonBio.getPersonnelAttachmentList().isEmpty()) {//get it from the memory
             propPersonBioAttachment = propPersonBio.getPersonnelAttachmentList().get(0);
         }
-        streamToResponse(propPersonBioAttachment,response);
-        return  null;
+        streamToResponse(propPersonBioAttachment, response);
+        return null;
     }
 
     public ActionForward downloadInstituteAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -114,28 +115,31 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
         Narrative narrative = pd.getDevelopmentProposal().getInstituteAttachments().get(lineNumber);
         NarrativeAttachment narrativeAttachment = findNarrativeAttachment(narrative);
-        if(narrativeAttachment==null && !narrative.getNarrativeAttachmentList().isEmpty()){//get it from the memory
+        if (narrativeAttachment == null && !narrative.getNarrativeAttachmentList().isEmpty()) {//get it from the memory
             narrativeAttachment = narrative.getNarrativeAttachmentList().get(0);
         }
-        streamToResponse(narrativeAttachment,response); 
+        streamToResponse(narrativeAttachment, response);
         return null;
-    }
-    /**
-     * 
-     * This method used to find the narrative attachment for a narrative
-     * @param narrative
-     * @return NarrativeAttachment
-     */
-    private NarrativeAttachment findNarrativeAttachment(Narrative narrative){
-        Map<String,String> narrativeAttachemntMap = new HashMap<String,String>();
-        narrativeAttachemntMap.put(PROPOSAL_NUMBER, narrative.getProposalNumber());
-        narrativeAttachemntMap.put(MODULE_NUMBER, narrative.getModuleNumber()+"");
-        return (NarrativeAttachment)getBusinessObjectService().findByPrimaryKey(NarrativeAttachment.class, narrativeAttachemntMap);
     }
 
     /**
-     * 
+     *
+     * This method used to find the narrative attachment for a narrative
+     *
+     * @param narrative
+     * @return NarrativeAttachment
+     */
+    private NarrativeAttachment findNarrativeAttachment(Narrative narrative) {
+        Map<String, String> narrativeAttachemntMap = new HashMap<String, String>();
+        narrativeAttachemntMap.put(PROPOSAL_NUMBER, narrative.getProposalNumber());
+        narrativeAttachemntMap.put(MODULE_NUMBER, narrative.getModuleNumber() + "");
+        return (NarrativeAttachment) getBusinessObjectService().findByPrimaryKey(NarrativeAttachment.class, narrativeAttachemntMap);
+    }
+
+    /**
+     *
      * This method is called to populate sponsor forms under Print
+     *
      * @param form
      * @throws Exception
      */
@@ -147,8 +151,9 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
     }
 
     /**
-     * 
+     *
      * This method is called to print forms
+     *
      * @param mapping
      * @param form
      * @param request
@@ -158,34 +163,32 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
      */
     public ActionForward printSponsorForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getProposalDevelopmentDocument();
+        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) proposalDevelopmentForm.getProposalDevelopmentDocument();
         ActionForward actionForward = mapping.findForward(MAPPING_BASIC);
         String proposalNumber = proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber();
 
         List<SponsorFormTemplateList> sponsorFormTemplateLists = proposalDevelopmentForm.getSponsorFormTemplates();
         ProposalDevelopmentPrintingService printService = KraServiceLocator.getService(ProposalDevelopmentPrintingService.class);
-        List<SponsorFormTemplate> printFormTemplates = new ArrayList<SponsorFormTemplate>();  
-        printFormTemplates = printService.getSponsorFormTemplates(sponsorFormTemplateLists); 
-        Map<String,Object> reportParameters = new HashMap<String,Object>();
+        List<SponsorFormTemplate> printFormTemplates = new ArrayList<SponsorFormTemplate>();
+        printFormTemplates = printService.getSponsorFormTemplates(sponsorFormTemplateLists);
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
         reportParameters.put(ProposalDevelopmentPrintingService.SELECTED_TEMPLATES, printFormTemplates);
 
         try {
-            AttachmentDataSource dataStream = printService.printProposalDevelopmentReport(proposalDevelopmentDocument.getDevelopmentProposal(), 
+            AttachmentDataSource dataStream = printService.printProposalDevelopmentReport(proposalDevelopmentDocument.getDevelopmentProposal(),
                     ProposalDevelopmentPrintingService.PRINT_PROPOSAL_SPONSOR_FORMS, reportParameters);
             streamToResponse(dataStream, response);
             return null;
-
-        }
-        catch (NullPointerException npe) {
+        } catch (NullPointerException npe) {
             LOG.error("Error generating print stream for proposal forms", npe);
             GlobalVariables.getMessageMap().putError("print.nofield", KeyConstants.ERROR_PRINTING_UNKNOWN);
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
 
-
     }
+
     public ActionForward actions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-    throws Exception {
+            throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         if (proposalDevelopmentForm.getProposalDevelopmentDocument().getDocumentNumber() == null) {
             loadDocumentInForm(request, proposalDevelopmentForm);
@@ -196,8 +199,8 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
         return mapping.findForward(Constants.PROPOSAL_ACTIONS_PAGE);
     }
 
-    public ActionForward viewSpecialReviewProtocolLink(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-    throws Exception {
+    public ActionForward viewSpecialReviewProtocolLink(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
 
         String viewProtocolUrl = Constants.EMPTY_STRING;
 
@@ -210,14 +213,15 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
             viewProtocolUrl = getViewProtocolUrl(proposalSpecialReview);
         }
 
-        return mapping.findForward(Constants.PERSON_CERTIFICATE); 
+        return mapping.findForward(Constants.PERSON_CERTIFICATE);
     }
+
     private String getViewProtocolUrl(ProposalSpecialReview specialReview) throws Exception {
         String viewProtocolUrl = Constants.EMPTY_STRING;
 
         String protocolNumber = specialReview.getProtocolNumber();
         String routeHeaderId = getSpecialReviewService().getViewSpecialReviewProtocolRouteHeaderId(protocolNumber, specialReview.getSpecialReviewTypeCode());
-        if (StringUtils.isNotEmpty(routeHeaderId)) { 
+        if (StringUtils.isNotEmpty(routeHeaderId)) {
             viewProtocolUrl = buildForwardUrl(routeHeaderId) + "&viewDocument=true";
         }
 
@@ -231,24 +235,23 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
         return specialReviewService;
     }
 
-
     public ActionForward printBudgetForm(ActionMapping mapping,
             ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();       
-        BudgetDocument budgetDocument = getS2SBudgetCalculatorService() .getFinalBudgetVersion(document);
+        ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        BudgetDocument budgetDocument = getS2SBudgetCalculatorService().getFinalBudgetVersion(document);
         BudgetPrintService budgetPrintService = KraServiceLocator
-        .getService(BudgetPrintService.class);
+                .getService(BudgetPrintService.class);
         Budget budget = budgetDocument.getBudget();
         Integer selectedLine = getSelectedLine(request);
-        if(budget.getBudgetPrintForms().isEmpty()){
+        if (budget.getBudgetPrintForms().isEmpty()) {
             budgetPrintService.populateBudgetPrintForms(budget);
         }
         String budgetFormToPrint = budget.getBudgetPrintForms().get(selectedLine).getBudgetReportId();
-        if(proposalDevelopmentForm.getSelectedBudgetPrint()!=null && budgetFormToPrint !=null){
-            String forms[]=proposalDevelopmentForm.getSelectedBudgetPrint();  
-            if(forms[0].equals(budgetFormToPrint)){
+        if (proposalDevelopmentForm.getSelectedBudgetPrint() != null && budgetFormToPrint != null) {
+            String forms[] = proposalDevelopmentForm.getSelectedBudgetPrint();
+            if (forms[0].equals(budgetFormToPrint)) {
                 budget.setPrintBudgetCommentFlag("true");
             }
         }
@@ -257,8 +260,8 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
 
         ActionForward forward = mapping.findForward(MAPPING_BASIC);
         if (budgetFormToPrint != null) {
-            AttachmentDataSource dataStream = budgetPrintService.readBudgetPrintStream(budget,budgetFormToPrint);
-            if(dataStream.getContent()!=null){
+            AttachmentDataSource dataStream = budgetPrintService.readBudgetPrintStream(budget, budgetFormToPrint);
+            if (dataStream.getContent() != null) {
                 streamToResponse(dataStream, response);
                 forward = null;
             }

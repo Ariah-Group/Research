@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.bo;
 
+import org.ariahgroup.research.bo.AttachmentDataSource;
 
 /**
  * 

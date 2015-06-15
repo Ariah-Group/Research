@@ -75,6 +75,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.ariahgroup.research.bo.AttachmentDataSource;
 
 public class ReportTrackingLookupAction extends KualiLookupAction {
 
@@ -202,7 +203,8 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
             printables = getReportTrackingPrintingService().getReportPrintable(ReportTrackingType.AWARD_REPORT_TRACKING, detailResult, printables);
             printableArtifactLists.add((AwardReportTracking) printables.clone());
         }
-        org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource attachmentDataSource
+        
+        AttachmentDataSource attachmentDataSource
                 = getReportTrackingPrintingService()
                 .printAwardReportTracking(printableArtifactLists);
         streamToResponse(attachmentDataSource, response);
@@ -221,7 +223,7 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         printable = getReportTrackingPrintingService().getReportPrintable(
                 ReportTrackingType.AWARD_REPORT_TRACKING, reportTracking, printable);
         printableArtifactList.add(printable);
-        org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource attachmentDataSource
+        AttachmentDataSource attachmentDataSource
                 = getReportTrackingPrintingService()
                 .printAwardReportTracking(printableArtifactList);
         streamToResponse(attachmentDataSource, response);
@@ -369,7 +371,7 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
      * @param response
      * @throws Exception
      */
-    protected void streamToResponse(org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource attachmentDataSource,
+    protected void streamToResponse(AttachmentDataSource attachmentDataSource,
             HttpServletResponse response) throws Exception {
         byte[] xbts = attachmentDataSource.getContent();
         ByteArrayOutputStream baos = null;
