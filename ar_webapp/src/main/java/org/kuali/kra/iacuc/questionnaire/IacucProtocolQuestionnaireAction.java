@@ -52,7 +52,7 @@ import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.ariahgroup.research.bo.AttachmentDataSource;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.questionnaire.SaveProtocolQuestionnaireEvent;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;

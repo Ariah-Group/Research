@@ -16,7 +16,7 @@
 package org.kuali.kra.proposaldevelopment.budget.service;
 
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.ariahgroup.research.bo.AttachmentDataSource;
 
 public interface BudgetPrintService {
 	

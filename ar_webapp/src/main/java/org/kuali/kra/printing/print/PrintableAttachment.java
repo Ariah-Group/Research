@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.printing.print;
 
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.ariahgroup.research.bo.AttachmentDataSource;
 
 /**
  * 

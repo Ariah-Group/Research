@@ -18,7 +18,7 @@ package org.kuali.kra.award.printing.service;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.printing.PrintingException;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.ariahgroup.research.bo.AttachmentDataSource;
 
 import java.util.Map;
 

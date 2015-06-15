@@ -7,7 +7,7 @@ import org.kuali.kra.institutionalproposal.printing.service.InstitutionalProposa
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.PrintingService;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.ariahgroup.research.bo.AttachmentDataSource;
 
 import java.util.Map;
 

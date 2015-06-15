@@ -48,7 +48,7 @@ import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.PrintableAttachment;
 import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.printing.service.WatermarkService;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.ariahgroup.research.bo.AttachmentDataSource;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.util.KRADConstants;

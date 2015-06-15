@@ -21,7 +21,7 @@ import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogPrinti
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.PrintingService;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.ariahgroup.research.bo.AttachmentDataSource;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.HashMap;

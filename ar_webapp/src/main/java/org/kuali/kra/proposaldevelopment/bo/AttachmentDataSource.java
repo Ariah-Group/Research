@@ -18,7 +18,7 @@ package org.kuali.kra.proposaldevelopment.bo;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
- * 
+ * @deprecated Use org.ariahgroup.research.bo.AttachmentDataSource instead.
  * This class helps create the foundation of attachment data sources.
  */
 public abstract class AttachmentDataSource extends KraPersistableBusinessObjectBase {

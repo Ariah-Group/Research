@@ -21,7 +21,7 @@ import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.PrintableAttachment;
 import org.kuali.kra.printing.service.PersonSignatureService;
 import org.kuali.kra.printing.service.PrintingService;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.ariahgroup.research.bo.AttachmentDataSource;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;

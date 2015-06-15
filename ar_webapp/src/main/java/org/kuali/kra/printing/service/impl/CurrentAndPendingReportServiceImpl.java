@@ -11,7 +11,7 @@ import org.kuali.kra.printing.print.CurrentProposalPrint;
 import org.kuali.kra.printing.print.PendingProposalPrint;
 import org.kuali.kra.printing.service.CurrentAndPendingReportService;
 import org.kuali.kra.printing.service.PrintingService;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.ariahgroup.research.bo.AttachmentDataSource;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
