@@ -501,3 +501,9 @@ update BUDGET_CATEGORY_TYPE set active='Y';
 alter table BUDGET_CATEGORY add ( ACTIVE varchar2(1) ); 
 -- set all default values to Y Active)
 update BUDGET_CATEGORY set active='Y'; 
+
+
+-- Add Active flag to APPOINTMENT_TYPE table
+alter table APPOINTMENT_TYPE add ( ACTIVE varchar2(1) ); 
+-- set all default values to Y (Active)
+update APPOINTMENT_TYPE set active='Y';

@@ -29,6 +29,8 @@ public class AppointmentType extends KraPersistableBusinessObjectBase {
     private Integer duration;
 
     private String description;
+    
+    private boolean active;
 
     /**
      * Retrieves the description attribute
@@ -79,4 +81,12 @@ public class AppointmentType extends KraPersistableBusinessObjectBase {
     public void setDuration(Integer duration) {
         this.duration = duration;
     }
+    
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }    
 }

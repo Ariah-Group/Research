@@ -22,6 +22,7 @@
         <ref bean="AppointmentType-duration" />
         <ref bean="AppointmentType-description" />
         <ref bean="AppointmentType-versionNumber" />
+        <ref bean="AppointmentType-active" />
       </list>
     </property>
   </bean>
@@ -74,6 +75,15 @@
   <bean id="AppointmentType-versionNumber" parent="AppointmentType-versionNumber-parentBean" />
   <bean id="AppointmentType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
   </bean>
+  
+    <bean id="AppointmentType-active" parent="AppointmentType-active-parentBean"/>
+    <bean abstract="true" id="AppointmentType-active-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="active"/>
+        <property name="label" value="Active"/>
+        <property name="shortLabel" value="Active"/>
+        <property name="summary" value="Active"/>
+        <property name="description" value="Active"/>
+    </bean>  
 
 <!-- Business Object Inquiry Definition -->
 
@@ -124,6 +134,7 @@
               p:attributeName="duration" />
         <bean parent="FieldDefinition"
               p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -135,6 +146,7 @@
               p:attributeName="duration" />
         <bean parent="FieldDefinition"
               p:attributeName="description" />
+        <bean parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>
   </bean>
