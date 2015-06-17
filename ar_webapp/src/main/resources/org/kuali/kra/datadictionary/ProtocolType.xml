@@ -34,12 +34,22 @@
 				<ref bean="ProtocolType-description"/>
 				<ref bean="ProtocolReviewType-globalFlag" />
 				<ref bean="ProtocolType-versionNumber"/>
+                                <ref bean="ProtocolType-active"/>
 			</list>
 		</property>
 	</bean>
 
 	<!-- Attribute Definitions -->
 	
+    <bean id="ProtocolType-active" parent="ProtocolType-active-parentBean"/>
+    <bean abstract="true" id="ProtocolType-active-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="active"/>
+        <property name="label" value="Active"/>
+        <property name="shortLabel" value="Active"/>
+        <property name="summary" value="Active"/>
+        <property name="description" value="Active"/>
+    </bean>          
+        
 	<bean id="ProtocolType-protocolTypeCode" parent="ProtocolType-protocolTypeCode-parentBean"/>
 	<bean abstract="true" id="ProtocolType-protocolTypeCode-parentBean" parent="AttributeDefinition">
 		<property name="name" value="protocolTypeCode"/>
@@ -113,16 +123,16 @@
 			<list>
 				<bean p:attributeName="protocolTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
 				<bean p:attributeName="description" parent="FieldDefinition"/>
-				<bean parent="FieldDefinition"
-					p:attributeName="globalFlag" />
+				<bean parent="FieldDefinition" p:attributeName="globalFlag" />
+                                <bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
 				<bean p:attributeName="protocolTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
 				<bean p:attributeName="description" parent="FieldDefinition"/>
-				<bean parent="FieldDefinition"
-					p:attributeName="globalFlag" />
+				<bean parent="FieldDefinition" p:attributeName="globalFlag" />
+                                <bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 	</bean>

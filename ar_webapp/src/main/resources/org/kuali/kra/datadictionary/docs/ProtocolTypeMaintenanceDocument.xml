@@ -28,17 +28,9 @@
                 <value>protocolTypeCode</value>
             </list>
         </property>
-		<property name="allowsRecordDeletion" value="true" />
-	
-        
-        
-        
-        
-        
+        <property name="allowsRecordDeletion" value="true" />
         <property name="documentTypeName" value="ProtocolTypeMaintenanceDocument"/>
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
-        
-        
     </bean>
 
     <!-- Maintenance Section Definitions -->
@@ -53,6 +45,7 @@
                 <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="globalFlag" p:required="true"/>
                 <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
+                <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
             </list>
         </property>
     </bean>

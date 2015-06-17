@@ -21,5 +21,12 @@ alter table APPOINTMENT_TYPE add ( ACTIVE varchar2(1) );
 update APPOINTMENT_TYPE set active='Y';
 
 
+-- Add Active flag to PROTOCOL_TYPE table
+alter table PROTOCOL_TYPE add ( ACTIVE varchar2(1) ); 
+-- set all default values to Y (Active)
+update PROTOCOL_TYPE set active='Y';
+
+
+
 commit;
 exit

@@ -27,8 +27,10 @@ public class ProtocolType extends ProtocolTypeBase {
     private String protocolTypeCode;
 
     private String description;
-    
+
     private boolean globalFlag;
+
+    private boolean active;
 
     public ProtocolType() {
     }
@@ -49,11 +51,25 @@ public class ProtocolType extends ProtocolTypeBase {
         this.description = description;
     }
 
-	public boolean isGlobalFlag() {
-		return globalFlag;
-	}
+    public boolean isGlobalFlag() {
+        return globalFlag;
+    }
 
-	public void setGlobalFlag(boolean globalFlag) {
-		this.globalFlag = globalFlag;
-	}
+    public void setGlobalFlag(boolean globalFlag) {
+        this.globalFlag = globalFlag;
+    }
+
+    /**
+     * @return the active
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * @param active the active to set
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }
