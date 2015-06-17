@@ -43,7 +43,7 @@ import org.kuali.kra.budget.calculator.query.Equals;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
-import org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder;
+import org.ariahgroup.research.budget.lookup.keyvalue.CostElementValuesFinder;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
 import org.kuali.kra.budget.parameters.BudgetPeriod;

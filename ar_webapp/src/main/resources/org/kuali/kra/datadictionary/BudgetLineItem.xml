@@ -194,7 +194,7 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.CostElementValuesFinder"
+            p:valuesFinderClass="org.ariahgroup.research.budget.lookup.keyvalue.CostElementValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
     <property name="summary" value="Object Code Name" />
