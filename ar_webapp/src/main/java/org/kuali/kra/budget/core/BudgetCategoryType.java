@@ -19,7 +19,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * Class representation of the BudgetCategory Type Business Object
- * 
+ *
  * BudgetCategoryType.java
  */
 public class BudgetCategoryType extends KraPersistableBusinessObjectBase implements Comparable {
@@ -29,6 +29,8 @@ public class BudgetCategoryType extends KraPersistableBusinessObjectBase impleme
     private String description;
 
     private String sortId;
+
+    private boolean active;
 
     public String getSortId() {
         return sortId;
@@ -40,7 +42,7 @@ public class BudgetCategoryType extends KraPersistableBusinessObjectBase impleme
 
     /**
      * Retrieves the description attribute
-     * 
+     *
      * @return String
      */
     public String getDescription() {
@@ -57,7 +59,8 @@ public class BudgetCategoryType extends KraPersistableBusinessObjectBase impleme
     }
 
     /**
-     * Gets the budgetCategoryTypeCode attribute. 
+     * Gets the budgetCategoryTypeCode attribute.
+     *
      * @return Returns the budgetCategoryTypeCode.
      */
     public String getBudgetCategoryTypeCode() {
@@ -66,6 +69,7 @@ public class BudgetCategoryType extends KraPersistableBusinessObjectBase impleme
 
     /**
      * Sets the budgetCategoryTypeCode attribute value.
+     *
      * @param budgetCategoryTypeCode The budgetCategoryTypeCode to set.
      */
     public void setBudgetCategoryTypeCode(String budgetCategoryTypeCode) {
@@ -73,14 +77,24 @@ public class BudgetCategoryType extends KraPersistableBusinessObjectBase impleme
     }
 
     /**
-     * This is for totals page 
+     * This is for totals page
+     *
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
+    @Override
     public int compareTo(Object o) {
         return compareTo((BudgetCategoryType) o);
     }
 
     public int compareTo(BudgetCategoryType budgetCategoryType) {
         return this.sortId.compareTo(budgetCategoryType.sortId);
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

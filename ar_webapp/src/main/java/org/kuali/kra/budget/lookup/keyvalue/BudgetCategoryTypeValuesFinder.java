@@ -40,8 +40,11 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class BudgetCategoryTypeValuesFinder extends UifKeyValuesFinderBase {
     
@@ -59,16 +62,19 @@ public class BudgetCategoryTypeValuesFinder extends UifKeyValuesFinderBase {
      */
     @Override
     public List<KeyValue> getKeyValues() {
-        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-        Collection budgetCategoryTypes = keyValuesService.findAllOrderBy(BudgetCategoryType.class,"sortId",true);
+        BusinessObjectService busService = (BusinessObjectService) KraServiceLocator.getService("businessObjectService");
+        
+        Map<String,String> queryMap = new HashMap<String,String>();
+        queryMap.put("active", "Y");
+        
+        Collection<BudgetCategoryType> budgetCategoryTypes = busService.findMatchingOrderBy(BudgetCategoryType.class,queryMap ,"sortId",true);
+        
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         
         for (Iterator iter = budgetCategoryTypes.iterator(); iter.hasNext();) {
             BudgetCategoryType budgetCategoryType = (BudgetCategoryType) iter.next();
             keyValues.add(new ConcreteKeyValue(budgetCategoryType.getBudgetCategoryTypeCode(), budgetCategoryType.getDescription()));                            
         }
-                
         return keyValues;
     }
-   
 }
