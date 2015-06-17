@@ -83,7 +83,7 @@
         <property name="summary" value="Active"/>
         <property name="description" value="Active"/>
     </bean>
-</beans>
+
 <!-- Business Object Inquiry Definition -->
 
 
