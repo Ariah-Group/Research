@@ -3,3 +3,48 @@
 /ar_webapp/nb-configuration.xml
 apache_v2_sample_header.txt
 /research-impl/research-negotiation/research-negotiation-api/target/
+/research-impl/research-coi/target/
+/research-impl/research-negotiation/target/
+/research-impl/research-coi - Copy/target/
+/research-impl/research-award/target/
+/research-impl/research-coi-api - Copy/target/
+/research-impl/research-infrastructure/target/
+/research-impl/research-budget/target/
+/research-impl/Ariah Research Business Objects/target/
+/research-impl/Ariah Research Service Api/target/
+/research-impl/research-bo-service/target/
+/research-impl/research-logging/target/
+/research-impl/research-utilities/target/
+/research-impl/research-s2s/target/
+/research-impl/research-budget-shared/target/
+/research-impl/research-rules-api/target/
+/research-impl/research-protocol/target/
+/research-impl/research-security-api/target/
+/research-impl/research-web-struts/target/
+/research-impl/research-questionnaire-api/target/
+/research-impl/research-middleware-bridge-api/target/
+/research-impl/research-workflow-api/target/
+/research-impl/research-common/target/
+/research-impl/research-printing-api/target/
+/research-impl/research-proposaldevelopment-api/target/
+/research-impl/research-protocol-api/target/
+/research-impl/research-irb-api/target/
+/research-impl/research-maintenance-api/target/
+/research-impl/research-iacuc-api/target/
+/research-impl/research-budget-api/target/
+/research-impl/research-bo-api/target/
+/research-impl/research-maintenance/target/
+/research-impl/research-committee/target/
+/research-impl/research-committee-api/target/
+/research-impl/research-award-api/target/
+/research-impl/research-s2s-api/target/
+/research-impl/research-web-struts-api/target/
+/research-impl/research-rules/target/
+/research-impl/research-middleware/target/
+/research-impl/research-negotiation-api/target/
+/research-impl/research-institutionalproposal-api/target/
+/research-impl/research-subaward-api/target/
+/research-impl/research-printing/target/
+/research-impl/Ariah Research Notification/target/
+/research-impl/research-service-api/target/
+/research-impl/research-notification/target/

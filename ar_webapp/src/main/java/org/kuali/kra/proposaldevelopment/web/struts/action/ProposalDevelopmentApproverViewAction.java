@@ -164,8 +164,8 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
     public ActionForward printSponsorForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) proposalDevelopmentForm.getProposalDevelopmentDocument();
-        ActionForward actionForward = mapping.findForward(MAPPING_BASIC);
-        String proposalNumber = proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber();
+        //ActionForward actionForward = mapping.findForward(MAPPING_BASIC);
+        //String proposalNumber = proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber();
 
         List<SponsorFormTemplateList> sponsorFormTemplateLists = proposalDevelopmentForm.getSponsorFormTemplates();
         ProposalDevelopmentPrintingService printService = KraServiceLocator.getService(ProposalDevelopmentPrintingService.class);
