@@ -10,7 +10,10 @@ alter table BUDGET_CATEGORY_TYPE add ( ACTIVE varchar2(1) );
 update BUDGET_CATEGORY_TYPE set active='Y';
 
 
-
+-- Add Active flag to BUDGET_CATEGORY table
+alter table BUDGET_CATEGORY add ( ACTIVE varchar2(1) ); 
+-- set all default values to Y Active)
+update BUDGET_CATEGORY set active='Y';
 
 commit;
 exit

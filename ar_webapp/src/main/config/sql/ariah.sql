@@ -495,3 +495,9 @@ VALUES  ('KC-PD','Document','ARIAH_PROPDEV_REQUIRE_PROJECT_DATES', sys_guid(),0,
 alter table BUDGET_CATEGORY_TYPE add ( ACTIVE varchar2(1) ); 
 -- set all default values to Y Active)
 update BUDGET_CATEGORY_TYPE set active='Y';
+
+
+-- Add Active flag to BUDGET_CATEGORY table
+alter table BUDGET_CATEGORY add ( ACTIVE varchar2(1) ); 
+-- set all default values to Y Active)
+update BUDGET_CATEGORY set active='Y'; 

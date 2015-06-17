@@ -26,6 +26,8 @@ public class BudgetCategory extends KraPersistableBusinessObjectBase {
     private String description;
 
     private BudgetCategoryType budgetCategoryType;
+    
+    private boolean active;
 
     public String getBudgetCategoryCode() {
         return budgetCategoryCode;
@@ -66,4 +68,12 @@ public class BudgetCategory extends KraPersistableBusinessObjectBase {
     public void setBudgetCategoryType(BudgetCategoryType budgetCategoryType) {
         this.budgetCategoryType = budgetCategoryType;
     }
+    
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }    
 }
