@@ -37,6 +37,8 @@ public class ProtocolParticipant extends ProtocolAssociateBase {
     private Integer participantCount;
 
     private ParticipantType participantType;
+    
+    private boolean active;
 
     public ProtocolParticipant() {
     }
@@ -76,5 +78,19 @@ public class ProtocolParticipant extends ProtocolAssociateBase {
     /** {@inheritDoc} */
     public void resetPersistenceState() {
         this.setProtocolParticipantId(null);
+    }
+
+    /**
+     * @return the active
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * @param active the active to set
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
