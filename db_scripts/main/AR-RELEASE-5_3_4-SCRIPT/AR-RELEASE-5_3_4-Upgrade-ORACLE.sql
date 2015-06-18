@@ -57,6 +57,10 @@ alter table NSF_CODES add ( ACTIVE varchar2(1) );
 update NSF_CODES set active='Y';
 
 
+-- Add Active flag to AWARD_TRANSACTION_TYPE table
+alter table AWARD_TRANSACTION_TYPE add ( ACTIVE varchar2(1) ); 
+-- set all default values to Y (Active)
+update AWARD_TRANSACTION_TYPE set active='Y';
 
 commit;
 exit

@@ -26,6 +26,8 @@ public class AwardTransactionType extends AwardAssociate {
     private String description;
 
     private boolean showInActionSummary;
+    
+    private boolean active;
 
     public AwardTransactionType() {
     }
@@ -55,5 +57,19 @@ public class AwardTransactionType extends AwardAssociate {
     }
 
     public void resetPersistenceState() {
+    }
+
+    /**
+     * @return the active
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * @param active the active to set
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
