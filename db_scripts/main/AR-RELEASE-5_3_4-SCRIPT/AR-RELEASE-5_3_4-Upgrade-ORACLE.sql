@@ -51,6 +51,12 @@ alter table AWARD_TYPE add ( ACTIVE varchar2(1) );
 update AWARD_TYPE set active='Y';
 
 
+-- Add Active flag to NSF_CODES table
+alter table NSF_CODES add ( ACTIVE varchar2(1) ); 
+-- set all default values to Y (Active)
+update NSF_CODES set active='Y';
+
+
 
 commit;
 exit

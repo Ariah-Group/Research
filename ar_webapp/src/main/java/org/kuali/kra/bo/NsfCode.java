@@ -23,6 +23,8 @@ public class NsfCode extends KraPersistableBusinessObjectBase {
     private String nsfCode;
 
     private String description;
+    
+    private boolean active;
 
     public Integer getNsfSequenceNumber() {
         return nsfSequenceNumber;
@@ -46,5 +48,19 @@ public class NsfCode extends KraPersistableBusinessObjectBase {
 
     public void setNsfCode(String nsfCode) {
         this.nsfCode = nsfCode;
+    }
+
+    /**
+     * @return the active
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * @param active the active to set
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
