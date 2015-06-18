@@ -35,10 +35,10 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 public class AwardAwardTypeValuesFinder extends UifKeyValuesFinderBase {
 
     /**
-     * Retrieve list of ACTIVE AccountType's sorted by the 'description' field
+     * Retrieve list of ACTIVE AwardType's sorted by the 'description' field
      * ascending.
      * 
-     * @return List of AccountType objects.
+     * @return List of AwardType objects.
      */
     @Override
     public List<KeyValue> getKeyValues() {
