@@ -734,6 +734,7 @@
               <bean p:attributeName="scienceMisconductComplDate" parent="FieldDefinition"/>
               <bean p:attributeName="telexNumber" parent="FieldDefinition"/>
               <bean p:attributeName="vendorCode" parent="FieldDefinition"/>
+              <bean parent="FieldDefinition" p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -850,6 +851,7 @@
         <bean p:attributeName="cageNumber" parent="FieldDefinition"/>
         <bean p:attributeName="dodacNumber" parent="FieldDefinition"/>
         <bean p:attributeName="numberOfEmployees" parent="FieldDefinition"/>
+        <bean parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields">
@@ -863,6 +865,7 @@
         <bean p:attributeName="dunsNumber" parent="FieldDefinition"/>
         <bean p:attributeName="dunsPlusFourNumber" parent="FieldDefinition"/>
         <bean p:attributeName="humanSubAssurance" parent="FieldDefinition"/>
+        <bean parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>
   </bean>
