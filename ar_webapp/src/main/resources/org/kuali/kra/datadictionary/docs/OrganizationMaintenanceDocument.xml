@@ -18,7 +18,9 @@
       <list>
         <value>organizationId</value>
       </list>
-    </property>	<property name="allowsRecordDeletion" value="true" />	
+    </property>
+	<property name="allowsRecordDeletion" value="false" />
+	
     <property name="documentTypeName" value="OrganizationMaintenanceDocument"/>
     <property name="documentAuthorizerClass" value="org.kuali.kra.authorizer.OrganizationMaintenanceDocumentAuthorizer"/>
     <property name="businessRulesClass" value="org.kuali.kra.rules.OrganizationMaintenanceDocumentRule"/>
