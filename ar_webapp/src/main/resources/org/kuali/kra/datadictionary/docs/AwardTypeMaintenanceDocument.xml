@@ -14,43 +14,38 @@
  limitations under the License.
 --><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="AwardTypeMaintenanceDocument" parent="AwardTypeMaintenanceDocument-parentBean"/>
-	<bean id="AwardTypeMaintenanceDocument-parentBean" abstract="true" parent="ArMaintenanceDocumentEntry">
-		<property name="businessObjectClass" value="org.kuali.kra.award.home.AwardType"/>
-		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
-		<property name="maintainableSections">
-			<list>
-				<ref bean="AwardTypeMaintenanceDocument-EditAwardType"/>
-			</list>
-		</property>
-		<property name="lockingKeys">
-			<list>
-				<value>awardTypeCode</value>
-			</list>
-		</property>		<property name="allowsRecordDeletion" value="true" />	
-		
-		
-		
-		
-		
-		<property name="documentTypeName" value="AwardTypeMaintenanceDocument"/>
-		<property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
-		
-		
-	</bean>
+    <bean id="AwardTypeMaintenanceDocument" parent="AwardTypeMaintenanceDocument-parentBean"/>
+    <bean id="AwardTypeMaintenanceDocument-parentBean" abstract="true" parent="ArMaintenanceDocumentEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.award.home.AwardType"/>
+        <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
+        <property name="maintainableSections">
+            <list>
+                <ref bean="AwardTypeMaintenanceDocument-EditAwardType"/>
+            </list>
+        </property>
+        <property name="lockingKeys">
+            <list>
+                <value>awardTypeCode</value>
+            </list>
+        </property>
+        <property name="allowsRecordDeletion" value="true" />
+        <property name="documentTypeName" value="AwardTypeMaintenanceDocument"/>
+        <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    </bean>
 
-	<!-- Maintenance Section Definitions -->
+    <!-- Maintenance Section Definitions -->
 	
-	<bean id="AwardTypeMaintenanceDocument-EditAwardType" parent="AwardTypeMaintenanceDocument-EditAwardType-parentBean"/>
-	<bean id="AwardTypeMaintenanceDocument-EditAwardType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Edit Award Type"/>
-		<property name="title" value="Edit Award Type"/>
-		<property name="maintainableItems">
-			<list>
-				<bean parent="MaintainableFieldDefinition" p:name="awardTypeCode" p:required="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
-			</list>
-		</property>
-	</bean>
+    <bean id="AwardTypeMaintenanceDocument-EditAwardType" parent="AwardTypeMaintenanceDocument-EditAwardType-parentBean"/>
+    <bean id="AwardTypeMaintenanceDocument-EditAwardType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Edit Award Type"/>
+        <property name="title" value="Edit Award Type"/>
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="awardTypeCode" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
+                <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
+            </list>
+        </property>
+    </bean>
 </beans>

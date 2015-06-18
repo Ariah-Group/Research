@@ -19,7 +19,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * Award Type business object
- * 
+ *
  * @author Kuali Coeus development team (kc.dev@kuali.org)
  */
 public class AwardType extends KraPersistableBusinessObjectBase {
@@ -29,6 +29,8 @@ public class AwardType extends KraPersistableBusinessObjectBase {
     private Integer awardTypeCode;
 
     private String description;
+
+    private boolean active;
 
     public AwardType() {
     }
@@ -60,16 +62,44 @@ public class AwardType extends KraPersistableBusinessObjectBase {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         final AwardType other = (AwardType) obj;
         if (awardTypeCode == null) {
-            if (other.awardTypeCode != null) return false;
-        } else if (!awardTypeCode.equals(other.awardTypeCode)) return false;
+            if (other.awardTypeCode != null) {
+                return false;
+            }
+        } else if (!awardTypeCode.equals(other.awardTypeCode)) {
+            return false;
+        }
         if (description == null) {
-            if (other.description != null) return false;
-        } else if (!description.equals(other.description)) return false;
+            if (other.description != null) {
+                return false;
+            }
+        } else if (!description.equals(other.description)) {
+            return false;
+        }
         return true;
+    }
+
+    /**
+     * @return the active
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * @param active the active to set
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

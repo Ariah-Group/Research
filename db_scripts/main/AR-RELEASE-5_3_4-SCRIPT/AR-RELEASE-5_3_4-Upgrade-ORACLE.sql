@@ -45,6 +45,12 @@ alter table ACCOUNT_TYPE add ( ACTIVE varchar2(1) );
 update ACCOUNT_TYPE set active='Y';
 
 
+-- Add Active flag to AWARD_TYPE table
+alter table AWARD_TYPE add ( ACTIVE varchar2(1) ); 
+-- set all default values to Y (Active)
+update AWARD_TYPE set active='Y';
+
+
 
 commit;
 exit
