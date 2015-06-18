@@ -16,7 +16,6 @@
 package org.kuali.kra.award.notesandattachments.attachments;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentType;
 
 /**
  * This class...
@@ -46,7 +45,7 @@ public class AwardAttachmentType extends KraPersistableBusinessObjectBase {
      * This ctor does not validate any of the properties.
      * </p>
      * 
-     * @param code the code.
+     * @param typeCode the code.
      * @param description the description.
      */
     public AwardAttachmentType(String typeCode, String description) {
@@ -64,7 +63,7 @@ public class AwardAttachmentType extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the protocol attachment type code.
-     * @param code the protocol attachment type code
+     * @param typeCode the protocol attachment type code
      */
     public void setTypeCode(String typeCode) {
         this.typeCode = typeCode;
@@ -105,7 +104,7 @@ public class AwardAttachmentType extends KraPersistableBusinessObjectBase {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof ProtocolAttachmentType)) {
+        if (!(obj instanceof AwardAttachmentType)) {
             return false;
         }
         AwardAttachmentType other = (AwardAttachmentType) obj;
