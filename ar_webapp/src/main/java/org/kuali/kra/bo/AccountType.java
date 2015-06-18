@@ -28,6 +28,8 @@ public class AccountType extends KraPersistableBusinessObjectBase {
     private Integer accountTypeCode;
 
     private String description;
+    
+    private boolean active;
 
     public AccountType() {
     }
@@ -70,5 +72,19 @@ public class AccountType extends KraPersistableBusinessObjectBase {
             if (OTHER.description != null) return false;
         } else if (!description.equals(OTHER.description)) return false;
         return true;
+    }
+
+    /**
+     * @return the active
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * @param active the active to set
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

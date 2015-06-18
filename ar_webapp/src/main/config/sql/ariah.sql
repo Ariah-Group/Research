@@ -524,3 +524,10 @@ update VULNERABLE_SUBJECT_TYPE set active='Y';
 alter table PROTOCOL_ATTACHMENT_TYPE add ( ACTIVE varchar2(1) ); 
 -- set all default values to Y (Active)
 update PROTOCOL_ATTACHMENT_TYPE set active='Y';
+
+
+
+-- Add Active flag to ACCOUNT_TYPE table
+alter table ACCOUNT_TYPE add ( ACTIVE varchar2(1) ); 
+-- set all default values to Y (Active)
+update ACCOUNT_TYPE set active='Y';
