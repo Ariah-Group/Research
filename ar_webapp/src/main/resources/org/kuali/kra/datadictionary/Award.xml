@@ -502,7 +502,7 @@
     <property name="control" >
       <bean parent="SelectControlDefinition"
             p:businessObjectClass="org.kuali.kra.bo.NsfCode"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:valuesFinderClass="org.ariahgroup.research.award.lookup.keyvalue.AwardNsfCodeValuesFinder"
             p:includeKeyInLabel="false"
             p:includeBlankRow="false"
             p:keyAttribute="nsfCode"
