@@ -26,10 +26,18 @@ alter table PROTOCOL_TYPE add ( ACTIVE varchar2(1) );
 -- set all default values to Y (Active)
 update PROTOCOL_TYPE set active='Y';
 
+
 -- Add Active flag to VULNERABLE_SUBJECT_TYPE table
 alter table VULNERABLE_SUBJECT_TYPE add ( ACTIVE varchar2(1) ); 
 -- set all default values to Y (Active)
 update VULNERABLE_SUBJECT_TYPE set active='Y';
+
+
+-- Add Active flag to PROTOCOL_ATTACHMENT_TYPE table
+alter table PROTOCOL_ATTACHMENT_TYPE add ( ACTIVE varchar2(1) ); 
+-- set all default values to Y (Active)
+update PROTOCOL_ATTACHMENT_TYPE set active='Y';
+
 
 commit;
 exit

@@ -27,6 +27,8 @@ public class ProtocolAttachmentType extends ProtocolAttachmentTypeBase {
     private String code;
 
     private String description;
+    
+    private boolean active;
 
     /**
      * empty ctor to satisfy JavaBean convention.
@@ -120,5 +122,19 @@ public class ProtocolAttachmentType extends ProtocolAttachmentTypeBase {
             return false;
         }
         return true;
+    }
+
+    /**
+     * @return the active
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * @param active the active to set
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

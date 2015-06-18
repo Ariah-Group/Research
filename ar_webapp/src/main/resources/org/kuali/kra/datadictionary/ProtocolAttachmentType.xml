@@ -30,6 +30,7 @@
                 <ref bean="ProtocolAttachmentType-code"/>
                 <ref bean="ProtocolAttachmentType-description"/>
                 <ref bean="ProtocolAttachmentType-versionNumber"/>
+                <ref bean="ProtocolAttachmentType-active"/>
             </list>
         </property>
     </bean>
@@ -52,6 +53,15 @@
         <property name="summary" value="Code"/>
         <property name="description" value="Code"/>
     </bean>
+    
+    <bean id="ProtocolAttachmentType-active" parent="ProtocolAttachmentType-active-parentBean"/>
+    <bean abstract="true" id="ProtocolAttachmentType-active-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="active"/>
+        <property name="label" value="Active"/>
+        <property name="shortLabel" value="Active"/>
+        <property name="summary" value="Active"/>
+        <property name="description" value="Active"/>
+    </bean>          
     
     <bean id="ProtocolAttachmentType-description" parent="ProtocolAttachmentType-description-parentBean"/>
     <bean abstract="true" id="ProtocolAttachmentType-description-parentBean" parent="KraAttributeReferenceDummy-description">
@@ -95,12 +105,14 @@
             <list>
                 <bean p:attributeName="code" p:forceInquiry="true" parent="FieldDefinition"/>
                 <bean p:attributeName="description" parent="FieldDefinition"/>
+                <bean parent="FieldDefinition" p:attributeName="active" />
             </list>
         </property>
         <property name="resultFields">
             <list>
                 <bean p:attributeName="code" p:forceInquiry="true" parent="FieldDefinition"/>
                 <bean p:attributeName="description" parent="FieldDefinition"/>
+                <bean parent="FieldDefinition" p:attributeName="active" />
             </list>
         </property>
     </bean>
