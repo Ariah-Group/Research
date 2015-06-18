@@ -57,6 +57,7 @@
         <ref bean="Organization-scienceMisconductComplDate"/>
         <ref bean="Organization-telexNumber"/>
         <ref bean="Organization-vendorCode"/>
+        <ref bean="Organization-active"/>
       </list>
     </property>
     <property name="collections">
@@ -112,6 +113,15 @@
 
 <!-- Attribute Definitions -->
 
+
+    <bean id="Organization-active" parent="Organization-active-parentBean"/>
+    <bean abstract="true" id="Organization-active-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="active"/>
+        <property name="label" value="Active"/>
+        <property name="shortLabel" value="Active"/>
+        <property name="summary" value="Active"/>
+        <property name="description" value="Active"/>
+    </bean>  
 
   <bean id="Organization-organizationId" parent="Organization-organizationId-parentBean"/>
 

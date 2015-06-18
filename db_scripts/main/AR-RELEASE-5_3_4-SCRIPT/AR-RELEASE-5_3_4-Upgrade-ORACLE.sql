@@ -62,5 +62,12 @@ alter table AWARD_TRANSACTION_TYPE add ( ACTIVE varchar2(1) );
 -- set all default values to Y (Active)
 update AWARD_TRANSACTION_TYPE set active='Y';
 
+
+-- Add Active flag to ORGANIZATION table
+alter table ORGANIZATION add ( ACTIVE varchar2(1) ); 
+-- set all default values to Y (Active)
+update ORGANIZATION set active='Y';
+
+
 commit;
 exit

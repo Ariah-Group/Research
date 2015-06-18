@@ -97,6 +97,8 @@ public class Organization extends KraPersistableBusinessObjectBase {
     private List<OrganizationIndirectcost> organizationIdcs;
 
     private List<OrganizationAudit> organizationAudits;
+    
+    private boolean active;
 
     @SuppressWarnings("unchecked")
     public Organization() {
