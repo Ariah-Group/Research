@@ -28,7 +28,7 @@
                 <value>accountTypeCode</value>
             </list>
         </property>
-        <property name="allowsRecordDeletion" value="true" />
+        <property name="allowsRecordDeletion" value="false" />
         <property name="documentTypeName" value="AccountTypeMaintenanceDocument"/>
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     </bean>
