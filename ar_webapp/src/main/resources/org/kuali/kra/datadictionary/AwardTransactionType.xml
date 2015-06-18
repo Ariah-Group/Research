@@ -29,7 +29,6 @@
             <list>
                 <ref bean="AwardTransactionType-awardTransactionTypeCode"/>
                 <ref bean="AwardTransactionType-description"/>
-                <ref bean="AwardTransactionType-showInActionSummary"/>
                 <ref bean="AwardTransactionType-versionNumber"/>
                 <ref bean="AwardTransactionType-active"/>
             </list>
@@ -72,15 +71,6 @@
         <property name="description" value="Description"/>
     </bean>
 
-    <bean id="AwardTransactionType-showInActionSummary" parent="AwardTransactionType-showInActionSummary-parentBean"/>
-    <bean abstract="true" id="AwardTransactionType-showInActionSummary-parentBean" parent="AttributeReferenceDummy-genericBoolean">
-        <property name="name" value="showInActionSummary"/>
-        <property name="label" value="Show In Action Summary"/>
-        <property name="shortLabel" value="Show In Action Summary"/>
-        <property name="summary" value="Show In Action Summary"/>
-        <property name="description" value="Show In Action Summary"/>
-    </bean>
-
     <bean id="AwardTransactionType-active" parent="AwardTransactionType-active-parentBean"/>
     <bean abstract="true" id="AwardTransactionType-active-parentBean" parent="AttributeReferenceDummy-genericBoolean">
         <property name="name" value="active"/>
@@ -108,7 +98,6 @@
                             <bean p:attributeName="awardTransactionTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
                             <bean p:attributeName="description" parent="FieldDefinition"/>
                             <bean p:attributeName="active" parent="FieldDefinition"/>
-                            <bean p:attributeName="showInActionSummary" parent="FieldDefinition"/>
                         </list>
                     </property>
                 </bean>
@@ -137,14 +126,12 @@
                 <bean p:attributeName="awardTransactionTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
                 <bean p:attributeName="description" parent="FieldDefinition"/>
                 <bean p:attributeName="active" parent="FieldDefinition"/>
-                <bean p:attributeName="showInActionSummary" parent="FieldDefinition"/>
             </list>
         </property>
         <property name="resultFields">
             <list>
                 <bean p:attributeName="awardTransactionTypeCode" p:forceInquiry="true" parent="FieldDefinition"/>
                 <bean p:attributeName="description" parent="FieldDefinition"/>
-                <bean p:attributeName="showInActionSummary" parent="FieldDefinition"/>
                 <bean p:attributeName="active" parent="FieldDefinition"/>
             </list>
         </property>
