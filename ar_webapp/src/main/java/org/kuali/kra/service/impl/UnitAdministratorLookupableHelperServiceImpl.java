@@ -65,8 +65,7 @@ public class UnitAdministratorLookupableHelperServiceImpl extends KualiLookupabl
         htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
         List<HtmlData> returnHtmlDataList = new ArrayList<HtmlData>();
         for (HtmlData htmlData : htmlDataList) {
-            if (!(htmlData.getDisplayText().equalsIgnoreCase("copy")
-                    || htmlData.getDisplayText().equalsIgnoreCase("edit"))) {
+            if (!(htmlData.getDisplayText().equalsIgnoreCase("copy"))) {
                 returnHtmlDataList.add(htmlData);
             }
         }
