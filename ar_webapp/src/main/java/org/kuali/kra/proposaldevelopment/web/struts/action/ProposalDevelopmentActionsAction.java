@@ -127,6 +127,7 @@ import org.ariahgroup.research.service.UnitService;
 
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import static org.kuali.rice.krad.util.KRADConstants.CONFIRMATION_QUESTION;
 
 /**
  * Handles all of the actions from the Proposal Development Actions web page.
@@ -163,17 +164,51 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
 
     private transient KraWorkflowService kraWorkflowService;
 
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        if (!StringUtils.equals((String) request.getAttribute("methodToCallAttribute"), "methodToCall.route")) {
-
-        }
-
+    public ActionForward originalExecute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         if (!StringUtils.equals((String) request.getAttribute("methodToCallAttribute"), "methodToCall.reload")) {
             this.populateSponsorForms(form);
         }
         return actionForward;
+    }
+    
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        String methodToCall = (String) request.getAttribute("methodToCallAttribute");
+
+        if (methodToCall != null && (methodToCall.contains("methodToCall.route")
+                || methodToCall.contains("methodToCall.blanketApprove")
+                || methodToCall.contains("methodToCall.approve"))) {
+            
+            // present certification question if it exists as a system parameter
+            String questionText = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                    Constants.PARAMETER_COMPONENT_DOCUMENT,
+                    Constants.ARIAH_PROPDEV_TEXT_APPROVAL_CERT_QUESTION);
+            
+            boolean showQuestion = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                    Constants.PARAMETER_COMPONENT_DOCUMENT,
+                    Constants.ARIAH_PROPDEV_DISPLAY_APPROVAL_CERT_QUESTION, false);
+            
+            ProposalDevelopmentRejectionBean rejectionbean = ((ProposalDevelopmentForm) form).getProposalDevelopmentRejectionBean();
+            
+            if (StringUtils.isEmpty(questionText) || !showQuestion || !StringUtils.isEmpty(rejectionbean.getRejectReason())) {
+                return originalExecute(mapping, form, request, response);
+            } else {
+                StrutsConfirmation question = new StrutsConfirmation();
+                question.setQuestionText(questionText);
+                question.setMapping(mapping);
+                question.setForm(form);
+                question.setRequest(request);
+                question.setResponse(response);
+                question.setQuestionId(Constants.ARIAH_PROPDEV_TEXT_APPROVAL_CERT_QUESTION);
+                question.setQuestionType(CONFIRMATION_QUESTION);
+
+                return confirm(question, "originalExecute", "");
+            }
+        } else {
+            return originalExecute(mapping, form, request, response);
+        }
     }
 
     /**
