@@ -555,3 +555,9 @@ update AWARD_TRANSACTION_TYPE set active='Y';
 alter table ORGANIZATION add ( ACTIVE varchar2(1) ); 
 -- set all default values to Y (Active)
 update ORGANIZATION set active='Y';
+
+
+-- Add Active flag to COST_SHARE_TYPE table
+alter table COST_SHARE_TYPE add ( ACTIVE varchar2(1) ); 
+-- set all default values to Y (Active)
+update COST_SHARE_TYPE set ACTIVE='Y';

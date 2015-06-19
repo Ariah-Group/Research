@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-
 /**
  * This class...
  */
@@ -36,8 +35,10 @@ public class CostShareType extends KraPersistableBusinessObjectBase {
 
     private String description;
 
+    private boolean active;
+
     /**
-     * 
+     *
      * Constructs a CostShareType.java.
      */
     public CostShareType() {
@@ -46,6 +47,7 @@ public class CostShareType extends KraPersistableBusinessObjectBase {
 
     /**
      * This method...
+     *
      * @return
      */
     public Integer getCostShareTypeCode() {
@@ -54,6 +56,7 @@ public class CostShareType extends KraPersistableBusinessObjectBase {
 
     /**
      * This method...
+     *
      * @param costShareTypeCode
      */
     public void setCostShareTypeCode(Integer costShareTypeCode) {
@@ -62,6 +65,7 @@ public class CostShareType extends KraPersistableBusinessObjectBase {
 
     /**
      * This method...
+     *
      * @return
      */
     public String getDescription() {
@@ -70,6 +74,7 @@ public class CostShareType extends KraPersistableBusinessObjectBase {
 
     /**
      * This method...
+     *
      * @param description
      */
     public void setDescription(String description) {
@@ -93,16 +98,44 @@ public class CostShareType extends KraPersistableBusinessObjectBase {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         final CostShareType other = (CostShareType) obj;
         if (costShareTypeCode == null) {
-            if (other.costShareTypeCode != null) return false;
-        } else if (!costShareTypeCode.equals(other.costShareTypeCode)) return false;
+            if (other.costShareTypeCode != null) {
+                return false;
+            }
+        } else if (!costShareTypeCode.equals(other.costShareTypeCode)) {
+            return false;
+        }
         if (description == null) {
-            if (other.description != null) return false;
-        } else if (!description.equals(other.description)) return false;
+            if (other.description != null) {
+                return false;
+            }
+        } else if (!description.equals(other.description)) {
+            return false;
+        }
         return true;
+    }
+
+    /**
+     * @return the active
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * @param active the active to set
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
