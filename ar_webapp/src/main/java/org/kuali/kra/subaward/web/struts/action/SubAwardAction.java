@@ -407,7 +407,6 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase {
      * @param response the Response
      * @return ActionForward
      */
-
     public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         SubAwardForm subAwardForm = (SubAwardForm) form;
         subAwardForm.getCustomDataHelper().prepareCustomData();
@@ -625,7 +624,6 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase {
      * @param response
      * @throws Exception
      */
-
     /**
      *
      * This method is called to print forms
@@ -638,30 +636,42 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase {
      * @throws Exception
      */
     public ActionForward printForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         SubAwardForm subAwardForm = (SubAwardForm) form;
         List<SubAwardForms> printFormTemplates = new ArrayList<SubAwardForms>();
         List<SubAwardForms> subAwardFormList = subAwardForm.getSubAwardDocument().getSubAwardList().get(0).getSubAwardForms();
         SubAwardPrintingService printService = KraServiceLocator.getService(SubAwardPrintingService.class);
         printFormTemplates = printService.getSponsorFormTemplates(subAwardForm.getSubAwardPrintAgreement(), subAwardFormList);
-        Collection<SubAwardFundingSource> fundingSource = (Collection<SubAwardFundingSource>) KraServiceLocator
-                .getService(BusinessObjectService.class).findAll(SubAwardFundingSource.class);
-        if (subAwardForm.getSubAwardPrintAgreement().getFundingSource() != null) {
-            for (SubAwardFundingSource subAwardFunding : fundingSource) {
-                if (subAwardForm.getSubAwardPrintAgreement().getFundingSource().equals(subAwardFunding.getSubAwardFundingSourceId().toString())) {
-                    reportParameters.put("awardNumber", subAwardFunding.getAward().getAwardNumber());
-                    reportParameters.put("awardTitle", subAwardFunding.getAward().getParentTitle());
-                    reportParameters.put("sponsorAwardNumber", subAwardFunding.getAward().getSponsorAwardNumber());
-                    reportParameters.put("sponsorName", subAwardFunding.getAward().getSponsor().getSponsorName());
-                    reportParameters.put("cfdaNumber", subAwardFunding.getAward().getCfdaNumber());
-                    reportParameters.put("awardID", subAwardFunding.getAward().getAwardId());
-                }
+
+        String subawardPrintFundingSource = subAwardForm.getSubAwardPrintAgreement().getFundingSource();
+
+        if (subawardPrintFundingSource != null) {
+
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("subAwardFundingSourceId", subawardPrintFundingSource);
+
+            Collection<SubAwardFundingSource> fundingSource = (Collection<SubAwardFundingSource>) KraServiceLocator
+                    .getService(BusinessObjectService.class).findMatching(SubAwardFundingSource.class, params);
+
+            if (fundingSource != null && !fundingSource.isEmpty()) {
+
+                SubAwardFundingSource subAwardFunding = fundingSource.iterator().next();
+
+                reportParameters.put("awardNumber", subAwardFunding.getAward().getAwardNumber());
+                reportParameters.put("awardTitle", subAwardFunding.getAward().getParentTitle());
+                reportParameters.put("sponsorAwardNumber", subAwardFunding.getAward().getSponsorAwardNumber());
+                reportParameters.put("sponsorName", subAwardFunding.getAward().getSponsor().getSponsorName());
+                reportParameters.put("cfdaNumber", subAwardFunding.getAward().getCfdaNumber());
+                reportParameters.put("awardID", subAwardFunding.getAward().getAwardId());
             }
         }
+
         SubAwardPrintingService subAwardPrintingService = KraServiceLocator.getService(SubAwardPrintingService.class);
         AttachmentDataSource dataStream;
         reportParameters.put(SubAwardPrintingService.SELECTED_TEMPLATES, printFormTemplates);
         reportParameters.put("fdpType", subAwardForm.getSubAwardPrintAgreement().getFdpType());
+        
         if (subAwardForm.getSubAwardPrintAgreement().getFdpType().equals(SUBAWARD_AGREEMENT)) {
             dataStream = subAwardPrintingService.printSubAwardFDPReport(subAwardForm.getSubAwardDocument().getSubAward(), SubAwardPrintType.SUB_AWARD_FDP_TEMPLATE, reportParameters);
         } else {
