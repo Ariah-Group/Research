@@ -359,7 +359,10 @@ public class SalaryCalculator {
             if (compareDateChange > 0) {
                 Calendar rateChangeCal = dateTimeService.getCalendar(rateChangeDate);
                 rateChangeCal.add(Calendar.DATE, -1);
-                tempEndDate = rateChangeCal.getTime();
+                // Only set the anniversary date as the new tempEndDate if its earlier. 
+                if ((rateChangeDate.compareTo(tempEndDate)) < 0) {
+                    tempEndDate = rateChangeCal.getTime();
+                }
                 Boundary boundary = new Boundary(tempStartDate, tempEndDate);
                 salaryDetails = new SalaryDetails();
                 salaryDetails.setBoundary(boundary);
@@ -717,15 +720,9 @@ public class SalaryCalculator {
     }
 
     private BudgetDecimal getPrevSalaryBase(BudgetPerson budgetPerson, Boundary boundary) {
-        
-        LOG.error("SalaryCalculator.getPrevSalaryBase running");
-        
-        if(budgetPerson!=null) {
-            LOG.error("SalaryCalculator.getPrevSalaryBase running on " + budgetPerson.getPersonName());
-        }
-        
+
         Date p1StartDate = budget.getBudgetPeriods().get(0).getStartDate();
-        LOG.error("SalaryCalculator.getPrevSalaryBase. p1StartDate = " + p1StartDate);
+
         BudgetPerson newBudgetPerson = budgetPerson;
         for (BudgetPerson budgetPerson1 : budget.getBudgetPersons()) {
             if (((budgetPerson1.getPersonId() != null && budgetPerson1.getPersonId().equals(budgetPerson.getPersonId()))
@@ -736,41 +733,31 @@ public class SalaryCalculator {
                     && budgetPerson1.getJobCode().equals(newBudgetPerson.getJobCode())
                     && budgetPerson1.getEffectiveDate().after(newBudgetPerson.getEffectiveDate())
                     && budgetPerson1.getEffectiveDate().compareTo(boundary.getStartDate()) <= 0) {
-                LOG.error("SalaryCalculator.getPrevSalaryBase. newBudgetPerson = budgetPerson1.");
                 newBudgetPerson = budgetPerson1;
             }
         }
         BudgetDecimal calBase = newBudgetPerson.getCalculationBase();
-        LOG.error("SalaryCalculator.getPrevSalaryBase. calBase = " + calBase);
-        LOG.error("SalaryCalculator.getPrevSalaryBase. budgetPerson.getEffectiveDate() = " + budgetPerson.getEffectiveDate());
-        LOG.error("SalaryCalculator.getPrevSalaryBase. calBase = " + calBase);
         if (budgetPerson.getEffectiveDate().before(p1StartDate)) {
             p1StartDate = budgetPerson.getEffectiveDate();
-            LOG.error("SalaryCalculator.getPrevSalaryBase. p1StartDate (RESET) = " + p1StartDate);
         }
+
+        /* fix anniversary date not working when anniversary date falls before the end of the first period end date. */
+        Date salaryAnniversaryDate = budgetPerson.getSalaryAnniversaryDate();
         QueryList<BudgetRate> qlist = filterInflationRates(p1StartDate, startDate);
-        
-        if(qlist!=null) {
-            LOG.error("SalaryCalculator.getPrevSalaryBase. qlist.size() = " + qlist.size());
-        }
-        for (BudgetRate budgetProposalrate : qlist) {
-            LOG.error("SalaryCalculator.getPrevSalaryBase. LOOP iteration ---------------------");
-            LOG.error("SalaryCalculator.getPrevSalaryBase. budgetProposalrate.getFiscalYear() = " + budgetProposalrate.getFiscalYear());
-            LOG.error("SalaryCalculator.getPrevSalaryBase. budgetProposalrate.getRateClassCode() = " + budgetProposalrate.getRateClassCode());
-            LOG.error("SalaryCalculator.getPrevSalaryBase. budgetProposalrate.getStartDate() = " + budgetProposalrate.getStartDate());
-            LOG.error("SalaryCalculator.getPrevSalaryBase. budgetProposalrate.getApplicableRate() = " + budgetProposalrate.getApplicableRate());
-            LOG.error("SalaryCalculator.getPrevSalaryBase. ---------------------");
-            LOG.error("SalaryCalculator.getPrevSalaryBase. budgetPerson.getEffectiveDate() = " + budgetPerson.getEffectiveDate());
-            LOG.error("SalaryCalculator.getPrevSalaryBase. startDate = " + startDate);
-            if (budgetProposalrate.getStartDate().after(budgetPerson.getEffectiveDate())
-                    && budgetProposalrate.getStartDate().before(startDate)) {
-                LOG.error("SalaryCalculator.getPrevSalaryBase. calBase (BEFORE) = " + calBase);
-                calBase = calBase.add(calBase.multiply(budgetProposalrate.getApplicableRate()).divide(new BudgetDecimal(100.00)));
-                LOG.error("SalaryCalculator.getPrevSalaryBase. calBase (AFTER) = " + calBase);
+        if (salaryAnniversaryDate == null) {
+            for (BudgetRate budgetProposalrate : qlist) {
+                if (budgetProposalrate.getStartDate().after(budgetPerson.getEffectiveDate()) && budgetProposalrate.getStartDate().before(startDate)) {
+                    calBase = calBase.add(calBase.multiply(budgetProposalrate.getApplicableRate()).divide(new BudgetDecimal(100.00)));
+                }
+            }
+        } else {
+            for (BudgetRate budgetProposalrate : qlist) {
+                if (!budgetProposalrate.getStartDate().before(budgetPerson.getEffectiveDate()) && !budgetProposalrate.getStartDate().after(startDate)
+                        && (budgetProposalrate.getStartDate().after(budgetPerson.getSalaryAnniversaryDate()))) {
+                    calBase = calBase.add(calBase.multiply(budgetProposalrate.getApplicableRate()).divide(new BudgetDecimal(100.00)));
+                }
             }
         }
-        
-        LOG.error("SalaryCalculator.getPrevSalaryBase exiting");
         return calBase;
 
     }
