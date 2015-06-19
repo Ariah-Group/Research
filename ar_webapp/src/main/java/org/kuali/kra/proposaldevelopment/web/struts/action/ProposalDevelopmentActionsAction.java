@@ -171,7 +171,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         }
         return actionForward;
     }
-    
+
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -180,18 +180,18 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         if (methodToCall != null && (methodToCall.contains("methodToCall.route")
                 || methodToCall.contains("methodToCall.blanketApprove")
                 || methodToCall.contains("methodToCall.approve"))) {
-            
+
             // present certification question if it exists as a system parameter
             String questionText = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
                     Constants.PARAMETER_COMPONENT_DOCUMENT,
                     Constants.ARIAH_PROPDEV_TEXT_APPROVAL_CERT_QUESTION);
-            
+
             boolean showQuestion = getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
                     Constants.PARAMETER_COMPONENT_DOCUMENT,
                     Constants.ARIAH_PROPDEV_DISPLAY_APPROVAL_CERT_QUESTION, false);
-            
+
             ProposalDevelopmentRejectionBean rejectionbean = ((ProposalDevelopmentForm) form).getProposalDevelopmentRejectionBean();
-            
+
             if (StringUtils.isEmpty(questionText) || !showQuestion || !StringUtils.isEmpty(rejectionbean.getRejectReason())) {
                 return originalExecute(mapping, form, request, response);
             } else {
@@ -254,7 +254,11 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
 
             ProposalDevelopmentDocument proposalDevelopmentDocument = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument();
             if (autogenerateInstitutionalProposal() && proposalDevelopmentDocument.getInstitutionalProposalNumber() != null) {
-                if (ProposalType.REVISION_TYPE_CODE.equals(proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode())) {
+
+                String proposalTypeCodeRevision
+                        = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
+
+                if (proposalTypeCodeRevision.equals(proposalDevelopmentDocument.getDevelopmentProposal().getProposalTypeCode())) {
                     KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_INSTITUTIONAL_PROPOSAL_VERSIONED,
                             proposalDevelopmentDocument.getInstitutionalProposalNumber());
                 } else {
@@ -864,9 +868,17 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
 
     private boolean requiresResubmissionPrompt(ProposalDevelopmentForm proposalDevelopmentForm) {
         DevelopmentProposal developmentProposal = proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal();
-        return (ProposalType.RESUBMISSION_TYPE_CODE.equals(developmentProposal.getProposalTypeCode())
-                || ProposalType.CONTINUATION_TYPE_CODE.equals(developmentProposal.getProposalTypeCode())
-                || ProposalType.REVISION_TYPE_CODE.equals(developmentProposal.getProposalTypeCode())
+
+        String proposalTypeCodeResubmission
+                = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_RESUBMISSION);
+        String proposalTypeCodeRevision
+                = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_REVISION);
+        String proposalTypeCodeContinuation
+                = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, KeyConstants.PROPOSALDEVELOPMENT_PROPOSALTYPE_CONTINUATION);
+
+        return (proposalTypeCodeResubmission.equals(developmentProposal.getProposalTypeCode())
+                || proposalTypeCodeContinuation.equals(developmentProposal.getProposalTypeCode())
+                || proposalTypeCodeRevision.equals(developmentProposal.getProposalTypeCode())
                 || isSubmissionChangeCorrected(developmentProposal))
                 && proposalDevelopmentForm.getResubmissionOption() == null;
     }

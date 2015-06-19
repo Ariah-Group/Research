@@ -35,12 +35,6 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class ProposalType extends KraPersistableBusinessObjectBase {
 
-    public static final String RESUBMISSION_TYPE_CODE = "2";
-
-    public static final String CONTINUATION_TYPE_CODE = "4";
-
-    public static final String REVISION_TYPE_CODE = "5";
-
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -51,7 +45,7 @@ public class ProposalType extends KraPersistableBusinessObjectBase {
     private String description;
 
     private boolean active;
-    
+
     private int sortOrder;
 
     public String getDescription() {
@@ -69,14 +63,14 @@ public class ProposalType extends KraPersistableBusinessObjectBase {
     public void setProposalTypeCode(String proposalTypeCode) {
         this.proposalTypeCode = proposalTypeCode;
     }
-    
+
     public boolean isActive() {
         return active;
-}
+    }
 
     public void setActive(boolean active) {
         this.active = active;
-    }    
+    }
 
     /**
      * @return the sortOrder
