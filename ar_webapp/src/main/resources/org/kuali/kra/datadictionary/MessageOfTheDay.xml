@@ -14,15 +14,15 @@
  limitations under the License.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <bean id="MessageOfTheDay" parent="MessageOfTheDay-parentBean" />
     <bean id="MessageOfTheDay-parentBean" abstract="true" parent="BusinessObjectEntry">
         <property name="businessObjectClass" value="org.kuali.kra.bo.MessageOfTheDay" />
-		<property name="objectLabel" value="Message Of The Day" />
+        <property name="objectLabel" value="Message Of The Day" />
         <property name="inquiryDefinition" >
             <ref bean="MessageOfTheDay-inquiryDefinition" />
         </property>
@@ -55,7 +55,7 @@
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="3" />
+                  p:size="3" />
         </property>
         <property name="summary" value="Message Of The Day Id" />
         <property name="description" value="Message Of The Day Id" />
@@ -70,15 +70,15 @@
         <property name="description" value="Message" />
         <property name="maxLength" value="4000" />
         <property name="required" value = "true"/> 
-         <property name="control" >
+        <property name="control" >
             <bean parent="TextareaControlDefinition"
-                p:rows="5"
-                p:cols="40" />
+                  p:rows="5"
+                  p:cols="40" />
         </property>
     </bean>
 
 
-	<bean id="MessageOfTheDay-displayOrder" parent="MessageOfTheDay-displayOrder-parentBean" />
+    <bean id="MessageOfTheDay-displayOrder" parent="MessageOfTheDay-displayOrder-parentBean" />
     <bean id="MessageOfTheDay-displayOrder-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="displayOrder" />
         <property name="forceUppercase" value="false" />
@@ -90,27 +90,27 @@
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="3" />
+                  p:size="3" />
         </property>
         <property name="summary" value="Display Order" />
         <property name="description" value="Display Order" />
     </bean>
 	
-	<bean id="MessageOfTheDay-active" parent="MessageOfTheDay-active-parentBean" />
- 	<bean id="MessageOfTheDay-active-parentBean" abstract="true" parent="AttributeDefinition">
-    	<property name="name" value="active" />
-    	<property name="label" value="active" />
-    	<property name="shortLabel" value="active" />
-    	<property name="summary" value="active" />
-    	<property name="description" value="active" />
-    	<property name="maxLength" value="1" />
-    	<property name="validationPattern" >
-      	<bean parent="AlphaNumericValidationPattern" />
-    	</property>
-    	<property name="control" >
-      		<bean parent="CheckboxControlDefinition" />
-    	</property>
-  	</bean>
+    <bean id="MessageOfTheDay-active" parent="MessageOfTheDay-active-parentBean" />
+    <bean id="MessageOfTheDay-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active" />
+        <property name="label" value="Active" />
+        <property name="shortLabel" value="Active" />
+        <property name="summary" value="Active" />
+        <property name="description" value="Active" />
+        <property name="maxLength" value="1" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="CheckboxControlDefinition" />
+        </property>
+    </bean>
  
 
 
@@ -130,14 +130,14 @@
                     <property name="inquiryFields" >
                         <list>
                             <bean parent="FieldDefinition"
-                                p:attributeName="messageOfTheDayId" 
-                                p:forceInquiry="true" />
+                                  p:attributeName="messageOfTheDayId" 
+                                  p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="active" />
+                                  p:attributeName="active" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="displayOrder" />
+                                  p:attributeName="displayOrder" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="message" />
+                                  p:attributeName="message" />
                         </list>
                     </property>
                 </bean>
@@ -153,33 +153,33 @@
 
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
-        </bean>
+            </bean>
         </property>
         <property name="lookupFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="messageOfTheDayId" 
-                    p:forceInquiry="true" />
+                      p:attributeName="messageOfTheDayId" 
+                      p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+                      p:attributeName="active" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="displayOrder" />
+                      p:attributeName="displayOrder" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="message" />
+                      p:attributeName="message" />
                     
             </list>
         </property>
         <property name="resultFields" >
             <list>
                 <bean parent="FieldDefinition"
-                    p:attributeName="messageOfTheDayId" 
-                    p:forceInquiry="true" />
+                      p:attributeName="messageOfTheDayId" 
+                      p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="active" />
+                      p:attributeName="active" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="displayOrder" />
+                      p:attributeName="displayOrder" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="message" />
+                      p:attributeName="message" />
             </list>
         </property>
     </bean>
