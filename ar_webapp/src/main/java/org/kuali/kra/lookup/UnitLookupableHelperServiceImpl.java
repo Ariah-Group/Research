@@ -62,8 +62,8 @@ public class UnitLookupableHelperServiceImpl extends KualiLookupableHelperServic
             AnchorHtmlData copyHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
             htmlDataList.add(copyHtmlData);
 
-            AnchorHtmlData deleteHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_DELETE_METHOD_TO_CALL, pkNames);
-            htmlDataList.add(deleteHtmlData);
+            //AnchorHtmlData deleteHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_DELETE_METHOD_TO_CALL, pkNames);
+            //htmlDataList.add(deleteHtmlData);
         }
         return htmlDataList;
     }
