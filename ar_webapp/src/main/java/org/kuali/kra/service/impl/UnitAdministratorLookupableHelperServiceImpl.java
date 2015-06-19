@@ -49,7 +49,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Lookupable helper service used for proposal log lookup
+ * Lookupable helper service used for Unit Administrator lookup.
  */
 public class UnitAdministratorLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
