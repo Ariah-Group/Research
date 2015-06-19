@@ -40,6 +40,8 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Date;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class is business object representation of an Award Cost Share
@@ -77,27 +79,38 @@ public class AwardCostShare extends AwardAssociate implements ValuableItem {
     }
 
     /**
-     * This method...
+     * Get the CostShareType object related to the costShareTypeCode.
      *
-     * @return
+     * @return CostShareType
      */
     public CostShareType getCostShareType() {
         return costShareType;
     }
 
     /**
-     * This method...
+     * Sets the costShareTypeCode for this object. Uses the costShareTypeCode to
+     * lookup the corresponding CostShareType object from the database and
+     * passes it to setCostShareType(CostShareType). If the costShareTypeCode is
+     * null then the call to setCostShareType passes null as well.
      *
-     * @param costShareTypeCode
+     * @param costShareTypeCode The cost share type code to set.
      */
     @SuppressWarnings("unchecked")
     public void setCostShareTypeCode(Integer costShareTypeCode) {
         this.costShareTypeCode = costShareTypeCode;
-        BusinessObjectService costShareTypeService = getBusinessObjectService();
-        Collection<CostShareType> costShareTypes = (Collection<CostShareType>) costShareTypeService.findAll(CostShareType.class);
-        for (CostShareType costShareType : costShareTypes) {
-            if (costShareType.getCostShareTypeCode().equals(costShareTypeCode)) {
-                setCostShareType(costShareType);
+
+        if (costShareTypeCode == null) {
+            setCostShareType(null);
+        } else {
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("costShareTypeCode", costShareTypeCode.toString());
+
+            BusinessObjectService costShareTypeService = getBusinessObjectService();
+            Collection<CostShareType> costShareTypes = (Collection<CostShareType>) costShareTypeService.findMatching(CostShareType.class, params);
+
+            if (costShareTypes != null && !costShareTypes.isEmpty()) {
+                // retrieve what should be the first and only record
+                setCostShareType(costShareTypes.iterator().next());
             }
         }
     }
