@@ -35,32 +35,50 @@ public class BudgetCategoryServiceImpl implements BudgetCategoryService {
 
     /**
      * This method looks up the BudgetCategories bo.
-     * @see org.kuali.kra.external.budget.service.BudgetCategoryService#lookupBudgetCategories(java.util.List)
+     *
+     * @param criteria
+     * @return
      */
+    @Override
     public List<BudgetCategoryDTO> lookupBudgetCategories(List<HashMapElement> criteria) {
-        // TODO Auto-generated method stub
-        HashMap<String, String> searchCriteria =  new HashMap<String, String>();
+
+        HashMap<String, String> searchCriteria = new HashMap<String, String>();
         List<BudgetCategoryDTO> budgetCategoryDTO = new ArrayList<BudgetCategoryDTO>();
-        List<BudgetCategory> budgetCategories = new ArrayList<BudgetCategory>();
-       
-        
+        List<BudgetCategory> budgetCategories = null;
+
         // if the criteria passed is null, then return all budget categories.
         if (ObjectUtils.isNull(criteria)) {
-            budgetCategories =  new ArrayList<BudgetCategory>(businessObjectService.findAll(BudgetCategory.class));
+            budgetCategories = new ArrayList<BudgetCategory>(businessObjectService.findAll(BudgetCategory.class));
         } else {
-                // Reconstruct Hashmap from object list
+            // Reconstruct Hashmap from object list
             for (HashMapElement element : criteria) {
-                searchCriteria.put(element.getKey(), element.getValue());  
+                searchCriteria.put(element.getKey(), element.getValue());
             }
-            budgetCategories =  new ArrayList<BudgetCategory>(businessObjectService.findMatching(BudgetCategory.class, searchCriteria));      
+            budgetCategories = new ArrayList<BudgetCategory>(businessObjectService.findMatching(BudgetCategory.class, searchCriteria));
         }
-       
+
+        for (BudgetCategory budCat : budgetCategories) {
+
+            BudgetCategoryDTO budCatDto = new BudgetCategoryDTO();
+
+            budCatDto.setBudgetCategoryCode(budCat.getBudgetCategoryCode());
+            budCatDto.setDescription(budCat.getDescription());
+            budCatDto.setAuthorPersonName(budCat.getAuthorPersonName());
+            budCatDto.setBudgetCategoryTypeCode(budCat.getBudgetCategoryTypeCode());
+
+            if (budCat.getBudgetCategoryType() != null) {
+                budCatDto.setBudgetCategoryTypeDescription(budCat.getBudgetCategoryType().getDescription());
+            }
+
+            budgetCategoryDTO.add(budCatDto);
+        }
+
         return budgetCategoryDTO;
     }
 
     /**
      * Sets the businessObjectService attribute value. Injected by Spring.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
