@@ -53,6 +53,8 @@ public class AwardTransactionTypeValuesFinder extends UifKeyValuesFinderBase {
         for (AwardTransactionType type : types) {
             keyValues.add(new ConcreteKeyValue(type.getAwardTransactionTypeCode().toString(), type.getDescription()));
         }
+        
+        keyValues.add(0, new ConcreteKeyValue("", "select"));
 
         return keyValues;
     }

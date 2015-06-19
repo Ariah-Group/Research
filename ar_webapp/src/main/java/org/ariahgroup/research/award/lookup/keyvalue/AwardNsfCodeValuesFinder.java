@@ -53,6 +53,8 @@ public class AwardNsfCodeValuesFinder extends UifKeyValuesFinderBase {
         for (NsfCode nsfCode : nsfCodes) {
             keyValues.add(new ConcreteKeyValue(nsfCode.getNsfCode(), nsfCode.getDescription()));
         }
+        
+        keyValues.add(0, new ConcreteKeyValue("", "select"));
 
         return keyValues;
     }

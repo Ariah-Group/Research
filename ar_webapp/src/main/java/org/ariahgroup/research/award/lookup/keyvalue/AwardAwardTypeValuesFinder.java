@@ -53,6 +53,8 @@ public class AwardAwardTypeValuesFinder extends UifKeyValuesFinderBase {
         for (AwardType awardType : awardTypes) {
             keyValues.add(new ConcreteKeyValue(awardType.getAwardTypeCode().toString(), awardType.getDescription()));
         }
+        
+        keyValues.add(0, new ConcreteKeyValue("", "select"));
 
         return keyValues;
     }

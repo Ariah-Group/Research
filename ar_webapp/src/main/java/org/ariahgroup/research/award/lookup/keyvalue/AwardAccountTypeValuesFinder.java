@@ -53,6 +53,8 @@ public class AwardAccountTypeValuesFinder extends UifKeyValuesFinderBase {
         for (AccountType accountType : accountTypes) {
             keyValues.add(new ConcreteKeyValue(accountType.getAccountTypeCode().toString(), accountType.getDescription()));
         }
+        
+        keyValues.add(0, new ConcreteKeyValue("", "select"));
 
         return keyValues;
     }
