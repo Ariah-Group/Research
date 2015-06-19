@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-
 public class ScienceKeyword extends KraPersistableBusinessObjectBase {
 
     /**
@@ -26,6 +25,8 @@ public class ScienceKeyword extends KraPersistableBusinessObjectBase {
     private String scienceKeywordCode;
 
     private String description;
+
+    private boolean active;
 
     public String getDescription() {
         return description;
@@ -41,5 +42,19 @@ public class ScienceKeyword extends KraPersistableBusinessObjectBase {
 
     public void setScienceKeywordCode(String scienceCode) {
         this.scienceKeywordCode = scienceCode;
+    }
+
+    /**
+     * @return the active
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * @param active the active to set
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

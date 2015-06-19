@@ -561,3 +561,9 @@ update ORGANIZATION set active='Y';
 alter table COST_SHARE_TYPE add ( ACTIVE varchar2(1) ); 
 -- set all default values to Y (Active)
 update COST_SHARE_TYPE set ACTIVE='Y';
+
+
+-- Add Active flag to SCIENCE_KEYWORD table
+alter table SCIENCE_KEYWORD add ( ACTIVE varchar2(1) ); 
+-- set all default values to Y (Active)
+update SCIENCE_KEYWORD set ACTIVE='Y';
