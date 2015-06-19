@@ -21,59 +21,67 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class Creates comment type based on the create comment method called.
  */
 public class AwardCommentFactory {
-    
+
     /**
      * This method creates a Cost Share Comment
+     *
      * @param award
      * @return
      */
     public AwardComment createCostShareComment() {
         return createAwardComment(Constants.COST_SHARE_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST);
     }
-    
+
     /**
      * This method creates F and A Rate Comment
+     *
      * @param award
      * @return
      */
     public AwardComment createFandaRateComment() {
         return createAwardComment(Constants.FANDA_RATE_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST);
     }
-    
+
     /**
      * This method creates PreAwardSponsorAuthoriztion comment
+     *
      * @param award
      * @return
      */
     public AwardComment createPreAwardSponsorAuthorizationComment() {
         return createAwardComment(Constants.PREAWARD_SPONSOR_AUTHORIZATION_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST);
     }
-    
+
     /**
      * This method creates a PreAwardInstitutionalAuthorization Comment
+     *
      * @param award
      * @return
      */
     public AwardComment createPreAwardInstitutionalAuthorizationComment() {
         return createAwardComment(Constants.PREAWARD_INSTITUTIONAL_AUTHORIZATION_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST);
     }
-    
+
     /**
      * This method creates a Special Review Comment
+     *
      * @param award
      * @return
      */
     public AwardComment createSpecialReviewComment() {
         return createAwardComment(Constants.SPECIAL_REVIEW_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST);
     }
-    
+
     /**
      * This method creates Proposal Comment
+     *
      * @param award
      * @return
      */
@@ -83,47 +91,53 @@ public class AwardCommentFactory {
 
     /**
      * This method returns a new AwardComment
+     *
      * @param commentTypeCode
      * @param checklistPrintFlag
      * @return
      */
-    public  AwardComment createAwardComment(String commentTypeCode, boolean checklistPrintFlag) {
-                AwardComment comment = new AwardComment();
-                CommentType commentType = findCommentType(commentTypeCode);
-                comment.setCommentType(commentType);
-                comment.setCommentTypeCode(commentType.getCommentTypeCode());
-                comment.setChecklistPrintFlag(checklistPrintFlag);
-                comment.setComments("");
-                return comment;
+    public AwardComment createAwardComment(String commentTypeCode, boolean checklistPrintFlag) {
+        AwardComment comment = new AwardComment();
+        CommentType commentType = findCommentType(commentTypeCode);
+        comment.setCommentType(commentType);
+        comment.setCommentTypeCode(commentType.getCommentTypeCode());
+        comment.setChecklistPrintFlag(checklistPrintFlag);
+        comment.setComments("");
+        return comment;
     }
 
     /**
      * This method returns corresponding Comment Type
+     *
      * @param commentTypeCode
      * @return
      */
     @SuppressWarnings("unchecked")
-    public CommentType findCommentType(String commentTypeCode){
+    public CommentType findCommentType(String commentTypeCode) {
+
         BusinessObjectService costShareCommentType = getKraBusinessObjectService();
-        Collection<CommentType> costShareCommentTypes = 
-            (Collection<CommentType>) costShareCommentType.findAll(CommentType.class);
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("commentTypeCode", commentTypeCode);
+
+        Collection<CommentType> costShareCommentTypes = (Collection<CommentType>) costShareCommentType.findMatching(CommentType.class, params);
+
         CommentType returnVal = null;
-        for(CommentType commentType : costShareCommentTypes){
-            if (commentType.getCommentTypeCode().equals(commentTypeCode)){
-                returnVal = commentType;
-                break;
-            }  
+
+        if (costShareCommentTypes != null && !costShareCommentTypes.isEmpty()) {
+            returnVal = costShareCommentTypes.iterator().next();
         }
+
         return returnVal;
     }
-    
+
     /**
      * This method returns a business object service
+     *
      * @return
      */
     protected BusinessObjectService getKraBusinessObjectService() {
         return (BusinessObjectService) KraServiceLocator.getService("businessObjectService");
     }
-    
-    
+
 }
