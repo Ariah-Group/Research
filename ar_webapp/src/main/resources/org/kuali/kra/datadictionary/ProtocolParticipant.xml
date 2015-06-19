@@ -42,21 +42,11 @@
                 <ref bean="ProtocolParticipant-participantTypeCode" />
                 <ref bean="ProtocolParticipant-participantCount" />
                 <ref bean="ProtocolParticipant-versionNumber" />
-                <ref bean="ProtocolParticipant-active" />
             </list>
         </property>
     </bean>
 
     <!-- Attribute Definitions -->
-    <bean id="ProtocolParticipant-active" parent="ProtocolParticipant-active-parentBean"/>
-    <bean abstract="true" id="ProtocolParticipant-active-parentBean" parent="AttributeReferenceDummy-genericBoolean">
-        <property name="name" value="active"/>
-        <property name="label" value="Active"/>
-        <property name="shortLabel" value="Active"/>
-        <property name="summary" value="Active"/>
-        <property name="description" value="Active"/>
-    </bean>   	
-        
     <bean id="ProtocolParticipant-protocolParticipantId" parent="ProtocolParticipant-protocolParticipantId-parentBean" />
     <bean id="ProtocolParticipant-protocolParticipantId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="protocolParticipantId" />
@@ -143,15 +133,10 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition"
-                                  p:attributeName="protocolParticipantId" 
-                                  p:forceInquiry="true" />
-                            <bean parent="FieldDefinition"
-                                  p:attributeName="protocolId" />
-                            <bean parent="FieldDefinition"
-                                  p:attributeName="participantTypeCode" />
-                            <bean parent="FieldDefinition"
-                                  p:attributeName="participantCount" />
+                            <bean parent="FieldDefinition" p:attributeName="protocolParticipantId" p:forceInquiry="true" />
+                            <bean parent="FieldDefinition" p:attributeName="protocolId" />
+                            <bean parent="FieldDefinition" p:attributeName="participantTypeCode" />
+                            <bean parent="FieldDefinition" p:attributeName="participantCount" />
                         </list>
                     </property>
                 </bean>
@@ -175,7 +160,6 @@
                 <bean parent="FieldDefinition" p:attributeName="protocolId" />
                 <bean parent="FieldDefinition" p:attributeName="participantTypeCode" />
                 <bean parent="FieldDefinition" p:attributeName="participantCount" />
-                <bean parent="FieldDefinition" p:attributeName="active" />
             </list>
         </property>
         <property name="resultFields" >
@@ -184,7 +168,6 @@
                 <bean parent="FieldDefinition" p:attributeName="protocolId" />
                 <bean parent="FieldDefinition" p:attributeName="participantTypeCode" />
                 <bean parent="FieldDefinition" p:attributeName="participantCount" />
-                <bean parent="FieldDefinition" p:attributeName="active" />
             </list>
         </property>
     </bean>

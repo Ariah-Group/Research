@@ -28,6 +28,8 @@ public class ParticipantType extends KraPersistableBusinessObjectBase {
     private String participantTypeCode;
 
     private String description;
+    
+    private boolean active;
 
     public ParticipantType() {
     }
@@ -46,5 +48,19 @@ public class ParticipantType extends KraPersistableBusinessObjectBase {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    /**
+     * @return the active
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * @param active the active to set
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
