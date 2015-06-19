@@ -35,6 +35,7 @@ import static org.kuali.kra.logging.BufferedLogger.info;
  * This class finds Award Unit Contact Project Roles
  */
 public class AwardPersonProjectRolesValuesFinder extends AwardContactsProjectRoleValuesFinder {
+
     private KeyPersonnelService keyPersonnelService;
 
     @Override
@@ -48,27 +49,17 @@ public class AwardPersonProjectRolesValuesFinder extends AwardContactsProjectRol
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
         for (ProposalPersonRole role : roles) {
-            boolean showRole = true;
-
-            info("showRole = ", showRole);
-
-            if (showRole) {
-                String roleDescription =  roleDescriptions.get(role.getRoleCode());
-                keyValues.add(new ConcreteKeyValue(role.getProposalPersonRoleId(), roleDescription));
-                info("Added role ", role.getProposalPersonRoleId());
-                info("With description ", roleDescription);
-            }
-
-            info("Returning ", keyValues);
+            String roleDescription = roleDescriptions.get(role.getRoleCode());
+            keyValues.add(new ConcreteKeyValue(role.getProposalPersonRoleId(), roleDescription));
         }
         return keyValues;
     }
 
     protected KeyPersonnelService getKeyPersonnelService() {
-        if(keyPersonnelService == null) {
+        if (keyPersonnelService == null) {
             keyPersonnelService = KraServiceLocator.getService(KeyPersonnelService.class);
         }
-        return keyPersonnelService; 
+        return keyPersonnelService;
     }
 
     @Override
