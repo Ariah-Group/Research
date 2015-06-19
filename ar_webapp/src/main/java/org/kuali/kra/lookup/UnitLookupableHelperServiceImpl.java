@@ -35,23 +35,26 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Unit lookup that accounts for the extra parameter {@code campusCode} and filters the search results if it is defined.
+ * Unit lookup that accounts for the extra parameter {@code campusCode} and
+ * filters the search results if it is defined.
  */
 public class UnitLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private static final long serialVersionUID = -3661085880649722426L;
-    
+
     private static final String CAMPUS_CODE_FIELD = "code";
     private static final String CAMPUS_LOOKUPABLE_CLASS_NAME = "org.kuali.rice.location.impl.campus.CampusBo";
 
     private KcPersonService kcPersonService;
     private UnitAuthorizationService unitAuthorizationService;
-    
+
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
         String personId = getKcPersonService().getKcPersonByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId()).getPersonId();
-        boolean hasModifyPermission = getUnitAuthorizationService().hasPermission(personId, "KC-UNT", PermissionConstants.MODIFY_UNIT);
+        boolean hasModifyPermission = getUnitAuthorizationService().hasPermission(personId,
+                Constants.PARAMETER_MODULE_UNIT, PermissionConstants.MODIFY_UNIT);
+
         if (hasModifyPermission) {
             AnchorHtmlData editHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL, pkNames);
             htmlDataList.add(editHtmlData);
@@ -64,14 +67,14 @@ public class UnitLookupableHelperServiceImpl extends KualiLookupableHelperServic
         }
         return htmlDataList;
     }
-    
+
     @Override
     public List<Row> getRows() {
         List<Row> rows = super.getRows();
-        
+
         boolean multiCampusEnabled = getParameterService().getParameterValueAsBoolean(
-            Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
-        
+                Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
+
         for (Row row : rows) {
             for (Field field : row.getFields()) {
                 if (field.getPropertyName().equals(CAMPUS_CODE_FIELD)) {
@@ -90,7 +93,7 @@ public class UnitLookupableHelperServiceImpl extends KualiLookupableHelperServic
                 }
             }
         }
-        
+
         return rows;
     }
 
@@ -98,7 +101,7 @@ public class UnitLookupableHelperServiceImpl extends KualiLookupableHelperServic
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         String campusCode = fieldValues.remove(CAMPUS_CODE_FIELD);
         List<? extends BusinessObject> searchResults = super.getSearchResults(fieldValues);
-        
+
         List<Unit> filteredSearchResults = new ArrayList<Unit>();
         for (BusinessObject searchResult : searchResults) {
             Unit unit = (Unit) searchResult;
