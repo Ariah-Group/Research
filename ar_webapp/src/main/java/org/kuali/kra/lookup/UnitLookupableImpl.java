@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.lookup;
 
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.UnitAuthorizationService;
@@ -30,7 +31,7 @@ public class UnitLookupableImpl extends KualiLookupableImpl {
     public String getCreateNewUrl() {
         String url = "";
         String personId = getKcPersonService().getKcPersonByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId()).getPersonId();
-        if (getUnitAuthorizationService().hasPermission(personId, "KC-UNT", PermissionConstants.ADD_UNIT)) {
+        if (getUnitAuthorizationService().hasPermission(personId, Constants.PARAMETER_MODULE_UNIT, PermissionConstants.ADD_UNIT)) {
             url =  super.getCreateNewUrl();
         }
         return url;
