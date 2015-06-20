@@ -288,7 +288,7 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
             protocolOtherDataType.setColumnValue(value);
             protocolOtherDataType.setProtocolNumber(protocol.getProtocolNumber());
             protocolOtherDataType.setSequenceNumber(protocol.getSequenceNumber());
-            protocolOtherDataType.setUpdateUser(customAttributes.get(attributeKey).getUpdateUser());
+            protocolOtherDataType.setUpdateUser(attributeDocument.getUpdateUser());
         }
 
     }
