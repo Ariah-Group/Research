@@ -31,7 +31,6 @@
  */
 package org.kuali.kra.award.contacts;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.UnitAdministrator;
@@ -98,7 +97,7 @@ public class AwardCentralAdminContactsBean implements Serializable {
      * @return The count; may be 0
      */
     public int getCentralAdminContactsCount() {
-        if (CollectionUtils.isEmpty(getCentralAdminContacts())) {
+        if (getCentralAdminContacts() == null || getCentralAdminContacts().isEmpty()) {
             return 0;
         }
         return getCentralAdminContacts().size();
