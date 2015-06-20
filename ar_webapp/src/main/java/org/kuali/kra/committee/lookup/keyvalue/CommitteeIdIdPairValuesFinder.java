@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.committee.lookup.keyvalue;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -31,23 +30,24 @@ public class CommitteeIdIdPairValuesFinder extends CommitteeIdValuesFinder {
     private static final long serialVersionUID = -1230239894490494267L;
 
     /**
-     * This override will return the active committee <id, id> pairs list as key-labels. 
-     * 
-     * @see org.kuali.kra.committee.lookup.keyvalue.CommitteeIdValuesFinder#getKeyValues()
+     * This override will return the active committee <id, id> pairs list as
+     * key-labels.
+     *
+     * @see
+     * org.kuali.kra.committee.lookup.keyvalue.CommitteeIdValuesFinder#getKeyValues()
      */
     @Override
-    public List<KeyValue> getKeyValues() {        
+    public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
-        
+
         List<CommitteeBase> committees = this.getActiveCommittees();
-        if (CollectionUtils.isNotEmpty(committees)) {
+        if (committees != null && !committees.isEmpty()) {
             for (CommitteeBase committee : committees) {
                 keyValues.add(new ConcreteKeyValue(committee.getCommitteeId(), committee.getCommitteeId()));
             }
         }
         return keyValues;
     }
-    
 
 }
