@@ -30,7 +30,6 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -208,7 +207,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         if (budgetService.checkActivityTypeChange(allBudgetRates, newestAward.getActivityTypeCode())) {
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_SYNCH_BUDGET_RATE), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
-        } else if (CollectionUtils.isEmpty(allBudgetRates)) {
+        } else if (allBudgetRates == null || allBudgetRates.isEmpty()) {
             //Throw Empty Rates message
             return confirm(syncBudgetRateConfirmationQuestion(mapping, form, request, response,
                     KeyConstants.QUESTION_NO_RATES_ATTEMPT_SYNCH), CONFIRM_SYNCH_BUDGET_RATE, NO_SYNCH_BUDGET_RATE);
@@ -351,7 +350,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         }
 
         AwardDocument document = awardForm.getAwardDocument();
-        if (document != null && CollectionUtils.isNotEmpty(document.getBudgetDocumentVersions())) {
+        if (document != null && document.getBudgetDocumentVersions() != null && !document.getBudgetDocumentVersions().isEmpty()) {
             List<AwardBudgetDocumentVersion> awardBudgetDocuments = document.getBudgetDocumentVersions();
             for (BudgetDocumentVersion budgetDocumentVersion : awardBudgetDocuments) {
                 BudgetVersionOverview budget = budgetDocumentVersion.getBudgetVersionOverview();
