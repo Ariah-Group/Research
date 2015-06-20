@@ -82,6 +82,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.BeanUtils;
 
 import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * This class is to process all basic services required for AwardBudget
@@ -1007,24 +1008,35 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         if (awardBudgetPeriodFringeAmounts.isEmpty()) {
             Map<String, List<BudgetDecimal>> objectCodePersonnelFringe = budget.getObjectCodePersonnelFringeTotals();
             if (objectCodePersonnelFringe != null) {
-                Iterator<String> objectCodes = objectCodePersonnelFringe.keySet().iterator();
-                while (objectCodes.hasNext()) {
-                    String costElement = objectCodes.next();
+
+                Iterator<Entry<String, List<BudgetDecimal>>> iter = objectCodePersonnelFringe.entrySet().iterator();
+
+                while (iter.hasNext()) {
+
+                    Entry<String, List<BudgetDecimal>> ent = iter.next();
+
+                    String costElement = ent.getKey();
                     String[] costElementAndPersonId = costElement.split(",");
 
-                    List<BudgetDecimal> fringeTotals = objectCodePersonnelFringe.get(costElement);
+                    List<BudgetDecimal> fringeTotals = ent.getValue();
+
                     AwardBudgetPeriodSummaryCalculatedAmount oldAwardBudgetPeriodSummaryCalculatedAmount
                             = getSummaryCalculatedAmountFromList(awardBudgetPeriodFringeAmounts, costElementAndPersonId[0]);
+                    
                     if (oldAwardBudgetPeriodSummaryCalculatedAmount == null) {
+                        
                         AwardBudgetPeriodSummaryCalculatedAmount awardBudgetPeriodSummaryCalculatedAmount
-                                = createNewAwardBudgetPeriodSummaryCalculatedAmount(awardBudgetPeriod, costElementAndPersonId[0], RateClassType.EMPLOYEE_BENEFITS.getRateClassType(),
+                                = createNewAwardBudgetPeriodSummaryCalculatedAmount(awardBudgetPeriod,
+                                        costElementAndPersonId[0], RateClassType.EMPLOYEE_BENEFITS.getRateClassType(),
                                         fringeTotals.get(budgetPeriod.getBudgetPeriod() - 1));
+                        
                         awardBudgetPeriodFringeAmounts.add(awardBudgetPeriodSummaryCalculatedAmount);
                     } else {
                         oldAwardBudgetPeriodSummaryCalculatedAmount.setCalculatedCost(
                                 oldAwardBudgetPeriodSummaryCalculatedAmount.getCalculatedCost().add(fringeTotals.get(budgetPeriod.getBudgetPeriod() - 1)));
                     }
                 }
+
             }
             QueryList<AwardBudgetPeriodSummaryCalculatedAmount> ebCalculatedAmounts = filterEBRates(awardBudgetPeriod);
             awardBudgetPeriod.setTotalFringeAmount(ebCalculatedAmounts.sumObjects("calculatedCost"));
