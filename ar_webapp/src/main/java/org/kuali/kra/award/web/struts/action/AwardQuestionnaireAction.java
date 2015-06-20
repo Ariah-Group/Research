@@ -28,7 +28,6 @@ import org.apache.struts.action.ActionMapping;
 import org.ariahgroup.research.award.questionnaire.AwardModuleQuestionnaireBeanBase;
 import org.ariahgroup.research.award.questionnaire.AwardQuestionnaireHelper;
 import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.infrastructure.Constants;

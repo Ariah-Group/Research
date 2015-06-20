@@ -31,9 +31,7 @@
  */
 package org.kuali.kra.protocol.protocol.funding;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.document.Document;

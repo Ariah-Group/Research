@@ -21,7 +21,6 @@ import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.submit.ExecuteProtocolSubmitActionRule;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;

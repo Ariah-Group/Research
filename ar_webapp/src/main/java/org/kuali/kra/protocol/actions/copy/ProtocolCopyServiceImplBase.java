@@ -46,7 +46,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
-import org.kuali.kra.irb.personnel.ProtocolPerson;
 
 /**
  * The ProtocolBase Copy Service creates a new ProtocolBase Document based upon

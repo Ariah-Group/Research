@@ -35,7 +35,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.common.permissions.Permissionable;
-import org.kuali.kra.infrastructure.PermissionAttributes;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;

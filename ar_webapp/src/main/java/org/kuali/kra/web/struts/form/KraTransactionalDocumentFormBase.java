@@ -55,8 +55,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
-import static org.kuali.kra.logging.BufferedLogger.debug;
-
 /**
  * This class is base class for Transactional Documents ...
  */

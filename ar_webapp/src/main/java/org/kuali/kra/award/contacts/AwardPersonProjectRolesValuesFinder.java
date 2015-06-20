@@ -29,8 +29,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import static org.kuali.kra.logging.BufferedLogger.info;
-
 /**
  * This class finds Award Unit Contact Project Roles
  */

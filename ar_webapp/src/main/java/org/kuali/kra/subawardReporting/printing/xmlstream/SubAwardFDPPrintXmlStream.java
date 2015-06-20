@@ -53,7 +53,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.UnitService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardContact;
 import org.kuali.kra.subaward.bo.SubAwardForms;

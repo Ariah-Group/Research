@@ -48,7 +48,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.kuali.kra.irb.personnel.ProtocolPerson;
 
 public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPersonnelService {
 
