@@ -79,7 +79,7 @@ import java.util.Map;
 public class InstitutionalProposalHomeAction extends InstitutionalProposalAction {
     private static final String VERSION_EDITPENDING_PROMPT_KEY = "message.award.version.editpending.prompt";
 
-    private InstitutionalProposalNotepadBean institutionalProposalNotepadBean;
+    //private InstitutionalProposalNotepadBean institutionalProposalNotepadBean;
     private KcAttachmentService kcAttachmentService;
     private ParameterService parameterService;
     private InstitutionalProposalService institutionalProposalService;
@@ -89,7 +89,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
      * Constructs a InstitutionalProposalHomeAction.java.
      */
     public InstitutionalProposalHomeAction() {
-        institutionalProposalNotepadBean = new InstitutionalProposalNotepadBean();
+        //institutionalProposalNotepadBean = new InstitutionalProposalNotepadBean();
     }
 
     /**
