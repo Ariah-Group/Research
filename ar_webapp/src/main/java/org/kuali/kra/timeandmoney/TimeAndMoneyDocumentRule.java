@@ -66,7 +66,7 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean retval = true;
-        MessageMap errorMap = GlobalVariables.getMessageMap();
+       // MessageMap errorMap = GlobalVariables.getMessageMap();
         if (!(document instanceof TimeAndMoneyDocument)) {
             return false;
         }
