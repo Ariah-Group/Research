@@ -21,45 +21,44 @@ import org.kuali.kra.award.rule.AddAwardAttachmentRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-
-public class AwardAttachmentEventBase extends KraDocumentEventBase implements AwardAttachmentEvent  {
+public class AwardAttachmentEventBase extends KraDocumentEventBase implements AwardAttachmentEvent {
 
     private AwardAttachment attachment;
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
-    .getLog(AwardAttachmentEventBase.class);
-    
+            .getLog(AwardAttachmentEventBase.class);
+
     protected AwardAttachmentEventBase(String description, String errorPathPrefix, AwardDocument document, AwardAttachment attachment) {
         super(description, errorPathPrefix, document);
         this.attachment = attachment;
         logEvent();
     }
-    
-    protected AwardAttachmentEventBase( String description, String errorPathPrefix, AwardDocument document ) {
-        super( description, errorPathPrefix, document );
+
+    protected AwardAttachmentEventBase(String description, String errorPathPrefix, AwardDocument document) {
+        super(description, errorPathPrefix, document);
         logEvent();
     }
 
     @Override
     protected void logEvent() {
-        if( LOG.isDebugEnabled() )
+        if (LOG.isDebugEnabled()) {
             LOG.debug(getDescription());
+        }
     }
 
     public AwardAttachment getAwardAttachment() {
-       return attachment;
+        return attachment;
     }
 
     public void setAwardAttachment(AwardAttachment attachment) {
         this.attachment = attachment;
     }
 
-    
     public Class getRuleInterfaceClass() {
-       return AddAwardAttachmentRule.class;
+        return AddAwardAttachmentRule.class;
     }
 
     public boolean invokeRuleMethod(BusinessRule rule) {
         return false;
     }
-    
+
 }

@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-
 public abstract class ResearchAreaBase extends KraPersistableBusinessObjectBase {
 
     /**
@@ -34,10 +33,10 @@ public abstract class ResearchAreaBase extends KraPersistableBusinessObjectBase 
     private boolean active;
 
     /*
-    private CommResearchAreas commResearchAreas
-    private CommMemberExpertise commMemberExpertise
-    private ProtocolResearchAreas protocolResearchAreas
-    */
+     private CommResearchAreas commResearchAreas
+     private CommMemberExpertise commMemberExpertise
+     private ProtocolResearchAreas protocolResearchAreas
+     */
     public ResearchAreaBase() {
         super();
     }
@@ -101,13 +100,23 @@ public abstract class ResearchAreaBase extends KraPersistableBusinessObjectBase 
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         ResearchAreaBase other = (ResearchAreaBase) obj;
         if (researchAreaCode == null) {
-            if (other.researchAreaCode != null) return false;
-        } else if (!researchAreaCode.equalsIgnoreCase(other.researchAreaCode)) return false;
+            if (other.researchAreaCode != null) {
+                return false;
+            }
+        } else if (!researchAreaCode.equalsIgnoreCase(other.researchAreaCode)) {
+            return false;
+        }
         return true;
     }
 }

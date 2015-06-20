@@ -42,10 +42,10 @@ public class UnitAdministratorMaintainableImpl extends KraMaintainableImpl imple
     private static final String UNIT_ID_INVALID_ERROR_KEY = "error.invalid.unitAdministrator.unitId";
     private static final String PRINCIPAL_ID_INVALID_ERROR_KEY = "error.invalid.unitAdministrator.principalId";
     private static final String UNIT_ADMINISTRATOR_TYPE_CODE_INVALID_ERROR_KEY = "error.invalid.unitAdministrator.unitAdministratorTypeCode";
-    
 
     /**
-     * @see org.kuali.rice.kns.maintenance.Maintainable#refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document)
+     * @see org.kuali.rice.kns.maintenance.Maintainable#refresh(String
+     * refreshCaller, Map fieldValues, MaintenanceDocument document)
      */
     @Override
     @SuppressWarnings("unchecked")
@@ -57,66 +57,65 @@ public class UnitAdministratorMaintainableImpl extends KraMaintainableImpl imple
             unitAdministrator.setPersonId(principalId);
         }
     }
-    
+
     @Override
     public void prepareForSave() {
-        UnitAdministrator unitAdministrator = (UnitAdministrator)this.businessObject;
-        
-        if(!isUnitIdValid( unitAdministrator.getUnitNumber() )){
+        UnitAdministrator unitAdministrator = (UnitAdministrator) this.businessObject;
+
+        if (!isUnitIdValid(unitAdministrator.getUnitNumber())) {
             reportInvalidUnitId(unitAdministrator);
         }
-        
-        if(!isUnitAdministratorTypeCodeValid( unitAdministrator.getUnitAdministratorTypeCode() )){
+
+        if (!isUnitAdministratorTypeCodeValid(unitAdministrator.getUnitAdministratorTypeCode())) {
             reportInvalidUnitAdministratorTypeCode(unitAdministrator);
         }
-        
-        if( !isValidPrincipalId( unitAdministrator.getPersonId() )) {
-            reportInvalidPrincipalId( unitAdministrator );
+
+        if (!isValidPrincipalId(unitAdministrator.getPersonId())) {
+            reportInvalidPrincipalId(unitAdministrator);
         }
-        
+
         super.prepareForSave();
     }
-    
+
     private void reportInvalidUnitId(UnitAdministrator unitAdministrator) {
         ErrorReporter errorReporter = new ErrorReporter();
-        errorReporter.reportError("document.newMaintainableObject.unitNumber", 
-                        UNIT_ID_INVALID_ERROR_KEY,
-                        new String[]{});
-      
+        errorReporter.reportError("document.newMaintainableObject.unitNumber",
+                UNIT_ID_INVALID_ERROR_KEY,
+                new String[]{});
+
     }
 
-    
     private void reportInvalidPrincipalId(UnitAdministrator unitAdministrator) {
         ErrorReporter errorReporter = new ErrorReporter();
-        errorReporter.reportError("document.newMaintainableObject.person.userName", 
-                        PRINCIPAL_ID_INVALID_ERROR_KEY,
-                        new String[]{});
-      
+        errorReporter.reportError("document.newMaintainableObject.person.userName",
+                PRINCIPAL_ID_INVALID_ERROR_KEY,
+                new String[]{});
+
     }
 
-    
     private void reportInvalidUnitAdministratorTypeCode(UnitAdministrator unitAdministrator) {
         ErrorReporter errorReporter = new ErrorReporter();
-        errorReporter.reportError("document.newMaintainableObject.unitAdministratorTypeCode", 
-                        UNIT_ADMINISTRATOR_TYPE_CODE_INVALID_ERROR_KEY,
-                        new String[]{});
-      
+        errorReporter.reportError("document.newMaintainableObject.unitAdministratorTypeCode",
+                UNIT_ADMINISTRATOR_TYPE_CODE_INVALID_ERROR_KEY,
+                new String[]{});
+
     }
 
     private boolean isValidPrincipalId(String principalId) {
         boolean valid = true;
         KcPersonService personService = KraServiceLocator.getService(KcPersonService.class);
-        if ( StringUtils.isEmpty(principalId) ) {
+        if (StringUtils.isEmpty(principalId)) {
             valid = false;
         } else {
             KcPerson person = personService.getKcPersonByPersonId(principalId);
-            if( person == null )  valid=false;
+            if (person == null) {
+                valid = false;
+            }
         }
-        
+
         return valid;
     }
 
-    
     private boolean isUnitIdValid(String unitNumber) {
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> validUnitParams = new HashMap<String, String>();
@@ -131,8 +130,7 @@ public class UnitAdministratorMaintainableImpl extends KraMaintainableImpl imple
         validParams.put("unitAdministratorTypeCode", unitAdministratorTypeCode);
         Collection<UnitAdministratorType> units = businessObjectService.findMatching(UnitAdministratorType.class, validParams);
         return !units.isEmpty();
-        
+
     }
 
-    
 }

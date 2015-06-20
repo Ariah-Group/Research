@@ -57,7 +57,7 @@ public abstract class AbstractInstituteRate extends KraPersistableBusinessObject
     private String unitNumber;
 
     private BudgetDecimal instituteRate;
-    
+
     private BudgetDecimal externalApplicableRate;
 
     private RateClass rateClass;
@@ -182,7 +182,8 @@ public abstract class AbstractInstituteRate extends KraPersistableBusinessObject
     }
 
     /**
-     * Gets the nonEditableRateFlag attribute. 
+     * Gets the nonEditableRateFlag attribute.
+     *
      * @return Returns the nonEditableRateFlag.
      */
     public boolean getNonEditableRateFlag() {
@@ -191,6 +192,7 @@ public abstract class AbstractInstituteRate extends KraPersistableBusinessObject
 
     /**
      * Sets the nonEditableRateFlag attribute value.
+     *
      * @param nonEditableRateFlag The nonEditableRateFlag to set.
      */
     public void setNonEditableRateFlag(boolean flatRateCalculation) {
@@ -223,56 +225,108 @@ public abstract class AbstractInstituteRate extends KraPersistableBusinessObject
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         AbstractInstituteRate other = (AbstractInstituteRate) obj;
         if (active == null) {
-            if (other.active != null) return false;
-        } else if (!active.equals(other.active)) return false;
+            if (other.active != null) {
+                return false;
+            }
+        } else if (!active.equals(other.active)) {
+            return false;
+        }
         if (fiscalYear == null) {
-            if (other.fiscalYear != null) return false;
-        } else if (!fiscalYear.equals(other.fiscalYear)) return false;
+            if (other.fiscalYear != null) {
+                return false;
+            }
+        } else if (!fiscalYear.equals(other.fiscalYear)) {
+            return false;
+        }
         if (instituteRate == null) {
-            if (other.instituteRate != null) return false;
-        } else if (!instituteRate.equals(other.instituteRate)) return false;
+            if (other.instituteRate != null) {
+                return false;
+            }
+        } else if (!instituteRate.equals(other.instituteRate)) {
+            return false;
+        }
         if (onOffCampusFlag == null) {
-            if (other.onOffCampusFlag != null) return false;
-        } else if (!onOffCampusFlag.equals(other.onOffCampusFlag)) return false;
+            if (other.onOffCampusFlag != null) {
+                return false;
+            }
+        } else if (!onOffCampusFlag.equals(other.onOffCampusFlag)) {
+            return false;
+        }
         if (rateClass == null) {
-            if (other.rateClass != null) return false;
-        } else if (!rateClass.equals(other.rateClass)) return false;
+            if (other.rateClass != null) {
+                return false;
+            }
+        } else if (!rateClass.equals(other.rateClass)) {
+            return false;
+        }
         if (rateClassCode == null) {
-            if (other.rateClassCode != null) return false;
-        } else if (!rateClassCode.equals(other.rateClassCode)) return false;
+            if (other.rateClassCode != null) {
+                return false;
+            }
+        } else if (!rateClassCode.equals(other.rateClassCode)) {
+            return false;
+        }
         if (rateType == null) {
-            if (other.rateType != null) return false;
-        } else if (!rateType.equals(other.rateType)) return false;
+            if (other.rateType != null) {
+                return false;
+            }
+        } else if (!rateType.equals(other.rateType)) {
+            return false;
+        }
         if (rateTypeCode == null) {
-            if (other.rateTypeCode != null) return false;
-        } else if (!rateTypeCode.equals(other.rateTypeCode)) return false;
+            if (other.rateTypeCode != null) {
+                return false;
+            }
+        } else if (!rateTypeCode.equals(other.rateTypeCode)) {
+            return false;
+        }
         if (startDate == null) {
-            if (other.startDate != null) return false;
-        } else if (!startDate.equals(other.startDate)) return false;
+            if (other.startDate != null) {
+                return false;
+            }
+        } else if (!startDate.equals(other.startDate)) {
+            return false;
+        }
         if (unit == null) {
-            if (other.unit != null) return false;
-        } else if (!unit.equals(other.unit)) return false;
+            if (other.unit != null) {
+                return false;
+            }
+        } else if (!unit.equals(other.unit)) {
+            return false;
+        }
         if (unitNumber == null) {
-            if (other.unitNumber != null) return false;
-        } else if (!unitNumber.equals(other.unitNumber)) return false;
+            if (other.unitNumber != null) {
+                return false;
+            }
+        } else if (!unitNumber.equals(other.unitNumber)) {
+            return false;
+        }
         return true;
     }
 
     /**
-     * Gets the externalApplicableRate attribute. 
+     * Gets the externalApplicableRate attribute.
+     *
      * @return Returns the externalApplicableRate.
      */
     public BudgetDecimal getExternalApplicableRate() {
-        return externalApplicableRate==null?getInstituteRate():externalApplicableRate;
+        return externalApplicableRate == null ? getInstituteRate() : externalApplicableRate;
     }
 
     /**
      * Sets the externalApplicableRate attribute value.
+     *
      * @param externalApplicableRate The externalApplicableRate to set.
      */
     public void setExternalApplicableRate(BudgetDecimal externalApplicableRate) {

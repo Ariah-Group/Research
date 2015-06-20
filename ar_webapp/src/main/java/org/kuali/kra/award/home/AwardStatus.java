@@ -18,7 +18,7 @@ package org.kuali.kra.award.home;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
- * 
+ *
  * This class represents AwardStatus BO
  */
 public class AwardStatus extends KraPersistableBusinessObjectBase {
@@ -74,7 +74,9 @@ public class AwardStatus extends KraPersistableBusinessObjectBase {
         if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass()) return false;
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         AwardStatus other = (AwardStatus) obj;
         if (description == null) {
             if (other.description != null) {

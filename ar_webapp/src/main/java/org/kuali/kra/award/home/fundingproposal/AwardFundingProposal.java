@@ -20,11 +20,10 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalBoLite;
 
-
 /**
- * Represents the relationship between an Award and a funding Institutional Proposal.
- * The relationship is maintained from both modules, so it has to be treated specially in various 
- * parts of the application, such as versioning.
+ * Represents the relationship between an Award and a funding Institutional
+ * Proposal. The relationship is maintained from both modules, so it has to be
+ * treated specially in various parts of the application, such as versioning.
  */
 public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
 
@@ -52,6 +51,7 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
 
     /**
      * Constructs a AwardFundingProposal.java.
+     *
      * @param award
      * @param institutionalProposal
      */
@@ -60,7 +60,7 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
         setAward(award);
         setProposal(proposal);
     }
-    
+
     public AwardFundingProposal(Award award, InstitutionalProposal proposal) {
         this();
         setAward(award);
@@ -92,8 +92,8 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
      * @return Returns the proposal.
      */
     public InstitutionalProposalBoLite getProposal() {
-    	return proposal;
-	}
+        return proposal;
+    }
 
     /**
      * @return Returns the proposalId.
@@ -148,7 +148,9 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * True if this entity has ever been persisted (even if there are unpersisted in-memory modifications).
+     * True if this entity has ever been persisted (even if there are
+     * unpersisted in-memory modifications).
+     *
      * @return boolean
      */
     public boolean isPersisted() {
@@ -160,16 +162,30 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (!(obj instanceof AwardFundingProposal)) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof AwardFundingProposal)) {
+            return false;
+        }
         AwardFundingProposal other = (AwardFundingProposal) obj;
         if (awardId == null) {
-            if (other.awardId != null) return false;
-        } else if (!awardId.equals(other.awardId)) return false;
+            if (other.awardId != null) {
+                return false;
+            }
+        } else if (!awardId.equals(other.awardId)) {
+            return false;
+        }
         if (proposalId == null) {
-            if (other.proposalId != null) return false;
-        } else if (!proposalId.equals(other.proposalId)) return false;
+            if (other.proposalId != null) {
+                return false;
+            }
+        } else if (!proposalId.equals(other.proposalId)) {
+            return false;
+        }
         return true;
     }
 
@@ -184,32 +200,32 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
         result = prime * result + ((proposalId == null) ? 0 : proposalId.hashCode());
         return result;
     }
-    
+
     protected InstitutionalProposalBoLite liteVersion(InstitutionalProposal ip) {
-    	InstitutionalProposalBoLite pbl = new InstitutionalProposalBoLite();
-    	pbl.setActivityTypeCode(ip.getActivityTypeCode());
-    	pbl.setLeadUnit(ip.getLeadUnit());
-    	pbl.setProposalId(ip.getProposalId());
-    	pbl.setProposalNumber(ip.getProposalNumber());
-    	pbl.setProposalTypeCode(ip.getProposalTypeCode());
-    	pbl.setRequestedEndDateInitial(ip.getRequestedEndDateInitial());
-    	pbl.setRequestedEndDateTotal(ip.getRequestedEndDateTotal());
-    	pbl.setRequestedStartDateInitial(ip.getRequestedStartDateInitial());
-    	pbl.setRequestedStartDateTotal(ip.getRequestedStartDateTotal());
-    	pbl.setSequenceNumber(ip.getSequenceNumber());
-    	pbl.setSponsor(ip.getSponsor());
-    	pbl.setSponsorCode(ip.getSponsorCode());
-    	pbl.setStatusCode(ip.getStatusCode());
-    	pbl.setTitle(ip.getTitle());
-    	pbl.setTotalDirectCostInitial(ip.getTotalDirectCostInitial());
-    	pbl.setTotalDirectCostTotal(ip.getTotalDirectCostTotal());
-    	pbl.setTotalIndirectCostInitial(ip.getTotalIndirectCostInitial());
-    	pbl.setTotalIndirectCostTotal(ip.getTotalIndirectCostTotal());
-    	pbl.setUnitNumber(ip.getUnitNumber());
-    	pbl.setProjectPersons(ip.getProjectPersons());
-    	pbl.setSponsorName(ip.getSponsorName());
-    	pbl.setProposalType(ip.getProposalType());
-    	pbl.setActivityType(ip.getActivityType());
-    	return pbl;
+        InstitutionalProposalBoLite pbl = new InstitutionalProposalBoLite();
+        pbl.setActivityTypeCode(ip.getActivityTypeCode());
+        pbl.setLeadUnit(ip.getLeadUnit());
+        pbl.setProposalId(ip.getProposalId());
+        pbl.setProposalNumber(ip.getProposalNumber());
+        pbl.setProposalTypeCode(ip.getProposalTypeCode());
+        pbl.setRequestedEndDateInitial(ip.getRequestedEndDateInitial());
+        pbl.setRequestedEndDateTotal(ip.getRequestedEndDateTotal());
+        pbl.setRequestedStartDateInitial(ip.getRequestedStartDateInitial());
+        pbl.setRequestedStartDateTotal(ip.getRequestedStartDateTotal());
+        pbl.setSequenceNumber(ip.getSequenceNumber());
+        pbl.setSponsor(ip.getSponsor());
+        pbl.setSponsorCode(ip.getSponsorCode());
+        pbl.setStatusCode(ip.getStatusCode());
+        pbl.setTitle(ip.getTitle());
+        pbl.setTotalDirectCostInitial(ip.getTotalDirectCostInitial());
+        pbl.setTotalDirectCostTotal(ip.getTotalDirectCostTotal());
+        pbl.setTotalIndirectCostInitial(ip.getTotalIndirectCostInitial());
+        pbl.setTotalIndirectCostTotal(ip.getTotalIndirectCostTotal());
+        pbl.setUnitNumber(ip.getUnitNumber());
+        pbl.setProjectPersons(ip.getProjectPersons());
+        pbl.setSponsorName(ip.getSponsorName());
+        pbl.setProposalType(ip.getProposalType());
+        pbl.setActivityType(ip.getActivityType());
+        return pbl;
     }
 }

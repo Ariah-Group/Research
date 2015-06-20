@@ -15,9 +15,8 @@
  */
 package org.kuali.kra.bo;
 
-
 /**
- * 
+ *
  * This class is for risk level code maintenance.
  */
 public class RiskLevel extends KraPersistableBusinessObjectBase {
@@ -56,16 +55,30 @@ public class RiskLevel extends KraPersistableBusinessObjectBase {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         final RiskLevel other = (RiskLevel) obj;
         if (description == null) {
-            if (other.description != null) return false;
-        } else if (!description.equals(other.description)) return false;
+            if (other.description != null) {
+                return false;
+            }
+        } else if (!description.equals(other.description)) {
+            return false;
+        }
         if (riskLevelCode == null) {
-            if (other.riskLevelCode != null) return false;
-        } else if (!riskLevelCode.equals(other.riskLevelCode)) return false;
+            if (other.riskLevelCode != null) {
+                return false;
+            }
+        } else if (!riskLevelCode.equals(other.riskLevelCode)) {
+            return false;
+        }
         return true;
     }
 }

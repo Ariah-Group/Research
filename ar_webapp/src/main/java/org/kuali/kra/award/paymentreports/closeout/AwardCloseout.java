@@ -21,7 +21,7 @@ import org.kuali.kra.award.AwardAssociate;
 import java.sql.Date;
 
 /**
- * 
+ *
  * This class represents the AwardCloseout business object.
  */
 public class AwardCloseout extends AwardAssociate {
@@ -46,33 +46,36 @@ public class AwardCloseout extends AwardAssociate {
     private CloseoutReportType closeoutReportType;
 
     /**
-     * 
-    <c:choose>
-        <c:when test="${KualiForm.awardCloseoutBean.closeoutReportTypeUserDefined == KualiForm.document.awardList[0].awardCloseoutItems[status.index].closeoutReportCode }" >
-            <kul:htmlControlAttribute property="document.awardList[0].awardCloseoutItems[${status.index}].dueDate" attributeEntry="${awardCloseoutAttributes.dueDate}" />
-        </c:when>
-        <c:otherwise>
-            <c:choose>
-                <c:when test="${KualiForm.document.awardList[0].awardCloseoutItems[status.index].multiple}" >
-                    <c:out value="MULTIPLE" />
-                </c:when>
-                <c:otherwise>
-                    <kul:htmlControlAttribute property="document.awardList[0].awardCloseoutItems[${status.index}].dueDate" attributeEntry="${awardCloseoutAttributes.dueDate}" readOnly="true" />
-                </c:otherwise>
-            </c:choose>
-         </c:otherwise>
-    </c:choose>
+     *
+     * <c:choose>
+     * <c:when test="${KualiForm.awardCloseoutBean.closeoutReportTypeUserDefined == KualiForm.document.awardList[0].awardCloseoutItems[status.index].closeoutReportCode }"
+     * >
+     * <kul:htmlControlAttribute property="document.awardList[0].awardCloseoutItems[${status.index}].dueDate" attributeEntry="${awardCloseoutAttributes.dueDate}" />
+     * </c:when>
+     * <c:otherwise>
+     * <c:choose>
+     * <c:when test="${KualiForm.document.awardList[0].awardCloseoutItems[status.index].multiple}"
+     * >
+     * <c:out value="MULTIPLE" />
+     * </c:when>
+     * <c:otherwise>
+     * <kul:htmlControlAttribute property="document.awardList[0].awardCloseoutItems[${status.index}].dueDate" attributeEntry="${awardCloseoutAttributes.dueDate}" readOnly="true" />
+     * </c:otherwise>
+     * </c:choose>
+     * </c:otherwise>
+     * </c:choose>
      */
     /**
-     * 
+     *
      * Constructs a AwardCloseout.java.
      */
     public AwardCloseout() {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public Long getAwardCloseoutId() {
@@ -80,8 +83,9 @@ public class AwardCloseout extends AwardAssociate {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param awardCloseoutId
      */
     public void setAwardCloseoutId(Long awardCloseoutId) {
@@ -89,8 +93,9 @@ public class AwardCloseout extends AwardAssociate {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public Date getFinalSubmissionDate() {
@@ -98,8 +103,9 @@ public class AwardCloseout extends AwardAssociate {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param finalSubmissionDate
      */
     public void setFinalSubmissionDate(Date finalSubmissionDate) {
@@ -107,8 +113,9 @@ public class AwardCloseout extends AwardAssociate {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @return
      */
     public String getCloseoutReportCode() {
@@ -116,8 +123,9 @@ public class AwardCloseout extends AwardAssociate {
     }
 
     /**
-     * 
+     *
      * This method...
+     *
      * @param closeoutReportCode
      */
     public void setCloseoutReportCode(String closeoutReportCode) {
@@ -125,7 +133,8 @@ public class AwardCloseout extends AwardAssociate {
     }
 
     /**
-     * Gets the closeoutReportType attribute. 
+     * Gets the closeoutReportType attribute.
+     *
      * @return Returns the closeoutReportType.
      */
     public CloseoutReportType getCloseoutReportType() {
@@ -134,6 +143,7 @@ public class AwardCloseout extends AwardAssociate {
 
     /**
      * Sets the closeoutReportType attribute value.
+     *
      * @param closeoutReportType The closeoutReportType to set.
      */
     public void setCloseoutReportType(CloseoutReportType closeoutReportType) {
@@ -141,7 +151,8 @@ public class AwardCloseout extends AwardAssociate {
     }
 
     /**
-     * Gets the dueDate attribute. 
+     * Gets the dueDate attribute.
+     *
      * @return Returns the dueDate.
      */
     public Date getDueDate() {
@@ -150,6 +161,7 @@ public class AwardCloseout extends AwardAssociate {
 
     /**
      * Sets the dueDate attribute value.
+     *
      * @param dueDate The dueDate to set.
      */
     public void setDueDate(Date dueDate) {
@@ -157,7 +169,8 @@ public class AwardCloseout extends AwardAssociate {
     }
 
     /**
-     * Gets the closeoutReportName attribute. 
+     * Gets the closeoutReportName attribute.
+     *
      * @return Returns the closeoutReportName.
      */
     public String getCloseoutReportName() {
@@ -166,6 +179,7 @@ public class AwardCloseout extends AwardAssociate {
 
     /**
      * Sets the closeoutReportName attribute value.
+     *
      * @param closeoutReportName The closeoutReportName to set.
      */
     public void setCloseoutReportName(String closeoutReportName) {
@@ -187,7 +201,8 @@ public class AwardCloseout extends AwardAssociate {
     }
 
     /**
-     * Gets the multiple attribute. 
+     * Gets the multiple attribute.
+     *
      * @return Returns the multiple.
      */
     public boolean isMultiple() {
@@ -196,6 +211,7 @@ public class AwardCloseout extends AwardAssociate {
 
     /**
      * Sets the multiple attribute value.
+     *
      * @param multiple The multiple to set.
      */
     public void setMultiple(boolean multiple) {
@@ -203,7 +219,7 @@ public class AwardCloseout extends AwardAssociate {
     }
 
     /**
-     * 
+     *
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
@@ -215,26 +231,47 @@ public class AwardCloseout extends AwardAssociate {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!super.equals(obj)) return false;
-        if (!(obj instanceof AwardCloseout)) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (!(obj instanceof AwardCloseout)) {
+            return false;
+        }
         final AwardCloseout other = (AwardCloseout) obj;
         if (closeoutReportCode == null) {
-            if (other.closeoutReportCode != null) return false;
-        } else if (!closeoutReportCode.equals(other.closeoutReportCode)) return false;
+            if (other.closeoutReportCode != null) {
+                return false;
+            }
+        } else if (!closeoutReportCode.equals(other.closeoutReportCode)) {
+            return false;
+        }
         if (dueDate == null) {
-            if (other.dueDate != null) return false;
-        } else if (!dueDate.equals(other.dueDate)) return false;
+            if (other.dueDate != null) {
+                return false;
+            }
+        } else if (!dueDate.equals(other.dueDate)) {
+            return false;
+        }
         if (finalSubmissionDate == null) {
-            if (other.finalSubmissionDate != null) return false;
-        } else if (!finalSubmissionDate.equals(other.finalSubmissionDate)) return false;
-        if (multiple != other.multiple) return false;
+            if (other.finalSubmissionDate != null) {
+                return false;
+            }
+        } else if (!finalSubmissionDate.equals(other.finalSubmissionDate)) {
+            return false;
+        }
+        if (multiple != other.multiple) {
+            return false;
+        }
         return true;
     }
 
     /**
-     * 
+     *
      * This method returns true if the closeout report code equals "UD".
+     *
      * @return
      */
     public boolean isUserDefinedReport() {

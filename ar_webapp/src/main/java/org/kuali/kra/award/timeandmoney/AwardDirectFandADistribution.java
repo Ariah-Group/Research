@@ -60,8 +60,9 @@ public class AwardDirectFandADistribution extends AwardAssociate {
     }
 
     /**
-     * FIXME: Field may be dead code
-     * This method added because repository validation fails if no getter present for repository declared field
+     * FIXME: Field may be dead code This method added because repository
+     * validation fails if no getter present for repository declared field
+     *
      * @return
      */
     public Long getAwardAmountInfoId() {
@@ -69,7 +70,8 @@ public class AwardDirectFandADistribution extends AwardAssociate {
     }
 
     /**
-     * Gets the awardDirectFandADistributionId attribute. 
+     * Gets the awardDirectFandADistributionId attribute.
+     *
      * @return Returns the awardDirectFandADistributionId.
      */
     public Long getAwardDirectFandADistributionId() {
@@ -78,14 +80,17 @@ public class AwardDirectFandADistribution extends AwardAssociate {
 
     /**
      * Sets the awardDirectFandADistributionId attribute value.
-     * @param awardDirectFandADistributionId The awardDirectFandADistributionId to set.
+     *
+     * @param awardDirectFandADistributionId The awardDirectFandADistributionId
+     * to set.
      */
     public void setAwardDirectFandADistributionId(Long awardDirectFandADistributionId) {
         this.awardDirectFandADistributionId = awardDirectFandADistributionId;
     }
 
     /**
-     * Gets the amountSequenceNumber attribute. 
+     * Gets the amountSequenceNumber attribute.
+     *
      * @return Returns the amountSequenceNumber.
      */
     public Integer getAmountSequenceNumber() {
@@ -94,6 +99,7 @@ public class AwardDirectFandADistribution extends AwardAssociate {
 
     /**
      * Sets the amountSequenceNumber attribute value.
+     *
      * @param amountSequenceNumber The amountSequenceNumber to set.
      */
     public void setAmountSequenceNumber(Integer amountSequenceNumber) {
@@ -101,7 +107,8 @@ public class AwardDirectFandADistribution extends AwardAssociate {
     }
 
     /**
-     * Gets the budgetPeriod attribute. 
+     * Gets the budgetPeriod attribute.
+     *
      * @return Returns the budgetPeriod.
      */
     public Integer getBudgetPeriod() {
@@ -110,6 +117,7 @@ public class AwardDirectFandADistribution extends AwardAssociate {
 
     /**
      * Sets the budgetPeriod attribute value.
+     *
      * @param budgetPeriod The budgetPeriod to set.
      */
     public void setBudgetPeriod(Integer budgetPeriod) {
@@ -117,7 +125,8 @@ public class AwardDirectFandADistribution extends AwardAssociate {
     }
 
     /**
-     * Gets the startDate attribute. 
+     * Gets the startDate attribute.
+     *
      * @return Returns the startDate.
      */
     public Date getStartDate() {
@@ -126,6 +135,7 @@ public class AwardDirectFandADistribution extends AwardAssociate {
 
     /**
      * Sets the startDate attribute value.
+     *
      * @param startDate The startDate to set.
      */
     public void setStartDate(Date startDate) {
@@ -133,7 +143,8 @@ public class AwardDirectFandADistribution extends AwardAssociate {
     }
 
     /**
-     * Gets the endDate attribute. 
+     * Gets the endDate attribute.
+     *
      * @return Returns the endDate.
      */
     public Date getEndDate() {
@@ -142,6 +153,7 @@ public class AwardDirectFandADistribution extends AwardAssociate {
 
     /**
      * Sets the endDate attribute value.
+     *
      * @param endDate The endDate to set.
      */
     public void setEndDate(Date endDate) {
@@ -149,7 +161,8 @@ public class AwardDirectFandADistribution extends AwardAssociate {
     }
 
     /**
-     * Gets the directCost attribute. 
+     * Gets the directCost attribute.
+     *
      * @return Returns the directCost.
      */
     public KualiDecimal getDirectCost() {
@@ -158,6 +171,7 @@ public class AwardDirectFandADistribution extends AwardAssociate {
 
     /**
      * Sets the directCost attribute value.
+     *
      * @param directCost The directCost to set.
      */
     public void setDirectCost(KualiDecimal directCost) {
@@ -165,7 +179,8 @@ public class AwardDirectFandADistribution extends AwardAssociate {
     }
 
     /**
-     * Gets the indirectCost attribute. 
+     * Gets the indirectCost attribute.
+     *
      * @return Returns the indirectCost.
      */
     public KualiDecimal getIndirectCost() {
@@ -174,6 +189,7 @@ public class AwardDirectFandADistribution extends AwardAssociate {
 
     /**
      * Sets the indirectCost attribute value.
+     *
      * @param indirectCost The indirectCost to set.
      */
     public void setIndirectCost(KualiDecimal indirectCost) {
@@ -181,7 +197,8 @@ public class AwardDirectFandADistribution extends AwardAssociate {
     }
 
     /**
-     * Gets the serialVersionUID attribute. 
+     * Gets the serialVersionUID attribute.
+     *
      * @return Returns the serialVersionUID.
      */
     public static long getSerialVersionUID() {
@@ -218,34 +235,72 @@ public class AwardDirectFandADistribution extends AwardAssociate {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!super.equals(obj)) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         final AwardDirectFandADistribution other = (AwardDirectFandADistribution) obj;
         if (amountSequenceNumber == null) {
-            if (other.amountSequenceNumber != null) return false;
-        } else if (!amountSequenceNumber.equals(other.amountSequenceNumber)) return false;
+            if (other.amountSequenceNumber != null) {
+                return false;
+            }
+        } else if (!amountSequenceNumber.equals(other.amountSequenceNumber)) {
+            return false;
+        }
         if (awardAmountInfoId == null) {
-            if (other.awardAmountInfoId != null) return false;
-        } else if (!awardAmountInfoId.equals(other.awardAmountInfoId)) return false;
+            if (other.awardAmountInfoId != null) {
+                return false;
+            }
+        } else if (!awardAmountInfoId.equals(other.awardAmountInfoId)) {
+            return false;
+        }
         if (awardDirectFandADistributionId == null) {
-            if (other.awardDirectFandADistributionId != null) return false;
-        } else if (!awardDirectFandADistributionId.equals(other.awardDirectFandADistributionId)) return false;
+            if (other.awardDirectFandADistributionId != null) {
+                return false;
+            }
+        } else if (!awardDirectFandADistributionId.equals(other.awardDirectFandADistributionId)) {
+            return false;
+        }
         if (budgetPeriod == null) {
-            if (other.budgetPeriod != null) return false;
-        } else if (!budgetPeriod.equals(other.budgetPeriod)) return false;
+            if (other.budgetPeriod != null) {
+                return false;
+            }
+        } else if (!budgetPeriod.equals(other.budgetPeriod)) {
+            return false;
+        }
         if (directCost == null) {
-            if (other.directCost != null) return false;
-        } else if (!directCost.equals(other.directCost)) return false;
+            if (other.directCost != null) {
+                return false;
+            }
+        } else if (!directCost.equals(other.directCost)) {
+            return false;
+        }
         if (endDate == null) {
-            if (other.endDate != null) return false;
-        } else if (!endDate.equals(other.endDate)) return false;
+            if (other.endDate != null) {
+                return false;
+            }
+        } else if (!endDate.equals(other.endDate)) {
+            return false;
+        }
         if (indirectCost == null) {
-            if (other.indirectCost != null) return false;
-        } else if (!indirectCost.equals(other.indirectCost)) return false;
+            if (other.indirectCost != null) {
+                return false;
+            }
+        } else if (!indirectCost.equals(other.indirectCost)) {
+            return false;
+        }
         if (startDate == null) {
-            if (other.startDate != null) return false;
-        } else if (!startDate.equals(other.startDate)) return false;
+            if (other.startDate != null) {
+                return false;
+            }
+        } else if (!startDate.equals(other.startDate)) {
+            return false;
+        }
         return true;
     }
 }

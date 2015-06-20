@@ -44,7 +44,8 @@ public class UnitCorrespondentMaintainableImpl extends KraMaintainableImpl imple
     private static final String CORRESPONDENT_TYPE_CODE_INVALID_ERROR_KEY = "error.invalid.unitCorrespondent.correspondentType";
 
     /**
-     * @see org.kuali.rice.kns.maintenance.Maintainable#refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document)
+     * @see org.kuali.rice.kns.maintenance.Maintainable#refresh(String
+     * refreshCaller, Map fieldValues, MaintenanceDocument document)
      */
     @Override
     @SuppressWarnings("unchecked")
@@ -56,66 +57,65 @@ public class UnitCorrespondentMaintainableImpl extends KraMaintainableImpl imple
             unitCorrespondent.setPersonId(principalId);
         }
     }
-   
+
     @Override
     public void prepareForSave() {
-        UnitCorrespondent unitCorrespondent = (UnitCorrespondent)this.businessObject;
-        
-        if(!isUnitIdValid( unitCorrespondent.getUnitNumber() )){
+        UnitCorrespondent unitCorrespondent = (UnitCorrespondent) this.businessObject;
+
+        if (!isUnitIdValid(unitCorrespondent.getUnitNumber())) {
             reportInvalidUnitId(unitCorrespondent);
         }
-        
-        if(!isCorrespondentTypeCodeValid( unitCorrespondent.getCorrespondentTypeCode() )){
+
+        if (!isCorrespondentTypeCodeValid(unitCorrespondent.getCorrespondentTypeCode())) {
             reportInvalidCorrespondentTypeCode(unitCorrespondent);
         }
-        
-        if( !isValidPrincipalId( unitCorrespondent.getPersonId() )) {
-            reportInvalidPrincipalId( unitCorrespondent );
+
+        if (!isValidPrincipalId(unitCorrespondent.getPersonId())) {
+            reportInvalidPrincipalId(unitCorrespondent);
         }
-        
+
         super.prepareForSave();
     }
-    
+
     private void reportInvalidUnitId(UnitCorrespondent unitCorrespondent) {
         ErrorReporter errorReporter = new ErrorReporter();
-        errorReporter.reportError("document.newMaintainableObject.unitNumber", 
-                        UNIT_ID_INVALID_ERROR_KEY,
-                        new String[]{});
-      
+        errorReporter.reportError("document.newMaintainableObject.unitNumber",
+                UNIT_ID_INVALID_ERROR_KEY,
+                new String[]{});
+
     }
 
-    
     private void reportInvalidPrincipalId(UnitCorrespondent unitCorrespondent) {
         ErrorReporter errorReporter = new ErrorReporter();
-        errorReporter.reportError("document.newMaintainableObject.person.userName", 
-                        PRINCIPAL_ID_INVALID_ERROR_KEY,
-                        new String[]{});
-      
+        errorReporter.reportError("document.newMaintainableObject.person.userName",
+                PRINCIPAL_ID_INVALID_ERROR_KEY,
+                new String[]{});
+
     }
 
-    
     private void reportInvalidCorrespondentTypeCode(UnitCorrespondent unitCorrespondent) {
         ErrorReporter errorReporter = new ErrorReporter();
-        errorReporter.reportError("document.newMaintainableObject.correspondentTypeCode", 
-                        CORRESPONDENT_TYPE_CODE_INVALID_ERROR_KEY,
-                        new String[]{});
-      
+        errorReporter.reportError("document.newMaintainableObject.correspondentTypeCode",
+                CORRESPONDENT_TYPE_CODE_INVALID_ERROR_KEY,
+                new String[]{});
+
     }
 
     private boolean isValidPrincipalId(String principalId) {
         boolean valid = true;
         KcPersonService personService = KraServiceLocator.getService(KcPersonService.class);
-        if ( StringUtils.isEmpty(principalId) ) {
+        if (StringUtils.isEmpty(principalId)) {
             valid = false;
         } else {
             KcPerson person = personService.getKcPersonByPersonId(principalId);
-            if( person == null )  valid=false;
+            if (person == null) {
+                valid = false;
+            }
         }
-        
+
         return valid;
     }
 
-    
     private boolean isUnitIdValid(String unitNumber) {
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> validParams = new HashMap<String, String>();
@@ -128,8 +128,7 @@ public class UnitCorrespondentMaintainableImpl extends KraMaintainableImpl imple
         Map<String, String> validParams = new HashMap<String, String>();
         validParams.put("correspondentTypeCode", correspondentTypeCode.toString());
         return !businessObjectService.findMatching(CorrespondentType.class, validParams).isEmpty();
-        
+
     }
 
-    
 }

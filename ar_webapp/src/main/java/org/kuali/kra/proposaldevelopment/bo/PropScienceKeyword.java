@@ -43,6 +43,7 @@ public class PropScienceKeyword extends KraPersistableBusinessObjectBase impleme
 
     /**
      * Constructs a PropScienceKeyword.
+     *
      * @param proposalNumber
      * @param scienceKeyword
      */
@@ -102,21 +103,36 @@ public class PropScienceKeyword extends KraPersistableBusinessObjectBase impleme
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         PropScienceKeyword other = (PropScienceKeyword) obj;
         if (proposalNumber == null) {
-            if (other.proposalNumber != null) return false;
-        } else if (!proposalNumber.equals(other.proposalNumber)) return false;
+            if (other.proposalNumber != null) {
+                return false;
+            }
+        } else if (!proposalNumber.equals(other.proposalNumber)) {
+            return false;
+        }
         if (scienceKeywordCode == null) {
-            if (other.scienceKeywordCode != null) return false;
-        } else if (!scienceKeywordCode.equals(other.scienceKeywordCode)) return false;
+            if (other.scienceKeywordCode != null) {
+                return false;
+            }
+        } else if (!scienceKeywordCode.equals(other.scienceKeywordCode)) {
+            return false;
+        }
         return true;
     }
 
     /**
-     * Gets the hierarchyProposalNumber attribute. 
+     * Gets the hierarchyProposalNumber attribute.
+     *
      * @return Returns the hierarchyProposalNumber.
      */
     public String getHierarchyProposalNumber() {
@@ -125,6 +141,7 @@ public class PropScienceKeyword extends KraPersistableBusinessObjectBase impleme
 
     /**
      * Sets the hierarchyProposalNumber attribute value.
+     *
      * @param hierarchyProposalNumber The hierarchyProposalNumber to set.
      */
     public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
@@ -132,7 +149,8 @@ public class PropScienceKeyword extends KraPersistableBusinessObjectBase impleme
     }
 
     /**
-     * Gets the hiddenInHierarchy attribute. 
+     * Gets the hiddenInHierarchy attribute.
+     *
      * @return Returns the hiddenInHierarchy.
      */
     public boolean isHiddenInHierarchy() {
@@ -141,6 +159,7 @@ public class PropScienceKeyword extends KraPersistableBusinessObjectBase impleme
 
     /**
      * Sets the hiddenInHierarchy attribute value.
+     *
      * @param hiddenInHierarchy The hiddenInHierarchy to set.
      */
     public void setHiddenInHierarchy(boolean hiddenInHierarchy) {

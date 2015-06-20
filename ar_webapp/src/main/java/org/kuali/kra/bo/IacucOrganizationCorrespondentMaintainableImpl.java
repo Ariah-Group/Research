@@ -58,9 +58,10 @@ public class IacucOrganizationCorrespondentMaintainableImpl extends KraMaintaina
     private static final String ORGANIZATION_ID_INVALID_ERROR_KEY = "error.protocolLocation.organizationId.invalid";
     private static final String PRINCIPAL_ID_INVALID_ERROR_KEY = "error.invalid.unitAdministrator.principalId";
     private static final String CORRESPONDENT_TYPE_CODE_INVALID_ERROR_KEY = "error.invalid.organizationCorrespondent.correspondentType";
-    
+
     /**
-     * @see org.kuali.rice.kns.maintenance.Maintainable#refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document)
+     * @see org.kuali.rice.kns.maintenance.Maintainable#refresh(String
+     * refreshCaller, Map fieldValues, MaintenanceDocument document)
      */
     @Override
     @SuppressWarnings("unchecked")
@@ -72,64 +73,65 @@ public class IacucOrganizationCorrespondentMaintainableImpl extends KraMaintaina
             organizationCorrespondent.setPersonId(principalId);
         }
     }
+
     @Override
     public void prepareForSave() {
-        IacucOrganizationCorrespondent organizationCorrespondent = (IacucOrganizationCorrespondent)this.businessObject;
-        
-        if(!isOrganizationIdValid( organizationCorrespondent.getOrganizationId() )){
+        IacucOrganizationCorrespondent organizationCorrespondent = (IacucOrganizationCorrespondent) this.businessObject;
+
+        if (!isOrganizationIdValid(organizationCorrespondent.getOrganizationId())) {
             reportInvalidOrganizationId(organizationCorrespondent);
         }
-        
-        if(!isCorrespondentTypeCodeValid( organizationCorrespondent.getCorrespondentTypeCode() )){
+
+        if (!isCorrespondentTypeCodeValid(organizationCorrespondent.getCorrespondentTypeCode())) {
             reportInvalidCorrespondentTypeCode(organizationCorrespondent);
         }
-        
-        if( !isValidPrincipalId( organizationCorrespondent.getPersonId() )) {
-            reportInvalidPrincipalId( organizationCorrespondent );
+
+        if (!isValidPrincipalId(organizationCorrespondent.getPersonId())) {
+            reportInvalidPrincipalId(organizationCorrespondent);
         }
-        
+
         super.prepareForSave();
     }
-    
+
     private void reportInvalidOrganizationId(IacucOrganizationCorrespondent organizationCorrespondent) {
         ErrorReporter errorReporter = new ErrorReporter();
-        errorReporter.reportError("document.newMaintainableObject.organizationId", 
-                        ORGANIZATION_ID_INVALID_ERROR_KEY,
-                        new String[]{});
-      
-    }
-    
-    private void reportInvalidPrincipalId(IacucOrganizationCorrespondent organizationCorrespondent) {
-        ErrorReporter errorReporter = new ErrorReporter();
-        errorReporter.reportError("document.newMaintainableObject.person.userName", 
-                        PRINCIPAL_ID_INVALID_ERROR_KEY,
-                        new String[]{});
-      
+        errorReporter.reportError("document.newMaintainableObject.organizationId",
+                ORGANIZATION_ID_INVALID_ERROR_KEY,
+                new String[]{});
+
     }
 
-    
+    private void reportInvalidPrincipalId(IacucOrganizationCorrespondent organizationCorrespondent) {
+        ErrorReporter errorReporter = new ErrorReporter();
+        errorReporter.reportError("document.newMaintainableObject.person.userName",
+                PRINCIPAL_ID_INVALID_ERROR_KEY,
+                new String[]{});
+
+    }
+
     private void reportInvalidCorrespondentTypeCode(IacucOrganizationCorrespondent organizationCorrespondent) {
         ErrorReporter errorReporter = new ErrorReporter();
-        errorReporter.reportError("document.newMaintainableObject.correspondentTypeCode", 
-                        CORRESPONDENT_TYPE_CODE_INVALID_ERROR_KEY,
-                        new String[]{});
-      
+        errorReporter.reportError("document.newMaintainableObject.correspondentTypeCode",
+                CORRESPONDENT_TYPE_CODE_INVALID_ERROR_KEY,
+                new String[]{});
+
     }
 
     private boolean isValidPrincipalId(String principalId) {
         boolean valid = true;
         KcPersonService personService = KraServiceLocator.getService(KcPersonService.class);
-        if ( StringUtils.isEmpty(principalId) ) {
+        if (StringUtils.isEmpty(principalId)) {
             valid = false;
         } else {
             KcPerson person = personService.getKcPersonByPersonId(principalId);
-            if( person == null )  valid=false;
+            if (person == null) {
+                valid = false;
+            }
         }
-        
+
         return valid;
     }
 
-    
     private boolean isOrganizationIdValid(String organizationId) {
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         Map<String, String> validParams = new HashMap<String, String>();
@@ -144,6 +146,4 @@ public class IacucOrganizationCorrespondentMaintainableImpl extends KraMaintaina
         return !businessObjectService.findMatching(IacucCorrespondentType.class, validParams).isEmpty();
     }
 
-  
-    
 }
