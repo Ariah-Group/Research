@@ -76,7 +76,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
-    
+
     private static final String OBLIGATED_START_COMMENT = "Obligated Start";
     private static final String OBLIGATED_END_COMMENT = "Obligated End";
     private static final String PROJECT_END_COMMENT = "Project End";
@@ -87,9 +87,13 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     TransactionRuleImpl transactionRuleImpl;
     private ActivePendingTransactionsService activePendingTransactionsService;
     private TimeAndMoneyVersionService timeAndMoneyVersionService;
-    
+
     /**
-     * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see
+     * org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#save(org.apache.struts.action.ActionMapping,
+     * org.apache.struts.action.ActionForm,
+     * javax.servlet.http.HttpServletRequest,
+     * javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -99,8 +103,8 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         forward = super.save(mapping, form, request, response);
         return forward;
     }
-    
-    private void captureSingleNodeMoneyTransactions(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+
+    private void captureSingleNodeMoneyTransactions(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
@@ -109,7 +113,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         updateAwardAmountTransactions(timeAndMoneyDocument);
         // Capture amount changes in hierarchy view
         if (timeAndMoneyDocument.getAwardHierarchyNodes().size() == 1) {
-            for(Entry<String, AwardHierarchyNode> awardHierarchyNode : timeAndMoneyDocument.getAwardHierarchyNodes().entrySet()){
+            for (Entry<String, AwardHierarchyNode> awardHierarchyNode : timeAndMoneyDocument.getAwardHierarchyNodes().entrySet()) {
                 //Award award = aptService.getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber());
                 Award award = getAwardVersionService().getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber());
                 AwardAmountInfo aai = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
@@ -121,20 +125,20 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                     refreshView(mapping, timeAndMoneyForm, request, response);
                 }
             }
-        }   
+        }
     }
-    
-    private boolean inspectAndCaptureAmountChanges(TimeAndMoneyForm timeAndMoneyForm, AwardAmountInfo aai, Award award, TimeAndMoneyDocument timeAndMoneyDocument, 
-                                                            AwardHierarchyNode awardHierarchyNode,  List<TransactionDetail> moneyTransactionDetailItems) {
-        if(isDirectIndirectViewEnabled()){
+
+    private boolean inspectAndCaptureAmountChanges(TimeAndMoneyForm timeAndMoneyForm, AwardAmountInfo aai, Award award, TimeAndMoneyDocument timeAndMoneyDocument,
+            AwardHierarchyNode awardHierarchyNode, List<TransactionDetail> moneyTransactionDetailItems) {
+        if (isDirectIndirectViewEnabled()) {
             return createAndValidateEnabledViewTransaction(timeAndMoneyForm, aai, award, timeAndMoneyDocument, awardHierarchyNode, moneyTransactionDetailItems);
         } else {
             return createAndValidateDisabledViewTransaction(timeAndMoneyForm, aai, award, timeAndMoneyDocument, awardHierarchyNode, moneyTransactionDetailItems);
         }
     }
-    
-    private boolean createAndValidateEnabledViewTransaction(TimeAndMoneyForm timeAndMoneyForm, AwardAmountInfo aai, Award award, 
-                                                           TimeAndMoneyDocument timeAndMoneyDocument, AwardHierarchyNode ahn, List<TransactionDetail> moneyTransactionDetailItems) {
+
+    private boolean createAndValidateEnabledViewTransaction(TimeAndMoneyForm timeAndMoneyForm, AwardAmountInfo aai, Award award,
+            TimeAndMoneyDocument timeAndMoneyDocument, AwardHierarchyNode ahn, List<TransactionDetail> moneyTransactionDetailItems) {
         boolean result = false;  // assume no change to totals
         AwardHierarchyNode awardHierarchyNode = timeAndMoneyForm.getAwardHierarchyNodeItems().get(1);
         transactionRuleImpl = new TransactionRuleImpl();
@@ -145,57 +149,57 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         KualiDecimal currentObligatedIndirect = aai.getObligatedTotalIndirect();
         KualiDecimal currentAnticipatedDirect = aai.getAnticipatedTotalDirect();
         KualiDecimal currentAnticipatedIndirect = aai.getAnticipatedTotalIndirect();
-        for(PendingTransaction penTran : timeAndMoneyDocument.getPendingTransactions()) {
+        for (PendingTransaction penTran : timeAndMoneyDocument.getPendingTransactions()) {
             // if incoming transaction
-            if (StringUtils.equalsIgnoreCase(penTran.getSourceAwardNumber(),Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
+            if (StringUtils.equalsIgnoreCase(penTran.getSourceAwardNumber(), Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)) {
                 currentObligatedDirect = currentObligatedDirect.add(penTran.getObligatedDirectAmount());
                 currentObligatedIndirect = currentObligatedIndirect.add(penTran.getObligatedIndirectAmount());
                 currentAnticipatedDirect = currentAnticipatedDirect.add(penTran.getAnticipatedDirectAmount());
                 currentAnticipatedIndirect = currentAnticipatedIndirect.add(penTran.getAnticipatedIndirectAmount());
-            } else if (StringUtils.equalsIgnoreCase(penTran.getDestinationAwardNumber(),Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
+            } else if (StringUtils.equalsIgnoreCase(penTran.getDestinationAwardNumber(), Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)) {
                 currentObligatedDirect = currentObligatedDirect.subtract(penTran.getObligatedDirectAmount());
                 currentObligatedIndirect = currentObligatedIndirect.subtract(penTran.getObligatedIndirectAmount());
                 currentAnticipatedDirect = currentAnticipatedDirect.subtract(penTran.getAnticipatedDirectAmount());
                 currentAnticipatedIndirect = currentAnticipatedIndirect.subtract(penTran.getAnticipatedIndirectAmount());
             }
         }
-        if(!awardHierarchyNode.getObligatedTotalDirect().equals(currentObligatedDirect)|| 
-                !awardHierarchyNode.getObligatedTotalIndirect().equals(currentObligatedIndirect) ||
-                    !awardHierarchyNode.getAnticipatedTotalDirect().equals(currentAnticipatedDirect) ||
-                        !awardHierarchyNode.getAnticipatedTotalIndirect().equals(currentAnticipatedIndirect)){
+        if (!awardHierarchyNode.getObligatedTotalDirect().equals(currentObligatedDirect)
+                || !awardHierarchyNode.getObligatedTotalIndirect().equals(currentObligatedIndirect)
+                || !awardHierarchyNode.getAnticipatedTotalDirect().equals(currentAnticipatedDirect)
+                || !awardHierarchyNode.getAnticipatedTotalIndirect().equals(currentAnticipatedIndirect)) {
             KualiDecimal obligatedChangeDirect = awardHierarchyNode.getObligatedTotalDirect().subtract(currentObligatedDirect);
             KualiDecimal obligatedChangeIndirect = awardHierarchyNode.getObligatedTotalIndirect().subtract(currentObligatedIndirect);
             KualiDecimal anticipatedChangeDirect = awardHierarchyNode.getAnticipatedTotalDirect().subtract(currentAnticipatedDirect);
             KualiDecimal anticipatedChangeIndirect = awardHierarchyNode.getAnticipatedTotalIndirect().subtract(currentAnticipatedIndirect);
-            if(transactionRuleImpl.processParameterEnabledRules(awardHierarchyNode, aai, timeAndMoneyDocument)){
+            if (transactionRuleImpl.processParameterEnabledRules(awardHierarchyNode, aai, timeAndMoneyDocument)) {
                 List<Award> awardItems = new ArrayList<Award>();
                 awardItems.add(award);
-            
+
                 if (obligatedChangeDirect.isGreaterThan(new KualiDecimal(0))) {
                     pendingTransaction.setSourceAwardNumber(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
                     pendingTransaction.setDestinationAwardNumber(award.getAwardNumber());
-                }else if (obligatedChangeDirect.isLessThan(new KualiDecimal(0))){
+                } else if (obligatedChangeDirect.isLessThan(new KualiDecimal(0))) {
                     pendingTransaction.setSourceAwardNumber(award.getAwardNumber());
                     pendingTransaction.setDestinationAwardNumber(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
                 }
                 if (obligatedChangeIndirect.isGreaterThan(new KualiDecimal(0))) {
                     pendingTransaction.setSourceAwardNumber(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
                     pendingTransaction.setDestinationAwardNumber(award.getAwardNumber());
-                }else if (obligatedChangeIndirect.isLessThan(new KualiDecimal(0))){
+                } else if (obligatedChangeIndirect.isLessThan(new KualiDecimal(0))) {
                     pendingTransaction.setSourceAwardNumber(award.getAwardNumber());
                     pendingTransaction.setDestinationAwardNumber(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
                 }
                 if (anticipatedChangeDirect.isGreaterThan(new KualiDecimal(0))) {
                     pendingTransaction.setSourceAwardNumber(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
                     pendingTransaction.setDestinationAwardNumber(award.getAwardNumber());
-                }else if (anticipatedChangeDirect.isLessThan(new KualiDecimal(0))){
+                } else if (anticipatedChangeDirect.isLessThan(new KualiDecimal(0))) {
                     pendingTransaction.setSourceAwardNumber(award.getAwardNumber());
                     pendingTransaction.setDestinationAwardNumber(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
                 }
                 if (anticipatedChangeIndirect.isGreaterThan(new KualiDecimal(0))) {
                     pendingTransaction.setSourceAwardNumber(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
                     pendingTransaction.setDestinationAwardNumber(award.getAwardNumber());
-                }else if (anticipatedChangeIndirect.isLessThan(new KualiDecimal(0))){
+                } else if (anticipatedChangeIndirect.isLessThan(new KualiDecimal(0))) {
                     pendingTransaction.setSourceAwardNumber(award.getAwardNumber());
                     pendingTransaction.setDestinationAwardNumber(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
                 }
@@ -210,13 +214,13 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                 pendingTransaction.setSingleNodeTransaction(true);
                 pendingTransaction.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
                 timeAndMoneyDocument.getPendingTransactions().add(pendingTransaction);
-                for(PendingTransaction penTran : timeAndMoneyDocument.getPendingTransactions()) {
+                for (PendingTransaction penTran : timeAndMoneyDocument.getPendingTransactions()) {
                     penTran.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
                 }
                 getBusinessObjectService().save(timeAndMoneyDocument.getPendingTransactions());//need pending transaction to have a primarykey value
                 timeAndMoneyForm.setToPendingView();
                 result = true;
-            }else {
+            } else {
                 ahn.setAmountObligatedToDate(aai.getAmountObligatedToDate().add((obligatedChangeDirect).add(obligatedChangeIndirect)));
                 ahn.setObligatedTotalDirect(awardHierarchyNode.getObligatedTotalDirect());
                 ahn.setObligatedTotalIndirect(awardHierarchyNode.getObligatedTotalIndirect());
@@ -229,9 +233,9 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         }
         return result;
     }
-    
+
     private boolean createAndValidateDisabledViewTransaction(TimeAndMoneyForm timeAndMoneyForm, AwardAmountInfo aai, Award award,
-                                                            TimeAndMoneyDocument timeAndMoneyDocument, AwardHierarchyNode ahn, List<TransactionDetail> moneyTransactionDetailItems) {
+            TimeAndMoneyDocument timeAndMoneyDocument, AwardHierarchyNode ahn, List<TransactionDetail> moneyTransactionDetailItems) {
         boolean result = false;  // assume no change to totals
         AwardHierarchyNode awardHierarchyNode = timeAndMoneyForm.getAwardHierarchyNodeItems().get(1);
         transactionRuleImpl = new TransactionRuleImpl();
@@ -241,35 +245,35 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         // total up "current values" from transactions against current values
         KualiDecimal currentObligated = aai.getAmountObligatedToDate();
         KualiDecimal currentAnticipated = aai.getAnticipatedTotalAmount();
-        for(PendingTransaction penTran : timeAndMoneyDocument.getPendingTransactions()) {
+        for (PendingTransaction penTran : timeAndMoneyDocument.getPendingTransactions()) {
             // if incoming transaction
-            if (StringUtils.equalsIgnoreCase(penTran.getSourceAwardNumber(),Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
+            if (StringUtils.equalsIgnoreCase(penTran.getSourceAwardNumber(), Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)) {
                 currentObligated = currentObligated.add(penTran.getObligatedAmount());
                 currentAnticipated = currentAnticipated.add(penTran.getAnticipatedAmount());
-            } else if (StringUtils.equalsIgnoreCase(penTran.getDestinationAwardNumber(),Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
+            } else if (StringUtils.equalsIgnoreCase(penTran.getDestinationAwardNumber(), Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)) {
                 currentObligated = currentObligated.subtract(penTran.getObligatedAmount());
                 currentAnticipated = currentAnticipated.subtract(penTran.getAnticipatedAmount());
             }
         }
-        if(!awardHierarchyNode.getAmountObligatedToDate().equals(currentObligated)
-                || !awardHierarchyNode.getAnticipatedTotalAmount().equals(currentAnticipated)){
+        if (!awardHierarchyNode.getAmountObligatedToDate().equals(currentObligated)
+                || !awardHierarchyNode.getAnticipatedTotalAmount().equals(currentAnticipated)) {
             KualiDecimal obligatedChange = awardHierarchyNode.getAmountObligatedToDate().subtract(currentObligated);
             KualiDecimal anticipatedChange = awardHierarchyNode.getAnticipatedTotalAmount().subtract(currentAnticipated);
-            if(transactionRuleImpl.processParameterDisabledRules(awardHierarchyNode, aai, timeAndMoneyDocument)){
-                List<Award> awardItems = new ArrayList<Award>();
-                awardItems.add(award);
-            
+            if (transactionRuleImpl.processParameterDisabledRules(awardHierarchyNode, aai, timeAndMoneyDocument)) {
+               // List<Award> awardItems = new ArrayList<Award>();
+                //awardItems.add(award);
+
                 if (obligatedChange.isGreaterThan(new KualiDecimal(0))) {
                     pendingTransaction.setSourceAwardNumber(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
                     pendingTransaction.setDestinationAwardNumber(award.getAwardNumber());
-                }else if (obligatedChange.isLessThan(new KualiDecimal(0))){
+                } else if (obligatedChange.isLessThan(new KualiDecimal(0))) {
                     pendingTransaction.setSourceAwardNumber(award.getAwardNumber());
                     pendingTransaction.setDestinationAwardNumber(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
                 }
                 if (anticipatedChange.isGreaterThan(new KualiDecimal(0))) {
                     pendingTransaction.setSourceAwardNumber(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
                     pendingTransaction.setDestinationAwardNumber(award.getAwardNumber());
-                }else if (anticipatedChange.isLessThan(new KualiDecimal(0))){
+                } else if (anticipatedChange.isLessThan(new KualiDecimal(0))) {
                     pendingTransaction.setSourceAwardNumber(award.getAwardNumber());
                     pendingTransaction.setDestinationAwardNumber(Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT);
                 }
@@ -278,13 +282,13 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                 pendingTransaction.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
                 pendingTransaction.setProcessedFlag(false);
                 timeAndMoneyDocument.getPendingTransactions().add(pendingTransaction);
-                for(PendingTransaction penTran : timeAndMoneyDocument.getPendingTransactions()) {
+                for (PendingTransaction penTran : timeAndMoneyDocument.getPendingTransactions()) {
                     penTran.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
                 }
                 getBusinessObjectService().save(timeAndMoneyDocument.getPendingTransactions());//need pending transaction to have a primarykey value
                 timeAndMoneyForm.setToPendingView();
                 result = true;
-            }else {
+            } else {
                 ahn.setAmountObligatedToDate(awardHierarchyNode.getAmountObligatedToDate());
                 ahn.setObliDistributableAmount(awardHierarchyNode.getObliDistributableAmount());
                 ahn.setAnticipatedTotalAmount(awardHierarchyNode.getAnticipatedTotalAmount());
@@ -293,8 +297,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         }
         return result;
     }
-    
-    
+
     private void captureDateChangeTransactions(ActionForm form) throws WorkflowException {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
@@ -305,17 +308,17 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         boolean isNoCostExtension;
         if (timeAndMoneyDocument.getAwardAmountTransactions().get(0).getTransactionTypeCode() == null) {
             isNoCostExtension = false;
-        }else {
+        } else {
             isNoCostExtension = timeAndMoneyDocument.getAwardAmountTransactions().get(0).getTransactionTypeCode().equals(TEN);//Transaction type code for No Cost Extension
-        }       
+        }
         //if Dates have changed in a node in hierarchy view and the Transaction Type is a No Cost Extension,
         //we need to record this as a transaction in history.
         //build the transaction and add to this list for persistence later.
         List<TransactionDetail> dateChangeTransactionDetailItems = new ArrayList<TransactionDetail>();
-        
+
         updateDocumentFromSession(timeAndMoneyDocument);//not sure if I need to do this.
         updateAwardAmountTransactions(timeAndMoneyDocument);
-        for(Entry<String, AwardHierarchyNode> awardHierarchyNode : timeAndMoneyDocument.getAwardHierarchyNodes().entrySet()){
+        for (Entry<String, AwardHierarchyNode> awardHierarchyNode : timeAndMoneyDocument.getAwardHierarchyNodes().entrySet()) {
             //Award award = aptService.getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber()); 
             Award award = getAwardVersionService().getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber());
             int index = findAwardHierarchyNodeIndex(awardHierarchyNode);
@@ -327,11 +330,11 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             aai = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());//get new award amount info if date change transactions have been created.
             needToSaveAward |= inspectAndCaptureFinalExpirationDateChanges(timeAndMoneyForm, isNoCostExtension, aai, index, award, timeAndMoneyDocument, awardHierarchyNode, dateChangeTransactionDetailItems);
             //capture any changes of DirectFandADistributions, and add them to the Award working version for persistence.
-            if(award.getAwardNumber().equals(timeAndMoneyDocument.getAward().getAwardNumber())) {
+            if (award.getAwardNumber().equals(timeAndMoneyDocument.getAward().getAwardNumber())) {
                 //must use documentService to save the award document. businessObjectService.save() builds deletion award list on T&M doc and we
                 //need it to be wired up on AwardDocument so that any deletes from collection will be caught and persisted correctly.
                 AwardDocument awardDocument = (AwardDocument) documentService.getByDocumentHeaderId(award.getAwardDocument().getDocumentNumber());
-                if (mustSetFandADistributions(awardDocument.getAward().getAwardDirectFandADistributions(),timeAndMoneyDocument.getAward().getAwardDirectFandADistributions())) {
+                if (mustSetFandADistributions(awardDocument.getAward().getAwardDirectFandADistributions(), timeAndMoneyDocument.getAward().getAwardDirectFandADistributions())) {
                     awardDocument.getAward().setAwardDirectFandADistributions(timeAndMoneyDocument.getAward().getAwardDirectFandADistributions());
                     documentService.saveDocument(awardDocument);
                     needToSaveAward = true;
@@ -349,169 +352,174 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         getBusinessObjectService().save(dateChangeTransactionDetailItems);
         timeAndMoneyDocument.getAward().refreshReferenceObject("awardAmountInfos");//don't think I need to do this.
     }
-        
+
     /**
-     *Date changes in hierarchy view are captured here.  If the transaction is a No Cost Extension, we report the transaction
-     *details for display in history tab.
+     * Date changes in hierarchy view are captured here. If the transaction is a
+     * No Cost Extension, we report the transaction details for display in
+     * history tab.
      */
     protected boolean inspectAndCaptureCurrentFundEffectiveDateChanges(TimeAndMoneyForm timeAndMoneyForm, Boolean isNoCostExtension, AwardAmountInfo aai, Integer index,
-                                                        Award award, TimeAndMoneyDocument timeAndMoneyDocument, Entry<String, AwardHierarchyNode> awardHierarchyNode,
-                                                        List<TransactionDetail> dateChangeTransactionDetailItems) {
-        
+            Award award, TimeAndMoneyDocument timeAndMoneyDocument, Entry<String, AwardHierarchyNode> awardHierarchyNode,
+            List<TransactionDetail> dateChangeTransactionDetailItems) {
+
         Date currentEffectiveDate = timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate();
         Date previousEffectiveDate = aai.getCurrentFundEffectiveDate();
         boolean needToSave = false;
-        if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).isPopulatedFromClient() 
-            && currentEffectiveDate !=null && !currentEffectiveDate.equals(previousEffectiveDate)){
-         
+        if (timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).isPopulatedFromClient()
+                && currentEffectiveDate != null && !currentEffectiveDate.equals(previousEffectiveDate)) {
+
             //aai.getCurrentFundEffectiveDate == null and this throws a stack trace only when doign a before
             // if current transaction currentFEDate is < previosu trans currentFEDate
-            if (isNoCostExtension &&  previousEffectiveDate != null && currentEffectiveDate.before(previousEffectiveDate) ) {
-                        AwardAmountInfo tempAai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
-                        needToSave = true;
-                        aai = tempAai;
-                        aai.setCurrentFundEffectiveDate(currentEffectiveDate);
-                        awardHierarchyNode.getValue().setCurrentFundEffectiveDate(currentEffectiveDate);
-                        award.getAwardAmountInfos().add(aai);
-                        addTransactionDetails(aai.getAwardNumber(), aai.getAwardNumber(), aai.getSequenceNumber(), timeAndMoneyDocument.getAwardNumber(),
-                                                timeAndMoneyDocument.getDocumentNumber(), OBLIGATED_START_COMMENT, dateChangeTransactionDetailItems);
+            if (isNoCostExtension && previousEffectiveDate != null && currentEffectiveDate.before(previousEffectiveDate)) {
+                AwardAmountInfo tempAai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
+                needToSave = true;
+                aai = tempAai;
+                aai.setCurrentFundEffectiveDate(currentEffectiveDate);
+                awardHierarchyNode.getValue().setCurrentFundEffectiveDate(currentEffectiveDate);
+                award.getAwardAmountInfos().add(aai);
+                addTransactionDetails(aai.getAwardNumber(), aai.getAwardNumber(), aai.getSequenceNumber(), timeAndMoneyDocument.getAwardNumber(),
+                        timeAndMoneyDocument.getDocumentNumber(), OBLIGATED_START_COMMENT, dateChangeTransactionDetailItems);
             } else {
-                    AwardAmountInfo tempAai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
-                    needToSave = true;
-                    aai = tempAai;
-                    aai.setCurrentFundEffectiveDate(currentEffectiveDate);
-                    awardHierarchyNode.getValue().setCurrentFundEffectiveDate(currentEffectiveDate);
-                    award.getAwardAmountInfos().add(aai);
+                AwardAmountInfo tempAai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
+                needToSave = true;
+                aai = tempAai;
+                aai.setCurrentFundEffectiveDate(currentEffectiveDate);
+                awardHierarchyNode.getValue().setCurrentFundEffectiveDate(currentEffectiveDate);
+                award.getAwardAmountInfos().add(aai);
             }
         } else if (timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).isPopulatedFromClient() && currentEffectiveDate == null) {
-          //FYI, this will show an erorr to the user, we are doing this such they can see the error, and that they had put in a null value
+            //FYI, this will show an erorr to the user, we are doing this such they can see the error, and that they had put in a null value
             awardHierarchyNode.getValue().setCurrentFundEffectiveDate(null);
         }
         //special case where a user can enter an invalid date that will throw a hard error.  If the user tries to change that date back
         //to the original date, we need to capture that and change the value on the document which is the date value that gets validated
         //in save rules.
-        if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate()!=null && 
-                timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate() != null &&
-                timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate().equals(aai.getCurrentFundEffectiveDate()) &&
-                !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate().equals(awardHierarchyNode.getValue().getCurrentFundEffectiveDate())) {
+        if (timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate() != null
+                && timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate() != null
+                && timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate().equals(aai.getCurrentFundEffectiveDate())
+                && !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate().equals(awardHierarchyNode.getValue().getCurrentFundEffectiveDate())) {
             awardHierarchyNode.getValue().setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
         }
         return needToSave;
     }
-    
+
     /**
-     *Date changes in hierarchy view are captured here.  If the transaction is a No Cost Extension, we report the transaction
-     *details for display in history tab.
+     * Date changes in hierarchy view are captured here. If the transaction is a
+     * No Cost Extension, we report the transaction details for display in
+     * history tab.
      */
     protected boolean inspectAndCaptureObligationExpirationDateChanges(TimeAndMoneyForm timeAndMoneyForm, Boolean isNoCostExtension, AwardAmountInfo aai, Integer index,
-                                                        Award award, TimeAndMoneyDocument timeAndMoneyDocument, Entry<String, AwardHierarchyNode> awardHierarchyNode,
-                                                        List<TransactionDetail> dateChangeTransactionDetailItems) {
+            Award award, TimeAndMoneyDocument timeAndMoneyDocument, Entry<String, AwardHierarchyNode> awardHierarchyNode,
+            List<TransactionDetail> dateChangeTransactionDetailItems) {
         boolean needToSave = false;
         Date previousObligationExpirationDate = aai.getObligationExpirationDate();
         Date currentObligationExpirationDate = timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate();
-      
-        if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).isPopulatedFromClient()
-                && currentObligationExpirationDate !=null 
-                && !currentObligationExpirationDate.equals(previousObligationExpirationDate)){
+
+        if (timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).isPopulatedFromClient()
+                && currentObligationExpirationDate != null
+                && !currentObligationExpirationDate.equals(previousObligationExpirationDate)) {
             // previousObligationExpirationDate is null
-            if (isNoCostExtension && (previousObligationExpirationDate == null || 
-                    currentObligationExpirationDate.after(previousObligationExpirationDate))) {
-                        AwardAmountInfo tempAai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
-                        aai = tempAai;
-                        aai.setObligationExpirationDate(currentObligationExpirationDate);
-                        awardHierarchyNode.getValue().setObligationExpirationDate(currentObligationExpirationDate);
-                        award.getAwardAmountInfos().add(aai);
-                        addTransactionDetails(aai.getAwardNumber(), aai.getAwardNumber(), aai.getSequenceNumber(), timeAndMoneyDocument.getAwardNumber(),
-                                                    timeAndMoneyDocument.getDocumentNumber(), OBLIGATED_END_COMMENT, dateChangeTransactionDetailItems);
-            }else {AwardAmountInfo tempAai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
-                    aai = tempAai;
-                    aai.setObligationExpirationDate(currentObligationExpirationDate);
-                    awardHierarchyNode.getValue().setObligationExpirationDate(currentObligationExpirationDate);
-                    award.getAwardAmountInfos().add(aai);
+            if (isNoCostExtension && (previousObligationExpirationDate == null
+                    || currentObligationExpirationDate.after(previousObligationExpirationDate))) {
+                AwardAmountInfo tempAai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
+                aai = tempAai;
+                aai.setObligationExpirationDate(currentObligationExpirationDate);
+                awardHierarchyNode.getValue().setObligationExpirationDate(currentObligationExpirationDate);
+                award.getAwardAmountInfos().add(aai);
+                addTransactionDetails(aai.getAwardNumber(), aai.getAwardNumber(), aai.getSequenceNumber(), timeAndMoneyDocument.getAwardNumber(),
+                        timeAndMoneyDocument.getDocumentNumber(), OBLIGATED_END_COMMENT, dateChangeTransactionDetailItems);
+            } else {
+                AwardAmountInfo tempAai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
+                aai = tempAai;
+                aai.setObligationExpirationDate(currentObligationExpirationDate);
+                awardHierarchyNode.getValue().setObligationExpirationDate(currentObligationExpirationDate);
+                award.getAwardAmountInfos().add(aai);
             }
             needToSave = true;
         } else if (timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).isPopulatedFromClient()
                 && currentObligationExpirationDate == null) {
-          //FYI, this will show an error to the user, we are doing this such they can see the error, and that they had put in a null value
+            //FYI, this will show an error to the user, we are doing this such they can see the error, and that they had put in a null value
             awardHierarchyNode.getValue().setObligationExpirationDate(null);
         }
-        
+
         //special case where a user can enter an invalid date that will throw a hard error.  If the user tries to change that date back
         //to the original date, we need to capture that and change the value on the document which is the date value that gets validated
         //in save rules.
-        if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate()!=null && 
-                currentObligationExpirationDate != null &&
-                currentObligationExpirationDate.equals(previousObligationExpirationDate) &&
-                !currentObligationExpirationDate.equals(awardHierarchyNode.getValue().getObligationExpirationDate())) {
+        if (timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate() != null
+                && currentObligationExpirationDate != null
+                && currentObligationExpirationDate.equals(previousObligationExpirationDate)
+                && !currentObligationExpirationDate.equals(awardHierarchyNode.getValue().getObligationExpirationDate())) {
             awardHierarchyNode.getValue().setObligationExpirationDate(currentObligationExpirationDate);
         }
         return needToSave;
     }
-    
+
     /**
-     *Date changes in hierarchy view are captured here.  If the transaction is a No Cost Extension, we report the transaction
-     *details for display in history tab.
+     * Date changes in hierarchy view are captured here. If the transaction is a
+     * No Cost Extension, we report the transaction details for display in
+     * history tab.
      */
     protected boolean inspectAndCaptureFinalExpirationDateChanges(TimeAndMoneyForm timeAndMoneyForm, Boolean isNoCostExtension, AwardAmountInfo aai, Integer index,
-                                                        Award award, TimeAndMoneyDocument timeAndMoneyDocument, Entry<String, AwardHierarchyNode> awardHierarchyNode,
-                                                        List<TransactionDetail> dateChangeTransactionDetailItems) {
-       
+            Award award, TimeAndMoneyDocument timeAndMoneyDocument, Entry<String, AwardHierarchyNode> awardHierarchyNode,
+            List<TransactionDetail> dateChangeTransactionDetailItems) {
+
         boolean needToSave = false;
-        if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).isPopulatedFromClient()
-                && timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate()!=null 
-                && !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().equals(aai.getFinalExpirationDate())){ 
-          if (isNoCostExtension && 
-                  timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().after(aai.getFinalExpirationDate())) {
-                      AwardAmountInfo tempAai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
-                      aai = tempAai;
-                      aai.setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
-                      awardHierarchyNode.getValue().setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
-                      award.getAwardAmountInfos().add(aai);
-                      addTransactionDetails(aai.getAwardNumber(), aai.getAwardNumber(), aai.getSequenceNumber(), timeAndMoneyDocument.getAwardNumber(),
-                                              timeAndMoneyDocument.getDocumentNumber(), PROJECT_END_COMMENT, dateChangeTransactionDetailItems);
-          }else {AwardAmountInfo tempAai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
-                  aai = tempAai;
-                  aai.setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
-                  awardHierarchyNode.getValue().setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
-                  award.getAwardAmountInfos().add(aai);
-          }
-          needToSave = true;
-      } else if (timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).isPopulatedFromClient()
-              && timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate() == null) {
-          //FYI, this will show an erorr to the user, we are doing this such they can see the error, and that they had put in a null value
-          awardHierarchyNode.getValue().setFinalExpirationDate(null);
-      }
+        if (timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).isPopulatedFromClient()
+                && timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate() != null
+                && !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().equals(aai.getFinalExpirationDate())) {
+            if (isNoCostExtension
+                    && timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().after(aai.getFinalExpirationDate())) {
+                AwardAmountInfo tempAai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
+                aai = tempAai;
+                aai.setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
+                awardHierarchyNode.getValue().setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
+                award.getAwardAmountInfos().add(aai);
+                addTransactionDetails(aai.getAwardNumber(), aai.getAwardNumber(), aai.getSequenceNumber(), timeAndMoneyDocument.getAwardNumber(),
+                        timeAndMoneyDocument.getDocumentNumber(), PROJECT_END_COMMENT, dateChangeTransactionDetailItems);
+            } else {
+                AwardAmountInfo tempAai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
+                aai = tempAai;
+                aai.setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
+                awardHierarchyNode.getValue().setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
+                award.getAwardAmountInfos().add(aai);
+            }
+            needToSave = true;
+        } else if (timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).isPopulatedFromClient()
+                && timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate() == null) {
+            //FYI, this will show an erorr to the user, we are doing this such they can see the error, and that they had put in a null value
+            awardHierarchyNode.getValue().setFinalExpirationDate(null);
+        }
       //special case where a user can enter an invalid date that will throw a hard error.  If the user tries to change that date back
-      //to the original date, we need to capture that and change the value on the document which is the date value that gets validated
-      //in save rules.
-      if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate()!=null && 
-              timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate() != null &&
-              timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().equals(aai.getFinalExpirationDate()) &&
-              !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().equals(awardHierarchyNode.getValue().getFinalExpirationDate())) {
-          awardHierarchyNode.getValue().setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
-      }
-      return needToSave;
+        //to the original date, we need to capture that and change the value on the document which is the date value that gets validated
+        //in save rules.
+        if (timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate() != null
+                && timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate() != null
+                && timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().equals(aai.getFinalExpirationDate())
+                && !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().equals(awardHierarchyNode.getValue().getFinalExpirationDate())) {
+            awardHierarchyNode.getValue().setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
+        }
+        return needToSave;
     }
-    
+
     /* 
      * check for changes to Direct F and A Distribution lists, if any differences, then we need to save them in the current Award.
      */
     private boolean mustSetFandADistributions(List<AwardDirectFandADistribution> awardFandADistributions, List<AwardDirectFandADistribution> tAndMFandADistributions) {
         boolean needToSave = false;
-         for (AwardDirectFandADistribution awardDistribution: awardFandADistributions) {
-             boolean found = false;
-             for (AwardDirectFandADistribution tAndMDistribution: tAndMFandADistributions) {
-                 if (awardDistribution.equals(tAndMDistribution)) {
-                     found = true;
-                 }
-             }
-             if (!found) {
-                 needToSave = true;
-             }
-         }
-         return needToSave;
-     }
-    
+        for (AwardDirectFandADistribution awardDistribution : awardFandADistributions) {
+            boolean found = false;
+            for (AwardDirectFandADistribution tAndMDistribution : tAndMFandADistributions) {
+                if (awardDistribution.equals(tAndMDistribution)) {
+                    found = true;
+                }
+            }
+            if (!found) {
+                needToSave = true;
+            }
+        }
+        return needToSave;
+    }
+
     /*
      * 
      * This method creates a transactionDetail object and adds it to the list for persistence later.
@@ -524,8 +532,8 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
      * @param documentNumber
      * @param transactionDetailItems
      */
-    protected void addTransactionDetails(String sourceAwardNumber, String destinationAwardNumber, Integer sequenceNumber, String currentAwardNumber, String documentNumber, 
-            String commentsString, List<TransactionDetail> transactionDetailItems){
+    protected void addTransactionDetails(String sourceAwardNumber, String destinationAwardNumber, Integer sequenceNumber, String currentAwardNumber, String documentNumber,
+            String commentsString, List<TransactionDetail> transactionDetailItems) {
         TransactionDetail transactionDetail = new TransactionDetail();
         transactionDetail.setSourceAwardNumber(sourceAwardNumber);
         transactionDetail.setSequenceNumber(sequenceNumber);
@@ -538,13 +546,13 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         transactionDetail.setComments(commentsString);
         transactionDetailItems.add(transactionDetail);
     }
-    
+
     /*
      * add money to amount info Totals, and Distributables.
      * 
      */
-    private AwardAmountInfo getNewAwardAmountInfoForDateChangeTransaction(AwardAmountInfo awardAmountInfo,  Award award, String documentNumber) {
-        
+    private AwardAmountInfo getNewAwardAmountInfoForDateChangeTransaction(AwardAmountInfo awardAmountInfo, Award award, String documentNumber) {
+
         AwardAmountInfo newAwardAmountInfo = new AwardAmountInfo();
         newAwardAmountInfo.setAwardNumber(awardAmountInfo.getAwardNumber());
         newAwardAmountInfo.setSequenceNumber(award.getSequenceNumber());
@@ -554,7 +562,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         newAwardAmountInfo.setTimeAndMoneyDocumentNumber(documentNumber);
         newAwardAmountInfo.setTransactionId(null);
         newAwardAmountInfo.setAward(award);
-       //add transaction amounts to the AmountInfo
+        //add transaction amounts to the AmountInfo
         newAwardAmountInfo.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount());
         newAwardAmountInfo.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate());
         newAwardAmountInfo.setObligatedTotalDirect(awardAmountInfo.getObligatedTotalDirect());
@@ -571,19 +579,19 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
 
         return newAwardAmountInfo;
     }
-    
+
     private void updateAwardAmountTransactions(TimeAndMoneyDocument timeAndMoneyDocument) {
         AwardAmountTransaction aat = timeAndMoneyDocument.getNewAwardAmountTransaction();
-        if(!(aat == null)) {
-            if (timeAndMoneyDocument.getAwardAmountTransactions().size() == 0 ||
-                    (timeAndMoneyDocument.getAwardAmountTransactions().size() == 1 && 
-                            timeAndMoneyDocument.getAwardAmountTransactions().get(0).getTransactionTypeCode() == null)) {
+        if (!(aat == null)) {
+            if (timeAndMoneyDocument.getAwardAmountTransactions().size() == 0
+                    || (timeAndMoneyDocument.getAwardAmountTransactions().size() == 1
+                    && timeAndMoneyDocument.getAwardAmountTransactions().get(0).getTransactionTypeCode() == null)) {
                 aat.setAwardNumber(timeAndMoneyDocument.getAwardNumber());
                 aat.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
                 timeAndMoneyDocument.getAwardAmountTransactions().set(0, aat);
-            }else {
+            } else {
                 AwardAmountTransaction firstAatInList = timeAndMoneyDocument.getAwardAmountTransactions().get(0);
-                for(AwardAmountTransaction awardAmountTransaction : timeAndMoneyDocument.getAwardAmountTransactions()) {
+                for (AwardAmountTransaction awardAmountTransaction : timeAndMoneyDocument.getAwardAmountTransactions()) {
                     awardAmountTransaction.setTransactionTypeCode(firstAatInList.getTransactionTypeCode());
                     awardAmountTransaction.setNoticeDate(firstAatInList.getNoticeDate());
                     awardAmountTransaction.setComments(firstAatInList.getComments());
@@ -600,7 +608,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         int index = Integer.parseInt(i);
         return index;
     }
-    
+
     /*
      * override route to call save before we route.
      */
@@ -611,53 +619,62 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         save(mapping, form, request, response);
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
-        actionForward = super.route(mapping, form, request, response);  
+        actionForward = super.route(mapping, form, request, response);
         // save report tracking items
         saveReportTrackingItems(timeAndMoneyForm);
-        
+
         String routeHeaderId = timeAndMoneyForm.getDocument().getDocumentNumber();
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_AWARD_TIME_AND_MONEY_PAGE, "TimeAndMoneyDocument");
-        
+
         ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(basicForward, actionForward, holdingPageForward, returnLocation);
     }
-    
+
     protected void saveReportTrackingItems(TimeAndMoneyForm timeAndMoneyForm) throws ParseException {
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
         Award award = timeAndMoneyDocument.getAward();
         getReportTrackingService().generateReportTrackingAndSave(award, true);
     }
-        
+
     /**
      * override to call save before we blanket approve.
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#blanketApprove(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     *
+     * @see
+     * org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#blanketApprove(org.apache.struts.action.ActionMapping,
+     * org.apache.struts.action.ActionForm,
+     * javax.servlet.http.HttpServletRequest,
+     * javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ActionForward actionForward;
         save(mapping, form, request, response);
-        actionForward = super.blanketApprove(mapping, form, request, response);      
-        
+        actionForward = super.blanketApprove(mapping, form, request, response);
+
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         saveReportTrackingItems(timeAndMoneyForm);
 
         String routeHeaderId = timeAndMoneyForm.getDocument().getDocumentNumber();
-        
+
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_AWARD_TIME_AND_MONEY_PAGE, "TimeAndMoneyDocument");
         ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(basicForward, actionForward, holdingPageForward, returnLocation);
     }
-    
-    
-    
 
     /**
-     * must remove all award amount infos corresponding to this document.  Date changes create and add new Award Amount Info.  Pending Transactions
-     * do not create new Award Amount Info until the document is routed or blanket approved.
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#cancel(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * must remove all award amount infos corresponding to this document. Date
+     * changes create and add new Award Amount Info. Pending Transactions do not
+     * create new Award Amount Info until the document is routed or blanket
+     * approved.
+     *
+     * @see
+     * org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#cancel(org.apache.struts.action.ActionMapping,
+     * org.apache.struts.action.ActionForm,
+     * javax.servlet.http.HttpServletRequest,
+     * javax.servlet.http.HttpServletResponse)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -674,8 +691,8 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             Award award = getAwardVersionService().getWorkingAwardVersion(awardHierarchy.getAwardNumber());
             List<AwardAmountInfo> deleteCollection = new ArrayList<AwardAmountInfo>();
             for (AwardAmountInfo awardAmountInfo : award.getAwardAmountInfos()) {
-                if(!(awardAmountInfo.getTimeAndMoneyDocumentNumber() == null)) {
-                    if(awardAmountInfo.getTimeAndMoneyDocumentNumber().equals(timeAndMoneyDocument.getDocumentNumber())) {
+                if (!(awardAmountInfo.getTimeAndMoneyDocumentNumber() == null)) {
+                    if (awardAmountInfo.getTimeAndMoneyDocumentNumber().equals(timeAndMoneyDocument.getDocumentNumber())) {
                         deleteCollection.add(awardAmountInfo);
                     }
                 }
@@ -683,16 +700,17 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             getBusinessObjectService().delete(deleteCollection);
             deleteCollection.clear();
         }
-        actionForward = super.cancel(mapping, form, request, response);   
-        
+        actionForward = super.cancel(mapping, form, request, response);
+
         return actionForward;
     }
 
     /**
-     * 
-     * This method refreshes the view depending on various view options like either active or pending view or dates only, totals and 
-     * distributed/distributable. 
-     * 
+     *
+     * This method refreshes the view depending on various view options like
+     * either active or pending view or dates only, totals and
+     * distributed/distributable.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -704,30 +722,30 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         TimeAndMoneyDocument doc = timeAndMoneyForm.getTimeAndMoneyDocument();
         //perform this logic if pending view
-        if(StringUtils.equalsIgnoreCase(timeAndMoneyForm.getCurrentOrPendingView(), TimeAndMoneyForm.PENDING)){
-            
+        if (StringUtils.equalsIgnoreCase(timeAndMoneyForm.getCurrentOrPendingView(), TimeAndMoneyForm.PENDING)) {
+
             Map<String, AwardAmountTransaction> awardAmountTransactionItems = new HashMap<String, AwardAmountTransaction>();
             List<Award> awardItems = new ArrayList<Award>();
             List<TransactionDetail> transactionDetailItems = new ArrayList<TransactionDetail>();
-            
+
             updateDocumentFromSession(doc);
 
             //added refreshFlag boolean to service method. If doing a refresh, we don't want to reset the processed flag.  Only when T&M doc is routed for approval.
             getActivePendingTransactionsService().processTransactions(doc, doc.getAwardAmountTransactions().get(0), awardAmountTransactionItems, awardItems, transactionDetailItems, true);
-            GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION, doc);
+            GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId() + Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION, doc);
             //doc.refreshReferenceObject(PENDING_TRANSACTIONS_ATTRIBUTE_NAME);
-        //perform this logic if active view
-        } else if(StringUtils.equalsIgnoreCase(timeAndMoneyForm.getCurrentOrPendingView(), TimeAndMoneyForm.CURRENT)){
+            //perform this logic if active view
+        } else if (StringUtils.equalsIgnoreCase(timeAndMoneyForm.getCurrentOrPendingView(), TimeAndMoneyForm.CURRENT)) {
             timeAndMoneyForm.setOrder(new ArrayList<String>());
-            
+
             Award tmpAward = getCurrentAward(doc);
             doc.setAwardHierarchyItems(getAwardHierarchyService().getAwardHierarchy(doc.getRootAwardNumber(), timeAndMoneyForm.getOrder()));
-            if(tmpAward != null) {
+            if (tmpAward != null) {
                 getAwardHierarchyService().populateAwardHierarchyNodesForTandMDoc(doc.getAwardHierarchyItems(), doc.getAwardHierarchyNodes(), tmpAward.getAwardNumber(), tmpAward.getSequenceNumber().toString(), timeAndMoneyForm.getTimeAndMoneyDocument());
             } else {
                 getAwardHierarchyService().populateAwardHierarchyNodesForTandMDoc(doc.getAwardHierarchyItems(), doc.getAwardHierarchyNodes(), null, null, timeAndMoneyForm.getTimeAndMoneyDocument());
             }
-            GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION, doc);
+            GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId() + Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION, doc);
         }
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }
@@ -737,31 +755,33 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
      * @param doc
      */
     private void updateDocumentFromSession(TimeAndMoneyDocument doc) {
-        if(doc.getAwardHierarchyNodes()==null || doc.getAwardHierarchyNodes().size()==0){
-            if(GlobalVariables.getUserSession().retrieveObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION)!=null){
-                TimeAndMoneyDocument document = (TimeAndMoneyDocument)GlobalVariables.getUserSession().retrieveObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION);
+        if (doc.getAwardHierarchyNodes() == null || doc.getAwardHierarchyNodes().size() == 0) {
+            if (GlobalVariables.getUserSession().retrieveObject(GlobalVariables.getUserSession().getKualiSessionId() + Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION) != null) {
+                TimeAndMoneyDocument document = (TimeAndMoneyDocument) GlobalVariables.getUserSession().retrieveObject(GlobalVariables.getUserSession().getKualiSessionId() + Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION);
                 doc.setAwardHierarchyItems(document.getAwardHierarchyItems());
                 doc.setAwardHierarchyNodes(document.getAwardHierarchyNodes());
-            }else {
+            } else {
                 throw new RuntimeException("Can't Retrieve Time And Money Document from Session");
             }
         }
     }
-    
+
     private Award getCurrentAward(TimeAndMoneyDocument timeAndMoneyDocument) {
         Award tmpAward = timeAndMoneyDocument.getAward();
-        if(tmpAward == null) {
+        if (tmpAward == null) {
             tmpAward = getAwardVersionService().getWorkingAwardVersion(timeAndMoneyDocument.getAwardNumber());
         }
-        
+
         return tmpAward;
     }
-    
-   
-    
+
     /**
-     * 
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     *
+     * @see
+     * org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
+     * org.apache.struts.action.ActionForm,
+     * javax.servlet.http.HttpServletRequest,
+     * javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -773,39 +793,38 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
 //        if ("timeAndMoney".equals(command)) {
 //            forward = home(mapping, timeAndMoneyForm, request, response);
 //        }
-        timeAndMoneyForm.initializeFormOrDocumentBasedOnCommand();        
+        timeAndMoneyForm.initializeFormOrDocumentBasedOnCommand();
         String rootAwardNumber = timeAndMoneyForm.getTimeAndMoneyDocument().getRootAwardNumber();
-                
+
         timeAndMoneyDocument.setAwardHierarchyItems(getAwardHierarchyService().getAwardHierarchy(rootAwardNumber, timeAndMoneyForm.getOrder()));
-        timeAndMoneyDocument.setAwardNumber(rootAwardNumber);  
-        
+        timeAndMoneyDocument.setAwardNumber(rootAwardNumber);
+
         Award tmpAward = getCurrentAward(timeAndMoneyDocument);
-        if(tmpAward != null) {
+        if (tmpAward != null) {
             getAwardHierarchyService().populateAwardHierarchyNodesForTandMDoc(timeAndMoneyDocument.getAwardHierarchyItems(), timeAndMoneyDocument.getAwardHierarchyNodes(), tmpAward.getAwardNumber(), tmpAward.getSequenceNumber().toString(), timeAndMoneyForm.getTimeAndMoneyDocument());
         } else {
             getAwardHierarchyService().populateAwardHierarchyNodesForTandMDoc(timeAndMoneyDocument.getAwardHierarchyItems(), timeAndMoneyDocument.getAwardHierarchyNodes(), null, null, timeAndMoneyForm.getTimeAndMoneyDocument());
         }
         //initialize award for summary display to current version of root award
         timeAndMoneyForm.setAwardForSummaryPanelDisplay(tmpAward);
-        
+
         getAwardHierarchyService().createNodeMapsOnFormForSummaryPanel(timeAndMoneyDocument.getAwardHierarchyNodes(), timeAndMoneyForm.getPreviousNodeMap(),
                 timeAndMoneyForm.getNextNodeMap());
 
-        GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION, timeAndMoneyDocument);
-        
+        GlobalVariables.getUserSession().addObject(GlobalVariables.getUserSession().getKualiSessionId() + Constants.TIME_AND_MONEY_DOCUMENT_STRING_FOR_SESSION, timeAndMoneyDocument);
+
         populateOtherPanels(timeAndMoneyForm.getTransactionBean().getNewAwardAmountTransaction(), timeAndMoneyForm, rootAwardNumber);
-        
+
         return forward;
     }
-         
-    
+
     /*
      * This method retrieves AwardHierarchyService
      */
-    protected AwardHierarchyService getAwardHierarchyService(){        
+    protected AwardHierarchyService getAwardHierarchyService() {
         return (AwardHierarchyService) KraServiceLocator.getService(AwardHierarchyService.class);
     }
-    
+
     /**
      * @param mapping
      * @param form
@@ -816,9 +835,9 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
      * @throws Exception
      */
     public ActionForward handleDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-                                  HttpServletResponse response, TimeAndMoneyForm timeAndMoneyForm) throws Exception {
+            HttpServletResponse response, TimeAndMoneyForm timeAndMoneyForm) throws Exception {
         String command = timeAndMoneyForm.getCommand();
-        ActionForward forward = null;        
+        ActionForward forward = null;
         if (KewApiConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
             String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
             Document retrievedDocument = getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
@@ -826,24 +845,24 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);
             ActionForward baseForward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
             forward = new ActionForward(buildForwardStringForActionListCommand(
-                    baseForward.getPath(),docIdRequestParameter));  
+                    baseForward.getPath(), docIdRequestParameter));
         } else if (Constants.MAPPING_AWARD_TIME_AND_MONEY_PAGE.equals(command)) {
             loadDocument(timeAndMoneyForm);
-        }else {
+        } else {
             forward = super.docHandler(mapping, form, request, response);
         }
-        
+
         if (Constants.MAPPING_AWARD_TIME_AND_MONEY_PAGE.equals(command)) {
             forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
-        
+
         return forward;
     }
-    
+
     /**
-     * 
+     *
      * This method adds a new transaction.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -858,12 +877,13 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             timeAndMoneyForm.setToPendingView();
             refreshView(mapping, form, request, response);
         }
-        return mapping.findForward(Constants.MAPPING_BASIC);        
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
-     * 
+     *
      * This method adds a deletes a transaction.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -875,13 +895,14 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         captureDateChangeTransactions(form);
         ((TimeAndMoneyForm) form).getTransactionBean().deletePendingTransactionItem(getLineToDelete(request));
         refreshView(mapping, form, request, response);
-        return mapping.findForward(Constants.MAPPING_BASIC);        
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
-     * 
-     * This method switches the award for history, summary and Action Summary panels.
-     * 
+     *
+     * This method switches the award for history, summary and Action Summary
+     * panels.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -889,13 +910,13 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
      * @return
      * @throws Exception
      */
-    public ActionForward switchAward(ActionMapping mapping, ActionForm form , HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm)form;
+    public ActionForward switchAward(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         String goToAwardNumber = timeAndMoneyForm.getGoToAwardNumber();
-        
+
         populateOtherPanels(timeAndMoneyForm.getTransactionBean().getNewAwardAmountTransaction(), timeAndMoneyForm, goToAwardNumber);
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -921,29 +942,32 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         timeAndMoneyDocument.setAward(award);
 
         TimeAndMoneyHistoryService tamhs = KraServiceLocator.getService(TimeAndMoneyHistoryService.class);
-        
+
         tamhs.getTimeAndMoneyHistory(timeAndMoneyDocument.getAwardNumber(), timeAndMoneyDocument.getTimeAndMoneyHistory(), timeAndMoneyForm.getColumnSpan());
-        
+
         timeAndMoneyDocument.getAwardVersionHistoryList().clear();
         tamhs.buildTimeAndMoneyHistoryObjects(award.getAwardNumber(), timeAndMoneyDocument.getAwardVersionHistoryList());
         TimeAndMoneyActionSummaryService tamass = KraServiceLocator.getService(TimeAndMoneyActionSummaryService.class);
         timeAndMoneyDocument.getTimeAndMoneyActionSummaryItems().clear();
         tamass.populateActionSummary(timeAndMoneyDocument.getTimeAndMoneyActionSummaryItems(), goToAwardNumber);
-        
+
         timeAndMoneyDocument.setNewAwardAmountTransaction(newAwardAmountTransaction);
     }
-    
+
     /**
-     * This method tests if the award is new by checking the size of AwardDirectFandADistributions on the Award.
+     * This method tests if the award is new by checking the size of
+     * AwardDirectFandADistributions on the Award.
+     *
      * @param awardForm
      * @return
      */
     public boolean isNewAward(TimeAndMoneyForm timeAndMoneyForm) {
         return timeAndMoneyForm.getTimeAndMoneyDocument().getAward().getAwardDirectFandADistributions().size() == 0;
     }
-    
+
     /**
-     * Gets the businessObjectService attribute. 
+     * Gets the businessObjectService attribute.
+     *
      * @return Returns the businessObjectService.
      */
     public AwardVersionService getAwardVersionService() {
@@ -954,21 +978,22 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     /*
      * Retrieves an ActivePendingTransactionsService.
      */
-    protected ActivePendingTransactionsService getActivePendingTransactionsService(){
+    protected ActivePendingTransactionsService getActivePendingTransactionsService() {
         if (activePendingTransactionsService == null) {
             activePendingTransactionsService = KraServiceLocator.getService(ActivePendingTransactionsService.class);
         }
         return activePendingTransactionsService;
     }
-    
+
     /**
-     * 
-     * This method builds the string for the ActionForward 
+     *
+     * This method builds the string for the ActionForward
+     *
      * @param forwardPath
      * @param docIdRequestParameter
      * @return
      */
-    public String buildForwardStringForActionListCommand(String forwardPath, String docIdRequestParameter){
+    public String buildForwardStringForActionListCommand(String forwardPath, String docIdRequestParameter) {
         StringBuilder sb = new StringBuilder();
         sb.append(forwardPath);
         sb.append("?");
@@ -976,24 +1001,24 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         sb.append("=");
         sb.append(docIdRequestParameter);
         return sb.toString();
-    }    
-    
-    
-    public ActionForward addTransaction(){
+    }
+
+    public ActionForward addTransaction() {
         return null;
     }
-    
-    public ActionForward deleteTransaction(){
+
+    public ActionForward deleteTransaction() {
         return null;
     }
-    
-    public ActionForward submit(){
+
+    public ActionForward submit() {
         return null;
     }
-    
+
     /**
-     * 
-     * This method adds a new AwardDirectFandADistribution to the list.  
+     *
+     * This method adds a new AwardDirectFandADistribution to the list.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1006,13 +1031,14 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         captureDateChangeTransactions(form);
         timeAndMoneyForm.getAwardDirectFandADistributionBean()
-                    .addAwardDirectFandADistribution(((TimeAndMoneyForm) form).getAwardDirectFandADistributionBean());    
+                .addAwardDirectFandADistribution(((TimeAndMoneyForm) form).getAwardDirectFandADistributionBean());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
-     * 
-     * This method removes an AwardDirectFandADistribution from the list. 
+     *
+     * This method removes an AwardDirectFandADistribution from the list.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1028,10 +1054,11 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         timeAndMoneyForm.getAwardDirectFandADistributionBean().updateBudgetPeriodsAfterDelete(timeAndMoneyForm.getTimeAndMoneyDocument().getAward().getAwardDirectFandADistributions());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
-     * This method is used to recalculate the Total amounts in the Direct F and A Distribution panel.
-     * 
+     * This method is used to recalculate the Total amounts in the Direct F and
+     * A Distribution panel.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1041,13 +1068,14 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
      */
     public ActionForward timeAndMoney(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-       
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
-     * This method is used to recalculate the Total amounts in the Direct F and A Distribution panel.
-     * 
+     * This method is used to recalculate the Total amounts in the Direct F and
+     * A Distribution panel.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1057,30 +1085,33 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
      */
     public ActionForward recalculateDirectFandADistributionTotals(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-       
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
-     * Gets the businessObjectService attribute. 
+     * Gets the businessObjectService attribute.
+     *
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         return businessObjectService;
     }
-    
+
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-    throws Exception {
+            throws Exception {
 
         ActionForward forward = super.reload(mapping, form, request, response);
 
         return forward;
     }
-    
+
     /**
-     * 
-     * This method retrieves the awardDocument from the session and redirects the user to the appropriate Award
+     *
+     * This method retrieves the awardDocument from the session and redirects
+     * the user to the appropriate Award
+     *
      * @param mapping
      * @param form
      * @param request
@@ -1089,10 +1120,10 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
      * @throws Exception
      */
     public ActionForward returnToAward(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
-        if(!getKraWorkflowService().isInWorkflow(timeAndMoneyDocument)){
+        if (!getKraWorkflowService().isInWorkflow(timeAndMoneyDocument)) {
             this.save(mapping, form, request, response);
         }
         String awardDocumentNumber = (String) GlobalVariables.getUserSession().retrieveObject(Constants.AWARD_DOCUMENT_STRING_FOR_SESSION + "-" + timeAndMoneyDocument.getDocumentNumber());
@@ -1100,63 +1131,64 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             awardDocumentNumber = timeAndMoneyDocument.getAward().getAwardDocument().getDocumentNumber();
         }
         //reload document to make sure we have a valid workflow document
-        AwardDocument awardDocument = (AwardDocument) getDocumentService().getByDocumentHeaderId(awardDocumentNumber);       
+        AwardDocument awardDocument = (AwardDocument) getDocumentService().getByDocumentHeaderId(awardDocumentNumber);
         String routeHeaderId = awardDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
         GlobalVariables.getUserSession().removeObject(Constants.AWARD_DOCUMENT_STRING_FOR_SESSION + "-" + timeAndMoneyDocument.getDocumentNumber());
 
         String forward = buildForwardUrl(routeHeaderId);
         return new ActionForward(forward, true);
     }
-    
+
     protected KraWorkflowService getKraWorkflowService() {
         return KraServiceLocator.getService(KraWorkflowService.class);
     }
-    
+
     /**
      * Looks up and returns the ParameterService.
-     * @return the parameter service. 
+     *
+     * @return the parameter service.
      */
     protected ParameterService getParameterService() {
         if (this.parameterService == null) {
-            this.parameterService = KraServiceLocator.getService(ParameterService.class);        
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);
         }
         return this.parameterService;
     }
-    
+
     public boolean isDirectIndirectViewEnabled() {
         boolean returnValue = false;
         String directIndirectEnabledValue = getParameterService().getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST");
-        if(directIndirectEnabledValue.equals("1")) {
+        if (directIndirectEnabledValue.equals("1")) {
             returnValue = true;
         }
         return returnValue;
     }
-    
+
     @SuppressWarnings("unchecked")
     public ActionForward goToNextAward(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
-        Map<String, String> map = new HashMap<String,String>();
+        Map<String, String> map = new HashMap<String, String>();
         String nextAwardNumber = timeAndMoneyForm.getNextNodeMap().get(timeAndMoneyForm.getAwardForSummaryPanelDisplay().getAwardNumber());
         map.put("awardNumber", nextAwardNumber);
-        Award nextAward = ((List<Award>)getBusinessObjectService().findMatching(Award.class, map)).get(0);
+        Award nextAward = ((List<Award>) getBusinessObjectService().findMatching(Award.class, map)).get(0);
         timeAndMoneyForm.setAwardForSummaryPanelDisplay(nextAward);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-        
+
     @SuppressWarnings("unchecked")
     public ActionForward goToPreviousAward(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
-        Map<String, String> map = new HashMap<String,String>();
+        Map<String, String> map = new HashMap<String, String>();
         String previousAwardNumber = timeAndMoneyForm.getPreviousNodeMap().get(timeAndMoneyForm.getAwardForSummaryPanelDisplay().getAwardNumber());
         map.put("awardNumber", previousAwardNumber);
-        Award previousAward = ((List<Award>)businessObjectService.findMatching(Award.class, map)).get(0);
+        Award previousAward = ((List<Award>) businessObjectService.findMatching(Award.class, map)).get(0);
         timeAndMoneyForm.setAwardForSummaryPanelDisplay(previousAward);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     public ActionForward editOrVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm)form;
+        TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         TimeAndMoneyDocument doc = timeAndMoneyForm.getTimeAndMoneyDocument();
         String rootAwardNumber = doc.getRootAwardNumber();
         TimeAndMoneyDocument finalTandM = getTimeAndMoneyVersionService().findOpenedTimeAndMoney(rootAwardNumber);
@@ -1164,9 +1196,10 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         String forwardString = buildForwardUrl(routeHeaderId);
         return new ActionForward(forwardString, true);
     }
-    
+
     /**
-     * @see org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase#populateAuthorizationFields(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
+     * @see
+     * org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase#populateAuthorizationFields(org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -1177,13 +1210,13 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             Person user = GlobalVariables.getUserSession().getPerson();
             DocumentPresentationController documentPresentationController = KNSServiceLocator.getDocumentHelperService().getDocumentPresentationController(document);
             DocumentAuthorizer documentAuthorizer = getDocumentHelperService().getDocumentAuthorizer(document);
-            Set<String> documentActions =  documentPresentationController.getDocumentActions(document);
+            Set<String> documentActions = documentPresentationController.getDocumentActions(document);
             documentActions = documentAuthorizer.getDocumentActions(document, user, documentActions);
 
             if (getDataDictionaryService().getDataDictionary().getDocumentEntry(document.getClass().getName()).getUsePessimisticLocking()) {
                 documentActions = getPessimisticLockService().getDocumentActions(document, user, documentActions);
             }
-            
+
             Set<String> editModes = new HashSet<String>();
             if (!documentAuthorizer.canOpen(document, user)) {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
@@ -1196,7 +1229,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             if (getDataDictionaryService().getDataDictionary().getDocumentEntry(document.getClass().getName()).getUsePessimisticLocking()) {
                 editMode = getPessimisticLockService().establishLocks(document, editMode, user);
             }
-            
+
             // We don't want to use KNS way to determine can edit document overview
             // It should be the same as can edit
             if (editMode.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY)) {
@@ -1215,7 +1248,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             formBase.setDocumentActions(convertSetToMap(documentActions));
             formBase.setEditingMode(editMode);
         }
-        
+
     }
 
     public TimeAndMoneyVersionService getTimeAndMoneyVersionService() {
@@ -1228,10 +1261,9 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     public void setTimeAndMoneyVersionService(TimeAndMoneyVersionService timeAndMoneyVersionService) {
         this.timeAndMoneyVersionService = timeAndMoneyVersionService;
     }
-    
+
     public ReportTrackingService getReportTrackingService() {
         return KraServiceLocator.getService(ReportTrackingService.class);
     }
 
 }
-
