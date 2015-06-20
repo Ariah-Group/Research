@@ -188,7 +188,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         Collection<BudgetRate> allBudgetRates = budgetService.getSavedProposalRates(budgetToOpen);
         Award newestAward = getAwardBudgetService().getActiveOrNewestAward(awardDocument.getAward().getAwardNumber());
         newestAward.refreshReferenceObject("awardFandaRate");
-        List<AwardFandaRate> fandaRates = newestAward.getAwardFandaRate();
+
         List ebRates = new ArrayList();
         if (newestAward.getSpecialEbRateOffCampus() != null) {
             ebRates.add(newestAward.getSpecialEbRateOffCampus());
