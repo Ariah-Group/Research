@@ -81,6 +81,10 @@ alter table SCIENCE_KEYWORD add ( ACTIVE varchar2(1) );
 update SCIENCE_KEYWORD set ACTIVE='Y';
 
 
+-- remove unused column from table
+alter table AWARD_AMT_FNA_DISTRIBUTION drop column AWARD_AMOUNT_INFO_ID;
+
+
 
 commit;
 exit

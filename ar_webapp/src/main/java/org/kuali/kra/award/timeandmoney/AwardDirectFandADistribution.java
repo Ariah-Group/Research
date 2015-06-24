@@ -34,8 +34,6 @@ public class AwardDirectFandADistribution extends AwardAssociate {
 
     private Integer amountSequenceNumber;
 
-    private Long awardAmountInfoId;
-
     private Integer budgetPeriod;
 
     private Date startDate;
@@ -57,16 +55,6 @@ public class AwardDirectFandADistribution extends AwardAssociate {
         setBudgetPeriod(budgetPeriodNum);
         setStartDate(periodStartDate);
         setEndDate(periodEndDate);
-    }
-
-    /**
-     * FIXME: Field may be dead code This method added because repository
-     * validation fails if no getter present for repository declared field
-     *
-     * @return
-     */
-    public Long getAwardAmountInfoId() {
-        return awardAmountInfoId;
     }
 
     /**
@@ -220,7 +208,6 @@ public class AwardDirectFandADistribution extends AwardAssociate {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((amountSequenceNumber == null) ? 0 : amountSequenceNumber.hashCode());
-        result = prime * result + ((awardAmountInfoId == null) ? 0 : awardAmountInfoId.hashCode());
         result = prime * result + ((awardDirectFandADistributionId == null) ? 0 : awardDirectFandADistributionId.hashCode());
         result = prime * result + ((budgetPeriod == null) ? 0 : budgetPeriod.hashCode());
         result = prime * result + ((directCost == null) ? 0 : directCost.hashCode());
@@ -250,13 +237,6 @@ public class AwardDirectFandADistribution extends AwardAssociate {
                 return false;
             }
         } else if (!amountSequenceNumber.equals(other.amountSequenceNumber)) {
-            return false;
-        }
-        if (awardAmountInfoId == null) {
-            if (other.awardAmountInfoId != null) {
-                return false;
-            }
-        } else if (!awardAmountInfoId.equals(other.awardAmountInfoId)) {
             return false;
         }
         if (awardDirectFandADistributionId == null) {
