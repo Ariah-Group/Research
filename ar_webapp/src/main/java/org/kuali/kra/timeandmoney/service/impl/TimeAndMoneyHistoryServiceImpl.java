@@ -383,7 +383,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
             transactionTypeDescription = "None";
         }
         return "Time And Money Document: " + transactionTypeDescription
-                + ", notice date: " + noticeDate + ", updated " + getUpdateTimeAndUser(doc) + ". Comments: " + (aat.getComments() == null ? "None" : aat.getComments());
+                + "; Notice Date: " + noticeDate + "; Updated: " + getUpdateTimeAndUser(doc) + "; Comments: " + (aat.getComments() == null ? "None" : aat.getComments());
     }
 
     protected List<AwardAmountInfo> getValidAwardAmountInfosAssociatedWithAwardVersion(List<AwardAmountInfo> awardAmountInfos, Award award) {
@@ -535,7 +535,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         } else {
             transactionTypeDescription = "None";
         }
-        return "Award Version " + versionNumber + ", " + transactionTypeDescription + ", notice date: " + noticeDate + ", updated " + getUpdateTimeAndUser(award);
+        return "Award Version " + versionNumber + ", " + transactionTypeDescription + "; Notice Date: " + noticeDate + "; Updated: " + getUpdateTimeAndUser(award);
     }
 
     protected String buildNewAwardDescriptionLine(Award award) {
@@ -555,8 +555,8 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         } else {
             transactionTypeDescription = "None";
         }
-        return "Award Version " + versionNumber + ", " + transactionTypeDescription + ", notice date: " + noticeDate
-                + ", updated " + getUpdateTimeAndUser(award) + ". Comments:" + (award.getAwardCurrentActionComments().getComments() == null ? "None." : award.getAwardCurrentActionComments().getComments());
+        return "Award Version " + versionNumber + ", " + transactionTypeDescription + "; Notice Date: " + noticeDate
+                + "; Updated: " + getUpdateTimeAndUser(award) + "; Comments: " + (award.getAwardCurrentActionComments().getComments() == null ? "None" : award.getAwardCurrentActionComments().getComments());
     }
 
     protected String getUpdateTimeAndUser(Award award) {
