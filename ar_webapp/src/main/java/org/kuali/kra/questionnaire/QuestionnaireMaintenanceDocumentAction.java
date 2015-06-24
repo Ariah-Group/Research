@@ -327,7 +327,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             question.refreshReferenceObject("question");
         }
         String desc = question.getQuestion().getQuestion();
-        if (desc.indexOf("\"") > 0) {
+        if (desc.indexOf('"') > 0) {
             desc = desc.replace("\"", "&#034;");
         }
         return question.getQuestionnaireQuestionsId() + PFP + question.getQuestionRefIdFk() + PFP + question.getQuestionSeqNumber()
