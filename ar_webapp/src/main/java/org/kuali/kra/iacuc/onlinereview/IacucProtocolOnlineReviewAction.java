@@ -605,7 +605,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
                             KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME, "reason");
                 }
 
-               // ProtocolOnlineReviewBase protocolOnlineReview = prDoc.getProtocolOnlineReview();
+                // ProtocolOnlineReviewBase protocolOnlineReview = prDoc.getProtocolOnlineReview();
                 //ProtocolBase protocol = protocolForm.getProtocolDocument().getProtocol();
                 prDoc.getProtocolOnlineReview().addActionPerformed("Delete");
                 KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) protocolForm.getOnlineReviewsActionHelper().getDocumentHelperMap().get(onlineReviewDocumentNumber).get(OnlineReviewsActionHelperBase.FORM_MAP_KEY);
@@ -644,7 +644,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
         } else if ((DOCUMENT_REJECT_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
             //nothing to do.
         } else {
-            if (!this.applyRules(new RejectProtocolOnlineReviewCommentEvent(prDoc, reason, new Integer(DOCUMENT_REJECT_REASON_MAXLENGTH).intValue()))) {
+            if (!this.applyRules(new RejectProtocolOnlineReviewCommentEvent(prDoc, reason, Integer.parseInt(DOCUMENT_REJECT_REASON_MAXLENGTH)))) {
                 if (reason == null) {
                     reason = ""; //Prevents null pointer exception in performQuestion
                 }

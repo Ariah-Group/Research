@@ -26,11 +26,11 @@ public class PerformanceFilterResponse extends HttpServletResponseWrapper {
     private static final String CONTENT_LENGTH = "CONTENT-LENGTH";
     private static final int OK_STATUS = 200;
     private static final String OK_MSG = "OK";
-    
+
     private int statusCode;
     private String message;
     private Map<String, String> headers;
-    
+
     public PerformanceFilterResponse(HttpServletResponse response) {
         super(response);
         headers = new TreeMap<String, String>();
@@ -49,12 +49,12 @@ public class PerformanceFilterResponse extends HttpServletResponseWrapper {
 
     public int getContentLength() {
         try {
-            return headers.containsKey(CONTENT_LENGTH) ? Integer.valueOf(headers.get(CONTENT_LENGTH)).intValue() : -1;
-        } catch(Exception e) {
+            return headers.containsKey(CONTENT_LENGTH) ? Integer.parseInt(headers.get(CONTENT_LENGTH)) : -1;
+        } catch (Exception e) {
             return -1;
         }
     }
-    
+
     @Override
     public void addHeader(String name, String value) {
         super.addHeader(name, value);

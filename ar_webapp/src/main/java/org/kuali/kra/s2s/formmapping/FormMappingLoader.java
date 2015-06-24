@@ -185,8 +185,8 @@ public class FormMappingLoader {
 
             NodeList sortIndexNodesList = formNode.getElementsByTagName(SORT_INDEX);
             if (sortIndexNodesList.getLength() > 0) {
-                formInfo.setSortIndex(Integer.valueOf(sortIndexNodesList.item(0).getTextContent().trim()).intValue());
-                sortedIndex = Integer.valueOf(formInfo.getSortIndex());
+                formInfo.setSortIndex(Integer.parseInt(sortIndexNodesList.item(0).getTextContent().trim()));
+                sortedIndex = formInfo.getSortIndex();
 
                 if (sortedNameSpaces.get(sortedIndex) != null) {
                     nameSpaceList = sortedNameSpaces.get(sortedIndex);

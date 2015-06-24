@@ -515,7 +515,7 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         } else if ((DOCUMENT_REJECT_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
             //nothing to do.
         } else {
-            if (!this.applyRules(new RejectProtocolOnlineReviewCommentEvent(prDoc, reason, new Integer(DOCUMENT_REJECT_REASON_MAXLENGTH).intValue()))) {
+            if (!this.applyRules(new RejectProtocolOnlineReviewCommentEvent(prDoc, reason, Integer.parseInt(DOCUMENT_REJECT_REASON_MAXLENGTH)))) {
                 if (reason == null) {
                     reason = ""; //Prevents null pointer exception in performQuestion
                 }
