@@ -1181,9 +1181,6 @@
 		<reference-descriptor name="award" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="awardId"/>
 		</reference-descriptor>
-		<reference-descriptor name="awardAmountInfoId" class-ref="org.kuali.kra.award.home.AwardAmountInfo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="awardAmountInfoId"/>
-		</reference-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.award.home.AwardAmountInfo" table="AWARD_AMOUNT_INFO">
