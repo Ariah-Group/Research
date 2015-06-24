@@ -699,7 +699,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         if (status == WARNING) {
 
             if (status == WARNING && question == null) {
-                forward = this.performQuestionWithoutInput(mapping, form, request, response, DOCUMENT_ROUTE_QUESTION, "Validation Warning Exists.Are you sure want to submit to workflow routing.", KRADConstants.CONFIRMATION_QUESTION, methodToCall, "");
+                forward = this.performQuestionWithoutInput(mapping, form, request, response, DOCUMENT_ROUTE_QUESTION, "Validation Warning Exists. Are you sure want to submit to workflow routing?", KRADConstants.CONFIRMATION_QUESTION, methodToCall, "");
             } else if (DOCUMENT_ROUTE_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 //status is OK now since the user said it was :)
                 userSaysOk = true;
