@@ -163,8 +163,7 @@ public class InstitutionalProposalXmlStream extends
         String otherGroupName = KraServiceLocator.getService(ParameterService.class).
                 getParameterValueAsString(InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE,
                         ParameterConstants.DOCUMENT_COMPONENT, Constants.INSTITUTE_PROPOSAL_OTHER_GROUP);
-        
-        
+
         for (Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry : customAttributeDocuments.entrySet()) {
             OtherGroupDetailsTypes otherGroupDetails = OtherGroupDetailsTypes.Factory.newInstance();
 
@@ -887,8 +886,8 @@ public class InstitutionalProposalXmlStream extends
             InstProposalMasterData instProposalMasterData) {
         if (institutionalProposal.getProposalTypeCode() != null) {
             ProposalType proposalType = ProposalType.Factory.newInstance();
-            int proposalTypeCode = Integer.valueOf(institutionalProposal
-                    .getProposalTypeCode());
+            int proposalTypeCode = institutionalProposal
+                    .getProposalTypeCode();
             proposalType.setProposalTypeCode(proposalTypeCode);
             String proposalTypeDescription = getProposalTypeDescription(proposalTypeCode);
             if (proposalTypeDescription != null) {
@@ -903,8 +902,8 @@ public class InstitutionalProposalXmlStream extends
         if (institutionalProposal.getStatusCode() != null) {
             ProposalStatusType proposalStatusType = ProposalStatusType.Factory
                     .newInstance();
-            int proposalStatusCode = Integer.valueOf(institutionalProposal
-                    .getStatusCode());
+            int proposalStatusCode = institutionalProposal
+                    .getStatusCode();
             proposalStatusType.setStatusCode(proposalStatusCode);
             String proposalDescription = getProposalDescription(proposalStatusCode);
             if (proposalDescription != null) {

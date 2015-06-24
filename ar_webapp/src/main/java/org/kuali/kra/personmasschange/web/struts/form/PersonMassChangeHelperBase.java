@@ -28,10 +28,10 @@ import java.io.Serializable;
 public class PersonMassChangeHelperBase implements Serializable {
 
     private static final long serialVersionUID = -2693177271931144987L;
-    
+
     private transient KcPersonService kcPersonService;
     private transient RolodexService rolodexService;
-    
+
     /**
      * Prepares the replacee fields to render the view.
      */
@@ -43,12 +43,12 @@ public class PersonMassChangeHelperBase implements Serializable {
             personMassChange.setReplaceeRolodexId(null);
         } else if (replaceeRolodexId != null) {
             personMassChange.setReplaceePersonId(null);
-            Rolodex rolodex = getRolodexService().getRolodex(Integer.valueOf(replaceeRolodexId));
+            Rolodex rolodex = getRolodexService().getRolodex(replaceeRolodexId);
             personMassChange.setReplaceeRolodexId(rolodex.getRolodexId());
             personMassChange.setReplaceeFullName(rolodex.getFullName());
         }
     }
-    
+
     /**
      * Prepares the replacer fields to render the view.
      */
@@ -60,12 +60,12 @@ public class PersonMassChangeHelperBase implements Serializable {
             personMassChange.setReplacerRolodexId(null);
         } else if (replacerRolodexId != null) {
             personMassChange.setReplacerPersonId(null);
-            Rolodex rolodex = getRolodexService().getRolodex(Integer.valueOf(replacerRolodexId));
+            Rolodex rolodex = getRolodexService().getRolodex(replacerRolodexId);
             personMassChange.setReplacerRolodexId(rolodex.getRolodexId());
             personMassChange.setReplacerFullName(rolodex.getFullName());
         }
     }
-    
+
     public KcPersonService getKcPersonService() {
         if (kcPersonService == null) {
             kcPersonService = KraServiceLocator.getService(KcPersonService.class);
@@ -83,7 +83,7 @@ public class PersonMassChangeHelperBase implements Serializable {
         }
         return rolodexService;
     }
-    
+
     public void setRolodexService(RolodexService rolodexService) {
         this.rolodexService = rolodexService;
     }
