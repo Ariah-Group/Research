@@ -85,17 +85,17 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         award.refreshReferenceObject("awardDocument");
         //to get all docs, we must pass the root award number for the subject award.
         fieldValues1.put("rootAwardNumber", getRootAwardNumberForDocumentSearch(award.getAwardNumber()));
-        
+
         List<TimeAndMoneyDocument> docs = (List<TimeAndMoneyDocument>) businessObjectService.findMatching(TimeAndMoneyDocument.class, fieldValues1);
-        
+
         Collections.sort(docs);
-        
+
         timeAndMoneyHistory.put(buildForwardUrl(award.getAwardDocument().getDocumentNumber()), buildAwardDescriptionLine(award, null, docs.get(docs.size() - 1)));
-        
+
         for (TimeAndMoneyDocument tempDoc : docs) {
             TimeAndMoneyDocument doc = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(tempDoc.getDocumentNumber());
             List<AwardAmountTransaction> awardAmountTransactions = doc.getAwardAmountTransactions();
-            
+
             //we don't want canceled docs in history.
             if (doc.getDocumentHeader().hasWorkflowDocument()) {
                 if (!doc.getDocumentHeader().getWorkflowDocument().isCanceled()) {
@@ -283,27 +283,35 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         Map<String, Object> fieldValues2 = new HashMap<String, Object>();
 
         for (AwardAmountInfo awardAmountInfo : validInfos) {
-            if (!(awardAmountInfo.getTimeAndMoneyDocumentNumber() == null)) {
+            if (awardAmountInfo.getTimeAndMoneyDocumentNumber() != null) {
                 if (StringUtils.equalsIgnoreCase(doc.getDocumentNumber(), awardAmountInfo.getTimeAndMoneyDocumentNumber())) {
                     //get all Transaction Details for a node.  It can be the source or a destination of the transaction.
                     fieldValues1.put("sourceAwardNumber", awardAmountInfo.getAwardNumber());
                     fieldValues1.put("transactionId", awardAmountInfo.getTransactionId());
                     fieldValues1.put("transactionDetailType", TransactionDetailType.PRIMARY.toString());
+
                     fieldValues1a.put("destinationAwardNumber", awardAmountInfo.getAwardNumber());
                     fieldValues1a.put("transactionId", awardAmountInfo.getTransactionId());
                     fieldValues1a.put("transactionDetailType", TransactionDetailType.PRIMARY.toString());
+
                     fieldValues2.put("transactionId", awardAmountInfo.getTransactionId());
                     fieldValues2.put("transactionDetailType", TransactionDetailType.INTERMEDIATE.toString());
+
                     List<TransactionDetail> transactionDetails
                             = ((List<TransactionDetail>) businessObjectService.findMatchingOrderBy(TransactionDetail.class, fieldValues1, "transactionDetailId", true));
+
                     List<TransactionDetail> transactionDetailsA
                             = ((List<TransactionDetail>) businessObjectService.findMatchingOrderBy(TransactionDetail.class, fieldValues1a, "transactionDetailId", true));
+
                     //we do a join on this list, but there can only be one possible since we are searching by Award Amount Info and there can only be
                     //one transaction associated.
                     transactionDetails.addAll(transactionDetailsA);
-                    List<TransactionDetail> transactionDetailsB
-                            = ((List<TransactionDetail>) businessObjectService.findMatchingOrderBy(TransactionDetail.class, fieldValues2, "transactionDetailId", true));
+
                     if (transactionDetails.size() > 0) {
+
+                        List<TransactionDetail> transactionDetailsB
+                                = ((List<TransactionDetail>) businessObjectService.findMatchingOrderBy(TransactionDetail.class, fieldValues2, "transactionDetailId", true));
+
                         AwardAmountInfoHistory awardAmountInfoHistory = new AwardAmountInfoHistory();
                         awardAmountInfoHistory.setAwardAmountInfo(awardAmountInfo);
                         awardAmountInfoHistory.setTransactionType(TransactionType.MONEY.toString());
