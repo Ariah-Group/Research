@@ -230,13 +230,17 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         List<Award> awardVersionList = (List<Award>) businessObjectService.findMatchingOrderBy(Award.class, getHashMapToFindActiveAward(awardNumber), "sequenceNumber", true);
         //we want the list in reverse chronological order.
         Collections.reverse(awardVersionList);
-        List<TimeAndMoneyDocument> docs = null;
+        
         Map<String, Object> fieldValues1 = new HashMap<String, Object>();
         //get the root award number.
         fieldValues1.put("rootAwardNumber", getRootAwardNumberForDocumentSearch(awardVersionList.get(0).getAwardNumber()));
-        docs = (List<TimeAndMoneyDocument>) businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues1, "documentNumber", true);
+        
+        List<TimeAndMoneyDocument> docs = (List<TimeAndMoneyDocument>) 
+                businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues1, "documentNumber", true);
+        
         //we don't want canceled docs to show in history.
         removeCanceledDocs(docs);
+        
         for (Award award : awardVersionList) {
             AwardVersionHistory awardVersionHistory = new AwardVersionHistory(award);
             awardVersionHistory.setDocumentUrl(buildForwardUrl(award.getAwardDocument().getDocumentNumber()));
