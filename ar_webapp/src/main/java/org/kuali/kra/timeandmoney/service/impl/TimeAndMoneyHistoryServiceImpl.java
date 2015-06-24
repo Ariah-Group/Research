@@ -389,10 +389,8 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
     protected List<AwardAmountInfo> getValidAwardAmountInfosAssociatedWithAwardVersion(List<AwardAmountInfo> awardAmountInfos, Award award) {
         List<AwardAmountInfo> validInfos = new ArrayList<AwardAmountInfo>();
         for (AwardAmountInfo awardAmountInfo : awardAmountInfos) {
-            if (!(awardAmountInfo.getOriginatingAwardVersion() == null)) {
-                if (awardAmountInfo.getOriginatingAwardVersion().equals(award.getSequenceNumber())) {
-                    validInfos.add(awardAmountInfo);
-                }
+            if (awardAmountInfo.getOriginatingAwardVersion() != null && awardAmountInfo.getOriginatingAwardVersion().equals(award.getSequenceNumber())) {
+                validInfos.add(awardAmountInfo);
             }
         }
         return validInfos;
