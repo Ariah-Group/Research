@@ -164,6 +164,15 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
 
     private transient KraWorkflowService kraWorkflowService;
 
+    /**
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward originalExecute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         if (!StringUtils.equals((String) request.getAttribute("methodToCallAttribute"), "methodToCall.reload")) {
@@ -388,6 +397,11 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return false;
     }
 
+    /**
+     *
+     * @return
+     */
+    @Override
     protected GroupService getGroupService() {
         return KimApiServiceLocator.getGroupService();
     }
@@ -592,8 +606,15 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     }
 
     /**
-     * {@inheritDoc}
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception 
      */
+    @Override
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
@@ -602,14 +623,30 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     }
 
     /**
-     * {@inheritDoc}
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception 
      */
+    @Override
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ((ProposalDevelopmentForm) form).clearUnitRulesMessages();
         return new AuditActionHelper().setAuditMode(mapping, (ProposalDevelopmentForm) form, false);
     }
 
+    /**
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward reject(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         //System.err.println("******************* Got to the reject action **************************");
@@ -643,6 +680,15 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         //}
     }
 
+    /**
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward rejectNo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ((ProposalDevelopmentForm) form).setShowRejectionConfirmation(false);
@@ -650,6 +696,15 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /**
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward rejectYes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
@@ -738,6 +793,15 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);
     }
 
+    /**
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward autoSubmitToSponsor(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
@@ -1298,6 +1362,15 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
 //        return actionForward;
     }
 
+    /**
+     *
+     * @param printFormTemplates
+     * @param proposalNumber
+     * @param contentType
+     * @param ReportName
+     * @param response
+     * @throws Exception
+     */
     public void streamToResponse(List<SponsorFormTemplate> printFormTemplates, String proposalNumber, String contentType, String ReportName, HttpServletResponse response) throws Exception {
 
         byte[] sftByteStream = KraServiceLocator.getService(PrintService.class).printProposalSponsorForms(proposalNumber, printFormTemplates);
@@ -1335,10 +1408,15 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      * @return
      * @throws Exception
      */
+    @Override
     public ActionForward printForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return super.printForms(mapping, form, request, response);
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     protected KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
@@ -1471,12 +1549,29 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return new ActionForward(forward, true);
     }
 
+    /**
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
     public ActionForward budgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         String forward = getForwardToBudgetUrl(form);
         forward = StringUtils.replace(forward, "budgetParameters.do?", "budgetRates.do?auditActivated=true&anchor=" + ((KualiForm) form).getAnchor() + "&");
         return new ActionForward(forward, true);
     }
 
+    /**
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward saveProposalActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return save(mapping, form, request, response);
     }
@@ -1512,6 +1607,15 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
 
     }
 
+    /**
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward linkChildToHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         DevelopmentProposal hierarchyProposal = pdForm.getProposalDevelopmentDocument().getDevelopmentProposal();
@@ -1526,6 +1630,15 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /**
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward syncAllHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         //DevelopmentProposal hierarchyProposal = pdForm.getProposalDevelopmentDocument().getDevelopmentProposal();
@@ -1537,6 +1650,15 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         //return reload(mapping, form, request, response);
     }
 
+    /**
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward syncAllHierarchyConfirm(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         //DevelopmentProposal hierarchyProposal = pdForm.getProposalDevelopmentDocument().getDevelopmentProposal();
@@ -1545,11 +1667,29 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         //return reload(mapping, form, request, response);
     }
 
+    /**
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward removeFromHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         StrutsConfirmation question = buildParameterizedConfirmationQuestion(mapping, form, request, response, "removeFromHierarchy", ProposalHierarchyKeyConstants.QUESTION_REMOVE_CONFIRM);
         return confirm(question, "removeFromHierarchyConfirmed", "hierarchyActionCanceled");
     }
 
+    /**
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward removeFromHierarchyConfirmed(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         DevelopmentProposal childProposal = pdForm.getProposalDevelopmentDocument().getDevelopmentProposal();
@@ -1557,11 +1697,29 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /**
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward hierarchyActionCanceled(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KNSGlobalVariables.getMessageList().add(ProposalHierarchyKeyConstants.MESSAGE_ACTION_CANCEL);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /**
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward syncToHierarchyParent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         DevelopmentProposal childProposal = pdForm.getProposalDevelopmentDocument().getDevelopmentProposal();
@@ -1572,6 +1730,15 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /**
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward syncToHierarchyParentConfirm(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         DevelopmentProposal childProposal = pdForm.getProposalDevelopmentDocument().getDevelopmentProposal();
@@ -1579,6 +1746,15 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /**
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward createHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         DevelopmentProposal initialChildProposal = pdForm.getProposalDevelopmentDocument().getDevelopmentProposal();
@@ -1586,6 +1762,15 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /**
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward linkToHierarchy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         DevelopmentProposal hierarchyProposal = getHierarchyHelper().getDevelopmentProposal(pdForm.getNewHierarchyProposalNumber());
@@ -1603,6 +1788,15 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /**
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward linkToHierarchyConfirm(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         DevelopmentProposal hierarchyProposal = getHierarchyHelper().getDevelopmentProposal(pdForm.getNewHierarchyProposalNumber());
@@ -1617,6 +1811,11 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /**
+     *
+     * @return
+     */
+    @Override
     public ParameterService getParameterService() {
         return KraServiceLocator.getService(ParameterService.class);
     }
@@ -1716,7 +1915,14 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
 
     /**
      * Prepare pending report (i.e. InstitutionalProposals that selected person
-     * is on) {@inheritDoc}
+     * is on) {@inheritDoc}.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception 
      */
     public ActionForward printPendingReportPdf(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -1735,6 +1941,12 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     /**
      * Prepare current report (i.e. Awards that selected person is on)
      * {@inheritDoc}
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return 
+     * @throws java.lang.Exception 
      */
     public ActionForward prepareCurrentReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -1747,6 +1959,12 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     /**
      * Prepare pending report (i.e. InstitutionalProposals that selected person
      * is on) {@inheritDoc}
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response* 
+     * @return 
+     * @throws java.lang.Exception 
      */
     public ActionForward preparePendingReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -1779,6 +1997,15 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 KeyConstants.AUTOGENERATE_INSTITUTIONAL_PROPOSAL_PARAM);
     }
 
+    /**
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward deleteProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (((ProposalDevelopmentForm) form).getProposalDevelopmentDocument().getDevelopmentProposal().isInHierarchy()) {
             KNSGlobalVariables.getMessageList().add(new ErrorMessage(KeyConstants.ERROR_DELETE_PROPOSAL_IN_HIERARCHY));
@@ -1789,12 +2016,30 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return confirm(question, "confirmDeleteProposal", "");
     }
 
+    /**
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward confirmDeleteProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm propDevForm = (ProposalDevelopmentForm) form;
         KraServiceLocator.getService(ProposalDevelopmentService.class).deleteProposal(propDevForm.getProposalDevelopmentDocument());
         return mapping.findForward("portal");
     }
 
+    /**
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward sendNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         DevelopmentProposal developmentProposal = proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal();
@@ -1807,6 +2052,10 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return mapping.findForward("notificationEditor");
     }
 
+    /**
+     *
+     * @return
+     */
     protected KraWorkflowService getKraWorkflowService() {
         if (kraWorkflowService == null) {
             kraWorkflowService = KraServiceLocator.getService(KraWorkflowService.class);
@@ -1814,6 +2063,10 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return kraWorkflowService;
     }
 
+    /**
+     *
+     * @param kraWorkflowService
+     */
     public void setKraWorkflowService(KraWorkflowService kraWorkflowService) {
         this.kraWorkflowService = kraWorkflowService;
     }
@@ -1949,6 +2202,14 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return ++changeNumber;
     }
 
+    /**
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
     @Override
     public ActionForward takeSuperUserActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return superUserActionHelper(SuperUserAction.TAKE_SUPER_USER_ACTIONS, mapping, form, request, response);
@@ -1974,11 +2235,28 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
 
     }
 
+    /**
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
     @Override
     public ActionForward superUserApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return superUserActionHelper(SuperUserAction.SUPER_USER_APPROVE, mapping, form, request, response);
     }
 
+    /**
+     *
+     * @param actionName
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
     protected ActionForward superUserActionHelper(SuperUserAction actionName, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         //boolean success;
 
@@ -2111,6 +2389,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     /**
      * save the document and show a message if the lock was successful
      *
+     * @return 
      * @throws Exception
      */
     public ActionForward saveAndShowLockMessage(String messageKey, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
