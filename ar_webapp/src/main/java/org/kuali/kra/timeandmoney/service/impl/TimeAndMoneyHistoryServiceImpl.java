@@ -79,19 +79,23 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         AwardAmountTransaction awardAmountTransaction = null;
         timeAndMoneyHistory.clear();
         Award award = awardVersionService.getWorkingAwardVersion(awardNumber);
-        List<TimeAndMoneyDocument> docs = null;
         int key = 150;
         int j = -1;
 
         award.refreshReferenceObject("awardDocument");
         //to get all docs, we must pass the root award number for the subject award.
         fieldValues1.put("rootAwardNumber", getRootAwardNumberForDocumentSearch(award.getAwardNumber()));
-        docs = (List<TimeAndMoneyDocument>) businessObjectService.findMatching(TimeAndMoneyDocument.class, fieldValues1);
+        
+        List<TimeAndMoneyDocument> docs = (List<TimeAndMoneyDocument>) businessObjectService.findMatching(TimeAndMoneyDocument.class, fieldValues1);
+        
         Collections.sort(docs);
+        
         timeAndMoneyHistory.put(buildForwardUrl(award.getAwardDocument().getDocumentNumber()), buildAwardDescriptionLine(award, null, docs.get(docs.size() - 1)));
+        
         for (TimeAndMoneyDocument tempDoc : docs) {
             TimeAndMoneyDocument doc = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(tempDoc.getDocumentNumber());
             List<AwardAmountTransaction> awardAmountTransactions = doc.getAwardAmountTransactions();
+            
             //we don't want canceled docs in history.
             if (doc.getDocumentHeader().hasWorkflowDocument()) {
                 if (!doc.getDocumentHeader().getWorkflowDocument().isCanceled()) {
@@ -372,16 +376,18 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         String noticeDate;
         String transactionTypeDescription;
 
-        if (!(aat.getNoticeDate() == null)) {
-            noticeDate = aat.getNoticeDate().toString();
-        } else {
+        if (aat.getNoticeDate() == null) {
             noticeDate = "None";
-        }
-        if (!(aat.getAwardTransactionType() == null)) {
-            transactionTypeDescription = aat.getAwardTransactionType().getDescription();
         } else {
-            transactionTypeDescription = "None";
+            noticeDate = aat.getNoticeDate().toString();
         }
+
+        if (aat.getAwardTransactionType() == null) {
+            transactionTypeDescription = "None";
+        } else {
+            transactionTypeDescription = aat.getAwardTransactionType().getDescription();
+        }
+
         return "Time And Money Document: " + transactionTypeDescription
                 + "; Notice Date: " + noticeDate + "; Updated: " + getUpdateTimeAndUser(doc) + "; Comments: " + (aat.getComments() == null ? "None" : aat.getComments());
     }
@@ -520,21 +526,25 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         String noticeDate;
         String transactionTypeDescription;
         String versionNumber;
+
         if (awardAmountInfo == null || awardAmountInfo.getOriginatingAwardVersion() == null) {
             versionNumber = award.getSequenceNumber().toString();
         } else {
             versionNumber = awardAmountInfo.getOriginatingAwardVersion().toString();
         }
-        if (!(aat.getNoticeDate() == null)) {
-            noticeDate = aat.getNoticeDate().toString();
-        } else {
+
+        if (aat.getNoticeDate() == null) {
             noticeDate = "None";
-        }
-        if (!(award.getAwardTransactionType() == null)) {
-            transactionTypeDescription = award.getAwardTransactionType().getDescription();
         } else {
-            transactionTypeDescription = "None";
+            noticeDate = aat.getNoticeDate().toString();
         }
+
+        if (award.getAwardTransactionType() == null) {
+            transactionTypeDescription = "None";
+        } else {
+            transactionTypeDescription = award.getAwardTransactionType().getDescription();
+        }
+
         return "Award Version " + versionNumber + ", " + transactionTypeDescription + "; Notice Date: " + noticeDate + "; Updated: " + getUpdateTimeAndUser(award);
     }
 
@@ -545,18 +555,24 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 
         versionNumber = award.getSequenceNumber().toString();
 
-        if (!(award.getNoticeDate() == null)) {
-            noticeDate = award.getNoticeDate().toString();
-        } else {
+        if (award.getNoticeDate() == null) {
             noticeDate = "None";
-        }
-        if (!(award.getAwardTransactionType() == null)) {
-            transactionTypeDescription = award.getAwardTransactionType().getDescription();
         } else {
-            transactionTypeDescription = "None";
+            noticeDate = award.getNoticeDate().toString();
         }
+
+        if (award.getAwardTransactionType() == null) {
+            transactionTypeDescription = "None";
+        } else {
+            transactionTypeDescription = award.getAwardTransactionType().getDescription();
+        }
+
+        // award.getAwardCurrentActionComments() call below uses a Map lookup 
+        // internally so avoid calling more than once
+        String comments = award.getAwardCurrentActionComments().getComments();
+
         return "Award Version " + versionNumber + ", " + transactionTypeDescription + "; Notice Date: " + noticeDate
-                + "; Updated: " + getUpdateTimeAndUser(award) + "; Comments: " + (award.getAwardCurrentActionComments().getComments() == null ? "None" : award.getAwardCurrentActionComments().getComments());
+                + "; Updated: " + getUpdateTimeAndUser(award) + "; Comments: " + (comments == null ? "None" : comments);
     }
 
     protected String getUpdateTimeAndUser(Award award) {
