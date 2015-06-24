@@ -85,7 +85,6 @@ import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sSubmissionType;
 import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SService;
-import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraPersistenceStructureService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
@@ -544,7 +543,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             HttpServletResponse response) throws Exception {
 
         ActionForward nextWebPage = null;
-        ProposalDevelopmentForm proposalDevelopmentForm1 = (ProposalDevelopmentForm) form;
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
         ProposalCopyCriteria criteria = proposalDevelopmentForm.getCopyCriteria();
@@ -558,7 +556,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             // Use the Copy Service to copy the proposal.
 
             ProposalCopyService proposalCopyService = (ProposalCopyService) KraServiceLocator.getService("proposalCopyService");
-            KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
 
             if (proposalCopyService == null) {
 
@@ -606,13 +603,13 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     }
 
     /**
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
      * @param response
      * @return
-     * @throws Exception 
+     * @throws Exception
      */
     @Override
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -623,13 +620,13 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     }
 
     /**
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
      * @param response
      * @return
-     * @throws Exception 
+     * @throws Exception
      */
     @Override
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -650,7 +647,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     public ActionForward reject(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         //System.err.println("******************* Got to the reject action **************************");
-        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        // KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
 
         //Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         //Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
@@ -806,7 +803,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             HttpServletResponse response) throws Exception {
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) proposalDevelopmentForm.getProposalDevelopmentDocument();
 
         //used when auto submitting to sponsor on final approval
         if (proposalDevelopmentForm.getProposalDevelopmentDocument().getDocumentNumber() == null) {
@@ -1075,7 +1071,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     }
 
     /**
-     * Get a Proposal parameter value from the Kuali System Parameters.
+     * Get a Proposal parameter value from the System Parameters.
      *
      * @param parameterName the name of the parameter
      * @return the parameter's value
@@ -1103,7 +1099,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
 
         boolean isIPProtocolLinkingEnabled = getParameterService().getParameterValueAsBoolean(
-                Constants.MODULE_NAMESPACE_PROTOCOL, "Document", "irb.protocol.institute.proposal.linking.enabled");
+                Constants.MODULE_NAMESPACE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, "irb.protocol.institute.proposal.linking.enabled");
         List<ProposalSpecialReview> specialReviews = proposalDevelopmentDocument.getDevelopmentProposal().getPropSpecialReviews();
         if (!isIPProtocolLinkingEnabled || applyRules(new SaveSpecialReviewLinkEvent<ProposalSpecialReview>(proposalDevelopmentDocument, specialReviews))) {
             if (!(autogenerateInstitutionalProposal() && "X".equals(proposalDevelopmentForm.getResubmissionOption()))) {
@@ -1329,8 +1325,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     public ActionForward printSponsorForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) proposalDevelopmentForm.getProposalDevelopmentDocument();
-        ActionForward actionForward = mapping.findForward(MAPPING_BASIC);
-        String proposalNumber = proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber();
+       // ActionForward actionForward = mapping.findForward(MAPPING_BASIC);
+        //  String proposalNumber = proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber();
 
         List<SponsorFormTemplateList> sponsorFormTemplateLists = proposalDevelopmentForm.getSponsorFormTemplates();
         ProposalDevelopmentPrintingService printService = KraServiceLocator.getService(ProposalDevelopmentPrintingService.class);
@@ -1351,15 +1347,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             GlobalVariables.getMessageMap().putError("print.nofield", KeyConstants.ERROR_PRINTING_UNKNOWN);
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
-
-//        
-//        if(!printFormTemplates.isEmpty()) {
-//            String contentType = Constants.PDF_REPORT_CONTENT_TYPE;
-//            String ReportName = proposalNumber.concat("_" + proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode()).concat(Constants.PDF_FILE_EXTENSION);
-//            streamToResponse(printFormTemplates, proposalNumber, contentType, ReportName, response);
-//            actionForward = null;
-//        }
-//        return actionForward;
     }
 
     /**
@@ -1600,7 +1587,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             String routeHeaderId = budgetDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
             forward = buildForwardUrl(routeHeaderId);
         } catch (Exception e) {
-            LOG.info("forward to budgetsummary " + e.getStackTrace());
+            LOG.error("forward to budgetsummary " + e.getStackTrace(), e);
             //TODO what is the forward here
         }
         return forward;
@@ -1852,7 +1839,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                         pdForm.getInstitutionalProposalToVersion());
 
                 boolean isIPProtocolLinkingEnabled = getParameterService().getParameterValueAsBoolean(
-                        Constants.MODULE_NAMESPACE_PROTOCOL, "Document", "irb.protocol.institute.proposal.linking.enabled");
+                        Constants.MODULE_NAMESPACE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, "irb.protocol.institute.proposal.linking.enabled");
                 Long institutionalProposalId = getActiveProposalId(instProp.getProposalNumber());
                 persistProposalAdminDetails(pdDoc.getDevelopmentProposal().getProposalNumber(), institutionalProposalId);
                 persistSpecialReviewProtocolFundingSourceLink(institutionalProposalId, isIPProtocolLinkingEnabled);
@@ -1916,13 +1903,13 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     /**
      * Prepare pending report (i.e. InstitutionalProposals that selected person
      * is on) {@inheritDoc}.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
      * @param response
      * @return
-     * @throws Exception 
+     * @throws Exception
      */
     public ActionForward printPendingReportPdf(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -1941,12 +1928,13 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     /**
      * Prepare current report (i.e. Awards that selected person is on)
      * {@inheritDoc}
+     *
      * @param mapping
      * @param form
      * @param request
      * @param response
-     * @return 
-     * @throws java.lang.Exception 
+     * @return
+     * @throws java.lang.Exception
      */
     public ActionForward prepareCurrentReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -1959,12 +1947,14 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     /**
      * Prepare pending report (i.e. InstitutionalProposals that selected person
      * is on) {@inheritDoc}
+     *
      * @param mapping
      * @param form
      * @param request
-     * @param response* 
-     * @return 
-     * @throws java.lang.Exception 
+     * @param response
+     *
+     * @return
+     * @throws java.lang.Exception
      */
     public ActionForward preparePendingReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -2258,7 +2248,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      * @return
      */
     protected ActionForward superUserActionHelper(SuperUserAction actionName, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        //boolean success;
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = proposalDevelopmentForm.getProposalDevelopmentDocument();
@@ -2389,7 +2378,12 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     /**
      * save the document and show a message if the lock was successful
      *
-     * @return 
+     * @param messageKey
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
      * @throws Exception
      */
     public ActionForward saveAndShowLockMessage(String messageKey, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
