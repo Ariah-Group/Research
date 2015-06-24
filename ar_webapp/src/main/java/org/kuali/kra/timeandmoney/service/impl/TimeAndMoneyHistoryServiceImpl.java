@@ -294,9 +294,6 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
                     fieldValues1a.put("transactionId", awardAmountInfo.getTransactionId());
                     fieldValues1a.put("transactionDetailType", TransactionDetailType.PRIMARY.toString());
 
-                    fieldValues2.put("transactionId", awardAmountInfo.getTransactionId());
-                    fieldValues2.put("transactionDetailType", TransactionDetailType.INTERMEDIATE.toString());
-
                     List<TransactionDetail> transactionDetails
                             = ((List<TransactionDetail>) businessObjectService.findMatchingOrderBy(TransactionDetail.class, fieldValues1, "transactionDetailId", true));
 
@@ -309,6 +306,10 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
 
                     if (transactionDetails.size() > 0) {
 
+                        fieldValues2.put("transactionId", awardAmountInfo.getTransactionId());
+                        fieldValues2.put("transactionDetailType", TransactionDetailType.INTERMEDIATE.toString());
+
+                        // IF and only if there are PRIMARY transaction then lookup INTERMEDITE ones
                         List<TransactionDetail> transactionDetailsB
                                 = ((List<TransactionDetail>) businessObjectService.findMatchingOrderBy(TransactionDetail.class, fieldValues2, "transactionDetailId", true));
 
@@ -330,7 +331,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         List<AwardAmountInfoHistory> dateInfoHistoryList = new ArrayList<AwardAmountInfoHistory>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         for (AwardAmountInfo awardAmountInfo : validInfos) {
-            if (!(awardAmountInfo.getTimeAndMoneyDocumentNumber() == null)) {
+            if (awardAmountInfo.getTimeAndMoneyDocumentNumber() != null) {
                 if (StringUtils.equalsIgnoreCase(doc.getDocumentNumber(), awardAmountInfo.getTimeAndMoneyDocumentNumber())) {
                     if (awardAmountInfo.getTransactionId() == null) {
                         fieldValues.put("sourceAwardNumber", awardAmountInfo.getAwardNumber());
@@ -356,7 +357,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         List<AwardAmountInfoHistory> initialInfoHistoryList = new ArrayList<AwardAmountInfoHistory>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         for (AwardAmountInfo awardAmountInfo : validInfos) {
-            if (!(awardAmountInfo.getTimeAndMoneyDocumentNumber() == null)) {
+            if (awardAmountInfo.getTimeAndMoneyDocumentNumber() != null) {
                 if (StringUtils.equalsIgnoreCase(doc.getDocumentNumber(), awardAmountInfo.getTimeAndMoneyDocumentNumber())) {
                     fieldValues.put("destinationAwardNumber", awardAmountInfo.getAwardNumber());
                     fieldValues.put("transactionId", 0);
