@@ -1980,7 +1980,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     }
 
     protected ActionForward superUserActionHelper(SuperUserAction actionName, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        boolean success;
+        //boolean success;
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = proposalDevelopmentForm.getProposalDevelopmentDocument();
