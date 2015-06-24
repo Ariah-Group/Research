@@ -60,7 +60,7 @@ public class BudgetPersonnelExpenseRule {
             valid = false;
         }
         //Check for Req.9: Summary is already added and user is attempting to add a second summary
-        if(budgetLineItem.getBudgetPersonnelDetailsList().size() == 0) {
+        if(budgetLineItem.getBudgetPersonnelDetailsList().isEmpty()) {
             errorMap.putError("newBudgetPersonnelDetails.personSequenceNumber", KeyConstants.ERROR_SUMMARY_LINEITEM_EXISTS);
             valid = false;
         }
@@ -73,7 +73,7 @@ public class BudgetPersonnelExpenseRule {
         MessageMap errorMap = GlobalVariables.getMessageMap();
         
         //Check for Req.9: Summary is already added and user is attempting to add a second summary
-        if(budgetLineItem.getBudgetPersonnelDetailsList().size() == 0) {
+        if(budgetLineItem.getBudgetPersonnelDetailsList().isEmpty()) {
             errorMap.putError("newBudgetPersonnelDetails.personSequenceNumber", KeyConstants.ERROR_SUMMARY_LINEITEM_EXISTS_ADD_PERSON);
             valid = false;
         }

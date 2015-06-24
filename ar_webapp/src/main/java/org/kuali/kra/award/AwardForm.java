@@ -842,7 +842,7 @@ public class AwardForm extends BudgetVersionFormBase
      * @return Returns the awardHierarchyNodes.
      */
     public Map<String, AwardHierarchy> getAwardHierarchyNodes() {
-        if (awardHierarchyNodes == null || awardHierarchyNodes.size() == 0) {
+        if (awardHierarchyNodes == null || awardHierarchyNodes.isEmpty()) {
             awardHierarchyNodes = getAwardHierarchyBean().getAwardHierarchy(getAwardHierarchyBean().getRootNode(), new ArrayList<String>());
         }
         return awardHierarchyNodes;

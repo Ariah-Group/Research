@@ -353,7 +353,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
      */
     @Override
     public void persistAwardHierarchies(Collection<AwardHierarchy> rootNodes) {
-        if (rootNodes == null || rootNodes.size() == 0) {
+        if (rootNodes == null || rootNodes.isEmpty()) {
             return;
         }
         for (AwardHierarchy rootNode : rootNodes) {

@@ -89,7 +89,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
         // for fixing audit error
-        if (budget.getBudgetCategoryTypeCodes() == null || budget.getBudgetCategoryTypeCodes().size() == 0) {
+        if (budget.getBudgetCategoryTypeCodes() == null || budget.getBudgetCategoryTypeCodes().isEmpty()) {
             populatePersonnelCategoryTypeCodes(budgetForm);
         }
         ActionForward forward = super.execute(mapping, form, request, response);

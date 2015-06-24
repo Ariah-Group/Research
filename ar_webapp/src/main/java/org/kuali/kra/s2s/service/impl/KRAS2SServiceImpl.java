@@ -255,7 +255,7 @@ public class KRAS2SServiceImpl implements S2SService {
 
         if (appSubmission != null) {
             boolean statusChanged = false;
-            if (applicationListResponse.getApplicationInfo() == null || applicationListResponse.getApplicationInfo().size() == 0) {
+            if (applicationListResponse.getApplicationInfo() == null || applicationListResponse.getApplicationInfo().isEmpty()) {
                 statusChanged = checkForSubmissionStatusChange(pdDoc, appSubmission);
             } else {
                 int appSize = applicationListResponse.getApplicationInfo().size();

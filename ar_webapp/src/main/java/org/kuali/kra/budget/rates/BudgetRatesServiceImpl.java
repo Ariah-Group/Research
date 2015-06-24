@@ -692,7 +692,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
 
         syncAllRateClasses(budget, instituteRates);
         syncAllRateClassTypes(budget, rateClassTypes, instituteRates);
-        if (budgetRates.size() == 0) {
+        if (budgetRates.isEmpty()) {
             syncAllBudgetRatesForInstituteRateType(budgetDocument, abstractBudgetRates, instituteRates);
         }
     }

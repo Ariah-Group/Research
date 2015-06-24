@@ -39,11 +39,13 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * 
- * This class is run by the S2S Scheduler. ON every trigger, it polls data from Grants.gov for status of submitted proposals. On
- * receiving status, if it has changed from what exists in database, it updates the status in database and also sends emails
- * regarding status. All the required parameter configurations are injected from spring-beans.xml
- * 
+ *
+ * This class is run by the S2S Scheduler. ON every trigger, it polls data from
+ * Grants.gov for status of submitted proposals. On receiving status, if it has
+ * changed from what exists in database, it updates the status in database and
+ * also sends emails regarding status. All the required parameter configurations
+ * are injected from spring-beans.xml
+ *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class S2SPollingTask {
@@ -73,7 +75,7 @@ public class S2SPollingTask {
     private static final String SORT_ID_Z = "Z";
 
     /**
-     * 
+     *
      * Constructs a S2SPollingTask.java.
      */
     public S2SPollingTask() {
@@ -97,10 +99,10 @@ public class S2SPollingTask {
     }
 
     /**
-     * 
-     * This method determines whether the particular submission record received as parameter must be polled or not based on its last
-     * modified date.
-     * 
+     *
+     * This method determines whether the particular submission record received
+     * as parameter must be polled or not based on its last modified date.
+     *
      * @param appSubmission
      * @return boolean
      */
@@ -109,8 +111,7 @@ public class S2SPollingTask {
         long stopPollingIntervalMillis = Integer.parseInt(this.getStopPollInterval()) * 60 * 60 * 1000L;
         if (appSubmission.getLastModifiedDate() != null) {
             lastModifiedDate.setTimeInMillis(appSubmission.getLastModifiedDate().getTime());
-        }
-        else {
+        } else {
             lastModifiedDate.setTimeInMillis(appSubmission.getReceivedDate().getTime());
         }
 
@@ -118,9 +119,10 @@ public class S2SPollingTask {
     }
 
     /**
-     * 
-     * This method filters out the latest submission record for each proposal and returns it in a map.
-     * 
+     *
+     * This method filters out the latest submission record for each proposal
+     * and returns it in a map.
+     *
      * @param submissionList {@link Collection} of all submissions
      * @return map of one submission record for each proposal
      */
@@ -132,8 +134,7 @@ public class S2SPollingTask {
             submissionMap.put(KEY_STATUS, status);
             if (submissionList == null) {
                 submissionList = businessObjectService.findMatching(S2sAppSubmission.class, submissionMap);
-            }
-            else {
+            } else {
                 submissionList.addAll(businessObjectService.findMatching(S2sAppSubmission.class, submissionMap));
             }
         }
@@ -153,8 +154,7 @@ public class S2SPollingTask {
                         pollingList.put(appSubmission.getProposalNumber(), submissionData);
                     }
                 }
-            }
-            else {
+            } else {
                 if (getSubmissionDateValidity(appSubmission)) {
                     SubmissionData submissionData = new SubmissionData();
                     submissionData.setS2sAppSubmission(appSubmission);
@@ -166,8 +166,9 @@ public class S2SPollingTask {
     }
 
     /**
-     * This method is the starting point of execution for the thread that is scheduled by the scheduler service
-     * 
+     * This method is the starting point of execution for the thread that is
+     * scheduled by the scheduler service
+     *
      */
     public void execute() {
         LOG.info("Executing polling schedule for status -" + statusMap.values() + ":" + stopPollInterval);
@@ -194,15 +195,14 @@ public class S2SPollingTask {
                 }
 
                 if (applicationListResponse.getApplicationInfo() == null
-                        || applicationListResponse.getApplicationInfo().size() == 0) {
+                        || applicationListResponse.getApplicationInfo().isEmpty()) {
                     statusChanged = s2SService.checkForSubmissionStatusChange(pdDoc, appSubmission);
                     if (statusChanged == false
                             && appSubmission.getComments().equals(S2SConstants.STATUS_NO_RESPONSE_FROM_GRANTS_GOV)) {
                         localSubInfo.setSortId(SORT_ID_F);
                         sendEmailFlag = true;
                     }
-                }
-                else {
+                } else {
                     ApplicationInfo ggApplication = applicationListResponse.getApplicationInfo().get(0);
                     if (ggApplication != null) {
                         localSubInfo.setAcType('U');
@@ -211,8 +211,7 @@ public class S2SPollingTask {
                         s2SService.populateAppSubmission(pdDoc, appSubmission, ggApplication);
                     }
                 }
-            }
-            catch (S2SException e) {
+            } catch (S2SException e) {
                 LOG.error(e.getMessage(), e);
                 appSubmission.setComments(e.getMessage());
                 localSubInfo.setSortId(SORT_ID_F);
@@ -238,19 +237,16 @@ public class S2SPollingTask {
                     updateFlag = true;
                     sendEmailFlag = true;
                     sortId = SORT_ID_A;
-                }
-                else if (!lstStatus.contains(appSubmission.getStatus().trim().toUpperCase())) {
+                } else if (!lstStatus.contains(appSubmission.getStatus().trim().toUpperCase())) {
                     updateFlag = false;
                     sendEmailFlag = true;
                     sortId = SORT_ID_B;
-                }
-                else {
+                } else {
                     updateFlag = true;
                     sendEmailFlag = true;
                     sortId = SORT_ID_E;
                 }
-            }
-            else {
+            } else {
                 long lastModifiedTime = statusChangedDate == null ? appSubmission.getReceivedDate().getTime() : statusChangedDate
                         .getTime();
                 long lastNotifiedTime = lastNotifiedDate == null ? lastModifiedTime : lastNotifiedDate.getTime();
@@ -263,8 +259,7 @@ public class S2SPollingTask {
                     if (localSubInfo.getSortId() == null) {
                         if (stopPollDiff <= 24) {
                             sortId = SORT_ID_C;
-                        }
-                        else {
+                        } else {
                             sortId = SORT_ID_D;
                             sortMsgKeyMap.put(SORT_ID_D, "Following submissions status has not been changed in "
                                     + getMailInterval() + " minutes");
@@ -283,8 +278,7 @@ public class S2SPollingTask {
                 String dunsNum;
                 if (developmentProposal.getApplicantOrganization().getOrganization().getDunsNumber() != null) {
                     dunsNum = developmentProposal.getApplicantOrganization().getOrganization().getDunsNumber();
-                }
-                else {
+                } else {
                     dunsNum = developmentProposal.getApplicantOrganization().getOrganizationId();
                 }
                 Vector<SubmissionData> mailGrpForDunNum = new Vector<SubmissionData>();
@@ -303,8 +297,7 @@ public class S2SPollingTask {
         }
         try {
             sendMail(htMails);
-        }
-        catch (InvalidAddressException ex) {
+        } catch (InvalidAddressException ex) {
             LOG.error("Mail sending failed");
             LOG.error(ex.getMessage(), ex);
             int size = submList.size();
@@ -337,9 +330,9 @@ public class S2SPollingTask {
     }
 
     /**
-     * 
+     *
      * This method saves submission data and status to database
-     * 
+     *
      * @param submList
      */
     private void saveSubmissionDetails(Vector<SubmissionData> submList) {
@@ -347,7 +340,7 @@ public class S2SPollingTask {
             for (SubmissionData submissionData : submList) {
                 S2sAppSubmission s2sAppSubmission = submissionData.getS2sAppSubmission();
                 s2sAppSubmission.setUpdateUserSet(true);
-                if(!s2sAppSubmission.getStatus().equalsIgnoreCase(S2SConstants.STATUS_PUREGED)) {
+                if (!s2sAppSubmission.getStatus().equalsIgnoreCase(S2SConstants.STATUS_PUREGED)) {
                     businessObjectService.save(s2sAppSubmission);
                 }
             }
@@ -355,15 +348,16 @@ public class S2SPollingTask {
     }
 
     /**
-     * 
-     * This method sends mail for all submission status records that have changed relative to database
-     * 
+     *
+     * This method sends mail for all submission status records that have
+     * changed relative to database
+     *
      * @param htMails
      * @throws InvalidAddressException
      * @throws Exception
      */
-    private void sendMail(HashMap<String, Vector<SubmissionData>> htMails) throws InvalidAddressException , MessagingException {
-        MailService mailService = KraServiceLocator.getService(MailService.class); 
+    private void sendMail(HashMap<String, Vector<SubmissionData>> htMails) throws InvalidAddressException, MessagingException {
+        MailService mailService = KraServiceLocator.getService(MailService.class);
         if (htMails.isEmpty()) {
             return;
         }
@@ -397,9 +391,9 @@ public class S2SPollingTask {
     }
 
     /**
-     * 
+     *
      * This method processes data that is to be sent by mail
-     * 
+     *
      * @param propList
      * @param mailInfo
      * @return {@link MailMessage}
@@ -449,8 +443,7 @@ public class S2SPollingTask {
                     message.append(sortMsgKeyMap.get(submissionData.getSortId()));
                     message.append("\n____________________________________________________");
                 }
-            }
-            else {
+            } else {
                 message.append("\n\n");
                 message.append(sortMsgKeyMap.get(submissionData.getSortId()));
                 message.append("\n____________________________________________________");
@@ -486,7 +479,7 @@ public class S2SPollingTask {
 
     /**
      * Getter for property stopPollInterval.
-     * 
+     *
      * @return Value of property stopPollInterval.
      */
     public String getStopPollInterval() {
@@ -495,7 +488,7 @@ public class S2SPollingTask {
 
     /**
      * Setter for property stopPollInterval.
-     * 
+     *
      * @param stopPollInterval New value of property stopPollInterval.
      */
     public void setStopPollInterval(String stopPollInterval) {
@@ -504,7 +497,7 @@ public class S2SPollingTask {
 
     /**
      * Gets the statusMap attribute.
-     * 
+     *
      * @return Returns the statusMap.
      */
     public Map<String, String> getStatusMap() {
@@ -513,7 +506,7 @@ public class S2SPollingTask {
 
     /**
      * Sets the statusMap attribute value.
-     * 
+     *
      * @param statusMap The statusMap to set.
      */
     public void setStatusMap(Map<String, String> statusMap) {
@@ -522,7 +515,7 @@ public class S2SPollingTask {
 
     /**
      * Gets the mailInfoList attribute.
-     * 
+     *
      * @return Returns the mailInfoList.
      */
     public List<MailInfo> getMailInfoList() {
@@ -531,7 +524,7 @@ public class S2SPollingTask {
 
     /**
      * Sets the mailInfoList attribute value.
-     * 
+     *
      * @param mailInfoList The mailInfoList to set.
      */
     public void setMailInfoList(List<MailInfo> mailInfoList) {
@@ -540,7 +533,7 @@ public class S2SPollingTask {
 
     /**
      * Gets the mailInterval attribute.
-     * 
+     *
      * @return Returns the mailInterval.
      */
     public String getMailInterval() {
@@ -549,7 +542,7 @@ public class S2SPollingTask {
 
     /**
      * Sets the mailInterval attribute value.
-     * 
+     *
      * @param mailInterval The mailInterval to set.
      */
     public void setMailInterval(String mailInterval) {
@@ -558,7 +551,7 @@ public class S2SPollingTask {
 
     /**
      * Sets the dateTimeService attribute value.
-     * 
+     *
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -567,7 +560,7 @@ public class S2SPollingTask {
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

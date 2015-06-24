@@ -37,15 +37,15 @@ import java.util.Set;
 
 /**
  * This class...
+ *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public abstract class ProtocolOnlineReviewFormBase extends KraTransactionalDocumentFormBase implements PermissionsForm, Auditable  {
-    
+public abstract class ProtocolOnlineReviewFormBase extends KraTransactionalDocumentFormBase implements PermissionsForm, Auditable {
+
     private static final long serialVersionUID = -7633960906991275328L;
-    
+
     private static final String DEFAULT_APPROVE_BUTTON = "buttonsmall_approve_this_review.gif";
-    
-    
+
     public ProtocolOnlineReviewFormBase() throws Exception {
         super();
         this.registerEditableProperty("methodToCall");
@@ -53,15 +53,15 @@ public abstract class ProtocolOnlineReviewFormBase extends KraTransactionalDocum
 
     /**
      * Gets a {@link ProtocolDocumentBase ProtocolDocumentBase}.
+     *
      * @return {@link ProtocolDocumentBase ProtocolDocumentBase}
      */
     public ProtocolOnlineReviewDocumentBase getProtocolOnlineReviewDocument() {
         return (ProtocolOnlineReviewDocumentBase) super.getDocument();
     }
 
-    
-    protected abstract String getDefaultDocumentTypeName(); 
-    
+    protected abstract String getDefaultDocumentTypeName();
+
     /*
      * Override of the set document so we can populate this form
      * with doucment information outside of a request.
@@ -76,7 +76,7 @@ public abstract class ProtocolOnlineReviewFormBase extends KraTransactionalDocum
     public void populate(HttpServletRequest request) {
         super.populate(request);
     }
-    
+
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
@@ -90,23 +90,22 @@ public abstract class ProtocolOnlineReviewFormBase extends KraTransactionalDocum
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);
     }
-    
-    
+
     @Override
     protected void setSaveDocumentControl(Map editMode) {
-      
+
     }
-    
-    
+
     protected abstract String getLockRegion();
-    
+
     @Override
     public String getActionName() {
         return "protocol";
     }
 
     /**
-     * @see org.kuali.kra.web.struts.form.SpecialReviewFormBase#getResearchDocument()
+     * @see
+     * org.kuali.kra.web.struts.form.SpecialReviewFormBase#getResearchDocument()
      */
     public ResearchDocumentBase getResearchDocument() {
         return (ResearchDocumentBase) this.getDocument();
@@ -129,29 +128,28 @@ public abstract class ProtocolOnlineReviewFormBase extends KraTransactionalDocum
 
     public void setAuditActivated(boolean auditActivated) {
         // TODO Auto-generated method stub
-        
+
     }
 
-
     public abstract List<ExtraButton> getExtraActionsButtons();
-    
+
     /**
      * This is a utility method to add a new button to the extra buttons
      * collection.
-     *   
+     *
      * @param property
      * @param source
      * @param altText
-     */ 
+     */
     @SuppressWarnings("deprecation")
-    protected void addExtraButton(String property, String source, String altText){
-        
+    protected void addExtraButton(String property, String source, String altText) {
+
         ExtraButton newButton = new ExtraButton();
-        
+
         newButton.setExtraButtonProperty(property);
         newButton.setExtraButtonSource(source);
         newButton.setExtraButtonAltText(altText);
-        
+
         extraButtons.add(newButton);
     }
 
@@ -159,8 +157,7 @@ public abstract class ProtocolOnlineReviewFormBase extends KraTransactionalDocum
     public List<ExtraButton> getExtraButtons() {
         return getExtraActionsButtons();
     }
-    
-    
+
     public abstract boolean getAdminFieldsEditable();
 
     public Set<String> getCurrentRouteNodes() {
@@ -168,7 +165,7 @@ public abstract class ProtocolOnlineReviewFormBase extends KraTransactionalDocum
         try {
             nodes = getDocument().getDocumentHeader().getWorkflowDocument().getNodeNames();
         } catch (Exception e) {
-            getLogHook().warn(String.format("Workflow exception thrown while trying to get list of current route nodes. Message:%s",e.getMessage()));
+            getLogHook().warn(String.format("Workflow exception thrown while trying to get list of current route nodes. Message:%s", e.getMessage()));
             nodes = new HashSet<String>();
         }
         return nodes;
@@ -179,15 +176,14 @@ public abstract class ProtocolOnlineReviewFormBase extends KraTransactionalDocum
     public String getApproveImageName() {
         //we take the first route node the document is on.
         Set<String> routeNodes = getCurrentRouteNodes();
-        String routeNodeName = routeNodes.size() == 0? null : routeNodes.iterator().next();
-        if (routeNodeName!=null) {
-            return getOnlineReviewApproveButtonMapHook().get(routeNodeName)!=null? getOnlineReviewApproveButtonMapHook().get(routeNodeName):DEFAULT_APPROVE_BUTTON;
+        String routeNodeName = routeNodes.isEmpty() ? null : routeNodes.iterator().next();
+        if (routeNodeName != null) {
+            return getOnlineReviewApproveButtonMapHook().get(routeNodeName) != null ? getOnlineReviewApproveButtonMapHook().get(routeNodeName) : DEFAULT_APPROVE_BUTTON;
         } else {
             return DEFAULT_APPROVE_BUTTON;
         }
     }
 
     protected abstract Map<String, String> getOnlineReviewApproveButtonMapHook();
-    
-    
+
 }

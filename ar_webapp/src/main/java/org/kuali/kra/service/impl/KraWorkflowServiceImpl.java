@@ -372,7 +372,7 @@ public class KraWorkflowServiceImpl implements KraWorkflowService {
             approvalNodes.remove(currentRequest);
         }
 
-        return approvalNodes.size() == 0;
+        return approvalNodes.isEmpty();
     }
     
     /**

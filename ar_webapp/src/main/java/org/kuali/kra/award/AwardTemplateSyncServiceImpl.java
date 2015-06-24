@@ -268,7 +268,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
         field.setAccessible(true);
         boolean result = false;
         List<Object> awardTemplateObjectList = (List) ObjectUtils.getPropertyValue(awardTemplateObject, field.getName());
-        if (!(awardTemplateObjectList == null || awardTemplateObjectList.size() == 0)) {
+        if (!(awardTemplateObjectList == null || awardTemplateObjectList.isEmpty())) {
             //need to check each object for in scope because of shared Lists.
             Method templateIsInScopeMethod = findIsInScopeMethodForClass(field.getAnnotation(AwardSyncableList.class).syncSourceClass());
             for (Object awardListObject : awardTemplateObjectList) {
@@ -457,7 +457,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
         field.setAccessible(true);
         boolean result = false;
         List<Object> awardObjectList = (List) ObjectUtils.getPropertyValue(awardObject, field.getName());
-        if (!(awardObjectList == null || awardObjectList.size() == 0)) {
+        if (!(awardObjectList == null || awardObjectList.isEmpty())) {
             //need to check each object for in scope because of shared Lists.
             Method templateIsInScopeMethod = findIsInScopeMethodForClass(field.getAnnotation(AwardSyncableList.class).syncClass());
             for (Object awardListObject : awardObjectList) {

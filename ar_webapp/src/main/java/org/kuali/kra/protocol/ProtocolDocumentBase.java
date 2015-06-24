@@ -126,7 +126,7 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
      * @return
      */
     public ProtocolBase getProtocol() {
-        if (protocolList.size() == 0) {
+        if (protocolList.isEmpty()) {
             return null;
         }
         return protocolList.get(0);
@@ -536,7 +536,7 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
         keyMap.put("active", "Y");
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);        
         List<ProtocolBase> protocols = (List<ProtocolBase>) boService.findMatchingOrderBy(getProtocolBOClassHook(), keyMap, "sequenceNumber", false);
-        return (protocols.size() == 0) ? null : protocols.get(0).getProtocolDocument().getDocumentNumber();    
+        return (protocols.isEmpty()) ? null : protocols.get(0).getProtocolDocument().getDocumentNumber();    
     }
 
     protected abstract Class<? extends ProtocolBase> getProtocolBOClassHook();

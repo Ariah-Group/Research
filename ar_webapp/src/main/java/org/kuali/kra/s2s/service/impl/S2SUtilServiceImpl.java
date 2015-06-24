@@ -341,7 +341,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
             }
         }
         // If question is not answered or question is inactive
-        if (stateReview.size() == 0) {
+        if (stateReview.isEmpty()) {
             stateReview.put(S2SConstants.YNQ_ANSWER, YNQ_NOT_REVIEWED);
             stateReview.put(S2SConstants.YNQ_REVIEW_DATE, null);
         }

@@ -974,7 +974,7 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase
     }
 
     public ProtocolActionBase getLastProtocolAction() {
-        if (protocolActions.size() == 0) {
+        if (protocolActions.isEmpty()) {
             return null;
         }
         Collections.sort(protocolActions, new Comparator<ProtocolActionBase>() {
@@ -1031,7 +1031,7 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase
     }
 
     public ProtocolAmendRenewalBase getProtocolAmendRenewal() {
-        if (protocolAmendRenewals.size() == 0) {
+        if (protocolAmendRenewals.isEmpty()) {
             return null;
         }
         return protocolAmendRenewals.get(0);

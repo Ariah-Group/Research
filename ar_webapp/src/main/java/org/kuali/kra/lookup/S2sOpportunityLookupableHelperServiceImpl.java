@@ -85,7 +85,7 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
                 GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, e.getErrorKey(),e.getMessage());
                 return new ArrayList<S2sOpportunity>();
             }
-            if (s2sOpportunity != null && s2sOpportunity.size()!=0) {
+            if (s2sOpportunity != null && !s2sOpportunity.isEmpty()) {
                 return s2sOpportunity;
             } else if (StringUtils.isNotBlank(cfdaNumber) && StringUtils.isNotBlank(opportunityId)) {
                 try{

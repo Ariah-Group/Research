@@ -609,7 +609,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
     }
 
     protected void resetDisclosureReviewStatus(CoiDisclosure disclosure) {
-        if(disclosure.getCoiUserRoles().size() == 0) {
+        if(disclosure.getCoiUserRoles().isEmpty()) {
             if(StringUtils.equals(disclosure.getCoiDisclosureStatus().getCoiDisclosureStatusCode(), CoiDisclosureStatus.ROUTED_FOR_REVIEW)) {
                 setDisclosureReviewStatus(disclosure, CoiReviewStatus.SUBMITTED_FOR_REVIEW);
             }else {

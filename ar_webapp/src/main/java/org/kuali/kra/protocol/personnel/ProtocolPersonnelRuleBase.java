@@ -231,7 +231,7 @@ public abstract class ProtocolPersonnelRuleBase extends ResearchDocumentRuleBase
             protocolPerson.refreshReferenceObject(REFERENCE_PERSON_ROLE);
             if (protocolPerson.getProtocolPersonRole().isUnitDetailsRequired()) {
                 int personIndex = protocolPersons.indexOf(protocolPerson);
-                if (protocolPerson.getProtocolUnits().size() == 0) {
+                if (protocolPerson.getProtocolUnits().isEmpty()) {
                     reportError(formatErrorPropertyName(false, personIndex, ERROR_PROPERTY_PERSON_UNIT), KeyConstants.ERROR_PROTOCOL_UNIT_NOT_FOUND);
                     personUnitValid = false;
                 } else {
