@@ -221,7 +221,9 @@ public class ProposalPersonBiography extends KraPersistableBusinessObjectBase im
     
     public void populateAttachment() {
         FormFile personnelFile = getPersonnelAttachmentFile();
-        if (personnelFile == null) return;
+        if (personnelFile == null) {
+            return;
+        }
         byte[] personnellFileData;
         try {
             personnellFileData = personnelFile.getFileData();

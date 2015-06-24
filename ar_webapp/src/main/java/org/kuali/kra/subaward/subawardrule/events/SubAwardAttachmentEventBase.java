@@ -59,8 +59,9 @@ public class SubAwardAttachmentEventBase extends KraDocumentEventBase implements
 
     @Override
     protected void logEvent() {
-        if( LOG.isDebugEnabled() )
+        if( LOG.isDebugEnabled() ) {
             LOG.debug(getDescription());
+        }
     }
 
     @Override

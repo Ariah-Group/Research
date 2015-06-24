@@ -145,8 +145,9 @@ public abstract class CommitteeScheduleAttachmentsBase extends KraPersistableBus
         AttachmentsEntryType attachmentsEntryType =  KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(AttachmentsEntryType.class, fieldValues);
         if(attachmentsEntryType!=null){
             this.attachmentsEntryType = attachmentsEntryType;
-            if(this.attachmentsEntryType !=null)
-            this.attachmentsEntryType.setDescription(attachmentsEntryType.getDescription()) ;
+            if(this.attachmentsEntryType !=null) {
+                this.attachmentsEntryType.setDescription(attachmentsEntryType.getDescription()) ;
+            }
         }
     }
 
@@ -331,7 +332,9 @@ public abstract class CommitteeScheduleAttachmentsBase extends KraPersistableBus
      */
     public void populateAttachment() {
         FormFile newFile = getNewFile();
-        if(newFile==null) return;
+        if(newFile==null) {
+            return;
+        }
         byte[] newFileData;
         try {
             newFileData = newFile.getFileData();

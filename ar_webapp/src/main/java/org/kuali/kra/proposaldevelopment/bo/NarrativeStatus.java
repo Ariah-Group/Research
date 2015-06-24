@@ -45,7 +45,9 @@ public class NarrativeStatus extends KraPersistableBusinessObjectBase {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
     public boolean equals(Object obj) {
-        if (obj == this) return true;
+        if (obj == this) {
+            return true;
+        }
         if (obj instanceof NarrativeStatus) {
             NarrativeStatus other = (NarrativeStatus) obj;
             return StringUtils.equals(this.narrativeStatusCode, other.narrativeStatusCode) && StringUtils.equals(this.description, other.description);

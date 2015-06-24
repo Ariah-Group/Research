@@ -153,7 +153,9 @@ public class ProtocolXmlStream extends ProtocolXmlStreamBase {
     private void addSubmissionDetails(org.kuali.kra.irb.Protocol protocol, Protocol protocolType, Integer submissionNumber, String currentFlag) {
         org.kuali.kra.irb.actions.submit.ProtocolSubmission submissionInfoBean = null;
         submissionInfoBean = submissionNumber==null?protocol.getProtocolSubmission():findProtocolSubmission(protocol,submissionNumber);
-        if(submissionInfoBean==null || submissionInfoBean.getSubmissionNumber()==null) return;
+        if(submissionInfoBean==null || submissionInfoBean.getSubmissionNumber()==null) {
+            return;
+        }
         submissionInfoBean.refreshNonUpdateableReferences();
         Submissions submission = protocolType.addNewSubmissions();
         SubmissionDetails submissionDetail = submission.addNewSubmissionDetails();
@@ -382,8 +384,9 @@ public class ProtocolXmlStream extends ProtocolXmlStreamBase {
 
     private void setProtocolMasterData(org.kuali.kra.irb.Protocol protocol, Protocol protocolType) {
         ProtocolMasterData protocolMaster = protocolType.addNewProtocolMasterData();
-        if (protocol == null)
+        if (protocol == null) {
             return;
+        }
         protocolMaster.setProtocolNumber(protocol.getProtocolNumber());
         protocolMaster.setSequenceNumber(BigInteger.valueOf(protocol.getSequenceNumber()));
         protocolMaster.setProtocolTitle(protocol.getTitle());

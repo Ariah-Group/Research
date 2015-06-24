@@ -46,8 +46,9 @@ public class SensitiveFieldSimpleMatcher implements SensitiveFieldMatcher {
      */
     private void addToSortedSet(List<String> listOfStrings) {
         for(String str: listOfStrings) {
-            if(str.contains(STAR_CONSTANT))
+            if(str.contains(STAR_CONSTANT)) {
                 continue;
+            }
             fields.add(str);
         }
     }

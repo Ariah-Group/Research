@@ -553,12 +553,10 @@ public class MeetingServiceTest extends KcUnitTestBase {
                 ;
                 will(returnValue(agendas));
                 one(businessObjectService).findMatchingOrderBy(CommScheduleMinuteDoc.class, queryMap, "createTimestamp", true);
-                ;
                 will(returnValue(minuteDocs));
                 Map queryMap1 = new HashMap();
                 queryMap1.put("protocolId", 1L);
                 one(businessObjectService).findMatching(ProtocolCorrespondence.class, queryMap1);
-                ;
                 will(returnValue(correspondences));
 
 

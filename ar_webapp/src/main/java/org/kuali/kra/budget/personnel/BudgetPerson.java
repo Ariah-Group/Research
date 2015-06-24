@@ -452,25 +452,32 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         BudgetPerson other = (BudgetPerson) obj;
         if (getBudgetId() == null) {
-            if (other.getBudgetId() != null)
+            if (other.getBudgetId() != null) {
                 return false;
+            }
         }
-        else if (!getBudgetId().equals(other.getBudgetId()))
+        else if (!getBudgetId().equals(other.getBudgetId())) {
             return false;
+        }
         if (personSequenceNumber == null) {
-            if (other.personSequenceNumber != null)
+            if (other.personSequenceNumber != null) {
                 return false;
+            }
         }
-        else if (!personSequenceNumber.equals(other.personSequenceNumber))
+        else if (!personSequenceNumber.equals(other.personSequenceNumber)) {
             return false;
+        }
         return true;
     }
 

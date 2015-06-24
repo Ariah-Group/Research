@@ -65,7 +65,9 @@ public class RenewalReminderStream extends RenewalReminderStreamBase {
         List<CommitteeSchedule> committeSchedules = committee.getCommitteeSchedules();
         int rowNumber = 0;
         for (CommitteeSchedule committeeSchedule : committeSchedules) {
-            if(rowNumber<5 ) break;
+            if(rowNumber<5 ) {
+                break;
+            }
             if(committeeSchedule.getScheduledDate().after(getDateTimeService().getCurrentDate()) ||
                     committeeSchedule.getScheduledDate().equals(getDateTimeService().getCurrentDate())){
                 ++rowNumber;

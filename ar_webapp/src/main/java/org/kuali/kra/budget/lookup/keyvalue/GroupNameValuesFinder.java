@@ -54,10 +54,11 @@ public class GroupNameValuesFinder extends FormViewAwareUifKeyValuesFinderBase {
         fieldValues.put("budgetId", budgetDocument.getBudget().getBudgetId());
         
         int budgetPeriodNumber = -1;
-        if(budgetForm.getViewBudgetPeriod() == null)
+        if(budgetForm.getViewBudgetPeriod() == null) {
             budgetPeriodNumber = 1;
-        else 
+        } else {
             budgetPeriodNumber = budgetForm.getViewBudgetPeriod();
+        }
         
         fieldValues.put("budgetPeriod", budgetPeriodNumber);
         

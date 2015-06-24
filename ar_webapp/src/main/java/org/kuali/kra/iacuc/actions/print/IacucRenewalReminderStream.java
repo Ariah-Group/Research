@@ -63,7 +63,9 @@ public class IacucRenewalReminderStream extends RenewalReminderStreamBase {
         List<CommitteeScheduleBase> committeSchedules = committee.getCommitteeSchedules();
         int rowNumber = 0;
         for (CommitteeScheduleBase committeeSchedule : committeSchedules) {
-            if(rowNumber<5 ) break;
+            if(rowNumber<5 ) {
+                break;
+            }
             if(committeeSchedule.getScheduledDate().after(getDateTimeService().getCurrentDate()) ||
                     committeeSchedule.getScheduledDate().equals(getDateTimeService().getCurrentDate())){
                 ++rowNumber;

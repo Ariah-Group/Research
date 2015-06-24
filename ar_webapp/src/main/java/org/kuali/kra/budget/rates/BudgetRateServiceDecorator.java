@@ -93,7 +93,9 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
         List<AwardFandaRate> awardFnARates = award.getAwardFandaRate();
         Collection<InstituteRate> instituteRatesForAward = new ArrayList<InstituteRate>();  
         List<InstituteRate> awardEbRates = createAwardEBInstituteRates(award);
-        if(awardFnARates.isEmpty() && awardEbRates.isEmpty()) return instituteRates;
+        if(awardFnARates.isEmpty() && awardEbRates.isEmpty()) {
+            return instituteRates;
+        }
         
         for (AwardFandaRate awardFnARate : awardFnARates) {
             InstituteRate awardRate = createAwardFnAInstitueRate(awardFnARate,award,instituteRates);
@@ -286,7 +288,9 @@ public class BudgetRateServiceDecorator<T extends BudgetParent> extends BudgetRa
             if(!ratesOutOfSync){
                 for (BudgetRate budgetRate : filteredOhRates) {
                     ratesOutOfSync = !fnaRatesContains(fnaRates,budgetRate);
-                    if(ratesOutOfSync) return ratesOutOfSync;
+                    if(ratesOutOfSync) {
+                        return ratesOutOfSync;
+                    }
                 }
             }
             

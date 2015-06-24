@@ -30,8 +30,9 @@ public class BudgetAdjustmentKSBClientImpl  extends BudgetAdjustmentClientBase {
     private BudgetAdjustmentKSBClientImpl() {  }
     
     public static BudgetAdjustmentClient getInstance() {
-      if (ksbClient == null)
+      if (ksbClient == null) {
           ksbClient = new BudgetAdjustmentKSBClientImpl();
+      }
       return ksbClient;
     }
 

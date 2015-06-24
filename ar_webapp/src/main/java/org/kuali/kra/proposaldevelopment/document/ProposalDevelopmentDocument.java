@@ -218,8 +218,9 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                             hService.calculateAndSetProposalAppDocStatus(this, dto);
                         }
                     
-                        if( !getDevelopmentProposal().isInHierarchy() )
+                        if( !getDevelopmentProposal().isInHierarchy() ) {
                             hService.calculateAndSetProposalAppDocStatus(this, dto);
+                        }
                         }
                
                 } catch( ProposalHierarchyException pe ) {

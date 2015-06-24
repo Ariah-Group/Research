@@ -124,11 +124,13 @@ public class ProtocolAssignToAgendaServiceTest extends KcUnitTestBase {
         keymap.put("committeeId", COMMITTEE_ID);
         List<Committee> comms = (List<Committee>)businessObjectService.findMatching(Committee.class, keymap);
         Committee committee = new Committee();
-        if( comms.size() == 1 )
+        if( comms.size() == 1 ) {
             committee = comms.get(0);
+        }
             
-        if (committee==null)
+        if (committee==null) {
             committee =  createCommittee(COMMITTEE_ID).getCommittee();
+        }
         committee.refreshReferenceObject("committeeType");
        // submitAction.setCommitteeId(committee.getCommitteeId());
         return committee;

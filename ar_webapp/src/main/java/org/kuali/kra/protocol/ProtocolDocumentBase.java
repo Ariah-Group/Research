@@ -126,7 +126,9 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
      * @return
      */
     public ProtocolBase getProtocol() {
-        if (protocolList.size() == 0) return null;
+        if (protocolList.size() == 0) {
+            return null;
+        }
         return protocolList.get(0);
     }
 

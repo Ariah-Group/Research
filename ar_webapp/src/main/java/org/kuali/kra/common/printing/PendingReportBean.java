@@ -107,8 +107,9 @@ public class PendingReportBean extends ReportBean {
                     if(proposal.getInstitutionalProposalDocument().getCustomAttributeDocuments()!= null){
                     custData.setCustomAttribute(proposal.getInstitutionalProposalDocument().getCustomAttributeDocument(custData.getCustomAttributeId().toString()).getCustomAttribute());
                     }
-                    if(customGroupName.equals(custData.getCustomAttribute().getGroupName()))
+                    if(customGroupName.equals(custData.getCustomAttribute().getGroupName())) {
                         institutionalProposalCustomDataList.add(custData);
+                    }
                 }
         }
 
@@ -116,12 +117,18 @@ public class PendingReportBean extends ReportBean {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof PendingReportBean)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof PendingReportBean)) {
+            return false;
+        }
 
         PendingReportBean that = (PendingReportBean) o;
 
-        if (!proposalNumber.equals(that.proposalNumber)) return false;
+        if (!proposalNumber.equals(that.proposalNumber)) {
+            return false;
+        }
 
         return true;
     }

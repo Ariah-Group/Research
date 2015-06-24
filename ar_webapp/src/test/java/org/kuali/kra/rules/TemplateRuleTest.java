@@ -46,7 +46,6 @@ public abstract class TemplateRuleTest<E extends KraDocumentEventBaseExtension, 
     protected abstract void prerequisite();
 
     public void checkRuleAssertions() {
-    ;
     }
     
     protected MessageMap getErrorMap() {

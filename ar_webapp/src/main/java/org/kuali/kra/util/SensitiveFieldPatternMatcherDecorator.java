@@ -41,8 +41,9 @@ public class SensitiveFieldPatternMatcherDecorator extends SensitiveFieldMatcher
      */
     private void compileToPatterns(List<String> listOfStrings) {
         for(String regex: listOfStrings) {
-            if(!regex.contains(STAR_CONSTANT)) 
+            if(!regex.contains(STAR_CONSTANT)) {
                 continue;
+            }
             listOfPatterns.add(Pattern.compile(REPEAT_NTIMES+regex.substring(0, regex.length() - 1)+REPEAT_NTIMES, Pattern.CASE_INSENSITIVE));
         }
     }
@@ -52,7 +53,9 @@ public class SensitiveFieldPatternMatcherDecorator extends SensitiveFieldMatcher
      */
     public boolean match(String text) {
         //SimpleMatcher
-        if(matcher.match(text)) return true;
+        if(matcher.match(text)) {
+            return true;
+        }
         //PatternMathcer is used only if SimpleMatcher returns with no match. 
         for(Pattern pattern : listOfPatterns) {
             if(pattern.matcher(text).matches()) {

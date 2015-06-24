@@ -51,8 +51,9 @@ public class S2SErrorHandler {
         if (auditErrorMap == null) {
         	auditErrorMap = new HashMap<String, AuditError>();
             loadErrors(ERROR_MAP_FILE);
-            if((new S2SErrorHandler().getClass().getResourceAsStream(ERROR_MAP_FILE_V2))!=null)
-            loadErrors(ERROR_MAP_FILE_V2);
+            if((new S2SErrorHandler().getClass().getResourceAsStream(ERROR_MAP_FILE_V2))!=null) {
+                loadErrors(ERROR_MAP_FILE_V2);
+                }
         }
         AuditError error = auditErrorMap.get(key);
         AuditError defaultError = new AuditError(Constants.NO_FIELD, key + " is not valid", Constants.GRANTS_GOV_PAGE + "."

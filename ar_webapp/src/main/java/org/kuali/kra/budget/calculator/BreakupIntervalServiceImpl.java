@@ -91,7 +91,9 @@ public class BreakupIntervalServiceImpl implements BreakupIntervalService {
             if(!applicableRateList.isEmpty()){
                 for (RateAndCost rateAndCost : applicableRateList) {
                     if(!rateAndCost.getRateClassType().equals(RateClassType.OVERHEAD.getRateClassType()) &&
-                            !rateAndCost.isApplyRateFlag()) continue;
+                            !rateAndCost.isApplyRateFlag()) {
+                        continue;
+                    }
                     BudgetDecimal rate = getAppliedRate(breakupInterval,rateAndCost);
                     calculatedCost = baseCost.percentage(rate);
                     calculatedCostSharing = baseCostSharing.percentage(rate);

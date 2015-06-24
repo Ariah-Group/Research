@@ -101,8 +101,9 @@ public abstract class FunctionTermResolver implements TermResolver<Object> {
         List<Object> extractedParams = new ArrayList<Object>();
         for (String parameter : parameters) {
             Object paramValue = resolvedPrereqs.get(parameter);
-            if(paramValue==null)
+            if(paramValue==null) {
                 paramValue = resolvedParameters.get(parameter);
+            }
             extractedParams.add(paramValue);
         }
         return extractedParams;

@@ -383,8 +383,9 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
     }    
     
     public Time12HrFmt getViewTime() {
-        if(null == this.viewTime)
+        if(null == this.viewTime) {
             this.viewTime = new Time12HrFmt(time);
+        }
         return viewTime;
     }
 

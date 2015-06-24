@@ -70,9 +70,10 @@ public class DeepCopyPostProcessorImpl implements DeepCopyPostProcessor{
             }
             if(field.getType().isAssignableFrom(List.class)){
                 List<Serializable> objectList = (List<Serializable>)ObjectUtils.getPropertyValue(copiedObject, field.getName());
-                if(objectList!=null)
-                for (Serializable objectFromList : objectList) {
-                    processDeepCopyWithDeepCopyIgnore(objectFromList);
+                if(objectList!=null) {
+                    for (Serializable objectFromList : objectList) {
+                        processDeepCopyWithDeepCopyIgnore(objectFromList);
+                    }
                 }
             }
         }
@@ -98,7 +99,9 @@ public class DeepCopyPostProcessorImpl implements DeepCopyPostProcessor{
         if(ObjectUtils.isNotNull(object)) {
             if (object instanceof PersistableBusinessObject) {
                 PersistableBusinessObject objectWId = (PersistableBusinessObject) object;
-                if (objectMap.get(objectWId.getObjectId()) != null) return;
+                if (objectMap.get(objectWId.getObjectId()) != null) {
+                    return;
+                }
                 objectMap.put(((PersistableBusinessObject) object).getObjectId(), object);
                 
                 Method[] methods = object.getClass().getMethods();
@@ -106,10 +109,11 @@ public class DeepCopyPostProcessorImpl implements DeepCopyPostProcessor{
                     if (method.getName().equals(methodName)) {
                         if (!(object instanceof BudgetDocument)) {
                               try {
-                                if(clazz.equals(Long.class))
-                                    method.invoke(object, (Long) propertyValue);  
-                                else 
+                                if(clazz.equals(Long.class)) {
+                                    method.invoke(object, (Long) propertyValue);
+                                } else {
                                     method.invoke(object, (Integer) propertyValue);
+                                }
                                } catch (Throwable e) { }  
                         }
                     } else if (isPropertyGetterMethod(method, methods)) {

@@ -95,10 +95,11 @@ public abstract class RelationalOperator implements Operator {
                     }
                     
                 } else {
-                    if ( ((Boolean)field.get(baseBean)).booleanValue() == booleanFixedData )
+                    if ( ((Boolean)field.get(baseBean)).booleanValue() == booleanFixedData ) {
                         compareValue = 0;
-                    else
+                    } else {
                         compareValue = 1;
+                    }
                 }
             }
             else{
@@ -121,10 +122,11 @@ public abstract class RelationalOperator implements Operator {
                     if (booleanObj == null) {
                         compareValue = -1;
                     } else {
-                        if ( booleanObj.booleanValue() == booleanFixedData )
+                        if ( booleanObj.booleanValue() == booleanFixedData ) {
                             compareValue = 0;
-                        else
+                        } else {
                             compareValue = 1;
+                        }
                     }
                 }
             }

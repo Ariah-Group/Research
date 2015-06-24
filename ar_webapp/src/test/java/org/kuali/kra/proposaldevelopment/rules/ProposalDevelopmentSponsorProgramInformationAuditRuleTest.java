@@ -118,7 +118,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRuleTest extends K
     @Test public void testValidDate() throws Exception {
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
 
-        document.getDevelopmentProposal().setDeadlineDate(tomorrow);;
+        document.getDevelopmentProposal().setDeadlineDate(tomorrow);
         assertTrue("Audit Rule shouldn't produce any audit errors", auditRule.processRunAuditBusinessRules(document));
         assertEquals(0, KNSGlobalVariables.getAuditErrorMap().size());
     }

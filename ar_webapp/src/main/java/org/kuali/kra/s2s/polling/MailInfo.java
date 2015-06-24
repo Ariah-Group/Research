@@ -186,10 +186,12 @@ public class MailInfo {
     private MailMessage createMailMessage(){
         mailMessage = new MailMessage();
         mailMessage.addToAddress(to);
-        if(StringUtils.isNotBlank(cc))
+        if(StringUtils.isNotBlank(cc)) {
             mailMessage.addCcAddress(cc);
-        if(StringUtils.isNotBlank(bcc))
+        }
+        if(StringUtils.isNotBlank(bcc)) {
             mailMessage.addBccAddress(bcc);
+        }
         mailMessage.setMessage(message);
         mailMessage.setSubject(subject);
         return mailMessage;

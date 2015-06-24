@@ -78,10 +78,11 @@ public class YearMonthDayOfWeekCronExpression extends CronExpression {
         exp.append(getTime().getHours()).append(CronSpecialChars.SPACE);        
         exp.append(CronSpecialChars.QUESTION).append(CronSpecialChars.SPACE);
         exp.append(month).append(CronSpecialChars.SPACE);
-        if(!(weekOfMonth == CronSpecialChars.LAST))
+        if(!(weekOfMonth == CronSpecialChars.LAST)) {
             exp.append(dayOfWeek).append(CronSpecialChars.HASH).append(weekOfMonth).append(CronSpecialChars.SPACE);
-        else
-            exp.append(dayOfWeek).append(CronSpecialChars.LAST).append(CronSpecialChars.SPACE);        
+        } else {
+            exp.append(dayOfWeek).append(CronSpecialChars.LAST).append(CronSpecialChars.SPACE);
+        }        
         exp.append(stDt_year).append(CronSpecialChars.SLASH).append(frequencyInYear);
         return exp.toString();
     }

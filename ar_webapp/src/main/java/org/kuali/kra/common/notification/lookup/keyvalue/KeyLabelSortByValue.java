@@ -42,9 +42,9 @@ public class KeyLabelSortByValue extends AbstractKeyValue implements Comparable<
         CompareToBuilder builder = new CompareToBuilder();
         builder.append(this.getValue(), o.getValue(), String.CASE_INSENSITIVE_ORDER);
 
-        if ((this.getKey() instanceof String) && (o.getKey() instanceof String))
+        if ((this.getKey() instanceof String) && (o.getKey() instanceof String)) {
             builder.append(this.getKey(), o.getKey(), String.CASE_INSENSITIVE_ORDER);
-        else {
+        } else {
             builder.append(this.getKey(), o.getKey());
         }
 

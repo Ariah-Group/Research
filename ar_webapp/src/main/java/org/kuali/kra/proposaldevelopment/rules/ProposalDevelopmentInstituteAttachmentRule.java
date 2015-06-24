@@ -74,14 +74,17 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
         boolean rulePassed = true;
         populateNarrativeType(narrative);
         String errorPath = NEW_INSTITUTE_ATTACHMENT;
-        if(narrative.getNarrativeType()==null)
+        if(narrative.getNarrativeType()==null) {
             rulePassed = false;
+        }
         
         GlobalVariables.getMessageMap().addToErrorPath(NEW_INSTITUTE_ATTACHMENT);
         DictionaryValidationService dictionaryValidationService = getKnsDictionaryValidationService();
         dictionaryValidationService.validateAttributeFormat(narrative.getClass().getName(), "moduleTitle", narrative.getModuleTitle(), "moduleTitle");
 
-        if (GlobalVariables.getMessageMap().getPropertiesWithErrors().size() > 0) rulePassed = false;
+        if (GlobalVariables.getMessageMap().getPropertiesWithErrors().size() > 0) {
+            rulePassed = false;
+        }
         GlobalVariables.getMessageMap().removeFromErrorPath(NEW_INSTITUTE_ATTACHMENT);
         
         if(StringUtils.isBlank(narrative.getNarrativeTypeCode())){
@@ -162,8 +165,9 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
         narrativeTypeMap.put(NARRATIVE_TYPE_CODE, narrative.getNarrativeTypeCode());
         BusinessObjectService service = getService(BusinessObjectService.class);
         NarrativeType narrType = (NarrativeType) service.findByPrimaryKey(NarrativeType.class, narrativeTypeMap);
-        if (narrType != null)
+        if (narrType != null) {
             narrative.setNarrativeType(narrType);
+        }
         
     }
 

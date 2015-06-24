@@ -143,9 +143,10 @@ AddSubAwardAttachmentRule,SubAwardTemplateInfoRule {
         }  
         if(subAward.getRequisitionerUnit() != null){
             Unit leadUnit = (Unit) getBusinessObjectService().findByPrimaryKey(Unit.class, Collections.singletonMap("unitNumber", subAward.getRequisitionerUnit()));
-            if(leadUnit == null)
+            if(leadUnit == null) {
                 reportError(propertyPrefix+REQUISITIONER_UNIT
-                        , KeyConstants.ERROR_REQUIRED_REQUISITIONER_UNIT); 
+                        , KeyConstants.ERROR_REQUIRED_REQUISITIONER_UNIT);
+            } 
         }
         if(subAward.getPurchaseOrderNum()==null ){
             rulePassed = false;

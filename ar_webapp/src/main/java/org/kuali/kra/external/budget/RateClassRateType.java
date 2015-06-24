@@ -58,9 +58,15 @@ public class RateClassRateType {
     @Override
     public boolean equals(Object o) {
         RateClassRateType current = (RateClassRateType) o;
-        if (this == current) return true;
-        if (current == null) return false;
-        if (this.getClass() != current.getClass()) return false;
+        if (this == current) {
+            return true;
+        }
+        if (current == null) {
+            return false;
+        }
+        if (this.getClass() != current.getClass()) {
+            return false;
+        }
         if (current.rateClass.equals(rateClass) && current.rateType.equals(rateType)) {
             return true;
         } 

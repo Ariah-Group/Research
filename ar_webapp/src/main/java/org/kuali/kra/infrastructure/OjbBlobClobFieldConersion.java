@@ -35,7 +35,9 @@ public class OjbBlobClobFieldConersion implements FieldConversion {
      * @see org.apache.ojb.broker.accesslayer.conversions.FieldConversion#sqlToJava(java.lang.Object)
      */
     public Object sqlToJava(Object source) throws ConversionException {
-        if(source==null) return null;
+        if(source==null) {
+            return null;
+        }
         byte[] sourceBytes = null;
         if(source instanceof String){
             sourceBytes = source.toString().getBytes();

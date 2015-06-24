@@ -31,10 +31,11 @@ public class AccountCreationClientFactoryBean implements FactoryBean {
 
 	public Object getObject() throws Exception {
 	    AccountCreationClient object = null; 
-		if(sharedRice)
-		    object = (AccountCreationClient) (AccountCreationKSBClientImpl.getInstance());
-		else
-		    object = (AccountCreationClient) (AccountCreationClientImpl.getInstance());
+		if(sharedRice) {
+                    object = (AccountCreationClient) (AccountCreationKSBClientImpl.getInstance());
+            } else {
+                    object = (AccountCreationClient) (AccountCreationClientImpl.getInstance());
+            }
 		
 		object.setDocumentService(documentService);
 		object.setBusinessObjectService(businessObjectService);

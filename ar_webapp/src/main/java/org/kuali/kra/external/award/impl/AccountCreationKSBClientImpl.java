@@ -33,8 +33,9 @@ public final class AccountCreationKSBClientImpl extends AccountCreationClientBas
     private AccountCreationKSBClientImpl() {  }
     
     public static AccountCreationClient getInstance() {
-      if (ksbClient == null)
+      if (ksbClient == null) {
           ksbClient = new AccountCreationKSBClientImpl();
+      }
       return ksbClient;
     }
 

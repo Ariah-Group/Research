@@ -94,7 +94,9 @@ public class CoiDisclosureDocument extends ResearchDocumentBase implements Copya
      * @return
      */
     public CoiDisclosure getCoiDisclosure() {
-        if (coiDisclosureList.size() == 0) return null;
+        if (coiDisclosureList.size() == 0) {
+            return null;
+        }
         return coiDisclosureList.get(0);
     }
 

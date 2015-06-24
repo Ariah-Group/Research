@@ -358,10 +358,11 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements Copyab
     }
 
     public String getLeadUnitNumber() {
-        if(getAward() != null)
-            return getAward().getLeadUnitNumber(); 
-        else
+        if(getAward() != null) {
+            return getAward().getLeadUnitNumber();
+        } else {
             return null;
+        }
     }
 
     public String getDocumentRoleTypeCode() {

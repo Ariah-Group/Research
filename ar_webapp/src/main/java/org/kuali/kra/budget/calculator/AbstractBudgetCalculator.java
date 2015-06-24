@@ -358,8 +358,9 @@ public abstract class AbstractBudgetCalculator {
         String messageTemplate = "";
         String multipleRatesMesgTemplate = "";
         String message = "";
-        if (breakupIntervals == null)
+        if (breakupIntervals == null) {
             breakupIntervals = new ArrayList<BreakUpInterval>();
+        }
 
         if (budgetLineItem.getOnOffCampusFlag()) {
             messageTemplate = "On-Campus rate information not available for Rate Class - \'";
@@ -831,7 +832,9 @@ public abstract class AbstractBudgetCalculator {
         List<BudgetRate> filteredBudgetRates = budgetRates.filter(eqRateClassCodeAndRateTypeCode);
         List<BudgetLaRate> filteredBudgetLaRates = qlBudgetLaRates.filter(eqRateClassCodeAndRateTypeCode);
         
-        if(filteredBudgetRates.isEmpty() && filteredBudgetLaRates.isEmpty()) return;
+        if(filteredBudgetRates.isEmpty() && filteredBudgetLaRates.isEmpty()) {
+            return;
+        }
 
         AbstractBudgetCalculatedAmount budgetCalculatedAmount = getNewCalculatedAmountInstance();
         budgetCalculatedAmount.setBudgetId(budgetLineItem.getBudgetId());

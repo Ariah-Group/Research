@@ -61,13 +61,23 @@ public class BudgetRate extends AbstractBudgetRate implements DateSortable {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!super.equals(obj)) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         BudgetRate other = (BudgetRate) obj;
         if (activityTypeCode == null) {
-            if (other.activityTypeCode != null) return false;
-        } else if (!activityTypeCode.equals(other.activityTypeCode)) return false;
+            if (other.activityTypeCode != null) {
+                return false;
+            }
+        } else if (!activityTypeCode.equals(other.activityTypeCode)) {
+            return false;
+        }
         return true;
     }
 

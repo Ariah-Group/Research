@@ -92,12 +92,15 @@ public class WeekScheduleSequenceDecorator extends ScheduleSequenceDecorator {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         WeekScheduleSequenceDecorator other = (WeekScheduleSequenceDecorator) obj;        
         return ObjectUtils.equals(dayCount, other.dayCount) &&
         ObjectUtils.equals(frequency, other.frequency);

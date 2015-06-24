@@ -178,11 +178,13 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
             Map<String,Object> keymap = new HashMap<String,Object>();
             keymap.put("committeeId", committeeId);
             List<Committee> comms = (List<Committee>)businessObjectService.findMatching(Committee.class, keymap);
-            if( comms.size() == 1 )
+            if( comms.size() == 1 ) {
                 committee = comms.get(0);
+            }
                 
-            if (committee==null)
+            if (committee==null) {
                 committee =  createCommittee(committeeId).getCommittee();
+            }
             committee.refreshReferenceObject("committeeType");
             submitAction.setCommitteeId(committee.getCommitteeId());
         }
@@ -493,7 +495,9 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
      * If a string is null, convert it to an empty string.
      */
     private String convert(String s) {
-        if (s == null) return "";
+        if (s == null) {
+            return "";
+        }
         return s;
     }
 
@@ -501,7 +505,9 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
      * Count the number of items in a list.  A null list returns zero.
      */
     private int getCount(List<?> list) {
-        if (list == null) return 0;
+        if (list == null) {
+            return 0;
+        }
         return list.size();
     }
 

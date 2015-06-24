@@ -51,10 +51,12 @@ public class ObjectCloner {
         }
         finally {
             try {
-                if (oos != null)
+                if (oos != null) {
                     oos.close();
-                if (ois != null)
+                }
+                if (ois != null) {
                     ois.close();
+                }
             }catch (IOException e) {
                 e.printStackTrace();
             }

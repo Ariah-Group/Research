@@ -679,20 +679,21 @@ public class BudgetAction extends BudgetActionBase {
         byte[] xbts = attachmentDataSource.getContent();
         
         ByteArrayOutputStream baos = null;
-        if(xbts!=null)
-        try{
-            baos = new ByteArrayOutputStream(xbts.length);
-            baos.write(xbts);
-            
-            WebUtils.saveMimeOutputStreamAsFile(response, attachmentDataSource.getContentType(), baos, attachmentDataSource.getFileName());
-        }finally{
+        if(xbts!=null) {
             try{
-                if(baos!=null){
-                    baos.close();
-                    baos = null;
+                baos = new ByteArrayOutputStream(xbts.length);
+                baos.write(xbts);
+                
+                WebUtils.saveMimeOutputStreamAsFile(response, attachmentDataSource.getContentType(), baos, attachmentDataSource.getFileName());
+            }finally{
+                try{
+                    if(baos!=null){
+                        baos.close();
+                        baos = null;
+                    }
+                }catch(IOException ioEx){
+                    LOG.warn(ioEx.getMessage(), ioEx);
                 }
-            }catch(IOException ioEx){
-                LOG.warn(ioEx.getMessage(), ioEx);
             }
         }
     }

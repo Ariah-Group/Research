@@ -36,10 +36,11 @@ public class BudgetAdjustmentClientFactoryBean implements FactoryBean {
 
     public Object getObject() throws Exception {
         BudgetAdjustmentClient object = null; 
-        if(sharedRice)
+        if(sharedRice) {
             object = (BudgetAdjustmentClient) (BudgetAdjustmentKSBClientImpl.getInstance());
-        else
+        } else {
             object = (BudgetAdjustmentClient) (BudgetAdjustmentClientImpl.getInstance());
+        }
         
         object.setDocumentService(documentService);
         object.setParameterService(parameterService);

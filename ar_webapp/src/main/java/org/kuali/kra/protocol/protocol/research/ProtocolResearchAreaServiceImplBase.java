@@ -49,15 +49,17 @@ public abstract class ProtocolResearchAreaServiceImplBase implements ProtocolRes
         ProtocolResearchAreaBase protocolResearchAreas = getNewProtocolResearchAreaInstanceHook();
         protocolResearchAreas.setProtocol(protocol);                            
         
-        if(null != protocol.getProtocolNumber())
+        if(null != protocol.getProtocolNumber()) {
             protocolResearchAreas.setProtocolNumber(protocol.getProtocolNumber());
-        else
+        } else {
             protocolResearchAreas.setProtocolNumber("0");
+        }
         
-        if(null != protocol.getSequenceNumber())
+        if(null != protocol.getSequenceNumber()) {
             protocolResearchAreas.setSequenceNumber(protocol.getSequenceNumber());
-        else
+        } else {
             protocolResearchAreas.setSequenceNumber(0);
+        }
         
         protocolResearchAreas.setResearchAreaCode(researchAreas.getResearchAreaCode());
         protocolResearchAreas.setResearchAreas(researchAreas);

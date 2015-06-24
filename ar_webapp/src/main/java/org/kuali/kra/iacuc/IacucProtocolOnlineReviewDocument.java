@@ -91,7 +91,9 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
      * @return
      */
     public ProtocolOnlineReviewBase getProtocolOnlineReview() {
-        if (protocolOnlineReviewList.size() == 0) return null;
+        if (protocolOnlineReviewList.size() == 0) {
+            return null;
+        }
         return protocolOnlineReviewList.get(0);
     }
 

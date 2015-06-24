@@ -129,8 +129,9 @@ public class BudgetCumilativeXmlStream extends BudgetBaseStream {
 		reportHeaderType.setCreateDate(dateTimeService.getCurrentDate()
 				.toString());
 		if(budget.getComments()!=null){
-	            if(budget.getPrintBudgetCommentFlag()!=null && budget.getPrintBudgetCommentFlag().equals("true"))
-	                reportHeaderType.setComments(budget.getComments());
+	            if(budget.getPrintBudgetCommentFlag()!=null && budget.getPrintBudgetCommentFlag().equals("true")) {
+                        reportHeaderType.setComments(budget.getComments());
+                    }
 	    }
 	        
 	    budget.setPrintBudgetCommentFlag(null);

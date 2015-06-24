@@ -158,11 +158,13 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
             ((ProposalDevelopmentForm) form).setPrimeSponsorName(null);
         }
 
-        if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalPersons().size() > 0)
+        if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalPersons().size() > 0) {
             sort(proposalDevelopmentDocument.getDevelopmentProposal().getProposalPersons(), new ProposalPersonComparator());
+        }
 
-        if (proposalDevelopmentDocument.getDevelopmentProposal().getInvestigators().size() > 0)
+        if (proposalDevelopmentDocument.getDevelopmentProposal().getInvestigators().size() > 0) {
             sort(proposalDevelopmentDocument.getDevelopmentProposal().getInvestigators(), new ProposalPersonComparator());
+        }
            
         updateNIHDescriptions(proposalDevelopmentDocument);
         

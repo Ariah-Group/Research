@@ -66,10 +66,11 @@ public class MonthlyWeekDayCronExpression extends CronExpression {
         exp.append(getTime().getHours()).append(CronSpecialChars.SPACE);
         exp.append(CronSpecialChars.QUESTION).append(CronSpecialChars.SPACE);
         exp.append(CronSpecialChars.FIRST).append(CronSpecialChars.SLASH).append(frequencyInMonth).append(CronSpecialChars.SPACE);
-        if (!(weekOfMonth == CronSpecialChars.LAST))
+        if (!(weekOfMonth == CronSpecialChars.LAST)) {
             exp.append(dayOfWeek).append(CronSpecialChars.HASH).append(weekOfMonth);
-        else
+        } else {
             exp.append(dayOfWeek).append(CronSpecialChars.LAST);
+        }
         return exp.toString();
     }
 

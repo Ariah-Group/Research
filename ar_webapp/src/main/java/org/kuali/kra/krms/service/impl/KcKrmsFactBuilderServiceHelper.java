@@ -115,8 +115,9 @@ public abstract class KcKrmsFactBuilderServiceHelper implements KcKrmsFactBuilde
     private boolean isPropertyType(TermSpecificationDefinition termSpecificationDefinition) {
         List<CategoryDefinition> catgories = termSpecificationDefinition.getCategories();
         for (CategoryDefinition categoryDefinition : catgories) {
-            if(categoryDefinition.getName().equals(KcKrmsConstants.KRMS_PROPERTY_TYPE_NM))
+            if(categoryDefinition.getName().equals(KcKrmsConstants.KRMS_PROPERTY_TYPE_NM)) {
                 return true;
+            }
         }
         return false;
     }

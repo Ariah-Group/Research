@@ -219,16 +219,30 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         BudgetLineItem other = (BudgetLineItem) obj;
         if (getBudgetPeriodId() == null) {
-            if (other.getBudgetPeriodId() != null) return false;
-        } else if (!getBudgetPeriodId().equals(other.getBudgetPeriodId())) return false;
+            if (other.getBudgetPeriodId() != null) {
+                return false;
+            }
+        } else if (!getBudgetPeriodId().equals(other.getBudgetPeriodId())) {
+            return false;
+        }
         if (getLineItemNumber() == null) {
-            if (other.getLineItemNumber() != null) return false;
-        } else if (!getLineItemNumber().equals(other.getLineItemNumber())) return false;
+            if (other.getLineItemNumber() != null) {
+                return false;
+            }
+        } else if (!getLineItemNumber().equals(other.getLineItemNumber())) {
+            return false;
+        }
         return true;
     }
 

@@ -87,13 +87,23 @@ public class CloseoutReportType extends KraPersistableBusinessObjectBase {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (!(obj instanceof CloseoutReportType)) return false;
+        if (this == obj){
+            return true;
+        }
+        if (obj == null){
+            return false;
+        }
+        if (!(obj instanceof CloseoutReportType)){
+            return false;
+        }
         final CloseoutReportType other = (CloseoutReportType) obj;
         if (closeoutReportCode == null) {
-            if (other.closeoutReportCode != null) return false;
-        } else if (!closeoutReportCode.equals(other.closeoutReportCode)) return false;
+            if (other.closeoutReportCode != null){
+                return false;
+            }
+        } else if (!closeoutReportCode.equals(other.closeoutReportCode)){
+            return false;
+        }
         return true;
     }
 }

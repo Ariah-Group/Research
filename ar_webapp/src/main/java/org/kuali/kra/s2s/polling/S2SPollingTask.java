@@ -347,8 +347,9 @@ public class S2SPollingTask {
             for (SubmissionData submissionData : submList) {
                 S2sAppSubmission s2sAppSubmission = submissionData.getS2sAppSubmission();
                 s2sAppSubmission.setUpdateUserSet(true);
-                if(!s2sAppSubmission.getStatus().equalsIgnoreCase(S2SConstants.STATUS_PUREGED))
+                if(!s2sAppSubmission.getStatus().equalsIgnoreCase(S2SConstants.STATUS_PUREGED)) {
                     businessObjectService.save(s2sAppSubmission);
+                }
             }
         }
     }

@@ -198,7 +198,9 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
      * If a string is null, convert it to an empty string.
      */
     private String convert(String s) {
-        if (s == null) return "";
+        if (s == null) {
+            return "";
+        }
         return s;
     }
     

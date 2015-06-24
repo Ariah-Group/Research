@@ -42,9 +42,13 @@ public class ProposalHierarchyChildWorkflowActionAuthorizer extends ProposalAuth
             try {
                 WorkflowDocument parentWDoc  = KraServiceLocator.getService(ProposalHierarchyService.class).getParentWorkflowDocument(doc);
                 if( task.getTaskName().equals(TaskName.PROPOSAL_HIERARCHY_CHILD_ACKNOWLEDGE_ACTION)) {
-                    if( (!parentWDoc.isAcknowledgeRequested()) || parentWDoc.isInitiated() ) authorized = false; 
+                    if( (!parentWDoc.isAcknowledgeRequested()) || parentWDoc.isInitiated() ) {
+                        authorized = false;
+                    } 
                 } else if ( task.getTaskName().equals(TaskName.PROPOSAL_HIERARCHY_CHILD_WORKFLOW_ACTION) ) {
-                    if( !parentWDoc.isInitiated()  ) authorized = false;
+                    if( !parentWDoc.isInitiated()  ) {
+                        authorized = false;
+                    }
                 }
             } catch (ProposalHierarchyException e) {
                 LOG.error( String.format( "Could not find parent workflow document for proposal document number:%s, which claims to be a child. Returning false.",doc.getDocumentHeader().getDocumentNumber()),e);

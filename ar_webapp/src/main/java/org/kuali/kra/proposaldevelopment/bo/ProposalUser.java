@@ -158,9 +158,15 @@ public class ProposalUser extends BusinessObjectBase {
      * @see java.lang.Object#equals(java.lang.Object)
      */
     public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (obj == this) return true;
-        if (!obj.getClass().equals(this.getClass())) return false;
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (!obj.getClass().equals(this.getClass())) {
+            return false;
+        }
         ProposalUser user = (ProposalUser) obj;
         return StringUtils.equals(this.username, user.username) && StringUtils.equals(this.roleName, user.roleName);
     }

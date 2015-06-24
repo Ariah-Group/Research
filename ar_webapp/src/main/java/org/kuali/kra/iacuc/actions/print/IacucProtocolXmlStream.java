@@ -113,7 +113,9 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
     private void addSubmissionDetails(IacucProtocol protocol, ProtocolType protocolType, Integer submissionNumber, String currentFlag) {
         IacucProtocolSubmission submissionInfoBean = null;
         submissionInfoBean = (IacucProtocolSubmission) (submissionNumber == null ? protocol.getProtocolSubmission() : findProtocolSubmission(protocol,submissionNumber));
-        if (submissionInfoBean == null || submissionInfoBean.getSubmissionNumber() == null) return;
+        if (submissionInfoBean == null || submissionInfoBean.getSubmissionNumber() == null) {
+            return;
+        }
         submissionInfoBean.refreshNonUpdateableReferences();
         edu.mit.coeus.xml.iacuc.ProtocolType.Submissions submission = protocolType.addNewSubmissions();
         SubmissionDetailsType submissionDetail = submission.addNewSubmissionDetails();
@@ -334,8 +336,9 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
 
     private void setProtocolMasterData(IacucProtocol protocol, ProtocolType protocolType) {
         ProtocolMasterDataType protocolMaster = protocolType.addNewProtocolMasterData();
-        if (protocol == null)
+        if (protocol == null) {
             return;
+        }
         protocolMaster.setProtocolNumber(protocol.getProtocolNumber());
         protocolMaster.setSequenceNumber(BigInteger.valueOf(protocol.getSequenceNumber()));
         protocolMaster.setProtocolTitle(protocol.getTitle());

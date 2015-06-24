@@ -53,8 +53,9 @@ public class TimeAndMoneyDocumentAuthorizer extends TransactionalDocumentAuthori
        boolean isProcessed = false;
        String status = document.getDocumentHeader().getWorkflowDocument().getStatus().getCode();
        // if document is in processed state
-       if (status.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_PROCESSED_CD))
-               isProcessed = true;
+       if (status.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_PROCESSED_CD)) {
+           isProcessed = true;
+       }
        return isProcessed;   
    }
     

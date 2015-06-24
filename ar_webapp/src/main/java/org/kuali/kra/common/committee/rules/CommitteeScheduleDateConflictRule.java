@@ -87,11 +87,13 @@ public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase 
         for(CommitteeScheduleBase committeeSchedule : committeeSchedules) {
             flag = true;
             flag = set.add(committeeSchedule.getScheduledDate());
-            if(!flag)
+            if(!flag) {
                 conflictDates.add(committeeSchedule.getScheduledDate());
+            }
         }        
-        if(conflictDates.size() > 0)
+        if(conflictDates.size() > 0) {
             retVal = false;
+        }
         return retVal;
     }
     

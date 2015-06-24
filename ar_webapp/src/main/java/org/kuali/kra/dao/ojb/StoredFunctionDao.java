@@ -52,11 +52,17 @@ public class StoredFunctionDao extends PlatformAwareDaoBaseOjb {
                 String paramSyntaxString = "";
                 int paramCount = paramValues.size();
                 for (int i = 0; i < paramCount; i++) {
-                    if(i==0) paramSyntaxString+="(?";
-                    else if(i==paramCount-1) paramSyntaxString+=",?)";
-                    else paramSyntaxString+=",?";
+                    if(i==0) {
+                        paramSyntaxString+="(?";
+                    } else if(i==paramCount-1) {
+                        paramSyntaxString+=",?)";
+                    } else {
+                        paramSyntaxString+=",?";
+                    }
                 }
-                if(paramCount==1) paramSyntaxString+=")";
+                if(paramCount==1) {
+                    paramSyntaxString+=")";
+                }
                 CallableStatement cs = con.prepareCall("{ ? = call "+functionName+paramSyntaxString+"}");
                 cs.registerOutParameter(1, Types.VARCHAR); 
                 for (int i = 0; i < paramValues.size(); i++) {

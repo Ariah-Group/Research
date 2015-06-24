@@ -89,7 +89,9 @@ public class BudgetPeriodCalculator {
         budgetCalculationService.calculateBudgetLineItem(budget, currentBudgetLineItem);
         
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
-            if(budgetPeriod.getBudgetPeriod()<=currentBudgetPeriod.getBudgetPeriod()) continue;
+            if(budgetPeriod.getBudgetPeriod()<=currentBudgetPeriod.getBudgetPeriod()) {
+                continue;
+            }
 //            allLineItems.addAll(budgetPeriod.getBudgetLineItems());
             QueryList<BudgetLineItem> currentBudgetPeriodLineItems = new QueryList<BudgetLineItem>(budgetPeriod.getBudgetLineItems());
             for (BudgetLineItem budgetLineItemToBeApplied : currentBudgetPeriodLineItems) {
@@ -271,7 +273,9 @@ public class BudgetPeriodCalculator {
         Equals eqInflation = new Equals("rateClassType", RateClassType.INFLATION.getRateClassType());
         // Check for inflation for the Cost Element.
         // Get ValidCERateTypesBean From Server Side.
-        if(costElement.getValidCeRateTypes().isEmpty()) costElement.refreshReferenceObject("validCeRateTypes");
+        if(costElement.getValidCeRateTypes().isEmpty()) {
+            costElement.refreshReferenceObject("validCeRateTypes");
+        }
         QueryList<ValidCeRateType> vecValidCERateTypes = new QueryList<ValidCeRateType>(costElement.getValidCeRateTypes());
         QueryList<ValidCeRateType> vecCE = vecValidCERateTypes.filter(eqInflation);
 

@@ -322,8 +322,9 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
     protected byte[] getXMLFromPDF(PdfReader reader)throws Exception {
         XfaForm xfaForm = reader.getAcroFields().getXfa();
         Node domDocument = xfaForm.getDomDocument();
-        if(domDocument==null)
+        if(domDocument==null) {
             return null;
+        }
         Element documentElement = ((Document) domDocument).getDocumentElement();
 
         Element datasetsElement = (Element) documentElement.getElementsByTagNameNS(XFA_NS, "datasets").item(0);
@@ -745,13 +746,14 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
     private static String getValue(Node node){
         String textValue = "";
         Node child = null;
-        if(node!=null)
-        for (child = node.getFirstChild(); child != null;
-             child = child.getNextSibling()) {
-             if(child.getNodeType()==Node.TEXT_NODE){
-                textValue = child.getNodeValue();
-                break;
-             }
+        if(node!=null) {
+            for (child = node.getFirstChild(); child != null;
+                    child = child.getNextSibling()) {
+                if(child.getNodeType()==Node.TEXT_NODE){
+                    textValue = child.getNodeValue();
+                    break;
+                }
+            }
         }
         return textValue.trim();
     }

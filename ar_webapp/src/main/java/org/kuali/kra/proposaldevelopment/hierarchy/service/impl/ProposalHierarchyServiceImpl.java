@@ -1078,8 +1078,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
     protected DevelopmentProposal getHierarchy(String hierarchyProposalNumber) throws ProposalHierarchyException {
         DevelopmentProposal hierarchy = getDevelopmentProposal(hierarchyProposalNumber);
-        if (hierarchy == null || !hierarchy.isParent())
+        if (hierarchy == null || !hierarchy.isParent()) {
             throw new ProposalHierarchyException("Proposal " + hierarchyProposalNumber + " is not a hierarchy");
+        }
         return hierarchy;
     }
 
@@ -1462,8 +1463,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         } else {
             LOG.warn(String.format("Do not know how to calculate hierarchy child status for %s to %s",oldStatus,newStatus) );
         }
-        if( LOG.isDebugEnabled() )
+        if( LOG.isDebugEnabled() ) {
             LOG.debug(String.format("Route status for children:%s",retCd ));
+        }
         return retCd;
     }
 

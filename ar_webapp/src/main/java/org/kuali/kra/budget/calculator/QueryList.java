@@ -247,8 +247,9 @@ public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Ser
         RelationalOperator relationalOperator[] = new RelationalOperator[field.length];
         boolean isascending = !ascending[0];
         for(int index = 0; index < field.length; index++) {
-            if(ascending.length>1)
+            if(ascending.length>1) {
                 isascending = !ascending[index];
+            }
             
             if(! isascending) {
                 GreaterThan gt = new GreaterThan(field[index], (Comparable)getFieldValue(field[index], baseBean));

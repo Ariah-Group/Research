@@ -145,8 +145,9 @@ public abstract class CommitteeScheduleActionBase extends CommitteeActionBase {
                 List<CommitteeScheduleBase> updatedlist = new ArrayList<CommitteeScheduleBase>(list);
                 Collections.copy(updatedlist, list);
                 for (CommitteeScheduleBase schedule : list) {
-                    if (schedule.isSelected())
+                    if (schedule.isSelected()) {
                         updatedlist.remove(schedule);
+                    }
                 }
                 committeeForm.getCommitteeDocument().getCommittee().setCommitteeSchedules(updatedlist);
             }

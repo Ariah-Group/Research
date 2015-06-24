@@ -77,8 +77,9 @@ public class CommitteeScheduleDataDictionaryValidationRule {
                 switch(monthOption) {
                     case XDAYANDXMONTH :
                         retVal = applyRules(ATTRIBUTE_MONTH_DAY, scheduleData.getMonthlySchedule().getDay(), ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_DAY);
-                        if(retVal)
+                        if(retVal) {
                             retVal = applyRules(ATTRIBUTE_MONTH_RECURRENCE, scheduleData.getMonthlySchedule().getOption1Month(), ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_OPTION1MONTH);
+        }
                         break;
                     case XDAYOFWEEKANDXMONTH :
                         retVal = applyRules(ATTRIBUTE_MONTH_RECURRENCE, scheduleData.getMonthlySchedule().getOption2Month(), ERROR_KEY_SCHEDULEDATA_MONTHLYSCHEDULE_OPTION2MONTH);
@@ -90,8 +91,9 @@ public class CommitteeScheduleDataDictionaryValidationRule {
                 switch(yearOption) {
                     case XDAY :
                         retVal = applyRules(ATTRIBUTE_YEAR_DAY, scheduleData.getYearlySchedule().getDay(), ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_DAY);
-                        if(retVal)
+                        if(retVal) {
                             retVal = applyRules(ATTRIBUTE_YEAR_RECURRENCE, scheduleData.getYearlySchedule().getOption1Year(), ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_OPTION1YEAR);
+        }
                         break;
                     case CMPLX:
                         retVal = applyRules(ATTRIBUTE_YEAR_RECURRENCE, scheduleData.getYearlySchedule().getOption2Year(), ERROR_KEY_SCHEDULEDATA_YEARLYSCHEDULE_OPTION2YEAR);
@@ -123,8 +125,9 @@ public class CommitteeScheduleDataDictionaryValidationRule {
     
     private boolean isError(String errorKey) {
         boolean retVal = false;
-        if(null == GlobalVariables.getMessageMap().getErrorMessages().get(errorKey))
+        if(null == GlobalVariables.getMessageMap().getErrorMessages().get(errorKey)) {
             retVal = true;
+        }
         return retVal;
     }
     
