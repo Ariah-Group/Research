@@ -192,23 +192,23 @@ public class S2SPollingTask {
                 ProposalDevelopmentDocument pdDoc = getProposalDevelopmentDocument(appSubmission.getProposalNumber());
                 if (pdDoc != null) {
                     applicationListResponse = s2SService.fetchApplicationListResponse(pdDoc);
-                }
 
-                if (applicationListResponse.getApplicationInfo() == null
-                        || applicationListResponse.getApplicationInfo().isEmpty()) {
-                    statusChanged = s2SService.checkForSubmissionStatusChange(pdDoc, appSubmission);
-                    if (statusChanged == false
-                            && appSubmission.getComments().equals(S2SConstants.STATUS_NO_RESPONSE_FROM_GRANTS_GOV)) {
-                        localSubInfo.setSortId(SORT_ID_F);
-                        sendEmailFlag = true;
-                    }
-                } else {
-                    ApplicationInfo ggApplication = applicationListResponse.getApplicationInfo().get(0);
-                    if (ggApplication != null) {
-                        localSubInfo.setAcType('U');
-                        statusChanged = !appSubmission.getStatus().equalsIgnoreCase(
-                                ggApplication.getGrantsGovApplicationStatus().value());
-                        s2SService.populateAppSubmission(pdDoc, appSubmission, ggApplication);
+                    if (applicationListResponse.getApplicationInfo() == null
+                            || applicationListResponse.getApplicationInfo().isEmpty()) {
+                        statusChanged = s2SService.checkForSubmissionStatusChange(pdDoc, appSubmission);
+                        if (statusChanged == false
+                                && appSubmission.getComments().equals(S2SConstants.STATUS_NO_RESPONSE_FROM_GRANTS_GOV)) {
+                            localSubInfo.setSortId(SORT_ID_F);
+                            sendEmailFlag = true;
+                        }
+                    } else {
+                        ApplicationInfo ggApplication = applicationListResponse.getApplicationInfo().get(0);
+                        if (ggApplication != null) {
+                            localSubInfo.setAcType('U');
+                            statusChanged = !appSubmission.getStatus().equalsIgnoreCase(
+                                    ggApplication.getGrantsGovApplicationStatus().value());
+                            s2SService.populateAppSubmission(pdDoc, appSubmission, ggApplication);
+                        }
                     }
                 }
             } catch (S2SException e) {
