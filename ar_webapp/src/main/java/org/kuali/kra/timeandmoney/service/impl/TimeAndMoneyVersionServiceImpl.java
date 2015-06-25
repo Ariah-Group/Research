@@ -57,22 +57,23 @@ public class TimeAndMoneyVersionServiceImpl implements TimeAndMoneyVersionServic
      */
     @Override
     public TimeAndMoneyDocument findOpenedTimeAndMoney(String rootAwardNumber) throws WorkflowException {
-        TimeAndMoneyDocument result = null;
+
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("rootAwardNumber", rootAwardNumber);
-        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
 
-        List<TimeAndMoneyDocument> timeAndMoneyDocuments = 
-            (List<TimeAndMoneyDocument>)businessObjectService.findMatching(TimeAndMoneyDocument.class, criteria);
-        Collections.sort(timeAndMoneyDocuments);
+        List<TimeAndMoneyDocument> timeAndMoneyDocuments
+                = (List<TimeAndMoneyDocument>) businessObjectService.findMatching(TimeAndMoneyDocument.class, criteria);
         
+        Collections.sort(timeAndMoneyDocuments);
+
         // check for existing non-finalized T & M document before versioning the existing one.
         TimeAndMoneyDocument timeAndMoneyDocument = getLastNonCanceledTandMDocument(timeAndMoneyDocuments);
-        if(timeAndMoneyDocument == null || timeAndMoneyDocuments.size() == 0) {
+        if (timeAndMoneyDocument == null || timeAndMoneyDocuments.isEmpty()) {
             throw new WorkflowException("Missing Time and Money Document");
         } else {
-            if (!timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().isInitiated() &&
-                !timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().isSaved()) {
+            if (!timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().isInitiated()
+                    && !timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().isSaved()) {
                 timeAndMoneyDocument = editOrVersionTandMDocument(rootAwardNumber);
             }
         }
@@ -82,12 +83,12 @@ public class TimeAndMoneyVersionServiceImpl implements TimeAndMoneyVersionServic
     private TimeAndMoneyDocument getLastNonCanceledTandMDocument(List<TimeAndMoneyDocument> timeAndMoneyDocuments) throws WorkflowException {
         TimeAndMoneyDocument returnVal = null;
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-        while(timeAndMoneyDocuments.size() > 0) {
-            TimeAndMoneyDocument docWithWorkFlowData = 
-                (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(timeAndMoneyDocuments.get(timeAndMoneyDocuments.size() - 1).getDocumentNumber());
-            if(docWithWorkFlowData.getDocumentHeader().getWorkflowDocument().isCanceled()) {
+        while (timeAndMoneyDocuments.size() > 0) {
+            TimeAndMoneyDocument docWithWorkFlowData
+                    = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(timeAndMoneyDocuments.get(timeAndMoneyDocuments.size() - 1).getDocumentNumber());
+            if (docWithWorkFlowData.getDocumentHeader().getWorkflowDocument().isCanceled()) {
                 timeAndMoneyDocuments.remove(timeAndMoneyDocuments.size() - 1);
-            }else {
+            } else {
                 returnVal = docWithWorkFlowData;
                 break;
             }
@@ -126,5 +127,5 @@ public class TimeAndMoneyVersionServiceImpl implements TimeAndMoneyVersionServic
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
-    
+
 }
