@@ -64,32 +64,35 @@ public class KcPersonServiceImpl implements KcPersonService {
      */
     @Override
     public void modifyFieldValues(final Map<String, String> fieldValues) {
+        
         boolean multiCampusEnabled = parameterService.getParameterValueAsBoolean(
                 Constants.KC_GENERIC_PARAMETER_NAMESPACE, Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, Constants.PARAMETER_MULTI_CAMPUS_ENABLED);
         
         //convert username and kcpersonid to proper naming such the person service can use them
-        if (StringUtils.isNotBlank(fieldValues.get("userName"))){
-            String userNameSearchValue = fieldValues.get("userName");
+        
+        String username = fieldValues.get("userName");
+        if (StringUtils.isNotBlank(username)){
+            //String userNameSearchValue = fieldValues.get("userName");
             if (multiCampusEnabled) {
                 String campusCode = fieldValues.get("campusCode");
-                userNameSearchValue = this.multiCampusIdentityService.getMultiCampusPrincipalName(userNameSearchValue, campusCode);
+                username = this.multiCampusIdentityService.getMultiCampusPrincipalName(username, campusCode);
             }
-            fieldValues.put("principalName", userNameSearchValue);  
+            fieldValues.put("principalName", username);  
         }
         
-        if (StringUtils.isNotBlank(fieldValues.get("personId"))){
-            String personIdSearchValue = fieldValues.get("personId");
-            fieldValues.put("principalId", personIdSearchValue);
+        String personId = fieldValues.get("personId");
+        if (StringUtils.isNotBlank(personId)){
+            fieldValues.put("principalId", personId);
         }
         
-        if (StringUtils.isNotBlank(fieldValues.get("officePhone"))){
-            String officePhoneSerachValue = fieldValues.get("officePhone");
-            fieldValues.put("phoneNumber", officePhoneSerachValue);
+        String officePhone = fieldValues.get("officePhone");
+        if (StringUtils.isNotBlank(officePhone)){
+            fieldValues.put("phoneNumber", officePhone);
         }
         
-        if (StringUtils.isNotBlank(fieldValues.get("organizationIdentifier"))){
-            String primaryDeptCodeSearchValue = fieldValues.get("organizationIdentifier");
-            fieldValues.put("primaryDepartmentCode", primaryDeptCodeSearchValue);
+        String orgIdent = fieldValues.get("organizationIdentifier");
+        if (StringUtils.isNotBlank(orgIdent)){
+            fieldValues.put("primaryDepartmentCode", orgIdent);
         } 
     }
     
