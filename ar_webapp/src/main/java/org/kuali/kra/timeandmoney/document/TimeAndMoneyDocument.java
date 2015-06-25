@@ -39,6 +39,9 @@ import org.kuali.rice.krad.document.SessionDocument;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.util.*;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
 
 /**
  *
