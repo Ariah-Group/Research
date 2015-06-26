@@ -22,8 +22,9 @@ import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewExemption;
  */
 public class IacucProtocolSpecialReviewExemption extends ProtocolSpecialReviewExemption {
 
+    @Override
     public IacucProtocolSpecialReview getProtocolSpecialReview() {
-        return (IacucProtocolSpecialReview) getProtocolSpecialReview();
+        return (IacucProtocolSpecialReview) super.getProtocolSpecialReview();
     }
 
     public void setProtocolSpecialReview(IacucProtocolSpecialReview protocolSpecialReview) {
