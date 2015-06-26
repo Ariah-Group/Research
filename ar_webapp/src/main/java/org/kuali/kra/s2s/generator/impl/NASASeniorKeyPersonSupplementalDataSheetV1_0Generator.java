@@ -235,7 +235,7 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
 //    		federalAgencyDataType=FederalAgencyDataType.Enum.forString(sponsorHierarchyList.get(0).getLevel1());
 //		}
 
-		// FIXME above line commented and value is hardcoded because values in
+        // FIXME above line commented and value is hardcoded because values in
         // column sponsor_Hierachy.LEVEL1 don't match with
         return null;
     }
@@ -275,7 +275,7 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
                 if (rolodex != null) {
                     Sponsor rolodexSponsor = rolodex.getSponsor();
                     Sponsor proposalSponsor = pdDoc.getDevelopmentProposal().getSponsor();
-                    if (rolodexSponsor != null && rolodexSponsor.equals(rolodexSponsor.getSponsorCode())) {
+                    if (rolodexSponsor != null && rolodexSponsor.getSponsorCode().equals(proposalSponsor.getSponsorCode())) {
                         if (rolodexSponsor.getSponsorTypeCode() != null
                                 && rolodexSponsor.getSponsorTypeCode().equals(
                                         proposalSponsor.getSponsorTypeCode())) {
@@ -290,7 +290,7 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
                             }
                         }
                     }
-					// if no sponsor in rolodex is found, then use person's
+                    // if no sponsor in rolodex is found, then use person's
                     // country
                     if (sponsortType == -1
                             && rolodex.getCountryCode() != null
@@ -321,7 +321,7 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
                 seniorKeyPerson.setFederalAgency(federalAgency);
             }
         }
-		// set total dollar amount requested. There is no budget for rolodex
+        // set total dollar amount requested. There is no budget for rolodex
         // person.
         // seniorKeyPerson.setFederalAgencyDollar(null);
         // Above logic same as in Coeus
@@ -410,7 +410,7 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
                             }
                         }
                     }
-					// if no sponsor in rolodex is found, then use person's
+                    // if no sponsor in rolodex is found, then use person's
                     // country
                     if (sponsortType == -1
                             && rolodex.getCountryCode() != null
@@ -438,7 +438,7 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
                 seniorKeyPerson.setFederalAgency(federalAgency);
             }
         }
-		// set total dollar amount requested. There is no budget for rolodex
+        // set total dollar amount requested. There is no budget for rolodex
         // person.
         // seniorKeyPerson.setFederalAgencyDollar(null);
         // Above logic same as in Coeus
