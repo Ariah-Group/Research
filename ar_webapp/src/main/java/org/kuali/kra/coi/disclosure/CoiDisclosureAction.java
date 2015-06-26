@@ -745,8 +745,6 @@ public class CoiDisclosureAction extends CoiAction {
         }
 
         final AttachmentFile file = attachment.getFile();
-        byte[] attachmentFile = null;
-        String attachmentFileType = file.getType().replace("\"", "");
         this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
         return RESPONSE_ALREADY_HANDLED;
     }
