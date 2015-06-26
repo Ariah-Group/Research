@@ -516,25 +516,31 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
      * @return a lookup field conversion string
      */
     private String createCustomFieldConversions(FundingSourceLookup fundingSourceLookup) {
-        StringBuffer fieldConversions = new StringBuffer();
+        StringBuilder fieldConversions = new StringBuilder(500);
         if (fundingSourceLookup != FundingSourceLookup.OTHER) {
             // Only some funding sources require a key code for proper lookup
             // This value is unused and goes to a dummy field
             if (StringUtils.isNotBlank(fundingSourceLookup.getKeyCode())) {
-                fieldConversions.append(fundingSourceLookup.getKeyCode() + Constants.COLON);
-                fieldConversions.append(Constants.PROTOCOL_FUNDING_SOURCE_ID_FIELD + Constants.COMMA);
+                fieldConversions.append(fundingSourceLookup.getKeyCode());
+                fieldConversions.append(Constants.COLON);
+                fieldConversions.append(Constants.PROTOCOL_FUNDING_SOURCE_ID_FIELD);
+                fieldConversions.append(Constants.COMMA);
             }
             
-            fieldConversions.append(fundingSourceLookup.getNumber() + Constants.COLON);
-            fieldConversions.append(Constants.PROTOCOL_FUNDING_SOURCE_NUMBER_FIELD + Constants.COMMA);
+            fieldConversions.append(fundingSourceLookup.getNumber());
+            fieldConversions.append(Constants.COLON);
+            fieldConversions.append(Constants.PROTOCOL_FUNDING_SOURCE_NUMBER_FIELD);
+            fieldConversions.append(Constants.COMMA);
             
-            fieldConversions.append(fundingSourceLookup.getName() + Constants.COLON);
+            fieldConversions.append(fundingSourceLookup.getName());
+            fieldConversions.append(Constants.COLON);
             fieldConversions.append(Constants.PROTOCOL_FUNDING_SOURCE_NAME_FIELD);
             
             // Not all funding sources have a title
             if (StringUtils.isNotBlank(fundingSourceLookup.getTitle())) {
                 fieldConversions.append(Constants.COMMA);
-                fieldConversions.append(fundingSourceLookup.getTitle() + Constants.COLON);
+                fieldConversions.append(fundingSourceLookup.getTitle());
+                fieldConversions.append(Constants.COLON);
                 fieldConversions.append(Constants.PROTOCOL_FUNDING_SOURCE_TITLE_FIELD);
             }
         }
@@ -545,8 +551,9 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
      * {@inheritDoc}
      * @see org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceService#updateLookupParameter(java.lang.String, java.lang.String, java.lang.String)
      */
+    @Override
     public String updateLookupParameter(String parameter, String boClassName, String fieldConversions) {
-        StringBuffer fullParameterBuffer = new StringBuffer(parameter);
+        StringBuilder fullParameterBuffer = new StringBuilder(parameter);
         int start = fullParameterBuffer.indexOf(KRADConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL) + KRADConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL.length();
         int end = fullParameterBuffer.indexOf(KRADConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);        
         fullParameterBuffer.replace(start, end, boClassName);
@@ -564,6 +571,7 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
      * @see org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceService#getViewProtocolFundingSourceUrl(
      *      org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase, org.kuali.kra.protocol.protocol.ProtocolProtocolAction)
      */
+    @Override
     public String getViewProtocolFundingSourceUrl(ProtocolFundingSourceBase protocolFundingSource, ProtocolActionBase action) throws Exception {
         String fundingSourceTypeCode = protocolFundingSource.getFundingSourceTypeCode();
         String fundingSourceNumber = protocolFundingSource.getFundingSourceNumber();
