@@ -77,7 +77,7 @@ public class ProposalDevelopmentFactBuilderServiceImpl extends KcKrmsFactBuilder
     
     protected boolean isProposalNarrativesComplete(DevelopmentProposal developmentProposal) {
         for (Narrative narrative : developmentProposal.getNarratives()) {
-            if (!"C".equals(narrative.getNarrativeStatus())) {
+            if (narrative.getNarrativeStatus() == null || !"C".equals(narrative.getNarrativeStatus().getNarrativeStatusCode())) {
                 return false;
             }
         }
