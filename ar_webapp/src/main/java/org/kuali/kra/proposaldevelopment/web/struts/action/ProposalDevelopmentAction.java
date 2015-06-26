@@ -166,9 +166,9 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         if (proposalDevelopmentForm.getProposalDevelopmentDocument().getDocumentHeader().getDocumentNumber() == null && request.getParameter(KRADConstants.PARAMETER_DOC_ID) != null) {
             loadDocumentInForm(request, proposalDevelopmentForm);
         }
-        
+
         ProposalDevelopmentService proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
-        
+
         if (KewApiConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
             //forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
             //KRACOEUS-5064
@@ -977,15 +977,27 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                 }
                 File grantsGovXmlDirectoryFile = new File(loggingDirectory + saveXmlFolderName + ".zip");
                 byte[] bytes = new byte[(int) grantsGovXmlDirectoryFile.length()];
-                FileInputStream fileInputStream = new FileInputStream(grantsGovXmlDirectoryFile);
-                fileInputStream.read(bytes);
+                
+                FileInputStream fileInputStream = null;
                 ByteArrayOutputStream baos = null;
+                
                 try {
+                    fileInputStream = new FileInputStream(grantsGovXmlDirectoryFile);
+                    fileInputStream.read(bytes);
+
                     baos = new ByteArrayOutputStream(bytes.length);
                     baos.write(bytes);
                     WebUtils.saveMimeOutputStreamAsFile(response, "binary/octet-stream", baos, saveXmlFolderName + ".zip");
 
                 } finally {
+                    try {
+                        if (fileInputStream != null) {
+                            fileInputStream.close();
+                            fileInputStream = null;
+                        }
+                    } catch (IOException ioEx) {
+                        LOG.warn(ioEx.getMessage(), ioEx);
+                    }
                     try {
                         if (baos != null) {
                             baos.close();
