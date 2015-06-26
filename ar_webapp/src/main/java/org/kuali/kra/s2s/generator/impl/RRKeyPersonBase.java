@@ -280,7 +280,7 @@ public abstract class RRKeyPersonBase extends S2SBaseFormGenerator {
                     extraPerson
                             .setProjectRole(gov.grants.apply.coeus.personProfile.PersonProfileListDocument.PersonProfileList.ExtraKeyPerson.ProjectRole.PD_PI);
                 } else if (ContactRole.COI_CODE
-                        .equals(proposalPerson.getRole())) {
+                        .equals(proposalPerson.getRoleCode())) {
                     if (isSponsorNIH(pdDoc)) {
                         extraPerson
                                 .setProjectRole(gov.grants.apply.coeus.personProfile.PersonProfileListDocument.PersonProfileList.ExtraKeyPerson.ProjectRole.OTHER_SPECIFY);
