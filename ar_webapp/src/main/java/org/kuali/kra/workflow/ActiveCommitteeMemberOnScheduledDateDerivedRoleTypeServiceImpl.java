@@ -67,9 +67,6 @@ public class ActiveCommitteeMemberOnScheduledDateDerivedRoleTypeServiceImpl exte
 	    }
 	    boolean result = true;
 	    if (qualifyingCommitteeMembershipTypeCodes.size()>0) {
-	        if (LOG.isDebugEnabled() && !qualifyingCommitteeMembershipTypeCodes.contains(membership.getMembershipTypeCode())) {
-	            LOG.debug(String.format("Membership %s does not have membership type code in the qualifying map."));
-	        }
 	        result &= qualifyingCommitteeMembershipTypeCodes.contains(membership.getMembershipTypeCode());
 	    }
 	    boolean isActiveOnScheduledDate = false;
@@ -103,9 +100,6 @@ public class ActiveCommitteeMemberOnScheduledDateDerivedRoleTypeServiceImpl exte
     		    for (CommitteeMembershipBase membership : committee.getCommitteeMemberships()) {
     		        if (isQualified((CommitteeMembership) membership,schedule,qualification)) {
     		            members.add(RoleMembership.Builder.create(null, null, membership.getPersonId(), MemberType.PRINCIPAL, null).build() );
-    		            if (LOG.isDebugEnabled()) {
-    		                LOG.debug(String.format("Adding %s for getRoleMembersFromDerivedRole for committee %s, schedule %s",committeeId,scheduleId));
-    		            }
     		        }
     		    }
     		}

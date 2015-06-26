@@ -87,9 +87,6 @@ public class ActiveCommitteeMemberDerivedRoleTypeServiceImpl extends DerivedRole
     		    for (CommitteeMembershipBase membership : committee.getCommitteeMemberships()) {
     		        if (isQualified((CommitteeMembership) membership,qualification)) {
     		            members.add(RoleMembership.Builder.create(null, null, membership.getPersonId(), MemberType.PRINCIPAL, null).build());
-    		            if (LOG.isDebugEnabled()) {
-    		                LOG.debug(String.format("Adding %s for getRoleMembersFromDerivedRole for committee %s",committee));
-    		            }
     		        }
     		    }
     		}
