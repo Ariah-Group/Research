@@ -110,7 +110,7 @@ public class ProposalAbstract extends KraPersistableBusinessObjectBase {
         // abstractType field must also be updated.  A refresh will 
         // cause the abstract type to be read from the database. By 
         // the magic of OJB, the data member is automatically updated. 
-        if (this.abstractTypeCode == null || this.abstractTypeCode.equals("")) {
+        if (this.abstractTypeCode == null || this.abstractTypeCode.length() == 0) {
             abstractType = null;
         } else {
             this.refreshReferenceObject("abstractType");
