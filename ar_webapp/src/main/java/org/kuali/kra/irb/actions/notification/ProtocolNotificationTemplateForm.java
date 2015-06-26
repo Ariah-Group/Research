@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ *
  * This class is the action form for notification template maintenance
  */
 public class ProtocolNotificationTemplateForm extends KualiForm {
@@ -43,15 +43,14 @@ public class ProtocolNotificationTemplateForm extends KualiForm {
         this.setNotificationTemplates(initNotificationTemplates());
     }
 
-
     private BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
 
     /**
-     * 
+     *
      * This method to get the notification templates from db.
-     * 
+     *
      * @return
      */
     public List<ProtocolNotificationTemplate> initNotificationTemplates() {
@@ -84,12 +83,12 @@ public class ProtocolNotificationTemplateForm extends KualiForm {
 
         return templates;
     }
-    
+
     private ProtocolNotificationTemplate getTemplate(String actionTypeCode, String fileName) {
         ProtocolNotificationTemplate template = new ProtocolNotificationTemplate();
         template.setActionTypeCode(actionTypeCode);
         template.setFileName(fileName);
-        template.setNotificationTemplate(getFileContent("/org/kuali/kra/irb/notification/stylesheet/"+fileName));
+        template.setNotificationTemplate(getFileContent("/org/kuali/kra/irb/notification/stylesheet/" + fileName));
         template.refreshReferenceObject("protocolActionType");
         if (actionTypeCode.equals(ProtocolActionType.ASSIGN_REVIEWER)) {
             ProtocolActionType actionType = new ProtocolActionType();
@@ -106,10 +105,13 @@ public class ProtocolNotificationTemplateForm extends KualiForm {
         return template;
 
     }
-    
+
     private byte[] getFileContent(String filePath) {
+
+        InputStream inStream = null;
+
         try {
-            InputStream inStream = this.getClass().getResourceAsStream(filePath);
+            inStream = this.getClass().getResourceAsStream(filePath);
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             byte[] buf = new byte[1024];
             for (int readNum; (readNum = inStream.read(buf)) != -1;) {
@@ -119,10 +121,18 @@ public class ProtocolNotificationTemplateForm extends KualiForm {
 
             return bos.toByteArray();
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return null;
+        } finally {
+            try {
+                if (inStream != null) {
+                    inStream.close();
+                }
+            } catch (Exception e) {
+            }
+
         }
+
     }
 
     public boolean isReadOnly() {
@@ -133,11 +143,9 @@ public class ProtocolNotificationTemplateForm extends KualiForm {
         this.readOnly = readOnly;
     }
 
-
     public List<ProtocolNotificationTemplate> getNotificationTemplates() {
         return notificationTemplates;
     }
-
 
     public void setNotificationTemplates(List<ProtocolNotificationTemplate> notificationTemplates) {
         this.notificationTemplates = notificationTemplates;
