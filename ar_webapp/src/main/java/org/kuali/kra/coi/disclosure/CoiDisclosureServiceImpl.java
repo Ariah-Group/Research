@@ -2743,7 +2743,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     }
 
     protected Integer calculateMaximumDispositionStatusCode(CoiDisclosure coiDisclosure) {
-        Integer defaultDisposition = getDefaultDispositionStatus(coiDisclosure);
+        //Integer defaultDisposition = getDefaultDispositionStatus(coiDisclosure);
         Integer retval = null;
         for (CoiDisclProject project : coiDisclosure.getCoiDisclProjects()) {
             Integer projectDisposition = null;
