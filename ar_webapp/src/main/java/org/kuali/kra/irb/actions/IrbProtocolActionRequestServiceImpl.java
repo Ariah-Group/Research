@@ -572,10 +572,8 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
      */
     @Override
     public boolean isAbandonAuthorized(ProtocolForm protocolForm) {
-        boolean requestAuthorized = false;
         ProtocolDocument document = (ProtocolDocument) protocolForm.getProtocolDocument();
-        requestAuthorized = hasPermission(TaskName.ABANDON_PROTOCOL, (Protocol) document.getProtocol());
-        return requestAuthorized;
+        return hasPermission(TaskName.ABANDON_PROTOCOL, (Protocol) document.getProtocol());
     }
 
     /**
