@@ -596,28 +596,25 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     /**
      * Return the institutional proposal linked to the development proposal.
      *
-     * @param proposalDevelopmentDocument
-     * @param instProposalNumber
+     * @param devProposalNumber
      * @return
      */
     @Override
     public InstitutionalProposal getInstitutionalProposal(String devProposalNumber) {
-        Long instProposalId = null;
+
         Map<String, Object> values = new HashMap<String, Object>();
         values.put("devProposalNumber", devProposalNumber);
         Collection<ProposalAdminDetails> proposalAdminDetails = businessObjectService.findMatching(ProposalAdminDetails.class,
                 values);
 
-        for (Iterator iter = proposalAdminDetails.iterator(); iter.hasNext();) {
-            ProposalAdminDetails pad = (ProposalAdminDetails) iter.next();
+        for (ProposalAdminDetails pad : proposalAdminDetails) {
             pad.refreshReferenceObject("institutionalProposal");
             return pad.getInstitutionalProposal();
         }
         return null;
     }
 
-    protected String populateBudgetEditableFieldMetaData(
-            String documentNumber, String editableFieldDBColumn) {
+    protected String populateBudgetEditableFieldMetaData(String documentNumber, String editableFieldDBColumn) {
         String returnValue = "";
 
         //BudgetDocument budgetDocument = null;
@@ -667,8 +664,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
         int numberOfCoPI = 0;
 
         /* populate PI info */
-        List<CoPiInfoDO> coPiInfos = new ArrayList<CoPiInfoDO>();
-        coPiInfos = proposalService.getCoPiPiInfo(proposal);
+        List<CoPiInfoDO> coPiInfos = proposalService.getCoPiPiInfo(proposal);
         approverViewDO.setCoPiInfos(coPiInfos);
         if (coPiInfos != null) {
             numberOfCoPI = coPiInfos.size();
@@ -722,21 +718,21 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     /* Check to see if the current user can perform workflow action in proposal development document */
     @Override
     public boolean canPerformWorkflowAction(ProposalDevelopmentDocument document) {
-        
+
         // Not from the doc handler, don't show the approver view
         if (document.getDocumentHeader().getDocumentNumber() == null) {
             return false;
         }
-                
+
         KcTransactionalDocumentAuthorizerBase documentAuthorizer = (KcTransactionalDocumentAuthorizerBase) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(document);
-        
+
         Person user = GlobalVariables.getUserSession().getPerson();
         Set<String> documentActions = documentAuthorizer.getDocumentActions(document, user, null);
-    
-        boolean canApprove= documentActions.contains(KRADConstants.KUALI_ACTION_CAN_APPROVE);
+
+        boolean canApprove = documentActions.contains(KRADConstants.KUALI_ACTION_CAN_APPROVE);
         //boolean canAck = documentActions.contains(KNSConstants.KUALI_ACTION_CAN_ACKNOWLEDGE);
         boolean canDisapprove = documentActions.contains(KRADConstants.KUALI_ACTION_CAN_DISAPPROVE);
-        
+
         return canApprove || canDisapprove;
-    }    
+    }
 }
