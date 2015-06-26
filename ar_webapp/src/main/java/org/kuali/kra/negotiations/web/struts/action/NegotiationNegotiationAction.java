@@ -56,17 +56,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.kuali.rice.krad.util.KRADConstants.EMPTY_STRING;
 import static org.kuali.rice.krad.util.KRADConstants.QUESTION_CLICKED_BUTTON;
 
 /**
- * 
+ *
  * This class handles the home screen for negotiations.
  */
 public class NegotiationNegotiationAction extends NegotiationAction {
-
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -81,13 +81,15 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         negotiationForm.getNegotiationActivityHelper().generateAllAttachments();
         return actionForward;
     }
-    
+
     public ActionForward negotiation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward(Constants.NEGOTIATION_HOME_PAGE);
     }
 
     /**
-     * Should only be used when opening the document from a search and clicking on the medusa link.
+     * Should only be used when opening the document from a search and clicking
+     * on the medusa link.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -96,7 +98,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
      * @throws Exception
      */
     public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-        throws Exception {
+            throws Exception {
         NegotiationForm negotiationForm = (NegotiationForm) form;
         if (negotiationForm.getDocument().getDocumentNumber() == null) {
             // if we are entering this from the search results
@@ -110,13 +112,15 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         negotiationForm.getTabStates().put("DocumentOverview", "false");
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
-     * 
+     *
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#reload(
-     * org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, 
-     * javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */    
+     * org.apache.struts.action.ActionMapping,
+     * org.apache.struts.action.ActionForm,
+     * javax.servlet.http.HttpServletRequest,
+     * javax.servlet.http.HttpServletResponse)
+     */
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.reload(mapping, form, request, response);
@@ -127,10 +131,13 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         //docHandler(mapping, form, request, response);
         return actionForward;
     }
-    
+
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see
+     * org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
+     * org.apache.struts.action.ActionForm,
+     * javax.servlet.http.HttpServletRequest,
+     * javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -141,14 +148,16 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         Negotiation negotiation = negotiationForm.getNegotiationDocument().getNegotiation();
         Negotiation oldNegotiation = getBusinessObjectService().findBySinglePrimaryKey(Negotiation.class,
                 negotiation.getNegotiationId());
+
+        List<String> inProgressCodes = getNegotiationService().getInProgressStatusCodes();
+
         if (negotiation.getNegotiationStatus() != null
-                && getNegotiationService().getInProgressStatusCodes().contains(negotiation.getNegotiationStatus().getCode())) {
+                && inProgressCodes.contains(negotiation.getNegotiationStatus().getCode())) {
             // in the in progress status, the end date field is disabled, so this prvents a problem with moving back from
             // completed or suspended to in progress.
             negotiation.setNegotiationEndDate(null);
-        }
-        else if (oldNegotiation != null && oldNegotiation.getNegotiationStatus() != null
-                && getNegotiationService().getInProgressStatusCodes().contains(oldNegotiation.getNegotiationStatus().getCode())
+        } else if (oldNegotiation != null && oldNegotiation.getNegotiationStatus() != null
+                && inProgressCodes.contains(oldNegotiation.getNegotiationStatus().getCode())
                 && negotiation.getNegotiationStatus() != null
                 && getNegotiationService().getCompletedStatusCodes().contains(negotiation.getNegotiationStatus().getCode())) {
             if (negotiation.getNegotiationEndDate() != null
@@ -162,14 +171,12 @@ public class NegotiationNegotiationAction extends NegotiationAction {
                     Object buttonClicked = question.getRequest().getParameter(QUESTION_CLICKED_BUTTON);
                     if (ConfirmationQuestion.YES.equals(buttonClicked)) {
                         negotiationForm.getNegotiationActivityHelper().closeAllPendingActivities();
-                    }
-                    else {
+                    } else {
                         negotiation.setNegotiationStatus(oldNegotiation.getNegotiationStatus());
                         negotiation.setNegotiationStatusId(oldNegotiation.getNegotiationStatusId());
                         return mapping.findForward(Constants.MAPPING_BASIC);
                     }
-                }
-                else {
+                } else {
                     return performQuestionWithoutInput(question, EMPTY_STRING);
                 }
             }
@@ -182,9 +189,9 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         preSave(mapping, negotiationForm, request, response);
 
         ActionForward actionForward = super.save(mapping, form, request, response);
-        
+
         NegotiationCloseNotificationContext context = new NegotiationCloseNotificationContext(negotiationForm.getNegotiationDocument());
-        
+
         if (sendCloseNotification && GlobalVariables.getMessageMap().getErrorCount() == 0) {
             if (negotiationForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
                 negotiationForm.getNotificationHelper().initializeDefaultValues(context);
@@ -199,18 +206,17 @@ public class NegotiationNegotiationAction extends NegotiationAction {
             }
             NegotiationUnassociatedDetail detail = negotiation.getUnAssociatedDetail();
             this.getBusinessObjectService().save(detail);
-            negotiation
-                    .setAssociatedDocumentId(negotiation.getUnAssociatedDetail().getNegotiationUnassociatedDetailId().toString());
+            negotiation.setAssociatedDocumentId(negotiation.getUnAssociatedDetail().getNegotiationUnassociatedDetailId().toString());
             this.getBusinessObjectService().save(negotiation);
             detail.refresh();
         }
         if (!negotiationForm.getNegotiationUnassociatedDetailsToDelete().isEmpty()) {
             this.getBusinessObjectService().delete(negotiationForm.getNegotiationUnassociatedDetailsToDelete());
         }
-       negotiation.refresh();
-       return actionForward;
-   }
-    
+        negotiation.refresh();
+        return actionForward;
+    }
+
     /**
      * This method allows logic to be executed before a save, after
      * authorization is confirmed.
@@ -251,7 +257,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
             if (!otherNegotiations.isEmpty()) {
                 StrutsConfirmation question = buildParameterizedConfirmationQuestion(mapping, form, request, response,
                         "duplicateLinkedNegotiations", KeyConstants.NEGOTIATION_DUPLICATE_LINKING, negotiation
-                                .getNegotiationAssociationType().getDescription());
+                        .getNegotiationAssociationType().getDescription());
                 question.setCaller(((KualiForm) question.getForm()).getMethodToCall());
                 if (question.hasQuestionInstAttributeName()
                         && StringUtils.equals(question.getRequest().getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME),
@@ -259,23 +265,21 @@ public class NegotiationNegotiationAction extends NegotiationAction {
                     Object buttonClicked = question.getRequest().getParameter(QUESTION_CLICKED_BUTTON);
                     if (ConfirmationQuestion.NO.equals(buttonClicked)) {
                         if (oldNegotiation != null) {
-                        negotiation.setAssociatedDocumentId(oldNegotiation.getAssociatedDocumentId());
+                            negotiation.setAssociatedDocumentId(oldNegotiation.getAssociatedDocumentId());
                         } else {
                             negotiation.setAssociatedDocumentId(null);
                         }
                         return mapping.findForward(Constants.MAPPING_BASIC);
                     }
-                }
-                else {
+                } else {
                     return performQuestionWithoutInput(question, EMPTY_STRING);
                 }
             }
         }
         return super.refresh(mapping, form, request, response);
-        
+
     }
-    
-    
+
     @Override
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -283,9 +287,6 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         loadCodeObjects(negotiationForm.getNegotiationDocument().getNegotiation());
         return super.close(mapping, negotiationForm, request, response);
     }
-
-    
-    
 
     private void loadCodeObjects(Negotiation negotiation) {
         //Map primaryKeys = new HashMap();
@@ -311,7 +312,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         NegotiationForm negotiationForm = (NegotiationForm) form;
         Negotiation negotiation = negotiationForm.getNegotiationDocument().getNegotiation();
         Long associationTypeId = negotiation.getNegotiationAssociationTypeId();
-        if(associationTypeId != null){
+        if (associationTypeId != null) {
             if (negotiation.getNegotiationAssociationType() != null) {
                 negotiation.setOldNegotiationAssociationTypeId(negotiation.getNegotiationAssociationType().getId());
                 String oldAssociation = negotiation.getNegotiationAssociationType()
@@ -329,15 +330,14 @@ public class NegotiationNegotiationAction extends NegotiationAction {
                                 KeyConstants.NEGOTIATION_CHANGE_ASSOCIATION_TYPE_MESSAGE, oldAssociation, newAssociation),
                         "confirmedChangeAssociation", "resetChangeAssociationType");
                 return confirmAction;
-            }
-            else {
+            } else {
                 return confirmedChangeAssociation(mapping, negotiationForm, request, response);
             }
-        }else{
+        } else {
             negotiation.setAssociatedDocumentId(EMPTY_STRING);
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
-        
+
     }
 
     public ActionForward changeAssociationRedirector(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -348,8 +348,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
          */
         if (StringUtils.equals(buttonClicked, "0")) {
             return confirmedChangeAssociation(mapping, form, request, response);
-        }
-        else {
+        } else {
             return resetChangeAssociationType(mapping, form, request, response);
         }
     }
@@ -483,7 +482,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
 
     /**
      * Medusa refresh button action.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -501,9 +500,10 @@ public class NegotiationNegotiationAction extends NegotiationAction {
             throws Exception {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+
     /**
      * NegotiationActivities print all button action.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -513,23 +513,22 @@ public class NegotiationNegotiationAction extends NegotiationAction {
      */
     public ActionForward printNegotiationActivity(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
-            throws Exception {   
-        Map<String, Object> reportParameters = new HashMap<String, Object>();        
-        NegotiationForm negotiationForm = (NegotiationForm) form;  
-        NegotiationDocument negotiationDocument = negotiationForm.getNegotiationDocument();     
+            throws Exception {
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
+        NegotiationForm negotiationForm = (NegotiationForm) form;
+        NegotiationDocument negotiationDocument = negotiationForm.getNegotiationDocument();
         Negotiation negotiation = negotiationDocument.getNegotiation();
         negotiation.setPrintindex(0);
         negotiation.setPrintAll(StringUtils.equals(negotiationForm.getFilterActivities(), negotiationForm.getFilterAllActivities()));
-        AttachmentDataSource dataStream = getNegotiationPrintingService().printNegotiationActivityReport
-                          (negotiation, NegotiationActivityPrintType.NEGOTIATION_ACTIVITY_REPORT, reportParameters);                                                  
-        streamToResponse(dataStream,response);       
-        
+        AttachmentDataSource dataStream = getNegotiationPrintingService().printNegotiationActivityReport(negotiation, NegotiationActivityPrintType.NEGOTIATION_ACTIVITY_REPORT, reportParameters);
+        streamToResponse(dataStream, response);
+
         return null;
-    }    
-    
+    }
+
     /**
      * NegotiationActivities print button action.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -539,36 +538,36 @@ public class NegotiationNegotiationAction extends NegotiationAction {
      */
     public ActionForward printActivity(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
-            throws Exception { 
-        int printindex =getActivityIndex(request);
+            throws Exception {
+        int printindex = getActivityIndex(request);
         Map<String, Object> reportParameters = new HashMap<String, Object>();
-        NegotiationForm negotiationForm = (NegotiationForm) form;  
-        NegotiationDocument negotiationDocument = negotiationForm.getNegotiationDocument();     
-        Negotiation negotiation = negotiationDocument.getNegotiation();        
-        negotiation.setPrintindex(printindex+1);
-        AttachmentDataSource dataStream = getNegotiationPrintingService().printNegotiationActivityReport
-                          (negotiation, NegotiationActivityPrintType.NEGOTIATION_ACTIVITY_REPORT, reportParameters);                                                  
-        streamToResponse(dataStream,response);
-        
+        NegotiationForm negotiationForm = (NegotiationForm) form;
+        NegotiationDocument negotiationDocument = negotiationForm.getNegotiationDocument();
+        Negotiation negotiation = negotiationDocument.getNegotiation();
+        negotiation.setPrintindex(printindex + 1);
+        AttachmentDataSource dataStream = getNegotiationPrintingService().printNegotiationActivityReport(negotiation, NegotiationActivityPrintType.NEGOTIATION_ACTIVITY_REPORT, reportParameters);
+        streamToResponse(dataStream, response);
+
         return null;
     }
- 
+
     public ActionForward deleteActivity(ActionMapping mapping, ActionForm form,
-            HttpServletRequest request, HttpServletResponse response) throws Exception { 
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
         return confirm(buildParameterizedConfirmationQuestion(mapping, form, request, response, "deleteActivityKey",
-                        KeyConstants.NEGOTIATION_DELETE_ACTIVITY),
-                        "confirmDeleteActivity", null);
-    }        
-    
+                KeyConstants.NEGOTIATION_DELETE_ACTIVITY),
+                "confirmDeleteActivity", null);
+    }
+
     public ActionForward confirmDeleteActivity(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         NegotiationForm negotiationForm = (NegotiationForm) form;
         negotiationForm.getNegotiationActivityHelper().deleteActivity(getActivityIndex(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
      * Returns the user directly to the Portal.
+     *
      * @param mapping
      * @param form
      * @param request

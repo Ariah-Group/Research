@@ -301,6 +301,7 @@ public class NegotiationServiceImpl implements NegotiationService {
     }
 
     /**
+     * @param negotiation
      * @see
      * org.kuali.kra.negotiations.service.NegotiationService#checkForPropLogPromotion(org.kuali.kra.negotiations.bo.Negotiation)
      */
@@ -344,6 +345,8 @@ public class NegotiationServiceImpl implements NegotiationService {
 
     /**
      *
+     * @param activities
+     * @return 
      * @see
      * org.kuali.kra.negotiations.service.NegotiationService#getNegotiationActivityHistoryLineBeans(java.util.List)
      */

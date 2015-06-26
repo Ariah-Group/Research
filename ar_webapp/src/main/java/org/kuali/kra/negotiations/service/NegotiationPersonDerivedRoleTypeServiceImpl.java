@@ -31,26 +31,27 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Negotiation Person Derived Role Type. Returns all contact persons for document related to negotiation.
+ * Negotiation Person Derived Role Type. Returns all contact persons for
+ * document related to negotiation.
  */
 public class NegotiationPersonDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
-    
+
     private NegotiationService negotiationService;
-    
+
     /**
-	 * Constructs a NegotiationPersonDerivedRoleTypeServiceImpl.java.
-	 */
+     * Constructs a NegotiationPersonDerivedRoleTypeServiceImpl.java.
+     */
     public NegotiationPersonDerivedRoleTypeServiceImpl() {
-        
-    }	
-	
-	@Override
-    public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String,String> qualification) {
-		validateRequiredAttributesAgainstReceived(qualification);
-		
-		String negotiationId = qualification.get(KcKimAttributes.NEGOTIATION);
-		List<RoleMembership> members = new ArrayList<RoleMembership>();
-		
+
+    }
+
+    @Override
+    public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String, String> qualification) {
+        validateRequiredAttributesAgainstReceived(qualification);
+
+        String negotiationId = qualification.get(KcKimAttributes.NEGOTIATION);
+        List<RoleMembership> members = new ArrayList<RoleMembership>();
+
         if (StringUtils.isNotBlank(negotiationId)) {
             Negotiation negotiation = getBusinessObjectService().findBySinglePrimaryKey(Negotiation.class, negotiationId);
             Negotiable negotiableBo = getNegotiationService().getAssociatedObject(negotiation);
@@ -64,30 +65,31 @@ public class NegotiationPersonDerivedRoleTypeServiceImpl extends DerivedRoleType
                 }
             }
         }
-	        
-		return members;
-	}
-	
-	/**
-	 * Filter the list of negotiation persons by their role. Typically the role name
-	 * is used to indicate PI, COI or KP. If the role name does not match any known
-	 * role the list is not filtered.
-	 * @param persons
-	 * @param roleName
-	 */
-	protected void filterListByRole(List<NegotiationPersonDTO> persons, String roleName) {
-	    if (StringUtils.equals(roleName, Constants.PRINCIPAL_INVESTIGATOR_ROLE)
-	            || StringUtils.equals(roleName, Constants.CO_INVESTIGATOR_ROLE)
-	            || StringUtils.equals(roleName, Constants.KEY_PERSON_ROLE)) {
-    	    Iterator<NegotiationPersonDTO> iter = persons.iterator();
-    	    while (iter.hasNext()) {
-    	        NegotiationPersonDTO person = iter.next();
-    	        if (!StringUtils.equals(person.getRoleCode(), roleName)) {
-    	            iter.remove();
-    	        }
-    	    }
-	    }
-	}
+
+        return members;
+    }
+
+    /**
+     * Filter the list of negotiation persons by their role. Typically the role
+     * name is used to indicate PI, COI or KP. If the role name does not match
+     * any known role the list is not filtered.
+     *
+     * @param persons
+     * @param roleName
+     */
+    protected void filterListByRole(List<NegotiationPersonDTO> persons, String roleName) {
+        if (StringUtils.equals(roleName, Constants.PRINCIPAL_INVESTIGATOR_ROLE)
+                || StringUtils.equals(roleName, Constants.CO_INVESTIGATOR_ROLE)
+                || StringUtils.equals(roleName, Constants.KEY_PERSON_ROLE)) {
+            Iterator<NegotiationPersonDTO> iter = persons.iterator();
+            while (iter.hasNext()) {
+                NegotiationPersonDTO person = iter.next();
+                if (!StringUtils.equals(person.getRoleCode(), roleName)) {
+                    iter.remove();
+                }
+            }
+        }
+    }
 
     public NegotiationService getNegotiationService() {
         return negotiationService;
@@ -103,15 +105,18 @@ public class NegotiationPersonDerivedRoleTypeServiceImpl extends DerivedRoleType
         requiredAttributes.add(KcKimAttributes.NEGOTIATION);
         return requiredAttributes;
     }
-    
+
     /**
-     * 
-     * @see org.kuali.rice.kim.framework.role.RoleTypeService#dynamicRoleMembership(java.lang.String, java.lang.String)
+     *
+     * @param namespaceCode
+     * @param roleName
+     * @return 
+     * @see
+     * org.kuali.rice.kim.framework.role.RoleTypeService#dynamicRoleMembership(java.lang.String,
+     * java.lang.String)
      */
     @Override
     public boolean dynamicRoleMembership(String namespaceCode, String roleName) {
         return true;
-    }    
-
-    
+    }
 }
