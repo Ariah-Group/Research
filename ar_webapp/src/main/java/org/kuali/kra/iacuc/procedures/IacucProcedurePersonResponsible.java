@@ -88,10 +88,13 @@ public class IacucProcedurePersonResponsible extends KraPersistableBusinessObjec
         List<IacucPersonTraining> iacucPersonTrainings = getProtocolPerson().getIacucPersonTrainings();
         if (iacucPersonTrainings != null) {
             for (IacucPersonTraining iacucPersonTraining : iacucPersonTrainings) {
-                StringBuffer trainingInfo = new StringBuffer();
-                trainingInfo.append("Training : " + iacucPersonTraining.getPersonTraining().getTraining().getDescription());
-                trainingInfo.append("\r\nSpecies : " + iacucPersonTraining.getIacucSpecies().getSpeciesName());
-                trainingInfo.append("\r\nProcedure : " + iacucPersonTraining.getIacucProcedure().getProcedureDescription());
+                StringBuilder trainingInfo = new StringBuilder(500);
+                trainingInfo.append("Training : ");
+                trainingInfo.append(iacucPersonTraining.getPersonTraining().getTraining().getDescription());
+                trainingInfo.append("\r\nSpecies : ");
+                trainingInfo.append(iacucPersonTraining.getIacucSpecies().getSpeciesName());
+                trainingInfo.append("\r\nProcedure : ");
+                trainingInfo.append(iacucPersonTraining.getIacucProcedure().getProcedureDescription());
                 trainingInfo.append("\r\n");
                 this.trainingDetails.add(trainingInfo.toString());
             }
