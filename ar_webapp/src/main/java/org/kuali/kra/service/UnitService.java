@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.service;
 
-import org.kuali.kra.bo.IacucUnitCorrespondent;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.bo.UnitCorrespondent;
@@ -125,14 +124,5 @@ public interface UnitService {
      * @return
      */
     public int getMaxUnitTreeDepth();
-
-    /**
-     * This method returns a list of IacucUnitCorrespondent
-     * objects based on a passed unit number.
-     * @param unitNumber identifier for the unit
-     * @return list of IacucUnitCorrespondent objects
-     * null value is returned if no unit correspondents not found
-     */
-    public List<IacucUnitCorrespondent> retrieveIacucUnitCorrespondentsByUnitNumber(String unitNumber);
 
 }

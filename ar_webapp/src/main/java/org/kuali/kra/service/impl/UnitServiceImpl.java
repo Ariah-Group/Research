@@ -13,27 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * ------------------------------------------------------
- * Updates made after January 1, 2015 are :
- * Copyright 2015 The Ariah Group, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 package org.kuali.kra.service.impl;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.IacucUnitCorrespondent;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.bo.UnitCorrespondent;
@@ -312,7 +296,7 @@ public class UnitServiceImpl implements UnitService {
     @Override
     public int getMaxUnitTreeDepth() {
         /**
-         * This function returns a higher number than the actual depth of the hirearchy tree.  This does not cause any problem as of yet.
+         * This function returns a higher number than the actual depth of the hierarchy tree.  This does not cause any problem as of yet.
          * A closer to accurate query would be:
          *      select count(distinct parent_unit_number) as counter from unit where PARENT_UNIT_NUMBER is not null
          * although this to will result in a higher number than the true depth.
@@ -342,19 +326,5 @@ public class UnitServiceImpl implements UnitService {
             (List<UnitCorrespondent>) getBusinessObjectService().findMatching(UnitCorrespondent.class, queryMap);
         return unitCorrespondents;
     }
-    
-    /**
-     * @see org.kuali.kra.service.UnitService#retrieveIacucUnitCorrespondentByUnitNumber(java.lang.String)
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<IacucUnitCorrespondent> retrieveIacucUnitCorrespondentsByUnitNumber(String unitNumber) {
-        this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        Map<String, String> queryMap = new HashMap<String, String>();
-        queryMap.put(UNIT_NUMBER, unitNumber);
-        List<IacucUnitCorrespondent> unitCorrespondents = 
-            (List<IacucUnitCorrespondent>) getBusinessObjectService().findMatching(IacucUnitCorrespondent.class, queryMap);
-        return unitCorrespondents;
-    }
-    
+       
 }

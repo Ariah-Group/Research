@@ -16,6 +16,7 @@ un * Copyright 2005-2014 The Kuali Foundation
 package org.kuali.kra.kim.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.ariahgroup.research.iacuc.service.IacucUnitService;
 import org.kuali.kra.bo.IacucOrganizationCorrespondent;
 import org.kuali.kra.bo.IacucUnitCorrespondent;
 import org.kuali.kra.iacuc.IacucProtocol;
@@ -24,7 +25,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
 import org.kuali.kra.service.OrganizationService;
-import org.kuali.kra.service.UnitService;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
@@ -35,13 +35,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * Checks whether the principal is an IrbCorrespondent for the given Organization ID.
  */
 public class IacucCorrespondentDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase implements RoleTypeService {
     
     private OrganizationService organizationService;
-    private UnitService unitService;
+    private IacucUnitService unitService;
 
     private final String ROLE_NAME_ORGANIZATION_CORRESPONDENT = "IACUC Organization Correspondent";
     private final String ROLE_NAME_UNIT_CORRESPONDENT = "IACUC Unit Correspondent";
@@ -153,9 +154,9 @@ public class IacucCorrespondentDerivedRoleTypeServiceImpl extends DerivedRoleTyp
         return members;
     }
     
-    private UnitService getUnitService() {
+    private IacucUnitService getUnitService() {
         if (unitService == null) {
-            unitService = (UnitService) KraServiceLocator.getService(UnitService.class);
+            unitService = (IacucUnitService) KraServiceLocator.getService(IacucUnitService.class);
         }
         return unitService;
     }
