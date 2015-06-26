@@ -17,7 +17,6 @@ package org.kuali.kra.coi;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class CoiDisclosureAssociate extends KraPersistableBusinessObjectBase implements SequenceAssociate<CoiDisclosure> {
@@ -104,7 +103,7 @@ public class CoiDisclosureAssociate extends KraPersistableBusinessObjectBase imp
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof AwardAssociate)) {
+        if (!(obj instanceof CoiDisclosureAssociate)) {
             return false;
         }
         CoiDisclosureAssociate other = (CoiDisclosureAssociate) obj;
