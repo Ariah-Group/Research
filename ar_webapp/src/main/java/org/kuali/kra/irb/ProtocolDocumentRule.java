@@ -108,6 +108,7 @@ public class ProtocolDocumentRule extends ProtocolDocumentRuleBase<CommitteeDeci
     /**
      * @see org.kuali.kra.common.permissions.rule.PermissionsRule#processAddPermissionsUserBusinessRules(org.kuali.core.document.Document, java.util.List, org.kuali.kra.common.permissions.bo.PermissionsUser)
      */
+    @Override
     public boolean processAddPermissionsUserBusinessRules(Document document, List<User> users, PermissionsUser newUser) {
         return new ProtocolPermissionsRule().processAddPermissionsUserBusinessRules(document, users, newUser);
     }
@@ -115,6 +116,7 @@ public class ProtocolDocumentRule extends ProtocolDocumentRuleBase<CommitteeDeci
     /**
      * @see org.kuali.kra.common.permissions.rule.PermissionsRule#processDeletePermissionsUserBusinessRules(org.kuali.core.document.Document, java.util.List, int)
      */
+    @Override
     public boolean processDeletePermissionsUserBusinessRules(Document document, List<User> users, int index) {
         return new ProtocolPermissionsRule().processDeletePermissionsUserBusinessRules(document, users, index);     
     }
@@ -122,6 +124,7 @@ public class ProtocolDocumentRule extends ProtocolDocumentRuleBase<CommitteeDeci
     /**
      * @see org.kuali.kra.common.permissions.rule.PermissionsRule#processEditPermissionsUserRolesBusinessRules(org.kuali.core.document.Document, java.util.List, org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles)
      */
+    @Override
     public boolean processEditPermissionsUserRolesBusinessRules(Document document, List<User> users,
             PermissionsUserEditRoles editRoles) {
         return new ProtocolPermissionsRule().processEditPermissionsUserRolesBusinessRules(document, users, editRoles);
@@ -130,6 +133,7 @@ public class ProtocolDocumentRule extends ProtocolDocumentRuleBase<CommitteeDeci
     /**
      * @see org.kuali.kra.irb.actions.assigncmtsched.ExecuteProtocolAssignCmtSchedRule#processAssignToCommitteeSchedule(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean)
      */
+    @Override
     public boolean processAssignToCommitteeSchedule(ProtocolDocument document, ProtocolAssignCmtSchedBean actionBean) {
         return new ProtocolAssignCmtSchedRule().processAssignToCommitteeSchedule(document, actionBean);
     }
@@ -137,18 +141,22 @@ public class ProtocolDocumentRule extends ProtocolDocumentRuleBase<CommitteeDeci
     /**
      * @see org.kuali.kra.irb.actions.assignreviewers.ExecuteProtocolAssignReviewersRule#processAssignReviewers(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersBean)
      */
+    @Override
     public boolean processAssignReviewers(ProtocolDocument document, ProtocolAssignReviewersBean actionBean) {
         return new ProtocolAssignReviewersRule().processAssignReviewers(document, actionBean);
     }
     
+    @Override
     public boolean processAdminCorrectionRule(ProtocolDocument document, AdminCorrectionBean actionBean) {
         return new ProtocolAdminCorrectionRule().processAdminCorrectionRule(document, actionBean);
     }
     
+    @Override
     public boolean processModifySubmissionRule(ProtocolDocument document, ProtocolModifySubmissionBean actionBean) {
         return new ProtocolModifySubmissionRule().processModifySubmissionRule(document, actionBean);
     }
     
+    @Override
     public boolean processReviewNotRequiredRule(ProtocolDocument document, ProtocolReviewNotRequiredBean actionBean) {
         return new ProtocolReviewNotRequiredRule().processReviewNotRequiredRule(document, actionBean);
     }

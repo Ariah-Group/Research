@@ -36,14 +36,17 @@ public abstract class ProtocolActionBean implements org.kuali.kra.protocol.actio
     public ProtocolActionBean() {
     }
 
+    @Override
     public void setActionHelper(ActionHelperBase actionHelper) {
         this.actionHelper = (ActionHelper) actionHelper;
     }
 
+    @Override
     public ActionHelper getActionHelper() {
         return actionHelper;
     }
     
+    @Override
     public Protocol getProtocol() {
         return (Protocol) actionHelper.getProtocol();
     }

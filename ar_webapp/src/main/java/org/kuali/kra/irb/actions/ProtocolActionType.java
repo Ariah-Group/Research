@@ -146,42 +146,52 @@ public class ProtocolActionType extends ProtocolActionTypeBase {
     public ProtocolActionType() {
     }
 
+    @Override
     public void setProtocolActionTypeCode(String protocolActionTypeCode) {
         this.protocolActionTypeCode = protocolActionTypeCode;
     }
 
+    @Override
     public String getProtocolActionTypeCode() {
         return protocolActionTypeCode;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
 
+    @Override
     public void setDescription(String description) {
         this.description = description;
     }
 
+    @Override
     public void setTriggerSubmission(boolean triggerSubmission) {
         this.triggerSubmission = triggerSubmission;
     }
 
+    @Override
     public boolean getTriggerSubmission() {
         return triggerSubmission;
     }
 
+    @Override
     public void setTriggerCorrespondence(boolean triggerCorrespondence) {
         this.triggerCorrespondence = triggerCorrespondence;
     }
 
+    @Override
     public boolean getTriggerCorrespondence() {
         return triggerCorrespondence;
     }
 
+    @Override
     public boolean isFinalActionForBatchCorrespondence() {
         return finalActionForBatchCorrespondence;
     }
 
+    @Override
     public void setFinalActionForBatchCorrespondence(boolean finalActionForBatchCorrespondence) {
         this.finalActionForBatchCorrespondence = finalActionForBatchCorrespondence;
     }

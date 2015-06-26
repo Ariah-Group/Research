@@ -180,6 +180,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     /**
      * {@inheritDoc}
      */
+    @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
@@ -237,6 +238,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     /**
      * {@inheritDoc}
      */
+    @Override
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         return new AuditActionHelper().setAuditMode(mapping, (ProtocolForm) form, true);
@@ -245,6 +247,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     /**
      * {@inheritDoc}
      */
+    @Override
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         return new AuditActionHelper().setAuditMode(mapping, (ProtocolForm) form, false);
@@ -2876,6 +2879,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         return KraServiceLocator.getService(PersonService.class);
     }
 
+    @Override
     protected KcNotificationService getNotificationService() {
         return KraServiceLocator.getService(KcNotificationService.class);
     }

@@ -125,10 +125,12 @@ public class ProtocolDocument extends ProtocolDocumentBase {
      *
      * @return
      */
+    @Override
     public Protocol getProtocol() {
         return (Protocol) super.getProtocol();
     }
 
+    @Override
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
     }
@@ -356,6 +358,7 @@ public class ProtocolDocument extends ProtocolDocumentBase {
      * @return
      * @throws WorkflowException
      */
+    @Override
     public boolean isProcessComplete() {
         boolean isComplete = true;
 
@@ -409,11 +412,13 @@ public class ProtocolDocument extends ProtocolDocumentBase {
         return isComplete;
     }
 
+    @Override
     public void populateContextQualifiers(Map<String, String> qualifiers) {
         qualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_PROTOCOL);
         qualifiers.put("name", KcKrmsConstants.IrbProtocol.IRB_PROTOCOL_CONTEXT);
     }
 
+    @Override
     public void addFacts(Builder factsBuilder) {
         KcKrmsFactBuilderServiceHelper fbService = KraServiceLocator.getService("irbProtocolFactBuilderService");
         fbService.addFacts(factsBuilder, this);

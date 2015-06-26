@@ -33,6 +33,7 @@ import java.util.Map;
  * This class is to filter out the 'merged' protocol, and get the attribute if it is not merged protocol
  */
 public class ProtocolQualifierResolver extends XPathQualifierResolver {
+    @Override
     public List<Map<String,String>> resolve(RouteContext context) {
         List<Map<String,String>> attributeSets = new ArrayList<Map<String,String>>();
         try {

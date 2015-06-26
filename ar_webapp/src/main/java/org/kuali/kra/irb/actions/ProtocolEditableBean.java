@@ -40,98 +40,122 @@ public class ProtocolEditableBean extends ProtocolActionBean implements org.kual
         super(actionHelper);
     }
 
+    @Override
     public boolean getGeneralInfoEnabled() {
         return generalInfoEnabled;
     }
 
+    @Override
     public void setGeneralInfoEnabled(boolean generalInfoEnabled) {
         this.generalInfoEnabled = generalInfoEnabled;
     }
 
+    @Override
     public boolean getFundingSourceEnabled() {
         return fundingSourceEnabled;
     }
 
+    @Override
     public void setFundingSourceEnabled(boolean fundingSourceEnabled) {
         this.fundingSourceEnabled = fundingSourceEnabled;
     }
 
+    @Override
     public boolean getProtocolReferencesEnabled() {
         return protocolReferencesEnabled;
     }
 
+    @Override
     public void setProtocolReferencesEnabled(boolean protocolReferencesEnabled) {
         this.protocolReferencesEnabled = protocolReferencesEnabled;
     }
 
+    @Override
     public boolean getProtocolOrganizationsEnabled() {
         return protocolOrganizationsEnabled;
     }
 
+    @Override
     public void setProtocolOrganizationsEnabled(boolean protocolOrganizationsEnabled) {
         this.protocolOrganizationsEnabled = protocolOrganizationsEnabled;
     }
 
+    @Override
     public boolean getSubjectsEnabled() {
         return subjectsEnabled;
     }
 
+    @Override
     public void setSubjectsEnabled(boolean subjectsEnabled) {
         this.subjectsEnabled = subjectsEnabled;
     }
 
+    @Override
     public boolean getAddModifyAttachmentsEnabled() {
         return addModifyAttachmentsEnabled;
     }
 
+    @Override
     public void setAddModifyAttachmentsEnabled(boolean addModifyAttachmentsEnabled) {
         this.addModifyAttachmentsEnabled = addModifyAttachmentsEnabled;
     }
 
+    @Override
     public boolean getAreasOfResearchEnabled() {
         return areasOfResearchEnabled;
     }
 
+    @Override
     public void setAreasOfResearchEnabled(boolean areasOfResearchEnabled) {
         this.areasOfResearchEnabled = areasOfResearchEnabled;
     }
 
+    @Override
     public boolean getSpecialReviewEnabled() {
         return specialReviewEnabled;
     }
 
+    @Override
     public void setSpecialReviewEnabled(boolean specialReviewEnabled) {
         this.specialReviewEnabled = specialReviewEnabled;
     }
 
+    @Override
     public boolean getProtocolPersonnelEnabled() {
         return protocolPersonnelEnabled;
     }
 
+    @Override
     public void setProtocolPersonnelEnabled(boolean protocolPersonnelEnabled) {
         this.protocolPersonnelEnabled = protocolPersonnelEnabled;
     }
 
+    @Override
     public boolean getOthersEnabled() {
         return othersEnabled;
     }
 
+    @Override
     public void setOthersEnabled(boolean othersEnabled) {
         this.othersEnabled = othersEnabled;
     }
 
+    @Override
     public boolean getProtocolPermissionsEnabled() {
         return protocolPermissionsEnabled;
     }
 
+    @Override
     public void setProtocolPermissionsEnabled(boolean protocolPermissionsEnabled) {
         this.protocolPermissionsEnabled = protocolPermissionsEnabled;
     }
 
+    @Override
     public boolean getQuestionnaireEnabled() {
         return questionnaireEnabled;
     }
 
+    @Override
     public void setQuestionnaireEnabled(boolean questionnaireEnabled) {
         this.questionnaireEnabled = questionnaireEnabled;
     }

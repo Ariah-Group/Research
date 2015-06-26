@@ -147,15 +147,18 @@ public class Protocol extends ProtocolBase {
      * This method is to get protocol personnel service
      * @return protocolPersonnelService
      */
+    @Override
     protected ProtocolPersonnelService getProtocolPersonnelService() {
         ProtocolPersonnelService protocolPersonnelService = KraServiceLocator.getService(ProtocolPersonnelService.class);
         return protocolPersonnelService;
     }
 
+    @Override
     public ProtocolSubmission getProtocolSubmission() {
         return (ProtocolSubmission) super.getProtocolSubmission(); 
     }    
     
+    @Override
     public ProtocolAction getLastProtocolAction() {
         return (ProtocolAction) super.getLastProtocolAction();
     }    
@@ -166,6 +169,7 @@ public class Protocol extends ProtocolBase {
      * @param amendment
      * @param protocolModuleTypeCode
      */
+    @Override
     public void merge(ProtocolBase amendment, String protocolModuleTypeCode) {
         if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.GENERAL_INFO)) {
             mergeGeneralInfo(amendment);
@@ -214,6 +218,7 @@ public class Protocol extends ProtocolBase {
     /*
      * get submit for review questionnaire answerheaders
      */
+    @Override
     public List <AnswerHeader> getAnswerHeaderForProtocol(ProtocolBase protocol) {
         ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean((Protocol) protocol);
         moduleQuestionnaireBean.setModuleSubItemCode("0");
@@ -226,9 +231,11 @@ public class Protocol extends ProtocolBase {
      * merge amendment/renewal protocol action to original protocol when A/R is approved
      */
     @SuppressWarnings("unchecked")
+    @Override
     protected void mergeProtocolAction(ProtocolBase amendment) {
         List<ProtocolAction> protocolActions = (List<ProtocolAction>) deepCopy(amendment.getProtocolActions());  
         Collections.sort(protocolActions, new Comparator<ProtocolAction>() {
+            @Override
             public int compare(ProtocolAction action1, ProtocolAction action2) {
                 return action1.getActionId().compareTo(action2.getActionId());
             }
@@ -268,6 +275,7 @@ public class Protocol extends ProtocolBase {
         setProtocolParticipants((List<ProtocolParticipant>) deepCopy(amendment.getProtocolParticipants()));
     }
     
+    @Override
     public ProtocolSummary getProtocolSummary() {
         ProtocolSummary protocolSummary = createProtocolSummary();
         addPersonnelSummaries(protocolSummary);
@@ -290,6 +298,7 @@ public class Protocol extends ProtocolBase {
         }
     }
 
+    @Override
     protected ProtocolSummary createProtocolSummary() {
         ProtocolSummary summary = new ProtocolSummary();
         summary.setLastProtocolAction(getLastProtocolAction());
@@ -317,6 +326,7 @@ public class Protocol extends ProtocolBase {
      * 
      * @see org.kuali.kra.common.permissions.Permissionable#getDocumentKey()
      */
+    @Override
     public String getDocumentKey() {
         return Permissionable.PROTOCOL_KEY;
     }
@@ -325,6 +335,7 @@ public class Protocol extends ProtocolBase {
      * 
      * @see org.kuali.kra.common.permissions.Permissionable#getRoleNames()
      */
+    @Override
     public List<String> getRoleNames() {
         List<String> roleNames = new ArrayList<String>();
 
@@ -334,6 +345,7 @@ public class Protocol extends ProtocolBase {
         return roleNames;
     }
     
+    @Override
     public String getNamespace() {
         return Constants.MODULE_NAMESPACE_PROTOCOL;
     }
@@ -342,10 +354,12 @@ public class Protocol extends ProtocolBase {
      * 
      * @see org.kuali.kra.UnitAclLoadable#getDocumentRoleTypeCode()
      */
+    @Override
     public String getDocumentRoleTypeCode() {
         return RoleConstants.PROTOCOL_DOC_ROLE_TYPE;
     }
 
+    @Override
     public void initializeProtocolAttachmentFilter() {
         ProtocolAttachmentFilterBase protocolAttachmentFilter = new ProtocolAttachmentFilter();
         
@@ -362,6 +376,7 @@ public class Protocol extends ProtocolBase {
         setProtocolAttachmentFilter(protocolAttachmentFilter);
     }
     
+    @Override
     public KrmsRulesContext getKrmsRulesContext() {
         return (KrmsRulesContext) getProtocolDocument();
     }

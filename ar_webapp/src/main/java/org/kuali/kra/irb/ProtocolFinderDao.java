@@ -28,5 +28,6 @@ public interface ProtocolFinderDao extends org.kuali.kra.protocol.ProtocolFinder
      * @param protocolNumber
      * @return the protocol or null if not found
      */
+    @Override
     Protocol findCurrentProtocolByNumber(String protocolNumber);
 }

@@ -34,26 +34,32 @@ public abstract class ProtocolSubmissionBeanBase extends ProtocolActionBean impl
         super(actionHelper);
     }
 
+    @Override
     public String getCommitteeId() {
         return committeeId;
     }
 
+    @Override
     public void setCommitteeId(String committeeId) {
         this.committeeId = committeeId;
     }
 
+    @Override
     public ProtocolActionAttachment getNewActionAttachment() {
         return newActionAttachment;
     }
 
+    @Override
     public void setNewActionAttachment(ProtocolActionAttachment newActionAttachment) {
         this.newActionAttachment = newActionAttachment;
     }
 
+    @Override
     public List<ProtocolActionAttachment> getActionAttachments() {
         return actionAttachments;
     }
 
+    @Override
     public void setActionAttachments(List<org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment> actionAttachments) {
         this.actionAttachments = actionAttachments;
     }

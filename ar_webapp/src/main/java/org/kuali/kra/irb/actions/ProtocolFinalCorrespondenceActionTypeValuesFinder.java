@@ -37,6 +37,7 @@ public class ProtocolFinalCorrespondenceActionTypeValuesFinder extends IrbAction
      * {@inheritDoc}
      */
     @SuppressWarnings("unchecked")
+    @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         

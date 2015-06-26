@@ -35,6 +35,7 @@ public class ProtocolFinderDaoOjb extends ProtocolFinderDaoOjbBase implements Pr
         return ProtocolSubmission.class;
     }
 
+    @Override
   public Protocol findCurrentProtocolByNumber(String protocolNumber) {
       return (Protocol)super.findCurrentProtocolByNumber(protocolNumber);
   }  

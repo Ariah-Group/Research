@@ -107,6 +107,7 @@ public class ProtocolOnlineReviewDocument extends ProtocolOnlineReviewDocumentBa
         return xml;
     }
 
+    @Override
     public void initialize() {
         super.initialize();
     }
@@ -119,6 +120,7 @@ public class ProtocolOnlineReviewDocument extends ProtocolOnlineReviewDocumentBa
      *
      * @return
      */
+    @Override
     public ProtocolOnlineReviewBase getProtocolOnlineReview() {
         if (protocolOnlineReviewList.size() == 0) {
             return null;
@@ -134,6 +136,7 @@ public class ProtocolOnlineReviewDocument extends ProtocolOnlineReviewDocumentBa
      *
      * @param protocol
      */
+    @Override
     public void setProtocolOnlineReview(ProtocolOnlineReviewBase protocolOnlineReview) {
         protocolOnlineReviewList.set(0, (ProtocolOnlineReview) protocolOnlineReview);
     }
@@ -186,6 +189,7 @@ public class ProtocolOnlineReviewDocument extends ProtocolOnlineReviewDocumentBa
         return new ArrayList<RolePersons>();
     }
 
+    @Override
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
     }
@@ -244,6 +248,7 @@ public class ProtocolOnlineReviewDocument extends ProtocolOnlineReviewDocumentBa
         }
     }
 
+    @Override
     public boolean isProcessComplete() {
         boolean isComplete = true;
 
@@ -323,6 +328,7 @@ public class ProtocolOnlineReviewDocument extends ProtocolOnlineReviewDocumentBa
         return new ArrayList();
     }
 
+    @Override
     public String getDocumentBoNumber() {
         return getProtocolOnlineReview().getProtocolId().toString();
     }
