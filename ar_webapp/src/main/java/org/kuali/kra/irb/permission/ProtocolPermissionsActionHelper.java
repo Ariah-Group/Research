@@ -230,7 +230,7 @@ class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase {
         if (roleCOI != null) {
             permissionsRoleState = new PermissionsRoleState(roleCOI);
             permissionsRoleState.setState(true);
-            if (permissionsRoleState != null || permissionsRoleState.getState()) {
+            if (permissionsRoleState.getState()) {
                 roleStates.add(permissionsRoleState);
             }
         }
@@ -238,7 +238,7 @@ class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase {
         if (rolePI != null) {
             permissionsRoleState = new PermissionsRoleState(rolePI);
             permissionsRoleState.setState(true);
-            if (permissionsRoleState != null || permissionsRoleState.getState()) {
+            if (permissionsRoleState.getState()) {
                 roleStates.add(permissionsRoleState);
             }
         }
