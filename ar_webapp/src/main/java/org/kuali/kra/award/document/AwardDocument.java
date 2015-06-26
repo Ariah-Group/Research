@@ -360,12 +360,10 @@ public class AwardDocument extends BudgetParentDocument<Award> implements Copyab
 
     private void updateFundedProposals() {
         Set<String> modifiedProposals = new HashSet<String>();
-        List<AwardFundingProposal> pendingVersions = new ArrayList<AwardFundingProposal>();
         for (AwardFundingProposal afp : getAward().getFundingProposals()) {
             InstitutionalProposalBoLite proposal = afp.getProposal();
             if (!ProposalStatus.FUNDED.equals(proposal.getStatusCode())) {
                 modifiedProposals.add(proposal.getProposalNumber());
-                pendingVersions.add(afp);
             }
         }
         if (modifiedProposals.size() > 0) {
