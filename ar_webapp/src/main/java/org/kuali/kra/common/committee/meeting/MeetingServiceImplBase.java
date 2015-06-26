@@ -578,7 +578,8 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
         for (CommitteeMembershipBase committeeMembership : commonCommitteeSchedule.getParentCommittee().getCommitteeMemberships()) {
             if ((StringUtils.isNotBlank(committeeMembership.getPersonId()) && committeeMembership.getPersonId()
                     .equals(alternateFor))
-                    || (StringUtils.isBlank(committeeMembership.getPersonId()) && committeeMembership.getRolodexId().equals(
+                    || (StringUtils.isBlank(committeeMembership.getPersonId()) && 
+                    committeeMembership.getRolodexId().toString().equals(
                             alternateFor))) {
                 personName = committeeMembership.getPersonName();
                 break;
