@@ -62,7 +62,7 @@ import java.util.Map;
  */
 public class SF424ShortV1_0Generator extends SF424BaseGenerator {
 
-    private String applicantTypeOtherSpecify = null;
+    //private String applicantTypeOtherSpecify = null;
     private static final String SPONSOR_CODE = "sponsorCode";
     private static final String ABSTRACT_TYPE_PROJECT_DESCRIPTION = "1";
     private static final int SPONSOR_NAME_MAX_LENGTH = 60;
@@ -172,9 +172,9 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
         if (applicantTypeCode3 != null) {
             sf424Short.setApplicantTypeCode3(applicantTypeCode3);
         }
-        if (applicantTypeOtherSpecify != null && !applicantTypeOtherSpecify.equals("")) {
-            sf424Short.setApplicantTypeOtherSpecify(applicantTypeOtherSpecify);
-        }
+//        if (applicantTypeOtherSpecify != null && !applicantTypeOtherSpecify.equals("")) {
+//            sf424Short.setApplicantTypeOtherSpecify(applicantTypeOtherSpecify);
+//        }
         sf424Short.setEmployerTaxpayerIdentificationNumber(organization.getFedralEmployerId());
         sf424Short.setDUNSNumber(organization.getDunsNumber());
         String congressionalDistrict = organization.getCongressionalDistrict() == null ? S2SConstants.VALUE_UNKNOWN : organization
