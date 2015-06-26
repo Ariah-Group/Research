@@ -79,9 +79,9 @@ public class TaskAuthorizationServiceImpl implements TaskAuthorizationService {
                         taskAuthorizer = (org.kuali.kra.protocol.auth.GenericProtocolAuthorizer) taskAuthorizer;
                         ((org.kuali.kra.protocol.auth.GenericProtocolAuthorizer) taskAuthorizer).setGenericTaskName(task.getGenericTaskName());
                     } else {
-                        taskAuthorizer = null;
                         RuntimeException rte = new RuntimeException("An unexpected GenericProtocolAuthorizer was found, " + taskAuthorizer.getClass());
                         rte.printStackTrace();
+                        taskAuthorizer = null;
                     }
                 }
 
