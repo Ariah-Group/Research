@@ -24,8 +24,9 @@ public class ProtocolSpecialReviewExemption extends org.kuali.kra.protocol.speci
 
     private static final long serialVersionUID = 5397618472812176402L;
 
+    @Override
     public ProtocolSpecialReview getProtocolSpecialReview() {
-        return (ProtocolSpecialReview) getProtocolSpecialReview();
+        return (ProtocolSpecialReview) super.getProtocolSpecialReview();
     }
 
     public void setProtocolSpecialReview(ProtocolSpecialReview protocolSpecialReview) {
