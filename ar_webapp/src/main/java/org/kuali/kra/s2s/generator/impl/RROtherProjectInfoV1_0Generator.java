@@ -238,7 +238,7 @@ public class RROtherProjectInfoV1_0Generator extends RROtherProjectInfoBaseGener
         String internationalActivitiesAnswer = getAnswers(INTERNATIONAL_ACTIVITIES_YNQ);
         answer = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(internationalActivitiesAnswer) ? YesNoDataType.YES : YesNoDataType.NO;
         answerExplanation = getAnswers(INTERNATIONAL_ACTIVITIES_EXPL);
-        if (internationalActivitiesAnswer != null && !internationalActivities.equals(NOT_ANSWERED)) {
+        if (internationalActivitiesAnswer != null && !internationalActivitiesAnswer.equals(NOT_ANSWERED)) {
             internationalActivities.setInternationalActivitiesIndicator(answer);
         } else {
             internationalActivities.setInternationalActivitiesIndicator(null);
