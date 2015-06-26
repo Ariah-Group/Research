@@ -26,6 +26,8 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.util.List;
+import org.kuali.kra.proposaldevelopment.bo.ProposalDevelopmentApproverViewDO;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
 public interface ProposalDevelopmentService {
     
@@ -90,4 +92,7 @@ public interface ProposalDevelopmentService {
 
     public InstitutionalProposal getInstitutionalProposal(String devProposalNumber);
     
+    public ProposalDevelopmentApproverViewDO populateApproverViewDO (ProposalDevelopmentForm proposalDevelopmentForm);
+    
+    public boolean canPerformWorkflowAction(ProposalDevelopmentDocument document);
 }

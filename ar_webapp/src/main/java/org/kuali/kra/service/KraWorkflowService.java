@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.service;
 
-import org.kuali.kra.proposaldevelopment.bo.ProposalDevelopmentApproverViewDO;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.krad.document.Document;
@@ -123,9 +120,9 @@ public interface KraWorkflowService {
      */
     public boolean isUserRouteRespRequestRecipient(Document doc, String principalId, String nodeName);
     
-    public ProposalDevelopmentApproverViewDO populateApproverViewDO (ProposalDevelopmentForm proposalDevelopmentForm);
+    //public ProposalDevelopmentApproverViewDO populateApproverViewDO (ProposalDevelopmentForm proposalDevelopmentForm);
     
-    public boolean canPerformWorkflowAction(ProposalDevelopmentDocument document);
+    //public boolean canPerformWorkflowAction(ProposalDevelopmentDocument document);
     
     /**
      * Checks to see if all pending workflow requests are completed or will

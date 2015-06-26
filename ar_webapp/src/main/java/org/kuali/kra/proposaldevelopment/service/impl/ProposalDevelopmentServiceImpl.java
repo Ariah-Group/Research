@@ -55,8 +55,13 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.util.*;
+import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 
 import static org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.util.KRADConstants;
 
 // TODO : extends PersistenceServiceStructureImplBase is a hack to temporarily resolve get class descriptor.
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
@@ -86,6 +91,7 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
      *
      * @param proposalDevelopmentDocument
      */
+    @Override
     public void initializeUnitOrganizationLocation(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         ProposalSite applicantOrganization = proposalDevelopmentDocument.getDevelopmentProposal().getApplicantOrganization();
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
@@ -414,14 +420,14 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
     }
 
     public boolean isGrantsGovEnabledForProposal(DevelopmentProposal devProposal) {
-        String federalSponsorTypeCode = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_AWARD, 
+        String federalSponsorTypeCode = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_AWARD,
                 Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.FEDERAL_SPONSOR_TYPE_CODE);
         return !devProposal.isChild() && devProposal.getSponsor() != null
                 && StringUtils.equals(devProposal.getSponsor().getSponsorTypeCode(), federalSponsorTypeCode);
     }
 
     public boolean isGrantsGovEnabledOnSponsorChange(String proposalNumber, String sponsorCode) {
-        String federalSponsorTypeCode = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_AWARD, 
+        String federalSponsorTypeCode = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_AWARD,
                 Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.FEDERAL_SPONSOR_TYPE_CODE);
         DevelopmentProposal proposal = (DevelopmentProposal) getBusinessObjectService().findBySinglePrimaryKey(
                 DevelopmentProposal.class, proposalNumber);
@@ -632,4 +638,89 @@ public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentServic
 
         return returnValue;
     }
+
+    @Override
+    public ProposalDevelopmentApproverViewDO populateApproverViewDO(ProposalDevelopmentForm proposalDevelopmentForm) {
+
+        ProposalDevelopmentApproverViewDO approverViewDO = new ProposalDevelopmentApproverViewDO();
+        DevelopmentProposal proposal = proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposalList().get(0);
+        ProposalDevelopmentService proposalService = KraServiceLocator.getService(ProposalDevelopmentService.class);
+        Budget budget = proposalService.getFinalBudget(proposal);
+
+        int numberOfCostShare = 0;
+        int numberOfCoPI = 0;
+
+        /* populate PI info */
+        List<CoPiInfoDO> coPiInfos = new ArrayList<CoPiInfoDO>();
+        coPiInfos = proposalService.getCoPiPiInfo(proposal);
+        approverViewDO.setCoPiInfos(coPiInfos);
+        if (coPiInfos != null) {
+            numberOfCoPI = coPiInfos.size();
+        }
+
+        /* populate cost share info */
+        List<CostShareInfoDO> costShareInfos = new ArrayList<CostShareInfoDO>();
+        if (budget != null) {
+            costShareInfos = proposalService.getCostShareInfo(budget);
+            approverViewDO.setCostShareInfos(costShareInfos);
+            if (costShareInfos != null) {
+                numberOfCostShare = costShareInfos.size();
+            }
+        }
+
+        /* populate budget cost info */
+        if (budget != null) {
+            approverViewDO.setDirectCost(budget.getTotalDirectCost());
+            approverViewDO.setIndirectCost(budget.getTotalIndirectCost());
+            approverViewDO.setTotalCost(budget.getTotalCost());
+        }
+
+        /* Fill the gap between CoPI number and Cost Share Number for JSP rendering purpose */
+        if (numberOfCoPI > numberOfCostShare) {
+            for (int i = 0; i < numberOfCoPI - numberOfCostShare; i++) {
+                CostShareInfoDO costShareInfo = new CostShareInfoDO();
+                costShareInfos.add(costShareInfo);
+            }
+        } else if (numberOfCoPI < numberOfCostShare) {
+            for (int i = 0; i < numberOfCostShare - numberOfCoPI; i++) {
+                CoPiInfoDO coPiInfo = new CoPiInfoDO();
+                coPiInfos.add(coPiInfo);
+            }
+        }
+
+        /* populate proposal info */
+        approverViewDO.setActivityType(proposal.getActivityType().getDescription());
+        approverViewDO.setDueDate(proposal.getDeadlineDate());
+        approverViewDO.setStartDate(proposal.getRequestedStartDateInitial());
+        approverViewDO.setEndDate(proposal.getRequestedEndDateInitial());
+        approverViewDO.setProjectTitle(proposal.getTitle());
+        approverViewDO.setLeadUnit(proposal.getOwnedByUnitNumber());
+        approverViewDO.setProposalNumber(proposal.getProposalNumber());
+        approverViewDO.setProposalType(proposal.getProposalType().getDescription());
+        approverViewDO.setSponsorName(proposal.getSponsorName());
+        approverViewDO.setPiName(proposal.getPrincipalInvestigatorName());
+
+        return approverViewDO;
+    }
+
+    /* Check to see if the current user can perform workflow action in proposal development document */
+    @Override
+    public boolean canPerformWorkflowAction(ProposalDevelopmentDocument document) {
+        
+        // Not from the doc handler, don't show the approver view
+        if (document.getDocumentHeader().getDocumentNumber() == null) {
+            return false;
+        }
+                
+        KcTransactionalDocumentAuthorizerBase documentAuthorizer = (KcTransactionalDocumentAuthorizerBase) KNSServiceLocator.getDocumentHelperService().getDocumentAuthorizer(document);
+        
+        Person user = GlobalVariables.getUserSession().getPerson();
+        Set<String> documentActions = documentAuthorizer.getDocumentActions(document, user, null);
+    
+        boolean canApprove= documentActions.contains(KRADConstants.KUALI_ACTION_CAN_APPROVE);
+        //boolean canAck = documentActions.contains(KNSConstants.KUALI_ACTION_CAN_ACKNOWLEDGE);
+        boolean canDisapprove = documentActions.contains(KRADConstants.KUALI_ACTION_CAN_DISAPPROVE);
+        
+        return canApprove || canDisapprove;
+    }    
 }

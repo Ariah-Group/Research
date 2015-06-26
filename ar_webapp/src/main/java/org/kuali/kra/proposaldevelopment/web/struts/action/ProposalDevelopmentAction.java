@@ -79,7 +79,6 @@ import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.PersonEditableService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
@@ -167,11 +166,13 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         if (proposalDevelopmentForm.getProposalDevelopmentDocument().getDocumentHeader().getDocumentNumber() == null && request.getParameter(KRADConstants.PARAMETER_DOC_ID) != null) {
             loadDocumentInForm(request, proposalDevelopmentForm);
         }
+        
+        ProposalDevelopmentService proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
+        
         if (KewApiConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
             //forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
             //KRACOEUS-5064
-            KraWorkflowService workflowService = KraServiceLocator.getService(KraWorkflowService.class);
-            ProposalDevelopmentApproverViewDO approverViewDO = workflowService.populateApproverViewDO(proposalDevelopmentForm);
+            ProposalDevelopmentApproverViewDO approverViewDO = proposalDevelopmentService.populateApproverViewDO(proposalDevelopmentForm);
             proposalDevelopmentForm.setApproverViewDO(approverViewDO);
             forward = mapping.findForward(Constants.MAPPING_PROPOSAL_SUMMARY_PAGE);
             forward = new ActionForward(forward.getPath() + "?" + KRADConstants.PARAMETER_DOC_ID + "=" + request.getParameter(KRADConstants.PARAMETER_DOC_ID));
@@ -191,10 +192,9 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                 rejectedDocument = documentRejectionService.isDocumentOnInitialNode(proposalDevelopmentForm.getDocument().getDocumentNumber());
             }
 
-            KraWorkflowService workflowService = KraServiceLocator.getService(KraWorkflowService.class);
-            if (workflowService.canPerformWorkflowAction(proposalDevelopmentForm.getProposalDevelopmentDocument()) && !rejectedDocument) {
+            if (proposalDevelopmentService.canPerformWorkflowAction(proposalDevelopmentForm.getProposalDevelopmentDocument()) && !rejectedDocument) {
 
-                ProposalDevelopmentApproverViewDO approverViewDO = workflowService.populateApproverViewDO(proposalDevelopmentForm);
+                ProposalDevelopmentApproverViewDO approverViewDO = proposalDevelopmentService.populateApproverViewDO(proposalDevelopmentForm);
                 proposalDevelopmentForm.setApproverViewDO(approverViewDO);
 
                 loadDocument(proposalDevelopmentForm);
