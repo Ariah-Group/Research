@@ -193,6 +193,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
      * org.kuali.kra.proposaldevelopment.service.ProposalCopyService#copyProposal(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument,
      * org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria)
      */
+    @Override
     public String copyProposal(ProposalDevelopmentDocument doc, ProposalCopyCriteria criteria) throws Exception {
         String newDocNbr = null;
         LOG.info("STARTING PROPOSAL COPY");

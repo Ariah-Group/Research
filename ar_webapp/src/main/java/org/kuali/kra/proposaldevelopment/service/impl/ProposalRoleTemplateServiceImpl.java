@@ -57,6 +57,7 @@ public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateServ
     /**
      * @see org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService#addUsers(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
+    @Override
     public void addUsers(ProposalDevelopmentDocument doc) {
         String creatorUserId = getCreator(doc);
         Map<String, String> roleIdMap = new HashMap<String, String>();

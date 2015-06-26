@@ -142,6 +142,7 @@ public class LookupableDevelopmentProposalLookupableHelperServiceImpl extends Ku
         this.proposalPersonDao = proposalPersonDao;
     }
 
+    @Override
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

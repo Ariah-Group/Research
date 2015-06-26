@@ -47,6 +47,7 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
      * @see org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService#addProposalPersonBiography(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument,
      *      org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography)
      */
+    @Override
     public void addProposalPersonBiography(ProposalDevelopmentDocument proposaldevelopmentDocument,
             ProposalPersonBiography proposalPersonBiography) {
         proposalPersonBiography.setProposalNumber(proposaldevelopmentDocument.getDevelopmentProposal().getProposalNumber());
@@ -100,6 +101,7 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
      * @see org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService#removePersonnelAttachmentForDeletedPerson(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument,
      *      org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
      */
+    @Override
     public void removePersonnelAttachmentForDeletedPerson(ProposalDevelopmentDocument proposaldevelopmentDocument,
             ProposalPerson person) {
 
@@ -120,6 +122,7 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
      * @see org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService#deleteProposalPersonBiography(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument,
      *      int)
      */
+    @Override
     public void deleteProposalPersonBiography(ProposalDevelopmentDocument proposaldevelopmentDocument, int lineToDelete) {
         ProposalPersonBiography proposalPersonBiography = proposaldevelopmentDocument.getDevelopmentProposal().getPropPersonBios().get(lineToDelete);
         proposaldevelopmentDocument.getDevelopmentProposal().getPropPersonBios().remove(proposalPersonBiography);
@@ -166,6 +169,7 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
      * 
      * @see org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService#setPersonnelBioTimeStampUser(java.util.List)
      */
+    @Override
     public void setPersonnelBioTimeStampUser(List<ProposalPersonBiography> proposalPersonBios) {
 
         for (ProposalPersonBiography proposalPersonBiography : proposalPersonBios) {

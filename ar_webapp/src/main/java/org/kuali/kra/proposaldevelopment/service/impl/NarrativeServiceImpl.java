@@ -80,6 +80,7 @@ public class NarrativeServiceImpl implements NarrativeService {
      *
      * @param narrative
      */
+    @Override
     public void addNarrative(ProposalDevelopmentDocument proposaldevelopmentDocument, Narrative narrative) {
         narrative.setProposalNumber(proposaldevelopmentDocument.getDevelopmentProposal().getProposalNumber());
         narrative.setModuleNumber(getNextModuleNumber(proposaldevelopmentDocument));
@@ -118,6 +119,7 @@ public class NarrativeServiceImpl implements NarrativeService {
             return 1;
         }
         Collections.sort(mergedNarrativeList, new Comparator<Narrative>() {
+            @Override
             public int compare(Narrative n1, Narrative n2) {
                 return (n1.getModuleNumber()).compareTo(n2.getModuleNumber());
             }
@@ -135,6 +137,7 @@ public class NarrativeServiceImpl implements NarrativeService {
             return 1;
         }
         Collections.sort(mergedNarrativeList, new Comparator<Narrative>() {
+            @Override
             public int compare(Narrative n1, Narrative n2) {
                 return (n1.getModuleSequenceNumber()).compareTo(n2.getModuleSequenceNumber());
             }
@@ -226,10 +229,12 @@ public class NarrativeServiceImpl implements NarrativeService {
         return false;
     }
 
+    @Override
     public void deleteProposalAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument, int lineToDelete) {
         deleteAttachment(proposaldevelopmentDocument.getDevelopmentProposal().getNarratives(), lineToDelete);
     }
 
+    @Override
     public void deleteInstitutionalAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument, int lineToDelete) {
         deleteAttachment(proposaldevelopmentDocument.getDevelopmentProposal().getInstituteAttachments(), lineToDelete);
     }
@@ -255,6 +260,7 @@ public class NarrativeServiceImpl implements NarrativeService {
      *
      * @param narrative
      */
+    @Override
     public void addInstituteAttachment(ProposalDevelopmentDocument proposaldevelopmentDocument, Narrative narrative) {
         narrative.setProposalNumber(proposaldevelopmentDocument.getDevelopmentProposal().getProposalNumber());
         narrative.setModuleNumber(getNextModuleNumber(proposaldevelopmentDocument));
@@ -276,6 +282,7 @@ public class NarrativeServiceImpl implements NarrativeService {
      * org.kuali.kra.proposaldevelopment.service.NarrativeService#populatePersonNameForNarrativeUserRights(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument,
      * org.kuali.kra.proposaldevelopment.bo.Narrative)
      */
+    @Override
     public void populatePersonNameForNarrativeUserRights(ProposalDevelopmentDocument proposaldevelopmentDocument, Narrative narrative) {
 //        populateNarrativeUserRights(proposaldevelopmentDocument,narrative);
         List<NarrativeUserRights> narrativeUserRights = narrative.getNarrativeUserRights();
@@ -285,6 +292,7 @@ public class NarrativeServiceImpl implements NarrativeService {
         }
     }
 
+    @Override
     public void replaceAttachment(Narrative narrative) {
         narrative.refreshReferenceObject("narrativeAttachmentList");
         narrative.populateAttachment();
@@ -295,6 +303,7 @@ public class NarrativeServiceImpl implements NarrativeService {
         narrative.clearAttachment();
     }
 
+    @Override
     public void populateNarrativeRightsForLoggedinUser(ProposalDevelopmentDocument proposaldevelopmentDocument) {
         List<Narrative> narrativeList = proposaldevelopmentDocument.getDevelopmentProposal().getNarratives();
         for (Narrative narrative : narrativeList) {
@@ -400,6 +409,7 @@ public class NarrativeServiceImpl implements NarrativeService {
      * org.kuali.kra.proposaldevelopment.service.NarrativeService#deletePerson(java.lang.String,
      * org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
+    @Override
     public void deletePerson(String userId, ProposalDevelopmentDocument proposalDevelopmentDocument) {
         List<Narrative> narratives = proposalDevelopmentDocument.getDevelopmentProposal().getNarratives();
         for (Narrative narrative : narratives) {
@@ -413,6 +423,7 @@ public class NarrativeServiceImpl implements NarrativeService {
         }
     }
 
+    @Override
     public void readjustRights(String userId, ProposalDevelopmentDocument proposalDevelopmentDocument, List<String> roleNames) {
         List<Narrative> narratives = proposalDevelopmentDocument.getDevelopmentProposal().getNarratives();
         for (Narrative narrative : narratives) {
@@ -445,6 +456,7 @@ public class NarrativeServiceImpl implements NarrativeService {
         }
     }
 
+    @Override
     public void addPerson(String userName, ProposalDevelopmentDocument proposalDevelopmentDocument, String roleName) {
         KcPerson person = kcPersonService.getKcPersonByUserName(userName);
         List<Narrative> narratives = proposalDevelopmentDocument.getDevelopmentProposal().getNarratives();
@@ -485,6 +497,7 @@ public class NarrativeServiceImpl implements NarrativeService {
      * @see
      * org.kuali.kra.proposaldevelopment.service.NarrativeService#setNarrativeTimeStampUser(java.util.List)
      */
+    @Override
     public void setNarrativeTimeStampUser(List<Narrative> narratives) {
 
         for (Narrative narrative : narratives) {

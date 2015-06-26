@@ -30,6 +30,7 @@ public class ProposalStatusServiceImpl implements ProposalStatusService {
     
     private BusinessObjectService businessObjectService;
     
+    @Override
     public void saveBudgetFinalVersionStatus(ProposalDevelopmentDocument pdDocument) {
         ProposalBudgetStatus proposalStatus = getProposalStatus(pdDocument.getDevelopmentProposal().getProposalNumber());
         
@@ -47,6 +48,7 @@ public class ProposalStatusServiceImpl implements ProposalStatusService {
         } // else there is no change - do nothing.
     }
     
+    @Override
     public void loadBudgetStatus(DevelopmentProposal proposal) {
         if (proposal != null) {
             ProposalBudgetStatus proposalStatus = getProposalStatus(proposal.getProposalNumber());
@@ -79,6 +81,7 @@ public class ProposalStatusServiceImpl implements ProposalStatusService {
         this.businessObjectService = businessObjectService;
     }
 
+    @Override
     public void loadBudgetStatusByProposalDocumentNumber(String documentNumber) {
         Map<String, Object> keyMap = new HashMap<String, Object>();
         keyMap.put("documentNumber", documentNumber);

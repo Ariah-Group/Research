@@ -26,6 +26,7 @@ public class ProposalAbstractsServiceImpl implements ProposalAbstractsService {
     
     private PersonService personService;
 
+    @Override
     public void loadAbstractsUploadUserFullName(List<ProposalAbstract> abstracts) {
         for (ProposalAbstract curAbstract : abstracts) {
             Person person = getPersonService().getPersonByPrincipalName(curAbstract.getUploadUserDisplay());

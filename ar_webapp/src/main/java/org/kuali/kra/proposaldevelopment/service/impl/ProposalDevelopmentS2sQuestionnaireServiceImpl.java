@@ -46,6 +46,7 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImpl implements ProposalD
     /**
      * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentS2sQuestionnaireService#getProposalAnswerHeaderForForm(org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal, java.lang.String, java.lang.String)
      */
+    @Override
     public List<AnswerHeader> getProposalAnswerHeaderForForm(DevelopmentProposal proposal, String oppNameSpace, String formName) {
         return getProposalS2sAnswerHeaders(proposal,oppNameSpace,formName);
     }
@@ -53,6 +54,7 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImpl implements ProposalD
     /**
      * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentS2sQuestionnaireService#getProposalS2sAnswerHeaders(org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal)
      */
+    @Override
     public List<AnswerHeader> getProposalS2sAnswerHeaders(DevelopmentProposal developmentProposal) {
         return getProposalS2sAnswerHeaders(developmentProposal,null,null);
     }
@@ -94,6 +96,7 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImpl implements ProposalD
     /**
      * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentS2sQuestionnaireService#getQuestionnaireUsages(java.lang.String, java.lang.String)
      */
+    @Override
     public List<QuestionnaireUsage> getQuestionnaireUsages(String oppNameSpace, String formName, DevelopmentProposal proposal) {
         Set<QuestionnaireUsage> result = new HashSet<QuestionnaireUsage>();
         ModuleQuestionnaireBean questionnaireBean = new ProposalDevelopmentModuleQuestionnaireBean(proposal);

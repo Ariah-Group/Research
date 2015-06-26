@@ -73,6 +73,7 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
         this.kcPersonService = kcPersonService;
     }
 
+    @Override
     public String getPersonName(ProposalDevelopmentDocument doc, String userId) {
         String propPersonName = null;
         List<ProposalPerson> proposalPersons = doc.getDevelopmentProposal().getProposalPersons();
@@ -94,6 +95,7 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
         return propPersonName;
     }
 
+    @Override
     public List<ProposalPerson> getProposalKeyPersonnel(String proposalNumber) {
         Map<String, String> keys = new HashMap<String, String>();
         keys.put("proposalNumber", proposalNumber);
@@ -108,6 +110,7 @@ public class ProposalPersonServiceImpl implements ProposalPersonService {
      * @param proposalPerson Proposal person.
      * @return divisionName based on the 4th level node on the Unit hierarchy.
      */
+    @Override
     public String getProposalPersonDivisionName(ProposalPerson proposalPerson) {
         String personDivisionName = null;
         if (proposalPerson != null) {

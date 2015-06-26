@@ -41,6 +41,7 @@ public class ProposalDevelopmentFactBuilderServiceImpl extends KcKrmsFactBuilder
     
     private DocumentService documentService;
     
+    @Override
     public void addFacts(Facts.Builder factsBuilder, String docContent) {
         String documentNumber = getElementValue(docContent, "//document/documentNumber");
         try {
@@ -51,6 +52,7 @@ public class ProposalDevelopmentFactBuilderServiceImpl extends KcKrmsFactBuilder
         }
     }
     
+    @Override
     public void addFacts(Facts.Builder factsBuilder, ResearchDocumentBase document) {
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)document;
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
@@ -82,6 +84,7 @@ public class ProposalDevelopmentFactBuilderServiceImpl extends KcKrmsFactBuilder
         return true;
     }
 
+    @Override
     protected String getElementValue(String docContent, String xpathExpression) {
         try {
             Document document = XmlHelper.trimXml(new ByteArrayInputStream(docContent.getBytes()));
