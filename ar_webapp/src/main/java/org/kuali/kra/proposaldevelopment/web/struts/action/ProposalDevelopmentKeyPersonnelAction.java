@@ -317,7 +317,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         GlobalVariables.getMessageMap().removeFromErrorPath("document.proposalPersons");
 
         if (isNotBlank(pdform.getNewProposalPerson().getProposalPersonRoleId())) {
-            if (pdform.getNewProposalPerson().getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE) || pdform.getNewProposalPerson().equals(CO_INVESTIGATOR_ROLE)) {
+            if (pdform.getNewProposalPerson().getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE)
+                    || pdform.getNewProposalPerson().getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE)) {
                 pdform.getNewProposalPerson().setOptInUnitStatus("Y");
                 pdform.getNewProposalPerson().setOptInCertificationStatus("Y");
                 pdform.setOptInCertificationStatus("Y");
