@@ -143,7 +143,7 @@ public class RequestLoggingFilter implements Filter {
         for (Enumeration<String> headerNames = request.getHeaderNames();
              headerNames.hasMoreElements();) {
             String headerName = headerNames.nextElement();
-            retval.append(headerName).append(": {").toString();
+            retval.append(headerName).append(": {");
 
             for (Enumeration<String> headerValues = request.getHeaders(headerName); 
                  headerValues.hasMoreElements();) {
@@ -213,7 +213,7 @@ public class RequestLoggingFilter implements Filter {
      */
     private String getRequestParameterMessage(HttpServletRequest request, String parameterName) {
         StringBuilder retval = new StringBuilder();
-        retval.append(parameterName).append(": {").toString();
+        retval.append(parameterName).append(": {");
 
         for (String parameterValue : request.getParameterValues(parameterName)) {
             retval.append(parameterValue);
@@ -238,7 +238,7 @@ public class RequestLoggingFilter implements Filter {
              attributeNames.hasMoreElements();) {
             String attributeName = attributeNames.nextElement();
             retval.append(attributeName).append(": ")
-                .append(request.getAttribute(attributeName)).append("\n").toString();
+                .append(request.getAttribute(attributeName)).append("\n");
         }
         
         return retval.toString();
