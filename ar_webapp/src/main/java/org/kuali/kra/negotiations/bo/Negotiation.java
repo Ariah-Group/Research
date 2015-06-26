@@ -231,7 +231,7 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     }
 
     public Date getNegotiationStartDate() {
-        if (negotiationStartDate == null || negotiationStartDate.equals(""))
+        if (negotiationStartDate == null)
         {
             Calendar now = Calendar.getInstance();
             setNegotiationStartDate (new java.sql.Date (now.get(Calendar.YEAR)-1900, now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH)));
