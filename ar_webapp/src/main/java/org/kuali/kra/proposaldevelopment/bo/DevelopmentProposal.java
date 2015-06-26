@@ -958,9 +958,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      * @see setApplicantOrganization(ProposalSite)
      */
     public void setApplicantOrgFromOrganization(Organization organization) {
-        if (organization == null) {
-            setApplicantOrganization((ProposalSite) null);
-        } else {
+        if (organization != null) {
             ProposalSite applicantSite = new ProposalSite();
             applicantSite.setOrganization(organization);
             setApplicantOrganization(applicantSite);
@@ -987,9 +985,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      * @see setPerformingOrgFromOrganization(ProposalSite)
      */
     public void setPerformingOrgFromOrganization(Organization organization) {
-        if (organization == null) {
-            setPerformingOrganization((ProposalSite) null);
-        } else {
+        if (organization != null) {
             ProposalSite performingSite = new ProposalSite();
             performingSite.setOrganization(organization);
             setPerformingOrganization(performingSite);
@@ -2109,6 +2105,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      *
      * @see org.kuali.kra.budget.core.BudgetParent#getPersonRolodexList()
      */
+    @Override
     public List<PersonRolodex> getPersonRolodexList() {
         ArrayList<PersonRolodex> filtered = new ArrayList<PersonRolodex>();
         for (ProposalPerson person : getProposalPersons()) {
@@ -2249,6 +2246,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return this.getTitle();
     }
 
+    @Override
     public String getIsOwnedByUnit() {
         Map<String, String> proposalNumberMap = new HashMap<String, String>();
         String proposalNumber = this.getProposalNumber();
@@ -2263,6 +2261,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return "";
     }
 
+    @Override
     public Integer getParentInvestigatorFlag(String personId, Integer flag) {
         for (ProposalPerson pPerson : this.getProposalPersons()) {
             if (pPerson.getPersonId() != null
@@ -2279,6 +2278,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return flag;
     }
 
+    @Override
     public String getParentTypeName() {
         return "Proposal";
     }
