@@ -12,22 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * ------------------------------------------------------
- * Updates made after January 1, 2015 are :
- * Copyright 2015 The Ariah Group, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.-
  */
 package org.kuali.kra.irb.actions;
 
@@ -119,7 +103,6 @@ import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 // import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 /**
@@ -977,11 +960,9 @@ public class ActionHelper extends ActionHelperBase {
 //    private boolean hasSuspendRequestLastAction() {
 //        return ProtocolActionType.REQUEST_FOR_SUSPENSION.equals(getLastPerformedAction().getProtocolActionTypeCode());
 //    }
-
 //    private boolean hasTerminateRequestLastAction() {
 //        return ProtocolActionType.REQUEST_FOR_TERMINATION.equals(getLastPerformedAction().getProtocolActionTypeCode());
 //    }
-
     @Override
     public Protocol getProtocol() {
         return (Protocol) super.getProtocol();
@@ -1358,21 +1339,21 @@ public class ActionHelper extends ActionHelperBase {
 
             ProtocolAmendRenewal correctAmendment = (ProtocolAmendRenewal) getCorrectAmendment(protocols);
 
-            if (ObjectUtils.isNotNull(correctAmendment)) {
+            if (correctAmendment != null) {
                 setSubmissionHasNoAmendmentDetails(false);
                 amendmentSummaryBean.setSummary(correctAmendment.getSummary());
-                amendmentSummaryBean.setGeneralInfo((correctAmendment.hasModule(ProtocolModule.GENERAL_INFO)) ? true : false);
-                amendmentSummaryBean.setProtocolPersonnel((correctAmendment.hasModule(ProtocolModule.PROTOCOL_PERSONNEL)) ? true : false);
-                amendmentSummaryBean.setAreasOfResearch((correctAmendment.hasModule(ProtocolModule.AREAS_OF_RESEARCH)) ? true : false);
-                amendmentSummaryBean.setAddModifyAttachments((correctAmendment.hasModule(ProtocolModule.ADD_MODIFY_ATTACHMENTS)) ? true : false);
-                amendmentSummaryBean.setFundingSource((correctAmendment.hasModule(ProtocolModule.FUNDING_SOURCE)) ? true : false);
-                amendmentSummaryBean.setOthers((correctAmendment.hasModule(ProtocolModule.OTHERS)) ? true : false);
-                amendmentSummaryBean.setProtocolOrganizations((correctAmendment.hasModule(ProtocolModule.PROTOCOL_ORGANIZATIONS)) ? true : false);
-                amendmentSummaryBean.setProtocolPermissions((correctAmendment.hasModule(ProtocolModule.PROTOCOL_PERMISSIONS)) ? true : false);
-                amendmentSummaryBean.setProtocolReferencesAndOtherIdentifiers((correctAmendment.hasModule(ProtocolModule.PROTOCOL_REFERENCES)) ? true : false);
-                amendmentSummaryBean.setQuestionnaire((correctAmendment.hasModule(ProtocolModule.QUESTIONNAIRE)) ? true : false);
-                amendmentSummaryBean.setSpecialReview((correctAmendment.hasModule(ProtocolModule.SPECIAL_REVIEW)) ? true : false);
-                amendmentSummaryBean.setSubjects((correctAmendment.hasModule(ProtocolModule.SUBJECTS)) ? true : false);
+                amendmentSummaryBean.setGeneralInfo((correctAmendment.hasModule(ProtocolModule.GENERAL_INFO)));
+                amendmentSummaryBean.setProtocolPersonnel((correctAmendment.hasModule(ProtocolModule.PROTOCOL_PERSONNEL)));
+                amendmentSummaryBean.setAreasOfResearch((correctAmendment.hasModule(ProtocolModule.AREAS_OF_RESEARCH)));
+                amendmentSummaryBean.setAddModifyAttachments((correctAmendment.hasModule(ProtocolModule.ADD_MODIFY_ATTACHMENTS)));
+                amendmentSummaryBean.setFundingSource((correctAmendment.hasModule(ProtocolModule.FUNDING_SOURCE)));
+                amendmentSummaryBean.setOthers((correctAmendment.hasModule(ProtocolModule.OTHERS)));
+                amendmentSummaryBean.setProtocolOrganizations((correctAmendment.hasModule(ProtocolModule.PROTOCOL_ORGANIZATIONS)));
+                amendmentSummaryBean.setProtocolPermissions((correctAmendment.hasModule(ProtocolModule.PROTOCOL_PERMISSIONS)));
+                amendmentSummaryBean.setProtocolReferencesAndOtherIdentifiers((correctAmendment.hasModule(ProtocolModule.PROTOCOL_REFERENCES)));
+                amendmentSummaryBean.setQuestionnaire((correctAmendment.hasModule(ProtocolModule.QUESTIONNAIRE)));
+                amendmentSummaryBean.setSpecialReview((correctAmendment.hasModule(ProtocolModule.SPECIAL_REVIEW)));
+                amendmentSummaryBean.setSubjects((correctAmendment.hasModule(ProtocolModule.SUBJECTS)));
             } else {
                 setSubmissionHasNoAmendmentDetails(true);
             }
