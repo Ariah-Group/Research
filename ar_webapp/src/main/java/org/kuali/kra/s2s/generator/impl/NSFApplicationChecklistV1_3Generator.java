@@ -166,7 +166,7 @@ public class NSFApplicationChecklistV1_3Generator extends NSFApplicationChecklis
                      * HR Info that is mandatory for renwals from academic
                      * institutions.
                      */
-                    if (QUESTIONNAIRE_ANSWER_NO.equals(answer)) {
+                    if (QUESTIONNAIRE_ANSWER_NO.equals(answer.getAnswer())) {
                         projectNarrative
                                 .setCheckHRInfo(YesNoNotApplicableDataType.N_NO);
                     }
@@ -176,7 +176,7 @@ public class NSFApplicationChecklistV1_3Generator extends NSFApplicationChecklis
                      * HR Info that is mandatory for renwals from academic
                      * institutions.
                      */
-                    if (QUESTIONNAIRE_ANSWER_YES.equals(answer)) {
+                    if (QUESTIONNAIRE_ANSWER_YES.equals(answer.getAnswer())) {
                         projectNarrative
                                 .setCheckHRInfo(YesNoNotApplicableDataType.Y_YES);
                     }
