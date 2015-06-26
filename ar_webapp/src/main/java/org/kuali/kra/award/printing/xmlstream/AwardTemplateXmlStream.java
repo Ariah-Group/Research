@@ -167,7 +167,7 @@ public class AwardTemplateXmlStream implements XmlStream {
         awardTemplateTerm.refreshNonUpdateableReferences();
         SponsorTerm sponsorTerm = awardTemplateTerm.getSponsorTerm();
         if (sponsorTerm != null) {
-            if (previousDescription.equals("") || !previousDescription.equals(awardTemplateTerm.getSponsorTerm().getSponsorTermType().getDescription())) {
+            if (previousDescription.length() == 0 || !previousDescription.equals(awardTemplateTerm.getSponsorTerm().getSponsorTermType().getDescription())) {
                 termType.setDescription(awardTemplateTerm.getSponsorTerm().getSponsorTermType().getDescription());
                 previousDescription = awardTemplateTerm.getSponsorTerm().getSponsorTermType().getDescription();
             }
