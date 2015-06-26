@@ -2268,7 +2268,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
             if (pPerson.getPersonId() != null
                     && pPerson.getPersonId().equals(personId)
                     || pPerson.getRolodexId() != null
-                    && pPerson.getRolodexId().equals(personId)) {
+                    && pPerson.getRolodexId().toString().equals(personId)) {
                 flag = 2;
                 if (pPerson.getProposalPersonRoleId().equals("PI")) {
                     flag = 1;
