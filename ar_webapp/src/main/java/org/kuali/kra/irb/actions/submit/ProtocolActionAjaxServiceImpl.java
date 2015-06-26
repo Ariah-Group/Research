@@ -26,11 +26,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ProtocolActionAjaxServiceImpl extends ProtocolActionAjaxServiceImplBase implements ProtocolActionAjaxService {
-    
 
     @Override
     public String getReviewers(String protocolId, String committeeId, String scheduleId) {
-        StringBuffer ajaxList = new StringBuffer();
+        StringBuffer ajaxList = new StringBuffer(500);
         HashMap<String, String> hm = new HashMap<String, String>();
         hm.put("protocolId", protocolId);
         Protocol protocol = (Protocol) (getBusinessObjectService().findMatching(Protocol.class, hm).toArray())[0];
@@ -40,9 +39,15 @@ public class ProtocolActionAjaxServiceImpl extends ProtocolActionAjaxServiceImpl
 
         for (CommitteeMembershipBase filteredMember : filteredMembers) {
             if (StringUtils.isNotBlank(filteredMember.getPersonId())) {
-                ajaxList.append(filteredMember.getPersonId() + ";" + filteredMember.getPersonName() + ";N;");
+                ajaxList.append(filteredMember.getPersonId());
+                ajaxList.append(";");
+                ajaxList.append(filteredMember.getPersonName());
+                ajaxList.append(";N;");
             } else {
-                ajaxList.append(filteredMember.getRolodexId() + ";" + filteredMember.getPersonName() + ";Y;");
+                ajaxList.append(filteredMember.getRolodexId());
+                ajaxList.append(";");
+                ajaxList.append(filteredMember.getPersonName());
+                ajaxList.append(";Y;");
             }
         }
         return clipLastChar(ajaxList);
@@ -59,24 +64,27 @@ public class ProtocolActionAjaxServiceImpl extends ProtocolActionAjaxServiceImpl
     }
 
     /**
-     * @see org.kuali.kra.irb.actions.submit.ProtocolActionAjaxService#getValidCommitteeDates(java.lang.String)
+     * @param protocolNumber
+     * @see
+     * org.kuali.kra.irb.actions.submit.ProtocolActionAjaxService#getValidCommitteeDates(java.lang.String)
      */
+    @Override
     public String getValidCommitteeDates(String committeeId, String protocolNumber) {
         StringBuffer ajaxList = new StringBuffer();
         if (isAuthorizedToAccess(protocolNumber)) {
             List<KeyValue> dates = getCommitteeService().getAvailableCommitteeDates(committeeId);
             for (KeyValue date : dates) {
-                ajaxList.append(date.getKey() + ";" + date.getValue() + ";");
+                ajaxList.append(date.getKey());
+                ajaxList.append(";");
+                ajaxList.append(date.getValue());
+                ajaxList.append(";");
             }
             return clipLastChar(ajaxList);
-        }
-        else {
+        } else {
             return ";Not Authorized;";
         }
     }
 
-
-    
     /*
      * a utility method to check if dwr/ajax call really has authorization
      */
