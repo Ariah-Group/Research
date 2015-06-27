@@ -733,15 +733,18 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
 
     @Override
     public String s2sFederalIdRule(DevelopmentProposal developmentProposal) {
+        
         if (developmentProposal.getS2sOpportunity() != null) {
             String renewalType = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RENEWAL_PARM);
             String continuationType = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_CONTINUATION_PARM);
             String revisionType = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_REVISION_PARM);
             String taskOrderType = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_TASK_ORDER_PARM);
+            
             if (StringUtils.equals(developmentProposal.getProposalTypeCode(), renewalType)
-                    || StringUtils.equals(developmentProposal.getProposalTypeCode(), renewalType)
-                    || StringUtils.equals(developmentProposal.getProposalTypeCode(), renewalType)
-                    || StringUtils.equals(developmentProposal.getProposalTypeCode(), renewalType)) {
+                    || StringUtils.equals(developmentProposal.getProposalTypeCode(), continuationType)
+                    || StringUtils.equals(developmentProposal.getProposalTypeCode(), revisionType)
+                    || StringUtils.equals(developmentProposal.getProposalTypeCode(), taskOrderType)) {
+                
                 if (StringUtils.isBlank(developmentProposal.getSponsorProposalNumber())
                         || !developmentProposal.getSponsorProposalNumber().matches("[a-zA-Z]{2}\\d{6}")) {
                     return FALSE;
