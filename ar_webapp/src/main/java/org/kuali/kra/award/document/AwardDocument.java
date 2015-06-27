@@ -327,7 +327,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements Copyab
     public void prepareForSave() {
         super.prepareForSave();
         if (ObjectUtils.isNull(this.getVersionNumber())) {
-            this.setVersionNumber(new Long(0));
+            this.setVersionNumber(Long.valueOf(0));
         }
         if (getBudgetDocumentVersions() != null) {
             updateDocumentDescriptions(getBudgetDocumentVersions());

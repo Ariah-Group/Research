@@ -251,7 +251,7 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
     }
 
     public void disableComment() {
-        setVersionNumber(new Long(-1));
+        setVersionNumber(Long.valueOf(-1));
     }
 
     public boolean isDisabled() {
