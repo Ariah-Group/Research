@@ -116,15 +116,15 @@ public class JavaFunctionResolver extends FunctionTermResolver {
             return null;
         }
         if (paramClassType.equals("java.lang.Integer")) {
-            retObj = new Integer(objValue.toString());
+            retObj = Integer.valueOf(objValue.toString());
         } else if (paramClassType.equals("java.lang.Long")) {
-            retObj = new Long(objValue.toString());
+            retObj = Long.valueOf(objValue.toString());
         } else if (paramClassType.equals("java.lang.Boolean")) {
             retObj = Boolean.valueOf(objValue.toString());
         } else if (paramClassType.equals("java.lang.Float")) {
-            retObj = new Float(objValue.toString());
+            retObj = Float.valueOf(objValue.toString());
         } else if (paramClassType.equals("java.lang.Double")) {
-            retObj = new Double(objValue.toString());
+            retObj = Double.valueOf(objValue.toString());
         }
         return retObj;
     }
