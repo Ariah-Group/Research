@@ -84,7 +84,7 @@ public interface BudgetService<T extends BudgetParent>  {
      * @param budgetLineItem
      * @return
      */
-    public boolean ValidInflationCeRate(BudgetLineItemBase budgetLineItem);
+    public boolean validInflationCeRate(BudgetLineItemBase budgetLineItem);
     
     public String getActivityTypeForBudget(BudgetDocument<T> budgetDocument);
     

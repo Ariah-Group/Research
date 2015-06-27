@@ -361,7 +361,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     }
 
     @Override
-    public boolean ValidInflationCeRate(BudgetLineItemBase budgetLineItem) {
+    public boolean validInflationCeRate(BudgetLineItemBase budgetLineItem) {
         //QueryEngine queryEngine = new QueryEngine();
         //BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmt = null;
         Map<String, String> costElementQMap = new HashMap<String, String>();

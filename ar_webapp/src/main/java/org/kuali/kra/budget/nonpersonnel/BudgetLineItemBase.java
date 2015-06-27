@@ -313,7 +313,7 @@ public abstract class BudgetLineItemBase extends BudgetAssociate {
     }
 
     public boolean isValidToApplyInRate() {
-        return KraServiceLocator.getService(BudgetService.class).ValidInflationCeRate(this);
+        return KraServiceLocator.getService(BudgetService.class).validInflationCeRate(this);
     }
 
     public void setValidToApplyInRate(boolean validToApplyInRate) {
