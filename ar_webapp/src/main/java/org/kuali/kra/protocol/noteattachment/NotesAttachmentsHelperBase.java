@@ -58,7 +58,7 @@ public abstract class NotesAttachmentsHelperBase {
     protected ProtocolAttachmentProtocolBase newAttachmentProtocol;
     protected ProtocolAttachmentPersonnelBase newAttachmentPersonnel;
     protected ProtocolAttachmentFilterBase newAttachmentFilter;
-    protected List<AttachmentFile> FilesToDelete;
+    protected List<AttachmentFile> filesToDelete;
     
     protected ProtocolNotepadBase protocolNotepad;
 
@@ -126,7 +126,7 @@ public abstract class NotesAttachmentsHelperBase {
         this.protocolNotepadService = protocolNotepadService;
         this.parameterService = parameterService;
         this.versioningUtil = versioningUtil;
-        this.FilesToDelete = new ArrayList<AttachmentFile>() ;
+        this.filesToDelete = new ArrayList<AttachmentFile>() ;
         this.manageNotesOpen = false;
     }
     
@@ -534,11 +534,11 @@ public abstract class NotesAttachmentsHelperBase {
     }
 
     public List<AttachmentFile> getFilesToDelete() {
-        return FilesToDelete;
+        return filesToDelete;
     }
 
     public void setFilesToDelete(List<AttachmentFile> filesToDelete) {
-        FilesToDelete = filesToDelete;
+        this.filesToDelete = filesToDelete;
     }
     
     /**
