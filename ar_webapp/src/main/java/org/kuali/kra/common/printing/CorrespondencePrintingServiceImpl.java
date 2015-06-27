@@ -86,11 +86,10 @@ public abstract class CorrespondencePrintingServiceImpl implements Correspondenc
                     reportParameters.put(SUBMISSION_NUMBER, printOption.getSubItemKey());
                 }
 
-                if (printable != null) {
-                    printable.setPrintableBusinessObject(printableBusinessObject);
-                    printable.setReportParameters(reportParameters);
-                    printables.add(printable);
-                }
+                printable.setPrintableBusinessObject(printableBusinessObject);
+                printable.setReportParameters(reportParameters);
+                printables.add(printable);
+
             }
         }
         return printables;
