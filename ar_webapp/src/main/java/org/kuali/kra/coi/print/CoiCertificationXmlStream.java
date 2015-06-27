@@ -127,7 +127,7 @@ public class CoiCertificationXmlStream implements XmlStream {
         noNamespace.PersonDocument.Person person = noNamespace.PersonDocument.Person.Factory.newInstance();
         KcPerson reporter = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(disclosure.getPersonId());
         person.setFullName(reporter.getFullName());
-        person.setAddress1(reporter.getAddressLine1() + "" + reporter.getAddressLine2() + "" + reporter.getAddressLine3());
+        person.setAddress1(reporter.getAddressLine1() + " " + reporter.getAddressLine2() + " " + reporter.getAddressLine3());
         person.setDirDept(reporter.getDirectoryDepartment());
         person.setSchool(reporter.getSchool());
         person.setOffPhone(reporter.getOfficePhone());
