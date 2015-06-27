@@ -81,7 +81,7 @@ public class CoiCertificationXmlStream implements XmlStream {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
+        //Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
         Map<String, XmlObject> map = new HashMap<String, XmlObject>();
         map.put("DisclosureSummary", approvedDisclosureDoc);
         return map;
