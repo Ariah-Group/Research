@@ -525,7 +525,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
 
 
     /*
-     * These are disclosures generated from KC.
+     * These are disclosures generated from the system.
      */
     public boolean isSystemEvent() {
         return (StringUtils.equals(CoiDisclosureEventType.DEVELOPMENT_PROPOSAL, this.getEventTypeCode())
@@ -536,7 +536,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     }
 
     public String getCompleteMessage() {
-        String completeMessage = "Disclosure is complete";
+        //String completeMessage = "Disclosure is complete";
         int completeCount = 0;
         int detailSize = 0;
         if (CollectionUtils.isNotEmpty(this.getCoiDisclProjects())) {
