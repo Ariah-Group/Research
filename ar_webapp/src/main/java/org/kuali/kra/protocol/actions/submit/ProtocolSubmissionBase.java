@@ -32,8 +32,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
- * This class tracks the data associated with the submission of a protocol for review.
+ *
+ * This class tracks the data associated with the submission of a protocol for
+ * review.
  */
 public abstract class ProtocolSubmissionBase extends ProtocolAssociateBase {
 
@@ -111,7 +112,7 @@ public abstract class ProtocolSubmissionBase extends ProtocolAssociateBase {
     private String piName;
 
     /**
-     * 
+     *
      * Constructs a ProtocolSubmissionBase.java.
      */
     public ProtocolSubmissionBase() {
@@ -222,8 +223,9 @@ public abstract class ProtocolSubmissionBase extends ProtocolAssociateBase {
     }
 
     /**
-     * 
+     *
      * This method set the submission status code.
+     *
      * @param submissionStatusCode
      */
     public void setSubmissionStatusCode(String submissionStatusCode) {
@@ -305,7 +307,8 @@ public abstract class ProtocolSubmissionBase extends ProtocolAssociateBase {
     }
 
     /**
-     * Gets the protocolReviews attribute. 
+     * Gets the protocolReviews attribute.
+     *
      * @return Returns the protocolReviews.
      */
     public List<ProtocolOnlineReviewBase> getProtocolOnlineReviews() {
@@ -317,6 +320,7 @@ public abstract class ProtocolSubmissionBase extends ProtocolAssociateBase {
 
     /**
      * Sets the protocolReviews attribute value.
+     *
      * @param protocolOnlineReviews The protocolReviews to set.
      */
     public void setProtocolOnlineReviews(List<ProtocolOnlineReviewBase> protocolOnlineReviews) {
@@ -331,9 +335,10 @@ public abstract class ProtocolSubmissionBase extends ProtocolAssociateBase {
         this.protocolReviewType = protocolReviewType;
     }
 
-  
     /**
-     * Gets only the active reviews from all the protocolReviews for this submission 
+     * Gets only the active reviews from all the protocolReviews for this
+     * submission
+     *
      * @return Returns non-null list of active protocol reviews.
      */
     public List<ProtocolOnlineReviewBase> getActiveProtocolOnlineReviews() {
@@ -348,9 +353,10 @@ public abstract class ProtocolSubmissionBase extends ProtocolAssociateBase {
         }
         return activeReviews;
     }
-    
+
     /**
-     * Gets the reviewers for only the active reviews for this submission 
+     * Gets the reviewers for only the active reviews for this submission
+     *
      * @return Returns non-null list of protocol reviewers.
      */
     public List<ProtocolReviewer> getProtocolReviewers() {
@@ -363,8 +369,9 @@ public abstract class ProtocolSubmissionBase extends ProtocolAssociateBase {
     }
 
     /**
-     * 
+     *
      * This method returns the committee object.
+     *
      * @return
      */
     public CommitteeBase getCommittee() {
@@ -405,7 +412,7 @@ public abstract class ProtocolSubmissionBase extends ProtocolAssociateBase {
     }
 
     public ProtocolSubmissionQualifierTypeBase getProtocolSubmissionQualifierType() {
-        if(null == protocolSubmissionQualifierType) {
+        if (null == protocolSubmissionQualifierType) {
             protocolSubmissionQualifierType = getNewInstanceProtocolSubmissionQualifierTypeHook();
         }
         return protocolSubmissionQualifierType;
@@ -426,8 +433,9 @@ public abstract class ProtocolSubmissionBase extends ProtocolAssociateBase {
     }
 
     /**
-     * 
+     *
      * This method returns the committee schedule.
+     *
      * @return
      */
     public CommitteeScheduleBase getCommitteeSchedule() {
@@ -447,7 +455,7 @@ public abstract class ProtocolSubmissionBase extends ProtocolAssociateBase {
     }
 
     /**
-     * 
+     *
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
@@ -470,13 +478,26 @@ public abstract class ProtocolSubmissionBase extends ProtocolAssociateBase {
     }
 
     /**
-     * This method returns true if this submission has the same submission id as the passed in submission id.
-     * @param o a ProtocolSubmissionBase object to compare for equality
+     * This method returns true if this submission has the same submission id as
+     * the passed in submission id.
+     *
+     * @param obj a ProtocolSubmissionBase object to compare for equality
      * @return a boolean
      */
     @Override
-    public boolean equals(Object o) {
-        ProtocolSubmissionBase ps = (ProtocolSubmissionBase) o;
+    public boolean equals(Object obj) {
+
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof ProtocolSubmissionBase)) {
+            return false;
+        }
+
+        ProtocolSubmissionBase ps = (ProtocolSubmissionBase) obj;
         try {
             return this.getSubmissionId().equals(ps.getSubmissionId());
         } catch (Exception e) {

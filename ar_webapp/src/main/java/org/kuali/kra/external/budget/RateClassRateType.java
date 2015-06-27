@@ -16,6 +16,7 @@
 package org.kuali.kra.external.budget;
 
 public class RateClassRateType {
+
     String rateClass;
     String rateType;
 
@@ -23,22 +24,23 @@ public class RateClassRateType {
         this.rateClass = rateClass;
         this.rateType = rateType;
     }
-    
+
     public String getRateClass() {
         return rateClass;
     }
+
     public void setRateClass(String rateClass) {
         this.rateClass = rateClass;
     }
-    
+
     public String getRateType() {
         return rateType;
     }
-    
+
     public void setRateType(String rateType) {
         this.rateType = rateType;
     }
-    
+
     /**
      * @see java.lang.Object#hashCode()
      */
@@ -48,30 +50,30 @@ public class RateClassRateType {
         int code = 133;
         code = multiplier * code + ((rateType == null) ? 0 : rateType.hashCode());
         code = multiplier * code + ((rateClass == null) ? 0 : rateClass.hashCode());
-       
+
         return code;
     }
-    
+
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(Object o) {
-        RateClassRateType current = (RateClassRateType) o;
-        if (this == current) {
+    public boolean equals(Object obj) {
+
+        if (this == obj) {
             return true;
         }
-        if (current == null) {
+        if (obj == null) {
             return false;
         }
-        if (this.getClass() != current.getClass()) {
+        if (!(obj instanceof RateClassRateType)) {
             return false;
         }
+
+        RateClassRateType current = (RateClassRateType) obj;
         if (current.rateClass.equals(rateClass) && current.rateType.equals(rateType)) {
             return true;
-        } 
+        }
         return false;
     }
-    
-    
 }

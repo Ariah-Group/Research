@@ -444,8 +444,19 @@ public class AwardHierarchyNode extends AwardHierarchy {
     }
 
     @Override
-    public boolean equals(Object other) {
-        return equals((AwardHierarchyNode) other);
+    public boolean equals(Object obj) {
+
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof AwardHierarchyNode)) {
+            return false;
+        }
+
+        return equals((AwardHierarchyNode) obj);
     }
 
     /**

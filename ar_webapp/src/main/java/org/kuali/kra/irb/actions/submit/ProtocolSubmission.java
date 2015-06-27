@@ -24,18 +24,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
- * This class tracks the data associated with the submission of a protocol for review.
+ *
+ * This class tracks the data associated with the submission of a protocol for
+ * review.
  */
 public class ProtocolSubmission extends ProtocolSubmissionBase {
 
-
     private static final long serialVersionUID = 2158830045312905591L;
-    
+
     private List<ProtocolExemptStudiesCheckListItem> exemptStudiesCheckList = new ArrayList<ProtocolExemptStudiesCheckListItem>();
 
     private List<ProtocolExpeditedReviewCheckListItem> expeditedReviewCheckList = new ArrayList<ProtocolExpeditedReviewCheckListItem>();
-    
+
     public void setExemptStudiesCheckList(List<ProtocolExemptStudiesCheckListItem> exemptStudiesCheckList) {
         this.exemptStudiesCheckList = exemptStudiesCheckList;
     }
@@ -53,13 +53,26 @@ public class ProtocolSubmission extends ProtocolSubmissionBase {
     }
 
     /**
-     * This method returns true if this submission has the same submission id as the passed in submission id.
-     * @param o a ProtocolSubmission object to compare for equality
+     * This method returns true if this submission has the same submission id as
+     * the passed in submission id.
+     *
+     * @param obj a ProtocolSubmission object to compare for equality
      * @return a boolean
      */
     @Override
-    public boolean equals(Object o) {
-        ProtocolSubmission ps = (ProtocolSubmission) o;
+    public boolean equals(Object obj) {
+
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof ProtocolSubmission)) {
+            return false;
+        }
+
+        ProtocolSubmission ps = (ProtocolSubmission) obj;
         try {
             return this.getSubmissionId().equals(ps.getSubmissionId());
         } catch (Exception e) {
@@ -72,14 +85,14 @@ public class ProtocolSubmission extends ProtocolSubmissionBase {
     protected ProtocolSubmissionQualifierTypeBase getNewInstanceProtocolSubmissionQualifierTypeHook() {
         return new ProtocolSubmissionQualifierType();
     }
-    
+
     @Override
     public Committee getCommittee() {
-        return (Committee)super.getCommittee();
+        return (Committee) super.getCommittee();
     }
-    
+
     @Override
     public CommitteeSchedule getCommitteeSchedule() {
-        return (CommitteeSchedule)super.getCommitteeSchedule();
+        return (CommitteeSchedule) super.getCommitteeSchedule();
     }
 }

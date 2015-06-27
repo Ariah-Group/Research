@@ -104,6 +104,9 @@ public class PersonFinIntDisclosureAssociate extends KraPersistableBusinessObjec
         if (obj == null) {
             return false;
         }
+        if (!(obj instanceof PersonFinIntDisclosureAssociate)) {
+            return false;
+        }
         PersonFinIntDisclosureAssociate other = (PersonFinIntDisclosureAssociate) obj;
         if (entityNumber == null) {
             if (other.entityNumber != null) {
