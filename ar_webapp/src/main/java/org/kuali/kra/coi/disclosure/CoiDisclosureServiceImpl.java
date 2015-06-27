@@ -347,6 +347,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             coiDisclProject.setCoiProjectId(proposal.getProposalNumber()); //Project Id
             coiDisclProject.setModuleItemKey(proposal.getProposalNumber()); //Module Item Key
             coiDisclProject.setCoiProjectTitle(proposal.getTitle()); //Project Title
+            coiDisclProject.setLongTextField1(proposal.getSponsorName());
+            coiDisclProject.setDateField1(proposal.getRequestedStartDateInitial());
+            coiDisclProject.setDateField2(proposal.getRequestedEndDateInitial());
 
             for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
                 CoiDiscDetail disclosureDetail = createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure,
