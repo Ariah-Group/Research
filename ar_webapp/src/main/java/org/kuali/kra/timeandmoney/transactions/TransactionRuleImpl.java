@@ -178,7 +178,7 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
     private Award getLastSourceAwardReferenceInAwards (List<Award> awards, String sourceAwardNumber) {
         Award returnAward = null;
         for (Award award : awards) {
-            if (award.getAwardNumber() == sourceAwardNumber) {
+            if (award.getAwardNumber().equals(sourceAwardNumber)) {
                 returnAward = award;
             }
         }
@@ -194,7 +194,7 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
     private Award getLastTargetAwardReferenceInAwards (List<Award> awards, String targetAwardNumber) {
         Award returnAward = null;
         for (Award award : awards) {
-            if (award.getAwardNumber() == targetAwardNumber) {
+            if (award.getAwardNumber().equals(targetAwardNumber)) {
                 returnAward = award;
             }
         }
