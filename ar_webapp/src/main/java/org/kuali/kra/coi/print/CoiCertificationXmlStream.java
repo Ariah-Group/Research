@@ -91,8 +91,8 @@ public class CoiCertificationXmlStream implements XmlStream {
      *
      * This method is to get the Disclosure Certification data for print.
      *
-     * @param document
-     * @param params
+     * @param printableBusinessObject
+     * @param htData
      * @return
      * @throws PrintingException
      */
