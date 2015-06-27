@@ -976,7 +976,7 @@
 														padding="0" display-align="center">
 														<fo:block text-align="left">
 															<fo:inline>
-																<xsl:text>ProjectTitle</xsl:text>
+																<xsl:text>Project Title</xsl:text>
 															</fo:inline>
 														</fo:block>
 													</fo:table-cell>
@@ -1009,7 +1009,7 @@
 														padding="0" display-align="center">
 														<fo:block text-align="left">
 															<fo:inline>
-																<xsl:text>ProjectSponsor</xsl:text>
+																<xsl:text>Project Sponsor</xsl:text>
 															</fo:inline>
 														</fo:block>
 													</fo:table-cell>
@@ -1042,7 +1042,7 @@
 														padding="0" display-align="center">
 														<fo:block text-align="left">
 															<fo:inline>
-																<xsl:text>ProjectStartDate</xsl:text>
+																<xsl:text>Project Start Date</xsl:text>
 															</fo:inline>
 														</fo:block>
 													</fo:table-cell>
@@ -1075,7 +1075,7 @@
 														padding="0" display-align="center">
 														<fo:block text-align="left">
 															<fo:inline>
-																<xsl:text>ProjectEndDate</xsl:text>
+																<xsl:text>Project End Date</xsl:text>
 															</fo:inline>
 														</fo:block>
 													</fo:table-cell>
