@@ -239,7 +239,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private ReportHelperBean reportHelperBean;
     private List<String> proposalDataOverrideMethodToCalls;
 
-    private List<String> BudgetDataOverrideMethodToCalls;
+    private List<String> budgetDataOverrideMethodToCalls;
 
     private boolean canCreateProposal;
 
@@ -2194,11 +2194,11 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     }
 
     public void setBudgetDataOverrideMethodToCalls(List<String> budgetDataOverrideMethodToCalls) {
-        BudgetDataOverrideMethodToCalls = budgetDataOverrideMethodToCalls;
+        this.budgetDataOverrideMethodToCalls = budgetDataOverrideMethodToCalls;
     }
 
     public List<String> getBudgetDataOverrideMethodToCalls() {
-        return BudgetDataOverrideMethodToCalls;
+        return budgetDataOverrideMethodToCalls;
     }
 
     private void setApproverViewTabTitle() {
