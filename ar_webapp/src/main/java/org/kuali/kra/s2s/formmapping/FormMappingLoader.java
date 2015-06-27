@@ -137,7 +137,7 @@ public class FormMappingLoader {
                 bindings = new Hashtable<String, FormMappingInfo>();
                 sortedNameSpaces = new TreeMap<Integer, List<String>>();
                 loadBindings(BINDING_FILE_NAME);
-                if ((new FormMappingLoader().getClass().getResourceAsStream(BINDING_FILE_NAME_V2)) != null) {
+                if ((FormMappingLoader.class.getResourceAsStream(BINDING_FILE_NAME_V2)) != null) {
                     loadBindings(BINDING_FILE_NAME_V2);
                 }
             }
@@ -159,7 +159,7 @@ public class FormMappingLoader {
         }
         try {
             builder = factory.newDocumentBuilder();
-            document = builder.parse(new FormMappingLoader().getClass().getResourceAsStream(BindingFile));
+            document = builder.parse(FormMappingLoader.class.getResourceAsStream(BindingFile));
         } catch (ParserConfigurationException e) {
             LOG.error(S2SConstants.ERROR_MESSAGE, e);
             return;

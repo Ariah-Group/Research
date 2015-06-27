@@ -93,7 +93,7 @@ public class S2SErrorMessages {
         InputStream stream = null;
         try {
             props = new Properties();
-            stream = new S2SErrorMessages().getClass().getResourceAsStream(errorFileName);
+            stream = S2SErrorMessages.class.getResourceAsStream(errorFileName);
             props.load(stream);
 
         }

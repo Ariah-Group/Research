@@ -100,7 +100,7 @@ public class PropertyFileReader {
         InputStream stream = null;
         try {
             props = new Properties();
-            stream = new PropertyFileReader().getClass().getResourceAsStream(fileName);
+            stream = PropertyFileReader.class.getResourceAsStream(fileName);
             props.load(stream);
         }
         finally {

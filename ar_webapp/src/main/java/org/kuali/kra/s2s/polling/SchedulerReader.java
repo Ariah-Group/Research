@@ -66,7 +66,7 @@ public class SchedulerReader {
         Document document = null;
         try {
             DocumentBuilder builder = factory.newDocumentBuilder();
-            document = builder.parse(new SchedulerReader().getClass().getResourceAsStream(CONFIG_FILE_NAME));
+            document = builder.parse(SchedulerReader.class.getResourceAsStream(CONFIG_FILE_NAME));
 
         }
         catch (Exception ex) {

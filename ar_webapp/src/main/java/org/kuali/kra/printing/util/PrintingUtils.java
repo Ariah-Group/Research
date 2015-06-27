@@ -194,8 +194,7 @@ public class PrintingUtils {
             }
         }
 
-        Source src = new StreamSource(new PrintingUtils().getClass()
-                .getResourceAsStream(XSL_CONTEXT_DIR + "/" + xsl));
+        Source src = new StreamSource(PrintingUtils.class.getResourceAsStream(XSL_CONTEXT_DIR + "/" + xsl));
 
         ArrayList<Source> sourceList = new ArrayList<Source>();
         sourceList.add(src);
@@ -203,8 +202,7 @@ public class PrintingUtils {
     }
 
     public static ArrayList<Source> getXSLTforReportTemplate(String reportTemplate) {
-        Source src = new StreamSource(new PrintingUtils().getClass()
-                .getResourceAsStream(XSL_CONTEXT_DIR + "/" + reportTemplate));
+        Source src = new StreamSource(PrintingUtils.class.getResourceAsStream(XSL_CONTEXT_DIR + "/" + reportTemplate));
 
         ArrayList<Source> sourceList = new ArrayList<Source>();
         sourceList.add(src);

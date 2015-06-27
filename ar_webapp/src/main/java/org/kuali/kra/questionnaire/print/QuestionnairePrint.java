@@ -41,17 +41,16 @@ public class QuestionnairePrint extends AbstractPrint {
      */
     @Override
     public List<Source> getXSLTemplates() {
-        
+
         List<Source> sourceList = new ArrayList<Source>();
         Object template = getReportParameters().get("template");
-        
+
         // If a record-specific template isn't set from teh QUESTIONNAIRE database table
         // then use the generic QuestionnaireReport.xsl template
         if (template != null && ((byte[]) template).length > 0) {
             sourceList.add(new StreamSource(new ByteArrayInputStream((byte[]) template)));
         } else {
-            Source src = new StreamSource(new PrintingUtils().getClass().getResourceAsStream(
-                    XSL_CONTEXT_DIR + "/QuestionnaireReport.xsl"));
+            Source src = new StreamSource(PrintingUtils.class.getResourceAsStream(XSL_CONTEXT_DIR + "/QuestionnaireReport.xsl"));
             sourceList.add(src);
         }
         return sourceList;

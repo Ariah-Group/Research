@@ -51,7 +51,7 @@ public class S2SErrorHandler {
         if (auditErrorMap == null) {
         	auditErrorMap = new HashMap<String, AuditError>();
             loadErrors(ERROR_MAP_FILE);
-            if((new S2SErrorHandler().getClass().getResourceAsStream(ERROR_MAP_FILE_V2))!=null) {
+            if((S2SErrorHandler.class.getResourceAsStream(ERROR_MAP_FILE_V2))!=null) {
                 loadErrors(ERROR_MAP_FILE_V2);
                 }
         }
@@ -64,7 +64,7 @@ public class S2SErrorHandler {
     private static void loadErrors(String errorMapFile) {
         InputStream stream = null;
         try {
-            stream = new S2SErrorHandler().getClass().getResourceAsStream(errorMapFile);
+            stream = S2SErrorHandler.class.getResourceAsStream(errorMapFile);
             org.w3c.dom.Document errorsDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(stream);
             Document document = new DOMBuilder().build(errorsDocument);
             Element root = document.getRootElement();
