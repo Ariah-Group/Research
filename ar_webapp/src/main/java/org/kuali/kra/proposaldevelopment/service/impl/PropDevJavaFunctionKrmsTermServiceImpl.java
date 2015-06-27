@@ -719,8 +719,8 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
         boolean irbLinkingEnabled = getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, Constants.ENABLE_PROTOCOL_TO_DEV_PROPOSAL_LINK);
         if (!irbLinkingEnabled) {
             for (ProposalSpecialReview specialReview : developmentProposal.getPropSpecialReviews()) {
-                if (specialReview.getApprovalTypeCode() == SpecialReviewApprovalType.EXEMPT
-                        && specialReview.getSpecialReviewTypeCode() == SpecialReviewType.HUMAN_SUBJECTS) {
+                if (specialReview.getApprovalTypeCode().equals(SpecialReviewApprovalType.EXEMPT)
+                        && specialReview.getSpecialReviewTypeCode().equals(SpecialReviewType.HUMAN_SUBJECTS)) {
                     if (specialReview.getComments() == null
                             || !specialReview.getComments().matches("\\w*E[1-6](\\w*,\\w*E[1-6])*[\\w,]*")) {
                         return FALSE;

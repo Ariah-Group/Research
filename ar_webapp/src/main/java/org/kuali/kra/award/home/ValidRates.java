@@ -223,7 +223,7 @@ public class ValidRates extends KraPersistableBusinessObjectBase {
         } else if (!onCampusRate.equals(other.onCampusRate)) {
             return false;
         }
-        if (rateClassType != other.rateClassType) {
+        if (!rateClassType.equals(other.rateClassType)) {
             return false;
         }
         if (validRatesId == null) {

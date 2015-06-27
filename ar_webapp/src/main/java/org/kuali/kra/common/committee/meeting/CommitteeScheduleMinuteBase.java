@@ -33,13 +33,11 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * 
- * This is BO class for committee schedule minute. 
+ *
+ * This is BO class for committee schedule minute.
  */
-public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleMinuteBase<CSM, CS>,
-                                              CS extends CommitteeScheduleBase<CS, ?, ?, CSM>> 
-
-                                              extends ProtocolReviewableBase<CS> implements Cloneable {
+public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleMinuteBase<CSM, CS>, CS extends CommitteeScheduleBase<CS, ?, ?, CSM>>
+        extends ProtocolReviewableBase<CS> implements Cloneable {
 
     private static final long serialVersionUID = -2294619582524055884L;
 
@@ -94,7 +92,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
 
     @SkipVersioning
     private ProtocolBase protocol;
-    
+
     private boolean generateAttendance = false;
 
     @SkipVersioning
@@ -104,7 +102,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
     private transient String updateUserFullName;
 
     private transient boolean displayReviewerName;
-    
+
     private transient boolean readOnly = true;
 
     /*
@@ -143,6 +141,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
 
     /**
      * Constructs a CommitteeScheduleMinuteBase with a default minute entry.
+     *
      * @param minuteEntryTypeCode the type code for the default minute entry
      */
     public CommitteeScheduleMinuteBase(String minuteEntryTypeCode) {
@@ -326,7 +325,8 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
     }
 
     /**
-     * Gets the protocolReviewIdFk attribute. 
+     * Gets the protocolReviewIdFk attribute.
+     *
      * @return Returns the protocolReviewIdFk.
      */
     public Long getProtocolOnlineReviewIdFk() {
@@ -335,6 +335,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
 
     /**
      * Sets the protocolReviewIdFk attribute value.
+     *
      * @param protocolOnlineReviewIdFk The protocolReviewIdFk to set.
      */
     public void setProtocolOnlineReviewIdFk(Long protocolOnlineReviewIdFk) {
@@ -342,7 +343,8 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
     }
 
     /**
-     * Gets the protocolReview attribute. 
+     * Gets the protocolReview attribute.
+     *
      * @return Returns the protocolReview.
      */
     public ProtocolOnlineReviewBase getProtocolOnlineReview() {
@@ -351,6 +353,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
 
     /**
      * Sets the protocolReview attribute value.
+     *
      * @param protocolReview The protocolReview to set.
      */
     public void setProtocolOnlineReview(ProtocolOnlineReviewBase protocolReview) {
@@ -358,9 +361,10 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
     }
 
     /**
-     * Equality is based on minute id, minute entry value, entry number(order position)
-     * and whether or not it is private.
-     * This function is used to determine if a minute needs to be updated on the DB.
+     * Equality is based on minute id, minute entry value, entry number(order
+     * position) and whether or not it is private. This function is used to
+     * determine if a minute needs to be updated on the DB.
+     *
      * @param o a CommitteeScheduleMinuteBase object
      * @return boolean if the passed in minute is the same as THIS minute.
      * @see java.lang.Object#equals(java.lang.Object)
@@ -384,41 +388,43 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
             super.preUpdate();
         }
     }
-    
-    
-    
+
     /**
-     * This method will try to obtain the pristine instance of this BO from the database using the schedule id as the primary key value.
-     * It will return null if the schedule id is null or if the pristine instance cannot be loaded from the DB for whatever reason.
+     * This method will try to obtain the pristine instance of this BO from the
+     * database using the schedule id as the primary key value. It will return
+     * null if the schedule id is null or if the pristine instance cannot be
+     * loaded from the DB for whatever reason.
+     *
      * @return
      */
     @SuppressWarnings("unchecked")
     public CSM getPristineInstance() {
-        CSM retVal = null; 
+        CSM retVal = null;
         Long primaryKey = this.getCommScheduleMinutesId();
-        if(primaryKey != null) {
+        if (primaryKey != null) {
             HashMap<String, String> pkMap = new HashMap<String, String>();
             pkMap.put("commScheduleMinutesId", primaryKey.toString());
             retVal = (CSM) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(this.getClass(), pkMap);
         }
         return retVal;
     }
-    
+
     /**
-     * This method returns true if this BO instance's minuteEntry text or the private or final flag values or the protocol values 
-     * have been updated by the user. It checks these fields by comparing this instance against the supplied pristine instance of this BO.
-     * This method will return false if the supplied pristineInstance argument is null, or if its schedule id (primary key) is different
-     * from this instance's schedule id.
+     * This method returns true if this BO instance's minuteEntry text or the
+     * private or final flag values or the protocol values have been updated by
+     * the user. It checks these fields by comparing this instance against the
+     * supplied pristine instance of this BO. This method will return false if
+     * the supplied pristineInstance argument is null, or if its schedule id
+     * (primary key) is different from this instance's schedule id.
      */
     public boolean isUpdateUserToBeRecorded(CSM pristineInstance) {
         boolean retVal = false;
-        if ( (pristineInstance != null) && (this.getCommScheduleMinutesId().equals(pristineInstance.getCommScheduleMinutesId())) 
-                &&
-             (!StringUtils.equals(this.getMinuteEntry(), pristineInstance.getMinuteEntry()) 
-               || this.getPrivateCommentFlag() != pristineInstance.getPrivateCommentFlag() 
-               || this.isFinalFlag() != pristineInstance.isFinalFlag() 
-               || isProtocolFieldChanged(pristineInstance)) ) {
-                retVal = true;
+        if ((pristineInstance != null) && (this.getCommScheduleMinutesId().equals(pristineInstance.getCommScheduleMinutesId()))
+                && (!StringUtils.equals(this.getMinuteEntry(), pristineInstance.getMinuteEntry())
+                || this.getPrivateCommentFlag() != pristineInstance.getPrivateCommentFlag()
+                || this.isFinalFlag() != pristineInstance.isFinalFlag()
+                || isProtocolFieldChanged(pristineInstance))) {
+            retVal = true;
         }
         return retVal;
     }
@@ -442,26 +448,26 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
     private boolean isProtocolFieldChanged(CSM committeeScheduleMinute) {
         boolean isChanged = false;
         // check for identical objects or both being null  
-        if (protocolIdFk != committeeScheduleMinute.getProtocolIdFk()) {
-            if (protocolIdFk != null) {
-                isChanged &= !protocolIdFk.equals(committeeScheduleMinute.getProtocolIdFk());
-            } else {
-                isChanged &= !committeeScheduleMinute.getProtocolIdFk().equals(protocolIdFk);
-            }
+        if (protocolIdFk != null && !protocolIdFk.equals(committeeScheduleMinute.getProtocolIdFk())) {
+            isChanged &= !protocolIdFk.equals(committeeScheduleMinute.getProtocolIdFk());
+        } else {
+            isChanged &= !committeeScheduleMinute.getProtocolIdFk().equals(protocolIdFk);
         }
-        if (protocolContingencyCode != committeeScheduleMinute.getProtocolContingencyCode()) {
-            if (protocolContingencyCode != null) {
-                isChanged &= !protocolContingencyCode.equals(committeeScheduleMinute.getProtocolContingencyCode());
-            } else {
-                isChanged &= !committeeScheduleMinute.getProtocolContingencyCode().equals(protocolContingencyCode);
-            }
+
+        if (protocolContingencyCode != null && !protocolContingencyCode.equals(committeeScheduleMinute.getProtocolContingencyCode())) {
+            isChanged &= !protocolContingencyCode.equals(committeeScheduleMinute.getProtocolContingencyCode());
+        } else {
+            isChanged &= !committeeScheduleMinute.getProtocolContingencyCode().equals(protocolContingencyCode);
         }
+
         return isChanged;
     }
 
     /**
-     * 
-     * This method returns true if the object has been saved to the database, and returns false if it has not.
+     *
+     * This method returns true if the object has been saved to the database,
+     * and returns false if it has not.
+     *
      * @return a boolean
      */
     public boolean isPersisted() {
@@ -478,14 +484,15 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
             }
             if (protocol != null) {
                 protocolId = this.protocol.getProtocolId();
-            } 
+            }
         }
         return protocolId;
-        
+
     }
 
     /**
-     * Gets the createUserFullName attribute. 
+     * Gets the createUserFullName attribute.
+     *
      * @return Returns the createUserFullName.
      */
     public String getCreateUserFullName() {
@@ -498,6 +505,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
 
     /**
      * Sets the createUserFullName attribute value.
+     *
      * @param createUserFullName The createUserFullName to set.
      */
     public void setCreateUserFullName(String createUserFullName) {
@@ -505,7 +513,8 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
     }
 
     /**
-     * Gets the updateUserFullName attribute. 
+     * Gets the updateUserFullName attribute.
+     *
      * @return Returns the updateUserFullName.
      */
     public String getUpdateUserFullName() {
@@ -518,6 +527,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
 
     /**
      * Sets the updateUserFullName attribute value.
+     *
      * @param updateUserFullName The updateUserFullName to set.
      */
     public void setUpdateUserFullName(String updateUserFullName) {
@@ -534,11 +544,13 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
 
     /**
      * Returns whether the current user can view this comment.
-     * 
-     * This is true either if 
-     *   1) The current user has the role IRB Administrator
-     *   2) The current user does not have the role IRB Administrator, but the current user is the comment creator
-     *   3) The current user does not have the role IRB Administrator, the current user is not the comment creator, but the comment is public and final
+     *
+     * This is true either if 1) The current user has the role IRB Administrator
+     * 2) The current user does not have the role IRB Administrator, but the
+     * current user is the comment creator 3) The current user does not have the
+     * role IRB Administrator, the current user is not the comment creator, but
+     * the comment is public and final
+     *
      * @return whether the current user can view this comment
      */
     public boolean getCanView() {
@@ -547,9 +559,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
         return isAdministrator(principalId) || StringUtils.equals(principalName, createUser) || (!getPrivateCommentFlag() && isFinalFlag());
     }
 
-    
-    protected abstract boolean isAdministrator(String principalId);    
-    
+    protected abstract boolean isAdministrator(String principalId);
 
     public CSM getCopy() {
         CSM copy = null;
@@ -570,11 +580,13 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
     }
 
     /**
-     * 
-     * This method is needed to determine whether schedule minute comments have been accepted by
-     * the irb admin.  Only online review comments are subject to approval, all other minute types
-     * are returned true by default.
-     * @return false if it is an online review comment and not accepted, true otherwise.
+     *
+     * This method is needed to determine whether schedule minute comments have
+     * been accepted by the irb admin. Only online review comments are subject
+     * to approval, all other minute types are returned true by default.
+     *
+     * @return false if it is an online review comment and not accepted, true
+     * otherwise.
      */
     //    public boolean isAccepted() {  
     //        boolean accepted = false;  

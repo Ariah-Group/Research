@@ -135,7 +135,7 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
     }
 
     public boolean sameText(AwardComment compare) {
-        if (this.getComments() == compare.getComments()) {
+        if (this.getComments().equals(compare.getComments())) {
             return true;
         }
         if (!this.isEntered() && !compare.isEntered()) {
