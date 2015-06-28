@@ -976,7 +976,7 @@
 														padding="0" display-align="center">
 														<fo:block text-align="left">
 															<fo:inline>
-																<xsl:text>Project Title</xsl:text>
+																<xsl:text>Title</xsl:text>
 															</fo:inline>
 														</fo:block>
 													</fo:table-cell>
@@ -1009,7 +1009,7 @@
 														padding="0" display-align="center">
 														<fo:block text-align="left">
 															<fo:inline>
-																<xsl:text>Project Sponsor</xsl:text>
+																<xsl:text>Sponsor</xsl:text>
 															</fo:inline>
 														</fo:block>
 													</fo:table-cell>
@@ -1042,7 +1042,7 @@
 														padding="0" display-align="center">
 														<fo:block text-align="left">
 															<fo:inline>
-																<xsl:text>Project Start Date</xsl:text>
+																<xsl:text>Start Date</xsl:text>
 															</fo:inline>
 														</fo:block>
 													</fo:table-cell>
@@ -1075,7 +1075,7 @@
 														padding="0" display-align="center">
 														<fo:block text-align="left">
 															<fo:inline>
-																<xsl:text>Project End Date</xsl:text>
+																<xsl:text>End Date</xsl:text>
 															</fo:inline>
 														</fo:block>
 													</fo:table-cell>
@@ -1140,7 +1140,7 @@
 														padding="0" display-align="center">
 														<fo:block text-align="left">
 															<fo:inline>
-																<xsl:text>EntityName</xsl:text>
+																<xsl:text>Entity Name</xsl:text>
 															</fo:inline>
 														</fo:block>
 													</fo:table-cell>
@@ -1148,7 +1148,7 @@
 														padding="0" display-align="center">
 														<fo:block text-align="left">
 															<fo:inline>
-																<xsl:text>ConflictStatus</xsl:text>
+																<xsl:text>Conflict Status</xsl:text>
 															</fo:inline>
 														</fo:block>
 													</fo:table-cell>
@@ -1254,7 +1254,7 @@
 													padding="0" display-align="center">
 													<fo:block text-align="left">
 														<fo:inline>
-															<xsl:text>Comments</xsl:text>
+															<xsl:text>Note Text</xsl:text>
 														</fo:inline>
 													</fo:block>
 												</fo:table-cell>
@@ -1262,7 +1262,7 @@
 													padding="0" display-align="center">
 													<fo:block text-align="left">
 														<fo:inline>
-															<xsl:text>Note Entry</xsl:text>
+															<xsl:text>Note Topic</xsl:text>
 														</fo:inline>
 													</fo:block>
 												</fo:table-cell>
@@ -1270,7 +1270,7 @@
 													padding="0" display-align="center">
 													<fo:block text-align="left">
 														<fo:inline>
-															<xsl:text>UpdateTimestamp</xsl:text>
+															<xsl:text>Updated Date</xsl:text>
 														</fo:inline>
 													</fo:block>
 												</fo:table-cell>
@@ -1278,7 +1278,7 @@
 													padding="0" display-align="center">
 													<fo:block text-align="left">
 														<fo:inline>
-															<xsl:text>Update User</xsl:text>
+															<xsl:text>Updated By</xsl:text>
 														</fo:inline>
 													</fo:block>
 												</fo:table-cell>
@@ -1447,7 +1447,7 @@
 													padding="0" display-align="center">
 													<fo:block text-align="left">
 														<fo:inline>
-															<xsl:text>UpdateTimestamp</xsl:text>
+															<xsl:text>Updated Date</xsl:text>
 														</fo:inline>
 													</fo:block>
 												</fo:table-cell>
@@ -1455,7 +1455,7 @@
 													padding="0" display-align="center">
 													<fo:block text-align="left">
 														<fo:inline>
-															<xsl:text>Update User</xsl:text>
+															<xsl:text>Updated By</xsl:text>
 														</fo:inline>
 													</fo:block>
 												</fo:table-cell>
