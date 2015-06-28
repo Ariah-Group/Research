@@ -374,7 +374,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             coiDisclProject.setLongTextField1(proposal.getSponsorName());
             coiDisclProject.setDateField1(proposal.getRequestedStartDateInitial());
             coiDisclProject.setDateField2(proposal.getRequestedEndDateInitial());
-            
+
             for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
                 CoiDiscDetail disclosureDetail = createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure,
                         proposal.getProposalNumber(), proposal.getProposalId().toString(), CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL);
@@ -396,6 +396,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 coiDisclProject.setCoiProjectId(award.getAwardId().toString()); //Project Id
                 coiDisclProject.setModuleItemKey(award.getAwardNumber()); //Module Item Key
                 coiDisclProject.setCoiProjectTitle(award.getTitle()); //Project Title
+                coiDisclProject.setLongTextField1(award.getSponsorName());
+                coiDisclProject.setDateField1(award.getBeginDate());
+                coiDisclProject.setDateField2(award.getProjectEndDate());
 
                 for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
                     CoiDiscDetail disclosureDetail = createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure,
@@ -973,10 +976,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * @return
      */
     private boolean isAwardDisclosurable(Award award) {
-        
-        Collection<String> params = parameterService.getParameterValuesAsString(Constants.MODULE_NAMESPACE_AWARD, 
+
+        Collection<String> params = parameterService.getParameterValuesAsString(Constants.MODULE_NAMESPACE_AWARD,
                 Constants.PARAMETER_COMPONENT_DOCUMENT, AWARD_DISCLOSE_STATUS_CODES);
-        
+
         return params.contains(award.getStatusCode().toString()) && isSponsorForDisclosure(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, award.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
 
     }
@@ -985,10 +988,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * check if PD is active for disclosure
      */
     private boolean isProposalDisclosurable(DevelopmentProposal proposal) {
-        
-        Collection<String> params = parameterService.getParameterValuesAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
+
+        Collection<String> params = parameterService.getParameterValuesAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
                 Constants.PARAMETER_COMPONENT_DOCUMENT, PROPOSAL_DISCLOSE_STATUS_CODES);
-        
+
         return params.contains(proposal.getProposalStateTypeCode()) && isSponsorForDisclosure(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, proposal.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
 
     }
@@ -997,10 +1000,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * check if institutional proposal is active for disclosure
      */
     private boolean isInstitutionalProposalDisclosurable(InstitutionalProposal proposal) {
-        
-        Collection<String> params = parameterService.getParameterValuesAsString(Constants.MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL, 
+
+        Collection<String> params = parameterService.getParameterValuesAsString(Constants.MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL,
                 Constants.PARAMETER_COMPONENT_DOCUMENT, INSTITUTIONAL_PROPOSAL_DISCLOSE_STATUS_CODES);
-        
+
         return params.contains(proposal.getStatusCode().toString()) && isSponsorForDisclosure(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, proposal.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
 
     }
@@ -1009,10 +1012,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * check if protocol is active for disclosure
      */
     private boolean isProtocolDisclosurable(Protocol protocol) {
-        
+
         Collection<String> params = parameterService.getParameterValuesAsString(Constants.MODULE_NAMESPACE_PROTOCOL,
                 Constants.PARAMETER_COMPONENT_DOCUMENT, PROTOCOL_DISCLOSE_STATUS_CODES);
-        
+
         return params.contains(protocol.getProtocolStatusCode()) && isProtocolFundedByActiveSponsor(protocol);
 
     }
@@ -1021,10 +1024,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * check if protocol is active for disclosure
      */
     private boolean isIacucProtocolDisclosurable(IacucProtocol protocol) {
-        
+
         Collection<String> params = parameterService.getParameterValuesAsString(Constants.MODULE_NAMESPACE_IACUC,
                 Constants.PARAMETER_COMPONENT_DOCUMENT, IACUC_DISCLOSE_STATUS_CODES);
-        
+
         return params.contains(protocol.getProtocolStatusCode()) && isProtocolFundedByActiveSponsor(protocol);
 
     }
@@ -2725,7 +2728,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
     @Override
     public boolean checkScreeningQuestionnaireRule(CoiDisclosureDocument coiDisclosureDocument) {
-        String krmsRuleId = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_COIDISCLOSURE, 
+        String krmsRuleId = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_COIDISCLOSURE,
                 Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.COI_SCREENING_QUESTIONNAIRE_KRMS_RULE);
         if (StringUtils.isNotBlank(krmsRuleId)) {
             Map<String, Boolean> krmsResults = getKrmsRulesExecutionService().runApplicableRules(Arrays.asList(new String[]{krmsRuleId}), coiDisclosureDocument, UnitAgendaTypeService.UNIT_AGENDA_TYPE_ID);
