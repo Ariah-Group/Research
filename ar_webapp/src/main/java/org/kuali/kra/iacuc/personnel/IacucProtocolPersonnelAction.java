@@ -373,9 +373,8 @@ public class IacucProtocolPersonnelAction extends IacucProtocolAction {
                 protocol.setPrincipalInvestigatorId(null);
 
                 if (protocolPerson.getPersonId() != null) {
-                    // Assign the PI the AGGREGATOR role.
+                    // Assign the PI the APPROVER role if PI has a personId (for doc cancel).
                     KraAuthorizationService kraAuthService = getKraAuthorizationService();
-                    kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.IACUC_PROTOCOL_AGGREGATOR, protocol);
                     kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.IACUC_PROTOCOL_APPROVER, protocol);
                     protocolForm.getPermissionsHelper().resetUserStates();
                 }
