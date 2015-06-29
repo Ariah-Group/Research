@@ -206,6 +206,11 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
     }
 
     public CoiDispositionStatus getCoiEntityDispositionStatus() {
+        
+        if (entityDispositionCode != null && coiEntityDispositionStatus == null) {
+            this.refreshReferenceObject("coiEntityDispositionStatus");
+        }        
+        
         return coiEntityDispositionStatus;
     }
 
