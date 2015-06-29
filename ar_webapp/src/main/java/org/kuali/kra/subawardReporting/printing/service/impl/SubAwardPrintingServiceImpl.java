@@ -145,7 +145,6 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
             }
         }
 
-        Award award = (Award) awardDocument;
         printable.setPrintableBusinessObject(awardDocument);
         printable.setReportParameters(reportParameters);
         source = getPrintingService().print(printable);
@@ -187,38 +186,43 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
     public AttachmentDataSource printSubAwardFDPReport(KraPersistableBusinessObjectBase subAwardDoc, SubAwardPrintType subAwardPrintType, Map<String, Object> reportParameters) throws PrintingException {
         AttachmentDataSource source = null;
         AbstractPrint printable = null;
-        if (reportParameters.get("fdpType") != null) {
-            if (reportParameters.get("fdpType").equals(SUB_AWARD_FDP_TEMPLATE)) {
+
+        Object fdpType = reportParameters.get("fdpType");
+
+        if (fdpType != null) {
+            if (fdpType.equals(SUB_AWARD_FDP_TEMPLATE)) {
                 printable = getSubAwardFDPAgreement();
             } else {
                 printable = getSubAwardFDPModification();
             }
-        }
-        SubAward subAward = (SubAward) subAwardDoc;
-        Map<String, byte[]> formAttachments = new LinkedHashMap<String, byte[]>();
-        if (subAward.getSubAwardAttachments() != null) {
-            for (SubAwardAttachments subAwardAttachments : subAward.getSubAwardAttachments()) {
-                if (subAwardAttachments.getSelectToPrint()) {
-                    if (isPdf(subAwardAttachments.getAttachmentContent())) {
-                        formAttachments.put(subAwardAttachments.getAttachmentId().toString(),
-                                subAwardAttachments.getAttachmentContent());
+
+            SubAward subAward = (SubAward) subAwardDoc;
+            Map<String, byte[]> formAttachments = new LinkedHashMap<String, byte[]>();
+            if (subAward.getSubAwardAttachments() != null) {
+                for (SubAwardAttachments subAwardAttachments : subAward.getSubAwardAttachments()) {
+                    if (subAwardAttachments.getSelectToPrint()) {
+                        if (isPdf(subAwardAttachments.getAttachmentContent())) {
+                            formAttachments.put(subAwardAttachments.getAttachmentId().toString(),
+                                    subAwardAttachments.getAttachmentContent());
+                        }
                     }
                 }
             }
-        }
-        resetSelectedFormList(subAward.getSubAwardAttachments());
+            resetSelectedFormList(subAward.getSubAwardAttachments());
 
-        printable.setAttachments(formAttachments);
-        printable.setPrintableBusinessObject(subAwardDoc);
-        printable.setReportParameters(reportParameters);
-        source = getPrintingService().print(printable);
-        source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
+            printable.setAttachments(formAttachments);
+            printable.setPrintableBusinessObject(subAwardDoc);
+            printable.setReportParameters(reportParameters);
+            source = getPrintingService().print(printable);
+            source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
 
-        if (reportParameters.get("fdpType").equals(SUB_AWARD_FDP_TEMPLATE)) {
-            source.setFileName(SUB_AWARD_FDP_TEMPLATE);
-        } else {
-            source.setFileName(SUB_AWARD_FDP_MODIFICATION);
+            if (fdpType.equals(SUB_AWARD_FDP_TEMPLATE)) {
+                source.setFileName(SUB_AWARD_FDP_TEMPLATE);
+            } else {
+                source.setFileName(SUB_AWARD_FDP_MODIFICATION);
+            }
         }
+
         return source;
     }
 
@@ -239,7 +243,8 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
      * This method gets the form template from the given sponsor form table
      *
      *
-     * @param sponsorFormTemplateLists - list of sponsor form template list
+     * @param subAwardPrint
+     * @param subAwardFormList
      * @return list of sponsor form template
      */
     @Override
