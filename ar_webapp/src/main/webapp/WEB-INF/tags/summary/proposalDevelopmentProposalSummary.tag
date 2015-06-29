@@ -34,7 +34,6 @@ limitations under the License.
             /><c:set var="action" value="proposalDevelopmentApproverView"
             /><c:set var="budgetAttributes" value="${DataDictionary.Budget.attributes}"
             /><c:set var="projectIncomeAttributes" value="${DataDictionary.BudgetProjectIncome.attributes}"
-            /><c:set var="budgetProjectIncomeAttributes" value="${DataDictionary.BudgetProjectIncome.attributes}"
             /><c:set var="budgetVersion" value="${KualiForm.budgetToSummarize.budgetVersionNumber}" />
 <kul:tab tabTitle="Proposal Summary" transparentBackground="true"
          defaultOpen="true"
