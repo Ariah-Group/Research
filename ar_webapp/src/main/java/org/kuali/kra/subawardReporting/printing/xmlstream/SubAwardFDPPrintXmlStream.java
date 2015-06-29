@@ -387,9 +387,9 @@ public class SubAwardFDPPrintXmlStream implements XmlStream {
         RolodexDetailsType rolodexDetails = RolodexDetailsType.Factory.newInstance();
         RolodexDetailsType rolodexDetailsType = RolodexDetailsType.Factory.newInstance();
         OrganizationType organisation = OrganizationType.Factory.newInstance();
-        
+
         Rolodex rolodex = subaward.getRolodex();
-        
+
         if (rolodex != null) {
             subcontractDetail.setSiteInvestigator(rolodex.getFullName());
             if (rolodex.getFullName() != null && rolodex.getFullName().length() > 0) {
@@ -415,9 +415,9 @@ public class SubAwardFDPPrintXmlStream implements XmlStream {
             rolodexDetails.setEmail(rolodex.getEmailAddress());
         }
         subcontractDetail.setPONumber(subaward.getPurchaseOrderNum());
-        
+
         Organization organization = subaward.getOrganization();
-        
+
         if (organization != null) {
             Rolodex orgRolodex = organization.getRolodex();
             subcontractDetail.setSubcontractorName(organization.getOrganizationName());
@@ -500,8 +500,8 @@ public class SubAwardFDPPrintXmlStream implements XmlStream {
         PrimeRecipientContacts primeReceipient = PrimeRecipientContacts.Factory.newInstance();
         OrganizationType organisation = OrganizationType.Factory.newInstance();
         RolodexDetailsType rolodexDetails = RolodexDetailsType.Factory.newInstance();
-        
-      String primeOrgId = "";
+
+        String primeOrgId = "";
 
         try {
             ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
@@ -509,12 +509,12 @@ public class SubAwardFDPPrintXmlStream implements XmlStream {
                     ParameterConstants.DOCUMENT_COMPONENT, Constants.ARIAH_SUBAWARD_ORGID_SUBAWARD_REPORTS);
         } catch (Exception e) {
             e.printStackTrace();
-        }        
-        
+        }
+
         Map<String, String> primeUniversityMap = new HashMap<String, String>();
         primeUniversityMap.put("organizationId", primeOrgId);
         Organization primeOrganisation = businessObjectService.findByPrimaryKey(Organization.class, primeUniversityMap);
-        
+
         Rolodex primeOrgRolodex = primeOrganisation.getRolodex();
         if (primeOrgRolodex != null) {
             organisation.setOrganizationName(primeOrganisation.getOrganizationName());
@@ -613,31 +613,43 @@ public class SubAwardFDPPrintXmlStream implements XmlStream {
     public void setPrimePrincipalInvestigator(SubContractData subContractData, SubAward subaward) {
         PersonDetailsType personDetails = PersonDetailsType.Factory.newInstance();
         List<PersonDetailsType> personDetailsList = new ArrayList<PersonDetailsType>();
-        Map<String, String> awardNum = new HashMap<String, String>();
-        if (awardNumber != null) {
-            awardNum.put("awardNumber", awardNumber);
-            List<AwardPerson> awardNumList = (List<AwardPerson>) businessObjectService.findMatchingOrderBy(AwardPerson.class, awardNum, "sequenceNumber", true);
-            AwardPerson awardPerson = awardNumList.get(awardNumList.size() - 1);
-            KcPerson awardPersons = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(awardPerson.getPersonId());
 
-            personDetails.setFullName(awardPersons.getFullName());
-            personDetails.setAddressLine1(awardPersons.getAddressLine1());
-            personDetails.setAddressLine2(awardPersons.getAddressLine2());
-            personDetails.setAddressLine3(awardPersons.getAddressLine3());
-            personDetails.setCity(awardPersons.getCity());
-            String countryCode = awardPersons.getCountryCode();
-            String stateName = awardPersons.getState();
-            if (countryCode != null && countryCode.length() > 0 && stateName != null && stateName.length() > 0) {
-                State state = KraServiceLocator.getService(PrintingUtils.class).getStateFromName(countryCode, stateName);
-                if (state != null) {
-                    personDetails.setState(state.getName());
+        if (awardNumber != null) {
+
+            Map<String, String> awardNum = new HashMap<String, String>();
+            awardNum.put("awardNumber", awardNumber);
+            awardNum.put("roleCode", Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+
+            List<AwardPerson> awdPersonsPI = (List<AwardPerson>) businessObjectService.findMatchingOrderBy(AwardPerson.class, awardNum, "sequenceNumber", true);
+
+            if (awdPersonsPI != null && awdPersonsPI.size() > 0) {
+
+                AwardPerson awardPerson = awdPersonsPI.get(0);
+
+                if (awardPerson.getPersonId() != null) {
+                    KcPerson awardPersons = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(awardPerson.getPersonId());
+
+                    personDetails.setFullName(awardPersons.getFullName());
+                    personDetails.setAddressLine1(awardPersons.getAddressLine1());
+                    personDetails.setAddressLine2(awardPersons.getAddressLine2());
+                    personDetails.setAddressLine3(awardPersons.getAddressLine3());
+                    personDetails.setCity(awardPersons.getCity());
+                    String countryCode = awardPersons.getCountryCode();
+                    String stateName = awardPersons.getState();
+                    if (countryCode != null && countryCode.length() > 0 && stateName != null && stateName.length() > 0) {
+                        State state = KraServiceLocator.getService(PrintingUtils.class).getStateFromName(countryCode, stateName);
+                        if (state != null) {
+                            personDetails.setState(state.getName());
+                        }
+                    }
+                    personDetails.setPostalCode(awardPersons.getPostalCode());
+                    personDetails.setMobilePhoneNumber(awardPersons.getOfficePhone());
+                    personDetails.setFaxNumber(awardPersons.getFaxNumber());
+                    personDetails.setEmailAddress(awardPersons.getEmailAddress());
                 }
             }
-            personDetails.setPostalCode(awardPersons.getPostalCode());
-            personDetails.setMobilePhoneNumber(awardPersons.getOfficePhone());
-            personDetails.setFaxNumber(awardPersons.getFaxNumber());
-            personDetails.setEmailAddress(awardPersons.getEmailAddress());
         }
+        
         personDetailsList.add(personDetails);
         subContractData.setPrimePrincipalInvestigatorArray((PersonDetailsType[]) personDetailsList.toArray(new PersonDetailsType[0]));
     }
