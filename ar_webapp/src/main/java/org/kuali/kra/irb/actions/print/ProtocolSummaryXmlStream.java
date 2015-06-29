@@ -180,7 +180,7 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
 
     private String getProposalParameterValue(String param) {
         ParameterService parameterService = KraServiceLocator.getService(ParameterService.class);
-        return parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
+        return parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
                 Constants.PARAMETER_COMPONENT_DOCUMENT, param);
     }
 
@@ -623,7 +623,6 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
                 ProtocolKeyPersonsType protocolKeyPersonsType = protocolSummary.addNewProtocolKeyPersons();
                 protocolKeyPersonsType.setPersonId(protocolPerson.getPersonId());
                 protocolKeyPersonsType.setPersonName(protocolPerson.getPersonName());
-                protocolKeyPersonsType.setAffiliationTypeCode(protocolPerson.getAffiliationType().getAffiliationTypeCode());
                 protocolKeyPersonsType.setNonEmployeeFlag((protocolPerson.isNonEmployee() ? "Y" : "N"));
                 protocolKeyPersonsType.setProtocolNumber(protocolPerson.getProtocolNumber());
                 protocolKeyPersonsType.setSequenceNumber(protocolPerson.getSequenceNumber());
@@ -632,8 +631,9 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
                     protocolKeyPersonsType.setPersonRole(protocolPerson.getProtocolPersonRole().getDescription());
                 }
                 protocolKeyPersonsType.setTrainingFlag((protocolPerson.isTrained() ? "Y" : "N"));
-                protocolKeyPersonsType.setAffiliationTypeCode(protocolPerson.getAffiliationType().getAffiliationTypeCode());
+
                 if (protocolPerson.getAffiliationType() != null) {
+                    protocolKeyPersonsType.setAffiliationTypeCode(protocolPerson.getAffiliationType().getAffiliationTypeCode());
                     protocolKeyPersonsType.setAffiliationTypeDesc(protocolPerson.getAffiliationType().getDescription());
                 }
             } else if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CORRESPONDENT_CRC)
