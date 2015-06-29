@@ -3864,4 +3864,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public KrmsRulesContext getKrmsRulesContext() {
         return getAwardDocument();
     }
+    
+    public AwardAmountInfo getLatestAwardAmountInfo() {
+        return getAwardAmountInfoService().fetchAwardAmountInfoWithHighestTransactionId(awardAmountInfos);
+    }    
 }
