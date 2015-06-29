@@ -383,7 +383,7 @@ public class IacucProtocolPersonnelAction extends IacucProtocolAction {
                     (!StringUtils.equals(protocolPerson.getPersonId(),protocol.getPrincipalInvestigatorId()))) {
                
                 if (protocolPerson.getPersonId() != null) {
-                    // Assign the Other Role To Viewer the AGGREGATOR role.
+                    // Assign the Protocol Viewer role.
                     KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
                     kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.IACUC_PROTOCOL_VIEWER, protocol);
                     protocolForm.getPermissionsHelper().resetUserStates();
