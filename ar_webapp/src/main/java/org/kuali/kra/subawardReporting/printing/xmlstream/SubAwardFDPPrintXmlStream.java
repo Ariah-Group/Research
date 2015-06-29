@@ -646,6 +646,25 @@ public class SubAwardFDPPrintXmlStream implements XmlStream {
                     personDetails.setMobilePhoneNumber(awardPersons.getOfficePhone());
                     personDetails.setFaxNumber(awardPersons.getFaxNumber());
                     personDetails.setEmailAddress(awardPersons.getEmailAddress());
+                } else if(awardPerson.getRolodexId() != null && awardPerson.getRolodex()!=null){
+                    // is non-employee
+                    personDetails.setFullName(awardPerson.getRolodex().getFullName());
+                    personDetails.setAddressLine1(awardPerson.getRolodex().getAddressLine1());
+                    personDetails.setAddressLine2(awardPerson.getRolodex().getAddressLine2());
+                    personDetails.setAddressLine3(awardPerson.getRolodex().getAddressLine3());
+                    personDetails.setCity(awardPerson.getRolodex().getCity());
+                    String countryCode = awardPerson.getRolodex().getCountryCode();
+                    String stateName = awardPerson.getRolodex().getState();
+                    if (countryCode != null && countryCode.length() > 0 && stateName != null && stateName.length() > 0) {
+                        State state = KraServiceLocator.getService(PrintingUtils.class).getStateFromName(countryCode, stateName);
+                        if (state != null) {
+                            personDetails.setState(state.getName());
+                        }
+                    }
+                    personDetails.setPostalCode(awardPerson.getRolodex().getPostalCode());
+                    personDetails.setMobilePhoneNumber(awardPerson.getRolodex().getPhoneNumber());
+                    personDetails.setFaxNumber(awardPerson.getRolodex().getFaxNumber());
+                    personDetails.setEmailAddress(awardPerson.getRolodex().getEmailAddress());
                 }
             }
         }
