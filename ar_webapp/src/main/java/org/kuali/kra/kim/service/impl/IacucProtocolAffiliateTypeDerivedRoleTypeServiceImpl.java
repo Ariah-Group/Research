@@ -73,7 +73,7 @@ public class IacucProtocolAffiliateTypeDerivedRoleTypeServiceImpl extends Derive
             for (ProtocolPersonBase person : protocol.getProtocolPersons()) {
                 //Find protocol person that matches the principal id
                 if (StringUtils.equals(principalId, person.getPersonId())) {
-                    if (StringUtils.equals(roleName, getAffiliationType(person.getAffiliationType().getAffiliationTypeCode()))) {
+                    if (StringUtils.equals(roleName, getAffiliationType(person.getAffiliationTypeCode()))) {
                         return true;
                     }
                 }
