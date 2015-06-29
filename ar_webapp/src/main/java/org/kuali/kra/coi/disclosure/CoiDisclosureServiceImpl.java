@@ -408,7 +408,6 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 coiDisclProjects.add(coiDisclProject);
             }
         }
-
     }
 
     private boolean isAwardHierarchyIncluded(List<String> rootAwardNumbers, Award award) {
