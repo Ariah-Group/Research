@@ -342,6 +342,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      *
      * @return Returns the hierarchy.
      */
+    @Override
     public String getHierarchyStatus() {
         return hierarchyStatus;
     }
@@ -349,7 +350,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     /**
      * Sets the hierarchy attribute value.
      *
-     * @param hierarchy The hierarchy to set.
+     * @param hierarchyStatus The hierarchyStatus to set.
      */
     public void setHierarchyStatus(String hierarchyStatus) {
         this.hierarchyStatus = hierarchyStatus;
@@ -532,6 +533,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         this.proposalPersons = argProposalPersons;
     }
 
+    @Override
     public String getActivityTypeCode() {
         return activityTypeCode;
     }
@@ -587,6 +589,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         this.continuedFrom = continuedFrom;
     }
 
+    @Override
     public Date getRequestedEndDateInitial() {
         return requestedEndDateInitial;
     }
@@ -595,6 +598,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         this.requestedEndDateInitial = requestedEndDateInitial;
     }
 
+    @Override
     public Date getRequestedStartDateInitial() {
         return requestedStartDateInitial;
     }
@@ -603,14 +607,17 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         this.requestedStartDateInitial = requestedStartDateInitial;
     }
 
+    @Override
     public String getSponsorCode() {
         return sponsorCode;
     }
 
+    @Override
     public void setSponsorCode(String sponsorCode) {
         this.sponsorCode = sponsorCode;
     }
 
+    @Override
     public String getTitle() {
         return title;
     }
@@ -727,7 +734,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     /**
      * Sets the anticipatedAwardType attribute value.
      *
-     * @param anticipatedAwardType The anticipatedAwardType to set.
+     * @param anticipatedAwardTypeCode The anticipatedAwardTypeCode to set.
      */
     public void setAnticipatedAwardTypeCode(Integer anticipatedAwardTypeCode) {
         this.anticipatedAwardTypeCode = anticipatedAwardTypeCode;
@@ -800,6 +807,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      *
      * @return Returns the primeSponsorCode.
      */
+    @Override
     public String getPrimeSponsorCode() {
         return primeSponsorCode;
     }
@@ -1295,6 +1303,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         this.sponsor = sponsor;
     }
 
+    @Override
     public String getSponsorName() {
         if (getSponsor() != null) {
             return getSponsor().getSponsorName();
@@ -1433,7 +1442,6 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      * attachment bo with proper set up.
      *
      * @param proposalPersonBiography
-     * @throws Exception
      */
     public void addProposalPersonBiography(ProposalPersonBiography proposalPersonBiography) {
         getProposalPersonBiographyService().addProposalPersonBiography(this.getProposalDocument(), proposalPersonBiography);
@@ -1454,7 +1462,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      *
      * Method to delete a personnel attachment from personnel attachment list
      *
-     * @param narrative
+     * @param lineToDelete
      */
     public void deleteProposalPersonBiography(int lineToDelete) {
         getProposalPersonBiographyService().deleteProposalPersonBiography(this.getProposalDocument(), lineToDelete);
@@ -1474,7 +1482,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      *
      * Method to delete a narrative from narratives list
      *
-     * @param narrative
+     * @param lineToDelete
      */
     public void deleteProposalAttachment(int lineToDelete) {
         getNarrativeService().deleteProposalAttachment(this.getProposalDocument(), lineToDelete);
@@ -1494,7 +1502,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      *
      * Method to delete a narrative from narratives list
      *
-     * @param narrative
+     * @param lineToDelete
      */
     public void deleteInstitutionalAttachment(int lineToDelete) {
         getNarrativeService().deleteInstitutionalAttachment(this.getProposalDocument(), lineToDelete);
@@ -1727,10 +1735,12 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return KraServiceLocator.getService(YnqService.class);
     }
 
+    @Override
     public String getBudgetStatus() {
         return budgetStatus;
     }
 
+    @Override
     public void setBudgetStatus(String budgetStatus) {
         this.budgetStatus = budgetStatus;
     }
@@ -1818,6 +1828,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return s2sOpportunity;
     }
 
+    @Override
     public ProposalPerson getProposalEmployee(String personId) {
         for (ProposalPerson proposalPerson : getProposalPersons()) {
             if (personId.equals(proposalPerson.getPersonId())) {
@@ -1827,6 +1838,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return null;
     }
 
+    @Override
     public ProposalPerson getProposalNonEmployee(Integer rolodexId) {
         for (ProposalPerson proposalPerson : getProposalPersons()) {
             if (rolodexId.equals(proposalPerson.getRolodexId())) {
@@ -1836,6 +1848,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return null;
     }
 
+    @Override
     public ContactRole getProposalEmployeeRole(String personId) {
         ProposalPerson principalInvestigator = getPrincipalInvestigator();
         if (principalInvestigator != null && personId.equals(principalInvestigator.getPersonId())) {
@@ -1854,6 +1867,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return null;
     }
 
+    @Override
     public ContactRole getProposalNonEmployeeRole(Integer rolodexId) {
         ProposalPerson principalInvestigator = getPrincipalInvestigator();
         if (principalInvestigator != null && rolodexId.equals(principalInvestigator.getRolodexId())) {
@@ -1890,6 +1904,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         this.creationStatusCode = creationStatusCode;
     }
 
+    @Override
     public final ActivityType getActivityType() {
         return activityType;
     }
@@ -1941,6 +1956,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      *
      * @return
      */
+    @Override
     public boolean isSponsorNihMultiplePi() {
         return sponsorNihMultiplePi;
     }
@@ -2103,6 +2119,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      * In the case where a person is in the proposal twice (Investigator and Key
      * Person), this method's return list contains only the Investigator.
      *
+     * @return
      * @see org.kuali.kra.budget.core.BudgetParent#getPersonRolodexList()
      */
     @Override
@@ -2121,10 +2138,12 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return filtered;
     }
 
+    @Override
     public Unit getUnit() {
         return getOwnedByUnit();
     }
 
+    @Override
     public String getUnitNumber() {
         return getOwnedByUnitNumber();
     }
@@ -2144,10 +2163,12 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         }
     }
 
+    @Override
     public String getDefaultBudgetStatusParameter() {
         return Constants.BUDGET_STATUS_INCOMPLETE_CODE;
     }
 
+    @Override
     public boolean isParentInHierarchyComplete() {
         return isParentProposalComplete();
     }
@@ -2227,10 +2248,12 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         this.primeSponsorCode = primeSponsor != null ? primeSponsor.getSponsorCode() : null;
     }
 
+    @Override
     public String getParentNumber() {
         return this.getProposalNumber();
     }
 
+    @Override
     public String getParentPIName() {
         String proposalInvestigatorName = null;
         for (ProposalPerson pPerson : this.getProposalPersons()) {
@@ -2242,6 +2265,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return proposalInvestigatorName;
     }
 
+    @Override
     public String getParentTitle() {
         return this.getTitle();
     }
@@ -2249,12 +2273,10 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     @Override
     public String getIsOwnedByUnit() {
         Map<String, String> proposalNumberMap = new HashMap<String, String>();
-        String proposalNumber = this.getProposalNumber();
-        proposalNumberMap.put("proposalNumber", proposalNumber);
+        proposalNumberMap.put("proposalNumber", this.getProposalNumber());
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         LookupableDevelopmentProposal lookupDevProposal = (LookupableDevelopmentProposal) businessObjectService
-                .findByPrimaryKey(LookupableDevelopmentProposal.class,
-                        proposalNumberMap);
+                .findByPrimaryKey(LookupableDevelopmentProposal.class, proposalNumberMap);
         if (lookupDevProposal != null) {
             return lookupDevProposal.getSponsor().getOwnedByUnit();
         }
@@ -2267,9 +2289,9 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
             if (pPerson.getPersonId() != null
                     && pPerson.getPersonId().equals(personId)
                     || pPerson.getRolodexId() != null
-                    && pPerson.getRolodexId().toString().equals(personId)) {
+                    && String.valueOf(pPerson.getRolodexId()).equals(personId)) {
                 flag = 2;
-                if (pPerson.getProposalPersonRoleId().equals("PI")) {
+                if (pPerson.getProposalPersonRoleId().equals(Constants.PRINCIPAL_INVESTIGATOR_ROLE)) {
                     flag = 1;
                     break;
                 }
@@ -2330,6 +2352,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         return budgetChangedDataList;
     }
 
+    @Override
     public KrmsRulesContext getKrmsRulesContext() {
         return (KrmsRulesContext) getProposalDocument();
     }
@@ -2419,6 +2442,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     }
 
     /**
+     * @return sponsorDeadlineRequired
      */
     public boolean isSponsorDeadlineRequired() {
         return sponsorDeadlineRequired;
@@ -2466,10 +2490,10 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      *
      * @return KC Person Service.
      */
+    @Override
     public KcPersonService getKcPersonService() {
         if (this.kcPersonService == null) {
-            this.kcPersonService = KraServiceLocator
-                    .getService(KcPersonService.class);
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
         }
         return this.kcPersonService;
     }
