@@ -547,8 +547,8 @@ public interface Constants {
     public static final String FANDA_RATES_PANEL_NAME = "Rates";
     public static final String REPORTS_PANEL_ANCHOR = "Reports";
     public static final String REPORTS_PANEL_NAME = "Reports";
-    public static final String CONTACTS_PANEL_NAME = "Contacts";
-    public static final String CONTACTS_PANEL_ANCHOR = "Contacts";
+    public static final String CONTACTS_PANEL_NAME = "contacts";
+    public static final String CONTACTS_PANEL_ANCHOR = "contacts";
     public static final String TERMS_PANEL_ANCHOR = "Terms";
     public static final String TERMS_PANEL_NAME = "Terms";
     public static final String PAYMENT_AND_INVOICES_PANEL_ANCHOR = "Payments";
