@@ -120,14 +120,13 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
                 if (moduleQuestionnaireBean.isFinalDoc() || (getQuestionnaireService().isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire()) && questionnaireUsage.getQuestionnaire().isActive())) {
                     if (StringUtils.isNotBlank(questionnaireUsage.getRuleId())) {
-                        if (ruleResults.containsKey(questionnaireUsage.getRuleId()) && ruleResults.get(questionnaireUsage.getRuleId()).booleanValue()) {
+                        if (ruleResults.containsKey(questionnaireUsage.getRuleId()) && ruleResults.get(questionnaireUsage.getRuleId())) {
                             usages.add(questionnaireUsage);
                         }
                     } else {
                         usages.add(questionnaireUsage);
                     }
                 }
-
             }
         }
         return usages;
@@ -141,14 +140,17 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         for (QuestionnaireUsage questionnaireUsage : getPublishedQuestionnaire(moduleQuestionnaireBean)) {
             String questionnaireId = questionnaireUsage.getQuestionnaire().getQuestionnaireId();
             if (answerHeaderMap.containsKey(questionnaireId)) {
-                answerHeaders.add(answerHeaderMap.get(questionnaireId));
-                if (!questionnaireUsage.getQuestionnaire().getQuestionnaireRefId().equals(answerHeaderMap.get(questionnaireId).getQuestionnaireRefIdFk())) {
+
+                AnswerHeader ansHead = answerHeaderMap.get(questionnaireId);
+
+                answerHeaders.add(ansHead);
+                if (!questionnaireUsage.getQuestionnaire().getQuestionnaireRefId().equals(ansHead.getQuestionnaireRefIdFk())) {
                     // the current qnaire is "Active"
                     if (questionnaireUsage.getQuestionnaire().isActive()) {
-                        answerHeaderMap.get(questionnaireId).setNewerVersionPublished(true);
-                        answerHeaderMap.get(questionnaireId).setActiveQuestionnaire(true);
+                        ansHead.setNewerVersionPublished(true);
+                        ansHead.setActiveQuestionnaire(true);
                     } else {
-                        answerHeaderMap.get(questionnaireId).setActiveQuestionnaire(false);
+                        ansHead.setActiveQuestionnaire(false);
                     }
                 }
             } else {
@@ -268,13 +270,13 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         }
 
         List<AnswerHeader> answerHeaders = initAnswerHeaders(moduleQuestionnaireBean, answerHeaderMap);
-        
+
         for (AnswerHeader answerHeader : answerHeaders) {
             Collections.sort(answerHeader.getAnswers(), new AnswerComparator());
             answerHeader.setCompleted(isQuestionnaireAnswerComplete(answerHeader.getAnswers()));
             answerHeader.setHasVisibleQuestion(hasVisibleQuestion(answerHeader.getAnswers()));
         }
-        
+
         return answerHeaders;
     }
 
@@ -622,15 +624,14 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                     if (ConditionType.RULE_EVALUATION.getCondition().equals(questionnaireQuestion.getCondition())) {
                         // evaluate this rule, so the ruleReferenced map can be populated
                         String ruleId = questionnaireQuestion.getConditionValue();
-                         if (ruleResults.containsKey(ruleId) && ruleResults.get(ruleId).booleanValue()) {
+                        if (ruleResults.containsKey(ruleId) && ruleResults.get(ruleId)) {
                             answer.setRuleMatched(true);
                         } else {
                             answer.setRuleMatched(false);
                         }
                     }
-                }
-                else if ((ConditionType.RULE_EVALUATION.getCondition().equals(questionnaireQuestion.getCondition()) 
-                            && ruleResults.containsKey(questionnaireQuestion.getConditionValue()) && ruleResults.get(questionnaireQuestion.getConditionValue()).booleanValue()) 
+                } else if ((ConditionType.RULE_EVALUATION.getCondition().equals(questionnaireQuestion.getCondition())
+                        && ruleResults.containsKey(questionnaireQuestion.getConditionValue()) && ruleResults.get(questionnaireQuestion.getConditionValue()))
                         || isAnyAnswerMatched(questionnaireQuestion.getCondition(),
                                 parentAnswers.get(questionnaireQuestion.getParentQuestionNumber()), questionnaireQuestion.getConditionValue())) {
                     answer.setMatchedChild(YES);
@@ -934,7 +935,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         } else if (CoeusModule.AWARD_MODULE_CODE.equals(moduleItemCode)) {
             return new AwardModuleQuestionnaireBeanBase(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
         } else if (CoeusModule.INSTITUTIONAL_PROPOSAL_MODULE_CODE.equals(moduleItemCode)) {
-            return new InstitutionalProposalModuleQuestionnaireBeanBase(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);            
+            return new InstitutionalProposalModuleQuestionnaireBeanBase(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
         } else if (CoeusModule.IRB_MODULE_CODE.equals(moduleItemCode)) {
             return new ProtocolModuleQuestionnaireBean(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
         } else if (CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE.equals(moduleItemCode)) {

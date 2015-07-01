@@ -110,7 +110,7 @@ public abstract class ModuleQuestionnaireBean {
      * @return
      */
     public String getRuleResults() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         if (GlobalVariables.getUserSession().retrieveObject(getSessionContextKey() + "-rulereferenced") != null) {
             Map<String, Boolean> ruleResults = (Map<String, Boolean>) GlobalVariables.getUserSession().retrieveObject(
                     getSessionContextKey() + "-rulereferenced");

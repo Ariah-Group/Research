@@ -72,7 +72,7 @@ public interface QuestionnaireAnswerService {
     /**
      *
      * This method is to update questionnaire answers to new version and also
-     * copy the answers from the olld version if question is in not updated to
+     * copy the answers from the old version if question is in not updated to
      * new version.
      *
      * @param oldAnswerHeader
@@ -86,6 +86,7 @@ public interface QuestionnaireAnswerService {
      * protocol version.
      *
      * @param moduleQuestionnaireBean
+     * @param sequenceNumber
      * @return
      */
     List<AnswerHeader> versioningQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean, Integer sequenceNumber);
@@ -106,7 +107,7 @@ public interface QuestionnaireAnswerService {
      * purely for 'lookup' question because js 'onchange' is not working when
      * 'lookup' is used.
      *
-     * @param answers
+     * @param answerHeader
      */
     void setupChildAnswerIndicator(AnswerHeader answerHeader);
 
@@ -172,11 +173,7 @@ public interface QuestionnaireAnswerService {
     /**
      * Get the questionnaire usages for a module and submodule.
      *
-     * @param coeusModule the coeus module of the questionnaires you are looking
-     * for.
-     * @param coeusSubModule the coeus sub-module of the questionnaires you are
-     * looking for.
-     * @param finalDoc
+     * @param moduleQuestionnaireBean
      * @return
      */
     public List<QuestionnaireUsage> getPublishedQuestionnaire(ModuleQuestionnaireBean moduleQuestionnaireBean);
@@ -187,8 +184,8 @@ public interface QuestionnaireAnswerService {
      * sub-module codes in one of its usages.
      *
      * @param questionnaireId
-     * @param coeusModule
-     * @param coeusSubModule
+     * @param coeusModuleCode
+     * @param coeusSubModuleCode
      * @return
      */
     public boolean checkIfQuestionnaireIsActiveForModule(Integer questionnaireId, String coeusModuleCode, String coeusSubModuleCode);

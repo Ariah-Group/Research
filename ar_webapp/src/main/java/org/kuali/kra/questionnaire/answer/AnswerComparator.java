@@ -127,25 +127,28 @@ public class AnswerComparator implements Comparator<Answer> {
             retVal = -1;
             for (int i = 0; i < ancestors1.size(); i++) {
 
-                if (!ObjectUtils.equals(ancestors1.get(i).getQuestionNumber(), ancestors2.get(i).getQuestionNumber())) {
-                    retVal = ancestors1.get(i).getQuestionnaireQuestion().getQuestionSeqNumber().compareTo(
-                            ancestors2.get(i).getQuestionnaireQuestion().getQuestionSeqNumber());
+                Answer answerAncest1 = ancestors1.get(i);
+                Answer answerAncest2 = ancestors2.get(i);
+
+                if (!ObjectUtils.equals(answerAncest1.getQuestionNumber(), answerAncest2.getQuestionNumber())) {
+                    retVal = answerAncest1.getQuestionnaireQuestion().getQuestionSeqNumber().compareTo(
+                            answerAncest2.getQuestionnaireQuestion().getQuestionSeqNumber());
                     break;
                 }
-
             }
         } else {
             for (int i = 0; i < ancestors2.size(); i++) {
                 retVal = 1;
 
-                if (!ObjectUtils.equals(ancestors2.get(i).getQuestionNumber(), ancestors1.get(i).getQuestionNumber())) {
-                    retVal = ancestors1.get(i).getQuestionnaireQuestion().getQuestionSeqNumber().compareTo(
-                            ancestors2.get(i).getQuestionnaireQuestion().getQuestionSeqNumber());
+                Answer answerAncest1 = ancestors1.get(i);
+                Answer answerAncest2 = ancestors2.get(i);
+
+                if (!ObjectUtils.equals(answerAncest2.getQuestionNumber(), answerAncest1.getQuestionNumber())) {
+                    retVal = answerAncest1.getQuestionnaireQuestion().getQuestionSeqNumber().compareTo(
+                            answerAncest2.getQuestionnaireQuestion().getQuestionSeqNumber());
                     break;
                 }
-
             }
-
         }
         return retVal;
     }
@@ -160,10 +163,8 @@ public class AnswerComparator implements Comparator<Answer> {
         while (thisAnswer.getQuestionnaireQuestion().getParentQuestionNumber() > 0) {
             thisAnswer = thisAnswer.getParentAnswer().get(0);
             answers.add(thisAnswer);
-
         }
         Collections.reverse(answers);
         return answers;
     }
-
 }

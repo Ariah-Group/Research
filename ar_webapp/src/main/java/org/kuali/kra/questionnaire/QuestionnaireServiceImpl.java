@@ -136,10 +136,12 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
         Set<String> modules = new HashSet<String>();
         Collection<String> parameters = this.parameterService.getParameterValuesAsString(Constants.PARAMETER_MODULE_QUESTIONNAIRE, Constants.PARAMETER_COMPONENT_PERMISSION, PARAM_NAME);
+        
+        final String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+        
         for (String permission : parameters) {
             String[] params = permission.split(":");
-            boolean unitAuthCheck = unitAuthorizationService.hasPermission(GlobalVariables.getUserSession().getPerson()
-                    .getPrincipalId(), params[1], params[0]);
+            boolean unitAuthCheck = unitAuthorizationService.hasPermission(principalId, params[1], params[0]);
             if (unitAuthCheck && !modules.contains(permissionModuleMap.get(permission))) {
                 modules.add(permissionModuleMap.get(permission));
             }

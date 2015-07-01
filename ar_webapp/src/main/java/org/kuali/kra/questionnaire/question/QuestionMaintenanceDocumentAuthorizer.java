@@ -75,7 +75,10 @@ public class QuestionMaintenanceDocumentAuthorizer extends MaintenanceDocumentAu
      */
     protected Set<String> getDocumentActions(Document document) {
         Set<String> documentActions = new HashSet<String>();
-        if (getQuestionnaireAuthorizationService().hasPermission(PermissionConstants.MODIFY_QUESTION)
+
+        boolean hasModifyPermissions = getQuestionnaireAuthorizationService().hasPermission(PermissionConstants.MODIFY_QUESTION);
+
+        if (hasModifyPermissions
                 && (document.getDocumentHeader().getWorkflowDocument().getStatus().getCode().equals(
                         KewApiConstants.ROUTE_HEADER_INITIATED_CD) || document.getDocumentHeader().getWorkflowDocument()
                 .getStatus().getCode().equals(KewApiConstants.ROUTE_HEADER_SAVED_CD))) {
@@ -90,13 +93,14 @@ public class QuestionMaintenanceDocumentAuthorizer extends MaintenanceDocumentAu
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_BLANKET_APPROVE);
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_CLOSE);
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_CANCEL);
-        } else if (getQuestionnaireAuthorizationService().hasPermission(PermissionConstants.MODIFY_QUESTION)
-                && (document.getDocumentHeader().getWorkflowDocument().getStatus().getCode()
+
+        } else if (hasModifyPermissions && (document.getDocumentHeader().getWorkflowDocument().getStatus().getCode()
                 .equals(KewApiConstants.ROUTE_HEADER_FINAL_CD))) {
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_RELOAD);
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_CLOSE);
+
         } else if (getQuestionnaireAuthorizationService().hasPermission(PermissionConstants.VIEW_QUESTION)
-                || getQuestionnaireAuthorizationService().hasPermission(PermissionConstants.MODIFY_QUESTION)) {
+                || hasModifyPermissions) {
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_CLOSE);
         } else {
             throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalId(), "Edit/View", "Question");

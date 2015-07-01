@@ -31,6 +31,7 @@
 package org.kuali.kra.questionnaire;
 
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -52,7 +53,7 @@ public class QuestionnaireAuthorizationServiceImpl implements QuestionnaireAutho
     @Override
     public boolean hasPermission(String permissionName) {
         KcPerson person = kcPersonService.getKcPersonByUserName(getUserName());
-        return unitAuthorizationService.hasPermission(person.getPersonId(), "KC-QUESTIONNAIRE", permissionName);
+        return unitAuthorizationService.hasPermission(person.getPersonId(), Constants.PARAMETER_MODULE_QUESTIONNAIRE, permissionName);
 
     }
 
