@@ -78,15 +78,17 @@ import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 /**
- * <code>Struts Action</code> class process requests from Proposal Abstract Attachments page.
- * It handles Proposal attachments, Institutional attachments, Personnel attachments and Abstracts.
- * Attachment(Narrative) Module Maintenance, Narrative user Rights, Upload Attachment, View Attachment, 
- * Abstract Maintenance are the main features processed by this class 
- * 
+ * <code>Struts Action</code> class process requests from Proposal Abstract
+ * Attachments page. It handles Proposal attachments, Institutional attachments,
+ * Personnel attachments and Abstracts. Attachment(Narrative) Module
+ * Maintenance, Narrative user Rights, Upload Attachment, View Attachment,
+ * Abstract Maintenance are the main features processed by this class
+ *
  * @author KRADEV team
  * @version 1.0
  */
 public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevelopmentAction {
+
     private static final String PROPOSAL_NARRATIVE_TYPE_GROUP2 = "proposalNarrativeTypeGroup";
     private static final String EMPTY_STRING = "";
     private static final String MODULE_NUMBER = "moduleNumber";
@@ -99,31 +101,35 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     private static final String CONFIRM_DELETE_INSTITUTIONAL_ATTACHMENT_KEY = "confirmDeleteInstitutionalAttachment";
     private static final String CONFIRM_DELETE_PERSONNEL_ATTACHMENT_KEY = "confirmDeletePersonnelAttachment";
     private static final String CONFIRM_DELETE_PROPOSAL_ATTACHMENT_KEY = "confirmDeleteProposalAttachment";
-    
+
     /**
-     * Overridden method from ProposalDevelopmentAction. It populates Narrative module user rights
-     * before the save.
-     * Proposal Attachments and Institutional Attachments are being saved into <i>NARRATIVE</i> table
-     * 
-     * @return 
-     * @throws java.lang.Exception 
-     * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * Overridden method from ProposalDevelopmentAction. It populates Narrative
+     * module user rights before the save. Proposal Attachments and
+     * Institutional Attachments are being saved into <i>NARRATIVE</i> table
+     *
+     * @return
+     * @throws java.lang.Exception
+     * @see
+     * org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction#save(org.apache.struts.action.ActionMapping,
+     * org.apache.struts.action.ActionForm,
+     * javax.servlet.http.HttpServletRequest,
+     * javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        
+
         Narrative newNarrative = proposalDevelopmentForm.getNewNarrative();
-        
+
         boolean rulePassed = true;
         // check any business rules
-        rulePassed &= getKualiRuleService().applyRules(new SaveNarrativesEvent(EMPTY_STRING,proposalDevelopmentDocument,newNarrative, proposalDevelopmentForm.getNarratives()));
+        rulePassed &= getKualiRuleService().applyRules(new SaveNarrativesEvent(EMPTY_STRING, proposalDevelopmentDocument, newNarrative, proposalDevelopmentForm.getNarratives()));
         rulePassed &= getKualiRuleService().applyRules(new SavePersonnelAttachmentEvent(EMPTY_STRING, proposalDevelopmentDocument, proposalDevelopmentForm.getNewPropPersonBio()));
-        rulePassed &= getKualiRuleService().applyRules(new SaveInstituteAttachmentsEvent(EMPTY_STRING,proposalDevelopmentDocument));
+        rulePassed &= getKualiRuleService().applyRules(new SaveInstituteAttachmentsEvent(EMPTY_STRING, proposalDevelopmentDocument));
 
-        if (!rulePassed){
+        if (!rulePassed) {
             mapping.findForward(Constants.MAPPING_BASIC);
         }
         // refresh, so the status can be displayed properly on tab title
@@ -131,35 +137,43 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         for (Narrative narrativeToBeSaved : narativeListToBeSaved) {
             narrativeToBeSaved.refreshNonUpdateableReferences();
         }
-        
+
         return super.save(mapping, form, request, response);
     }
+
     /**
      * Populates module level rights for each narrative for logged in user.
-     * @return 
+     *
+     * @return
      * @throws java.lang.Exception
-     * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see
+     * org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction#execute(org.apache.struts.action.ActionMapping,
+     * org.apache.struts.action.ActionForm,
+     * javax.servlet.http.HttpServletRequest,
+     * javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        ((ProposalDevelopmentForm)form).getProposalDevelopmentParameters().put(PROPOSAL_NARRATIVE_TYPE_GROUP2,getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, PROPOSAL_NARRATIVE_TYPE_GROUP2));
-        ActionForward actionForward = super.execute(mapping, form, request, response); 
-        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument)((ProposalDevelopmentForm)form).getDocument();
-        KraServiceLocator.getService(ProposalPersonBiographyService.class).setPersonnelBioTimeStampUser(doc.getDevelopmentProposal().getPropPersonBios()); 
-        List<Narrative> narratives = new ArrayList<Narrative> ();
+
+        ((ProposalDevelopmentForm) form).getProposalDevelopmentParameters().put(PROPOSAL_NARRATIVE_TYPE_GROUP2, getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, PROPOSAL_NARRATIVE_TYPE_GROUP2));
+        ActionForward actionForward = super.execute(mapping, form, request, response);
+        ProposalDevelopmentDocument doc = (ProposalDevelopmentDocument) ((ProposalDevelopmentForm) form).getDocument();
+        KraServiceLocator.getService(ProposalPersonBiographyService.class).setPersonnelBioTimeStampUser(doc.getDevelopmentProposal().getPropPersonBios());
+        List<Narrative> narratives = new ArrayList<Narrative>();
         narratives.addAll(doc.getDevelopmentProposal().getNarratives());
         narratives.addAll(doc.getDevelopmentProposal().getInstituteAttachments());
         KraServiceLocator.getService(NarrativeService.class).setNarrativeTimeStampUser(narratives);
         KraServiceLocator.getService(ProposalAbstractsService.class).loadAbstractsUploadUserFullName(doc.getDevelopmentProposal().getProposalAbstracts());
         return actionForward;
-    }    
+    }
 
     /**
-     * 
-     * This method adds new proposal attachment(narrative) to the narrative list.
-     * User can not add more than one narrative with the same narrative type which 
-     * has allowMultipleFlag as false. This rule is being validated by using AddNarrativeRule
+     *
+     * This method adds new proposal attachment(narrative) to the narrative
+     * list. User can not add more than one narrative with the same narrative
+     * type which has allowMultipleFlag as false. This rule is being validated
+     * by using AddNarrativeRule
+     *
      * @param mapping
      * @param form
      * @param request
@@ -173,17 +187,18 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         Narrative narrative = proposalDevelopmentForm.getNewNarrative();
-        if(getKualiRuleService().applyRules(new AddNarrativeEvent(EMPTY_STRING, proposalDevelopmentDocument, narrative))){
+        if (getKualiRuleService().applyRules(new AddNarrativeEvent(EMPTY_STRING, proposalDevelopmentDocument, narrative))) {
             proposalDevelopmentDocument.getDevelopmentProposal().addNarrative(narrative);
             proposalDevelopmentForm.setNewNarrative(new Narrative());
             populateTabState(proposalDevelopmentForm, "Proposal Attachments " + proposalDevelopmentDocument.getDevelopmentProposal().getNarratives().size());
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
-     * 
+     *
      * This method used to stream the attachment byte array onto the browser.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -199,16 +214,17 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
         Narrative narrative = pd.getDevelopmentProposal().getInstituteAttachments().get(lineNumber);
         NarrativeAttachment narrativeAttachment = findNarrativeAttachment(narrative);
-        if(narrativeAttachment==null && !narrative.getNarrativeAttachmentList().isEmpty()){//get it from the memory
+        if (narrativeAttachment == null && !narrative.getNarrativeAttachmentList().isEmpty()) {//get it from the memory
             narrativeAttachment = narrative.getNarrativeAttachmentList().get(0);
         }
-        streamToResponse(narrativeAttachment,response); 
+        streamToResponse(narrativeAttachment, response);
         return null;
     }
-    
+
     /**
-     * 
+     *
      * This method used to stream the attachment byte array onto the browser.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -224,27 +240,31 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
         Narrative narrative = pd.getDevelopmentProposal().getNarratives().get(lineNumber);
         NarrativeAttachment narrativeAttachment = findNarrativeAttachment(narrative);
-        if(narrativeAttachment==null && !narrative.getNarrativeAttachmentList().isEmpty()){//get it from the memory
+        if (narrativeAttachment == null && !narrative.getNarrativeAttachmentList().isEmpty()) {//get it from the memory
             narrativeAttachment = narrative.getNarrativeAttachmentList().get(0);
         }
-        streamToResponse(narrativeAttachment,response);
+        streamToResponse(narrativeAttachment, response);
         return null;
     }
+
     /**
-     * 
+     *
      * This method used to find the narrative attachment for a narrative
+     *
      * @param narrative
      * @return NarrativeAttachment
      */
-    private NarrativeAttachment findNarrativeAttachment(Narrative narrative){
-        Map<String,String> narrativeAttachemntMap = new HashMap<String,String>();
+    private NarrativeAttachment findNarrativeAttachment(Narrative narrative) {
+        Map<String, String> narrativeAttachemntMap = new HashMap<String, String>();
         narrativeAttachemntMap.put(PROPOSAL_NUMBER, narrative.getProposalNumber());
-        narrativeAttachemntMap.put(MODULE_NUMBER, narrative.getModuleNumber()+"");
-        return (NarrativeAttachment)getBusinessObjectService().findByPrimaryKey(NarrativeAttachment.class, narrativeAttachemntMap);
+        narrativeAttachemntMap.put(MODULE_NUMBER, narrative.getModuleNumber() + "");
+        return (NarrativeAttachment) getBusinessObjectService().findByPrimaryKey(NarrativeAttachment.class, narrativeAttachemntMap);
     }
-    
+
     /**
-     * This method is used to perform a bulk status change operation on all attachments
+     * This method is used to perform a bulk status change operation on all
+     * attachments
+     *
      * @param mapping
      * @param form
      * @param request
@@ -254,13 +274,13 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      */
     public ActionForward markAllNarrativeStatuses(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
+
         ProposalDevelopmentForm developmentForm = (ProposalDevelopmentForm) form;
         developmentForm.getProposalDevelopmentDocument().getBudgetParent().markNarratives(developmentForm.getNarrativeStatusChange());
         developmentForm.clearNarrativeStatusChangeKey();
         return mapping.findForward(MAPPING_BASIC);
     }
-    
+
     public ActionForward modifyProposalAttachmentStatus(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
@@ -268,15 +288,15 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ActionForward forward = mapping.findForward(MAPPING_BASIC);
 
        // Narrative modifiedNarrative = pd.getDevelopmentProposal().getNarrative(getSelectedLine(request));
-        
         pd.getDevelopmentProposal().modifyNarrativeStatus(getSelectedLine(request));
 
         return forward;
     }
 
     /**
-     * 
+     *
      * This method is used to delete the proposal attachment
+     *
      * @param mapping
      * @param form
      * @param request
@@ -290,13 +310,15 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     }
 
     /**
-     * 
+     *
      * This method is used to delete the proposal attachment
+     *
      * @param mapping The mapping associated with this action.
      * @param form The Proposal Development form.
      * @param request the HTTP request
      * @param response the HTTP response
-     * @return the destination (always the original proposal web page that caused this action to be invoked)
+     * @return the destination (always the original proposal web page that
+     * caused this action to be invoked)
      * @throws Exception
      */
     public ActionForward confirmDeleteProposalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -306,7 +328,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         populateTabState((ProposalDevelopmentForm) form, "Proposal Attachments " + pdDoc.getDevelopmentProposal().getNarratives().size());
         return deleteAttachment(mapping, form, request, response, CONFIRM_DELETE_PROPOSAL_ATTACHMENT_KEY, "deleteProposalAttachment");
     }
-    
+
     /**
      * @param mapping The mapping associated with this action.
      * @param form The Proposal Development form.
@@ -314,61 +336,64 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      * @param response the HTTP response
      * @param key Name of the key for this confirmation
      * @param deleteMethodName String name of the delete method to use.
-     * @return the destination (always the original proposal web page that caused this action to be invoked)
+     * @return the destination (always the original proposal web page that
+     * caused this action to be invoked)
      * @throws Exception
      */
     public ActionForward deleteAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String key, String deleteMethodName) throws Exception {
         Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
-        
+
         if (key.equals(question)) {
             ProposalDevelopmentDocument document = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument();
-            
+
             LOG.info("Running delete '" + deleteMethodName + "' on " + document + " for " + getLineToDelete(request));
             document.getDevelopmentProposal().getClass().getMethod(deleteMethodName, int.class).invoke(document.getDevelopmentProposal(), getLineToDelete(request));
         }
-        
+
         return mapping.findForward(MAPPING_BASIC);
-       
+
     }
 
     /**
-     * 
+     *
      * This method used to get the proposal user rights
+     *
      * @param mapping
      * @param form
      * @param request
      * @param response
-     * @return 
+     * @return
      * @throws Exception
      */
-     public ActionForward getInstituteAttachmentRights(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-             HttpServletResponse response) throws Exception {
-         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-         proposalDevelopmentForm.setShowMaintenanceLinks(false);
-         String line = request.getParameter(LINE_NUMBER);
-         int lineNumber = line == null ? getLineToDelete(request) : Integer.parseInt(line);
-         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
-         pd.getDevelopmentProposal().populatePersonNameForInstituteAttachmentUserRights(lineNumber);
-         
-         Narrative narrative = pd.getDevelopmentProposal().getInstituteAttachment(lineNumber);
-         List<NarrativeUserRights> userRights = narrative.getNarrativeUserRights();
-         List<NarrativeUserRights> editUserRights = (List<NarrativeUserRights>) ObjectUtils.deepCopy((Serializable) userRights);
-         proposalDevelopmentForm.setNewNarrativeUserRights(editUserRights);
-         
-         request.setAttribute(LINE_NUMBER, ""+lineNumber);
-         return mapping.findForward(MAPPING_INSTITUTE_ATTACHMENT_RIGHTS_PAGE);
-     }
-     
-   /**
-    * 
-    * This method used to get the proposal user rights
-    * @param mapping
-    * @param form
-    * @param request
-    * @param response
-    * @return 
-    * @throws Exception
-    */
+    public ActionForward getInstituteAttachmentRights(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        proposalDevelopmentForm.setShowMaintenanceLinks(false);
+        String line = request.getParameter(LINE_NUMBER);
+        int lineNumber = line == null ? getLineToDelete(request) : Integer.parseInt(line);
+        ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        pd.getDevelopmentProposal().populatePersonNameForInstituteAttachmentUserRights(lineNumber);
+
+        Narrative narrative = pd.getDevelopmentProposal().getInstituteAttachment(lineNumber);
+        List<NarrativeUserRights> userRights = narrative.getNarrativeUserRights();
+        List<NarrativeUserRights> editUserRights = (List<NarrativeUserRights>) ObjectUtils.deepCopy((Serializable) userRights);
+        proposalDevelopmentForm.setNewNarrativeUserRights(editUserRights);
+
+        request.setAttribute(LINE_NUMBER, "" + lineNumber);
+        return mapping.findForward(MAPPING_INSTITUTE_ATTACHMENT_RIGHTS_PAGE);
+    }
+
+    /**
+     *
+     * This method used to get the proposal user rights
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward getProposalAttachmentRights(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
@@ -377,20 +402,22 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         int lineNumber = line == null ? getLineToDelete(request) : Integer.parseInt(line);
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
         pd.getDevelopmentProposal().populatePersonNameForNarrativeUserRights(lineNumber);
-        
+
         Narrative narrative = pd.getDevelopmentProposal().getNarratives().get(lineNumber);
         List<NarrativeUserRights> userRights = narrative.getNarrativeUserRights();
         List<NarrativeUserRights> editUserRights = (List<NarrativeUserRights>) ObjectUtils.deepCopy((Serializable) userRights);
         proposalDevelopmentForm.setNewNarrativeUserRights(editUserRights);
-        
-        request.setAttribute(LINE_NUMBER, ""+lineNumber);
+
+        request.setAttribute(LINE_NUMBER, "" + lineNumber);
         return mapping.findForward(MAPPING_NARRATIVE_ATTACHMENT_RIGHTS_PAGE);
     }
 
     /**
-     * 
-     * This method to send the request back to a page which closes by itself. Since Attachment right page 
-     * is opened in a new window, after saving, it should close by itself.
+     *
+     * This method to send the request back to a page which closes by itself.
+     * Since Attachment right page is opened in a new window, after saving, it
+     * should close by itself.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -400,33 +427,34 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      */
     public ActionForward addProposalAttachmentRights(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
+
         ActionForward forward;
-        
+
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         List<NarrativeUserRights> newNarrativeUserRights = proposalDevelopmentForm.getNewNarrativeUserRights();
         int lineNumber = getLineNumber(request);
-        
+
         // check any business rules
         boolean rulePassed = getKualiRuleService().applyRules(new NewNarrativeUserRightsEvent(proposalDevelopmentDocument, newNarrativeUserRights, lineNumber));
-        
+
         if (!rulePassed) {
             request.setAttribute(LINE_NUMBER, Integer.toString(lineNumber));
             forward = mapping.findForward(MAPPING_NARRATIVE_ATTACHMENT_RIGHTS_PAGE);
-        }
-        else {
+        } else {
             proposalDevelopmentDocument.getDevelopmentProposal().getNarrative(lineNumber).setNarrativeUserRights(newNarrativeUserRights);
             forward = mapping.findForward(MAPPING_CLOSE_PAGE);
         }
-        
+
         return forward;
     }
 
     /**
-     * 
-     * This method to send the request back to a page which closes by itself. Since Attachment right page 
-     * is opened in a new window, after saving, it should close by itself.
+     *
+     * This method to send the request back to a page which closes by itself.
+     * Since Attachment right page is opened in a new window, after saving, it
+     * should close by itself.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -436,32 +464,32 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      */
     public ActionForward addInstituteAttachmentRights(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
+
         ActionForward forward;
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         List<NarrativeUserRights> newNarrativeUserRights = proposalDevelopmentForm.getNewNarrativeUserRights();
         int lineNumber = getLineNumber(request);
-        
+
         // check any business rules
         boolean rulePassed = getKualiRuleService().applyRules(new NewNarrativeUserRightsEvent(proposalDevelopmentDocument, newNarrativeUserRights, lineNumber));
-        
+
         if (!rulePassed) {
             request.setAttribute(LINE_NUMBER, Integer.toString(lineNumber));
             forward = mapping.findForward(MAPPING_INSTITUTE_ATTACHMENT_RIGHTS_PAGE);
-        }
-        else {
+        } else {
             proposalDevelopmentDocument.getDevelopmentProposal().getInstituteAttachment(lineNumber).setNarrativeUserRights(newNarrativeUserRights);
             forward = mapping.findForward(MAPPING_CLOSE_PAGE);
         }
-        
+
         return forward;
     }
 
     /**
-     * 
+     *
      * This method used to replace the attachment
+     *
      * @param mapping
      * @param form
      * @param request
@@ -475,30 +503,30 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
         ActionForward forward = mapping.findForward(MAPPING_BASIC);
         Narrative modifiedNarrative = pd.getDevelopmentProposal().getNarrative(getSelectedLine(request));
-        
+
         boolean rulePassed = getKualiRuleService().applyRules(new ReplaceNarrativeEvent("document.developmentProposalList[0].narrative[" + getSelectedLine(request) + "]", pd, modifiedNarrative));
-        if(rulePassed) {
+        if (rulePassed) {
             pd.getDevelopmentProposal().replaceAttachment(getSelectedLine(request));
 
-            String notificationActionCode = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
+            String notificationActionCode = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
                     ParameterConstants.DOCUMENT_COMPONENT, Constants.ARIAH_PROPDEV_ACTIONCODE_NARRATIVE_MODIFY);
-            
-            ProposalDevelopmentNotificationContext context = 
-                new ProposalDevelopmentNotificationContext(pd.getDevelopmentProposal(), notificationActionCode, "Proposal Data Override");
-            
+
+            ProposalDevelopmentNotificationContext context
+                    = new ProposalDevelopmentNotificationContext(pd.getDevelopmentProposal(), notificationActionCode, "Proposal Data Override");
+
             ((ProposalDevelopmentNotificationRenderer) context.getRenderer()).setModifiedNarrative(modifiedNarrative);
-            
+
             if (proposalDevelopmentForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
                 proposalDevelopmentForm.getNotificationHelper().initializeDefaultValues(context);
                 forward = mapping.findForward("notificationEditor");
             } else {
-                getNotificationService().sendNotification(context);                
+                getNotificationService().sendNotification(context);
             }
         }
 
         return forward;
     }
-    
+
     public ActionForward replacePersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
@@ -509,18 +537,19 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
                 new ReplacePersonnelAttachmentEvent("document.developmentProposalList[0].propPersonBios[" + getSelectedLine(request) + "]",
                         pd,
                         ppb));
-        if(rulePassed) {
+        if (rulePassed) {
             ppb.populateAttachment();
            //I don't think anything needs to be done
-            
+
             this.getBusinessObjectService().save(ppb);
         }
         return forward;
     }
-    
+
     /**
-     * 
+     *
      * This method used to replace the attachment
+     *
      * @param mapping
      * @param form
      * @param request
@@ -534,16 +563,17 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
         boolean rulePassed = getKualiRuleService().applyRules(
                 new ReplaceInstituteAttachmentEvent("document.developmentProposalList[0].instituteAttachment[" + getSelectedLine(request) + "]",
-                            pd,
-                            pd.getDevelopmentProposal().getInstituteAttachment(getSelectedLine(request))));
-        if(rulePassed) {
+                        pd,
+                        pd.getDevelopmentProposal().getInstituteAttachment(getSelectedLine(request))));
+        if (rulePassed) {
             pd.getDevelopmentProposal().replaceInstituteAttachment(getSelectedLine(request));
         }
         return mapping.findForward(MAPPING_BASIC);
     }
-    
+
     /**
      * Update the User and Timestamp for the business object.
+     *
      * @param bo the business object
      */
     private void setUpdateFields(KraPersistableBusinessObjectBase bo) {
@@ -556,29 +586,30 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
             abstractBo.setUploadUserDisplay(updateUser);
         }
     }
-    
+
     /**
      * Adds an Abstract to the Proposal Development Document.
-     * 
-     * Assuming we have a valid new abstract, it is taken from the form 
-     * and moved into the document's list of abstracts.  The form's abstract
-     * is then cleared for the next abstract to be added.
-     * 
+     *
+     * Assuming we have a valid new abstract, it is taken from the form and
+     * moved into the document's list of abstracts. The form's abstract is then
+     * cleared for the next abstract to be added.
+     *
      * @param mapping The mapping associated with this action.
      * @param form The Proposal Development form.
      * @param request the HTTP request
      * @param response the HTTP response
-     * @return the destination (always the original proposal web page that caused this action to be invoked)
+     * @return the destination (always the original proposal web page that
+     * caused this action to be invoked)
      * @throws Exception
      */
     public ActionForward addAbstract(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalAbstract proposalAbstract = proposalDevelopmentForm.getNewProposalAbstract();
-        
+
         // check any business rules
         boolean rulePassed = getKualiRuleService().applyRules(new AddAbstractEvent(proposalDevelopmentForm.getProposalDevelopmentDocument(), proposalAbstract));
-                    
+
         // if the rule evaluation passed, let's add it
         if (rulePassed) {
             setUpdateFields(proposalAbstract);
@@ -589,18 +620,19 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
      * Deletes an Abstract from the Proposal Development Document.
-     * 
-     * If the user confirms the deletion, the abstract is removed from
-     * the document's list of abstracts.
-     * 
+     *
+     * If the user confirms the deletion, the abstract is removed from the
+     * document's list of abstracts.
+     *
      * @param mapping The mapping associated with this action.
      * @param form The Proposal Development form.
      * @param request the HTTP request
      * @param response the HTTP response
-     * @return the destination (always the original proposal web page that caused this action to be invoked)
+     * @return the destination (always the original proposal web page that
+     * caused this action to be invoked)
      * @throws Exception
      */
     // START SNIPPET: deleteAbstract
@@ -610,37 +642,42 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     // END SNIPPET: deleteAbstract
 
     /**
-     * Method dispatched from <code>{@link KraTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)}</code> for when a "yes" condition is met.
-     * 
+     * Method dispatched from
+     * <code>{@link KraTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)}</code>
+     * for when a "yes" condition is met.
+     *
      * @param mapping The mapping associated with this action.
      * @param form The Proposal Development form.
      * @param request the HTTP request
      * @param response the HTTP response
-     * @return the destination (always the original proposal web page that caused this action to be invoked)
+     * @return the destination (always the original proposal web page that
+     * caused this action to be invoked)
      * @throws Exception
-     * @see KraTransactionalDocumentActionBase#confirm(StrutsQuestion, String, String)
+     * @see KraTransactionalDocumentActionBase#confirm(StrutsQuestion, String,
+     * String)
      */
     // START SNIPPET: confirmDeleteAbstract
     public ActionForward confirmDeleteAbstract(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Object question = request.getParameter(QUESTION_INST_ATTRIBUTE_NAME);
-        
+
         int lineNum = getLineToDelete(request);
 
-        if (CONFIRM_DELETE_ABSTRACT_KEY.equals(question)) { 
+        if (CONFIRM_DELETE_ABSTRACT_KEY.equals(question)) {
             ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument().getDevelopmentProposal().getProposalAbstracts().remove(lineNum);
         }
-        
+
         return mapping.findForward(MAPPING_BASIC);
-    }        
+    }
     // END SNIPPET: confirmDeleteAbstract
 
     /**
-     * Builds the Delete Abstract Confirmation Question as a <code>{@link StrutsConfirmation}</code> instance.<br/>  
+     * Builds the Delete Abstract Confirmation Question as a
+     * <code>{@link StrutsConfirmation}</code> instance.<br/>
      * <br/>
-     * The confirmation question is extracted from the resource bundle
-     * and the parameter {0} is replaced with the name of the abstract type
-     * that will be deleted.
-     * 
+     * The confirmation question is extracted from the resource bundle and the
+     * parameter {0} is replaced with the name of the abstract type that will be
+     * deleted.
+     *
      * @param mapping The mapping associated with this action.
      * @param form The Proposal Development form.
      * @param request the HTTP request
@@ -661,17 +698,19 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     // END SNIPPET: buildDeleteAbstractConfirmationQuestion
 
     /**
-     * Builds the Delete Abstract Confirmation Question as a <code>{@link StrutsConfirmation}</code> instance.<br/>  
+     * Builds the Delete Abstract Confirmation Question as a
+     * <code>{@link StrutsConfirmation}</code> instance.<br/>
      * <br/>
-     * The confirmation question is extracted from the resource bundle
-     * and the parameter {0} is replaced with the name of the abstract type
-     * that will be deleted.
-     * 
+     * The confirmation question is extracted from the resource bundle and the
+     * parameter {0} is replaced with the name of the abstract type that will be
+     * deleted.
+     *
      * @param mapping The mapping associated with this action.
      * @param form The Proposal Development form.
      * @param request the HTTP request
      * @param response the HTTP response
-     * @param questionId String questionId. This needs to be unique for each type of attachment because there are different attachments to delete.
+     * @param questionId String questionId. This needs to be unique for each
+     * type of attachment because there are different attachments to delete.
      * @return the confirmation question
      * @throws Exception
      * @see buildParameterizedConfirmationQuestion
@@ -683,12 +722,10 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         if (CONFIRM_DELETE_INSTITUTIONAL_ATTACHMENT_KEY.equals(questionId)) {
             description = INSTITUTIONAL_ATTACHMENT_TYPE_NAME;
             fileName = doc.getDevelopmentProposal().getInstituteAttachment(getLineToDelete(request)).getFileName();
-        }
-        else if (CONFIRM_DELETE_PERSONNEL_ATTACHMENT_KEY.equals(questionId)) {
+        } else if (CONFIRM_DELETE_PERSONNEL_ATTACHMENT_KEY.equals(questionId)) {
             description = PERSONNEL_ATTACHMENT_TYPE_NAME;
             fileName = doc.getDevelopmentProposal().getPropPersonBio(getLineToDelete(request)).getFileName();
-        }
-        else if (CONFIRM_DELETE_PROPOSAL_ATTACHMENT_KEY.equals(questionId)) {
+        } else if (CONFIRM_DELETE_PROPOSAL_ATTACHMENT_KEY.equals(questionId)) {
             description = PROPOSAL_ATTACHMENT_TYPE_NAME;
             fileName = doc.getDevelopmentProposal().getNarrative(getLineToDelete(request)).getFileName();
         }
@@ -699,7 +736,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     protected BusinessObjectService getBusinessObjectService() {
         return getService(BusinessObjectService.class);
     }
-    
+
     @Override
     protected KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
@@ -707,41 +744,44 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
 
     /**
      * Adds a personnel attachment.
-     * 
-     * Move the new attachment from the form 
-     * into the document's list of personnelbiographyattachment.  The form's newpersonbio
-     * is then cleared for the next personnel attachment to be added.
-     * 
+     *
+     * Move the new attachment from the form into the document's list of
+     * personnelbiographyattachment. The form's newpersonbio is then cleared for
+     * the next personnel attachment to be added.
+     *
      * @param mapping The mapping associated with this action.
      * @param form The Proposal Development form.
      * @param request the HTTP request
      * @param response the HTTP response
-     * @return the destination (always the original proposal web page that caused this action to be invoked)
+     * @return the destination (always the original proposal web page that
+     * caused this action to be invoked)
      * @throws Exception
      */
     public ActionForward addPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        if(getKualiRuleService().applyRules(new AddPersonnelAttachmentEvent(EMPTY_STRING, proposalDevelopmentDocument, proposalDevelopmentForm.getNewPropPersonBio()))){
+        if (getKualiRuleService().applyRules(new AddPersonnelAttachmentEvent(EMPTY_STRING, proposalDevelopmentDocument, proposalDevelopmentForm.getNewPropPersonBio()))) {
             proposalDevelopmentDocument.getDevelopmentProposal().addProposalPersonBiography(proposalDevelopmentForm.getNewPropPersonBio());
             proposalDevelopmentForm.setNewPropPersonBio(new ProposalPersonBiography());
             populateTabState(proposalDevelopmentForm, "Personnel Attachments " + proposalDevelopmentDocument.getDevelopmentProposal().getPropPersonBios().size());
-        } 
+        }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
      * Deletes a personnel attachment from the Proposal Development Document.
-     * 
-     * Removed the personnel attachment from the document's list of personnel attachments.
-     * 
+     *
+     * Removed the personnel attachment from the document's list of personnel
+     * attachments.
+     *
      * @param mapping The mapping associated with this action.
      * @param form The Proposal Development form.
      * @param request the HTTP request
      * @param response the HTTP response
-     * @return the destination (always the original proposal web page that caused this action to be invoked)
+     * @return the destination (always the original proposal web page that
+     * caused this action to be invoked)
      * @throws Exception
      */
     public ActionForward deletePersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -752,14 +792,16 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
 
     /**
      * Deletes a personnel attachment from the Proposal Development Document.
-     * 
-     * Removed the personnel attachment from the document's list of personnel attachments.
-     * 
+     *
+     * Removed the personnel attachment from the document's list of personnel
+     * attachments.
+     *
      * @param mapping The mapping associated with this action.
      * @param form The Proposal Development form.
      * @param request the HTTP request
      * @param response the HTTP response
-     * @return the destination (always the original proposal web page that caused this action to be invoked)
+     * @return the destination (always the original proposal web page that
+     * caused this action to be invoked)
      * @throws Exception
      */
     public ActionForward confirmDeletePersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -773,12 +815,13 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
 
     /**
      * View a personnel attachment file.
-     *      
+     *
      * @param mapping The mapping associated with this action.
      * @param form The Proposal Development form.
      * @param request the HTTP request
      * @param response the HTTP response
-     * @return the destination (always the original proposal web page that caused this action to be invoked)
+     * @return the destination (always the original proposal web page that
+     * caused this action to be invoked)
      * @throws Exception
      */
     public ActionForward viewPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -788,22 +831,22 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         String line = request.getParameter(LINE_NUMBER);
         int lineNumber = line == null ? 0 : Integer.parseInt(line);
         ProposalPersonBiography propPersonBio = pd.getDevelopmentProposal().getPropPersonBios().get(lineNumber);
-        Map<String,String> propPersonBioAttVal = new HashMap<String,String>();
+        Map<String, String> propPersonBioAttVal = new HashMap<String, String>();
         propPersonBioAttVal.put(PROPOSAL_NUMBER, propPersonBio.getProposalNumber());
-        propPersonBioAttVal.put(BIOGRAPHY_NUMBER, propPersonBio.getBiographyNumber()+"");
-        propPersonBioAttVal.put(PROPOSAL_PERSON_NUMBER, propPersonBio.getProposalPersonNumber()+"");
-        ProposalPersonBiographyAttachment propPersonBioAttachment = (ProposalPersonBiographyAttachment)getBusinessObjectService().findByPrimaryKey(ProposalPersonBiographyAttachment.class, propPersonBioAttVal);
-        if(propPersonBioAttachment==null && !propPersonBio.getPersonnelAttachmentList().isEmpty()){//get it from the memory
+        propPersonBioAttVal.put(BIOGRAPHY_NUMBER, propPersonBio.getBiographyNumber() + "");
+        propPersonBioAttVal.put(PROPOSAL_PERSON_NUMBER, propPersonBio.getProposalPersonNumber() + "");
+        ProposalPersonBiographyAttachment propPersonBioAttachment = (ProposalPersonBiographyAttachment) getBusinessObjectService().findByPrimaryKey(ProposalPersonBiographyAttachment.class, propPersonBioAttVal);
+        if (propPersonBioAttachment == null && !propPersonBio.getPersonnelAttachmentList().isEmpty()) {//get it from the memory
             propPersonBioAttachment = propPersonBio.getPersonnelAttachmentList().get(0);
         }
-        streamToResponse(propPersonBioAttachment,response);
-        return  null;
+        streamToResponse(propPersonBioAttachment, response);
+        return null;
     }
 
-
     /**
-     * 
+     *
      * It add and institutional attachment to proposal document.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -816,7 +859,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         Narrative narrative = proposalDevelopmentForm.getNewInstituteAttachment();
         narrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
-        if(getKualiRuleService().applyRules(new AddInstituteAttachmentEvent(EMPTY_STRING, proposalDevelopmentDocument, narrative))){
+        if (getKualiRuleService().applyRules(new AddInstituteAttachmentEvent(EMPTY_STRING, proposalDevelopmentDocument, narrative))) {
             proposalDevelopmentDocument.getDevelopmentProposal().addInstituteAttachment(narrative);
             proposalDevelopmentForm.setNewInstituteAttachment(new Narrative());
             populateTabState(proposalDevelopmentForm, "Internal Attachments " + proposalDevelopmentDocument.getDevelopmentProposal().getInstituteAttachments().size());
@@ -826,8 +869,9 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     }
 
     /**
-     * 
+     *
      * Delete an institutional attachment
+     *
      * @param mapping
      * @param form
      * @param request
@@ -841,8 +885,9 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     }
 
     /**
-     * 
+     *
      * Delete an institutional attachment
+     *
      * @param mapping
      * @param form
      * @param request
@@ -858,8 +903,9 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     }
 
     /**
-     * 
+     *
      * View an institutional attachment file.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -869,30 +915,37 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      */
     public ActionForward viewInstitutionalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-          //return downloadProposalAttachment(mapping, form, request, response);
-          ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-          ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
-          String line = request.getParameter(LINE_NUMBER);
-          int lineNumber = line == null ? 0 : Integer.parseInt(line);
-          Narrative narrative = pd.getDevelopmentProposal().getInstituteAttachments().get(lineNumber);
-          NarrativeAttachment narrativeAttachment = findNarrativeAttachment(narrative);
-          if(narrativeAttachment==null && !narrative.getNarrativeAttachmentList().isEmpty()){//get it from the memory
-              narrativeAttachment = narrative.getNarrativeAttachmentList().get(0);
-          }
-          streamToResponse(narrativeAttachment,response);
-          return null;
+        //return downloadProposalAttachment(mapping, form, request, response);
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        String line = request.getParameter(LINE_NUMBER);
+        int lineNumber = line == null ? 0 : Integer.parseInt(line);
+        Narrative narrative = pd.getDevelopmentProposal().getInstituteAttachments().get(lineNumber);
+        NarrativeAttachment narrativeAttachment = findNarrativeAttachment(narrative);
+        if (narrativeAttachment == null && !narrative.getNarrativeAttachmentList().isEmpty()) {//get it from the memory
+            narrativeAttachment = narrative.getNarrativeAttachmentList().get(0);
+        }
+        streamToResponse(narrativeAttachment, response);
+        return null;
 
     }
-    
+
     /**
-     * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction#processAuthorizationViolation(java.lang.String, org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @param taskName
+     * @return
+     * @see
+     * org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction#processAuthorizationViolation(java.lang.String,
+     * org.apache.struts.action.ActionMapping,
+     * org.apache.struts.action.ActionForm,
+     * javax.servlet.http.HttpServletRequest,
+     * javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public ActionForward processAuthorizationViolation(String taskName, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = null;
         if (!StringUtils.equals(taskName, "addProposalAttachmentRights")) {
             forward = super.processAuthorizationViolation(taskName, mapping, form, request, response);
-        }
-        else {
+        } else {
             MessageMap errorMap = GlobalVariables.getMessageMap();
             errorMap.putError(Constants.NEW_NARRATIVE_USER_RIGHTS_PROPERTY_KEY, KeyConstants.AUTHORIZATION_VIOLATION);
             ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
@@ -902,7 +955,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         }
         return forward;
     }
-    
+
     private int getLineNumber(HttpServletRequest request) {
         int lineNumber = 0;
         String lineStr = request.getParameter(LINE_NUMBER);
@@ -917,10 +970,18 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         }
         return lineNumber;
     }
-    
+
     /**
-     * Hopefully a temporary fix to resolve the timestamp being the last post not the current post.
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#insertBONote(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * Hopefully a temporary fix to resolve the timestamp being the last post
+     * not the current post.
+     *
+     * @return
+     * @throws java.lang.Exception
+     * @see
+     * org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#insertBONote(org.apache.struts.action.ActionMapping,
+     * org.apache.struts.action.ActionForm,
+     * javax.servlet.http.HttpServletRequest,
+     * javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward insertBONote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
