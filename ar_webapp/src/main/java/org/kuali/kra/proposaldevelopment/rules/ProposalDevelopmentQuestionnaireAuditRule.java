@@ -37,66 +37,64 @@ import static org.kuali.kra.infrastructure.Constants.AUDIT_ERRORS;
 
 public class ProposalDevelopmentQuestionnaireAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
 
-    private static final String PROPOSAL_QUESTIONNAIRE_KEY="questionnaireHelper.answerHeaders[%s].answers[0].answer";
-    private static final String PROPOSAL_QUESTIONNAIRE_PANEL_KEY="%s%s%s";
-   
+    private static final String PROPOSAL_QUESTIONNAIRE_KEY = "questionnaireHelper.answerHeaders[%s].answers[0].answer";
+    private static final String PROPOSAL_QUESTIONNAIRE_PANEL_KEY = "%s%s%s";
+
     private transient QuestionnaireAnswerService questionnaireAnswerService;
-    
+
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
-        
+
         boolean valid = true;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)document;
-        List<AnswerHeader> headers = getQuestionnaireAnswerService().getQuestionnaireAnswer(new ProposalDevelopmentModuleQuestionnaireBean(proposalDevelopmentDocument.getDevelopmentProposal()));  
+        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) document;
+        List<AnswerHeader> headers = getQuestionnaireAnswerService().getQuestionnaireAnswer(new ProposalDevelopmentModuleQuestionnaireBean(proposalDevelopmentDocument.getDevelopmentProposal()));
         List<QuestionnaireUsage> usages = getQuestionnaireAnswerService().getPublishedQuestionnaire(new ProposalDevelopmentModuleQuestionnaireBean(proposalDevelopmentDocument.getDevelopmentProposal()));
         int i = 0;
         for (AnswerHeader answerHeader : headers) {
             if (!answerHeader.getCompleted()) {
-                for(QuestionnaireUsage questionnaireUsage : usages){
+                for (QuestionnaireUsage questionnaireUsage : usages) {
                     String questionnaireId = questionnaireUsage.getQuestionnaire().getQuestionnaireId();
-                    if (questionnaireId.equalsIgnoreCase(answerHeader.getQuestionnaire().getQuestionnaireId())){
+                    if (questionnaireId.equalsIgnoreCase(answerHeader.getQuestionnaire().getQuestionnaireId()) && questionnaireUsage.isMandatory()) {
                         valid = false;
-                        getProposalS2sAuditErrorsByGroup("questionnaireHelper",questionnaireUsage.getQuestionnaireLabel(),i).add(
-                            new AuditError(String.format(PROPOSAL_QUESTIONNAIRE_KEY, i, "complete"), KeyConstants.ERROR_QUESTIONNAIRE_NOT_COMPLETE,
-                                    Constants.QUESTIONS_PAGE+"."+questionnaireUsage.getQuestionnaireLabel(), new String[] {questionnaireUsage.getQuestionnaireLabel()}));
+                        getProposalS2sAuditErrorsByGroup("questionnaireHelper", questionnaireUsage.getQuestionnaireLabel(), i).add(
+                                new AuditError(String.format(PROPOSAL_QUESTIONNAIRE_KEY, i, "complete"), 
+                                        KeyConstants.ERROR_QUESTIONNAIRE_NOT_COMPLETE,
+                                        Constants.QUESTIONS_PAGE + "." + questionnaireUsage.getQuestionnaireLabel(), 
+                                        new String[]{questionnaireUsage.getQuestionnaireLabel()}));
                         break;
                     }
                 }
             }
-            i++; 
+            i++;
         }
         return valid;
     }
-    
-    
+
     private synchronized QuestionnaireAnswerService getQuestionnaireAnswerService() {
         if (questionnaireAnswerService == null) {
             questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
         }
         return questionnaireAnswerService;
     }
-    
-    
+
     /**
-     * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List<AuditError>}</code>
-     * to the auditErrorMap.
-     * 
+     * This method should only be called if an audit error is intending to be
+     * added because it will actually add a
+     * <code>{@link List<AuditError>}</code> to the auditErrorMap.
+     *
      * @return List of AuditError instances
      */
     @SuppressWarnings("unchecked")
     private List<AuditError> getProposalS2sAuditErrorsByGroup(String formProperty, String usageLabel, Integer answerHeaderIndex) {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
-        String key = String.format( PROPOSAL_QUESTIONNAIRE_PANEL_KEY, formProperty, usageLabel, answerHeaderIndex );
+        String key = String.format(PROPOSAL_QUESTIONNAIRE_PANEL_KEY, formProperty, usageLabel, answerHeaderIndex);
         if (!KNSGlobalVariables.getAuditErrorMap().containsKey(key)) {
-           KNSGlobalVariables.getAuditErrorMap().put(key, new AuditCluster(usageLabel, auditErrors, AUDIT_ERRORS));
+            KNSGlobalVariables.getAuditErrorMap().put(key, new AuditCluster(usageLabel, auditErrors, AUDIT_ERRORS));
+        } else {
+            auditErrors = ((AuditCluster) KNSGlobalVariables.getAuditErrorMap().get(key)).getAuditErrorList();
         }
-        else {
-            auditErrors = ((AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(key)).getAuditErrorList();
-        }
-        
+
         return auditErrors;
     }
-
-    
-    
 
 }
