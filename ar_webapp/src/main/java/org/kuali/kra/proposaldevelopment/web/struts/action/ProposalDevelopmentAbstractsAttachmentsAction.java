@@ -105,6 +105,8 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
      * before the save.
      * Proposal Attachments and Institutional Attachments are being saved into <i>NARRATIVE</i> table
      * 
+     * @return 
+     * @throws java.lang.Exception 
      * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -134,6 +136,8 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
     }
     /**
      * Populates module level rights for each narrative for logged in user.
+     * @return 
+     * @throws java.lang.Exception
      * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -263,7 +267,7 @@ public class ProposalDevelopmentAbstractsAttachmentsAction extends ProposalDevel
         ProposalDevelopmentDocument pd = proposalDevelopmentForm.getProposalDevelopmentDocument();
         ActionForward forward = mapping.findForward(MAPPING_BASIC);
 
-        Narrative modifiedNarrative = pd.getDevelopmentProposal().getNarrative(getSelectedLine(request));
+       // Narrative modifiedNarrative = pd.getDevelopmentProposal().getNarrative(getSelectedLine(request));
         
         pd.getDevelopmentProposal().modifyNarrativeStatus(getSelectedLine(request));
 
