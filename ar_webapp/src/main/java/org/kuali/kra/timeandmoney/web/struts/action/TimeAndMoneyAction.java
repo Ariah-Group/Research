@@ -932,6 +932,9 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     private void populateOtherPanels(AwardAmountTransaction newAwardAmountTransaction, TimeAndMoneyForm timeAndMoneyForm, String goToAwardNumber)
             throws LookupException, SQLException, WorkflowException {
         //Award award = getWorkingAwardVersion(goToAwardNumber);
+        
+        System.out.println("populateOtherPanels 1");
+        
         Award award = getAwardVersionService().getWorkingAwardVersion(goToAwardNumber);
         if (award == null) {
             GlobalVariables.getMessageMap().putError("goToAwardNumber", "error.timeandmoney.invalidawardnumber", goToAwardNumber);
@@ -940,17 +943,19 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyForm.getTimeAndMoneyDocument();
         timeAndMoneyDocument.setAwardNumber(award.getAwardNumber());
         timeAndMoneyDocument.setAward(award);
-
+        System.out.println("populateOtherPanels 2");
         TimeAndMoneyHistoryService tamhs = KraServiceLocator.getService(TimeAndMoneyHistoryService.class);
 
         tamhs.getTimeAndMoneyHistory(timeAndMoneyDocument.getAwardNumber(), timeAndMoneyDocument.getTimeAndMoneyHistory(), timeAndMoneyForm.getColumnSpan());
-
+System.out.println("populateOtherPanels 3");
         timeAndMoneyDocument.getAwardVersionHistoryList().clear();
+        
         tamhs.buildTimeAndMoneyHistoryObjects(award.getAwardNumber(), timeAndMoneyDocument.getAwardVersionHistoryList());
+        System.out.println("populateOtherPanels 4");
         TimeAndMoneyActionSummaryService tamass = KraServiceLocator.getService(TimeAndMoneyActionSummaryService.class);
         timeAndMoneyDocument.getTimeAndMoneyActionSummaryItems().clear();
         tamass.populateActionSummary(timeAndMoneyDocument.getTimeAndMoneyActionSummaryItems(), goToAwardNumber);
-
+System.out.println("populateOtherPanels 5");
         timeAndMoneyDocument.setNewAwardAmountTransaction(newAwardAmountTransaction);
     }
 
