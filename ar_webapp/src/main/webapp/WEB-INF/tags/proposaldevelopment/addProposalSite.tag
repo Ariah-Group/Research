@@ -145,7 +145,7 @@
     <td class="${class}" width="25%">
         <div align=center>
             <html:image property="methodToCall.${addMethodToCall}.anchor${currentTabIndex}"
-            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton addButton"/>
+            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' alt="Add Record" styleClass="tinybutton addButton"/>
         </div>
     </td>
 </tr>
