@@ -170,10 +170,10 @@ public class UnitAgendaTypeService extends AgendaTypeServiceBase {
                 String environmentQualifierValue = agendaQualifier.getValue();
 
                 if (KcKrmsConstants.UNIT_NUMBER.equals(agendaQualifier.getKey())) {
-                    if (!(environmentQualifierValue.equals(agendaQualifierValue) || isChildUnit(environmentQualifierValue, agendaQualifierValue))) {
+                    if (environmentQualifierValue!=null && !(environmentQualifierValue.equals(agendaQualifierValue) || isChildUnit(environmentQualifierValue, agendaQualifierValue))) {
                         return false;
                     }
-                } else if (!environmentQualifierValue.equals(agendaQualifierValue)) {
+                } else if (environmentQualifierValue!=null && !environmentQualifierValue.equals(agendaQualifierValue)) {
                     return false;
                 }
             }
