@@ -27,12 +27,13 @@ import org.kuali.kra.util.EmailAttachment;
 import java.util.List;
 
 /**
- * This class extends the notification context base and provides some helpful functions for any Proposal Development specific events.
+ * This class extends the notification context base and provides some helpful
+ * functions for any Proposal Development specific events.
  */
 public class ProposalDevelopmentNotificationContext extends NotificationContextBase {
 
     private static final long serialVersionUID = 7899968257291957401L;
-    
+
     private DevelopmentProposal proposal;
     private String documentNumber;
     private String actionTypeCode;
@@ -40,83 +41,103 @@ public class ProposalDevelopmentNotificationContext extends NotificationContextB
     private List<EmailAttachment> emailAttachments;
 
     /**
-     * Constructs a Proposal Development notification context and sets the necessary services.
+     * Constructs a Proposal Development notification context and sets the
+     * necessary services.
+     *
      * @param developmentProposal
      * @param actionTypeCode
      * @param contextName
      * @param renderer
      */
-    public ProposalDevelopmentNotificationContext(DevelopmentProposal developmentProposal, String actionTypeCode, String contextName, 
-                                                  NotificationRenderer renderer) {
+    public ProposalDevelopmentNotificationContext(DevelopmentProposal developmentProposal, String actionTypeCode, String contextName,
+            NotificationRenderer renderer) {
         super(renderer);
-        
+
         this.proposal = developmentProposal;
         this.documentNumber = developmentProposal.getProposalDocument().getDocumentNumber();
         this.actionTypeCode = actionTypeCode;
         this.contextName = contextName;
-        
+
         setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
         setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
         ProposalDevelopmentNotificationRoleQualifierService roleQualifier = KraServiceLocator.getService(ProposalDevelopmentNotificationRoleQualifierService.class);
         roleQualifier.setDevelopmentProposal(developmentProposal);
         setNotificationRoleQualifierService(roleQualifier);
     }
-    
+
     /**
-     * 
-     * Constructs a ProposalDevelopmentNotificationContext.java using a default Proposal Development Renderer.
+     *
+     * Constructs a ProposalDevelopmentNotificationContext.java using a default
+     * Proposal Development Renderer.
+     *
      * @param developmentProposal
      * @param actionTypeCode
      * @param contextName
      */
     public ProposalDevelopmentNotificationContext(DevelopmentProposal developmentProposal, String actionTypeCode, String contextName) {
-        this(developmentProposal, actionTypeCode, contextName, 
+        this(developmentProposal, actionTypeCode, contextName,
                 KraServiceLocator.getService(ProposalDevelopmentNotificationRenderer.class));
         ((ProposalDevelopmentNotificationRenderer) this.getRenderer()).setDevelopmentProposal(developmentProposal);
     }
-    
+
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContextBase#getModuleCode()
+     *
+     * @see
+     * org.kuali.kra.common.notification.NotificationContextBase#getModuleCode()
      */
+    @Override
     public String getModuleCode() {
         return CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE;
     }
-    
+
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContextBase#getDocumentNumber()
+     *
+     * @see
+     * org.kuali.kra.common.notification.NotificationContextBase#getDocumentNumber()
      */
+    @Override
     public String getDocumentNumber() {
         return documentNumber;
     }
-    
+
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContext#getActionTypeCode()
+     *
+     * @see
+     * org.kuali.kra.common.notification.NotificationContext#getActionTypeCode()
      */
+    @Override
     public String getActionTypeCode() {
         return actionTypeCode;
     }
-    
+
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContext#getContextName()
+     *
+     * @see
+     * org.kuali.kra.common.notification.NotificationContext#getContextName()
      */
+    @Override
     public String getContextName() {
         return contextName;
     }
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContext#getEmailAttachments()
+     *
+     * @see
+     * org.kuali.kra.common.notification.NotificationContext#getEmailAttachments()
      */
+    @Override
     public List<EmailAttachment> getEmailAttachments() {
         return emailAttachments;
     }
 
     /**
      * {@inheritDoc}
+     *
      * @param emailAttachments
      */
     public void setEmailAttachments(List<EmailAttachment> emailAttachments) {
@@ -130,5 +151,5 @@ public class ProposalDevelopmentNotificationContext extends NotificationContextB
     public void setProposal(DevelopmentProposal proposal) {
         this.proposal = proposal;
     }
-    
+
 }
