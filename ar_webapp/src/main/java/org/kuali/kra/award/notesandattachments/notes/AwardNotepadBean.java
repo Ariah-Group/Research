@@ -25,6 +25,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import org.kuali.rice.krad.UserSession;
 
 /**
  * This class...
@@ -98,7 +99,7 @@ public class AwardNotepadBean implements Serializable {
     
     /**
      * This method is called when adding a new AwardCostShare
-     * @param formHelper
+     * @param awardNotepadBean
      * @return
      * @throws Exception
      */
@@ -109,13 +110,17 @@ public class AwardNotepadBean implements Serializable {
             note.setComments("&nbsp");
         }
         
+        UserSession sess = GlobalVariables.getUserSession();
+        String principalName = sess.getPrincipalName();
+        String fullName = sess.getPerson().getName();
+        
         Calendar cl = Calendar.getInstance();
         note.setCreateTimestamp(new Timestamp(cl.getTime().getTime()));
         note.setUpdateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
-        note.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
-        note.setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
-        note.setCreateUserFullName(GlobalVariables.getUserSession().getPerson().getName());
-        note.setUpdateUserFullName(GlobalVariables.getUserSession().getPerson().getName());
+        note.setCreateUser(principalName);
+        note.setUpdateUser(principalName);
+        note.setCreateUserFullName(fullName);
+        note.setUpdateUserFullName(fullName);
         awardNotepadBean.getAwardDocument().getAward().add(note);
         awardNotepadBean.init();
         return true;

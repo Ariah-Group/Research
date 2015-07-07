@@ -103,21 +103,23 @@ public class AwardBudgetForm extends BudgetForm {
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
         String krImageURL = Constants.KR_EXTERNALIZABLE_IMAGES_URI_KEY;
         ConfigurationService configurationService = CoreApiServiceLocator.getKualiConfigurationService();
+        
+        final String currentUserPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
 
         TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
-        if (tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new AwardBudgetTask(TaskName.TOGGLE_AWARD_BUDGET_STATUS, doc))) {
+        if (tas.isAuthorized(currentUserPrincipalId, new AwardBudgetTask(TaskName.TOGGLE_AWARD_BUDGET_STATUS, doc))) {
             String toggleAwardStatusButtonImage = buildExtraButtonSourceURI("buttonsmall_toggleBudgetStatus.gif");
             addExtraButton("methodToCall.toggleAwardBudgetStatus", toggleAwardStatusButtonImage, "Toggle Budget Status");
         }
-        if (tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new AwardBudgetTask(TaskName.POST_AWARD_BUDGET, doc))) {
+        if (tas.isAuthorized(currentUserPrincipalId, new AwardBudgetTask(TaskName.POST_AWARD_BUDGET, doc))) {
             String postAwardBudgetImage = buildExtraButtonSourceURI("buttonsmall_postawardbudget.gif");
             addExtraButton("methodToCall.postAwardBudget", postAwardBudgetImage, "Post Budget");
         }
 
-        if (tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new BudgetTask("awardBudget", "rejectBudget", doc))) {
+        if (tas.isAuthorized(currentUserPrincipalId, new BudgetTask("awardBudget", "rejectBudget", doc))) {
             addExtraButton("methodToCall.reject", configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_reject.gif", "Reject");
         }
-        if (tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new BudgetTask("awardBudget", "cancelBudget", doc))) {
+        if (tas.isAuthorized(currentUserPrincipalId, new BudgetTask("awardBudget", "cancelBudget", doc))) {
             addExtraButton("methodToCall.cancel", configurationService.getPropertyValueAsString(krImageURL) + "buttonsmall_cancel.gif", "Cancel");
         }
 

@@ -308,14 +308,17 @@ public class ReportTrackingLookupAction extends KualiLookupAction {
         //check permissions
         boolean userHasPermission = false;
         String permissionName = AwardPermissionConstants.VIEW_AWARD.getAwardPermission();
-        userHasPermission = getUnitAuthorizationService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), Constants.PARAMETER_MODULE_AWARD, permissionName);
+        final String currentUserPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
+        
+        
+        userHasPermission = getUnitAuthorizationService().hasPermission(currentUserPrincipalId, Constants.PARAMETER_MODULE_AWARD, permissionName);
         if (!userHasPermission) {
             permissionName = AwardPermissionConstants.MODIFY_AWARD.getAwardPermission();
-            userHasPermission = getUnitAuthorizationService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), Constants.PARAMETER_MODULE_AWARD, permissionName);
+            userHasPermission = getUnitAuthorizationService().hasPermission(currentUserPrincipalId, Constants.PARAMETER_MODULE_AWARD, permissionName);
         }
         if (!userHasPermission) {
             permissionName = AwardPermissionConstants.MODIFY_AWARD_REPORT_TRACKING.getAwardPermission();
-            userHasPermission = getUnitAuthorizationService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), Constants.PARAMETER_MODULE_AWARD, permissionName);
+            userHasPermission = getUnitAuthorizationService().hasPermission(currentUserPrincipalId, Constants.PARAMETER_MODULE_AWARD, permissionName);
         }
         if (!userHasPermission) {
             throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalName(), "Search", "Report Tracking");
