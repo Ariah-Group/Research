@@ -579,3 +579,8 @@ VALUES  ('KC-PD','Document','ARIAH_PROPDEV_TEXT_APPROVAL_CERT_QUESTION', sys_gui
 
 -- remove unused column from table
 alter table AWARD_AMT_FNA_DISTRIBUTION drop column AWARD_AMOUNT_INFO_ID;
+
+
+-- Parameter representing PD notificatino for modified narrative
+INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
+VALUES  ('KC-PD','Document','ARIAH_PROPDEV_ACTIONCODE_NARRATIVE_MODIFY', sys_guid(),0,'CONFG','102','Action code representing Notification sent when a narrative is added to a proposal that is not in pending status.','A','KUALI');

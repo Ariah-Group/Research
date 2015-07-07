@@ -15,6 +15,10 @@ VALUES  ('KC-PD','Document','ARIAH_PROPDEV_DISPLAY_APPROVAL_CERT_QUESTION', sys_
 INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
 VALUES  ('KC-PD','Document','ARIAH_PROPDEV_TEXT_APPROVAL_CERT_QUESTION', sys_guid(),0,'CONFG','SUBMISSION INTO ROUTING BY THE PI SIGNIFIES: That the information submitted within the application is true, complete and accurate to the best of my knowledge; that any false, fictitious, or fraudulent statements or claims may subject me to criminal, civil, or administrative penalties; and that I agree to accept responsibility for the scientific conduct of the project and to provide the required progress reports if a grant is awarded as a result of the application. *************************************** APPROVAL BY CHAIR/DEAN/DIRECTOR OR SUBSEQUENT PARTIES CERTIFIES: The proposal/proposal summary has been reviewed; The research or program proposed is in keeping with Department/College/Center/Institute educational objectives; Approval is given for any cost-sharing, equipment or space as described in the budget; and Approval is given for the budget request and the work proposed.','The text of the proposal development approval certification question presented to all staff upon approving a PD record.','A','KUALI');
 
+-- Parameter representing PD notificatino for modified narrative
+INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
+VALUES  ('KC-PD','Document','ARIAH_PROPDEV_ACTIONCODE_NARRATIVE_MODIFY', sys_guid(),0,'CONFG','102','Action code representing Notification sent when a narrative is added to a proposal that is not in pending status.','A','KUALI');
+
 
 commit;
 exit
