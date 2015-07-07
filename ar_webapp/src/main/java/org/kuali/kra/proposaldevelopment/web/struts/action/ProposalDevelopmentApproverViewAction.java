@@ -68,6 +68,7 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
         return forward;
     }
 
+    @Override
     public ActionForward printForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return super.printForms(mapping, form, request, response);
     }
@@ -143,6 +144,7 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
      * @param form
      * @throws Exception
      */
+    @Override
     public void populateSponsorForms(ActionForm form) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
@@ -161,6 +163,7 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
      * @return
      * @throws Exception
      */
+    @Override
     public ActionForward printSponsorForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) proposalDevelopmentForm.getProposalDevelopmentDocument();
@@ -169,8 +172,7 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
 
         List<SponsorFormTemplateList> sponsorFormTemplateLists = proposalDevelopmentForm.getSponsorFormTemplates();
         ProposalDevelopmentPrintingService printService = KraServiceLocator.getService(ProposalDevelopmentPrintingService.class);
-        List<SponsorFormTemplate> printFormTemplates = new ArrayList<SponsorFormTemplate>();
-        printFormTemplates = printService.getSponsorFormTemplates(sponsorFormTemplateLists);
+        List<SponsorFormTemplate> printFormTemplates = printService.getSponsorFormTemplates(sponsorFormTemplateLists);
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         reportParameters.put(ProposalDevelopmentPrintingService.SELECTED_TEMPLATES, printFormTemplates);
 
@@ -187,6 +189,7 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
 
     }
 
+    @Override
     public ActionForward actions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
@@ -273,5 +276,4 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
     public void setSpecialReviewService(SpecialReviewService specialReviewService) {
         this.specialReviewService = specialReviewService;
     }
-
 }
