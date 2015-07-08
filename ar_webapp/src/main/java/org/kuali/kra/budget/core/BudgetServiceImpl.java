@@ -120,7 +120,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     @Override
     public BudgetDocument<T> addBudgetVersion(BudgetParentDocument<T> document, String versionName) throws WorkflowException {
         if (!isBudgetVersionNameValid(document, versionName)) {
-            debug("Buffered Version not Valid");
+            debug("Budget Version not Valid");
             return null;
         }
 
