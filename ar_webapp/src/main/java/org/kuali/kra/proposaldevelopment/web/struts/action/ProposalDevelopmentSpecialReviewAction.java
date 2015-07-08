@@ -222,11 +222,9 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
     public ActionForward viewNewSpecialReviewProtocolLink(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        String viewProtocolUrl = Constants.EMPTY_STRING;
-
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalSpecialReview proposalSpecialReview = proposalDevelopmentForm.getSpecialReviewHelper().getNewSpecialReview();
-        viewProtocolUrl = getViewProtocolUrl(proposalSpecialReview);
+        String viewProtocolUrl = getViewProtocolUrl(proposalSpecialReview);
 
         return new ActionForward(viewProtocolUrl, true);
     }

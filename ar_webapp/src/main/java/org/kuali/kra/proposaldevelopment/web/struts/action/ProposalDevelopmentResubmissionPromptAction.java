@@ -27,13 +27,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * On a Proposal Development resubmission, determines whether a new Institutional Proposal should be generated.
+ * On a Proposal Development resubmission, determines whether a new
+ * Institutional Proposal should be generated.
  */
 public class ProposalDevelopmentResubmissionPromptAction extends ProposalDevelopmentActionsAction {
-    
+
     /**
-     * Proceeds with submitting this Proposal Development document to the sponsor once it determines whether to generate the Institutional Proposal.
-     * 
+     * Proceeds with submitting this Proposal Development document to the
+     * sponsor once it determines whether to generate the Institutional
+     * Proposal.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -43,28 +46,32 @@ public class ProposalDevelopmentResubmissionPromptAction extends ProposalDevelop
      */
     public ActionForward proceed(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        
+
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
         String submissionOption = proposalDevelopmentForm.getResubmissionOption();
-        
+
         if (applyRules(new ResubmissionRuleEvent(document, submissionOption))) {
             super.submitToSponsor(mapping, form, request, response);
             forward = mapping.findForward(Constants.MAPPING_PROPOSAL_ACTIONS);
         }
-        
-        if(proposalDevelopmentForm.isGrantsGovSubmitFlag()){
+
+        if (proposalDevelopmentForm.isGrantsGovSubmitFlag()) {
             super.submitToGrantsGov(mapping, proposalDevelopmentForm, request, response);
             forward = mapping.findForward(Constants.GRANTS_GOV_PAGE);
         }
-        
+
         return forward;
     }
-    
+
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentActionsAction#cancel(org.apache.struts.action.ActionMapping, 
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     *
+     * @see
+     * org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentActionsAction#cancel(org.apache.struts.action.ActionMapping,
+     * org.apache.struts.action.ActionForm,
+     * javax.servlet.http.HttpServletRequest,
+     * javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -376,7 +376,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
 
         ActionForward actionForward = null;
 
-        KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
+        // KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
 
@@ -398,7 +398,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
             // Remove the previous set of roles that the user was assigned to.
             int lineNum = editRoles.getLineNum();
             ProposalUserRoles proposalUserRoles = proposalDevelopmentForm.getProposalUserRoles().get(lineNum);
-            String username = proposalUserRoles.getUsername();
+            //String username = proposalUserRoles.getUsername();
 
             List<String> roleNames = new ArrayList<String>();
 
@@ -481,6 +481,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
      * javax.servlet.http.HttpServletRequest,
      * javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public ActionForward processAuthorizationViolation(String taskName, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = null;
         if (!StringUtils.equals(taskName, "setEditRoles")) {
@@ -498,6 +499,7 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
      *
      * @return the Kuali Rule Service
      */
+    @Override
     protected KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
     }
