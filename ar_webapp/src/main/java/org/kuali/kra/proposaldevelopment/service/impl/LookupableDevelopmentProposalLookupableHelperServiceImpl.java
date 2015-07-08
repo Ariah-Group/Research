@@ -39,41 +39,41 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 @SuppressWarnings("deprecation")
-public class LookupableDevelopmentProposalLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl{
+public class LookupableDevelopmentProposalLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private ProposalPersonDao proposalPersonDao;
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
-    private List <String> validLookupFields = Arrays.asList(new String[] {"proposalNumber","title","sponsorCode","ownedByUnitNumber","ownedByUnitName","proposalTypeCode"});
-    
+    private List<String> validLookupFields = Arrays.asList(new String[]{"proposalNumber", "title", "sponsorCode", "ownedByUnitNumber", "ownedByUnitName", "proposalTypeCode"});
+
     private static final Log LOG = LogFactory.getLog(LookupableDevelopmentProposalLookupableHelperServiceImpl.class);
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -2819167587268360381L;
-    
+
     @SuppressWarnings("unchecked")
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         // find matching names for potential PI's
-        List<String>matchingProposals = new ArrayList<String>();
-        Map<String, Object>proposalFields = new HashMap<String, Object>();
-        for (String key: fieldValues.keySet()) {
+        List<String> matchingProposals = new ArrayList<String>();
+        Map<String, Object> proposalFields = new HashMap<String, Object>();
+        for (String key : fieldValues.keySet()) {
             String value = fieldValues.get(key);
             if (StringUtils.isNotEmpty(value)) {
                 if (StringUtils.equals(key, "investigator")) {
                     List<ProposalPerson> proposalPersons = proposalPersonDao.getProposalPersonsByName(value);
-                    for (ProposalPerson potentialPerson: proposalPersons) {
+                    for (ProposalPerson potentialPerson : proposalPersons) {
                         matchingProposals.add(potentialPerson.getProposalNumber());
                     }
-                    proposalFields.put("proposalNumber",matchingProposals);
-                } else if (validLookupFields.contains(key)){
+                    proposalFields.put("proposalNumber", matchingProposals);
+                } else if (validLookupFields.contains(key)) {
                     proposalFields.put(key, fieldValues.get(key));
                 }
             }
         }
-        List<LookupableDevelopmentProposal> unboundedResults = 
-            (List<LookupableDevelopmentProposal>) businessObjectService.findMatching(LookupableDevelopmentProposal.class,proposalFields);
+        List<LookupableDevelopmentProposal> unboundedResults
+                = (List<LookupableDevelopmentProposal>) businessObjectService.findMatching(LookupableDevelopmentProposal.class, proposalFields);
         List<LookupableDevelopmentProposal> filteredResults = filterForPermissionsAndDates(fieldValues, unboundedResults);
         return filteredResults;
     }
@@ -89,7 +89,7 @@ public class LookupableDevelopmentProposalLookupableHelperServiceImpl extends Ku
         } else {
             try {
                 if (deadlineDate.indexOf("..") > -1) {
-                    String temp = deadlineDate.substring(0,10);
+                    String temp = deadlineDate.substring(0, 10);
                     lowerLimit = new Date((new java.util.Date(temp)).getTime());
                     temp = deadlineDate.substring(12);
                     upperLimit = new Date((new java.util.Date(temp)).getTime());
@@ -109,7 +109,7 @@ public class LookupableDevelopmentProposalLookupableHelperServiceImpl extends Ku
         ProposalDevelopmentDocumentAuthorizer authorizer = new ProposalDevelopmentDocumentAuthorizer();
         Person user = GlobalVariables.getUserSession().getPerson();
         List<LookupableDevelopmentProposal> results = new ArrayList<LookupableDevelopmentProposal>();
-        for (LookupableDevelopmentProposal potentialProposal: unboundedResults) {
+        for (LookupableDevelopmentProposal potentialProposal : unboundedResults) {
             if (!checkDates || dateInRange(potentialProposal.getDeadlineDate(), lowerLimit, upperLimit)) {
                 String documentNumber = potentialProposal.getDocumentNumber();
                 try {
@@ -123,7 +123,7 @@ public class LookupableDevelopmentProposalLookupableHelperServiceImpl extends Ku
             }
         }
         return results;
-    }  
+    }
 
     private boolean dateInRange(Date checkDate, Date lowerLimit, Date upperLimit) {
         if (checkDate == null) {
@@ -137,7 +137,7 @@ public class LookupableDevelopmentProposalLookupableHelperServiceImpl extends Ku
         }
         return true;
     }
-    
+
     public void setProposalPersonDao(ProposalPersonDao proposalPersonDao) {
         this.proposalPersonDao = proposalPersonDao;
     }
