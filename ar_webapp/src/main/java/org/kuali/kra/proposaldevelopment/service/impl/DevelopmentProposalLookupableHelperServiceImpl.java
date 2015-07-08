@@ -143,8 +143,10 @@ public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupabl
     private List<DevelopmentProposal> filterForPermissions(List<DevelopmentProposal> results) {
         Person user = GlobalVariables.getUserSession().getPerson();
         List<DevelopmentProposal> filteredResults = new ArrayList<DevelopmentProposal>();
+        
+        DocumentAuthorizer authorizer = getDocumentHelperService().getDocumentAuthorizer("ProposalDevelopmentDocument");
+        
         for (DevelopmentProposal developmentProposal : results) {
-            DocumentAuthorizer authorizer = getDocumentHelperService().getDocumentAuthorizer("ProposalDevelopmentDocument");
             if (authorizer.canOpen(developmentProposal.getProposalDocument(), user)) {
                 filteredResults.add(developmentProposal);
             }
