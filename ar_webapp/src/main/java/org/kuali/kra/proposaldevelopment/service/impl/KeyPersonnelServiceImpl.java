@@ -39,13 +39,15 @@ import static org.kuali.kra.logging.FormattedLogger.debug;
 import static org.kuali.kra.logging.FormattedLogger.info;
 
 /**
- * A Service implementation for persisted modifications of Key Personnel related business objects
+ * A Service implementation for persisted modifications of Key Personnel related
+ * business objects
  *
  * @see org.kuali.kra.proposaldevelopment.bo.ProposalPerson
  * @author $Author: gmcgrego $
  * @version $Revision: 1.34 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
+
     private static final String READ_ONLY_ROLES_PARAM_NAME = "personrole.readonly.roles";
     private static final String NIH_PARM_KEY = "nih.";
 
@@ -56,33 +58,33 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     private SponsorService sponsorService;
 
     /**
-     * Populate Key Personnel into a <code>{@link ProposalDevelopmentDocument}</code>
-     * 
+     * Populate Key Personnel into a
+     * <code>{@link ProposalDevelopmentDocument}</code>
+     *
      * @param document
      */
     @Override
     public void populateDocument(ProposalDevelopmentDocument document) {
-        if(hasBeenRoutedOrCanceled(document)){
-            Collection<InvestigatorCreditType> availableCreditTypes=getAllInvestigatorCreditTypes();
+        if (hasBeenRoutedOrCanceled(document)) {
+            Collection<InvestigatorCreditType> availableCreditTypes = getAllInvestigatorCreditTypes();
             Set<InvestigatorCreditType> usedCreditTypes = new HashSet<InvestigatorCreditType>();
             for (ProposalPerson person : document.getDevelopmentProposal().getInvestigators()) {
-                for(ProposalPersonCreditSplit creditSplit : person.getCreditSplits()){
-                    for(InvestigatorCreditType currentCreditType : availableCreditTypes){
-                        if(currentCreditType.getInvCreditTypeCode().equals(creditSplit.getInvCreditTypeCode())){
+                for (ProposalPersonCreditSplit creditSplit : person.getCreditSplits()) {
+                    for (InvestigatorCreditType currentCreditType : availableCreditTypes) {
+                        if (currentCreditType.getInvCreditTypeCode().equals(creditSplit.getInvCreditTypeCode())) {
                             usedCreditTypes.add(currentCreditType);
                         }
                     }
                 }
             }
-            document.getDevelopmentProposal().setInvestigatorCreditTypes(usedCreditTypes);          
-        }else
-        {
+            document.getDevelopmentProposal().setInvestigatorCreditTypes(usedCreditTypes);
+        } else {
             document.getDevelopmentProposal().setInvestigatorCreditTypes(getInvestigatorCreditTypes());
         }
         if (document.getDevelopmentProposal().getInvestigators().isEmpty() && !document.getDevelopmentProposal().getProposalPersons().isEmpty()) {
             info("Need to repopulate investigator list");
             populateInvestigators(document);
-            if(!(document.getDocumentHeader().getWorkflowDocument().getStatus().getCode().equals("R"))){
+            if (!(document.getDocumentHeader().getWorkflowDocument().getStatus().getCode().equals("R"))) {
                 populateActiveCredittypesPerson(document);
             }
         }
@@ -91,24 +93,26 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
             getYnqService().getPersonYNQ(person, document);
         }
     }
+
     /**
-     * It populates the Active credit type in the proposalpersoncreditsplit and unitcreditsplit
+     * It populates the Active credit type in the proposalpersoncreditsplit and
+     * unitcreditsplit
      *
      * @param document
      * @return true or false
      */
-    public void populateActiveCredittypesPerson(ProposalDevelopmentDocument document){
-        Collection<InvestigatorCreditType> invcrdttype=getInvestigatorCreditTypes();
+    public void populateActiveCredittypesPerson(ProposalDevelopmentDocument document) {
+        Collection<InvestigatorCreditType> invcrdttype = getInvestigatorCreditTypes();
         for (ProposalPerson person : document.getDevelopmentProposal().getInvestigators()) {
-            for(InvestigatorCreditType invcredtype:invcrdttype){
+            for (InvestigatorCreditType invcredtype : invcrdttype) {
                 boolean creditTypeFound = false;
-                for(ProposalPersonCreditSplit proposalpersoncrdt:person.getCreditSplits()){
-                    if((invcredtype.getInvCreditTypeCode().equals(proposalpersoncrdt.getInvCreditTypeCode()))){
+                for (ProposalPersonCreditSplit proposalpersoncrdt : person.getCreditSplits()) {
+                    if ((invcredtype.getInvCreditTypeCode().equals(proposalpersoncrdt.getInvCreditTypeCode()))) {
                         creditTypeFound = true;
                         break;
                     }
                 }
-                if (!creditTypeFound ) {
+                if (!creditTypeFound) {
                     ProposalPersonCreditSplit creditSplit = new ProposalPersonCreditSplit();
                     creditSplit.setProposalNumber(person.getProposalNumber());
                     creditSplit.setProposalPersonNumber(person.getProposalPersonNumber());
@@ -117,16 +121,16 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                     person.getCreditSplits().add(creditSplit);
                 }
             }
-            for(ProposalPersonUnit unitsplit:person.getUnits()){
-                for(InvestigatorCreditType invcrdtype:invcrdttype){
+            for (ProposalPersonUnit unitsplit : person.getUnits()) {
+                for (InvestigatorCreditType invcrdtype : invcrdttype) {
                     boolean creditTypeFound = false;
-                    for(ProposalUnitCreditSplit unitcreditsplit:unitsplit.getCreditSplits()){
-                        if((invcrdtype.getInvCreditTypeCode().equals(unitcreditsplit.getInvCreditTypeCode()))){
+                    for (ProposalUnitCreditSplit unitcreditsplit : unitsplit.getCreditSplits()) {
+                        if ((invcrdtype.getInvCreditTypeCode().equals(unitcreditsplit.getInvCreditTypeCode()))) {
                             creditTypeFound = true;
                             break;
                         }
                     }
-                    if (!creditTypeFound ) {
+                    if (!creditTypeFound) {
                         ProposalUnitCreditSplit creditSplit = new ProposalUnitCreditSplit();
                         creditSplit.setProposalNumber(person.getProposalNumber());
                         creditSplit.setProposalPersonNumber(person.getProposalPersonNumber());
@@ -142,9 +146,9 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
     /**
      * Populate investigators
-     * 
-     * @param document The <code>{@link ProposalDevelopmentDocument}</code> to populate
-     * investigators on
+     *
+     * @param document The <code>{@link ProposalDevelopmentDocument}</code> to
+     * populate investigators on
      */
     public void populateInvestigators(ProposalDevelopmentDocument document) {
         // Populate Investigators from a proposal document's persons
@@ -153,7 +157,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         document.getDevelopmentProposal().getInvestigators().clear();
 
         for (ProposalPerson person : document.getDevelopmentProposal().getProposalPersons()) {
-            debug(person.getFullName() + " is " + isInvestigator(person));
+            //debug(person.getFullName() + " is " + isInvestigator(person));
             person.setInvestigatorFlag(isInvestigator(person));
 
             if (person.isInvestigator()) {
@@ -164,7 +168,9 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
 
     /**
-     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#populateProposalPerson(ProposalPerson, ProposalDevelopmentDocument)
+     * @see
+     * org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#populateProposalPerson(ProposalPerson,
+     * ProposalDevelopmentDocument)
      */
     @Override
     public void populateProposalPerson(ProposalPerson person, ProposalDevelopmentDocument document) {
@@ -193,7 +199,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         person.setRoleChanged(false);
 
         try {
-            if (person.getPersonId() != null 
+            if (person.getPersonId() != null
                     && person.getPerson().getExtendedAttributes() != null) {
                 KcPerson origPerson = person.getPerson();
                 for (PersonDegree degree : origPerson.getExtendedAttributes().getPersonDegrees()) {
@@ -206,17 +212,20 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                     newDegree.setSchoolId(degree.getSchoolId());
                     newDegree.setSchoolIdCode(degree.getSchoolIdCode());
                     newDegree.setDegreeSequenceNumber(document.getDocumentNextValue(Constants.PROPOSAL_PERSON_DEGREE_SEQUENCE_NUMBER));
-                    person.addDegree(newDegree);                
+                    person.addDegree(newDegree);
                 }
                 if (origPerson.getExtendedAttributes().getAttachments() != null) {
+                    
+                    final String defaultPersonAttachmentDocType = getDefaultPersonAttachmentDocType();
+                    
                     for (PersonBiosketch attachment : origPerson.getExtendedAttributes().getAttachments()) {
-                        ProposalPersonBiography bio = new ProposalPersonBiography(); 
+                        ProposalPersonBiography bio = new ProposalPersonBiography();
                         bio.setProposalPersonNumber(person.getProposalPersonNumber());
-                        bio.setDocumentTypeCode(getDefaultPersonAttachmentDocType());
+                        bio.setDocumentTypeCode(defaultPersonAttachmentDocType);
                         bio.setDescription(attachment.getDescription());
                         bio.setFileName(attachment.getFileName());
                         bio.setContentType(attachment.getContentType());
-                        
+
                         ProposalPersonBiographyAttachment personnelAttachment = new ProposalPersonBiographyAttachment();
                         personnelAttachment.setFileName(attachment.getFileName());
                         personnelAttachment.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
@@ -240,7 +249,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
     /**
      * Initializes credit splits for new investigators
-     * 
+     *
      * @param person
      */
     protected void populateCreditTypes(ProposalPerson person) {
@@ -260,35 +269,33 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
 
     /**
-     * Queries persistent storage for a <code>{@link Collection}</code> of <code>{@link InvestigatorCreditType}</code>
-     * instances.
-     * 
+     * Queries persistent storage for a <code>{@link Collection}</code> of
+     * <code>{@link InvestigatorCreditType}</code> instances.
+     *
      * @return Collection<InvestigatorCreditType> of active credit types
      */
     @Override
     public Collection<InvestigatorCreditType> getInvestigatorCreditTypes() {
-        Map<String,String> valueMap = new HashMap<String, String>();
+        Map<String, String> valueMap = new HashMap<String, String>();
         BusinessObjectService bos = KraServiceLocator.getService(BusinessObjectService.class);
         valueMap.put("active", "true");
         return bos.findMatching(InvestigatorCreditType.class, valueMap);
     }
 
     /**
-     * Queries persistent storage for a <code>{@link Collection}</code> of <code>{@link InvestigatorCreditType}</code>
-     * instances.
-     * 
+     * Queries persistent storage for a <code>{@link Collection}</code> of
+     * <code>{@link InvestigatorCreditType}</code> instances.
+     *
      * @return Collection<InvestigatorCreditType> of all credit types
      */
     public Collection<InvestigatorCreditType> getAllInvestigatorCreditTypes() {
         return getBusinessObjectService().findAll(InvestigatorCreditType.class);
     }
 
-
-
     /**
-     * Queries persistent storage for a <code>{@link Collection}</code> of <code>{@link Ynq}</code>
-     * instances.
-     * 
+     * Queries persistent storage for a <code>{@link Collection}</code> of
+     * <code>{@link Ynq}</code> instances.
+     *
      * @return Collection<Ynq>
      */
     public Collection<Ynq> getYesNoQuestions() {
@@ -296,15 +303,15 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
 
     /**
-     * Everytime something changes that will effect credit split values, this gets called to generate a graph of the
-     * new data.
+     * Everytime something changes that will effect credit split values, this
+     * gets called to generate a graph of the new data.
      *
      * @param document
      * @return Map
      */
     @Override
     public Map calculateCreditSplitTotals(ProposalDevelopmentDocument document) {
-        Map<String, Map<String,KualiDecimal>> retval = new HashMap<String,Map<String,KualiDecimal>>();
+        Map<String, Map<String, KualiDecimal>> retval = new HashMap<String, Map<String, KualiDecimal>>();
 
         // Initialize investigator credit types if there aren't any
         if (document.getDevelopmentProposal().getInvestigatorCreditTypes() == null || document.getDevelopmentProposal().getInvestigatorCreditTypes().size() == 0) {
@@ -314,20 +321,20 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         Collection<InvestigatorCreditType> creditTypes = document.getDevelopmentProposal().getInvestigatorCreditTypes();
 
         for (ProposalPerson investigator : document.getDevelopmentProposal().getInvestigators()) {
-            Map<String,KualiDecimal> creditTypeTotals = retval.get(investigator.getProposalPersonNumber().toString());
-            Map<String,KualiDecimal> investigatorCreditTypeTotals = retval.get(PROPOSAL_PERSON_INVESTIGATOR);
+            Map<String, KualiDecimal> creditTypeTotals = retval.get(investigator.getProposalPersonNumber().toString());
+            Map<String, KualiDecimal> investigatorCreditTypeTotals = retval.get(PROPOSAL_PERSON_INVESTIGATOR);
 
             if (creditTypeTotals == null) {
-                creditTypeTotals = new HashMap<String,KualiDecimal>();
+                creditTypeTotals = new HashMap<String, KualiDecimal>();
                 retval.put(investigator.getProposalPersonNumber().toString(), creditTypeTotals);
             }
             if (investigatorCreditTypeTotals == null) {
-                investigatorCreditTypeTotals = new HashMap<String,KualiDecimal>();
+                investigatorCreditTypeTotals = new HashMap<String, KualiDecimal>();
                 retval.put(PROPOSAL_PERSON_INVESTIGATOR, investigatorCreditTypeTotals);
             }
 
             // Initialize everything to zero
-            for (InvestigatorCreditType creditType : creditTypes) {                
+            for (InvestigatorCreditType creditType : creditTypes) {
                 KualiDecimal totalCredit = creditTypeTotals.get(creditType.getInvCreditTypeCode());
 
                 if (totalCredit == null) {
@@ -356,7 +363,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                         totalCredit = new KualiDecimal(0);
                         creditTypeTotals.put(creditSplit.getInvCreditTypeCode(), totalCredit);
                     }
-                    creditTypeTotals.put(creditSplit.getInvCreditTypeCode(),totalCredit.add(creditSplit.getCredit()));
+                    creditTypeTotals.put(creditSplit.getInvCreditTypeCode(), totalCredit.add(creditSplit.getCredit()));
                 }
             }
         }
@@ -366,7 +373,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
     /**
      * Retrieve the injected <code>{@link BusinessObjectService}</code>
-     * 
+     *
      * @return BusinessObjectService
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -375,15 +382,17 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
     /**
      * assign the <code>{@link BusinessObjectService}</code> to use.
-     * 
-     * @param boservice <code>{@link BusinessObjectService}</code> instance to assign
+     *
+     * @param boservice <code>{@link BusinessObjectService}</code> instance to
+     * assign
      */
     public void setBusinessObjectService(BusinessObjectService boservice) {
         businessObjectService = boservice;
     }
 
     /**
-     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isPrincipalInvestigator(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
+     * @see
+     * org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isPrincipalInvestigator(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
      */
     @Override
     public boolean isPrincipalInvestigator(ProposalPerson person) {
@@ -391,44 +400,46 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
 
     /**
-     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isCoInvestigator(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
+     * @see
+     * org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isCoInvestigator(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
      */
     @Override
     public boolean isCoInvestigator(ProposalPerson person) {
         return CO_INVESTIGATOR_ROLE.equals(person.getProposalPersonRoleId());
     }
 
-
     /**
-     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isCoInvestigator(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
+     * @see
+     * org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isCoInvestigator(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
      */
     @Override
     public boolean isKeyPerson(ProposalPerson person) {
         return KEY_PERSON_ROLE.equals(person.getProposalPersonRoleId());
     }
+
     /**
-     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isInvestigator(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
+     * @see
+     * org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isInvestigator(org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
      */
     @Override
     public boolean isInvestigator(ProposalPerson person) {
-        if(isNotBlank(person.getOptInUnitStatus()) && (person.getOptInUnitStatus().equals("Y")))
-        {
+        if (isNotBlank(person.getOptInUnitStatus()) && (person.getOptInUnitStatus().equals("Y"))) {
             return isPrincipalInvestigator(person) || isCoInvestigator(person) || isKeyPerson(person);
-        }else
-        {
+        } else {
             return isPrincipalInvestigator(person) || isCoInvestigator(person);
         }
     }
 
     /**
-     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#hasPrincipalInvestigator(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     * @see
+     * org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#hasPrincipalInvestigator(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
     @Override
     public boolean hasPrincipalInvestigator(ProposalDevelopmentDocument document) {
         boolean retval = false;
 
         for (Iterator<ProposalPerson> person_it = document.getDevelopmentProposal().getProposalPersons().iterator();
-        person_it.hasNext() && !retval;) {
+                person_it.hasNext() && !retval;) {
             ProposalPerson person = person_it.next();
             retval |= isPrincipalInvestigator(person);
         }
@@ -437,7 +448,9 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
 
     /**
-     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#addUnitToPerson(org.kuali.kra.proposaldevelopment.bo.ProposalPerson, org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit)
+     * @see
+     * org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#addUnitToPerson(org.kuali.kra.proposaldevelopment.bo.ProposalPerson,
+     * org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit)
      */
     @Override
     public void addUnitToPerson(ProposalPerson person, ProposalPersonUnit unit) {
@@ -458,7 +471,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      * Assigns the lead unit of the proposal to the given principal investigator
      *
      * @param document
-     * @param person Principal 
+     * @param person Principal
      */
     @Override
     public void assignLeadUnit(ProposalPerson person, String unitNumber) {
@@ -473,8 +486,9 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
 
     /**
-     * Uses a <code>{@link Unit}</code> obtained from the <code>{@link Unit}</code> lookup
-     * to create a <code>{@link ProposalPersonUnit}</code> instance.
+     * Uses a <code>{@link Unit}</code> obtained from the
+     * <code>{@link Unit}</code> lookup to create a
+     * <code>{@link ProposalPersonUnit}</code> instance.
      *
      * @param unitId
      * @return ProposalPersonUnit
@@ -501,12 +515,12 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
             retval.getCreditSplits().add(creditSplit);
         }
 
-        return retval;        
+        return retval;
     }
 
     /**
      * Accessor method for dependency injection
-     * 
+     *
      * @param ynqService
      */
     public void setYnqService(YnqService ynqService) {
@@ -515,7 +529,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
     /**
      * Accessor method for dependency injection
-     * 
+     *
      * @return NarrativeService
      */
     public NarrativeService getNarrativeService() {
@@ -524,7 +538,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
     /**
      * Accessor method for dependency injection
-     * 
+     *
      * @param narrativeService
      */
     public void setNarrativeService(NarrativeService narrativeService) {
@@ -533,7 +547,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
     /**
      * Accessor method for dependency injection
-     * 
+     *
      * @return YnqService
      */
     public YnqService getYnqService() {
@@ -541,12 +555,13 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
 
     /**
-     * Compares the given <code>roleId</code> against the <code>personrole.readonly.roles</code> to see if it is
-     * read only or not.
+     * Compares the given <code>roleId</code> against the
+     * <code>personrole.readonly.roles</code> to see if it is read only or not.
      *
      * @param roleId to check
-     * @return true if the <code>roleId</code> is a value in the <code>personrole.readonly.roles</code> system parameter, and false
-     *         if the <coderoleId</code> is null
+     * @return true if the <code>roleId</code> is a value in the
+     * <code>personrole.readonly.roles</code> system parameter, and false if the
+     * <coderoleId</code> is null
      * @see #isRoleReadOnly(ProposalPersonRole)
      */
     protected boolean isRoleReadOnly(String roleId) {
@@ -558,21 +573,24 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
 
     /**
-     * Uses the {@link ParameterService} to determine if the application-level configuration parameter is enabled
+     * Uses the {@link ParameterService} to determine if the application-level
+     * configuration parameter is enabled
      *
-     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isCreditSplitEnabled()
+     * @see
+     * org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isCreditSplitEnabled()
      */
     @Override
     public boolean isCreditSplitEnabled() {
         return this.parameterService.getParameterValueAsBoolean(ProposalDevelopmentDocument.class, CREDIT_SPLIT_ENABLED_RULE_NAME);
     }
-    
+
     public String getDefaultPersonAttachmentDocType() {
         return parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, PROPOSAL_PERSON_BIOGRAPHY_DEFAULT_DOC_TYPE);
     }
 
     /**
      * Sets the ParameterService.
+     *
      * @param parameterService the parameter service.
      */
     public void setParameterService(ParameterService parameterService) {
@@ -580,8 +598,9 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
 
     /**
-     * 
-     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isRoleReadOnly(org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole)
+     *
+     * @see
+     * org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#isRoleReadOnly(org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole)
      */
     @Override
     public boolean isRoleReadOnly(ProposalPersonRole role) {
@@ -592,8 +611,9 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
 
     /**
-     * 
-     * @see org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#getPrincipalInvestigatorRoleDescription(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
+     *
+     * @see
+     * org.kuali.kra.proposaldevelopment.service.KeyPersonnelService#getPrincipalInvestigatorRoleDescription(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
      */
     @Override
     public String getPrincipalInvestigatorRoleDescription(ProposalDevelopmentDocument document) {
@@ -605,8 +625,8 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         }
         return getRoleDescriptionParameterValue(parameterName);
     }
-    
-    public boolean isSponsorNihMultiplePi(ProposalDevelopmentDocument document){
+
+    public boolean isSponsorNihMultiplePi(ProposalDevelopmentDocument document) {
         return getSponsorService().isSponsorNihMultiplePi(document.getDevelopmentProposal());
     }
 
@@ -616,7 +636,8 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
      */
     @Override
     public Map<String, String> loadKeyPersonnelRoleDescriptions(boolean sponsorIsNih) {
-        @SuppressWarnings("unchecked") final Collection<ProposalPersonRole> roles = businessObjectService.findAll(ProposalPersonRole.class);
+        @SuppressWarnings("unchecked")
+        final Collection<ProposalPersonRole> roles = businessObjectService.findAll(ProposalPersonRole.class);
         Map<String, String> roleDescriptions = new HashMap<String, String>();
         for (ProposalPersonRole role : roles) {
             roleDescriptions.put(role.getProposalPersonRoleId(), findRoleDescription(role, sponsorIsNih));
@@ -632,20 +653,20 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         String parmName = createRoleDescriptionParameterName(role, sponsorIsNih ? NIH_PARM_KEY : "");
         return getRoleDescriptionParameterValue(parmName);
     }
-    
+
     protected String getRoleDescriptionParameterValue(String parmName) {
-        return parameterService.getParameterValueAsString(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, parmName);        
+        return parameterService.getParameterValueAsString(KC_GENERIC_PARAMETER_NAMESPACE, KC_ALL_PARAMETER_DETAIL_TYPE_CODE, parmName);
     }
 
     protected String createRoleDescriptionParameterName(ContactRole role, String nihToken) {
         return String.format("%s%s%s", PERSON_ROLE_PARAMETER_PREFIX, nihToken, role.getRoleCode().toLowerCase());
     }
-    
+
     protected boolean hasBeenRoutedOrCanceled(ProposalDevelopmentDocument document) {
         WorkflowDocument workflowDoc = document.getDocumentHeader().getWorkflowDocument();
         return !workflowDoc.isInitiated() && !workflowDoc.isSaved();
     }
-    
+
     @Override
     public String getPersonnelRoleDesc(PersonRolodex person) {
         if (getSponsorService().isSponsorNihMultiplePi(person.getParent())) {
@@ -659,7 +680,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
             return person.getContactRole().getRoleDescription();
         }
     }
-    
+
     public void setSponsorService(SponsorService sponsorService) {
         this.sponsorService = sponsorService;
     }
