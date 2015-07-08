@@ -56,7 +56,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     private SponsorService sponsorService;
 
     /**
-     * Part of a complete breakfast, it has everything you need to populate Key Personnel into a <code>{@link ProposalDevelopmentDocument}</code>
+     * Populate Key Personnel into a <code>{@link ProposalDevelopmentDocument}</code>
      * 
      * @param document
      */
