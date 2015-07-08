@@ -33,54 +33,59 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ *
  * This class runs the rules needed for committee decision recording.
  */
 public abstract class CommitteeDecisionRuleBase<CD extends CommitteeDecision<?>> extends ResearchDocumentRuleBase implements ExecuteCommitteeDecisionRule<CD> {
-    
+
     private static final String DOT = ".";
     private static final String MOTION_FIELD = "motionTypeCode";
     private static final String YES_COUNT_FIELD = "yesCount";
     private static final String NO_COUNT_FIELD = "noCount";
-    
+
     private CommitteeScheduleAttendanceServiceBase attendanceService;
-    
+
     protected final CommitteeScheduleAttendanceServiceBase getAttendanceService() {
         if (attendanceService == null) {
             attendanceService = KraServiceLocator.getService(getCommitteeScheduleAttendanceServiceClassHook());
         }
         return attendanceService;
     }
-    
+
     protected abstract Class<? extends CommitteeScheduleAttendanceServiceBase> getCommitteeScheduleAttendanceServiceClassHook();
-    
 
     /**
-     * This is a convenience method to use jmock to set the businessObjectService for unit testing.
-     * @param businessObjectService
+     * This is a convenience method to use jmock to set the
+     * businessObjectService for unit testing.
+     *
+     * @param attendanceService
      */
-    public void setAttendanceService(CommitteeScheduleAttendanceServiceBase attendanceService){
+    public void setAttendanceService(CommitteeScheduleAttendanceServiceBase attendanceService) {
         this.attendanceService = attendanceService;
     }
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.protocol.actions.decision.ExecuteCommitteeDecisionRule#proccessCommitteeDecisionRule(org.kuali.kra.protocol.ProtocolDocumentBase, 
-     *                                                                                                    org.kuali.kra.protocol.actions.decision.CommitteeDecision)
+     *
+     * @param committeeDecision
+     * @see
+     * org.kuali.kra.protocol.actions.decision.ExecuteCommitteeDecisionRule#proccessCommitteeDecisionRule(org.kuali.kra.protocol.ProtocolDocumentBase,
+     * org.kuali.kra.protocol.actions.decision.CommitteeDecision)
      */
+    @Override
     public boolean proccessCommitteeDecisionRule(ProtocolDocumentBase document, CD committeeDecision) {
         boolean isValid = true;
 
         isValid &= processMotion(committeeDecision);
         isValid &= processCounts(document.getProtocol().getProtocolSubmission(), committeeDecision);
-        
+
         return isValid;
     }
-    
+
     private boolean processMotion(CD committeeDecision) {
         boolean retVal = true;
-        
-        if (StringUtils.isBlank(committeeDecision.getMotionTypeCode())) { 
+
+        if (StringUtils.isBlank(committeeDecision.getMotionTypeCode())) {
             reportError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY + DOT + MOTION_FIELD, KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_MOTION);
             retVal = false;
         } else {
@@ -88,18 +93,18 @@ public abstract class CommitteeDecisionRuleBase<CD extends CommitteeDecision<?>>
             ReviewCommentsBeanBase reviewerCommentsBean = committeeDecision.getReviewCommentsBean();
             List<CommitteeScheduleMinuteBase> reviewComments = reviewerCommentsBean.getReviewComments();
             ProtocolBase protocol = committeeDecision.getProtocol();
-            if ((CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS.equals(motionTypeCode) 
+            if ((CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS.equals(motionTypeCode)
                     || CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(motionTypeCode)
-                    || CommitteeDecisionMotionType.DISAPPROVE.equals(motionTypeCode)) 
+                    || CommitteeDecisionMotionType.DISAPPROVE.equals(motionTypeCode))
                     && CollectionUtils.isEmpty(filterReviewComments(reviewComments, protocol))) {
                 reportError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY + DOT + MOTION_FIELD, getNoCommentsForRevisionsErrorMessageHook());
                 retVal = false;
             }
         }
-        
+
         return retVal;
     }
-    
+
     // this hook can be overridden to change the error message; this is a rare case of a non-abstract (default) hook introduced during IACUC refactoring
     protected String getNoCommentsForRevisionsErrorMessageHook() {
         return KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_SMR_SRR_DISAPPROVE_REVIEWER_COMMENTS;
@@ -114,38 +119,36 @@ public abstract class CommitteeDecisionRuleBase<CD extends CommitteeDecision<?>>
         }
         return filteredComments;
     }
-    
+
     protected boolean processCounts(ProtocolSubmissionBase submission, CD committeeDecision) {
         boolean retVal = true;
-        
+
         String committeeId = submission.getCommittee() != null ? submission.getCommittee().getCommitteeId() : null;
         String scheduleId = submission.getScheduleId();
         int membersPresent = getAttendanceService().getActualVotingMembersCount(committeeId, scheduleId);
-        
-        if (membersPresent < committeeDecision.getTotalVoteCount()) {
+
+        // vote count should match attendance exactly. otherwise flag an error.
+        if (membersPresent != committeeDecision.getTotalVoteCount()) {
             reportError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY, KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_INVALID_VOTE_COUNT);
             retVal = false;
         }
-       
-        if(committeeDecision.getYesCount() == null) {
+
+        if (committeeDecision.getYesCount() == null) {
             reportError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY + DOT + YES_COUNT_FIELD, KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_YES_VOTES);
             retVal = false;
-        }
-        else if(committeeDecision.getYesCountValue() <= 0) {
+        } else if (committeeDecision.getYesCountValue() <= 0) {
             reportError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY + DOT + YES_COUNT_FIELD, KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_YES_VOTES_NOT_POSITIVE);
             retVal = false;
-        }
-        else if(!(committeeDecision.getYesCountValue() > committeeDecision.getNoCountValue())) {
+        } else if (!(committeeDecision.getYesCountValue() > committeeDecision.getNoCountValue())) {
             reportError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY, KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_VOTE_YES_NOT_GREATER);
             retVal = false;
         }
 
-        if(committeeDecision.getNoCountValue() < 0) {
+        if (committeeDecision.getNoCountValue() < 0) {
             reportError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY + DOT + NO_COUNT_FIELD, KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_VOTES_NOT_NONNEGATIVE);
             retVal = false;
         }
-        
+
         return retVal;
     }
-    
 }
