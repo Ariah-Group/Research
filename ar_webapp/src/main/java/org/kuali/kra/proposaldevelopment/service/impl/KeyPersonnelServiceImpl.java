@@ -438,9 +438,9 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     public boolean hasPrincipalInvestigator(ProposalDevelopmentDocument document) {
         boolean retval = false;
 
-        for (Iterator<ProposalPerson> person_it = document.getDevelopmentProposal().getProposalPersons().iterator();
-                person_it.hasNext() && !retval;) {
-            ProposalPerson person = person_it.next();
+        for (Iterator<ProposalPerson> personIterator = document.getDevelopmentProposal().getProposalPersons().iterator();
+                personIterator.hasNext() && !retval;) {
+            ProposalPerson person = personIterator.next();
             retval |= isPrincipalInvestigator(person);
         }
 
