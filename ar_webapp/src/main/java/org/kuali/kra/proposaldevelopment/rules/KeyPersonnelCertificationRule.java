@@ -236,6 +236,6 @@ public class KeyPersonnelCertificationRule extends ResearchDocumentRuleBase impl
 
     private String getKeyPersonCertDeferralParm() {
         return ProposalDevelopmentUtils
-                .getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.KEY_PERSON_CERTIFICATION_DEFERRAL_PARM);
+                .getProposalDevelopmentDocumentParameter(Constants.ARIAH_PROPDEV_KEY_PERSON_CERTIFICATION_DEFERRAL);
     }
 }

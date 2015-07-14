@@ -29,12 +29,11 @@ public class ProposalDevelopmentS2sQuestionnaireHelper extends ProposalDevelopme
 
     private static final long serialVersionUID = 8595107639632039291L;
     private transient ProposalDevelopmentS2sQuestionnaireService proposalDevelopmentS2sQuestionnaireService;
-    
-    
+
     public ProposalDevelopmentS2sQuestionnaireHelper(ProposalDevelopmentForm form) {
         super(form);
     }
-    
+
     @Override
     public String getModuleCode() {
         return CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE;
@@ -42,27 +41,28 @@ public class ProposalDevelopmentS2sQuestionnaireHelper extends ProposalDevelopme
 
     @Override
     public ModuleQuestionnaireBean getModuleQnBean() {
-        ProposalDevelopmentDocument propDevDoc = getProposalDevelopmentDocument(); 
+        ProposalDevelopmentDocument propDevDoc = getProposalDevelopmentDocument();
         ModuleQuestionnaireBean moduleQuestionnaireBean = new ProposalDevelopmentS2sModuleQuestionnaireBean(propDevDoc.getDevelopmentProposal());
         return moduleQuestionnaireBean;
     }
-  
+
     @SuppressWarnings("unchecked")
-    
+
     /**
-     * 
-     * This method get/setup questionnaire answers when 'questionnaire' page is clicked.
+     *
+     * This method get/setup questionnaire answers when 'questionnaire' page is
+     * clicked.
      */
+    @Override
     public void populateAnswers() {
         List<AnswerHeader> headers = getProposalDevelopmentS2sQuestionnaireService().getProposalS2sAnswerHeaders(getProposalDevelopmentDocument().getDevelopmentProposal());
         setAnswerHeaders(headers);
         resetHeaderLabels();
     }
-    
-  
 
     /**
-     * Gets the proposalDevelopmentS2sQuestionnaireService attribute. 
+     * Gets the proposalDevelopmentS2sQuestionnaireService attribute.
+     *
      * @return Returns the proposalDevelopmentS2sQuestionnaireService.
      */
     public ProposalDevelopmentS2sQuestionnaireService getProposalDevelopmentS2sQuestionnaireService() {
@@ -71,6 +71,5 @@ public class ProposalDevelopmentS2sQuestionnaireHelper extends ProposalDevelopme
         }
         return proposalDevelopmentS2sQuestionnaireService;
     }
-
 
 }

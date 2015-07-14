@@ -59,56 +59,53 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -5090730280279711495L;
-    
+
     private static final Log LOG = LogFactory.getLog(ProposalPersonQuestionnaireHelper.class);
 
     private ProposalPerson proposalPerson;
-    
+
     private ProposalDevelopmentForm proposalDevelopmentForm;
-    
+
     private QuestionnaireService questionnaireService;
-    
+
     private ParameterService parameterService;
-    
+
     private boolean canAnswerAfterRouting = false;
-    
+
     /**
      * Constructs a ProposalPersonQuestionnaireHelper.java.
+     *
      * @param form
      */
     public ProposalPersonQuestionnaireHelper(ProposalDevelopmentForm form, ProposalPerson proposalPerson) {
         this.proposalDevelopmentForm = form;
         this.setProposalPerson(proposalPerson);
         this.populateAnswers();
-    }    
-    
-    
+    }
+
     public ProposalPerson getProposalPerson() {
         return proposalPerson;
     }
-
-
 
     public void setProposalPerson(ProposalPerson proposalPerson) {
         this.proposalPerson = proposalPerson;
     }
 
-
-
     /**
-     * 
-     * @see org.kuali.kra.questionnaire.QuestionnaireHelperBase#getModuleQnBean()
+     *
+     * @see
+     * org.kuali.kra.questionnaire.QuestionnaireHelperBase#getModuleQnBean()
      */
     @Override
     public ModuleQuestionnaireBean getModuleQnBean() {
-        ProposalDevelopmentDocument propDevDoc = getProposalDevelopmentDocument(); 
-        ProposalPersonModuleQuestionnaireBean moduleQuestionnaireBean = 
-            new ProposalPersonModuleQuestionnaireBean(propDevDoc.getDevelopmentProposal(), getProposalPerson());
+        ProposalDevelopmentDocument propDevDoc = getProposalDevelopmentDocument();
+        ProposalPersonModuleQuestionnaireBean moduleQuestionnaireBean
+                = new ProposalPersonModuleQuestionnaireBean(propDevDoc.getDevelopmentProposal(), getProposalPerson());
         return moduleQuestionnaireBean;
     }
-    
+
     /**
-     * 
+     *
      * This method is to set up things for questionnaire page to be displayed.
      */
     public void prepareView() {
@@ -123,15 +120,15 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
         boolean canCertify = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
         setAnswerQuestionnaire(canCertify);
 
-        String keyPersonCertDeferral = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, "KEY_PERSON_CERTIFICATION_DEFERRAL");
+        String keyPersonCertDeferral = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.ARIAH_PROPDEV_KEY_PERSON_CERTIFICATION_DEFERRAL);
 
-        if(keyPersonCertDeferral.equals("BS") || ObjectUtils.isNull(getProposalDevelopmentDocument())) {
+        if (keyPersonCertDeferral.equals("BS") || ObjectUtils.isNull(getProposalDevelopmentDocument())) {
             setCanAnswerAfterRouting(false);
-        } else if(keyPersonCertDeferral.equals("BA")) {
-            
+        } else if (keyPersonCertDeferral.equals("BA")) {
+
             boolean isEnroute = getProposalDevelopmentDocument().getDocumentHeader().getWorkflowDocument().isEnroute();
-            
-            if(!isEnroute && !canCertify) {
+
+            if (!isEnroute && !canCertify) {
                 setCanAnswerAfterRouting(false);
             } else {
                 //questionnaires should continue to be answerable only to the following approvers.
@@ -139,7 +136,7 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
                 if (personRole.getRoleCode().equals(Constants.CO_INVESTIGATOR_ROLE)
                         || personRole.getRoleCode().equals(Constants.PRINCIPAL_INVESTIGATOR_ROLE)
                         || personRole.getRoleCode().equals(Constants.KEY_PERSON_ROLE)) {
-                    if(proposalPerson.getPerson().getPersonId().equals(getUserIdentifier())
+                    if (proposalPerson.getPerson().getPersonId().equals(getUserIdentifier())
                             || canCertify) {
                         setCanAnswerAfterRouting(true);
                     }
@@ -147,7 +144,7 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
             }
         } else {
             //KEY_PERSON_CERTIFICATION_DEFERRAL is set to an improper value.
-            LOG.warn("System Parameter 'KEY_PERSON_CERTIFICATION_DEFERRAL' is not properly set. Must be one of 'BA' or 'BS'");
+            LOG.warn("System Parameter '" + Constants.ARIAH_PROPDEV_KEY_PERSON_CERTIFICATION_DEFERRAL + "' is not properly set. Must be one of 'BA' or 'BS'");
             setCanAnswerAfterRouting(false);
         }
     }
@@ -156,10 +153,12 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
     public String getModuleCode() {
         return CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE;
     }
-    
+
     /**
-     * 
-     * This method returns the ProposalDevelopmentDocument if it is valid, otherwise throws an illegal argument exception
+     *
+     * This method returns the ProposalDevelopmentDocument if it is valid,
+     * otherwise throws an illegal argument exception
+     *
      * @return
      */
     protected ProposalDevelopmentDocument getProposalDevelopmentDocument() {
@@ -169,9 +168,10 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
         }
         return document;
     }
-    
+
     /**
-     * Gets the proposalDevelopmentForm attribute. 
+     * Gets the proposalDevelopmentForm attribute.
+     *
      * @return Returns the proposalDevelopmentForm.
      */
     public ProposalDevelopmentForm getProposalDevelopmentForm() {
@@ -180,16 +180,17 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
 
     /**
      * Sets the proposalDevelopmentForm attribute value.
+     *
      * @param proposalDevelopmentForm The proposalDevelopmentForm to set.
      */
     public void setProposalDevelopmentForm(ProposalDevelopmentForm proposalDevelopmentForm) {
         this.proposalDevelopmentForm = proposalDevelopmentForm;
     }
-    
+
     public String getNamespaceCd() {
         return Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
     }
-    
+
     @Override
     public void populateAnswers() {
         super.populateAnswers();
@@ -198,8 +199,8 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
             AnswerHeader mostCurrentHeader = getAnswerHeaders().get(0);
             for (AnswerHeader header : getAnswerHeaders()) {
                 //should only be 1 header that is the current questionnaire and has the usage for certification
-                if (getQuestionnaireService().isCurrentQuestionnaire(header.getQuestionnaire()) &&
-                        header.getQuestionnaire().hasUsageFor(getModuleCode(), CoeusSubModule.PROPOSAL_PERSON_CERTIFICATION)) {
+                if (getQuestionnaireService().isCurrentQuestionnaire(header.getQuestionnaire())
+                        && header.getQuestionnaire().hasUsageFor(getModuleCode(), CoeusSubModule.PROPOSAL_PERSON_CERTIFICATION)) {
                     mostCurrentHeader = header;
                 }
             }
@@ -208,7 +209,6 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
         }
     }
 
-
     protected QuestionnaireService getQuestionnaireService() {
         if (questionnaireService == null) {
             questionnaireService = KraServiceLocator.getService(QuestionnaireService.class);
@@ -216,13 +216,12 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
         return questionnaireService;
     }
 
-
     public void setQuestionnaireService(QuestionnaireService questionnaireService) {
         this.questionnaireService = questionnaireService;
     }
-    
+
     protected ParameterService getParameterService() {
-        if(parameterService == null) {
+        if (parameterService == null) {
             parameterService = KraServiceLocator.getService(ParameterService.class);
         }
         return parameterService;
@@ -235,7 +234,6 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
     public boolean getCanAnswerAfterRouting() {
         return canAnswerAfterRouting;
     }
-
 
     public void setCanAnswerAfterRouting(boolean canAnswerAfterRouting) {
         this.canAnswerAfterRouting = canAnswerAfterRouting;

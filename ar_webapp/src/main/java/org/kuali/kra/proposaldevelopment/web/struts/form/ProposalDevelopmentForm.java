@@ -1209,7 +1209,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
      * Set the New Narrative User Rights. This is displayed on the View/Edit
      * Rights web page for attachments.
      *
-     * @param newNarrativeUserRights the new narrativer user rights
+     * @param newNarrativeUserRights the new narrative user rights
      */
     public void setNewNarrativeUserRights(List<NarrativeUserRights> newNarrativeUserRights) {
         this.newNarrativeUserRights = newNarrativeUserRights;
@@ -1293,7 +1293,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             }
             if (isCanSubmitToGrantsGov()) {
                 if (developmentProposal.getS2sOpportunity() != null
-                        && developmentProposal.getS2sAppSubmission().size() == 0) {
+                        && developmentProposal.getS2sAppSubmission().isEmpty()) {
                     String grantsGovSubmitImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_submittos2s.gif";
                     addExtraButton("methodToCall.submitToGrantsGov", grantsGovSubmitImage, "Submit To S2S");
                 }
@@ -1984,7 +1984,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     /**
      * Sets the GrantsGovSubmitFlag attribute value.
      *
-     * @param GrantsGovSubmitFlag The GrantsGovSubmitFlag to set.
+     * @param grantsGovSubmitFlag The GrantsGovSubmitFlag to set.
      */
     public void setGrantsGovSubmitFlag(boolean grantsGovSubmitFlag) {
         this.grantsGovSubmitFlag = grantsGovSubmitFlag;
@@ -2002,7 +2002,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     /**
      * Sets the SaveXmlPermission attribute value.
      *
-     * @param SaveXmlPermission The SaveXmlPermission to set.
+     * @param saveXmlPermission The SaveXmlPermission to set.
      */
     public void setSaveXmlPermission(boolean saveXmlPermission) {
         this.saveXmlPermission = saveXmlPermission;
@@ -2020,7 +2020,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     /**
      * Sets the GrantsGovSelectFlag attribute value.
      *
-     * @param GrantsGovSelectFlag The GrantsGovSelectFlag to set.
+     * @param grantsGovSelectFlag The GrantsGovSelectFlag to set.
      */
     public void setGrantsGovSelectFlag(boolean grantsGovSelectFlag) {
         this.grantsGovSelectFlag = grantsGovSelectFlag;
