@@ -338,11 +338,6 @@ move *.log ../LOGS
 cd ..
 
 :5.3.2ORACLE
-cd AR-RELEASE-5_3_3-SCRIPT
-sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < AR-RELEASE-5_3_3-Upgrade-ORACLE.sql
-sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-5_3_3-Upgrade-ORACLE.sql
-move *.log ../LOGS
-cd ..
 
 :5.3.3ORACLE
 cd AR-RELEASE-5_3_4-SCRIPT
