@@ -34,7 +34,6 @@ spool KR-RELEASE-4_0-Upgrade-ORACLE-Install.log
 @oracle/dml/KR_DML_01_KRACOEUS-5230_B000.sql
 @oracle/dml/KR_DML_01_KRACOEUS-5238_B000.sql
 @oracle/dml/KR_DML_01_KRACOEUS-5249_B000.sql
-@oracle/dml/SR/KR_DML_01_KRACOEUS-5250_B000.sql
 @oracle/dml/KR_DML_01_KRACOEUS-5251_B000.sql
 @oracle/dml/KR_DML_01_KRACOEUS-5254_B000.sql
 @oracle/dml/KR_DML_01_KRACOEUS-5257_B000.sql
