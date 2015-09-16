@@ -21,28 +21,32 @@ import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateAutho
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateFormBase;
 
 /**
- * 
+ *
  * Action class for ProtocolCorrespondenceTemplate.
  */
 public class ProtocolCorrespondenceTemplateAction extends ProtocolCorrespondenceTemplateActionBase {
-    
-    
+
+    @Override
     protected String getModifyCorrespondenceTemplatePermissionNameHook() {
         return PermissionConstants.MODIFY_CORRESPONDENCE_TEMPLATE;
     }
-    
+
+    @Override
     protected String getViewCorrespondenceTemplatePermissionNameHook() {
-        return PermissionConstants.VIEW_IACUC_CORRESPONDENCE_TEMPLATE;
+        return PermissionConstants.VIEW_CORRESPONDENCE_TEMPLATE;
     }
 
+    @Override
     protected ProtocolCorrespondenceTemplateFormBase getNewProtocolCorrespondenceTemplateFormInstanceHook() {
-        return new ProtocolCorrespondenceTemplateForm();        
+        return new ProtocolCorrespondenceTemplateForm();
     }
-    
+
+    @Override
     protected Class<ProtocolCorrespondenceTemplateService> getProtocolCorrespondenceTemplateServiceClassHook() {
         return ProtocolCorrespondenceTemplateService.class;
     }
-    
+
+    @Override
     protected Class<? extends ProtocolCorrespondenceTemplateAuthorizationService> getProtocolCorrespondenceTemplateAuthorizationServiceClassHook() {
         return ProtocolCorrespondenceTemplateAuthorizationService.class;
     }
