@@ -84,7 +84,7 @@ public abstract class IrbActionsKeyValuesBase extends FormViewAwareUifKeyValuesF
     
     /**
      * 
-     * This method returns an instance of CommitteeService.
+     * This method returns an instance of KeyValuesService.
      * @return KeyValuesService
      */
     public KeyValuesService getKeyValuesService() {
