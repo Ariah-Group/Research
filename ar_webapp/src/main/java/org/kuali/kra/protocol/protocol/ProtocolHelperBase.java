@@ -40,7 +40,6 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.util.GlobalVariables;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
