@@ -501,8 +501,8 @@ public abstract class ProtocolHelperBase implements Serializable {
     }
 
     /**
-     * This is used to calculate princiapal investigator ID from fields it's the
-     * values set rolodex id or person id depening on the lookup type
+     * This is used to calculate principal investigator ID from fields it's the
+     * values set rolodex id or person id depending on the lookup type
      */
     private void findPrincipalInvestigatorIdFromFields() {
         if (StringUtils.isNotEmpty(getRolodexId())) {
