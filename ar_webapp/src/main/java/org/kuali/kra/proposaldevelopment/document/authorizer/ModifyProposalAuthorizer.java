@@ -24,33 +24,30 @@ import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 
-
 /**
- * The Modify Proposal Authorizer checks to see if the user has 
- * permission to modify a proposal. Authorization depends upon whether
- * the proposal is being created or modified.  For creation, the
- * user needs the CREATE_PROPOSAL permission in the Lead Unit for
- * that proposal.  If the proposal is being modified, the user only
- * needs to have the MODIFY_PROPOSAL permission for that proposal and
- * the document cannot be in workflow.
+ * The Modify Proposal Authorizer checks to see if the user has permission to
+ * modify a proposal. Authorization depends upon whether the proposal is being
+ * created or modified. For creation, the user needs the CREATE_PROPOSAL
+ * permission in the Lead Unit for that proposal. If the proposal is being
+ * modified, the user only needs to have the MODIFY_PROPOSAL permission for that
+ * proposal and the document cannot be in workflow.
  */
 public class ModifyProposalAuthorizer extends ProposalAuthorizer {
 
+    @Override
     public boolean isAuthorized(String userId, ProposalTask task) {
         boolean hasPermission = true;
         ProposalDevelopmentDocument doc = task.getDocument();
         String proposalNbr = doc.getDevelopmentProposal().getProposalNumber();
 
         if (proposalNbr == null) {
-            
+
             // We have to consider the case when we are saving the document for the first time.
-            
             String unitNumber = doc.getDevelopmentProposal().getOwnedByUnitNumber();
-            
+
             // If the unit number is not specified, we will let the save operation continue because it
             // will fail with an error.  But if the user tries to save a proposal for a wrong unit, then
             // we will indicate that the user does not have permission to do that. 
-            
             if (unitNumber != null) {
                 UnitAuthorizationService auth = KraServiceLocator.getService(UnitAuthorizationService.class);
                 hasPermission = auth.hasPermission(userId, unitNumber, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.CREATE_PROPOSAL);
@@ -60,13 +57,14 @@ public class ModifyProposalAuthorizer extends ProposalAuthorizer {
              * After the initial save, the proposal can only be modified if it is not in workflow
              * and the user has the require permission.
              */
-            WorkflowDocument wfd=doc.getDocumentHeader().getWorkflowDocument();
+            WorkflowDocument wfd = doc.getDocumentHeader().getWorkflowDocument();
 
-            boolean hasBeenRejected=KraServiceLocator.getService(KraDocumentRejectionService.class).isDocumentOnInitialNode(doc);
-            hasPermission = !doc.isViewOnly() &&
-                            hasProposalPermission(userId, doc, PermissionConstants.MODIFY_PROPOSAL) &&
-                            (!kraWorkflowService.isInWorkflow(doc) || hasBeenRejected) &&
-                            !doc.getDevelopmentProposal().getSubmitFlag();
+            boolean hasBeenRejected = KraServiceLocator.getService(KraDocumentRejectionService.class).isDocumentOnInitialNode(doc);
+            hasPermission = !doc.isViewOnly()
+                    && !isPessimisticLocked(doc)
+                    && hasProposalPermission(userId, doc, PermissionConstants.MODIFY_PROPOSAL)
+                    && (!kraWorkflowService.isInWorkflow(doc) || hasBeenRejected)
+                    && !doc.getDevelopmentProposal().getSubmitFlag();
         }
         return hasPermission;
     }

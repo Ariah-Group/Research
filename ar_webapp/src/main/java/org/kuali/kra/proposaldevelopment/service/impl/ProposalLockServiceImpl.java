@@ -29,7 +29,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -95,7 +94,7 @@ public class ProposalLockServiceImpl extends PessimisticLockServiceImpl implemen
     @SuppressWarnings("unchecked")
     @Override
     protected Map getEditModeWithEditableModesRemoved(Map currentEditMode) {
-        Map editModeMap = new HashMap();
+        Map editModeMap = super.getEditModeWithEditableModesRemoved(currentEditMode);
         for (Iterator iterator = editModeMap.entrySet().iterator(); iterator.hasNext();) {
             Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next();
             if (StringUtils.equals(entry.getKey(), ADD_BUDGET)) {
