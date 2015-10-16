@@ -27,21 +27,30 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
+/**
+ * Provides a KeyValue lookup of FnA Rate Types.
+ * 
+ */
 public class AwardFnARatesValuesFinder extends UifKeyValuesFinderBase {
+
     KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-    ParameterService parameterService = (ParameterService)KraServiceLocator.getService(ParameterService.class);
+    ParameterService parameterService = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+
     /**
-     * Constructs the list of Budget Periods.  Each entry
-     * in the list is a &lt;key, value&gt; pair, where the "key" is the unique
-     * status code and the "value" is the textual description that is viewed
-     * by a user.  The list is obtained from the BudgetDocument if any are defined there. 
-     * Otherwise, it is obtained from a lookup of the BUDGET_PERIOD database table
-     * via the "KeyValueFinderService".
-     * 
-     * @return the list of &lt;key, value&gt; pairs of abstract types.  The first entry
-     * is always &lt;"", "select:"&gt;.
+     * Constructs the list of Rate Types. Each entry in the list is a &lt;key,
+     * value&gt; pair, where the "key" is the unique Rate Type Code and the
+     * "value" is the Rate Type description that is viewed by a user. The list
+     * is obtained from the RATE_TYPE database table and is filtered by a Rate
+     * Class Code matching the value of the Parameter
+     * "awardBudgetDefaultFnARateClassCode" .
+     *
+     * @return the list of &lt;key, value&gt; pairs of RateTypes. The first
+     * entry is always &lt;"", "select:"&gt;.
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @Override
@@ -50,17 +59,24 @@ public class AwardFnARatesValuesFinder extends UifKeyValuesFinderBase {
         matchingAwardFnARateTypes.add(0, new ConcreteKeyValue("", "select"));
         return matchingAwardFnARateTypes;
     }
-    
+
     private List<KeyValue> filterRateTypes() {
-        Collection<RateType> awardFnARateTypes= keyValuesService.findAll(RateType.class);
+
+        // retrieve parameter
         String fnaRateClassCode = parameterService.getParameterValueAsString(AwardBudgetDocument.class, Constants.AWARD_BUDGET_DEFAULT_FNA_RATE_CLASS_CODE);
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();        
+
+        // define filter
+        Map<String, String> paramFields = new HashMap<String, String>();
+        paramFields.put("rateClassCode", fnaRateClassCode);
+
+        // lookup records and return ONLY those matching the filter
+        Collection<RateType> awardFnARateTypes = (Collection<RateType>) KraServiceLocator
+                .getService(BusinessObjectService.class).findMatchingOrderBy(RateType.class, paramFields, "description", true);
+
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (RateType rateType : awardFnARateTypes) {
-            if(rateType.getRateClassCode().equals(fnaRateClassCode)){
-                keyValues.add(new ConcreteKeyValue(rateType.getRateTypeCode(),rateType.getDescription()));
-            }
+            keyValues.add(new ConcreteKeyValue(rateType.getRateTypeCode(), rateType.getDescription()));
         }
         return keyValues;
     }
-
 }
