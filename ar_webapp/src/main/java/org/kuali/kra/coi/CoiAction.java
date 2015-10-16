@@ -227,7 +227,7 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
     private void setUndisclosedProjects(boolean isGroupedByEvent, ActionForm form) {
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         coiDisclosureForm.getDisclosureHelper().setDisclosureGroupedByEvent(isGroupedByEvent);
-        List<CoiGroupedMasterDisclosureBean> groupedUndisclosedProjects = new ArrayList<CoiGroupedMasterDisclosureBean>(); 
+        List<CoiGroupedMasterDisclosureBean> groupedUndisclosedProjects = null; 
         if(isGroupedByEvent) {
             groupedUndisclosedProjects = getCoiDisclosureService().getUndisclosedProjectsGroupedByEvent(getCoiDisclosureProjects(coiDisclosureForm)); 
         }else {

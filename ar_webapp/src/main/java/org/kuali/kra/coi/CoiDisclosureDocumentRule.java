@@ -77,9 +77,7 @@ public class CoiDisclosureDocumentRule extends ResearchDocumentRuleBase implemen
      */
     @Override
     public boolean processRules(KraDocumentEventBaseExtension event) {
-        boolean retVal = false;
-        retVal = event.getRule().processRules(event);
-        return retVal;
+        return event.getRule().processRules(event);
     }
 
     @Override

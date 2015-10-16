@@ -43,31 +43,27 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
 public class CoiDisclosureDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, CoiDisclosureDao {
 
     @Override
     public List<CoiDisclosureHistory> getApprovedAndDisapprovedDisclosureHistory(String coiDisclosureNumber) {
-        
+
         Criteria crit1 = new Criteria();
         crit1.addEqualTo("coiDisclosureNumber", coiDisclosureNumber);
         crit1.addEqualTo("disclosureStatus", CoiDisclosureStatus.APPROVED);
-        
+
         Criteria crit2 = new Criteria();
         crit2.addEqualTo("coiDisclosureNumber", coiDisclosureNumber);
         crit2.addEqualTo("disclosureStatus", CoiDisclosureStatus.DISAPPROVED);
-        
+
         crit1.addOrCriteria(crit2);
-        
+
         QueryByCriteria query = QueryFactory.newQuery(CoiDisclosureHistory.class, crit1);
         query.addOrderByDescending("sequenceNumber");
-        Collection history = new ArrayList();
-
-        history = getPersistenceBrokerTemplate().getCollectionByQuery(query);
-        
-        return (List<CoiDisclosureHistory>) history;     
+        Collection history = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return (List<CoiDisclosureHistory>) history;
     }
-        
+
     @Override
     public List<CoiDisclosure> getReviewsForReviewStatuses(Collection<String> reviewStatusCodes) {
         if (reviewStatusCodes == null || reviewStatusCodes.isEmpty()) {
@@ -79,32 +75,29 @@ public class CoiDisclosureDaoOjb extends PlatformAwareDaoBaseOjb implements OjbC
             crit2.addEqualTo("reviewStatusCode", reviewCode);
             crit1.addOrCriteria(crit2);
         }
-        
+
         QueryByCriteria query = QueryFactory.newQuery(CoiDisclosure.class, crit1);
         query.addOrderByDescending("sequenceNumber");
-        
+
         Collection<CoiDisclosure> disclosures = getPersistenceBrokerTemplate().getCollectionByQuery(query);
-        
+
         for (CoiDisclosure disclosure : disclosures) {
             List<CoiDisclProject> coiDisclProjects = disclosure.getCoiDisclProjects();
-    
+
             CoiDisclosureEventType coiDisclosureEventType = disclosure.getCoiDisclosureEventType();
             String coiDisclosureModuleItemKey = disclosure.getModuleItemKey();
-            for(CoiDisclProject coiDisclProject : coiDisclProjects)
-            {
-                if ( coiDisclosureEventType.getEventTypeCode().equals(coiDisclProject.getDisclosureEventType()) &&
-                            coiDisclosureModuleItemKey.equals(coiDisclProject.getModuleItemKey()) )
-                {
+            for (CoiDisclProject coiDisclProject : coiDisclProjects) {
+                if (coiDisclosureEventType.getEventTypeCode().equals(coiDisclProject.getDisclosureEventType())
+                        && coiDisclosureModuleItemKey.equals(coiDisclProject.getModuleItemKey())) {
                     disclosure.setCoiDisclProjectId(coiDisclProject.getProjectId());
                     disclosure.setCoiDisclProjectTitle(coiDisclProject.getCoiProjectTitle());
                     break;
                 }
             }
         }
-        
-        return new ArrayList<CoiDisclosure>(disclosures);     
-        
+
+        return new ArrayList<CoiDisclosure>(disclosures);
+
     }
-    
-    
+
 }

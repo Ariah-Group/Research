@@ -151,7 +151,8 @@ public class CoiDisclosureAction extends CoiAction {
         getCoiDisclosureService().updateDisclosureAndProjectDisposition(coiDisclosure);
 
         /**
-         * ********** Begin --- Save (if valid) document and questionnaire data ***********
+         * ********** Begin --- Save (if valid) document and questionnaire data
+         * ***********
          */
         // First validate the questionnaire data
         if (coiDisclosure.getCoiDisclProjects() != null || !coiDisclosure.getCoiDisclProjects().isEmpty()) {
@@ -171,7 +172,8 @@ public class CoiDisclosureAction extends CoiAction {
             helper.fixReloadedAttachments(request.getParameterMap());
         }
         /**
-         * ********** End --- Save (if valid) document and questionnaire data ***********
+         * ********** End --- Save (if valid) document and questionnaire data
+         * ***********
          */
 
         if (KRADConstants.SAVE_METHOD.equals(coiDisclosureForm.getMethodToCall()) && coiDisclosureForm.isAuditActivated()
@@ -338,11 +340,8 @@ public class CoiDisclosureAction extends CoiAction {
                         }
                         coiDisclosure.setEventTypeCode(eventTypeCode);
                         coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosure));
-
-                        if (coiDisclosure != null) {
-                            coiDisclosureForm.getCoiDisclosureDocument().setCoiDisclosure(coiDisclosure);
-                            coiDisclosure.setCoiDisclosureDocument(coiDisclosureForm.getCoiDisclosureDocument());
-                        }
+                        coiDisclosureForm.getCoiDisclosureDocument().setCoiDisclosure(coiDisclosure);
+                        coiDisclosure.setCoiDisclosureDocument(coiDisclosureForm.getCoiDisclosureDocument());
                         setQuestionnaireStatuses(coiDisclosureForm, coiDisclosure);
                     } else {
                         coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosure));
@@ -600,8 +599,8 @@ public class CoiDisclosureAction extends CoiAction {
                             coiDisclosureDocument);
                 }
                 /**
-                 * ********** End --- Save (if valid) document and questionnaire
-                 * data ***********
+                 * ********** End --- Save (if valid) document and
+                 * questionnaire data ***********
                  */
 
             } else {
@@ -649,8 +648,7 @@ public class CoiDisclosureAction extends CoiAction {
 
     /**
      * **
-     * COI NOTES AND ATTACHMENTS
-     * *
+     * COI NOTES AND ATTACHMENTS *
      */
     public ActionForward replaceAttachmentCoi(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -987,7 +985,8 @@ public class CoiDisclosureAction extends CoiAction {
             }
         }
         /**
-         * ********** Begin --- Save (if valid) document and questionnaire data ***********
+         * ********** Begin --- Save (if valid) document and questionnaire data
+         * ***********
          */
         // TODO factor out the different versions of this doc and questionnaire data save block from various actions in this class
         // and centralize it in a helper method
@@ -1002,7 +1001,8 @@ public class CoiDisclosureAction extends CoiAction {
 
         }
         /**
-         * ********** End --- Save (if valid) document and questionnaire data ***********
+         * ********** End --- Save (if valid) document and questionnaire data
+         * ***********
          */
 
         return actionForward;

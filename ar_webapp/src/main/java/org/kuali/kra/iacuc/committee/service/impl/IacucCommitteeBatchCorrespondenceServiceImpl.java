@@ -44,117 +44,113 @@ import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTypeBase;
 import java.sql.Date;
 import java.util.List;
 
-
 public class IacucCommitteeBatchCorrespondenceServiceImpl extends CommitteeBatchCorrespondenceServiceImplBase implements IacucCommitteeBatchCorrespondenceService {
 
     @Override
-      /**
-      * This method generates the batch correspondence for a committee.
-      * @param batchCorrespondenceTypeCode
-      * @param startDate
-      * @param endDate
-      * @return CommitteeBatchCorrespondenceBase
-      * @throws Exception 
-      */
-     public CommitteeBatchCorrespondenceBase generateBatchCorrespondence(String batchCorrespondenceTypeCode, String committeeId, Date startDate, 
-             Date endDate) throws Exception {
-         BatchCorrespondenceBase batchCorrespondence = null;
-         List<? extends ProtocolBase> protocols = null;
-         finalActionCounter = 0;
-    
-         CommitteeBatchCorrespondenceBase committeeBatchCorrespondence = new IacucCommitteeBatchCorrespondence(batchCorrespondenceTypeCode, 
-                 committeeId, startDate, endDate);
-         
-         String protocolActionTypeCode;
-         
-         if (StringUtils.equals(batchCorrespondenceTypeCode, Constants.PROTOCOL_RENEWAL_REMINDERS)) {
-             protocols = protocolDao.getExpiringProtocols(committeeId, startDate, endDate);
-             protocolActionTypeCode = Constants.IACUC_PROTOCOL_ACTION_TYPE_CODE_RENEWAL_REMINDER_GENERATED;
-         } else if (StringUtils.equals(batchCorrespondenceTypeCode, Constants.REMINDER_TO_IACUC_NOTIFICATIONS)) {
-             protocols = protocolDao.getNotifiedProtocols(committeeId, startDate, endDate);
-             protocolActionTypeCode = Constants.IACUC_PROTOCOL_ACTION_TYPE_CODE_IACUC_REMINDER_GENERATED;
-         } else {
-             throw new IllegalArgumentException(batchCorrespondenceTypeCode);
-         }
-    
-         batchCorrespondence = lookupBatchCorrespondence(batchCorrespondenceTypeCode);
-         
-         for (ProtocolBase protocol : protocols) {
-             ProtocolCorrespondenceTypeBase protocolCorrespondenceType = getProtocolCorrespondenceTypeToGenerate(protocol, batchCorrespondence);
-    
-             if (protocolCorrespondenceType != null)  {
-                 if (protocolCorrespondenceTemplateService.getProtocolCorrespondenceTemplate(committeeId, 
-                         protocolCorrespondenceType.getProtoCorrespTypeCode()) == null) {
-                     LOG.warn("Correspondence template \"" + protocolCorrespondenceType.getDescription() + "\" is missing.  Correspondence for protocol " 
-                             + protocol.getProtocolNumber() + " has not been generated.  Add the missing template and regenerate correspondence.");
-                 } else {
-                     CommitteeBatchCorrespondenceDetailBase batchCorrespondenceDetail = createBatchCorrespondenceDetail(committeeId, protocol, 
-                             protocolCorrespondenceType, committeeBatchCorrespondence.getCommitteeBatchCorrespondenceId(), protocolActionTypeCode);
-                     committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().add(batchCorrespondenceDetail);
-                     
-                     Long detailId = batchCorrespondenceDetail.getCommitteeBatchCorrespondenceDetailId();
-                     String description = protocolCorrespondenceType.getDescription();
-                     String userFullName = Constants.EMPTY_STRING;
-                 
-                     IacucBatchCorrespondenceNotificationRenderer renderer 
-                         = new IacucBatchCorrespondenceNotificationRenderer((IacucProtocol) protocol, detailId, description, userFullName);
-                     IacucProtocolNotificationContext context 
-                         = new IacucProtocolNotificationContext((IacucProtocol) protocol, IacucProtocolActionType.RENEWAL_REMINDER_GENERATED, "Renewal Reminder Generated", renderer);
-                     context.setEmailAttachments(getEmailAttachments(batchCorrespondenceDetail.getProtocolCorrespondence()));
-                     kcNotificationService.sendNotification(context);
-                     
-                     
-                 }
-             }
-         }
-    
-         businessObjectService.save(committeeBatchCorrespondence);
-         
-         committeeBatchCorrespondence.setFinalActionCounter(finalActionCounter);
-         
-         return committeeBatchCorrespondence;
-     }
+    /**
+     * This method generates the batch correspondence for a committee.
+     *
+     * @param batchCorrespondenceTypeCode
+     * @param startDate
+     * @param endDate
+     * @return CommitteeBatchCorrespondenceBase
+     * @throws Exception
+     */
+    public CommitteeBatchCorrespondenceBase generateBatchCorrespondence(String batchCorrespondenceTypeCode, String committeeId, Date startDate,
+            Date endDate) throws Exception {
+        List<? extends ProtocolBase> protocols = null;
+        finalActionCounter = 0;
+
+        CommitteeBatchCorrespondenceBase committeeBatchCorrespondence = new IacucCommitteeBatchCorrespondence(batchCorrespondenceTypeCode,
+                committeeId, startDate, endDate);
+
+        String protocolActionTypeCode;
+
+        if (StringUtils.equals(batchCorrespondenceTypeCode, Constants.PROTOCOL_RENEWAL_REMINDERS)) {
+            protocols = protocolDao.getExpiringProtocols(committeeId, startDate, endDate);
+            protocolActionTypeCode = Constants.IACUC_PROTOCOL_ACTION_TYPE_CODE_RENEWAL_REMINDER_GENERATED;
+        } else if (StringUtils.equals(batchCorrespondenceTypeCode, Constants.REMINDER_TO_IACUC_NOTIFICATIONS)) {
+            protocols = protocolDao.getNotifiedProtocols(committeeId, startDate, endDate);
+            protocolActionTypeCode = Constants.IACUC_PROTOCOL_ACTION_TYPE_CODE_IACUC_REMINDER_GENERATED;
+        } else {
+            throw new IllegalArgumentException(batchCorrespondenceTypeCode);
+        }
+
+        BatchCorrespondenceBase batchCorrespondence = lookupBatchCorrespondence(batchCorrespondenceTypeCode);
+
+        for (ProtocolBase protocol : protocols) {
+            ProtocolCorrespondenceTypeBase protocolCorrespondenceType = getProtocolCorrespondenceTypeToGenerate(protocol, batchCorrespondence);
+
+            if (protocolCorrespondenceType != null) {
+                if (protocolCorrespondenceTemplateService.getProtocolCorrespondenceTemplate(committeeId,
+                        protocolCorrespondenceType.getProtoCorrespTypeCode()) == null) {
+                    LOG.warn("Correspondence template \"" + protocolCorrespondenceType.getDescription() + "\" is missing.  Correspondence for protocol "
+                            + protocol.getProtocolNumber() + " has not been generated.  Add the missing template and regenerate correspondence.");
+                } else {
+                    CommitteeBatchCorrespondenceDetailBase batchCorrespondenceDetail = createBatchCorrespondenceDetail(committeeId, protocol,
+                            protocolCorrespondenceType, committeeBatchCorrespondence.getCommitteeBatchCorrespondenceId(), protocolActionTypeCode);
+                    committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().add(batchCorrespondenceDetail);
+
+                    Long detailId = batchCorrespondenceDetail.getCommitteeBatchCorrespondenceDetailId();
+                    String description = protocolCorrespondenceType.getDescription();
+                    String userFullName = Constants.EMPTY_STRING;
+
+                    IacucBatchCorrespondenceNotificationRenderer renderer
+                            = new IacucBatchCorrespondenceNotificationRenderer((IacucProtocol) protocol, detailId, description, userFullName);
+                    IacucProtocolNotificationContext context
+                            = new IacucProtocolNotificationContext((IacucProtocol) protocol, IacucProtocolActionType.RENEWAL_REMINDER_GENERATED, "Renewal Reminder Generated", renderer);
+                    context.setEmailAttachments(getEmailAttachments(batchCorrespondenceDetail.getProtocolCorrespondence()));
+                    kcNotificationService.sendNotification(context);
+
+                }
+            }
+        }
+
+        businessObjectService.save(committeeBatchCorrespondence);
+
+        committeeBatchCorrespondence.setFinalActionCounter(finalActionCounter);
+
+        return committeeBatchCorrespondence;
+    }
 
     @Override
-      /**
-      * This method applies the final action to the protocol.
-      * 
-      * @param protocol
-      * @param batchCorrespondence
-      * @throws Exception
-      */
-     protected void applyFinalAction(ProtocolBase protocol, BatchCorrespondenceBase batchCorrespondence) throws Exception {
-     
-         IacucProtocolGenericActionBean actionBean = new IacucProtocolGenericActionBean(null, Constants.EMPTY_STRING);
-         actionBean.setComments("Final action of batch Correspondence: " + batchCorrespondence.getDescription());
-         
-         if (StringUtils.equals(IacucProtocolActionType.SUSPENDED, batchCorrespondence.getFinalActionTypeCode())) {
-             try {
-                 protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument();
-             }
-             catch (RuntimeException ex) {
-                 protocol.setProtocolDocument((IacucProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber()));
-             }
-             protocolGenericActionService.suspend(protocol, actionBean);
-             finalActionCounter++;
-         }
-         
-         if (StringUtils.equals(IacucProtocolActionType.EXPIRED, batchCorrespondence.getFinalActionTypeCode())) {
-             try {
-                 protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument();
-             }
-             catch (RuntimeException ex) {
-                 protocol.setProtocolDocument((IacucProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber()));
-             }
-             protocolGenericActionService.expire(protocol, actionBean);
-             finalActionCounter++;
-         }
-         
-     }
+    /**
+     * This method applies the final action to the protocol.
+     *
+     * @param protocol
+     * @param batchCorrespondence
+     * @throws Exception
+     */
+    protected void applyFinalAction(ProtocolBase protocol, BatchCorrespondenceBase batchCorrespondence) throws Exception {
+
+        IacucProtocolGenericActionBean actionBean = new IacucProtocolGenericActionBean(null, Constants.EMPTY_STRING);
+        actionBean.setComments("Final action of batch Correspondence: " + batchCorrespondence.getDescription());
+
+        if (StringUtils.equals(IacucProtocolActionType.SUSPENDED, batchCorrespondence.getFinalActionTypeCode())) {
+            try {
+                protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument();
+            } catch (RuntimeException ex) {
+                protocol.setProtocolDocument((IacucProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber()));
+            }
+            protocolGenericActionService.suspend(protocol, actionBean);
+            finalActionCounter++;
+        }
+
+        if (StringUtils.equals(IacucProtocolActionType.EXPIRED, batchCorrespondence.getFinalActionTypeCode())) {
+            try {
+                protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument();
+            } catch (RuntimeException ex) {
+                protocol.setProtocolDocument((IacucProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber()));
+            }
+            protocolGenericActionService.expire(protocol, actionBean);
+            finalActionCounter++;
+        }
+
+    }
 
     @Override
     protected Class<? extends ProtocolCorrespondence> getProtocolCorrespondenceBOClassHook() {
-       return IacucProtocolCorrespondence.class;
+        return IacucProtocolCorrespondence.class;
     }
 
     @Override

@@ -159,8 +159,7 @@ implements AddOnlineReviewCommentRule,
     }
 
     public boolean processRules(KraDocumentEventBaseExtension event) {
-        boolean retVal = false;
-        retVal = event.getRule().processRules(event);
+        boolean retVal = event.getRule().processRules(event);
         return retVal;
     }
 

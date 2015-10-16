@@ -29,17 +29,21 @@ import java.util.Iterator;
 import java.util.List;
 
 public class IacucPainCategoryValuesFinder extends UifKeyValuesFinderBase {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 3597528521094545089L;
 
     /**
-     * Constructs the list of Iacuc Protocol Pain Category Types. Each entry in the list is a &lt;key, value&gt; pair, where the "key" is the unique
-     * pain category code and the "value" is the textual description that is viewed by a user. The list is obtained from the IACUC_PAIN_CATEGORY
-     * database table via the "KeyValuesService".
-     * 
-     * @return the list of &lt;key, value&gt; pairs of abstract types. The first entry is always &lt;"", "select:"&gt;.
+     * Constructs the list of Iacuc Protocol Pain Category Types. Each entry in
+     * the list is a &lt;key, value&gt; pair, where the "key" is the unique pain
+     * category code and the "value" is the textual description that is viewed
+     * by a user. The list is obtained from the IACUC_PAIN_CATEGORY database
+     * table via the "KeyValuesService".
+     *
+     * @return the list of &lt;key, value&gt; pairs of abstract types. The first
+     * entry is always &lt;"", "select:"&gt;.
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @Override
@@ -49,18 +53,17 @@ public class IacucPainCategoryValuesFinder extends UifKeyValuesFinderBase {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
         for (Iterator<IacucPainCategory> iter = iacucPainCategories.iterator(); iter.hasNext();) {
-            IacucPainCategory iacucPainCategory = (IacucPainCategory) iter.next();
-            if(iacucPainCategory.isActive()) {
+            IacucPainCategory iacucPainCategory = iter.next();
+            if (iacucPainCategory.isActive()) {
                 keyValues.add(new ConcreteKeyValue(iacucPainCategory.getPainCategoryCode().toString(),
                         iacucPainCategory.getPainCategory()));
             }
         }
         return keyValues;
     }
-    
+
     protected KeyValuesService getKeyValuesService() {
         return (KeyValuesService) KraServiceLocator.getService("keyValuesService");
     }
-
 
 }

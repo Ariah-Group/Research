@@ -29,17 +29,21 @@ import java.util.Iterator;
 import java.util.List;
 
 public class IacucSpeciesValuesFinder extends UifKeyValuesFinderBase {
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 3597528521094545089L;
 
     /**
-     * Constructs the list of Iacuc Protocol Species Types. Each entry in the list is a &lt;key, value&gt; pair, where the "key" is the unique
-     * species code and the "value" is the textual description that is viewed by a user. The list is obtained from the IACUC_SPECIES
-     * database table via the "KeyValuesService".
-     * 
-     * @return the list of &lt;key, value&gt; pairs of abstract types. The first entry is always &lt;"", "select:"&gt;.
+     * Constructs the list of Iacuc Protocol Species Types. Each entry in the
+     * list is a &lt;key, value&gt; pair, where the "key" is the unique species
+     * code and the "value" is the textual description that is viewed by a user.
+     * The list is obtained from the IACUC_SPECIES database table via the
+     * "KeyValuesService".
+     *
+     * @return the list of &lt;key, value&gt; pairs of abstract types. The first
+     * entry is always &lt;"", "select:"&gt;.
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
     @Override
@@ -49,16 +53,15 @@ public class IacucSpeciesValuesFinder extends UifKeyValuesFinderBase {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
         for (Iterator<IacucSpecies> iter = iacucSpeciesList.iterator(); iter.hasNext();) {
-            IacucSpecies iacucSpecies = (IacucSpecies) iter.next();
+            IacucSpecies iacucSpecies = iter.next();
             keyValues.add(new ConcreteKeyValue(iacucSpecies.getSpeciesCode().toString(),
                     iacucSpecies.getSpeciesName()));
         }
         return keyValues;
     }
-    
+
     protected KeyValuesService getKeyValuesService() {
         return (KeyValuesService) KraServiceLocator.getService("keyValuesService");
     }
-
 
 }

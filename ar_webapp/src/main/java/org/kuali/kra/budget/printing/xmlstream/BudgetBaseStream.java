@@ -677,8 +677,10 @@ public abstract class BudgetBaseStream implements XmlStream {
                 lastGroup = presentGroup;
             }
             reportTypeListForGroup.add(reportType);
-            groupsType.setDetailsArray(reportTypeListForGroup
-                    .toArray(new ReportType[0]));
+            if (groupsType != null) {
+                groupsType.setDetailsArray(reportTypeListForGroup.toArray(new ReportType[0]));
+            }
+
         }
         return groupTypeList.toArray(new GroupsType[0]);
     }
@@ -812,22 +814,22 @@ public abstract class BudgetBaseStream implements XmlStream {
             sortId = 1;
             categoryDesc = ALLOCATED_ADMINISTRATIVE_SUPPORT;
             calculatedCost = getCalculatedCostForBudgetExclusionsSortId1();
-            ReportType reportTypeForSortId1 = getReportTypeForExclusions(
-                    sortId, categoryDesc, calculatedCost);
+            ReportType reportTypeForSortId1 = getReportTypeForExclusions(sortId, categoryDesc, calculatedCost);
             reportTypeList.add(reportTypeForSortId1);
             sortId = 2;
+            
             categoryDesc = EMPLOYEE_BENEFITS_ON_ALLOCATED_ADMINISTRATIVE_SUPPORT;
             calculatedCost = getCalculatedCostForBudgetOHExclusionsSortId2();
-            ReportType reportTypeForSortId2 = getReportTypeForExclusions(
-                    sortId, categoryDesc, calculatedCost);
+            ReportType reportTypeForSortId2 = getReportTypeForExclusions(sortId, categoryDesc, calculatedCost);
             reportTypeList.add(reportTypeForSortId2);
             sortId = 3;
+            
             setReportTypeOHExclusionForSortId(reportTypeList, sortId);
             sortId = 4;
+            
             categoryDesc = ALLOCATED_LAB_EXPENSE;
             calculatedCost = getCalculatedCostForBudgetExclusionsSortId4();
-            ReportType reportTypeForSortId4 = getReportTypeForExclusions(
-                    sortId, categoryDesc, calculatedCost);
+            ReportType reportTypeForSortId4 = getReportTypeForExclusions(sortId, categoryDesc, calculatedCost);
             reportTypeList.add(reportTypeForSortId4);
         } else {
             sortId = 1;
@@ -852,21 +854,18 @@ public abstract class BudgetBaseStream implements XmlStream {
             sortId = 1;
             categoryDesc = ALLOCATED_ADMINISTRATIVE_SUPPORT;
             calculatedCost = getCalculatedCostForBudgetExclusionsSortId1();
-            ReportType reportTypeForSortId1 = getReportTypeForExclusions(
-                    sortId, categoryDesc, calculatedCost);
+            ReportType reportTypeForSortId1 = getReportTypeForExclusions(sortId, categoryDesc, calculatedCost);
             reportTypeList.add(reportTypeForSortId1);
             sortId = 2;
             categoryDesc = TOTAL_EMPLOYEE_BENEFITS;
             calculatedCost = getCalculatedCostForBudgetLAExclusionsSortId2();
-            ReportType reportTypeForSortId2 = getReportTypeForExclusions(
-                    sortId, categoryDesc, calculatedCost);
+            ReportType reportTypeForSortId2 = getReportTypeForExclusions(sortId, categoryDesc, calculatedCost);
             reportTypeList.add(reportTypeForSortId2);
             setReportTypeForBudgetLAExclusionsSortId3(reportTypeList);
             sortId = 4;
             categoryDesc = ALLOCATED_LAB_EXPENSE;
             calculatedCost = getCalculatedCostForBudgetExclusionsSortId4();
-            ReportType reportTypeForSortId4 = getReportTypeForExclusions(
-                    sortId, categoryDesc, calculatedCost);
+            ReportType reportTypeForSortId4 = getReportTypeForExclusions(sortId, categoryDesc, calculatedCost);
             reportTypeList.add(reportTypeForSortId4);
         }
         subReportType.setGroupArray(getGroupsType(reportTypeList));
@@ -900,10 +899,8 @@ public abstract class BudgetBaseStream implements XmlStream {
         for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
             if (!checkLineItemNumberAvailableForOHExclusion(budgetLineItem)) {
                 ReportTypeVO reportTypeVO = new ReportTypeVO();
-                reportTypeVO
-                        .setCostElementDesc(getCostElementDescription(budgetLineItem));
-                reportTypeVO
-                        .setCalculatedCost(budgetLineItem.getLineItemCost());
+                reportTypeVO.setCostElementDesc(getCostElementDescription(budgetLineItem));
+                reportTypeVO.setCalculatedCost(budgetLineItem.getLineItemCost());
                 tempReportTypeVOList.add(reportTypeVO);
             }
         }
@@ -928,18 +925,15 @@ public abstract class BudgetBaseStream implements XmlStream {
             }
             BudgetDecimal calculatedCost = BudgetDecimal.ZERO;
             for (ReportTypeVO reportTypeVO1 : tempReportTypeVOList) {
-                String budgetOHExclusionTempKey = reportTypeVO1
-                        .getCostElementDesc();
+                String budgetOHExclusionTempKey = reportTypeVO1.getCostElementDesc();
                 if (budgetOHExclusionTempKey.equals(budgetOHExclusionKey)) {
-                    calculatedCost = calculatedCost.add(reportTypeVO1
-                            .getCalculatedCost());
+                    calculatedCost = calculatedCost.add(reportTypeVO1.getCalculatedCost());
                 }
             }
             reportTypeMap.put(budgetOHExclusionKey, reportTypeVO);
             ReportType reportType = ReportType.Factory.newInstance();
             reportType.setSortId(sortId);
-            reportType.setCostElementDescription(reportTypeVO
-                    .getCostElementDesc());
+            reportType.setCostElementDescription(reportTypeVO.getCostElementDesc());
             reportType.setCalculatedCost(calculatedCost.doubleValue());
             reportTypeList.add(reportType);
         }
@@ -971,10 +965,8 @@ public abstract class BudgetBaseStream implements XmlStream {
             if (!isBudgetCategoryPersonnel(budgetLineItem)
                     && !checkLineItemNumberAvailableForLAExclusion(budgetLineItem)) {
                 ReportTypeVO tempReportTypeVO = new ReportTypeVO();
-                tempReportTypeVO
-                        .setCostElementDesc(getCostElementDescription(budgetLineItem));
-                tempReportTypeVO.setCalculatedCost(budgetLineItem
-                        .getLineItemCost());
+                tempReportTypeVO.setCostElementDesc(getCostElementDescription(budgetLineItem));
+                tempReportTypeVO.setCalculatedCost(budgetLineItem.getLineItemCost());
                 tempReportTypeVOList.add(tempReportTypeVO);
             }
         }
@@ -997,18 +989,15 @@ public abstract class BudgetBaseStream implements XmlStream {
             }
             BudgetDecimal calculatedCost = BudgetDecimal.ZERO;
             for (ReportTypeVO reportTypeVO1 : tempReportTypeVOList) {
-                String budgetLAExclusionTempKey = reportTypeVO1
-                        .getCostElementDesc();
+                String budgetLAExclusionTempKey = reportTypeVO1.getCostElementDesc();
                 if (budgetLAExclusionTempKey.equals(budgetLAExclusionsKey)) {
-                    calculatedCost = calculatedCost.add(reportTypeVO1
-                            .getCalculatedCost());
+                    calculatedCost = calculatedCost.add(reportTypeVO1.getCalculatedCost());
                 }
             }
             reportTypeMap.put(budgetLAExclusionsKey, reportTypeVO);
             ReportType reportType = ReportType.Factory.newInstance();
             reportType.setSortId(3);
-            reportType.setCostElementDescription(reportTypeVO
-                    .getCostElementDesc());
+            reportType.setCostElementDescription(reportTypeVO.getCostElementDesc());
             reportType.setCalculatedCost(calculatedCost.doubleValue());
             reportTypeList.add(reportType);
         }
@@ -1044,13 +1033,11 @@ public abstract class BudgetBaseStream implements XmlStream {
             BudgetLineItem budgetLineItem) {
         boolean availabe = false;
         Integer lineItemNumber = budgetLineItem.getLineItemNumber();
-        for (BudgetLineItemCalculatedAmount budgetLineItemCalcAmount : budgetLineItem
-                .getBudgetLineItemCalculatedAmounts()) {
+        for (BudgetLineItemCalculatedAmount budgetLineItemCalcAmount : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
             budgetLineItemCalcAmount.refreshReferenceObject(RATE_CLASS);
             if (budgetLineItemCalcAmount.getApplyRateFlag()
                     && isLineItemCalAmountOfRateClassTypeOverhead(budgetLineItemCalcAmount)) {
-                if (budgetLineItemCalcAmount.getLineItemNumber().equals(
-                        lineItemNumber)) {
+                if (budgetLineItemCalcAmount.getLineItemNumber().equals(lineItemNumber)) {
                     availabe = true;
                 }
             }
@@ -1082,8 +1069,7 @@ public abstract class BudgetBaseStream implements XmlStream {
      */
     private SubReportType getBudgetOHRateBaseForPeriod() {
         SubReportType subReportType = SubReportType.Factory.newInstance();
-        List<ReportType> reportTypeList = getReportTypeListForBudgetOHRateAndBase(RateClassType.OVERHEAD
-                .getRateClassType());
+        List<ReportType> reportTypeList = getReportTypeListForBudgetOHRateAndBase(RateClassType.OVERHEAD.getRateClassType());
         subReportType.setGroupArray(getGroupsType(reportTypeList));
         return subReportType;
     }
@@ -1095,8 +1081,7 @@ public abstract class BudgetBaseStream implements XmlStream {
      */
     private SubReportType getBudgetEBRateBaseForPeriod() {
         SubReportType subReportType = SubReportType.Factory.newInstance();
-        List<ReportType> reportTypeList = getReportTypeListForBudgetEBRateAndBase(RateClassType.EMPLOYEE_BENEFITS
-                .getRateClassType());
+        List<ReportType> reportTypeList = getReportTypeListForBudgetEBRateAndBase(RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
         subReportType.setGroupArray(getGroupsType(reportTypeList, rateType));
         return subReportType;
 

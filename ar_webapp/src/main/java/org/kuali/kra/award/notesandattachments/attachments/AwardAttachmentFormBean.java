@@ -173,7 +173,7 @@ public class AwardAttachmentFormBean implements Serializable{
         
         for (AwardAttachment attachment : attachments) {
             final Integer curMax = typeToDocNumber.get(attachment.getTypeCode());
-            if (curMax == null || curMax.intValue() < attachment.getDocumentId().intValue()) {
+            if (curMax == null || curMax < attachment.getDocumentId()) {
                 typeToDocNumber.put(attachment.getTypeCode(), attachment.getDocumentId());
             }
         }
@@ -204,7 +204,7 @@ public class AwardAttachmentFormBean implements Serializable{
      * @return the new doc number.
      */
     private static Integer createNextDocNumber(final Integer docNumber) {
-        return docNumber == null ? NumberUtils.INTEGER_ONE : Integer.valueOf(docNumber.intValue() + 1);
+        return docNumber == null ? NumberUtils.INTEGER_ONE : docNumber + 1;
     }
     
     

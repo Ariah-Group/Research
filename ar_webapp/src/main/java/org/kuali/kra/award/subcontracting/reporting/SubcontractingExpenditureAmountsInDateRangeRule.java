@@ -25,40 +25,40 @@ import java.sql.Date;
 
 @SuppressWarnings("deprecation")
 public class SubcontractingExpenditureAmountsInDateRangeRule {
-    
+
     private static final String RANGE_START_DATE = "rangeStartDate";
     private static final String RANGE_END_DATE = "rangeEndDate";
-    
+
     private DictionaryValidationService dictionaryValidationService;
-    
+
     public boolean validateDateRange(Date rangeStartDate, Date rangeEndDate) {
-        boolean rulePassed = false;
+
         String ddEntryName = SubcontractingExpenditureCategoryAmountsInDateRange.class.getSimpleName();
         // first check that both the range end points have been supplied 
-        this.getDictionaryValidationService().validateAttributeRequired(ddEntryName, RANGE_START_DATE, rangeStartDate, false, RANGE_START_DATE);        
+        this.getDictionaryValidationService().validateAttributeRequired(ddEntryName, RANGE_START_DATE, rangeStartDate, false, RANGE_START_DATE);
         this.getDictionaryValidationService().validateAttributeRequired(ddEntryName, RANGE_END_DATE, rangeEndDate, false, RANGE_END_DATE);
-        rulePassed = GlobalVariables.getMessageMap().hasNoErrors();
-            
+        boolean rulePassed = GlobalVariables.getMessageMap().hasNoErrors();
+
         if (rulePassed) {
             // check that the start date is before the end date
-            if(rangeEndDate.before(rangeStartDate)) {
+            if (rangeEndDate.before(rangeStartDate)) {
                 rulePassed = false;
                 // report the error by putting the message in global map
                 ErrorReporter reporter = new ErrorReporter();
                 reporter.reportError(RANGE_START_DATE, KeyConstants.EXPENDITURES_RANGE_START_DATE_AFTER_END_DATE);
             }
         }
-        
+
         return rulePassed;
     }
-    
+
     public DictionaryValidationService getDictionaryValidationService() {
         if (this.dictionaryValidationService == null) {
             this.dictionaryValidationService = KNSServiceLocator.getKNSDictionaryValidationService();
         }
         return this.dictionaryValidationService;
     }
-    
+
     public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService) {
         this.dictionaryValidationService = dictionaryValidationService;
     }

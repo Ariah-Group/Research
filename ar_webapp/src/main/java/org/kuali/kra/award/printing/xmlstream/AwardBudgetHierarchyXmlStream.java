@@ -99,7 +99,6 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
      */
     private AwardAmountInfo getAwardAmountInfo(Award award) {
 
-        AmountInfoType amountInfoType = null;
         AwardAmountInfo awardAmountInfo = AwardAmountInfo.Factory.newInstance();
         List<AmountInfoType> amountInfoTypes = new ArrayList<AmountInfoType>();
         AwardHierarchy branchNode = award.getAwardHierarchyService().loadFullHierarchyFromAnyNode(award.getParentNumber());
@@ -116,7 +115,7 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
         }
         if (branchNode != null) {
 
-            amountInfoType = setAwardAmountInfo(parentAward, parentAward.getLastAwardAmountInfo());
+            AmountInfoType amountInfoType = setAwardAmountInfo(parentAward, parentAward.getLastAwardAmountInfo());
             amountInfoTypes = recurseTree(branchNode, amountInfoTypes);
             amountInfoTypes.add(0, amountInfoType);
             awardAmountInfo.setAmountInfoArray(amountInfoTypes.toArray(new AmountInfoType[0]));

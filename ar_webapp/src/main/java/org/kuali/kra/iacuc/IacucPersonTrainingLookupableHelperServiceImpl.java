@@ -72,7 +72,7 @@ public class IacucPersonTrainingLookupableHelperServiceImpl extends KualiLookupa
     }
     
     public KcPersonService getKcPersonService() {
-        return (KcPersonService) KraServiceLocator.getService(KcPersonService.class);
+        return KraServiceLocator.getService(KcPersonService.class);
     }
 
     @Override

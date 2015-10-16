@@ -27,11 +27,8 @@ public class ApproveCoiDisclosureAuthorizer extends CoiDisclosureAuthorizer {
 
     protected boolean isSubmitted(CoiDisclosureTask task) {
         CoiDisclosure disclosure = task.getCoiDisclosure();
-        
-        if (disclosure.getCoiDisclosureDocument().getDocumentHeader().hasWorkflowDocument() &&
-            disclosure.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isEnroute()) {
-            return true;
-        }
-        return false;
+
+        return (disclosure.getCoiDisclosureDocument().getDocumentHeader().hasWorkflowDocument()
+                && disclosure.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isEnroute());
     }
 }

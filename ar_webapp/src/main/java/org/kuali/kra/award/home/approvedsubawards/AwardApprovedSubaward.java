@@ -131,8 +131,7 @@ public class AwardApprovedSubaward extends AwardAssociate implements ValuableIte
     @Override
     public int hashCode() {
         final int PRIME = 31;
-        int result = 1;
-        result = PRIME * super.hashCode();
+        int result = PRIME * super.hashCode();
         result = PRIME * result + ((amount == null) ? 0 : amount.hashCode());
         result = PRIME * result + ((awardApprovedSubawardId == null) ? 0 : awardApprovedSubawardId.hashCode());
         result = PRIME * result + ((organizationName == null) ? 0 : organizationName.hashCode());

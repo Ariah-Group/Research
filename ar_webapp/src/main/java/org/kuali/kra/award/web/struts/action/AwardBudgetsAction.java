@@ -188,13 +188,14 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
         Award newestAward = getAwardBudgetService().getActiveOrNewestAward(awardDocument.getAward().getAwardNumber());
         newestAward.refreshReferenceObject("awardFandaRate");
 
-        List ebRates = new ArrayList();
-        if (newestAward.getSpecialEbRateOffCampus() != null) {
-            ebRates.add(newestAward.getSpecialEbRateOffCampus());
-        }
-        if (newestAward.getSpecialEbRateOnCampus() != null) {
-            ebRates.add(newestAward.getSpecialEbRateOnCampus());
-        }
+        // Commenting out code below as the collection gets ADDED to but never used. Flag for later removal.
+//        List ebRates = new ArrayList();
+//        if (newestAward.getSpecialEbRateOffCampus() != null) {
+//            ebRates.add(newestAward.getSpecialEbRateOffCampus());
+//        }
+//        if (newestAward.getSpecialEbRateOnCampus() != null) {
+//            ebRates.add(newestAward.getSpecialEbRateOnCampus());
+//        }
         if (newestAward.getRequestedStartDateInitial() == null || newestAward.getRequestedEndDateInitial() == null) {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
@@ -345,7 +346,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
 
     private int getTentativeFinalBudgetVersion(AwardForm awardForm) {
         if (awardForm.getFinalBudgetVersion() != null) {
-            return awardForm.getFinalBudgetVersion().intValue();
+            return awardForm.getFinalBudgetVersion();
         }
 
         AwardDocument document = awardForm.getAwardDocument();
@@ -354,7 +355,7 @@ public class AwardBudgetsAction extends AwardAction implements AuditModeAction {
             for (BudgetDocumentVersion budgetDocumentVersion : awardBudgetDocuments) {
                 BudgetVersionOverview budget = budgetDocumentVersion.getBudgetVersionOverview();
                 if (budget.isFinalVersionFlag()) {
-                    return budget.getBudgetVersionNumber().intValue();
+                    return budget.getBudgetVersionNumber();
                 }
             }
         }

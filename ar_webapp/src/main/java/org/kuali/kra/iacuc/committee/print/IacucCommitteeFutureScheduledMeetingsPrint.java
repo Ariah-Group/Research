@@ -47,7 +47,7 @@ public class IacucCommitteeFutureScheduledMeetingsPrint extends TemplatePrintBas
     @Override
     public String getProtoCorrespTypeCode() {
 
-        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        ParameterService paramServ = KraServiceLocator.getService(ParameterService.class);
 
         String iacucFutureScheduledCorrespTypeCode = paramServ.getParameterValueAsString(Constants.MODULE_NAMESPACE_IACUC,
                 Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ARIAH_IACUC_CORRESP_TYPE_CODE_SCHEDULED_MEETINGS);

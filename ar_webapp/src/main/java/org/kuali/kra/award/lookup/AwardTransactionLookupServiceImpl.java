@@ -69,7 +69,7 @@ public class AwardTransactionLookupServiceImpl implements AwardTransactionLookup
             Collection<Award> awards = getBusinessObjectService().findMatchingOrderBy(Award.class, awardValues, "sequenceNumber", true);
             List<Long> excludedTransactionIds = new ArrayList<Long>();
             for (Award award : awards) {
-                if (award.getSequenceNumber() < sequenceNumber.intValue()) {
+                if (award.getSequenceNumber() < sequenceNumber) {
                     for (AwardAmountInfo amountInfo : award.getAwardAmountInfos()) {
                         if (amountInfo.getTransactionId() != null) {
                             excludedTransactionIds.add(amountInfo.getTransactionId());

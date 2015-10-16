@@ -46,8 +46,7 @@ public class IacucReviewDeterminationTypeLookupableHelperServiceImpl extends Kua
     @SuppressWarnings("unchecked")
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-        List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-        htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
+        List<HtmlData> htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
         List<HtmlData> returnHtmlDataList = new ArrayList<HtmlData>();
         for (HtmlData htmlData : htmlDataList) {
             if (!(htmlData.getDisplayText().equalsIgnoreCase("copy")

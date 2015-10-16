@@ -38,320 +38,277 @@ import java.util.List;
  * This class is the implementation of {@link BudgetPrintService}. It has
  * capability to print any reports related to Budget like Budget Summary,
  * Cost-Share Summary etc.
- * 
+ *
  */
-
 public class BudgetPrintingServiceImpl implements BudgetPrintService {
-	private BudgetSummaryPrint budgetSummaryPrint;
-	private BudgetCostShareSummaryPrint budgetCostShareSummaryPrint;
-	private BudgetSalaryPrint budgetSalaryPrint;
-	private PrintingService printingService;
-	private BudgetTotalPrint budgetTotalPrint;
-	private BudgetSummaryTotalPrint budgetSummaryTotalPrint;
-	private IndustrialCumulativeBudgetPrint industrialCumulativeBudgetPrint;
-	private IndustrialBudgetPrint industrialBudgetPrint;
-	private BudgetCumulativePrint budgetCumulativePrint;
-	private static final Log LOG = LogFactory.getLog(BudgetPrintingServiceImpl.class);
 
-	/**
-	 * This method generates the required report and returns the PDF stream as
-	 * {@link AttachmentDataSource}. It first identifies the report type to be
-	 * printed, then fetches the required report generator. The report generator
-	 * generates XML which is then passed to {@link PrintingService} for
-	 * transforming into PDF.
-	 * 
-	 * @param budget
-	 *            Award data using which report is generated
-	 * @param reportName
-	 *            report to be generated
-	 * @return {@link AttachmentDataSource} which contains the byte array of the
-	 *         generated PDF
-	 * @throws PrintingException
-	 *             if any errors occur during report generation
-	 * 
-	 */
-	public AttachmentDataSource printBudgetReport(
-	        KraPersistableBusinessObjectBase budget, String reportName)
-			throws PrintingException {
-		AttachmentDataSource attachmentDataSource = null;
-		AbstractPrint printable = null;
-		String fileName = reportName+"-"+((Budget)budget).getBudgetDocument().getParentDocumentKey()+Constants.PDF_FILE_EXTENSION;
-		if (reportName.equals(BudgetPrintType.BUDGET_SUMMARY_REPORT
-				.getBudgetPrintType())) {
-			printable = getBudgetSummaryPrint();
-		} else if (reportName
-				.equals(BudgetPrintType.BUDGET_COST_SHARE_SUMMARY_REPORT
-						.getBudgetPrintType())) {
-			printable = getBudgetCostShareSummaryPrint();
-		} else if (reportName
-				.equals(BudgetPrintType.INDUSTRIAL_CUMULATIVE_BUDGET_REPORT
-						.getBudgetPrintType())) {
-			printable = getIndustrialCumulativeBudgetPrint();
-		} else if (reportName.equals(BudgetPrintType.BUDGET_SALARY_REPORT
-				.getBudgetPrintType())) {
-			printable = getBudgetSalaryPrint();
-		} else if (reportName.equals(BudgetPrintType.BUDGET_TOTAL_REPORT
-				.getBudgetPrintType())) {
-			printable = getBudgetTotalPrint();
-		} else if (reportName
-				.equals(BudgetPrintType.BUDGET_SUMMARY_TOTAL_REPORT
-						.getBudgetPrintType())) {
-			printable = getBudgetSummaryTotalPrint();
-		} else if (reportName.equals(BudgetPrintType.BUDGET_CUMULATIVE_REPORT
-				.getBudgetPrintType())) {
-			printable = getBudgetCumulativePrint();
-		} else if (reportName.equals(BudgetPrintType.INDUSTRIAL_BUDGET_REPORT
-				.getBudgetPrintType())) {
-			printable = getIndustrialBudgetPrint();
-		}
-		printable.setPrintableBusinessObject(budget);
-		attachmentDataSource = getPrintingService().print(printable);
-		try {
-            attachmentDataSource.setFileName(URLEncoder.encode(fileName,"UTF-8"));
+    private BudgetSummaryPrint budgetSummaryPrint;
+    private BudgetCostShareSummaryPrint budgetCostShareSummaryPrint;
+    private BudgetSalaryPrint budgetSalaryPrint;
+    private PrintingService printingService;
+    private BudgetTotalPrint budgetTotalPrint;
+    private BudgetSummaryTotalPrint budgetSummaryTotalPrint;
+    private IndustrialCumulativeBudgetPrint industrialCumulativeBudgetPrint;
+    private IndustrialBudgetPrint industrialBudgetPrint;
+    private BudgetCumulativePrint budgetCumulativePrint;
+    private static final Log LOG = LogFactory.getLog(BudgetPrintingServiceImpl.class);
+
+    /**
+     * This method generates the required report and returns the PDF stream as
+     * {@link AttachmentDataSource}. It first identifies the report type to be
+     * printed, then fetches the required report generator. The report generator
+     * generates XML which is then passed to {@link PrintingService} for
+     * transforming into PDF.
+     *
+     * @param budget Award data using which report is generated
+     * @param reportName report to be generated
+     * @return {@link AttachmentDataSource} which contains the byte array of the
+     * generated PDF
+     * @throws PrintingException if any errors occur during report generation
+     *
+     */
+    public AttachmentDataSource printBudgetReport(
+            KraPersistableBusinessObjectBase budget, String reportName)
+            throws PrintingException {
+        AttachmentDataSource attachmentDataSource = null;
+        AbstractPrint printable = null;
+        String fileName = reportName + "-" + ((Budget) budget).getBudgetDocument().getParentDocumentKey() + Constants.PDF_FILE_EXTENSION;
+        if (reportName.equals(BudgetPrintType.BUDGET_SUMMARY_REPORT
+                .getBudgetPrintType())) {
+            printable = getBudgetSummaryPrint();
+        } else if (reportName
+                .equals(BudgetPrintType.BUDGET_COST_SHARE_SUMMARY_REPORT
+                        .getBudgetPrintType())) {
+            printable = getBudgetCostShareSummaryPrint();
+        } else if (reportName
+                .equals(BudgetPrintType.INDUSTRIAL_CUMULATIVE_BUDGET_REPORT
+                        .getBudgetPrintType())) {
+            printable = getIndustrialCumulativeBudgetPrint();
+        } else if (reportName.equals(BudgetPrintType.BUDGET_SALARY_REPORT
+                .getBudgetPrintType())) {
+            printable = getBudgetSalaryPrint();
+        } else if (reportName.equals(BudgetPrintType.BUDGET_TOTAL_REPORT
+                .getBudgetPrintType())) {
+            printable = getBudgetTotalPrint();
+        } else if (reportName
+                .equals(BudgetPrintType.BUDGET_SUMMARY_TOTAL_REPORT
+                        .getBudgetPrintType())) {
+            printable = getBudgetSummaryTotalPrint();
+        } else if (reportName.equals(BudgetPrintType.BUDGET_CUMULATIVE_REPORT
+                .getBudgetPrintType())) {
+            printable = getBudgetCumulativePrint();
+        } else if (reportName.equals(BudgetPrintType.INDUSTRIAL_BUDGET_REPORT
+                .getBudgetPrintType())) {
+            printable = getIndustrialBudgetPrint();
         }
-        catch (UnsupportedEncodingException e) {
+        printable.setPrintableBusinessObject(budget);
+        attachmentDataSource = getPrintingService().print(printable);
+        try {
+            attachmentDataSource.setFileName(URLEncoder.encode(fileName, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
             attachmentDataSource.setFileName(fileName);
         }
-		attachmentDataSource.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
-		
-		return attachmentDataSource;
-	}
+        attachmentDataSource.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
 
-	/**
-	 * Populates the various forms that are part of Budget on UI
-	 * 
-	 * @param budget
-	 */
-	public void populateBudgetPrintForms(Budget budget) {
-		BudgetPrintForm budgetCostShareForm = new BudgetPrintForm();
-		budgetCostShareForm
-				.setBudgetReportId(BudgetPrintType.BUDGET_COST_SHARE_SUMMARY_REPORT
-						.getBudgetPrintType());
-		budgetCostShareForm
-				.setBudgetReportName(BudgetPrintType.BUDGET_COST_SHARE_SUMMARY_REPORT
-						.getBudgetPrintType());
-
-		BudgetPrintForm budgetCumulativeForm = new BudgetPrintForm();
-		budgetCumulativeForm
-				.setBudgetReportId(BudgetPrintType.BUDGET_CUMULATIVE_REPORT
-						.getBudgetPrintType());
-		budgetCumulativeForm
-				.setBudgetReportName(BudgetPrintType.BUDGET_CUMULATIVE_REPORT
-						.getBudgetPrintType());
-
-		BudgetPrintForm budgetSalaryForm = new BudgetPrintForm();
-		budgetSalaryForm.setBudgetReportId(BudgetPrintType.BUDGET_SALARY_REPORT
-				.getBudgetPrintType());
-		budgetSalaryForm
-				.setBudgetReportName(BudgetPrintType.BUDGET_SALARY_REPORT
-						.getBudgetPrintType());
-
-		BudgetPrintForm budgetSummaryForm = new BudgetPrintForm();
-		budgetSummaryForm
-				.setBudgetReportId(BudgetPrintType.BUDGET_SUMMARY_REPORT
-						.getBudgetPrintType());
-		budgetSummaryForm
-				.setBudgetReportName(BudgetPrintType.BUDGET_SUMMARY_REPORT
-						.getBudgetPrintType());
-
-		BudgetPrintForm budgetSummaryTotalForm = new BudgetPrintForm();
-		budgetSummaryTotalForm
-				.setBudgetReportId(BudgetPrintType.BUDGET_SUMMARY_TOTAL_REPORT
-						.getBudgetPrintType());
-		budgetSummaryTotalForm
-				.setBudgetReportName(BudgetPrintType.BUDGET_SUMMARY_TOTAL_REPORT
-						.getBudgetPrintType());
-
-		BudgetPrintForm budgetTotalForm = new BudgetPrintForm();
-		budgetTotalForm.setBudgetReportId(BudgetPrintType.BUDGET_TOTAL_REPORT
-				.getBudgetPrintType());
-		budgetTotalForm.setBudgetReportName(BudgetPrintType.BUDGET_TOTAL_REPORT
-				.getBudgetPrintType());
-
-		BudgetPrintForm industrialBudgetForm = new BudgetPrintForm();
-		industrialBudgetForm
-				.setBudgetReportId(BudgetPrintType.INDUSTRIAL_BUDGET_REPORT
-						.getBudgetPrintType());
-		industrialBudgetForm
-				.setBudgetReportName(BudgetPrintType.INDUSTRIAL_BUDGET_REPORT
-						.getBudgetPrintType());
-
-		BudgetPrintForm industrialBudgetCumulativeForm = new BudgetPrintForm();
-		industrialBudgetCumulativeForm
-				.setBudgetReportId(BudgetPrintType.INDUSTRIAL_CUMULATIVE_BUDGET_REPORT
-						.getBudgetPrintType());
-		industrialBudgetCumulativeForm
-				.setBudgetReportName(BudgetPrintType.INDUSTRIAL_CUMULATIVE_BUDGET_REPORT
-						.getBudgetPrintType());
-
-		List<BudgetPrintForm> printForms = new ArrayList<BudgetPrintForm>();
-		printForms.add(budgetCostShareForm);
-		printForms.add(budgetCumulativeForm);
-		printForms.add(budgetSalaryForm);
-		printForms.add(budgetSummaryForm);
-		printForms.add(budgetSummaryTotalForm);
-		printForms.add(budgetTotalForm);
-		printForms.add(industrialBudgetForm);
-		printForms.add(industrialBudgetCumulativeForm);
-		budget.setBudgetPrintForms(printForms);
+        return attachmentDataSource;
     }
 
-	/**
-	 * Generates the report specified and returns the bytes
-	 * 
-	 * @param budget
-	 *            {@link Budget}
-	 * @param selectedBudgetPrintFormId
-	 *            form to print
-	 * @return {@link AttachmentDataSource} bytes of the generated form
-	 */
-	public AttachmentDataSource readBudgetPrintStream(Budget budget,
-			String selectedBudgetPrintFormId) {
-		try {
-			return printBudgetReport(budget,selectedBudgetPrintFormId);
-		} catch (PrintingException e) {
-			LOG.error(e.getMessage(), e);
-			return null;
-		}
-	}
+    /**
+     * Populates the various forms that are part of Budget on UI
+     *
+     * @param budget
+     */
+    public void populateBudgetPrintForms(Budget budget) {
+        BudgetPrintForm budgetCostShareForm = new BudgetPrintForm();
+        budgetCostShareForm.setBudgetReportId(BudgetPrintType.BUDGET_COST_SHARE_SUMMARY_REPORT.getBudgetPrintType());
+        budgetCostShareForm.setBudgetReportName(BudgetPrintType.BUDGET_COST_SHARE_SUMMARY_REPORT.getBudgetPrintType());
 
-	/**
-	 * @return the budgetSummaryPrint
-	 */
-	public BudgetSummaryPrint getBudgetSummaryPrint() {
-		return budgetSummaryPrint;
-	}
+        BudgetPrintForm budgetCumulativeForm = new BudgetPrintForm();
+        budgetCumulativeForm.setBudgetReportId(BudgetPrintType.BUDGET_CUMULATIVE_REPORT.getBudgetPrintType());
+        budgetCumulativeForm.setBudgetReportName(BudgetPrintType.BUDGET_CUMULATIVE_REPORT.getBudgetPrintType());
 
-	/**
-	 * @param budgetSummaryPrint
-	 *            the budgetSummaryPrint to set
-	 */
-	public void setBudgetSummaryPrint(BudgetSummaryPrint budgetSummaryPrint) {
-		this.budgetSummaryPrint = budgetSummaryPrint;
-	}
+        BudgetPrintForm budgetSalaryForm = new BudgetPrintForm();
+        budgetSalaryForm.setBudgetReportId(BudgetPrintType.BUDGET_SALARY_REPORT.getBudgetPrintType());
+        budgetSalaryForm.setBudgetReportName(BudgetPrintType.BUDGET_SALARY_REPORT.getBudgetPrintType());
 
-	/**
-	 * @return the budgetCostShareSummaryPrint
-	 */
-	public BudgetCostShareSummaryPrint getBudgetCostShareSummaryPrint() {
-		return budgetCostShareSummaryPrint;
-	}
+        BudgetPrintForm budgetSummaryForm = new BudgetPrintForm();
+        budgetSummaryForm.setBudgetReportId(BudgetPrintType.BUDGET_SUMMARY_REPORT.getBudgetPrintType());
+        budgetSummaryForm.setBudgetReportName(BudgetPrintType.BUDGET_SUMMARY_REPORT.getBudgetPrintType());
 
-	/**
-	 * @param budgetCostShareSummaryPrint
-	 *            the budgetCostShareSummaryPrint to set
-	 */
-	public void setBudgetCostShareSummaryPrint(
-			BudgetCostShareSummaryPrint budgetCostShareSummaryPrint) {
-		this.budgetCostShareSummaryPrint = budgetCostShareSummaryPrint;
-	}
+        BudgetPrintForm budgetSummaryTotalForm = new BudgetPrintForm();
+        budgetSummaryTotalForm.setBudgetReportId(BudgetPrintType.BUDGET_SUMMARY_TOTAL_REPORT.getBudgetPrintType());
+        budgetSummaryTotalForm.setBudgetReportName(BudgetPrintType.BUDGET_SUMMARY_TOTAL_REPORT.getBudgetPrintType());
 
-	/**
-	 * @return the budgetSalaryPrint
-	 */
-	public BudgetSalaryPrint getBudgetSalaryPrint() {
-		return budgetSalaryPrint;
-	}
+        BudgetPrintForm budgetTotalForm = new BudgetPrintForm();
+        budgetTotalForm.setBudgetReportId(BudgetPrintType.BUDGET_TOTAL_REPORT.getBudgetPrintType());
+        budgetTotalForm.setBudgetReportName(BudgetPrintType.BUDGET_TOTAL_REPORT.getBudgetPrintType());
 
-	/**
-	 * @param budgetSalaryPrint
-	 *            the budgetSalaryPrint to set
-	 */
-	public void setBudgetSalaryPrint(BudgetSalaryPrint budgetSalaryPrint) {
-		this.budgetSalaryPrint = budgetSalaryPrint;
-	}
+        BudgetPrintForm industrialBudgetForm = new BudgetPrintForm();
+        industrialBudgetForm.setBudgetReportId(BudgetPrintType.INDUSTRIAL_BUDGET_REPORT.getBudgetPrintType());
+        industrialBudgetForm.setBudgetReportName(BudgetPrintType.INDUSTRIAL_BUDGET_REPORT.getBudgetPrintType());
 
-	/**
-	 * @return the printingService
-	 */
-	public PrintingService getPrintingService() {
-		return printingService;
-	}
+        BudgetPrintForm industrialBudgetCumulativeForm = new BudgetPrintForm();
+        industrialBudgetCumulativeForm.setBudgetReportId(BudgetPrintType.INDUSTRIAL_CUMULATIVE_BUDGET_REPORT.getBudgetPrintType());
+        industrialBudgetCumulativeForm.setBudgetReportName(BudgetPrintType.INDUSTRIAL_CUMULATIVE_BUDGET_REPORT.getBudgetPrintType());
 
-	/**
-	 * @param printingService
-	 *            the printingService to set
-	 */
-	public void setPrintingService(PrintingService printingService) {
-		this.printingService = printingService;
-	}
+        List<BudgetPrintForm> printForms = new ArrayList<BudgetPrintForm>();
+        printForms.add(budgetCostShareForm);
+        printForms.add(budgetCumulativeForm);
+        printForms.add(budgetSalaryForm);
+        printForms.add(budgetSummaryForm);
+        printForms.add(budgetSummaryTotalForm);
+        printForms.add(budgetTotalForm);
+        printForms.add(industrialBudgetForm);
+        printForms.add(industrialBudgetCumulativeForm);
+        budget.setBudgetPrintForms(printForms);
+    }
 
-	/**
-	 * @return the budgetTotalPrint
-	 */
-	public BudgetTotalPrint getBudgetTotalPrint() {
-		return budgetTotalPrint;
-	}
+    /**
+     * Generates the report specified and returns the bytes
+     *
+     * @param budget {@link Budget}
+     * @param selectedBudgetPrintFormId form to print
+     * @return {@link AttachmentDataSource} bytes of the generated form
+     */
+    public AttachmentDataSource readBudgetPrintStream(Budget budget,
+            String selectedBudgetPrintFormId) {
+        try {
+            return printBudgetReport(budget, selectedBudgetPrintFormId);
+        } catch (PrintingException e) {
+            LOG.error(e.getMessage(), e);
+            return null;
+        }
+    }
 
-	/**
-	 * @param budgetTotalPrint
-	 *            the budgetTotalPrint to set
-	 */
-	public void setBudgetTotalPrint(BudgetTotalPrint budgetTotalPrint) {
-		this.budgetTotalPrint = budgetTotalPrint;
-	}
+    /**
+     * @return the budgetSummaryPrint
+     */
+    public BudgetSummaryPrint getBudgetSummaryPrint() {
+        return budgetSummaryPrint;
+    }
 
-	/**
-	 * @return the budgetSummaryTotalPrint
-	 */
-	public BudgetSummaryTotalPrint getBudgetSummaryTotalPrint() {
-		return budgetSummaryTotalPrint;
-	}
+    /**
+     * @param budgetSummaryPrint the budgetSummaryPrint to set
+     */
+    public void setBudgetSummaryPrint(BudgetSummaryPrint budgetSummaryPrint) {
+        this.budgetSummaryPrint = budgetSummaryPrint;
+    }
 
-	/**
-	 * @param budgetSummaryTotalPrint
-	 *            the budgetSummaryTotalPrint to set
-	 */
-	public void setBudgetSummaryTotalPrint(
-			BudgetSummaryTotalPrint budgetSummaryTotalPrint) {
-		this.budgetSummaryTotalPrint = budgetSummaryTotalPrint;
-	}
+    /**
+     * @return the budgetCostShareSummaryPrint
+     */
+    public BudgetCostShareSummaryPrint getBudgetCostShareSummaryPrint() {
+        return budgetCostShareSummaryPrint;
+    }
 
-	/**
-	 * @return the industrialCumulativeBudgetPrint
-	 */
-	public IndustrialCumulativeBudgetPrint getIndustrialCumulativeBudgetPrint() {
-		return industrialCumulativeBudgetPrint;
-	}
+    /**
+     * @param budgetCostShareSummaryPrint the budgetCostShareSummaryPrint to set
+     */
+    public void setBudgetCostShareSummaryPrint(
+            BudgetCostShareSummaryPrint budgetCostShareSummaryPrint) {
+        this.budgetCostShareSummaryPrint = budgetCostShareSummaryPrint;
+    }
 
-	/**
-	 * @param industrialCumulativeBudgetPrint
-	 *            the industrialCumulativeBudgetPrint to set
-	 */
-	public void setIndustrialCumulativeBudgetPrint(
-			IndustrialCumulativeBudgetPrint industrialCumulativeBudgetPrint) {
-		this.industrialCumulativeBudgetPrint = industrialCumulativeBudgetPrint;
-	}
+    /**
+     * @return the budgetSalaryPrint
+     */
+    public BudgetSalaryPrint getBudgetSalaryPrint() {
+        return budgetSalaryPrint;
+    }
 
-	/**
-	 * @return the industrialBudgetPrint
-	 */
-	public IndustrialBudgetPrint getIndustrialBudgetPrint() {
-		return industrialBudgetPrint;
-	}
+    /**
+     * @param budgetSalaryPrint the budgetSalaryPrint to set
+     */
+    public void setBudgetSalaryPrint(BudgetSalaryPrint budgetSalaryPrint) {
+        this.budgetSalaryPrint = budgetSalaryPrint;
+    }
 
-	/**
-	 * @param industrialBudgetPrint
-	 *            the industrialBudgetPrint to set
-	 */
-	public void setIndustrialBudgetPrint(
-			IndustrialBudgetPrint industrialBudgetPrint) {
-		this.industrialBudgetPrint = industrialBudgetPrint;
-	}
+    /**
+     * @return the printingService
+     */
+    public PrintingService getPrintingService() {
+        return printingService;
+    }
 
-	/**
-	 * @return the budgetCumulativePrint
-	 */
-	public BudgetCumulativePrint getBudgetCumulativePrint() {
-		return budgetCumulativePrint;
-	}
+    /**
+     * @param printingService the printingService to set
+     */
+    public void setPrintingService(PrintingService printingService) {
+        this.printingService = printingService;
+    }
 
-	/**
-	 * @param budgetCumulativePrint
-	 *            the budgetCumulativePrint to set
-	 */
-	public void setBudgetCumulativePrint(
-			BudgetCumulativePrint budgetCumulativePrint) {
-		this.budgetCumulativePrint = budgetCumulativePrint;
-	}
+    /**
+     * @return the budgetTotalPrint
+     */
+    public BudgetTotalPrint getBudgetTotalPrint() {
+        return budgetTotalPrint;
+    }
+
+    /**
+     * @param budgetTotalPrint the budgetTotalPrint to set
+     */
+    public void setBudgetTotalPrint(BudgetTotalPrint budgetTotalPrint) {
+        this.budgetTotalPrint = budgetTotalPrint;
+    }
+
+    /**
+     * @return the budgetSummaryTotalPrint
+     */
+    public BudgetSummaryTotalPrint getBudgetSummaryTotalPrint() {
+        return budgetSummaryTotalPrint;
+    }
+
+    /**
+     * @param budgetSummaryTotalPrint the budgetSummaryTotalPrint to set
+     */
+    public void setBudgetSummaryTotalPrint(
+            BudgetSummaryTotalPrint budgetSummaryTotalPrint) {
+        this.budgetSummaryTotalPrint = budgetSummaryTotalPrint;
+    }
+
+    /**
+     * @return the industrialCumulativeBudgetPrint
+     */
+    public IndustrialCumulativeBudgetPrint getIndustrialCumulativeBudgetPrint() {
+        return industrialCumulativeBudgetPrint;
+    }
+
+    /**
+     * @param industrialCumulativeBudgetPrint the
+     * industrialCumulativeBudgetPrint to set
+     */
+    public void setIndustrialCumulativeBudgetPrint(
+            IndustrialCumulativeBudgetPrint industrialCumulativeBudgetPrint) {
+        this.industrialCumulativeBudgetPrint = industrialCumulativeBudgetPrint;
+    }
+
+    /**
+     * @return the industrialBudgetPrint
+     */
+    public IndustrialBudgetPrint getIndustrialBudgetPrint() {
+        return industrialBudgetPrint;
+    }
+
+    /**
+     * @param industrialBudgetPrint the industrialBudgetPrint to set
+     */
+    public void setIndustrialBudgetPrint(
+            IndustrialBudgetPrint industrialBudgetPrint) {
+        this.industrialBudgetPrint = industrialBudgetPrint;
+    }
+
+    /**
+     * @return the budgetCumulativePrint
+     */
+    public BudgetCumulativePrint getBudgetCumulativePrint() {
+        return budgetCumulativePrint;
+    }
+
+    /**
+     * @param budgetCumulativePrint the budgetCumulativePrint to set
+     */
+    public void setBudgetCumulativePrint(
+            BudgetCumulativePrint budgetCumulativePrint) {
+        this.budgetCumulativePrint = budgetCumulativePrint;
+    }
 }

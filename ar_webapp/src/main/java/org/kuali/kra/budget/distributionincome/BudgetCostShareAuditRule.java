@@ -49,7 +49,7 @@ import static org.kuali.rice.kns.util.KNSGlobalVariables.getAuditErrorMap;
 
 /**
  *
- * This class handels the budget cost share rules.
+ * This class handles the budget cost share rules.
  */
 public class BudgetCostShareAuditRule extends CostShareRuleResearchDocumentBase implements DocumentAuditRule {
 

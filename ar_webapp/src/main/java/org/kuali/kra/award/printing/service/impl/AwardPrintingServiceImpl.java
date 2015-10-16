@@ -33,72 +33,69 @@ import java.util.Map;
  * This class is the implementation of {@link AwardPrintingService}. It has
  * capability to print any reports related to Award like Delta Report, Award
  * Notice etc.
- * 
+ *
  * @author
- * 
+ *
  */
-
 public class AwardPrintingServiceImpl implements AwardPrintingService {
-	private AwardDeltaPrint awardDeltaPrint;
-	private AwardNoticePrint awardNoticePrint;
-	private AwardTemplatePrint awardTemplatePrint;
-	private MoneyAndEndDatesHistoryPrint moneyAndEndDatesHistoryPrint;
-	private AwardBudgetHierarchyPrint awardBudgetHierarchyPrint;
-	private AwardBudgetHistoryTransactionPrint awardBudgetHistoryTransactionPrint;
-	private PrintingService printingService;
 
-	/**
-	 * This method generates the required report and returns the PDF stream as
-	 * {@link AttachmentDataSource}. It first identifies the report type to be
-	 * printed, then fetches the required report generator. The report generator
-	 * generates XML which is then passed to {@link PrintingService} for
-	 * transforming into PDF.
-	 * 
-	 * @param printableBO
-	 *            Award data using which report is generated
-	 * @param reportName
-	 *            report to be generated
-	 * @param reportParameters
-	 *            {@link Map} of parameters required for report generation
-	 * @return {@link AttachmentDataSource} which contains the byte array of the
-	 *         generated PDF
-	 * @throws PrintingException
-	 *             if any errors occur during report generation
-	 * 
-	 */
-	public AttachmentDataSource printAwardReport(
-			KraPersistableBusinessObjectBase printableBO, AwardPrintType awardReportType,
-			Map<String, Object> reportParameters) throws PrintingException {
-		AttachmentDataSource source = null;
-		AbstractPrint printable = null;
-		String repoprtFileNamePrefix= "";
-		switch(awardReportType){
-		    case AWARD_DELTA_REPORT:
-		        printable = getAwardDeltaPrint();
-		        repoprtFileNamePrefix = ((Award)printableBO).getAwardNumber();
-		        break;
-		    case AWARD_NOTICE_REPORT:
-		        printable = getAwardNoticePrint();
-                repoprtFileNamePrefix = ((Award)printableBO).getAwardNumber();
-		        break;
-		    case MONEY_AND_END_DATES_HISTORY:
-		        printable = getMoneyAndEndDatesHistoryPrint();
-                repoprtFileNamePrefix = ((Award)printableBO).getAwardNumber();
-		        break;
-		    case AWARD_BUDGET_HIERARCHY:
-		        printable = getAwardBudgetHierarchyPrint();
-                repoprtFileNamePrefix = ((Award)printableBO).getAwardNumber();
-		        break;
-		    case AWARD_BUDGET_HISTORY_TRANSACTION:
-		        printable = getAwardBudgetHistoryTransactionPrint();
-                repoprtFileNamePrefix = ((Award)printableBO).getAwardNumber();
-		        break;
+    private AwardDeltaPrint awardDeltaPrint;
+    private AwardNoticePrint awardNoticePrint;
+    private AwardTemplatePrint awardTemplatePrint;
+    private MoneyAndEndDatesHistoryPrint moneyAndEndDatesHistoryPrint;
+    private AwardBudgetHierarchyPrint awardBudgetHierarchyPrint;
+    private AwardBudgetHistoryTransactionPrint awardBudgetHistoryTransactionPrint;
+    private PrintingService printingService;
+
+    /**
+     * This method generates the required report and returns the PDF stream as
+     * {@link AttachmentDataSource}. It first identifies the report type to be
+     * printed, then fetches the required report generator. The report generator
+     * generates XML which is then passed to {@link PrintingService} for
+     * transforming into PDF.
+     *
+     * @param printableBO Award data using which report is generated
+     * @param reportName report to be generated
+     * @param reportParameters {@link Map} of parameters required for report
+     * generation
+     * @return {@link AttachmentDataSource} which contains the byte array of the
+     * generated PDF
+     * @throws PrintingException if any errors occur during report generation
+     *
+     */
+    public AttachmentDataSource printAwardReport(
+            KraPersistableBusinessObjectBase printableBO, AwardPrintType awardReportType,
+            Map<String, Object> reportParameters) throws PrintingException {
+        AttachmentDataSource source = null;
+        AbstractPrint printable = null;
+        String repoprtFileNamePrefix = "";
+        switch (awardReportType) {
+            case AWARD_DELTA_REPORT:
+                printable = getAwardDeltaPrint();
+                repoprtFileNamePrefix = ((Award) printableBO).getAwardNumber();
+                break;
+            case AWARD_NOTICE_REPORT:
+                printable = getAwardNoticePrint();
+                repoprtFileNamePrefix = ((Award) printableBO).getAwardNumber();
+                break;
+            case MONEY_AND_END_DATES_HISTORY:
+                printable = getMoneyAndEndDatesHistoryPrint();
+                repoprtFileNamePrefix = ((Award) printableBO).getAwardNumber();
+                break;
+            case AWARD_BUDGET_HIERARCHY:
+                printable = getAwardBudgetHierarchyPrint();
+                repoprtFileNamePrefix = ((Award) printableBO).getAwardNumber();
+                break;
+            case AWARD_BUDGET_HISTORY_TRANSACTION:
+                printable = getAwardBudgetHistoryTransactionPrint();
+                repoprtFileNamePrefix = ((Award) printableBO).getAwardNumber();
+                break;
             case AWARD_TEMPLATE:
                 printable = getAwardTemplatePrint();
-                repoprtFileNamePrefix = ((AwardTemplate)printableBO).getTemplateCode().toString();
+                repoprtFileNamePrefix = ((AwardTemplate) printableBO).getTemplateCode().toString();
                 break;
-		        
-		}
+
+        }
 //		if (reportName.equals(AwardPrintType.AWARD_DELTA_REPORT
 //				.getAwardPrintType())) {
 //			printable = getAwardDeltaPrint();
@@ -119,125 +116,116 @@ public class AwardPrintingServiceImpl implements AwardPrintingService {
 //						.getAwardPrintType())) {
 //			printable = getAwardBudgetHistoryTransactionPrint();
 //		}
-		if (printable != null) {
-			printable.setPrintableBusinessObject(printableBO);
-			printable.setReportParameters(reportParameters);
-			source = getPrintingService().print(printable);
-			
-			source.setFileName(getReportName(repoprtFileNamePrefix, awardReportType.getAwardPrintType()));
-			source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
-		}
-		return source;
-	}
+        if (printable != null) {
+            printable.setPrintableBusinessObject(printableBO);
+            printable.setReportParameters(reportParameters);
+            source = getPrintingService().print(printable);
 
-	protected String getReportName(String reportFileNamePrefix, String reportName) {
-//		Award award = ((Award) researchDoc);
-//		String awardNumber = award.getAwardNumber();
+            source.setFileName(getReportName(repoprtFileNamePrefix, awardReportType.getAwardPrintType()));
+            source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
+        }
+        return source;
+    }
 
-		StringBuilder reportFullName = new StringBuilder(reportFileNamePrefix).append(
-				"_").append(reportName.replace(' ', '_')).append(
-				Constants.PDF_FILE_EXTENSION);
-		return reportFullName.toString();
-	}
+    protected String getReportName(String reportFileNamePrefix, String reportName) {
+        String reportFullName = reportFileNamePrefix + "_" + reportName.replace(' ', '_') + Constants.PDF_FILE_EXTENSION;
+        return reportFullName;
+    }
 
-	/**
-	 * @return the printingService
-	 */
-	public PrintingService getPrintingService() {
-		return printingService;
-	}
+    /**
+     * @return the printingService
+     */
+    public PrintingService getPrintingService() {
+        return printingService;
+    }
 
-	/**
-	 * @param printingService
-	 *            the printingService to set
-	 */
-	public void setPrintingService(PrintingService printingService) {
-		this.printingService = printingService;
-	}
+    /**
+     * @param printingService the printingService to set
+     */
+    public void setPrintingService(PrintingService printingService) {
+        this.printingService = printingService;
+    }
 
-	/**
-	 * @return the awardDeltaPrint
-	 */
-	public AwardDeltaPrint getAwardDeltaPrint() {
-		return awardDeltaPrint;
-	}
+    /**
+     * @return the awardDeltaPrint
+     */
+    public AwardDeltaPrint getAwardDeltaPrint() {
+        return awardDeltaPrint;
+    }
 
-	/**
-	 * @param awardDeltaPrint
-	 *            the awardDeltaPrint to set
-	 */
-	public void setAwardDeltaPrint(AwardDeltaPrint awardDeltaPrint) {
-		this.awardDeltaPrint = awardDeltaPrint;
-	}
+    /**
+     * @param awardDeltaPrint the awardDeltaPrint to set
+     */
+    public void setAwardDeltaPrint(AwardDeltaPrint awardDeltaPrint) {
+        this.awardDeltaPrint = awardDeltaPrint;
+    }
 
-	/**
-	 * @return the awardNoticePrint
-	 */
-	public AwardNoticePrint getAwardNoticePrint() {
-		return awardNoticePrint;
-	}
+    /**
+     * @return the awardNoticePrint
+     */
+    public AwardNoticePrint getAwardNoticePrint() {
+        return awardNoticePrint;
+    }
 
-	/**
-	 * @param awardNoticePrint
-	 *            the awardNoticePrint to set
-	 */
-	public void setAwardNoticePrint(AwardNoticePrint awardNoticePrint) {
-		this.awardNoticePrint = awardNoticePrint;
-	}
+    /**
+     * @param awardNoticePrint the awardNoticePrint to set
+     */
+    public void setAwardNoticePrint(AwardNoticePrint awardNoticePrint) {
+        this.awardNoticePrint = awardNoticePrint;
+    }
 
-	public AwardTemplatePrint getAwardTemplatePrint() {
-		return awardTemplatePrint;
-	}
+    public AwardTemplatePrint getAwardTemplatePrint() {
+        return awardTemplatePrint;
+    }
 
-	public void setAwardTemplatePrint(AwardTemplatePrint awardTemplatePrint) {
-		this.awardTemplatePrint = awardTemplatePrint;
-	}
+    public void setAwardTemplatePrint(AwardTemplatePrint awardTemplatePrint) {
+        this.awardTemplatePrint = awardTemplatePrint;
+    }
 
-	/**
-	 * @return the moneyAndEndDatesHistoryPrint
-	 */
-	public MoneyAndEndDatesHistoryPrint getMoneyAndEndDatesHistoryPrint() {
-		return moneyAndEndDatesHistoryPrint;
-	}
+    /**
+     * @return the moneyAndEndDatesHistoryPrint
+     */
+    public MoneyAndEndDatesHistoryPrint getMoneyAndEndDatesHistoryPrint() {
+        return moneyAndEndDatesHistoryPrint;
+    }
 
-	/**
-	 * @param moneyAndEndDatesHistoryPrint
-	 *            the moneyAndEndDatesHistoryPrint to set
-	 */
-	public void setMoneyAndEndDatesHistoryPrint(
-			MoneyAndEndDatesHistoryPrint moneyAndEndDatesHistoryPrint) {
-		this.moneyAndEndDatesHistoryPrint = moneyAndEndDatesHistoryPrint;
-	}
+    /**
+     * @param moneyAndEndDatesHistoryPrint the moneyAndEndDatesHistoryPrint to
+     * set
+     */
+    public void setMoneyAndEndDatesHistoryPrint(
+            MoneyAndEndDatesHistoryPrint moneyAndEndDatesHistoryPrint) {
+        this.moneyAndEndDatesHistoryPrint = moneyAndEndDatesHistoryPrint;
+    }
 
-	/**
-	 * @return the awardBudgetHierarchyPrint
-	 */
-	public AwardBudgetHierarchyPrint getAwardBudgetHierarchyPrint() {
-		return awardBudgetHierarchyPrint;
-	}
+    /**
+     * @return the awardBudgetHierarchyPrint
+     */
+    public AwardBudgetHierarchyPrint getAwardBudgetHierarchyPrint() {
+        return awardBudgetHierarchyPrint;
+    }
 
-	/**
-	 * @param awardBudgetHierarchyPrint
-	 *            the awardBudgetHierarchyPrint to set
-	 */
-	public void setAwardBudgetHierarchyPrint(
-			AwardBudgetHierarchyPrint awardBudgetHierarchyPrint) {
-		this.awardBudgetHierarchyPrint = awardBudgetHierarchyPrint;
-	}
+    /**
+     * @param awardBudgetHierarchyPrint the awardBudgetHierarchyPrint to set
+     */
+    public void setAwardBudgetHierarchyPrint(
+            AwardBudgetHierarchyPrint awardBudgetHierarchyPrint) {
+        this.awardBudgetHierarchyPrint = awardBudgetHierarchyPrint;
+    }
 
-	/**
-	 * @return the awardBudgetHistoryTransactionPrint
-	 */
-	public AwardBudgetHistoryTransactionPrint getAwardBudgetHistoryTransactionPrint() {
-		return awardBudgetHistoryTransactionPrint;
-	}
+    /**
+     * @return the awardBudgetHistoryTransactionPrint
+     */
+    public AwardBudgetHistoryTransactionPrint getAwardBudgetHistoryTransactionPrint() {
+        return awardBudgetHistoryTransactionPrint;
+    }
 
-	/**
-	 * @param awardBudgetHistoryTransactionPrint
-	 *            the awardBudgetHistoryTransactionPrint to set
-	 */
-	public void setAwardBudgetHistoryTransactionPrint(
-			AwardBudgetHistoryTransactionPrint awardBudgetHistoryTransactionPrint) {
-		this.awardBudgetHistoryTransactionPrint = awardBudgetHistoryTransactionPrint;
-	}
+    /**
+     * @param awardBudgetHistoryTransactionPrint the
+     * awardBudgetHistoryTransactionPrint to set
+     */
+    public void setAwardBudgetHistoryTransactionPrint(
+            AwardBudgetHistoryTransactionPrint awardBudgetHistoryTransactionPrint) {
+        this.awardBudgetHistoryTransactionPrint = awardBudgetHistoryTransactionPrint;
+    }
 }

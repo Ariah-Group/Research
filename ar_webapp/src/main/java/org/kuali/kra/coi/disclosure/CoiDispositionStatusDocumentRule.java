@@ -84,7 +84,7 @@ public class CoiDispositionStatusDocumentRule extends KraMaintenanceDocumentRule
         boolean result = super.isDocumentValidForSave(document);
         final CoiDispositionStatus coiDispositionStatus = (CoiDispositionStatus) document.getNewMaintainableObject().getDataObject();
         if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_DELETE_ACTION)) {
-            final CoiDispositionStatus oldDocument = (CoiDispositionStatus) document.getOldMaintainableObject().getDataObject();
+            //final CoiDispositionStatus oldDocument = (CoiDispositionStatus) document.getOldMaintainableObject().getDataObject();
             if (isNotDuplicate(coiDispositionStatus) && isValidCoiDisclosureStatus(coiDispositionStatus)) {
                 result = true;
             } else {
@@ -135,7 +135,7 @@ public class CoiDispositionStatusDocumentRule extends KraMaintenanceDocumentRule
     
     protected boolean exists(Class<?> clazz, Map<String, String> criteria) {
         int count = getBusinessObjectService().countMatching(clazz, criteria);
-        return count == 0 ? false : true;
+        return count == 0;
     }
     
     protected BusinessObjectService getBusinessObjectService() {

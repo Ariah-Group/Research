@@ -336,6 +336,7 @@ public class IacucActionHelper extends ActionHelperBase {
         return expirationDate;
     }
 
+    @Override
     public void prepareView() throws Exception {
         super.prepareView();
         prepareModifySubmissionActionView();
@@ -400,6 +401,7 @@ public class IacucActionHelper extends ActionHelperBase {
      * Refreshes the comments for all the beans from the database. Use sparingly
      * since this will erase non-persisted comments.
      */
+    @Override
     public void prepareCommentsView() {
         super.prepareCommentsView();
         iacucProtocolDeactivateBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
@@ -420,6 +422,7 @@ public class IacucActionHelper extends ActionHelperBase {
         return tas.isAuthorized(userId, task);
     }
 
+    @Override
     protected boolean hasFollowupAction(String actionCode) {
         return false;
     }
@@ -428,10 +431,12 @@ public class IacucActionHelper extends ActionHelperBase {
         return (IacucProtocolSubmitAction) protocolSubmitAction;
     }
 
+    @Override
     public ProtocolFormBase getProtocolForm() {
         return form;
     }
 
+    @Override
     public IacucProtocol getProtocol() {
         return (IacucProtocol) form.getProtocolDocument().getProtocol();
     }
@@ -444,42 +449,52 @@ public class IacucActionHelper extends ActionHelperBase {
         this.iacucProtocolDeactivateBean = iacucProtocolDeactivateBean;
     }
 
+    @Override
     protected ModuleQuestionnaireBean getQuestionnaireBean(String moduleCode, String moduleKey, String subModuleCode, String subModuleKey, boolean finalDoc) {
         return new IacucProtocolModuleQuestionnaireBean(moduleCode, moduleKey, subModuleCode, subModuleKey, finalDoc);
     }
 
+    @Override
     public ProtocolActionBean getActionBean(String taskName) {
         return actionBeanTaskMap.get(taskName);
     }
 
+    @Override
     public boolean isCanAbandon() {
         return canAbandon;
     }
 
+    @Override
     public ProtocolCorrespondence getProtocolCorrespondence() {
         return protocolCorrespondence;
     }
 
+    @Override
     public void setProtocolCorrespondence(ProtocolCorrespondence protocolCorrespondence) {
         this.protocolCorrespondence = protocolCorrespondence;
     }
 
+    @Override
     public boolean getIsApproveOpenForFollowup() {
         return hasFollowupAction(IacucProtocolActionType.IACUC_APPROVED);
     }
 
+    @Override
     public boolean getIsDisapproveOpenForFollowup() {
         return hasFollowupAction(IacucProtocolActionType.IACUC_DISAPPROVED);
     }
 
+    @Override
     public boolean getIsReturnForSMROpenForFollowup() {
         return hasFollowupAction(IacucProtocolActionType.IACUC_MINOR_REVISIONS_REQUIRED);
     }
 
+    @Override
     public boolean getIsReturnForSRROpenForFollowup() {
         return hasFollowupAction(IacucProtocolActionType.IACUC_MAJOR_REVISIONS_REQUIRED);
     }
 
+    @Override
     public boolean isOpenForFollowup() {
         return getIsApproveOpenForFollowup() || getIsDisapproveOpenForFollowup()
                 || getIsReturnForSMROpenForFollowup() || getIsReturnForSRROpenForFollowup();
@@ -565,6 +580,7 @@ public class IacucActionHelper extends ActionHelperBase {
         return canIacucRequestDeactivateUnavailable;
     }
 
+    @Override
     protected String getParameterValue(String parameterName) {
         String result = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_IACUC,
                 Constants.PARAMETER_COMPONENT_DOCUMENT, parameterName);
@@ -625,10 +641,12 @@ public class IacucActionHelper extends ActionHelperBase {
         return new IacucProtocolDeleteBean((IacucActionHelper) actionHelper);
     }
 
+    @Override
     protected Class<? extends ReviewCommentsService> getReviewCommentsServiceClassHook() {
         return IacucReviewCommentsService.class;
     }
 
+    @Override
     protected IacucProtocolGenericActionBean buildProtocolGenericActionBean(String actionTypeCode, String errorPropertyKey) {
         IacucProtocolGenericActionBean bean = new IacucProtocolGenericActionBean(this, errorPropertyKey);
 
@@ -843,6 +861,7 @@ public class IacucActionHelper extends ActionHelperBase {
      *
      * @throws Exception
      */
+    @Override
     protected void setAmendmentDetails() throws Exception {
         /*
          * Check if the user is trying to modify amendment sections, if so, do not setAmendmentDetials.
@@ -896,6 +915,7 @@ public class IacucActionHelper extends ActionHelperBase {
      * @param protocols
      * @return
      */
+    @Override
     protected IacucProtocolAmendRenewal getCorrectAmendment(List<ProtocolBase> protocols) {
         for (ProtocolBase protocol : protocols) {
             // There should always be an amendment with the current submission number.
@@ -1294,18 +1314,22 @@ public class IacucActionHelper extends ActionHelperBase {
         this.canIacucRequestDeactivateUnavailable = canIacucRequestDeactivateUnavailable;
     }
 
+    @Override
     public boolean isSubmissionQuestionnaireExist() {
         return submissionQuestionnaireExist;
     }
 
+    @Override
     public void setSubmissionQuestionnaireExist(boolean submissionQuestionnaireExist) {
         this.submissionQuestionnaireExist = submissionQuestionnaireExist;
     }
 
+    @Override
     public boolean isToAnswerSubmissionQuestionnaire() {
         return toAnswerSubmissionQuestionnaire;
     }
 
+    @Override
     public void setToAnswerSubmissionQuestionnaire(boolean toAnswerSubmissionQuestionnaire) {
         this.toAnswerSubmissionQuestionnaire = toAnswerSubmissionQuestionnaire;
     }
@@ -1584,5 +1608,4 @@ public class IacucActionHelper extends ActionHelperBase {
         }
         return retVal;
     }
-
 }

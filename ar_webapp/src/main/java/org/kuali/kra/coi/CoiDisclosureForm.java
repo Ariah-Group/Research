@@ -292,7 +292,6 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
     @SuppressWarnings("deprecation")
     protected HeaderField getReporterAndCreatedHeaderField(WorkflowDocument workflowDocument) {
 
-        String reporterCreated = Constants.COLON;
         String reporter = getCoiDisclosureDocument().getCoiDisclosure().getDisclosureReporter().getPersonId();
 
         long creationMsecs = 0L;
@@ -308,7 +307,7 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
             reporter = GlobalVariables.getUserSession().getPrincipalId();
         }
         String disclosureCreated = CoreApiServiceLocator.getDateTimeService().toString(new Date(creationMsecs), "MM/dd/yyyy");
-        reporterCreated = reporter + Constants.COLON + disclosureCreated;
+        String reporterCreated = reporter + Constants.COLON + disclosureCreated;
 
         return new HeaderField("DataDictionary.CoiDisclosure.attributes.reporterCreated", reporterCreated);
     }

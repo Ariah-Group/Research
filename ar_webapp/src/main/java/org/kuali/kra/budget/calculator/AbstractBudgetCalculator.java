@@ -604,7 +604,7 @@ public abstract class AbstractBudgetCalculator {
                 }
             }
             /**
-             * add one more boundary if no rate change on endDate and atleast one boundary is present
+             * add one more boundary if no rate change on endDate and at least one boundary is present
              */
             if (boundaries.size() > 0) {
                 Boundary boundary = new Boundary(tempStartDate, liEndDate);
@@ -801,8 +801,8 @@ public abstract class AbstractBudgetCalculator {
     }
     
     public final void setCalculatedAmounts(Budget budget, BudgetLineItemBase budgetLineItem) {
-        QueryEngine queryEngine = new QueryEngine();
-        BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmt = null;
+        //QueryEngine queryEngine = new QueryEngine();
+        //BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmt = null;
 
         budgetLineItem.setCostElementBO(getCostElementForLineItem(budgetLineItem));
 
@@ -810,7 +810,7 @@ public abstract class AbstractBudgetCalculator {
         validCeQMap.put("costElement", budgetLineItem.getCostElement());
         budgetLineItem.getCostElementBO().refreshReferenceObject("validCeRateTypes");
 
-        QueryList<ValidCeRateType> qValidCeRateTypes = createQueryList(budgetLineItem.getCostElementBO().getValidCeRateTypes());
+       // QueryList<ValidCeRateType> qValidCeRateTypes = createQueryList(budgetLineItem.getCostElementBO().getValidCeRateTypes());
         setInflationRateOnLineItem(budgetLineItem);
 
         setValidCeRateTypeCalculatedAmounts(budgetLineItem);

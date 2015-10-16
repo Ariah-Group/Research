@@ -37,6 +37,7 @@ public class CommitteeScheduleValuesFinder2 extends FormViewAwareUifKeyValuesFin
      * @return the list of &lt;key, value&gt; pairs of committees.  The first entry
      * is always &lt;"", "select:"&gt;.
      */
+    @Override
     public List<KeyValue> getKeyValues() {
         return getCommitteeService().getAvailableCommitteeDates(getCommitteeId());
     }

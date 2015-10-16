@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
 
 public class CoiDisclosureActionsAction extends CoiNoteAndAttachmentAction {
-    
+
     @Override
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
@@ -43,7 +43,7 @@ public class CoiDisclosureActionsAction extends CoiNoteAndAttachmentAction {
 
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         AuditActionHelper auditActionHelper = new AuditActionHelper();
-        
+
         if (new CoiDisclosureAdministratorActionRule().isValidStatus(disclosureStatus, dispositionCode)) {
             if (!auditActionHelper.auditUnconditionally(coiDisclosureDocument)) {
                 coiDisclosureForm.setAuditActivated(true);
@@ -55,13 +55,13 @@ public class CoiDisclosureActionsAction extends CoiNoteAndAttachmentAction {
             String routeHeaderId = coiDisclosureDocument.getDocumentNumber();
             String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_COI_DISCLOSURE_ACTIONS_PAGE, "CoiDisclosureDocument");
             ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-    
+
             return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
         } else {
             return forward;
         }
     }
-    
+
     @Override
     public ActionForward disapprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
@@ -71,7 +71,7 @@ public class CoiDisclosureActionsAction extends CoiNoteAndAttachmentAction {
 
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         AuditActionHelper auditActionHelper = new AuditActionHelper();
-        
+
         if (new CoiDisclosureAdministratorActionRule().isValidStatus(disclosureStatus, dispositionCode)) {
             if (!auditActionHelper.auditUnconditionally(coiDisclosureDocument)) {
                 coiDisclosureForm.setAuditActivated(true);
@@ -83,7 +83,7 @@ public class CoiDisclosureActionsAction extends CoiNoteAndAttachmentAction {
             String routeHeaderId = coiDisclosureDocument.getDocumentNumber();
             String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_COI_DISCLOSURE_ACTIONS_PAGE, "CoiDisclosureDocument");
             ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-    
+
             return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
         } else {
             return forward;
@@ -91,23 +91,22 @@ public class CoiDisclosureActionsAction extends CoiNoteAndAttachmentAction {
     }
 
     public ActionForward updateDisclosureReviewStatus(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-    throws Exception {
+            throws Exception {
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         CoiDisclosure coiDisclosure = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure();
         getCoiDisclosureActionService().updateDisclosureReviewStatus(coiDisclosure);
         return forward;
     }
-    
-    
+
     public ActionForward completeReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-    throws Exception {
+            throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         getCoiDisclosureActionService().completeCoiReview(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure());
         return forward;
     }
-    
+
     public ActionForward addCoiUserRole(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
@@ -123,27 +122,26 @@ public class CoiDisclosureActionsAction extends CoiNoteAndAttachmentAction {
         coiUserRole.setRoleName(RoleConstants.COI_REVIEWER);
         coiUserRole.setReviewerCode(reviewerCode);
         coiUserRole.setDateAssigned(new Date(System.currentTimeMillis()));
-        
+
         if (checkRule(new AddCoiReviewerEvent("", coiDisclosureDocument.getCoiDisclosure(), coiUserRole))) {
             coiUserRole.setCoiReviewer(coiDisclosureForm.getDisclosureActionHelper().getCoiReviewer(reviewerCode));
             coiUserRole.setPerson(coiDisclosureForm.getDisclosureActionHelper().getKcPerson(userName));
             forward = getCoiDisclosureActionService().addCoiUserRole(mapping, form, coiDisclosureDocument.getCoiDisclosure(), coiUserRole);
             coiDisclosureForm.getDisclosureActionHelper().setNewCoiUserRole(new CoiUserRole());
         }
-        
+
         return forward;
 
     }
 
     public ActionForward deleteCoiUserRole(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
         int index = getSelectedLine(request);
-        forward = getCoiDisclosureActionService().deleteCoiUserRole(mapping, form, coiDisclosureDocument.getCoiDisclosure(), index);
+        ActionForward forward = getCoiDisclosureActionService().deleteCoiUserRole(mapping, form, coiDisclosureDocument.getCoiDisclosure(), index);
         return forward;
     }
-    
+
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {

@@ -13,21 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * ------------------------------------------------------
- * Updates made after January 1, 2015 are :
- * Copyright 2015 The Ariah Group, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 package org.kuali.kra.budget.web.struts.action;
 
@@ -105,21 +90,6 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
 
     }
 
-//   private BudgetPeriod getSelectedBudgetPeriod(BudgetForm budgetForm) {
-//        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-//        Budget budget = budgetDocument.getBudget();
-//        Map<String, Object> primaryKeys = new HashMap<String, Object>();
-//        primaryKeys.put("budgetId", budget.getBudgetId());
-//        primaryKeys.put("budgetPeriod", budgetForm.getViewBudgetPeriod().toString());
-//        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);        
-//        List<BudgetPeriod> budgetPeriods = (List<BudgetPeriod>) businessObjectService.findMatching(BudgetPeriod.class, primaryKeys);
-//        BudgetPeriod budgetPeriod = null;
-//        if(CollectionUtils.isNotEmpty(budgetPeriods)) {
-//            budgetPeriod = budgetPeriods.get(0);
-//        }
-//        
-//        return budgetPeriod;
-//    }
     /**
      * This method is used to add a new Personnel Budget Line Item
      *
@@ -359,11 +329,10 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         int selectedBudgetPeriodIndex = budgetForm.getViewBudgetPeriod() - 1;
         int selectedBudgetLineItemIndex = getSelectedLine(request);
         int selectedPersonnelIndex = getSelectedPersonnel(request);
-        boolean errorFound = false;
         BudgetLineItem selectedBudgetLineItem = budget.getBudgetPeriod(selectedBudgetPeriodIndex).getBudgetLineItem(selectedBudgetLineItemIndex);
         BudgetPersonnelDetails budgetPersonnelDetails = selectedBudgetLineItem.getBudgetPersonnelDetailsList().get(selectedPersonnelIndex);
 
-        errorFound = personnelDetailsCheck(budgetDocument, selectedBudgetPeriodIndex, selectedBudgetLineItemIndex, selectedPersonnelIndex);
+        boolean errorFound = personnelDetailsCheck(budgetDocument, selectedBudgetPeriodIndex, selectedBudgetLineItemIndex, selectedPersonnelIndex);
 
         if (!errorFound) {
             updatePersonnelBudgetRate(selectedBudgetLineItem);
@@ -908,6 +877,7 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
      * @return
      * @throws Exception
      */
+    @Override
     public ActionForward applyToLaterPeriods(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
@@ -926,11 +896,9 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
 
     public ActionForward calculatePersonSalaryDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         Budget budget = budgetForm.getBudgetDocument().getBudget();
-        List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails = new ArrayList<BudgetPersonSalaryDetails>();
         BudgetPersonnelBudgetService budgetPersonnelBudgetService = KraServiceLocator.getService(BudgetPersonnelBudgetService.class);
-        budgetPersonSalaryDetails = budgetPersonnelBudgetService.calculatePersonSalary(budget, getSelectedLine(request));
+        List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails = budgetPersonnelBudgetService.calculatePersonSalary(budget, getSelectedLine(request));
         budgetForm.getBudgetDocument().getBudget().getBudgetPerson(getSelectedLine(request)).setBudgetPersonSalaryDetails(budgetPersonSalaryDetails);
         budgetForm.setViewDivFlag(true);
         budgetForm.setPersonIndex(getSelectedLine(request));

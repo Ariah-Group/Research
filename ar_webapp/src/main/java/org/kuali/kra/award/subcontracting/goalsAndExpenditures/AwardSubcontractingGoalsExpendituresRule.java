@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 @SuppressWarnings("deprecation")
 public class AwardSubcontractingGoalsExpendituresRule {
 
@@ -39,17 +38,14 @@ public class AwardSubcontractingGoalsExpendituresRule {
     private final static String SUB_PLAN_FLAG_VAL = "Y";
     private final static String AWARD_LOOKUPABLE = "awardLookupable";
 
-    
-    @SuppressWarnings({ "unchecked" })
-    public boolean validateAwardNumber(String awardNumber) {        
-        boolean rulePassed = false;
+    @SuppressWarnings({"unchecked"})
+    public boolean validateAwardNumber(String awardNumber) {
         String ddEntryName = AwardSubcontractingBudgetedGoals.class.getSimpleName();
         // first check that it was provided
         this.getDictionaryValidationService().validateAttributeRequired(ddEntryName, AWARD_NUMBER, awardNumber, false, AWARD_NUMBER);
-        rulePassed = GlobalVariables.getMessageMap().hasNoErrors();
+        boolean rulePassed = GlobalVariables.getMessageMap().hasNoErrors();
 
         if (rulePassed) {
-            rulePassed = false;
             // then check proper formatting according to DD entry
             this.getDictionaryValidationService().validateAttributeFormat(ddEntryName, AWARD_NUMBER, awardNumber, AWARD_NUMBER);
             rulePassed = GlobalVariables.getMessageMap().hasNoErrors();
@@ -61,13 +57,12 @@ public class AwardSubcontractingGoalsExpendituresRule {
             // we will just re-use the award lookupable service here -- DRY!
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put(SUB_PLAN_FLAG, SUB_PLAN_FLAG_VAL);
-            fieldValues.put(AWARD_NUMBER, awardNumber);            
+            fieldValues.put(AWARD_NUMBER, awardNumber);
             List<Award> awardsFound = (List<Award>) this.getAwardLookupable().getSearchResults(fieldValues);
             if ((awardsFound != null) && (!(awardsFound.isEmpty()))) {
                 rulePassed = true;
                 awardId = awardsFound.get(0).getAwardId().toString();
-            }
-            else {
+            } else {
                 // put the error message in message map
                 ErrorReporter reporter = new ErrorReporter();
                 reporter.reportError(AWARD_NUMBER, KeyConstants.SUB_PLAN_AWARD_NOT_FOUND, awardNumber);
@@ -75,8 +70,7 @@ public class AwardSubcontractingGoalsExpendituresRule {
         }
         return rulePassed;
     }
-    
-    
+
     public DictionaryValidationService getDictionaryValidationService() {
         if (this.dictionaryValidationService == null) {
             this.dictionaryValidationService = KNSServiceLocator.getKNSDictionaryValidationService();
@@ -87,20 +81,17 @@ public class AwardSubcontractingGoalsExpendituresRule {
     public void setDictionaryValidationService(DictionaryValidationService dictionaryValidationService) {
         this.dictionaryValidationService = dictionaryValidationService;
     }
-    
 
     public String getAwardId() {
         return this.awardId;
     }
 
-
     public void setAwardLookupable(Lookupable awardLookupable) {
         this.awardLookupable = awardLookupable;
     }
 
-
     public Lookupable getAwardLookupable() {
-        if(this.awardLookupable == null) {
+        if (this.awardLookupable == null) {
             this.awardLookupable = KNSServiceLocator.getLookupable(AWARD_LOOKUPABLE);
             this.awardLookupable.setBusinessObjectClass(Award.class);
         }

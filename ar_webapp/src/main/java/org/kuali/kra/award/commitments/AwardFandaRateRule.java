@@ -248,7 +248,7 @@ public class AwardFandaRateRule extends ResearchDocumentRuleBase implements AddF
                 validRates = getValidRatesForFandA(OFF_CAMPUS_RATE, awardFandaRate.getApplicableFandaRate());
                 onOFFCampusRate = OFF_CAMPUS;
             }
-            if (validRates.size() == 0) {
+            if (validRates.isEmpty()) {
                 valid = false;
                 KualiDecimal kdApplicableFandaRate = awardFandaRate.getApplicableFandaRate();
                 String strApplicableFandaRate;

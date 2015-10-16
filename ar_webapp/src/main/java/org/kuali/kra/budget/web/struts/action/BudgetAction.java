@@ -151,7 +151,7 @@ public class BudgetAction extends BudgetActionBase {
     private ActionForward synchAwardBudgetRate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, boolean confirm) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
-        BudgetParentDocument pdDoc = budgetDoc.getParentDocument();
+        //BudgetParentDocument pdDoc = budgetDoc.getParentDocument();
         String routeHeaderId = budgetDoc.getDocumentHeader().getWorkflowDocument().getDocumentId();
         String forward = buildForwardUrl(routeHeaderId);
         if (confirm) {

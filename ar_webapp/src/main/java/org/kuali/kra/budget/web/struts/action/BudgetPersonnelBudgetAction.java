@@ -126,8 +126,7 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
         budget.setBudgetPersons(budgetPersons==null?new ArrayList():(List)budgetPersons);
         
         BudgetCategoryTypeValuesFinder budgetCategoryTypeValuesFinder = new BudgetCategoryTypeValuesFinder();
-        List<KeyValue> budgetCategoryTypes = new ArrayList<KeyValue>();        
-        budgetCategoryTypes = budgetCategoryTypeValuesFinder.getKeyValues();
+        List<KeyValue> budgetCategoryTypes = budgetCategoryTypeValuesFinder.getKeyValues();
         for(int i=0;i<budgetCategoryTypes.size();i++){
             budgetForm.getNewBudgetLineItems().add(budget.getNewBudgetLineItem());
         }
@@ -187,8 +186,7 @@ public class BudgetPersonnelBudgetAction extends BudgetAction {
             getCalculationService().calculateBudgetLineItem(budget, selectedBudgetLineItem);
             
             BudgetCategoryTypeValuesFinder budgetCategoryTypeValuesFinder = new BudgetCategoryTypeValuesFinder();
-            List<KeyValue> budgetCategoryTypes = new ArrayList<KeyValue>();        
-            budgetCategoryTypes = budgetCategoryTypeValuesFinder.getKeyValues();
+            List<KeyValue> budgetCategoryTypes =  budgetCategoryTypeValuesFinder.getKeyValues();
             for(int i=0;i<budgetCategoryTypes.size();i++){
                 budgetForm.getNewBudgetLineItems().add(budget.getNewBudgetLineItem());
             }

@@ -130,7 +130,7 @@ public class IacucProtocolSpeciesStudyGroup implements Serializable {
     }
 
     public void addSpeciesCount(Integer speciesCount) {
-        this.totalSpeciesCount = this.totalSpeciesCount + speciesCount;
+        this.totalSpeciesCount += speciesCount;
     }
 
 }

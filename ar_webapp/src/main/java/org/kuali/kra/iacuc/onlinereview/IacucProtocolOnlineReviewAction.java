@@ -185,7 +185,6 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
 
     protected String getOnlineReviewActionDocumentNumber(String parameterName, String actionMethodToCall) {
 
-        String idxStr = null;
         if (StringUtils.isBlank(parameterName) || parameterName.indexOf("." + actionMethodToCall + ".") == -1) {
             throw new IllegalArgumentException(
                     String.format("getOnlineReviewActionIndex expects a non-empty value for parameterName parameter, "
@@ -193,7 +192,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
                             + "The passed values were (%s,%s).", parameterName, actionMethodToCall)
             );
         }
-        idxStr = StringUtils.substringBetween(parameterName, "." + actionMethodToCall + ".", ".");
+        String idxStr = StringUtils.substringBetween(parameterName, "." + actionMethodToCall + ".", ".");
         if (idxStr == null || StringUtils.isBlank(idxStr)) {
             throw new IllegalArgumentException(String.format(
                     "parameterName must be of the form '.(actionMethodToCall).(index).anchor, "
@@ -235,7 +234,6 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
     }
 
     protected int getOnlineReviewActionIndexNumber(String parameterName, String actionMethodToCall) {
-        int result = -1;
         if (StringUtils.isBlank(parameterName) || parameterName.indexOf("." + actionMethodToCall + ".") == -1) {
             throw new IllegalArgumentException(
                     String.format("getOnlineReviewActionIndex expects a non-empty value for parameterName parameter, "
@@ -244,7 +242,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
             );
         }
         String idxNmbr = StringUtils.substringBetween(parameterName, ".line.", ".anchor");
-        result = Integer.parseInt(idxNmbr);
+        int result = Integer.parseInt(idxNmbr);
         return result;
     }
 

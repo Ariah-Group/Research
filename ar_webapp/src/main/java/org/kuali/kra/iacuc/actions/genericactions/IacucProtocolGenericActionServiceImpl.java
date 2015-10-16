@@ -124,7 +124,6 @@ public class IacucProtocolGenericActionServiceImpl extends ProtocolGenericAction
         //find the last lift notification protocol action.
         ProtocolActionBase selectedPa = null;
         for (ProtocolActionBase pa : protocol.getProtocolActions()) {
-            System.err.println("pa.getProtocolActionTypeCode(): " + pa.getProtocolActionTypeCode());
             if (StringUtils.equalsIgnoreCase(pa.getProtocolActionTypeCode(), IacucProtocolActionType.HOLD)
                     && (selectedPa == null || pa.getSequenceNumber() > selectedPa.getSequenceNumber())) {
                 selectedPa = pa;

@@ -75,7 +75,7 @@ public class IacucProtocolActionAjaxServiceImpl extends ProtocolActionAjaxServic
 
     @Override
     public String getReviewers(String protocolId, String committeeId, String scheduleId) {
-        StringBuffer ajaxList = new StringBuffer();
+        StringBuffer ajaxList = new StringBuffer(500);
 
         HashMap<String, String> criteria = new HashMap<String, String>();
         criteria.put("protocolId", protocolId);
@@ -102,7 +102,7 @@ public class IacucProtocolActionAjaxServiceImpl extends ProtocolActionAjaxServic
 
     @Override
     public String getModifySubmissionProtocolReviewers(String protocolId, String committeeId, String scheduleId, String protocolReviewTypeCode) {
-        StringBuffer ajaxList = new StringBuffer();
+        StringBuffer ajaxList = new StringBuffer(500);
 
         HashMap<String, String> criteria = new HashMap<String, String>();
         criteria.put("protocolId", protocolId);

@@ -86,7 +86,7 @@ public class AddProtocolStudyGroupRule extends ResearchDocumentRuleBase implemen
     }
     
     private String getErrorPath(AddProtocolStudyGroupEvent event) {
-        StringBuffer errorPath = new StringBuffer();
+        StringBuilder errorPath = new StringBuilder();
         errorPath.append(PROCEDURE_BEAN_PATH);
         errorPath.append("[");
         errorPath.append(event.getProcedureBeanIndex());

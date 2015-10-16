@@ -36,7 +36,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.ariahgroup.research.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetPrintService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -113,7 +112,7 @@ public class BudgetExpensesAction extends BudgetAction {
             Map<String, Object> primaryKeys = new HashMap<String, Object>();
             primaryKeys.put("budgetId", budget.getBudgetId());
             primaryKeys.put("budgetPeriod", budgetForm.getViewBudgetPeriod().toString());
-            BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);        
+            //BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);        
             List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();//(List<BudgetPeriod>) businessObjectService.findMatching(BudgetPeriod.class, primaryKeys);
             BudgetPeriod budgetPeriod = null;
             for (BudgetPeriod tempBudgetPeriod : budgetPeriods) {

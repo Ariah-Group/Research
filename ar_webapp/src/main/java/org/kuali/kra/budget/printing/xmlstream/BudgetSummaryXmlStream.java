@@ -56,6 +56,7 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
      * @param reportParameters parameters related to XML generation
      * @return Map consisting of XML Objects mapped to bookmarks
      */
+    @Override
     public Map<String, XmlObject> generateXmlStream(
             KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         Map<String, XmlObject> xmlObjectMap = new LinkedHashMap<String, XmlObject>();
@@ -68,9 +69,8 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
                     continue;
                 }
                 this.budgetPeriod = budgetPeriod;
-                BudgetSummaryReport budgetSummaryReport = BudgetSummaryReport.Factory.newInstance();
                 BudgetSummaryReportDocument budgetSummaryReportDocument = BudgetSummaryReportDocument.Factory.newInstance();
-                budgetSummaryReport = getBudgetSummaryReport();
+                BudgetSummaryReport budgetSummaryReport = getBudgetSummaryReport();
                 budgetSummaryReportDocument.setBudgetSummaryReport(budgetSummaryReport);
                 xmlObjectMap.put(BUDGET_PERIOD + budgetPeriod.getBudgetPeriod(), budgetSummaryReportDocument);
             }
@@ -133,9 +133,7 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
      */
     private BudgetSummary getBudgetSummary() {
         BudgetSummary budgetSummary = BudgetSummary.Factory.newInstance();
-        SubReportType subReportType = SubReportType.Factory.newInstance();
-
-        subReportType = getSalarySummary();
+        SubReportType subReportType = getSalarySummary();
         budgetSummary.setSalarySummaryFromEDI(subReportType);
 
         subReportType = getBudgetSummaryNonPersonnel();

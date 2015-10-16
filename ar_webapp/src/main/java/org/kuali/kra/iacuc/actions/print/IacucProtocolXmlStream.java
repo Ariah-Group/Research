@@ -50,23 +50,25 @@ import java.util.List;
 import java.util.Map;
 
 public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
-    
+
     private IacucPrintXmlUtilService printXmlUtilService;
     private KcPersonService kcPersonService;
     private IacucScheduleXmlStream scheduleXmlStream;
     private IacucCommitteeXmlStream committeeXmlStream;
-    
+
     protected static final String FLAG_YES = "Yes";
     protected static final String FLAG_NO = "No";
 
     /**
-     * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(KraPersistableBusinessObjectBase, java.util.Map)
+     * @see
+     * org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(KraPersistableBusinessObjectBase,
+     * java.util.Map)
      */
     public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
-        IacucProtocol protocol = (IacucProtocol) printableBusinessObject;        
-        ProtocolDocument protocolDocumentType = ProtocolDocument.Factory.newInstance();   
+        IacucProtocol protocol = (IacucProtocol) printableBusinessObject;
+        ProtocolDocument protocolDocumentType = ProtocolDocument.Factory.newInstance();
         protocolDocumentType.setProtocol(getProtocol(protocol));
-        Map<String,XmlObject> xmlObjectMap = new HashMap<String, XmlObject>();
+        Map<String, XmlObject> xmlObjectMap = new HashMap<String, XmlObject>();
         xmlObjectMap.put("Protocol", protocolDocumentType);
         return xmlObjectMap;
     }
@@ -78,12 +80,13 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
         addResearchArea(protocolInfoBean, protocolType);
         addFundingSource(protocolInfoBean, protocolType);
         addSpecialReview(protocolInfoBean, protocolType);
-        addSubmissionDetails(protocolInfoBean,protocolType,submissionNumber, "Yes");
+        addSubmissionDetails(protocolInfoBean, protocolType, submissionNumber, "Yes");
         Integer parentSubmissionNumber = getParentSubmissionNumber(protocolInfoBean, submissionNumber);
         addSubmissionDetails(protocolInfoBean, protocolType, parentSubmissionNumber, "No");
         addRiskLevels(protocolInfoBean, protocolType);
         return protocolType;
     }
+
     private Integer getParentSubmissionNumber(org.kuali.kra.protocol.ProtocolBase protocolInfoBean, Integer submissionNumber) {
         return 0;
     }
@@ -107,12 +110,12 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
     }
 
     private void addSubmissionDetails(IacucProtocol protocol, ProtocolType protocolType) {
-        addSubmissionDetails(protocol, protocolType, null,"No");
-        
+        addSubmissionDetails(protocol, protocolType, null, "No");
+
     }
+
     private void addSubmissionDetails(IacucProtocol protocol, ProtocolType protocolType, Integer submissionNumber, String currentFlag) {
-        IacucProtocolSubmission submissionInfoBean = null;
-        submissionInfoBean = (IacucProtocolSubmission) (submissionNumber == null ? protocol.getProtocolSubmission() : findProtocolSubmission(protocol,submissionNumber));
+        IacucProtocolSubmission submissionInfoBean = (IacucProtocolSubmission) (submissionNumber == null ? protocol.getProtocolSubmission() : findProtocolSubmission(protocol, submissionNumber));
         if (submissionInfoBean == null || submissionInfoBean.getSubmissionNumber() == null) {
             return;
         }
@@ -144,7 +147,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
                 KraServiceLocator.getService(IacucPrintXmlUtilService.class).setPersonXml(rolodex, personType);
 
             } else {
-                KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(protocolReviewer.getPersonId()); 
+                KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(protocolReviewer.getPersonId());
                 KraServiceLocator.getService(IacucPrintXmlUtilService.class).setPersonXml(kcPerson, personType);
             }
         }
@@ -165,8 +168,8 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
         }
         if (submissionInfoBean.getProtocolSubmissionQualifierType() != null) {
             // hack, this shouldn't be necessary, but BigIntegers can't be constructed from nulls.
-            BigInteger typeQual = submissionInfoBean.getSubmissionTypeQualifierCode() == null ? new BigInteger("0") :
-                    new BigInteger(String.valueOf(submissionInfoBean.getSubmissionTypeQualifierCode()));
+            BigInteger typeQual = submissionInfoBean.getSubmissionTypeQualifierCode() == null ? new BigInteger("0")
+                    : new BigInteger(String.valueOf(submissionInfoBean.getSubmissionTypeQualifierCode()));
             submissionDetail.setSubmissionTypeQualifierCode(typeQual);
             submissionDetail.setSubmissionTypeQualifierDesc(submissionInfoBean.getProtocolSubmissionQualifierType()
                     .getDescription());
@@ -183,6 +186,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
 
     /**
      * This method...
+     *
      * @param submissionInfoBean
      * @param submission
      * @return
@@ -240,7 +244,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
     private void addFundingSource(IacucProtocol protocol, ProtocolType protocolType) {
         int fundingSourceTypeCode;
         String fundingSourceName, fundingSourceCode;
-        List<ProtocolFundingSourceBase> vecFundingSource = protocol.getProtocolFundingSources();       
+        List<ProtocolFundingSourceBase> vecFundingSource = protocol.getProtocolFundingSources();
         for (ProtocolFundingSourceBase protocolFundingSourceBean : vecFundingSource) {
             FundingSourceType fundingSource = protocolType.addNewFundingSource();
             fundingSourceCode = protocolFundingSourceBean.getFundingSourceNumber();
@@ -252,6 +256,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
             }
         }
     }
+
     private String getFundingSourceNameForType(int sourceType, String sourceCode) {
         String name = null;
         if (sourceType == 1) {
@@ -278,8 +283,8 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
             researchArea.setResearchAreaCode(protocolReasearchAreasBean.getResearchAreaCode());
             if (protocolReasearchAreasBean.getResearchAreas() != null) {
                 researchArea.setResearchAreaDescription(protocolReasearchAreasBean.getResearchAreas().getDescription());
-            }            
-        }    
+            }
+        }
     }
 
     private void addProtocolPersons(IacucProtocol protocol, ProtocolType protocolType) {
@@ -294,21 +299,21 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
                     if (protocolPerson.isTrained()) {
                         investigator.setTrainingFlag(FLAG_YES);
                     } else {
-                        investigator.setTrainingFlag(FLAG_NO); 
-                    } 
+                        investigator.setTrainingFlag(FLAG_NO);
+                    }
                     if (protocolPerson.getAffiliationType() != null) {
                         investigator.setAffiliationDesc(protocolPerson.getAffiliationType().getDescription());
-                    } 
-                    List<edu.mit.coeus.xml.iacuc.InvestigatorType.Unit> unitList = new ArrayList <InvestigatorType.Unit>();
-                    for (ProtocolUnitBase protocolUnit :protocolPerson.getProtocolUnits()) {
+                    }
+                    List<edu.mit.coeus.xml.iacuc.InvestigatorType.Unit> unitList = new ArrayList<InvestigatorType.Unit>();
+                    for (ProtocolUnitBase protocolUnit : protocolPerson.getProtocolUnits()) {
                         edu.mit.coeus.xml.iacuc.InvestigatorType.Unit unit = edu.mit.coeus.xml.iacuc.InvestigatorType.Unit.Factory.newInstance();
                         unit.setUnitName(protocolUnit.getUnitName());
                         unit.setUnitNumber(protocolUnit.getUnitNumber());
-                        unitList.add(unit);                        
-                    } 
+                        unitList.add(unit);
+                    }
                     investigator.setUnitArray((edu.mit.coeus.xml.iacuc.InvestigatorType.Unit[]) unitList.
                             toArray(new edu.mit.coeus.xml.iacuc.InvestigatorType.Unit[0]));
-                     
+
                 }
                 KraServiceLocator.getService(IacucPrintXmlUtilService.class).setPersonRolodexType(protocolPerson, investigator.addNewPerson());
             } else if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_STUDY_PERSONNEL)) {
@@ -324,7 +329,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
                 }
                 KraServiceLocator.getService(IacucPrintXmlUtilService.class).setPersonRolodexType(protocolPerson, keyStudyPerson.addNewPerson());
             } else if (protocolPerson.getProtocolPersonRoleId().equals(IacucProtocolPersonRole.ROLE_CORRESPONDENTS)
-                  || (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_CORRESPONDENT_ADMINISTRATOR))) {
+                    || (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_CORRESPONDENT_ADMINISTRATOR))) {
                 CorrespondentType correspondent = protocolType.addNewCorrespondent();
                 correspondent.setTypeOfCorrespondent(protocolPerson.getProtocolPersonRole().getDescription());
                 correspondent.setCorrespondentTypeDesc(protocolPerson.getProtocolPersonRole().getDescription());
@@ -361,8 +366,8 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
             protocolMaster.setApprovalDate(getDateTimeService().getCalendar(protocol.getApprovalDate()));
         }
         if (protocol.getLastApprovalDate() != null) {
-            protocolMaster.setLastApprovalDate(getDateTimeService().getCalendar(protocol.getLastApprovalDate()));        
-        } 
+            protocolMaster.setLastApprovalDate(getDateTimeService().getCalendar(protocol.getLastApprovalDate()));
+        }
         if (protocol.getExpirationDate() != null) {
             protocolMaster.setExpirationDate(getDateTimeService().getCalendar(protocol.getExpirationDate()));
         }
@@ -386,7 +391,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
 
     /**
      * Sets the printXmlUtilService attribute value.
-     * 
+     *
      * @param printXmlUtilService The printXmlUtilService to set.
      */
     public void setPrintXmlUtilService(IacucPrintXmlUtilService printXmlUtilService) {
@@ -395,7 +400,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
 
     /**
      * Gets the printXmlUtilService attribute.
-     * 
+     *
      * @return Returns the printXmlUtilService.
      */
     public IacucPrintXmlUtilService getPrintXmlUtilService() {
@@ -404,7 +409,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
 
     /**
      * Gets the kcPersonService attribute.
-     * 
+     *
      * @return Returns the kcPersonService.
      */
     public KcPersonService getKcPersonService() {
@@ -413,7 +418,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
 
     /**
      * Sets the kcPersonService attribute value.
-     * 
+     *
      * @param kcPersonService The kcPersonService to set.
      */
     public void setKcPersonService(KcPersonService kcPersonService) {
@@ -422,6 +427,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
 
     /**
      * Sets the scheduleXmlStream attribute value.
+     *
      * @param scheduleXmlStream The scheduleXmlStream to set.
      */
     public void setScheduleXmlStream(IacucScheduleXmlStream scheduleXmlStream) {
@@ -429,7 +435,8 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
     }
 
     /**
-     * Gets the scheduleXmlStream attribute. 
+     * Gets the scheduleXmlStream attribute.
+     *
      * @return Returns the scheduleXmlStream.
      */
     public IacucScheduleXmlStream getScheduleXmlStream() {
@@ -438,6 +445,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
 
     /**
      * Sets the committeeXmlStream attribute value.
+     *
      * @param committeeXmlStream The committeeXmlStream to set.
      */
     public void setCommitteeXmlStream(IacucCommitteeXmlStream comitteeXmlStream) {
@@ -445,12 +453,12 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
     }
 
     /**
-     * Gets the committeeXmlStream attribute. 
+     * Gets the committeeXmlStream attribute.
+     *
      * @return Returns the committeeXmlStream.
      */
     public IacucCommitteeXmlStream getCommitteeXmlStream() {
         return committeeXmlStream;
     }
-
 
 }

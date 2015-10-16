@@ -49,7 +49,7 @@ public class IacucLocationTypeValuesFinder extends UifKeyValuesFinderBase {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
         for (Iterator<IacucLocationType> iter = iacucLocationTypes.iterator(); iter.hasNext();) {
-            IacucLocationType iacucLocationType = (IacucLocationType) iter.next();
+            IacucLocationType iacucLocationType = iter.next();
             keyValues.add(new ConcreteKeyValue(iacucLocationType.getLocationTypeCode().toString(),
                     iacucLocationType.getLocation()));
         }

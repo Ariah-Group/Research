@@ -17,34 +17,31 @@ package org.kuali.kra.iacuc.notification;
 
 import java.util.Map;
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
-
 
 /**
  * Renders additional fields for the IACUC Reject Review notification.
  */
 public class IacucRejectReviewNotificationRenderer extends IacucProtocolNotificationRenderer {
 
-    
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 8996340436089157540L;
-    
+
     private String reason;
 
     /**
      * Constructs an IACUC Reject Review notification renderer.
-     * 
+     *
      * @param protocol
      * @param reason
      */
     public IacucRejectReviewNotificationRenderer(IacucProtocol protocol, String reason) {
         super(protocol);
-        
+
         this.reason = reason;
     }
-    
+
     public String getReason() {
         return reason;
     }
@@ -52,10 +49,12 @@ public class IacucRejectReviewNotificationRenderer extends IacucProtocolNotifica
     public void setReason(String reason) {
         this.reason = reason;
     }
-    
+
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContext#replaceContextVariables(java.lang.String)
+     *
+     * @see
+     * org.kuali.kra.common.notification.NotificationContext#replaceContextVariables(java.lang.String)
      */
     @Override
     public Map<String, String> getDefaultReplacementParameters() {

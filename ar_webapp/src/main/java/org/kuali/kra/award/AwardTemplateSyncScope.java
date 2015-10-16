@@ -260,14 +260,12 @@ public enum AwardTemplateSyncScope {
     }
 
     private boolean isReportTermInScope(String reportCode, String reportClassCode) {
-        boolean result = false;
-        result = ArrayUtils.contains(getSyncScopeParameters("AwardReportTerm", "reportClassCode"), reportClassCode);
+        boolean result = ArrayUtils.contains(getSyncScopeParameters("AwardReportTerm", "reportClassCode"), reportClassCode);
         return result;
     }
 
     private boolean isAwardCommentInScope(String commentTypeCode) {
-        boolean result = false;
-        result = ArrayUtils.contains(getSyncScopeParameters("AwardComment", "commentTypeCode"), commentTypeCode);
+        boolean result = ArrayUtils.contains(getSyncScopeParameters("AwardComment", "commentTypeCode"), commentTypeCode);
         return result;
     }
 

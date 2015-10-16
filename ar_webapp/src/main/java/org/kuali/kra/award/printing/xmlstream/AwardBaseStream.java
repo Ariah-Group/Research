@@ -217,7 +217,7 @@ public abstract class AwardBaseStream implements XmlStream {
     }
 
     private String getProposalParameterValue(String param) {
-        return parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
+        return parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
                 Constants.PARAMETER_COMPONENT_DOCUMENT, param);
     }
 
@@ -723,8 +723,7 @@ public abstract class AwardBaseStream implements XmlStream {
      * @return returns Award IndirectCosts XmlObject
      */
     protected AwardIndirectCosts getAwardIndirectCosts() {
-        AwardIndirectCosts awardIndirectCost = AwardIndirectCosts.Factory
-                .newInstance();
+        AwardIndirectCosts awardIndirectCost = AwardIndirectCosts.Factory.newInstance();
         String comemnts = getIndirectCostComments();
         if (comemnts != null) {
             awardIndirectCost.setComments(comemnts);
@@ -732,21 +731,17 @@ public abstract class AwardBaseStream implements XmlStream {
         List<IndirectCostSharingItem> indirectCostSharingItems = new ArrayList<IndirectCostSharingItem>();
         for (AwardFandaRate awardFandaRate : award.getAwardFandaRate()) {
             if (awardFandaRate != null) {
-                IndirectCostSharingItem indirectCostSharingItem = IndirectCostSharingItem.Factory
-                        .newInstance();
+                IndirectCostSharingItem indirectCostSharingItem = IndirectCostSharingItem.Factory.newInstance();
                 indirectCostSharingItem.setSequenceNumber(award.getSequenceNumber());
                 if (awardFandaRate.getFiscalYear() != null) {
                     indirectCostSharingItem.setFiscalYear(String.valueOf(awardFandaRate.getFiscalYear()));
                 }
                 if (awardFandaRate.getApplicableFandaRate() != null) {
-                    indirectCostSharingItem
-                            .setApplicableRate(awardFandaRate.getApplicableFandaRate().bigDecimalValue());
+                    indirectCostSharingItem.setApplicableRate(awardFandaRate.getApplicableFandaRate().bigDecimalValue());
                 } else {
-                    indirectCostSharingItem
-                            .setApplicableRate(KualiDecimal.ZERO.bigDecimalValue());
+                    indirectCostSharingItem.setApplicableRate(KualiDecimal.ZERO.bigDecimalValue());
                 }
-                boolean campus = (awardFandaRate.getOnCampusFlag() != null && awardFandaRate
-                        .getOnCampusFlag().equals(ON_CAMPUS_FLAG_SET)) ? true : false;
+                boolean campus = (awardFandaRate.getOnCampusFlag() != null && awardFandaRate.getOnCampusFlag().equals(ON_CAMPUS_FLAG_SET));
                 indirectCostSharingItem.setCampus(campus);
                 if (awardFandaRate.getSourceAccount() != null) {
                     indirectCostSharingItem.setSourceAccount(awardFandaRate.getSourceAccount());
@@ -771,9 +766,7 @@ public abstract class AwardBaseStream implements XmlStream {
                 indirectCostSharingItems.add(indirectCostSharingItem);
             }
         }
-        awardIndirectCost
-                .setIndirectCostSharingItemArray(indirectCostSharingItems
-                        .toArray(new IndirectCostSharingItem[0]));
+        awardIndirectCost.setIndirectCostSharingItemArray(indirectCostSharingItems.toArray(new IndirectCostSharingItem[0]));
         return awardIndirectCost;
     }
 
@@ -784,10 +777,7 @@ public abstract class AwardBaseStream implements XmlStream {
         BudgetDocument budgetDocument = null;
         try {
             if (!awardDocument.getBudgetDocumentVersions().isEmpty()) {
-                budgetDocument = (BudgetDocument) documentService
-                        .getByDocumentHeaderId(awardDocument
-                                .getBudgetDocumentVersion(0)
-                                .getDocumentNumber());
+                budgetDocument = (BudgetDocument) documentService.getByDocumentHeaderId(awardDocument.getBudgetDocumentVersion(0).getDocumentNumber());
             }
         } catch (WorkflowException e) {
             LOG.error(e.getMessage(), e);
@@ -804,8 +794,7 @@ public abstract class AwardBaseStream implements XmlStream {
      * @return returns Award CostSharing XmlObject
      */
     protected AwardCostSharing getAwardCostSharing() {
-        AwardCostSharing awardCostSharing = AwardCostSharing.Factory
-                .newInstance();
+        AwardCostSharing awardCostSharing = AwardCostSharing.Factory.newInstance();
         String comments = getCostSharingComments();
         if (comments != null) {
             awardCostSharing.setComments(comments);
@@ -1138,8 +1127,7 @@ public abstract class AwardBaseStream implements XmlStream {
      * @return returns Award Amount Info XmlObject
      */
     protected noNamespace.AwardType.AwardAmountInfo getAwardAmountInfo() {
-        noNamespace.AwardType.AwardAmountInfo awardAmountInfoType = null;
-        awardAmountInfoType = noNamespace.AwardType.AwardAmountInfo.Factory.newInstance();
+        noNamespace.AwardType.AwardAmountInfo awardAmountInfoType = noNamespace.AwardType.AwardAmountInfo.Factory.newInstance();
         if (awardAmountInfo != null) {
             AmountInfoType amountInfoType = AmountInfoType.Factory.newInstance();
             if (award.getAwardNumber() != null) {
@@ -1646,9 +1634,8 @@ public abstract class AwardBaseStream implements XmlStream {
      */
     private CostSharingItem[] getCostSharingItemDetails() {
         List<CostSharingItem> costSharingItems = new ArrayList<CostSharingItem>();
-        CostSharingItem costSharingItem = null;
         for (AwardCostShare awardCostShare : award.getAwardCostShares()) {
-            costSharingItem = CostSharingItem.Factory.newInstance();
+            CostSharingItem costSharingItem = CostSharingItem.Factory.newInstance();
             if (awardCostShare.getAwardNumber() != null) {
                 costSharingItem.setAwardNumber(awardCostShare.getAwardNumber());
             }
@@ -1703,9 +1690,8 @@ public abstract class AwardBaseStream implements XmlStream {
      */
     private ForeignTravel[] getForeignTravel() {
         List<ForeignTravel> foreignTravels = new ArrayList<ForeignTravel>();
-        ForeignTravel foreignTravel = null;
         for (AwardApprovedForeignTravel approvedForeignTravel : award.getApprovedForeignTravelTrips()) {
-            foreignTravel = ForeignTravel.Factory.newInstance();
+            ForeignTravel foreignTravel = ForeignTravel.Factory.newInstance();
             if (approvedForeignTravel.getAwardNumber() != null) {
                 foreignTravel.setAwardNumber(approvedForeignTravel.getAwardNumber());
             }
@@ -1744,9 +1730,8 @@ public abstract class AwardBaseStream implements XmlStream {
      */
     private Equipment[] getEquipmentType() {
         List<Equipment> equipments = new ArrayList<Equipment>();
-        Equipment equipment = null;
         for (AwardApprovedEquipment approvedEquipment : award.getApprovedEquipmentItems()) {
-            equipment = Equipment.Factory.newInstance();
+            Equipment equipment = Equipment.Factory.newInstance();
             if (approvedEquipment.getAwardNumber() != null) {
                 equipment.setAwardNumber(approvedEquipment.getAwardNumber());
             }
@@ -2031,9 +2016,8 @@ public abstract class AwardBaseStream implements XmlStream {
      */
     private String getObligatedDistributableAmtModified() {
         String obligatedDistributableAmtModified = null;
-        double prevObligatedDistributableAmt = OBLIGATED_DISTRIBUTABLE_AMT_0_0;
         if (prevAwardAmountInfo != null && prevAwardAmountInfo.getObliDistributableAmount() != null) {
-            prevObligatedDistributableAmt = prevAwardAmountInfo.getObliDistributableAmount().doubleValue();
+            double prevObligatedDistributableAmt = prevAwardAmountInfo.getObliDistributableAmount().doubleValue();
             if (prevObligatedDistributableAmt != awardAmountInfo.getObliDistributableAmount().doubleValue()) {
                 obligatedDistributableAmtModified = END_ASTERISK_SPACE_INDICATOR;
             }

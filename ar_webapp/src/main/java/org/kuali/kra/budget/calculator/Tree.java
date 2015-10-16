@@ -170,7 +170,7 @@ class Node<T> {
         if (index == getNumberOfChildren()) {
             // this is really an append
             addChild(child);
-            return;
+            //return;
         } else {
             children.get(index); //just to throw the exception, and stop here
             children.add(index, child);

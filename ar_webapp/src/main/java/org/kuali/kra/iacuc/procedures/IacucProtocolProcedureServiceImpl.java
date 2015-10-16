@@ -1095,7 +1095,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
                 for(IacucProtocolStudyGroup studyGroup : protocolStudyGroupBean.getIacucProtocolStudyGroups()) {
                     if(protocolStudyGroupBean.getIacucProtocolStudyGroupHeaderId().equals(studyGroup.getIacucProtocolStudyGroupHeaderId()) &&
                             studyGroup.getIacucProtocolSpecies().getSpeciesCode().equals(protocolStudyGroupSpecies.getSpeciesCode())) {
-                        totalProcSpeciesCount = totalProcSpeciesCount + studyGroup.getCount();
+                        totalProcSpeciesCount += studyGroup.getCount();
                     }
                 }
                 protocolStudyGroupBean.setSpeciesCount(totalProcSpeciesCount);
@@ -1169,7 +1169,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
                 for(IacucProtocolStudyGroup studyGroup : protocolStudyGroupBean.getIacucProtocolStudyGroups()) {
                     if(protocolStudyGroupBean.getIacucProtocolStudyGroupHeaderId().equals(studyGroup.getIacucProtocolStudyGroupHeaderId()) &&
                             studyGroup.getIacucProtocolSpeciesId().equals(iacucProtocolSpecies.getIacucProtocolSpeciesId())) {
-                        totalProcSpeciesCount = totalProcSpeciesCount + studyGroup.getCount();
+                        totalProcSpeciesCount += studyGroup.getCount();
                     }
                 }
                 protocolStudyGroupBean.setSpeciesCount(totalProcSpeciesCount);

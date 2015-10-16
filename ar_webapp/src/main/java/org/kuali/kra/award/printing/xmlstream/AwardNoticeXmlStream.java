@@ -364,7 +364,7 @@ public class AwardNoticeXmlStream extends AwardBaseStream {
     private String getPrintRequirementTypeRequired(
             Map<String, Object> reportParameters, String printRequirementType) {
         String required = null;
-        if (reportParameters.get(printRequirementType) != null && ((Boolean) reportParameters.get(printRequirementType)).booleanValue()) {
+        if (reportParameters.get(printRequirementType) != null && ((Boolean) reportParameters.get(printRequirementType))) {
             required = REQUIRED;
         } else {
             required = NOT_REQUIRED;

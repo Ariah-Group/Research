@@ -78,8 +78,8 @@ public class AddProcedureLocationRule extends ResearchDocumentRuleBase implement
     }
     
     private String getErrorPath(AddProcedureLocationEvent event) {
-        StringBuffer errorPath = new StringBuffer();
-        errorPath.append(NEW_PROCEDURE_LOCATION_PATH);
-        return errorPath.toString();
+        //StringBuffer errorPath = new StringBuffer();
+        //errorPath.append(NEW_PROCEDURE_LOCATION_PATH);
+        return NEW_PROCEDURE_LOCATION_PATH;
     }
 }

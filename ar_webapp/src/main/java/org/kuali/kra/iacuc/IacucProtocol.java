@@ -425,11 +425,11 @@ public class IacucProtocol extends ProtocolBase {
     /*
      * get submit for review questionnaire answerheaders
      */
+    @Override
     public List<AnswerHeader> getAnswerHeaderForProtocol(ProtocolBase protocol) {
         ModuleQuestionnaireBean moduleQuestionnaireBean = new IacucProtocolModuleQuestionnaireBean((IacucProtocol) protocol);
         moduleQuestionnaireBean.setModuleSubItemCode("0");
-        List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
-        answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
+        List<AnswerHeader> answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
         return answerHeaders;
     }
 
@@ -687,7 +687,7 @@ public class IacucProtocol extends ProtocolBase {
     }
 
     public boolean isContinuation() {
-        return getProtocolNumber()!=null && getProtocolNumber().contains(CONTINUATION_LETTER);
+        return getProtocolNumber() != null && getProtocolNumber().contains(CONTINUATION_LETTER);
     }
 
     protected String getProtocolMergeType(ProtocolBase amendment) {

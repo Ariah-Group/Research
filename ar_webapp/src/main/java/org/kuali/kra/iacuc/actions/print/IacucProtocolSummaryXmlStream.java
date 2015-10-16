@@ -260,8 +260,7 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
     }
 
     private void addSubmissionDetails(IacucProtocol protocol, ProtocolType protocolType, Integer submissionNumber, String currentFlag) {
-        IacucProtocolSubmission submissionInfoBean = null;
-        submissionInfoBean = (IacucProtocolSubmission) (submissionNumber == null ? protocol.getProtocolSubmission()
+        IacucProtocolSubmission submissionInfoBean = (IacucProtocolSubmission) (submissionNumber == null ? protocol.getProtocolSubmission()
                 : findProtocolSubmission(protocol, submissionNumber));
         if (submissionInfoBean == null || submissionInfoBean.getSubmissionNumber() == null) {
             return;

@@ -242,7 +242,7 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
     }
 
     protected String getListOfStatusEligibleForMergingHook() {
-        StringBuffer listOfStatusEligibleForMerging = new StringBuffer();
+        StringBuilder listOfStatusEligibleForMerging = new StringBuilder();
         listOfStatusEligibleForMerging.append(IacucProtocolStatus.SUBMITTED_TO_IACUC);
         listOfStatusEligibleForMerging.append(" ");
         listOfStatusEligibleForMerging.append(IacucProtocolStatus.MINOR_REVISIONS_REQUIRED);

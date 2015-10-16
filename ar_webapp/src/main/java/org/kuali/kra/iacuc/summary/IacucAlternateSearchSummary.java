@@ -134,7 +134,7 @@ public class IacucAlternateSearchSummary implements Serializable {
     }
 
     public String getDatabaseList() {
-        StringBuffer dbSearches = new StringBuffer();
+        StringBuilder dbSearches = new StringBuilder();
         for (String db:databases) {
             if (dbSearches.length() > 0) {
                 dbSearches.append(", ");

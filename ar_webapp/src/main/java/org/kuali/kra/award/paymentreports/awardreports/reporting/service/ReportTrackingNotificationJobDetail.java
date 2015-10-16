@@ -33,17 +33,17 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * This job is triggered by the quartz scheduler to kick off the CFDA table update.
- * Extends QuartzJobBean for Persistence.
+ * This job is triggered by the quartz scheduler to kick off the CFDA table
+ * update. Extends QuartzJobBean for Persistence.
  */
 public class ReportTrackingNotificationJobDetail extends QuartzJobBean {
 
     private static final String BREAK = "<BR>";
     private static final String CONTEXT_NAME = "Report Tracking Notification Job";
     private static final String SUBJECT = "Report Tracking Notification batch job result";
-    
+
     private static final Log LOG = LogFactory.getLog(ReportTrackingNotificationJobDetail.class);
-    
+
     private String user;
 
     private ReportTrackingNotificationService reportTrackingNotificationService;
@@ -60,19 +60,19 @@ public class ReportTrackingNotificationJobDetail extends QuartzJobBean {
             StringBuilder builder = new StringBuilder();
             // The cron job runs as this user
             UserSession userSession = new UserSession(user);
-            GlobalVariables.setUserSession(userSession);        
+            GlobalVariables.setUserSession(userSession);
             try {
                 List<ReportTrackingNotificationDetails> results = reportTrackingNotificationService.runReportTrackingNotifications();
                 buildMessage(builder, results);
             } catch (Exception e) {
                 LOG.error("Error running report tracking notification service.", e);
-                builder.append("Message: Error running report tracking notification service. See log for more details. " + e.getMessage());
+                builder.append("Message: Error running report tracking notification service. See log for more details. ").append(e.getMessage());
             }
-            
+
             String message = builder.toString();
-            
+
             LOG.info(message);
-            
+
             String recipient = getRecipient();
             // Send notification only if recipient has been set in the param
             if (StringUtils.isNotEmpty(recipient)) {
@@ -80,65 +80,68 @@ public class ReportTrackingNotificationJobDetail extends QuartzJobBean {
             }
         }
     }
-    
+
     protected void buildMessage(StringBuilder builder, List<ReportTrackingNotificationDetails> details) {
-        builder.append("Report Tracking Notifications : " + details.size() + BREAK);
+        builder.append("Report Tracking Notifications : ").append(details.size()).append(BREAK);
         int i = 1;
         for (ReportTrackingNotificationDetails detail : details) {
-            builder.append("Report Tracking Notification " + i++ + BREAK);
-            builder.append("Notification Name : " + detail.getNotificationName() + BREAK);
-            builder.append("Action Code : " + detail.getActionCode() + BREAK);
+            builder.append("Report Tracking Notification ").append(i++).append(BREAK);
+            builder.append("Notification Name : ").append(detail.getNotificationName()).append(BREAK);
+            builder.append("Action Code : ").append(detail.getActionCode()).append(BREAK);
             if (StringUtils.isNotBlank(detail.getErrorMessage())) {
-                builder.append("Error Occurred : " + detail.getErrorMessage());
+                builder.append("Error Occurred : ").append(detail.getErrorMessage());
             }
             if (!detail.isNotificationActive()) {
                 builder.append("Was not found, was inactive or had no recipients defined." + BREAK);
             } else {
-                builder.append("Notification Type Recipients : " + detail.getNotificationRecipients() + BREAK);
-                builder.append("Report Tracking Records found using task parameters : " + detail.getTrackingRecordsFound() + BREAK);
-                builder.append("Report Tracking Records whose due date matched : " + detail.getTrackingRecordsMatched() + BREAK);
-                builder.append("Report Tracking Notifications sent : " + detail.getNotificationsSent() + BREAK);
+                builder.append("Notification Type Recipients : ").append(detail.getNotificationRecipients()).append(BREAK);
+                builder.append("Report Tracking Records found using task parameters : ").append(detail.getTrackingRecordsFound()).append(BREAK);
+                builder.append("Report Tracking Records whose due date matched : ").append(detail.getTrackingRecordsMatched()).append(BREAK);
+                builder.append("Report Tracking Notifications sent : ").append(detail.getNotificationsSent()).append(BREAK);
             }
             builder.append(BREAK);
         }
     }
-    
+
     /**
      * This method gets the recipient specified in the parameter.
-     * 
+     *
      * @return
      */
     protected String getRecipient() {
         return parameterService.getParameterValueAsString(AwardDocument.class,
-                Constants.REPORT_TRACKING_NOTIFICATIONS_BATCH_RECIPIENT);  
+                Constants.REPORT_TRACKING_NOTIFICATIONS_BATCH_RECIPIENT);
     }
-    
+
     protected boolean batchProcessEnabled() {
         return parameterService.getParameterValueAsBoolean(AwardDocument.class, Constants.REPORT_TRACKING_NOTIFICATIONS_BATCH_ENABLED);
     }
-    
+
     /**
      * Injected by spring.
+     *
      * @param user
      */
     public void setUser(String user) {
         this.user = user;
     }
-    
+
     protected String getUser() {
         return user;
     }
-    
+
     /**
      * This is injected into the scheduler context by spring.
+     *
      * @param kcNotificationService
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-    
+
     /**
      * This is injected into the scheduler context by spring.
+     *
      * @param kcNotificationService
      */
     public void setKcNotificationService(KcNotificationService kcNotificationService) {

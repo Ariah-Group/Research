@@ -36,12 +36,13 @@ import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 public class BudgetDistributionAndIncomeAction extends BudgetAction {
+
     private static final Log LOG = LogFactory.getLog(BudgetDistributionAndIncomeAction.class);
-   
+
     private BudgetDistributionAndIncomeService bdiService;
-    
+
     /**
-     * 
+     *
      * Constructs a BudgetDistributionAndIncomeAction.java.
      */
     public BudgetDistributionAndIncomeAction() {
@@ -50,20 +51,25 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
     }
 
     /**
-     * Override to intialize defaults after reload
-     * 
-     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#reload(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * Override to initialize defaults after reload
+     *
+     * @see
+     * org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#reload(org.apache.struts.action.ActionMapping,
+     * org.apache.struts.action.ActionForm,
+     * javax.servlet.http.HttpServletRequest,
+     * javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.reload(mapping, form, request, response);
-        Budget budget = ((BudgetForm)form).getBudgetDocument().getBudget();
+        Budget budget = ((BudgetForm) form).getBudgetDocument().getBudget();
         bdiService.initializeCollectionDefaults(budget);
         return forward;
     }
-    
+
     /**
-     * Add a Cost Share, validating as needed 
+     * Add a Cost Share, validating as needed
+     *
      * @param mapping
      * @param form
      * @param request
@@ -72,25 +78,26 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      * @throws Exception
      */
     public ActionForward addCostShare(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BudgetForm budgetForm = (BudgetForm) form; 
+        BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudgetDocument().getBudget();
         BudgetCostShare budgetCostShare = budgetForm.getNewBudgetCostShare();
         boolean passed = getKualiRuleService().applyRules(createAddRuleEvent(budgetForm, budgetCostShare));
-        
-        if(passed) {
+
+        if (passed) {
             setCostShareAddRowDefaults(budget, budgetCostShare);
-                       
+
             budget.add(budgetCostShare);
             budgetForm.setNewBudgetCostShare(new BudgetCostShare());
             LOG.debug("Added new BudgetCostShare: " + budgetCostShare);
-        }  
+        }
 
         return mapping.findForward(MAPPING_BASIC);
     }
-    
+
     /**
-     * 
+     *
      * Add BudgetProjectIncome, validating as needed
+     *
      * @param mapping
      * @param form
      * @param request
@@ -102,18 +109,19 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetProjectIncome budgetProjectIncome = budgetForm.getNewBudgetProjectIncome();
         boolean passed = getKualiRuleService().applyRules(createRuleEvent(budgetForm, budgetProjectIncome));
-        
-        if(passed) {
+
+        if (passed) {
             budgetForm.getBudgetDocument().getBudget().add(budgetProjectIncome);
             budgetForm.setNewBudgetProjectIncome(new BudgetProjectIncome());
             LOG.debug("Added new BudgetProjectIncome: " + budgetProjectIncome);
-        }  
+        }
 
         return mapping.findForward(MAPPING_BASIC);
     }
 
     /**
      * Add UnrecoveredFandA, validating as needed
+     *
      * @param mapping
      * @param form
      * @param request
@@ -122,24 +130,25 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      * @throws Exception
      */
     public ActionForward addUnrecoveredFandA(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BudgetForm budgetForm = (BudgetForm) form; 
+        BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         BudgetUnrecoveredFandA budgetUnrecoveredFandA = budgetForm.getNewBudgetUnrecoveredFandA();
         boolean passed = getKualiRuleService().applyRules(createRuleEvent(budgetForm, budgetUnrecoveredFandA));
-        
-        if(passed) {
+
+        if (passed) {
             setUnrecoveredFandAAddRowDefaults(budgetDocument, budgetUnrecoveredFandA);
-                       
+
             budgetForm.getBudgetDocument().getBudget().add(budgetUnrecoveredFandA);
             budgetForm.setNewBudgetUnrecoveredFandA(new BudgetUnrecoveredFandA());
             LOG.debug("Added new BudgetCostShare: " + budgetUnrecoveredFandA);
-        }  
+        }
 
         return mapping.findForward(MAPPING_BASIC);
     }
 
     /**
      * Delete Cost Share row
+     *
      * @param mapping
      * @param form
      * @param request
@@ -148,12 +157,13 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      * @throws Exception
      */
     public ActionForward deleteCostShare(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ((BudgetForm)form).getBudgetDocument().getBudget().removeBudgetCostShare(getLineToDelete(request));        
+        ((BudgetForm) form).getBudgetDocument().getBudget().removeBudgetCostShare(getLineToDelete(request));
         return mapping.findForward(MAPPING_BASIC);
     }
-    
+
     /**
      * Delete Project Income row
+     *
      * @param mapping
      * @param form
      * @param request
@@ -162,12 +172,13 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      * @throws Exception
      */
     public ActionForward deleteProjectIncome(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ((BudgetForm)form).getBudgetDocument().getBudget().removeBudgetProjectIncome(getLineToDelete(request));        
+        ((BudgetForm) form).getBudgetDocument().getBudget().removeBudgetProjectIncome(getLineToDelete(request));
         return mapping.findForward(MAPPING_BASIC);
     }
-    
+
     /**
      * Delete Unrecovered F&amp;A row
+     *
      * @param mapping
      * @param form
      * @param request
@@ -176,12 +187,14 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      * @throws Exception
      */
     public ActionForward deleteUnrecoveredFandA(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ((BudgetForm)form).getBudgetDocument().getBudget().removeBudgetUnrecoveredFandA(getLineToDelete(request));        
+        ((BudgetForm) form).getBudgetDocument().getBudget().removeBudgetUnrecoveredFandA(getLineToDelete(request));
         return mapping.findForward(MAPPING_BASIC);
     }
-    
+
     /**
-     * Refresh totals. Calculations are done on page render, so simply re-render page 
+     * Refresh totals. Calculations are done on page render, so simply re-render
+     * page
+     *
      * @param mapping
      * @param form
      * @param request
@@ -193,9 +206,10 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
         // recalculation occurs on page render
         return mapping.findForward(MAPPING_BASIC);
     }
-    
+
     /**
      * Reset default rows
+     *
      * @param mapping
      * @param form
      * @param request
@@ -203,16 +217,17 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
      * @return
      * @throws Exception
      */
-    public ActionForward resetCostSharingToDefault(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
+    public ActionForward resetCostSharingToDefault(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Budget budget = getDocument(form).getBudget();
         budget.getBudgetCostShares().clear();
         bdiService.initializeCostSharingCollectionDefaults(budget);
-        
+
         return mapping.findForward(MAPPING_BASIC);
     }
 
     /**
      * Reset default rows
+     *
      * @param mapping
      * @param form
      * @param request
@@ -224,31 +239,34 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
         Budget budget = getDocument(form).getBudget();
         budget.getBudgetUnrecoveredFandAs().clear();
         bdiService.initializeUnrecoveredFandACollectionDefaults(budget);
-        
+
         return mapping.findForward(MAPPING_BASIC);
     }
-    
+
     /**
      * Convenience method to allow stubbing
+     *
      * @return
      */
     protected KualiRuleService getKualiRuleService() {
         return getService(KualiRuleService.class);
     }
-    
+
     /**
      * Factory method
+     *
      * @param budgetForm
      * @param budgetCostShare
      * @return
      */
     private AddBudgetCostShareEvent createAddRuleEvent(BudgetForm budgetForm, BudgetCostShare budgetCostShare) {
-        return new AddBudgetCostShareEvent("Add BudgetCostShare Event", Constants.EMPTY_STRING, budgetForm.getBudgetDocument(), 
+        return new AddBudgetCostShareEvent("Add BudgetCostShare Event", Constants.EMPTY_STRING, budgetForm.getBudgetDocument(),
                 budgetCostShare, budgetForm.getBudgetDocument());
     }
-    
+
     /**
      * Factory method
+     *
      * @param budgetForm
      * @param budgetProjectIncome
      * @return
@@ -256,9 +274,10 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
     private AddBudgetProjectIncomeEvent createRuleEvent(BudgetForm budgetForm, BudgetProjectIncome budgetProjectIncome) {
         return new AddBudgetProjectIncomeEvent("Add BudgetProjectIncome Event", Constants.EMPTY_STRING, budgetForm.getBudgetDocument(), budgetProjectIncome);
     }
-    
+
     /**
      * Factory method
+     *
      * @param budgetForm
      * @param budgetUnrecoveredFandA
      * @return
@@ -266,9 +285,10 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
     private AddBudgetUnrecoveredFandAEvent createRuleEvent(BudgetForm budgetForm, BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
         return new AddBudgetUnrecoveredFandAEvent("Add BudgetUnrecoveredFandA Event", Constants.EMPTY_STRING, budgetForm.getBudgetDocument(), budgetUnrecoveredFandA);
     }
-    
+
     /**
      * Convenience method
+     *
      * @param form
      * @return
      */
@@ -277,41 +297,43 @@ public class BudgetDistributionAndIncomeAction extends BudgetAction {
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         return budgetDocument;
     }
-    
+
     /**
      * Sets default values for new Cost Share row when value not present
+     *
      * @param budget
      * @param budgetCostShare
      */
     private void setCostShareAddRowDefaults(Budget budget, BudgetCostShare budgetCostShare) {
         BudgetDecimal defaultValue = BudgetDecimal.ZERO;
-        if(budgetCostShare.getProjectPeriod() == null) {
+        if (budgetCostShare.getProjectPeriod() == null) {
             budgetCostShare.setProjectPeriod(0);
         }
-        if(budgetCostShare.getShareAmount() == null) {
-            BudgetDecimal shareAmount = budgetCostShare.getProjectPeriod() == 0 ? defaultValue : budget.findCostSharingForFiscalYear(budgetCostShare.getProjectPeriod());                 
+        if (budgetCostShare.getShareAmount() == null) {
+            BudgetDecimal shareAmount = budgetCostShare.getProjectPeriod() == 0 ? defaultValue : budget.findCostSharingForFiscalYear(budgetCostShare.getProjectPeriod());
             budgetCostShare.setShareAmount(shareAmount);
         }
-        if(budgetCostShare.getSharePercentage() == null) {
+        if (budgetCostShare.getSharePercentage() == null) {
             budgetCostShare.setSharePercentage(defaultValue);
         }
     }
-    
+
     /**
      * Sets default values for new UnrecoveredFandA row when value not present
+     *
      * @param budgetDocument
      * @param budgetUnrecoveredFandA
      */
     private void setUnrecoveredFandAAddRowDefaults(BudgetDocument budgetDocument, BudgetUnrecoveredFandA budgetUnrecoveredFandA) {
-        if(budgetUnrecoveredFandA.getFiscalYear() == null) {
+        if (budgetUnrecoveredFandA.getFiscalYear() == null) {
             budgetUnrecoveredFandA.setFiscalYear(0);
         }
-        if(budgetUnrecoveredFandA.getAmount() == null) {
-            BudgetDecimal shareAmount = budgetUnrecoveredFandA.getFiscalYear() == 0 ? BudgetDecimal.ZERO : 
-                    budgetDocument.getBudget().findUnrecoveredFandAForFiscalYear(budgetUnrecoveredFandA.getFiscalYear());                 
+        if (budgetUnrecoveredFandA.getAmount() == null) {
+            BudgetDecimal shareAmount = budgetUnrecoveredFandA.getFiscalYear() == 0 ? BudgetDecimal.ZERO
+                    : budgetDocument.getBudget().findUnrecoveredFandAForFiscalYear(budgetUnrecoveredFandA.getFiscalYear());
             budgetUnrecoveredFandA.setAmount(shareAmount);
         }
-        if(budgetUnrecoveredFandA.getApplicableRate() == null) {
+        if (budgetUnrecoveredFandA.getApplicableRate() == null) {
             budgetUnrecoveredFandA.setApplicableRate(BudgetDecimal.ZERO);
         }
     }

@@ -495,8 +495,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
      */
     public boolean isAbandonAuthorized(IacucProtocolForm protocolForm) {
         IacucProtocolDocument document = protocolForm.getIacucProtocolDocument();
-        boolean requestAuthorized = false;
-        requestAuthorized = hasPermission(TaskName.IACUC_ABANDON_PROTOCOL, (IacucProtocol) document.getProtocol());
+        boolean requestAuthorized = hasPermission(TaskName.IACUC_ABANDON_PROTOCOL, (IacucProtocol) document.getProtocol());
         return requestAuthorized;
     }
 

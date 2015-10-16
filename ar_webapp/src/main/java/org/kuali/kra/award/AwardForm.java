@@ -286,7 +286,7 @@ public class AwardForm extends BudgetVersionFormBase
 
         //setQuestionnaireHelper(createNewQuestionnaireHelperInstance(this));
         setQuestionnaireHelper(new AwardQuestionnaireHelper(this));
-        
+
         syncMode = false;
         awardSyncBean = new AwardSyncBean(this);
         setDirectIndirectViewEnabled(getParameterService().getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
@@ -306,11 +306,11 @@ public class AwardForm extends BudgetVersionFormBase
     public QuestionnaireHelperBase getQuestionnaireHelper() {
         return questionnaireHelper;
     }
-    
+
     public void setQuestionnaireHelper(QuestionnaireHelperBase questionnaireHelper) {
         this.questionnaireHelper = questionnaireHelper;
     }
-    
+
     /**
      *
      * This method returns the AwardDocument object.
@@ -1573,7 +1573,7 @@ public class AwardForm extends BudgetVersionFormBase
             String parmVal = this.getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_AWARD, "Document", PAYMENT_SCHEDULE_ACTIVE_LINKS_PARAMETER);
             displayAwardPaymentScheduleActiveLinkFields = StringUtils.equalsIgnoreCase("Y", parmVal);
         }
-        return displayAwardPaymentScheduleActiveLinkFields.booleanValue();
+        return displayAwardPaymentScheduleActiveLinkFields;
     }
 
     public void setReportTrackingService(ReportTrackingService reportTrackingService) {
@@ -1619,17 +1619,17 @@ public class AwardForm extends BudgetVersionFormBase
     public boolean isHideFundingProposalsPanel() {
 
         boolean hidePanel = false;
-        
+
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("moduleCode", CoeusModule.INSTITUTIONAL_PROPOSAL_MODULE_CODE);
-        
+
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         Collection<CoeusModule> modules = businessObjectService.findMatching(CoeusModule.class, fieldValues);
 
-        if(modules!=null && !modules.isEmpty()) {
+        if (modules != null && !modules.isEmpty()) {
             CoeusModule instProp = modules.iterator().next();
-            
-            if(!instProp.isActive()) {
+
+            if (!instProp.isActive()) {
                 hidePanel = true;
             }
         }
@@ -1644,28 +1644,27 @@ public class AwardForm extends BudgetVersionFormBase
     public int getNumColumns() {
         return 3;
     }
-    
+
 //    protected QuestionnaireHelperBase createNewQuestionnaireHelperInstance(AwardForm awardForm) {
 //        return new AwardQuestionnaireHelper(awardForm);
 //    }    
-    
     public String getQuestionnaireFieldStarter() {
         return "questionnaireHelper.answerHeaders[";
     }
-    
+
     public String getQuestionnaireFieldMiddle() {
         return DEFAULT_MIDDLE;
     }
-    
+
     public String getQuestionnaireFieldEnd() {
         return DEFAULT_END;
     }
-    
+
     public String getQuestionnaireExpression() {
         return "^undefined$";
-    }    
-    
+    }
+
     public boolean isAttachmentsPanelDefaultOpen() {
         return getAwardDocument().isAttachmentsPanelDefaultOpen();
-    }    
+    }
 }

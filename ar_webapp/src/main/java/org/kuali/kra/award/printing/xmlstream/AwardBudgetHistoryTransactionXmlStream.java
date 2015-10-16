@@ -120,13 +120,12 @@ public class AwardBudgetHistoryTransactionXmlStream extends AwardBudgetBaseStrea
      */
     private AwardAmountInfo getAwardAmountInfo(Award award, int transactionIdx) {
 
-        AmountInfoType amountInfoType = null;
         AwardAmountInfo awardAmountInfo = AwardAmountInfo.Factory.newInstance();
         List<AmountInfoType> amountInfoTypes = new ArrayList<AmountInfoType>();
 
         org.kuali.kra.award.home.AwardAmountInfo amountInfo = award.getAwardAmountInfos().get(transactionIdx);
         if (amountInfo != null) {
-            amountInfoType = setAwardAmountInfo(award, amountInfo, amountInfo.getTransactionId());
+            AmountInfoType amountInfoType = setAwardAmountInfo(award, amountInfo, amountInfo.getTransactionId());
             org.kuali.kra.award.home.AwardAmountInfo prevAwardAmount = getPrevAwardAmountInfo(award, amountInfo.getTransactionId(), award.getAwardNumber());
             setAwardAmountInfoModifiedValues(amountInfoType, amountInfo, prevAwardAmount);
             amountInfoTypes.add(amountInfoType);
