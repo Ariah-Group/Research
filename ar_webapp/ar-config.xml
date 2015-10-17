@@ -4,7 +4,7 @@
 	<param name="http.port">8080</param>
 	<param name="app.context.name">research</param>
      	<param name="application.url">${application.http.scheme}://${application.host}:${http.port}/${app.context.name}</param>
-	<param name="build.version">5.3.4</param>        
+	<param name="build.version">5.3.5</param>        
     
 	<!-- KC Client DB -->
 	<param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:KUALI</param>
@@ -158,7 +158,7 @@
     <param name="attachments.directory">/etc/tomcat/ariah_conf/attachments/</param>
 
     <param name="rice.kr.additionalSpringFiles">classpath:org/ariahgroup/research/krad-overrides.xml</param>
-    <param name="rice.kc.pd.additionalSpringFiles">classpath:org/ariahgroup/research/kc-core-overrides.xml</param>
+    <param name="rice.kc.core.additionalSpringFiles">classpath:org/ariahgroup/research/kc-core-overrides.xml</param>
     
     <param name="kns.javascript.files">plugins/jquery/jquery-1.8.3.js,plugins/cookie/jquery.cookie.js,kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,dwr/engine.js,dwr/util.js,dwr/interface/PersonService.js,kr/scripts/objectInfo.js,dwr/interface/CustomAttributeService.js,dwr/interface/ProposalDevelopmentService.js,dwr/interface/BudgetService.js,dwr/interface/AwardTemplateReportTermService.js,dwr/interface/S2SService.js,scripts/fancybox2.1.5/jquery.fancybox.pack.js,plugins/blockUI/jquery.blockUI.js,scripts/kuali_application.js,scripts/ariah_research.js</param>
     <param name="kns.css.files">kr/css/kuali.css,kr/scripts/jscalendar-1.0/calendar-win2k-1.css,scripts/fancybox2.1.5/jquery.fancybox.css,css/kuali_application.css</param>
@@ -206,7 +206,7 @@
     <param name="feedback.linkText">Report an Issue</param>
         
     <param name="displayVersion.enabled">true</param>
-    <param name="displayVersion">5.3.4</param>
+    <param name="displayVersion">5.3.5</param>
         
     <param name="displayEnvironment.enabled">true</param>
     <param name="displayEnvironment.highlightcolor">red</param>
