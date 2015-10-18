@@ -36,12 +36,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CurrentOrPendingReportAction extends KualiAction{
-    
+public class CurrentOrPendingReportAction extends KualiAction {
+
     private static final Log LOG = LogFactory.getLog(CurrentOrPendingReportAction.class);
+
     /**
      * Prepare current report (i.e. Awards that selected person is on)
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -64,7 +65,8 @@ public class CurrentOrPendingReportAction extends KualiAction{
     }
 
     /**
-     * Prepare pending report (i.e. InstitutionalProposals that selected person is on) {@inheritDoc}
+     * Prepare pending report (i.e. InstitutionalProposals that selected person
+     * is on) {@inheritDoc}
      */
     public ActionForward printPendingReportPdf(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -85,48 +87,49 @@ public class CurrentOrPendingReportAction extends KualiAction{
      * {@inheritDoc}
      */
     public ActionForward prepareCurrentReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-                                                                                                            throws Exception {
-        ReportHelperBean helper = ((ReportHelperBeanContainer)form).getReportHelperBean();
+            throws Exception {
+        ReportHelperBean helper = ((ReportHelperBeanContainer) form).getReportHelperBean();
         request.setAttribute(CurrentAndPendingReportService.CURRENT_REPORT_ROWS_KEY, helper.prepareCurrentReport());
         request.setAttribute(CurrentAndPendingReportService.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
-     * Prepare pending report (i.e. InstitutionalProposals that selected person is on)
-     * {@inheritDoc}
+     * Prepare pending report (i.e. InstitutionalProposals that selected person
+     * is on) {@inheritDoc}
      */
     public ActionForward preparePendingReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-                                                                                                                    throws Exception {
-        ReportHelperBean helper = ((ReportHelperBeanContainer)form).getReportHelperBean();
+            throws Exception {
+        ReportHelperBean helper = ((ReportHelperBeanContainer) form).getReportHelperBean();
         request.setAttribute(CurrentAndPendingReportService.PENDING_REPORT_ROWS_KEY, helper.preparePendingReport());
         request.setAttribute(CurrentAndPendingReportService.REPORT_PERSON_NAME_KEY, helper.getTargetPersonName());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
-    *
-    * Handy method to stream the byte array to response object
-    * @param attachmentDataSource
-    * @param response
-    * @throws Exception
-    */
-   protected void streamToResponse(byte[] fileContents, String fileName, String fileContentType,HttpServletResponse response) throws Exception{
-       ByteArrayOutputStream baos = null;
-       try{
-           baos = new ByteArrayOutputStream(fileContents.length);
-           baos.write(fileContents);
-           WebUtils.saveMimeOutputStreamAsFile(response, fileContentType, baos, fileName);
-       }finally{
-           try{
-               if(baos!=null){
-                   baos.close();
-                   baos = null;
-               }
-           }catch(IOException ioEx){
-               LOG.error("Error while downloading attachment");
-               throw new RuntimeException("IOException occurred while downloading attachment", ioEx);
-           }
-       }
-   }
+     *
+     * Handy method to stream the byte array to response object
+     *
+     * @param attachmentDataSource
+     * @param response
+     * @throws Exception
+     */
+    protected void streamToResponse(byte[] fileContents, String fileName, String fileContentType, HttpServletResponse response) throws Exception {
+        ByteArrayOutputStream baos = null;
+        try {
+            baos = new ByteArrayOutputStream(fileContents.length);
+            baos.write(fileContents);
+            WebUtils.saveMimeOutputStreamAsFile(response, fileContentType, baos, fileName);
+        } finally {
+            try {
+                if (baos != null) {
+                    baos.close();
+                    baos = null;
+                }
+            } catch (IOException ioEx) {
+                LOG.error("Error while downloading attachment");
+                throw new RuntimeException("IOException occurred while downloading attachment", ioEx);
+            }
+        }
+    }
 }
