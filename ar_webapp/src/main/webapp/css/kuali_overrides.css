@@ -185,4 +185,21 @@
     font-size: 13px; 
 }
 
+a.cssbut:link /*, a.cssbut:visited*/{
+  -webkit-border-radius: 20;
+  -moz-border-radius: 20;
+  border-radius: 20px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 14px;
+  background: #B0C4DE;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+
+a.cssbut:hover {
+  background: #3498db;
+  text-decoration: none;
+}
+
 

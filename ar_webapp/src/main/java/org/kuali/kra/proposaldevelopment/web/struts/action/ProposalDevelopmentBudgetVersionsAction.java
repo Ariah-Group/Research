@@ -12,22 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * ------------------------------------------------------
- * Updates made after January 1, 2015 are :
- * Copyright 2015 The Ariah Group, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
@@ -81,7 +65,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     /**
      * Main execute method that is run. Populates A map of rate types in the
      * {@link HttpServletRequest} instance to be used in the JSP. The map is
-     * called <code>rateClassMap</code> this is set everytime execute is called
+     * called <code>rateClassMap</code> this is set every time execute is called
      * in this class. This should only happen for the BudgetVersions tab. This
      * ensures that even if {@link RateClass} persisted data may change, it will
      * update the map correctly.
@@ -119,8 +103,7 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
         ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument pdDoc = pdForm.getProposalDevelopmentDocument();
 
-        BudgetDocument<DevelopmentProposal> budgetDocument
-                = getBudgetService().addBudgetVersion(pdDoc, pdForm.getNewBudgetVersionName());
+        BudgetDocument<DevelopmentProposal> budgetDocument= getBudgetService().addBudgetVersion(pdDoc, pdForm.getNewBudgetVersionName());
         pdForm.setNewBudgetVersionName("");
 
         return mapping.findForward(Constants.MAPPING_BASIC);
