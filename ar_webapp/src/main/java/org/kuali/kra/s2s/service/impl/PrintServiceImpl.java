@@ -171,29 +171,83 @@ public class PrintServiceImpl implements PrintService {
             File attachmentFile = new File(grantsGovXmlDirectoryFile, "Attachments");
             attachmentFile.mkdir();
             File attachedFile = new File(attachmentFile, attachmentData.getFileName());
-            FileOutputStream output = new FileOutputStream(attachedFile);
-            output.write(attachmentData.getContent());
-            output.close();
+
+            FileOutputStream output = null;
+
+            try {
+                output = new FileOutputStream(attachedFile);
+                output.write(attachmentData.getContent());
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (output != null) {
+                        output.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
         for (S2sAppAttachments attAppAttachments : attachmentLists) {
             File attachmentFile = new File(grantsGovXmlDirectoryFile, "Attachments");
             attachmentFile.mkdir();
             AttachmentDataSource ads = getAttributeContent(pdDoc, attAppAttachments.getContentId());
             File attachedFile = new File(attachmentFile, ads.getFileName());
-            FileOutputStream output = new FileOutputStream(attachedFile);
-            output.write(getAttContent(pdDoc, attAppAttachments.getContentId()));
-            output.close();
+
+            FileOutputStream output = null;
+
+            try {
+                output = new FileOutputStream(attachedFile);
+                output.write(getAttContent(pdDoc, attAppAttachments.getContentId()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (output != null) {
+                        output.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
         File xmlFile = new File(grantsGovXmlDirectoryFile, opportunityId + "." + proposalnumber + "." + exportDate + ".xml");
-        BufferedWriter out = new BufferedWriter(new FileWriter(xmlFile));
-        out.write(formObject.xmlText());
-        out.close();
+        BufferedWriter out = null;
+        try {
+            out = new BufferedWriter(new FileWriter(xmlFile));
+            out.write(formObject.xmlText());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         ZipOutputStream zipOutputStream = null;
-        FileOutputStream fileOutputStream = new FileOutputStream(grantsGovXmlDirectoryFile + ".zip");
-        zipOutputStream = new ZipOutputStream(fileOutputStream);
-        addFolderToZip("", grantsGovXmlDirectoryFile.getPath(), zipOutputStream);
-        zipOutputStream.flush();
-        zipOutputStream.close();
+
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(grantsGovXmlDirectoryFile + ".zip");
+            zipOutputStream = new ZipOutputStream(fileOutputStream);
+            addFolderToZip("", grantsGovXmlDirectoryFile.getPath(), zipOutputStream);
+            zipOutputStream.flush();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (zipOutputStream != null) {
+                    zipOutputStream.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static void addFolderToZip(String path, String sourceFolder, ZipOutputStream zipOutputStream) throws Exception {
@@ -231,6 +285,7 @@ public class PrintServiceImpl implements PrintService {
                         fileInputStream.close();
                     }
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }
