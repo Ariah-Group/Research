@@ -17,7 +17,7 @@ package org.kuali.kra.s2s.generator;
 
 /**
  * This class is an exception class and is thrown whenever a generator for a
- * namespoace is not available for form generation
+ * namespace is not available for form generation.
  */
 public class S2SGeneratorNotFoundException extends Exception {
 
@@ -25,7 +25,7 @@ public class S2SGeneratorNotFoundException extends Exception {
 
     /**
      *
-     * Constructs a S2SGeneratorNotFoundException.java.
+     * Constructs a S2SGeneratorNotFoundException.
      */
     public S2SGeneratorNotFoundException() {
         super();
@@ -33,7 +33,7 @@ public class S2SGeneratorNotFoundException extends Exception {
 
     /**
      *
-     * Constructs a S2SGeneratorNotFoundException.java.
+     * Constructs a S2SGeneratorNotFoundException.
      *
      * @param message
      */
