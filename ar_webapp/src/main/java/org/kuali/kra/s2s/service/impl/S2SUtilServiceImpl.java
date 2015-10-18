@@ -436,13 +436,13 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     }
 
     protected DevelopmentProposal getNewestDevPropFromInstProp(InstitutionalProposal instProp) {
-        Integer listDetailSize = 0;
+
         ProposalAdminDetails curDetail = new ProposalAdminDetails();
         Map<String, Object> detailFieldValues = new HashMap<String, Object>();
         detailFieldValues.put("instProposalId", instProp.getProposalId());
         List<ProposalAdminDetails> details = (List<ProposalAdminDetails>) businessObjectService.findMatchingOrderBy(ProposalAdminDetails.class,
                 detailFieldValues, "devProposalNumber", true);
-        listDetailSize = details.size();
+        Integer listDetailSize = details.size();
         if (listDetailSize > 1) {
             curDetail = details.get(listDetailSize - 2);
             Map<String, Object> fieldValues = new HashMap<String, Object>();

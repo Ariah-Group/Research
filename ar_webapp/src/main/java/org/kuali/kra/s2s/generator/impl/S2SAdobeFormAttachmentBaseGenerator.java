@@ -315,10 +315,10 @@ public abstract class S2SAdobeFormAttachmentBaseGenerator extends S2SBaseFormGen
         Budget finalBudget = proposalDevelopmentDocument.getFinalBudgetForThisProposal();
         if(finalBudget==null){
             List<BudgetDocumentVersion> budgetDocumentVersions = proposalDevelopmentDocument.getBudgetDocumentVersions();
-            BudgetVersionOverview budgetVersionOverview = null;
+           // BudgetVersionOverview budgetVersionOverview = null;
             for (BudgetDocumentVersion budgetDocumentVersion : budgetDocumentVersions) {
                 if(budgetDocumentVersion.isBudgetComplete()){
-                    budgetVersionOverview = budgetDocumentVersion.getBudgetVersionOverview();
+                    //budgetVersionOverview = budgetDocumentVersion.getBudgetVersionOverview();
                     return budgetDocumentVersion.findBudget();
                 }
             }

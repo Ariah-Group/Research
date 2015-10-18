@@ -411,7 +411,7 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
         if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null
                 && Integer.parseInt(pdDoc.getDevelopmentProposal()
                         .getProposalTypeCode()) < PROPOSAL_TYPE_CODE_6) {
-			// Check <6 to ensure that if proposalType='TASk ORDER", it must not
+            // Check <6 to ensure that if proposalType='TASk ORDER", it must not
             // set. THis is because enum ApplicationType has no
             // entry for TASK ORDER
             ApplicationTypeCodeDataType.Enum applicationTypeCodeDataType = ApplicationTypeCodeDataType.Enum
@@ -746,12 +746,11 @@ public class RRSF424V1_1Generator extends RRSF424BaseGenerator {
      * question id passed.
      */
     private String getAnswer(String questionId) {
-        List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
-        answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
+        List<AnswerHeader> answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
         String answer = null;
         if (answerHeaders != null && !answerHeaders.isEmpty()) {
             for (AnswerHeader answerHeader : answerHeaders) {
-                List<QuestionnaireQuestion> questionnaireQuestions = answerHeader.getQuestionnaire().getQuestionnaireQuestions();
+                //List<QuestionnaireQuestion> questionnaireQuestions = answerHeader.getQuestionnaire().getQuestionnaireQuestions();
                 List<Answer> answerDetails = answerHeader.getAnswers();
                 for (Answer answers : answerDetails) {
                     if (answers.getAnswer() != null && questionId.equals(answers.getQuestion().getQuestionId())) {

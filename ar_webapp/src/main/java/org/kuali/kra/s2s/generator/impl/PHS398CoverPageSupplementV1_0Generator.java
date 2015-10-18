@@ -217,12 +217,11 @@ public class PHS398CoverPageSupplementV1_0Generator extends
     private StemCells getStemCells() {
 
         StemCells stemCells = StemCells.Factory.newInstance();
-        Enum answers = YesNoDataType.NO;
         String childAnswer = null;
         String answer = getAnswer(IS_HUMAN_STEM_CELLS_INVOLVED);
         if (answer != null) {
             if (!answer.equals(NOT_ANSWERED)) {
-                answers = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(getAnswer(IS_HUMAN_STEM_CELLS_INVOLVED)) ? YesNoDataType.YES : YesNoDataType.NO;
+                Enum answers = S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(getAnswer(IS_HUMAN_STEM_CELLS_INVOLVED)) ? YesNoDataType.YES : YesNoDataType.NO;
                 if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
                     stemCells.setIsHumanStemCellsInvolved(YesNoDataType.YES);
                     String subAnswer = getAnswer(SPECIFIC_STEM_CELL_LINE);

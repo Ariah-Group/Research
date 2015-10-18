@@ -71,9 +71,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class for generating the XML object for grants.gov SF424AV1_0. Form is generated using XMLBean classes and is based on SF424AV1_0
- * schema.
- * 
+ * Class for generating the XML object for grants.gov SF424AV1_0. Form is
+ * generated using XMLBean classes and is based on SF424AV1_0 schema.
+ *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class SF424AV1_0Generator extends SF424BaseGenerator {
@@ -83,19 +83,21 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
     private Budget budget = null;
 
     /**
-     * 
-     * This method returns BudgetInformationDocument object based on proposal development document which contains the informations
-     * such as BudgetSummary, BudgetCategories, NonFedResources, BudgetForecastedCashNeeds, FederalFundsNeeded
-     * 
-     * @return budgetInformationDocument {@link XmlObject} of type BudgetInformationDocument.
+     *
+     * This method returns BudgetInformationDocument object based on proposal
+     * development document which contains the informations such as
+     * BudgetSummary, BudgetCategories, NonFedResources,
+     * BudgetForecastedCashNeeds, FederalFundsNeeded
+     *
+     * @return budgetInformationDocument {@link XmlObject} of type
+     * BudgetInformationDocument.
      */
     private BudgetInformationDocument getSF424A() {
         BudgetInformationDocument budgetInformationDocument = BudgetInformationDocument.Factory.newInstance();
         try {
             BudgetDocument budgetDocument = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
-            budget = budgetDocument==null?null:budgetDocument.getBudget();
-        }
-        catch (S2SException e) {
+            budget = budgetDocument == null ? null : budgetDocument.getBudget();
+        } catch (S2SException e) {
             LOG.error(e.getMessage(), e);
             return budgetInformationDocument;
         }
@@ -121,9 +123,10 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
     }
 
     /**
-     * 
-     * This method gives the information of BudgetCategories like CategorySet, CategoryTotals
-     * 
+     *
+     * This method gives the information of BudgetCategories like CategorySet,
+     * CategoryTotals
+     *
      * @return BudgetCategories budget categories total amount.
      */
     private BudgetCategories getBudgetCategories() {
@@ -159,25 +162,19 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
                     if (budgetLineItem.getBudgetCategoryCode().equals(budgetCategoryMapping.getBudgetCategoryCode())) {
                         if (budgetCategoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_CONSTRUCTION)) {
                             constructionCost = constructionCost.add(budgetLineItem.getLineItemCost());
-                        }
-                        else if (budgetCategoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_CONTRACTUAL)) {
+                        } else if (budgetCategoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_CONTRACTUAL)) {
                             contractualCost = contractualCost.add(budgetLineItem.getLineItemCost());
-                        }
-                        else if (budgetCategoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_EQUIPMENT)) {
+                        } else if (budgetCategoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_EQUIPMENT)) {
                             equipmentCost = equipmentCost.add(budgetLineItem.getLineItemCost());
-                        }
-                        else if (budgetCategoryMap.getCategoryType().equals(TARGET_CATEGORY_TYPE_CODE_PERSONNEL)) {
+                        } else if (budgetCategoryMap.getCategoryType().equals(TARGET_CATEGORY_TYPE_CODE_PERSONNEL)) {
                             personnelCost = personnelCost.add(budgetLineItem.getLineItemCost());
-                        }
-                        else if (budgetCategoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_SUPPLIES)) {
+                        } else if (budgetCategoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_SUPPLIES)) {
                             suppliesCost = suppliesCost.add(budgetLineItem.getLineItemCost());
-                        }
-                        else if (budgetCategoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_TRAVEL)
+                        } else if (budgetCategoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_TRAVEL)
                                 || budgetCategoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_FOREIGN_TRAVEL)) {
                             travelCost = travelCost.add(budgetLineItem.getLineItemCost());
-                        }
-                       	else{
-                        	otherCost = otherCost.add(budgetLineItem.getLineItemCost());
+                        } else {
+                            otherCost = otherCost.add(budgetLineItem.getLineItemCost());
                         }
                     }
                 }
@@ -228,9 +225,10 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
     }
 
     /**
-     * 
-     * This method gives the information of BudgetSummary which consists of SummaryLineItem, SummaryTotals
-     * 
+     *
+     * This method gives the information of BudgetSummary which consists of
+     * SummaryLineItem, SummaryTotals
+     *
      * @return BudgetSummary budget summary total.
      */
     private BudgetSummary getBudgetSummary() {
@@ -240,7 +238,7 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
         SummaryLineItem[] summaryLineItemArray = new SummaryLineItem[1];
         SummaryLineItem summaryLineItem = SummaryLineItem.Factory.newInstance();
         boolean hasBudgetLineItem = false;
-        
+
         if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null && pdDoc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode() != null) {
             pdDoc.getDevelopmentProposal().getS2sOpportunity().refreshNonUpdateableReferences();
             summaryLineItem.setActivityTitle(pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityTitle());
@@ -254,17 +252,17 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
                 for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
                     hasBudgetLineItem = true;
                     if (budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag()) {
-                        costSharingAmount =  costSharingAmount.add(lineItem.getCostSharingAmount());
+                        costSharingAmount = costSharingAmount.add(lineItem.getCostSharingAmount());
                         List<BudgetLineItemCalculatedAmount> calculatedAmounts = lineItem.getBudgetCalculatedAmounts();
                         for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : calculatedAmounts) {
-                             costSharingAmount =  costSharingAmount.add(budgetLineItemCalculatedAmount.getCalculatedCostSharing());
+                            costSharingAmount = costSharingAmount.add(budgetLineItemCalculatedAmount.getCalculatedCostSharing());
                         }
-                        
+
                     }
                 }
             }
-            if(!hasBudgetLineItem && budget.getSubmitCostSharingFlag()){
-                costSharingAmount = budget.getCostSharingAmount();      
+            if (!hasBudgetLineItem && budget.getSubmitCostSharingFlag()) {
+                costSharingAmount = budget.getCostSharingAmount();
             }
             fedNonFedCost = fedNonFedCost.add(costSharingAmount);
             summaryLineItem.setBudgetFederalNewOrRevisedAmount(budget.getTotalCost().bigDecimalValue());
@@ -284,9 +282,10 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
     }
 
     /**
-     * 
-     * This method gives the information of NonFederalResources which consists of ResourceLineItem, ResourceTotals
-     * 
+     *
+     * This method gives the information of NonFederalResources which consists
+     * of ResourceLineItem, ResourceTotals
+     *
      * @return NonFederalResources non-federal resource details.
      */
     private NonFederalResources getNonFederalResources() {
@@ -329,10 +328,12 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
     }
 
     /**
-     * 
-     * This method gives the information of BudgetForecastedCashNeeds which consists of budgetFirstYearAmounts,
-     * budgetFirstQuarterAmounts budgetSecondQuarterAmounts, budgetThirdQuarterAmounts, budgetFourthQuarterAmounts
-     * 
+     *
+     * This method gives the information of BudgetForecastedCashNeeds which
+     * consists of budgetFirstYearAmounts, budgetFirstQuarterAmounts
+     * budgetSecondQuarterAmounts, budgetThirdQuarterAmounts,
+     * budgetFourthQuarterAmounts
+     *
      * @return budgetForecastedCashNeeds budget calculated for every quarter.
      */
     private BudgetForecastedCashNeeds getBudgetForecastedCashNeeds() {
@@ -350,9 +351,9 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
             BudgetFourthQuarterAmounts budgetFourthQuarterAmounts = BudgetFourthQuarterAmounts.Factory.newInstance();
             for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
                 for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
-                    if (budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag()) {                      
+                    if (budget.getSubmitCostSharingFlag() && lineItem.getSubmitCostSharingFlag()) {
                         if (budgetPeriod.getBudgetPeriod() == S2SConstants.BUDGET_PERIOD_1) {
-                            costSharing = costSharing.add(lineItem.getCostSharingAmount());                       
+                            costSharing = costSharing.add(lineItem.getCostSharingAmount());
                             for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : lineItem.getBudgetLineItemCalculatedAmounts()) {
                                 costSharing = costSharing.add(budgetLineItemCalculatedAmount.getCalculatedCostSharing());
                             }
@@ -363,7 +364,7 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
                     totalFedCost = budgetPeriod.getTotalCost();
                     totalFedEstimation = totalFedCost.divide(new BudgetDecimal(4));
                     costShareEstimation = costSharing.divide(new BudgetDecimal(4));
-                    totalEstimation = totalFedEstimation.add(costShareEstimation);                    
+                    totalEstimation = totalFedEstimation.add(costShareEstimation);
                 }
             }
 
@@ -396,26 +397,28 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
             budgetFourthQuarterAmounts.setBudgetTotalForecastedAmount(totalEstimation.bigDecimalValue());
 
             budgetForecastedCashNeeds.setBudgetFourthQuarterAmounts(budgetFourthQuarterAmounts);
-        }        
+        }
         return budgetForecastedCashNeeds;
     }
 
     /**
-     * 
-     * This method gives the information of FederalFundsNeeded which consists of FundsLineItem, FundsTotals
-     * 
-     * @return FederalFundsNeeded federal budget funds required for the corresponding years.
+     *
+     * This method gives the information of FederalFundsNeeded which consists of
+     * FundsLineItem, FundsTotals
+     *
+     * @return FederalFundsNeeded federal budget funds required for the
+     * corresponding years.
      */
     private FederalFundsNeeded getFederalFundsNeeded() {
 
-        BudgetDecimal firstYearCost = BudgetDecimal.ZERO;
-        BudgetDecimal firstYearCostSharing = BudgetDecimal.ZERO;
+      //  BudgetDecimal firstYearCost = BudgetDecimal.ZERO;
+        // BudgetDecimal firstYearCostSharing = BudgetDecimal.ZERO;
         BudgetDecimal firstYearNetCost = BudgetDecimal.ZERO;
-        BudgetDecimal secondYearCost = BudgetDecimal.ZERO;
-        BudgetDecimal secondYearCostSharing = BudgetDecimal.ZERO;
+       // BudgetDecimal secondYearCost = BudgetDecimal.ZERO;
+        // BudgetDecimal secondYearCostSharing = BudgetDecimal.ZERO;
         BudgetDecimal secondYearNetCost = BudgetDecimal.ZERO;
-        BudgetDecimal thirdYearCost = BudgetDecimal.ZERO;
-        BudgetDecimal thirdYearCostSharing = BudgetDecimal.ZERO;
+      //  BudgetDecimal thirdYearCost = BudgetDecimal.ZERO;
+        //  BudgetDecimal thirdYearCostSharing = BudgetDecimal.ZERO;
         BudgetDecimal thirdYearNetCost = BudgetDecimal.ZERO;
         BudgetDecimal fourthYearCost = BudgetDecimal.ZERO;
         BudgetDecimal fourthYearCostSharing = BudgetDecimal.ZERO;
@@ -468,12 +471,16 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
     }
 
     /**
-     * This method creates {@link XmlObject} of type {@link BudgetInformationDocument} by populating data from the given
+     * This method creates {@link XmlObject} of type
+     * {@link BudgetInformationDocument} by populating data from the given
      * {@link ProposalDevelopmentDocument}
-     * 
-     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs to be created
-     * @return {@link XmlObject} which is generated using the given {@link ProposalDevelopmentDocument}
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
+     *
+     * @param proposalDevelopmentDocument for which the {@link XmlObject} needs
+     * to be created
+     * @return {@link XmlObject} which is generated using the given
+     * {@link ProposalDevelopmentDocument}
+     * @see
+     * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
      */
     @Override
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
@@ -482,12 +489,14 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
     }
 
     /**
-     * This method typecasts the given {@link XmlObject} to the required generator type and returns back the document of that
-     * generator type.
-     * 
-     * @param xmlObject which needs to be converted to the document type of the required generator
+     * This method typecasts the given {@link XmlObject} to the required
+     * generator type and returns back the document of that generator type.
+     *
+     * @param xmlObject which needs to be converted to the document type of the
+     * required generator
      * @return {@link XmlObject} document of the required generator type
-     * @see org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
+     * @see
+     * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
      */
     public XmlObject getFormObject(XmlObject xmlObject) {
         BudgetInformationType SF424A = (BudgetInformationType) xmlObject;

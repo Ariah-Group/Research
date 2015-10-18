@@ -137,14 +137,12 @@ public class NASASeniorKeyPersonSupplementalDataSheetV1_0Generator extends
                 }
                 List<SeniorKeyPerson> seniorKeyPersonList = new ArrayList<SeniorKeyPerson>();
                 for (int cnt = begin; cnt < attPersons; cnt++) {
-                    int index1 = 0;
-                    seniorKeyPersonList.add(getExtraPerson(extraPersons
-                            .get(cnt)));
-                    index1++;
+                    //int index1 = 0;
+                    seniorKeyPersonList.add(getExtraPerson(extraPersons.get(cnt)));
+                    //index1++;
                 }
                 SeniorKeyPerson seniorKeyPersons[] = new SeniorKeyPerson[0];
-                seniorKeyPersons = seniorKeyPersonList
-                        .toArray(seniorKeyPersons);
+                seniorKeyPersons = seniorKeyPersonList.toArray(seniorKeyPersons);
                 nasaSeniorKPAtt.setSeniorKeyPersonArray(seniorKeyPersons);
                 nasaSeniorKPAttList.add(nasaSeniorKPAtt);
 

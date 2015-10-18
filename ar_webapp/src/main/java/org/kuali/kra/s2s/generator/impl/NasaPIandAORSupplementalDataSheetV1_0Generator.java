@@ -304,7 +304,7 @@ public class NasaPIandAORSupplementalDataSheetV1_0Generator extends
      */
     private BigDecimal getAmount(String questionID) {
         BigDecimal amount = null;
-        BudgetDecimalFormatter b = new BudgetDecimalFormatter();
+        //BudgetDecimalFormatter b = new BudgetDecimalFormatter();
         String answer;
         for (AnswerHeader answerHeader : answerHeaders) {
             for (Answer answers : answerHeader.getAnswers()) {
