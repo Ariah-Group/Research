@@ -12,22 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * ------------------------------------------------------
- * Updates made after January 1, 2015 are :
- * Copyright 2015 The Ariah Group, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
@@ -106,6 +90,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         return retval;
     }
 
+    @Override
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
         boolean rulePassed = getKualiRuleService().applyRules(new SaveKeyPersonEvent(EMPTY_STRING, pdform.getProposalDevelopmentDocument()));
@@ -317,13 +302,23 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         GlobalVariables.getMessageMap().removeFromErrorPath("document.proposalPersons");
 
         if (isNotBlank(pdform.getNewProposalPerson().getProposalPersonRoleId())) {
-            if (pdform.getNewProposalPerson().getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE)
-                    || pdform.getNewProposalPerson().getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE)) {
+
+            // load the definition for the Proposal Person Role and ACTUALLY check if Unit Details
+            // flag is set and if the Certification required flag is set.
+            Map<String, String> keys = new HashMap<String, String>();
+            keys.put("proposalPersonRoleId", pdform.getNewProposalPerson().getProposalPersonRoleId());
+            ProposalPersonRole personRole = (ProposalPersonRole) this.getBusinessObjectService().findByPrimaryKey(ProposalPersonRole.class, keys);
+
+            if ("Y".equalsIgnoreCase(personRole.getUnitDetailsRequired())) {
                 pdform.getNewProposalPerson().setOptInUnitStatus("Y");
+            } else {
+                pdform.getNewProposalPerson().setOptInUnitStatus("N");
+            }
+
+            if ("Y".equalsIgnoreCase(personRole.getCertificationRequired())) {
                 pdform.getNewProposalPerson().setOptInCertificationStatus("Y");
                 pdform.setOptInCertificationStatus("Y");
             } else {
-                pdform.getNewProposalPerson().setOptInUnitStatus("N");
                 pdform.getNewProposalPerson().setOptInCertificationStatus("N");
                 pdform.setOptInCertificationStatus("N");
             }
@@ -368,7 +363,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             } else {
                 proposalPerson.setDivision(ROLODEX_PERSON);
             }
-            if (proposalPerson.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR_ROLE) || proposalPerson.getProposalPersonRoleId().equals(CO_INVESTIGATOR_ROLE)) {
+
+            if ("Y".equalsIgnoreCase(proposalPerson.getOptInUnitStatus())) {
                 if (isNotBlank(proposalPerson.getHomeUnit()) && isValidHomeUnit(proposalPerson, pdform.getNewProposalPerson().getHomeUnit())) {
                     getKeyPersonnelService().addUnitToPerson(proposalPerson, getKeyPersonnelService().createProposalPersonUnit(proposalPerson.getHomeUnit(), proposalPerson));
                 }
@@ -667,7 +663,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             List<ProposalPerson> keyPersonnel = pdform.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons();
             List<ProposalPerson> personsToDelete = pdform.getProposalPersonsToDelete();
             /**
-             * There is a key constraint error the happens when the Propoal
+             * There is a key constraint error the happens when the Proposal
              * Person and the Proposal Person Extended attribute objects are
              * saved at the same time. In repository.xml the auto-update
              * attribute is set to false on
@@ -700,7 +696,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     }
 
     /**
-     * Adds the unit Details for the keyperson
+     * Adds the unit Details for the key person.
      *
      * @param mapping
      * @param form
@@ -724,7 +720,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     }
 
     /**
-     * Removes the unit Details for keyperson
+     * Removes the unit Details for keyperson.
      *
      * @param mapping
      * @param form
@@ -765,7 +761,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     }
 
     /**
-     * Removes the Certification Question for the keyperson
+     * Removes the Certification Question for the keyperson.
      *
      * @param mapping
      * @param form
@@ -788,7 +784,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     }
 
     /**
-     * Prints the Certification Questions for the keyperson
+     * Prints the Certification Questions for the keyperson.
      *
      * @param mapping
      * @param form
@@ -839,7 +835,8 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
     /**
      * Determines whether the person has valid unit
      *
-     * @param proposalperson
+     * @param person
+     * @param unitId
      * @return boolean
      */
     @SuppressWarnings("unchecked")
@@ -904,6 +901,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         return returnValue;
     }
 
+    @Override
     public ActionForward printQuestionnaireAnswer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
@@ -942,14 +940,14 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             HttpServletResponse response) throws Exception {
 
         ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
+        //ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
 
         final String formProperty = getFormProperty(request, "updateAnswerToNewVersion");
 
         if (StringUtils.contains(formProperty, ".proposalPersonQuestionnaireHelpers[")) {
             int selectedPersonIndex = Integer.parseInt(formProperty.substring(36, formProperty.length() - 1));
 
-            ProposalPerson person = document.getDevelopmentProposal().getProposalPerson(selectedPersonIndex);
+            //ProposalPerson person = document.getDevelopmentProposal().getProposalPerson(selectedPersonIndex);
             ProposalPersonQuestionnaireHelper helper = pdform.getProposalPersonQuestionnaireHelpers().get(selectedPersonIndex);
 
             helper.updateQuestionnaireAnswer(getLineToDelete(request));
