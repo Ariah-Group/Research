@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.subawardReporting.printing.service.impl;
 
-import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.printing.service.AwardPrintingService;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
