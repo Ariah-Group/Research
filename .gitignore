@@ -48,3 +48,4 @@ apache_v2_sample_header.txt
 /research-impl/Ariah Research Notification/target/
 /research-impl/research-service-api/target/
 /research-impl/research-notification/target/
+*.log
