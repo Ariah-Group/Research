@@ -15,22 +15,40 @@
  */
 package org.kuali.kra.irb.auth;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
 /**
- * The View Protocol Authorizer determines if a user has the right
- * to view a specific protocol.
+ * The View Protocol Authorizer determines if a user has the right to view a
+ * specific protocol.
  */
 public class ViewProtocolAuthorizer extends ProtocolAuthorizer {
 
+    private static final Log LOG = LogFactory.getLog(ViewProtocolAuthorizer.class);
+
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
+     *
+     * @param userId
+     * @return
+     * @see
+     * org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String,
+     * org.kuali.kra.irb.auth.ProtocolTask)
      */
     @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
-        return hasPermission(userId, task.getProtocol(), PermissionConstants.VIEW_PROTOCOL)
-            || kraWorkflowService.hasWorkflowPermission(userId, task.getProtocol().getProtocolDocument());
+
+        boolean hasPermissionsView = hasPermission(userId, task.getProtocol(), PermissionConstants.VIEW_PROTOCOL);
+        boolean hasWorkflowPermissions = kraWorkflowService.hasWorkflowPermission(userId, task.getProtocol().getProtocolDocument());
+        boolean isUserActionApprove = false;
+
+        try {
+            isUserActionApprove = kraWorkflowService.isUserActionListApproveRequested(task.getProtocol().getProtocolDocument(), userId, null);
+        } catch (Exception e) {
+            LOG.error("Error calling kraWorkflowService.isUserActionListApproveRequested for Protocol " + task.getProtocol().getProtocolNumber(), e);
+        }
+
+        return hasPermissionsView || hasWorkflowPermissions || isUserActionApprove;
     }
-    
 }

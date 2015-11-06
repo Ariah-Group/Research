@@ -105,6 +105,15 @@ public interface KraWorkflowService {
     public boolean isCurrentNode(Document doc, String nodeName);
 
     /**
+     * Determine if the user has an outstanding Action List Approval request.
+     * @param doc the document
+     * @param principalId the principalId of the user
+     * @param nodeName Workflow Node name
+     * @return true if the user has an Action List Approval action request pending on the document.
+     */ 
+    public boolean isUserActionListApproveRequested(Document doc, String principalId, String nodeName);
+        
+    /**
      * Determine if the user has an outstanding adHoc request.
      * @param doc the document
      * @param principalId the principalId of the user
