@@ -21,6 +21,8 @@ import org.kuali.kra.service.KcPersonService;
 
 public class UnitAdministrator extends KraPersistableBusinessObjectBase implements AbstractUnitAdministrator , Comparable<UnitAdministrator> {
 
+    private int unitAdministratorId;
+    
     private String personId;
 
     private String unitAdministratorTypeCode;
@@ -110,5 +112,19 @@ public class UnitAdministrator extends KraPersistableBusinessObjectBase implemen
         }
         return result;
     } 
+
+    /**
+     * @return the unitAdministratorId
+     */
+    public int getUnitAdministratorId() {
+        return unitAdministratorId;
+    }
+
+    /**
+     * @param unitAdministratorId the unitAdministratorId to set
+     */
+    public void setUnitAdministratorId(int unitAdministratorId) {
+        this.unitAdministratorId = unitAdministratorId;
+    }
     
 }

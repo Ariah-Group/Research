@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.bo;
 
+import java.util.ArrayList;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.maintenance.KraMaintainableImpl;
@@ -27,7 +28,23 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.kuali.rice.kns.datadictionary.MaintainableFieldDefinition;
+import org.kuali.rice.kns.datadictionary.MaintainableItemDefinition;
+import org.kuali.rice.kns.datadictionary.MaintainableSectionDefinition;
+import org.kuali.rice.kns.document.authorization.MaintenanceDocumentPresentationController;
+import org.kuali.rice.kns.document.authorization.MaintenanceDocumentRestrictions;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
+import org.kuali.rice.kns.web.ui.Section;
+import org.kuali.rice.kns.web.ui.SectionBridge;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class...
@@ -132,5 +149,4 @@ public class UnitAdministratorMaintainableImpl extends KraMaintainableImpl imple
         return !units.isEmpty();
 
     }
-
 }

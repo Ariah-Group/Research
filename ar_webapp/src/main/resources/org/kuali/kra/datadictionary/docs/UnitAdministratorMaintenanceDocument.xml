@@ -11,9 +11,7 @@
     </property>
     <property name="lockingKeys">
       <list>
-        <value>personId</value>
-        <value>unitAdministratorTypeCode</value>
-        <value>unitNumber</value>
+        <value>unitAdministratorId</value>
       </list>
     </property>
     <property name="allowsRecordDeletion" value="true" />
@@ -35,6 +33,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="person.userName" p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="unitNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="unitAdministratorId"/>
       </list>
     </property>
   </bean>
