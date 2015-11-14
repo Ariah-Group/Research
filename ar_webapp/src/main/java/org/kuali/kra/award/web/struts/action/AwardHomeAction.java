@@ -462,7 +462,7 @@ public class AwardHomeAction extends AwardAction {
                 forward = question == null ? showPromptForEditingPendingVersion(mapping, form, request, response)
                         : processPromptForEditingPendingVersionResponse(mapping, request, response, awardForm, foundPending);
             } else {
-                forward = createAndSaveNewAwardVersion(response, awardForm, awardDocument, award);
+                forward = createAndSaveNewAwardVersion(awardForm);
             }
         } else {
             getTimeAndMoneyExistenceService().addAwardVersionErrorMessage();
@@ -471,11 +471,11 @@ public class AwardHomeAction extends AwardAction {
         return forward;
     }
 
-    private ActionForward createAndSaveNewAwardVersion(HttpServletResponse response, AwardForm awardForm,
-            AwardDocument awardDocument, Award award) throws Exception {
+    private ActionForward createAndSaveNewAwardVersion(AwardForm awardForm) throws Exception {
         awardForm.getAwardDocument().getAward().setNewVersion(true);
         AwardDocument newAwardDocument = getAwardService().createNewAwardVersion(awardForm.getAwardDocument());
         getDocumentService().saveDocument(newAwardDocument);
+        getAwardService().updateAwardSubawardFundingSources(newAwardDocument);
         getAwardService().updateAwardSequenceStatus(newAwardDocument.getAward(), VersionStatus.PENDING);
         getVersionHistoryService().updateVersionHistory(newAwardDocument.getAward(), VersionStatus.PENDING,
                 GlobalVariables.getUserSession().getPrincipalName());
