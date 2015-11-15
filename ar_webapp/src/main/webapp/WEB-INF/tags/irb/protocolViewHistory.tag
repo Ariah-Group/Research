@@ -77,18 +77,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 	            		        <nobr>${protocolAction.actionDateString}</nobr>
 	            		    </td>
 	            		    <td class="infoline">
-	            		        <c:choose>
-	            		            <c:when test="${fn:length(protocolAction.comments) > 0}">
-	                                    <kra:truncateComment textAreaFieldName="document.protocol.protocolActions[${status.index}].comments" 
-	                                                         action="protocolProtocolActions" 
-	                                                         textAreaLabel="Action Comment" 
-	                                                         textValue="${protocolAction.comments}" 
-	                                                         displaySize="100"/>
-	                                </c:when>
-	                                <c:otherwise>
-	                                      &nbsp;
-	                                </c:otherwise>
-	                            </c:choose>
+	            		       ${protocolAction.actionSummaryString}
 	                        </td>
 	            		    <td class="infoline">
 	            		        <nobr>${protocolAction.createUser}</nobr>

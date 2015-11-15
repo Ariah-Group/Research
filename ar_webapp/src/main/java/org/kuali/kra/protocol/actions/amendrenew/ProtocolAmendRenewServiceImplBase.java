@@ -12,22 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * ------------------------------------------------------
- * Updates made after January 1, 2015 are :
- * Copyright 2015 The Ariah Group, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 package org.kuali.kra.protocol.actions.amendrenew;
 
@@ -70,6 +54,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
     protected static final String AMENDMENT = "Amendment";
     protected static final String RENEWAL = "Renewal";
     protected static final String CREATED = "Created";
+    protected static final String SUMMARY = "Summary";
     protected static final String PROTOCOL_NUMBER = "protocolNumber";
     protected static final String PROTOCOL_STATUS = "protocolStatus";
 
@@ -144,7 +129,8 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
         markProtocolAttachmentsAsFinalized(amendProtocolDocument.getProtocol().getAttachmentProtocols());
 
         ProtocolActionBase protocolAction = createCreateAmendmentProtocolAction(protocolDocument.getProtocol(),
-                amendProtocolDocument.getProtocol().getProtocolNumber());
+                amendProtocolDocument.getProtocol().getProtocolNumber(), amendmentBean);
+
         protocolDocument.getProtocol().getProtocolActions().add(protocolAction);
 
         return createAmendment(protocolDocument, amendProtocolDocument, amendmentBean);
@@ -171,7 +157,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
      * java.lang.String)
      */
     @Override
-    public String createRenewal(ProtocolDocumentBase protocolDocument, String renewalSummary) throws Exception {
+    public String createRenewal(ProtocolDocumentBase protocolDocument, String summary) throws Exception {
         ProtocolDocumentBase renewProtocolDocument = null;
         try {
             //since the user probably doesn't have permission to create the document, we are going to add session variable so the document
@@ -194,7 +180,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
                 renewProtocolDocument.getProtocol().getProtocolNumber());
         protocolDocument.getProtocol().getProtocolActions().add(protocolAction);
 
-        ProtocolAmendRenewalBase protocolAmendRenewal = createAmendmentRenewal(protocolDocument, renewProtocolDocument, renewalSummary);
+        ProtocolAmendRenewalBase protocolAmendRenewal = createAmendmentRenewal(protocolDocument, renewProtocolDocument, summary, null);
         renewProtocolDocument.getProtocol().setProtocolAmendRenewal(protocolAmendRenewal);
         documentService.saveDocument(protocolDocument);
         documentService.saveDocument(renewProtocolDocument);
@@ -228,7 +214,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
         markProtocolAttachmentsAsFinalized(renewProtocolDocument.getProtocol().getAttachmentProtocols());
 
         ProtocolActionBase protocolAction = createCreateRenewalWithAmendmentProtocolAction(protocolDocument.getProtocol(),
-                renewProtocolDocument.getProtocol().getProtocolNumber());
+                renewProtocolDocument.getProtocol().getProtocolNumber(), amendmentBean);
         protocolDocument.getProtocol().getProtocolActions().add(protocolAction);
 
         return createAmendment(protocolDocument, renewProtocolDocument, amendmentBean);
@@ -260,7 +246,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
     protected String createAmendment(ProtocolDocumentBase protocolDocument, ProtocolDocumentBase amendProtocolDocument,
             ProtocolAmendmentBean amendmentBean) throws WorkflowException {
 
-        ProtocolAmendRenewalBase protocolAmendRenewal = createAmendmentRenewal(protocolDocument, amendProtocolDocument, amendmentBean.getSummary());
+        ProtocolAmendRenewalBase protocolAmendRenewal = createAmendmentRenewal(protocolDocument, amendProtocolDocument, null, amendmentBean);
         amendProtocolDocument.getProtocol().setProtocolAmendRenewal(protocolAmendRenewal);
         addModules(amendProtocolDocument.getProtocol(), amendmentBean);
         documentService.saveDocument(protocolDocument);
@@ -318,14 +304,17 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
      *
      * @param protocolDocument the original protocol document
      * @param amendProtocolDocument the amended protocol document
-     * @param summary
+     * @param renewalSummary
+     * @param amendmentBean
      * @return
      */
-    protected ProtocolAmendRenewalBase createAmendmentRenewal(ProtocolDocumentBase protocolDocument, ProtocolDocumentBase amendProtocolDocument, String summary) {
+    protected ProtocolAmendRenewalBase createAmendmentRenewal(ProtocolDocumentBase protocolDocument, ProtocolDocumentBase amendProtocolDocument,
+            String renewalSummary, ProtocolAmendmentBean amendmentBean) {
+
         ProtocolAmendRenewalBase protocolAmendRenewal = getNewProtocolAmendRenewalInstanceHook();
         protocolAmendRenewal.setProtoAmendRenNumber(amendProtocolDocument.getProtocol().getProtocolNumber());
         protocolAmendRenewal.setDateCreated(new Date(System.currentTimeMillis()));
-        protocolAmendRenewal.setSummary(summary);
+        protocolAmendRenewal.setSummary(renewalSummary != null ? renewalSummary : amendmentBean.getSummary());
         protocolAmendRenewal.setProtocolNumber(protocolDocument.getProtocol().getProtocolNumber());
         protocolAmendRenewal.setProtocolId(amendProtocolDocument.getProtocol().getProtocolId());
         protocolAmendRenewal.setProtocol(amendProtocolDocument.getProtocol());
@@ -365,14 +354,35 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
      *
      * @param protocol
      * @param protocolNumber protocol number of the amendment
+     * @param amendmentBean
      * @return a protocol action
      */
-    protected ProtocolActionBase createCreateAmendmentProtocolAction(ProtocolBase protocol, String protocolNumber) {
+    protected ProtocolActionBase createCreateAmendmentProtocolAction(ProtocolBase protocol,
+            String protocolNumber, ProtocolAmendmentBean amendmentBean) {
+
         ProtocolActionBase protocolAction = getNewAmendmentProtocolActionInstanceHook(protocol);
-        protocolAction.setComments(AMENDMENT + "-" + protocolNumber.substring(11) + ": " + CREATED);
+        String commentsBuffer = AMENDMENT + "-" + protocolNumber.substring(11) + " " + CREATED + "<br/>"
+                + SUMMARY + ": " + amendmentBean.getSummary() + amendmentBean.getActiveModuleString();
+
+        protocolAction.setComments(commentsBuffer);
         return protocolAction;
     }
 
+     /**
+     * Create a ProtocolBase Action indicating that a renewal with amendment has been created
+     * @param protocol
+     * @param protocolNumber protocol number of the renewal
+     * @param amendmentBean
+     * @return a protocol action
+     */    
+     protected ProtocolActionBase createCreateRenewalWithAmendmentProtocolAction(ProtocolBase protocol, String protocolNumber, ProtocolAmendmentBean amendmentBean) {
+         ProtocolActionBase protocolAction = getNewRenewalProtocolActionInstanceHook(protocol);
+         String commentsBuffer = RENEWAL + "-" + protocolNumber.substring(11) + " " + CREATED + "<br/>" + SUMMARY + ": " + amendmentBean.getSummary() + 
+                                 amendmentBean.getActiveModuleString();
+         protocolAction.setComments(commentsBuffer);
+         return protocolAction;
+     }    
+    
     /**
      * Create a ProtocolBase Action indicating that a renewal has been created.
      *

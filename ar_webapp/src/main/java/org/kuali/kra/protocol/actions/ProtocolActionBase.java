@@ -34,8 +34,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
 /**
- * 
+ *
  * This class manages all the attributes needed to maintain a protocol action.
  */
 public abstract class ProtocolActionBase extends ProtocolAssociateBase {
@@ -82,18 +83,18 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     private transient ProtocolSubmissionBase protocolSubmission;
 
     private ProtocolActionTypeBase protocolActionType;
-    
+
     private List<ProtocolCorrespondence> protocolCorrespondences;
 
     private List<KcNotification> protocolNotifications;
-    
+
     @SkipVersioning
     private transient List<ProtocolSubmissionDocBase> protocolSubmissionDocs;
 
     private transient boolean isInFilterView = true;
-    
+
     private String createUser;
-    
+
     private Timestamp createTimestamp;
 
     private ProtocolSubmissionQuestionnaireHelper questionnaireHelper;
@@ -112,7 +113,7 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     public ProtocolActionBase(ProtocolBase protocol, String protocolActionTypeCode) {
         initializeProtocolAction(protocol, null, protocolActionTypeCode);
     }
-    
+
     protected void initializeProtocolAction(ProtocolBase protocol, ProtocolSubmissionBase protocolSubmission, String protocolActionTypeCode) {
         if (protocolSubmission != null) {
             setSubmissionIdFk(protocolSubmission.getSubmissionId());
@@ -128,10 +129,7 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
         setProtocol(protocol);
         createUser = GlobalVariables.getUserSession().getPrincipalName();
         createTimestamp = new Timestamp(Calendar.getInstance().getTimeInMillis());
-
-//        createTimestamp = ((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp();
     }
-    
 
     public Long getProtocolActionId() {
         return protocolActionId;
@@ -202,8 +200,9 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     }
 
     /**
-     * 
+     *
      * Refreshes the protocol submission (if it doesn't exist) and returns it.
+     *
      * @return
      */
     public ProtocolSubmissionBase getProtocolSubmission() {
@@ -221,6 +220,7 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
 
     /**
      * Refreshes the protocol action type (if it doesn't exist) and returns it.
+     *
      * @return
      */
     public ProtocolActionTypeBase getProtocolActionType() {
@@ -233,8 +233,10 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     }
 
     /**
-     * 
-     * This method returns an empty string of the action date is null, otherwise it returns a formated date.
+     *
+     * This method returns an empty string of the action date is null, otherwise
+     * it returns a formated date.
+     *
      * @return
      */
     public String getActualActionDateString() {
@@ -245,8 +247,10 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     }
 
     /**
-     * 
-     * This method returns an empty string of the action date is null, otherwise it returns a formated date.
+     *
+     * This method returns an empty string of the action date is null, otherwise
+     * it returns a formated date.
+     *
      * @return
      */
     public String getActionDateString() {
@@ -268,8 +272,9 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     }
 
     /**
-     * 
+     *
      * This method calculates and returns the submission status as a string.
+     *
      * @return
      */
     public String getSubmissionStatusString() {
@@ -316,19 +321,19 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     }
 
     /**
-     * 
+     *
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         protocolActionId = null;
         submissionIdFk = null;
-        for (KcNotification notification: getProtocolNotifications()) {
+        for (KcNotification notification : getProtocolNotifications()) {
             notification.setOwningDocumentIdFk(null);
         }
     }
 
     /**
-     * 
+     *
      * This resets the foreign keys if there is a protocol submission.
      */
     public void resetForeignKeys() {
@@ -337,7 +342,9 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -347,7 +354,9 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
         return result;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -397,17 +406,17 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     }
 
     public List<KcNotification> getFilteredProtocolNotifications() {
-        List<KcNotification>unfilteredList = getProtocolNotifications();
+        List<KcNotification> unfilteredList = getProtocolNotifications();
         String currentUser = GlobalVariables.getUserSession().getPrincipalName().trim();
         if (!this.getProtocol().isUserNamedInProtocol(currentUser)) {
             return unfilteredList;
         } else {
-            List<KcNotification>filteredList = new ArrayList<KcNotification>();
-            for (KcNotification notification: unfilteredList) {
+            List<KcNotification> filteredList = new ArrayList<KcNotification>();
+            for (KcNotification notification : unfilteredList) {
                 if (currentUser.equals(notification.getCreateUser())) {
                     filteredList.add(notification);
                 } else {
-                    for (String recipient: notification.getRecipients().split(",")) {
+                    for (String recipient : notification.getRecipients().split(",")) {
                         if (currentUser.equals(recipient.trim())) {
                             filteredList.add(notification);
                             break;
@@ -418,11 +427,11 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
             return filteredList;
         }
     }
-    
+
     public void addProtocolNotification(KcNotification notification) {
         this.getProtocolNotifications().add(notification);
     }
-    
+
     public List<ProtocolSubmissionDocBase> getProtocolSubmissionDocs() {
         return protocolSubmissionDocs;
     }
@@ -448,7 +457,7 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     }
 
     public String getCreateUser() {
-        return (createUser == null) ?getUpdateUser() : createUser;
+        return (createUser == null) ? getUpdateUser() : createUser;
     }
 
     public void setCreateUser(String createUser) {
@@ -472,33 +481,33 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
         }
         fieldValues.put("moduleSubItemKey", moduleSubItemKey);
         return getBusinessObjectService().countMatching(AnswerHeader.class, fieldValues);
-        
+
     }
-    
+
     protected String getAmendmentRenewalNumber(String comment) {
-        String retVal="";
+        String retVal = "";
         if (comment.startsWith("Amendment-")) {
             retVal = "A" + comment.substring(10, 13);
         } else {
             retVal = "R" + comment.substring(8, 11);
-                     
+
         }
         return retVal;
     }
-    
+
     public BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
-    
+
     // TODO : this might be a concern if the protocol has lots of correspondence, and we have to verify
     // for every single one.  We can't use a general check for this protocol because there is timing issue
     // for each actions.  Member may be active in some actions, but inactive for other actions.
     public boolean isActiveCommitteeMember() {
         boolean result = false;
         ProtocolSubmissionBase submission = getSubmission();
-        List<CommitteeMembershipBase> committeeMembers = 
-            getCommitteeService().getAvailableMembers(submission.getCommitteeId(),
-                    submission.getScheduleId());
+        List<CommitteeMembershipBase> committeeMembers
+                = getCommitteeService().getAvailableMembers(submission.getCommitteeId(),
+                        submission.getScheduleId());
         if (CollectionUtils.isNotEmpty(committeeMembers)) {
             for (CommitteeMembershipBase member : committeeMembers) {
                 if (StringUtils.equals(GlobalVariables.getUserSession().getPrincipalId(), member.getPersonId())) {
@@ -506,8 +515,8 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
                     break;
                 }
             }
-        }        
-        
+        }
+
         return result;
     }
 
@@ -523,9 +532,9 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
                 }
             }
         }
-        return submission;  
+        return submission;
     }
-    
+
     private ProtocolSubmissionBase getSubmissionForAction(Integer submissionNumber) {
 
         for (ProtocolSubmissionBase submission : getProtocol().getProtocolSubmissions()) {
@@ -534,30 +543,28 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
             }
         }
         return null;
-        
-        
+
     }
-    
+
     public CommitteeServiceBase getCommitteeService() {
         if (committeeService == null) {
             committeeService = KraServiceLocator.getService(getCommitteeServiceClassHook());
         }
         return committeeService;
     }
-    
+
     protected abstract Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook();
 
-    
     public void setCommitteeService(CommitteeServiceBase committeeService) {
         this.committeeService = committeeService;
-    }   
-    
+    }
+
     protected abstract String getCoeusModule();
-    
+
     protected abstract ProtocolSubmissionQuestionnaireHelper getProtocolSubmissionQuestionnaireHelperHook(ProtocolBase protocol, String actionTypeCode, String submissionNumber);
 
     public void addNotification(KcNotification notification) {
-        getProtocolNotifications().add(notification);       
+        getProtocolNotifications().add(notification);
     }
 
     public ProtocolSubmissionQuestionnaireHelper getQuestionnaireHelper() {
@@ -579,7 +586,7 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     }
 
     protected QuestionnairePrintOption getQnPrintOptionForAction(String itemKey, String subItemKey, String subItemCode) {
-    
+
         if (!getQuestionnaireHelper().getAnswerHeaders().isEmpty()) {
             QuestionnairePrintOption qnPrintOption = new QuestionnairePrintOption();
             qnPrintOption.setItemKey(itemKey);
@@ -590,5 +597,13 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
             return null;
         }
     }
-    
+
+    public String getActionSummaryString() {
+        StringBuilder result = new StringBuilder();
+        result.append(getProtocolActionType().getDescription()).append(" by ").append(getCreateUser());
+        if (StringUtils.isNotEmpty(getComments())) {
+            result.append("<br/>Comments: ").append(getComments());
+        }
+        return result.toString();
+    }
 }

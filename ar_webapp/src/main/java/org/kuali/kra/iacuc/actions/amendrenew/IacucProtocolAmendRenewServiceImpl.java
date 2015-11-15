@@ -244,7 +244,7 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
         protocolDocument.getProtocol().getProtocolActions().add(protocolAction);
         
         // attributes are same for continuation. Let us use the same amendrenewal object here.
-        ProtocolAmendRenewalBase protocolAmendRenewal = createAmendmentRenewal(protocolDocument, continuationProtocolDocument, continuationSummary);
+        ProtocolAmendRenewalBase protocolAmendRenewal = createAmendmentRenewal(protocolDocument, continuationProtocolDocument, continuationSummary, null);
         continuationProtocolDocument.getProtocol().setProtocolAmendRenewal(protocolAmendRenewal);
         documentService.saveDocument(protocolDocument);
         documentService.saveDocument(continuationProtocolDocument);

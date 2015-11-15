@@ -24,7 +24,7 @@ public class IacucProtocolAmendmentBean extends IacucProtocolEditableBean implem
     private static final long serialVersionUID = 6548643656057631296L;
 
     private String summary = "";
-    
+
     private boolean generalInfo = false;
     private boolean fundingSource = false;
     private boolean protocolReferencesAndOtherIdentifiers = false;
@@ -37,14 +37,15 @@ public class IacucProtocolAmendmentBean extends IacucProtocolEditableBean implem
     private boolean others = false;
     private boolean protocolPermissions = false;
     private boolean questionnaire = false;
-    
+
     private boolean threers = false;
     private boolean speciesAndGroups = false;
     private boolean procedures = false;
     private boolean protocolExceptions = false;
-    
+
     /**
      * Constructs a ProtocolAmendmentBean.
+     *
      * @param actionHelper Reference back to the action helper for this bean
      */
     public IacucProtocolAmendmentBean(IacucActionHelper actionHelper) {
@@ -138,7 +139,7 @@ public class IacucProtocolAmendmentBean extends IacucProtocolEditableBean implem
     public void setOthers(boolean others) {
         this.others = others;
     }
-    
+
     public boolean getProtocolPermissions() {
         return protocolPermissions;
     }
@@ -148,22 +149,22 @@ public class IacucProtocolAmendmentBean extends IacucProtocolEditableBean implem
     }
 
     public boolean isSomeSelected() {
-        return getAddModifyAttachments() ||
-               getAreasOfResearch() ||
-               getFundingSource() ||
-               getGeneralInfo() ||
-               getOthers() ||
-               getProtocolOrganizations() ||
-               getProtocolPersonnel() ||
-               getProtocolReferencesAndOtherIdentifiers() ||
-               getSpecialReview() ||
-               getSubjects() ||
-               getProtocolPermissions() ||
-               getThreers() ||
-               getSpeciesAndGroups() ||
-               getProcedures() ||
-               getProtocolExceptions() ||
-               getQuestionnaire();
+        return getAddModifyAttachments()
+                || getAreasOfResearch()
+                || getFundingSource()
+                || getGeneralInfo()
+                || getOthers()
+                || getProtocolOrganizations()
+                || getProtocolPersonnel()
+                || getProtocolReferencesAndOtherIdentifiers()
+                || getSpecialReview()
+                || getSubjects()
+                || getProtocolPermissions()
+                || getThreers()
+                || getSpeciesAndGroups()
+                || getProcedures()
+                || getProtocolExceptions()
+                || getQuestionnaire();
     }
 
     public boolean getQuestionnaire() {
@@ -204,5 +205,99 @@ public class IacucProtocolAmendmentBean extends IacucProtocolEditableBean implem
 
     public void setProtocolExceptions(boolean protocolExceptions) {
         this.protocolExceptions = protocolExceptions;
+    }
+
+    @Override
+    public String getActiveModuleString() {
+
+        StringBuilder modulesBuffer = new StringBuilder(500);
+        modulesBuffer.append("<br/>Amended sections:");
+        String comma = "";
+
+        if (getGeneralInfo()) {
+            modulesBuffer.append(" General Info");
+            comma = ", ";
+        }
+
+        if (getAddModifyAttachments()) {
+            modulesBuffer.append(comma + "Attachments");
+            comma = ", ";
+        }
+
+        if (getAreasOfResearch()) {
+            modulesBuffer.append(comma + "Areas of Research");
+            comma = ", ";
+        }
+
+        if (getFundingSource()) {
+            modulesBuffer.append(comma + "Funding Sources");
+            comma = ", ";
+        }
+
+        if (getProtocolOrganizations()) {
+            modulesBuffer.append(comma + "Organizations");
+            comma = ", ";
+        }
+
+        if (getProtocolPersonnel()) {
+            modulesBuffer.append(comma + "Personnel");
+            comma = ", ";
+        }
+
+        if (getProtocolReferencesAndOtherIdentifiers()) {
+            modulesBuffer.append(comma + "References");
+            comma = ", ";
+        }
+
+        if (getSubjects()) {
+            modulesBuffer.append(comma + "Subjects");
+            comma = ", ";
+        }
+
+        if (getSpecialReview()) {
+            modulesBuffer.append(comma + "Special Reviews");
+            comma = ", ";
+        }
+
+        if (getOthers()) {
+            modulesBuffer.append(comma + "Others");
+            comma = ", ";
+        }
+
+        if (getProtocolPermissions()) {
+            modulesBuffer.append(comma + "Permissions");
+            comma = ", ";
+        }
+
+        if (getQuestionnaire()) {
+            modulesBuffer.append(comma + "Questionnaires");
+        }
+
+        if (getSubjects()) {
+            modulesBuffer.append(comma + "Subjects");
+            comma = ", ";
+        }
+
+        if (getThreers()) {
+            modulesBuffer.append(comma + "Three Rs");
+            comma = ", ";
+        }
+
+        if (getSpeciesAndGroups()) {
+            modulesBuffer.append(comma + "Species and Groups");
+            comma = ", ";
+        }
+
+        if (getProcedures()) {
+            modulesBuffer.append(comma + "Procedures");
+            comma = ", ";
+        }
+
+        if (getProtocolExceptions()) {
+            modulesBuffer.append(comma + "Protocol Exceptions");
+            comma = ", ";
+        }
+
+        return modulesBuffer.toString();
     }
 }

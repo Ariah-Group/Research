@@ -16,9 +16,9 @@
 package org.kuali.kra.irb.actions;
 
 public class ProtocolEditableBean extends ProtocolActionBean implements org.kuali.kra.protocol.actions.ProtocolEditableBean {
-    
+
     private static final long serialVersionUID = 8009752803115791560L;
-    
+
     private boolean generalInfoEnabled = false;
     private boolean fundingSourceEnabled = false;
     private boolean protocolReferencesEnabled = false;
@@ -31,9 +31,10 @@ public class ProtocolEditableBean extends ProtocolActionBean implements org.kual
     private boolean othersEnabled = false;
     private boolean protocolPermissionsEnabled = false;
     private boolean questionnaireEnabled = false;
-    
+
     /**
      * Constructs a ProtocolEditableBean.
+     *
      * @param actionHelper Reference back to the action helper for this bean
      */
     public ProtocolEditableBean(ActionHelper actionHelper) {
@@ -160,4 +161,7 @@ public class ProtocolEditableBean extends ProtocolActionBean implements org.kual
         this.questionnaireEnabled = questionnaireEnabled;
     }
 
+    public String getActiveModuleString() {
+        return "";  // will be overridden
+    }
 }

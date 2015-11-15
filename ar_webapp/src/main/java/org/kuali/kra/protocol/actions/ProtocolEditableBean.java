@@ -67,4 +67,5 @@ public interface ProtocolEditableBean extends ProtocolActionBean, Serializable {
 
     public void setQuestionnaireEnabled(boolean questionnaireEnabled);
     
+    public String getActiveModuleString();
 }

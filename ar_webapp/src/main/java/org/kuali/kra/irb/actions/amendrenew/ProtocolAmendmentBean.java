@@ -163,4 +163,73 @@ public class ProtocolAmendmentBean extends ProtocolEditableBean implements org.k
     public void setQuestionnaire(boolean questionnaire) {
         this.questionnaire = questionnaire;
     }
+    
+    @Override
+    public String getActiveModuleString() {
+        
+        StringBuilder modulesBuffer = new StringBuilder(500);
+        modulesBuffer.append("<br/>Amended sections:");
+        String comma = "";
+
+        if (getGeneralInfo()) {
+            modulesBuffer.append(" General Info");
+            comma = ", ";
+        }
+
+        if (getAddModifyAttachments()) {
+            modulesBuffer.append(comma + "Attachments");
+            comma = ", ";
+        }
+
+        if (getAreasOfResearch()) {
+            modulesBuffer.append(comma + "Areas of Research");
+            comma = ", ";
+        }
+
+        if (getFundingSource()) {
+            modulesBuffer.append(comma + "Funding Sources");
+            comma = ", ";
+        }
+
+        if (getProtocolOrganizations()) {
+            modulesBuffer.append(comma + "Organizations");
+            comma = ", ";
+        }
+
+        if (getProtocolPersonnel()) {
+            modulesBuffer.append(comma + "Personnel");
+            comma = ", ";
+        }
+
+        if (getProtocolReferencesAndOtherIdentifiers()) {
+            modulesBuffer.append(comma + "References");
+            comma = ", ";
+        }
+
+        if (getSubjects()) {
+            modulesBuffer.append(comma + "Subjects");
+            comma = ", ";
+        }
+
+        if (getSpecialReview()) {
+            modulesBuffer.append(comma + "Special Reviews");
+            comma = ", ";
+        }
+
+        if (getOthers()) {
+            modulesBuffer.append(comma + "Others");
+            comma = ", ";
+        }
+
+        if (getProtocolPermissions()) {
+            modulesBuffer.append(comma + "Permissions");
+            comma = ", ";
+        }
+
+        if (getQuestionnaire()) {
+            modulesBuffer.append(comma + "Questionnaires");
+        }
+
+        return modulesBuffer.toString();
+    }    
 }

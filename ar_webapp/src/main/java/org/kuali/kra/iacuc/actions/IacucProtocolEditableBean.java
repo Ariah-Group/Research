@@ -36,7 +36,7 @@ public class IacucProtocolEditableBean extends IacucProtocolActionBean implement
     private boolean othersEnabled = false;
     private boolean protocolPermissionsEnabled = false;
     private boolean questionnaireEnabled = false;
-    
+
     private boolean threersEnabled = false;
     private boolean speciesAndGroupsEnabled = false;
     private boolean proceduresEnabled = false;
@@ -44,6 +44,7 @@ public class IacucProtocolEditableBean extends IacucProtocolActionBean implement
 
     /**
      * Constructs a ProtocolEditableBean.
+     *
      * @param actionHelper Reference back to the action helper for this bean
      */
     public IacucProtocolEditableBean(IacucActionHelper actionHelper) {
@@ -178,4 +179,7 @@ public class IacucProtocolEditableBean extends IacucProtocolActionBean implement
         this.protocolExceptionsEnabled = protocolExceptionsEnabled;
     }
 
+    public String getActiveModuleString() {
+        return "";
+    }
 }
