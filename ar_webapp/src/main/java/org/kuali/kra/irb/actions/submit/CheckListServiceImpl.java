@@ -27,32 +27,37 @@ import java.util.List;
 public class CheckListServiceImpl implements CheckListService {
 
     private BusinessObjectService businessObjectService;
-    
+
     /**
      * Inject the Business Object Service.
+     *
      * @param businessObjectService the Business Object Service
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
     /**
-     * @see org.kuali.kra.irb.actions.submit.CheckListService#getExpeditedReviewCheckList()
+     * @see
+     * org.kuali.kra.irb.actions.submit.CheckListService#getExpeditedReviewCheckList()
      */
     @SuppressWarnings("unchecked")
-    public List<ExpeditedReviewCheckListItem> getExpeditedReviewCheckList() { 
-        Collection<ExpeditedReviewCheckListItem> items = businessObjectService.findAll(ExpeditedReviewCheckListItem.class);
+    @Override
+    public List<ExpeditedReviewCheckListItem> getExpeditedReviewCheckList() {
+        Collection<ExpeditedReviewCheckListItem> items = businessObjectService.findAllOrderBy(ExpeditedReviewCheckListItem.class, "description", true);
         List<ExpeditedReviewCheckListItem> checkList = new ArrayList<ExpeditedReviewCheckListItem>();
         checkList.addAll(items);
         return checkList;
     }
 
     /**
-     * @see org.kuali.kra.irb.actions.submit.CheckListService#getExemptStudiesCheckList()
+     * @see
+     * org.kuali.kra.irb.actions.submit.CheckListService#getExemptStudiesCheckList()
      */
     @SuppressWarnings("unchecked")
+    @Override
     public List<ExemptStudiesCheckListItem> getExemptStudiesCheckList() {
-        Collection<ExemptStudiesCheckListItem> items = businessObjectService.findAll(ExemptStudiesCheckListItem.class);
+        Collection<ExemptStudiesCheckListItem> items = businessObjectService.findAllOrderBy(ExemptStudiesCheckListItem.class, "description", true);
         List<ExemptStudiesCheckListItem> checkList = new ArrayList<ExemptStudiesCheckListItem>();
         checkList.addAll(items);
         return checkList;
