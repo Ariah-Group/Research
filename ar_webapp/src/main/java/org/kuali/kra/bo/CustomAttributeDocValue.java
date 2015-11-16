@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.krad.service.BusinessObjectService;
+
 
 /**
  * 
@@ -34,6 +37,13 @@ public class CustomAttributeDocValue extends KraPersistableBusinessObjectBase im
         super();
     }
 
+    public CustomAttributeDocValue(CustomAttributeDocValue source) {
+        super();
+        customAttributeId = (source.customAttributeId == null) ? null : new Long(source.customAttributeId);
+        value = source.value;
+        customAttribute = source.customAttribute;
+    }
+    
     public Long getCustomAttributeId() {
         return customAttributeId;
     }
@@ -71,6 +81,9 @@ public class CustomAttributeDocValue extends KraPersistableBusinessObjectBase im
      * @return Returns the customAttribute.
      */
     public CustomAttribute getCustomAttribute() {
+        if (customAttribute == null && customAttributeId != null) {
+            customAttribute = KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(CustomAttribute.class, customAttributeId);
+        }
         return customAttribute;
     }
 }

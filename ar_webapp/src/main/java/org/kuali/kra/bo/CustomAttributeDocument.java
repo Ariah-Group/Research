@@ -95,6 +95,9 @@ public class CustomAttributeDocument extends KraPersistableBusinessObjectBase im
      * @return Returns the customAttribute.
      */
     public CustomAttribute getCustomAttribute() {
+        if (customAttributeId != null && customAttribute == null || customAttribute.getValue() == null) {
+            refreshReferenceObject("customAttribute");
+        }
         return customAttribute;
     }
 

@@ -15,6 +15,11 @@
  */
 package org.kuali.kra.irb.actions.copy;
 
+import java.util.List;
+import org.kuali.kra.bo.CustomAttributeDocValue;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -27,27 +32,27 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.copy.ProtocolCopyServiceImplBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
- * The Protocol Copy Service creates a new Protocol Document
- * based upon a current document.
- * 
+ * The Protocol Copy Service creates a new Protocol Document based upon a
+ * current document.
+ *
  * The service uses the following steps in order to copy a protocol:
  * <ol>
- * <li>The Document Service is used to create a new Protocol
- *     Document.  By having a new document, its initiator and timestamp
- *     are set correctly and all workflow information is in its initial
- *     state, e.g.  there are no adhoc routes.
+ * <li>The Document Service is used to create a new Protocol Document. By having
+ * a new document, its initiator and timestamp are set correctly and all
+ * workflow information is in its initial state, e.g. there are no adhoc routes.
  * </li>
- * <li>The Document Overview, Required, and Additional properties 
- *     are copied from the original protocol to the new one.
+ * <li>The Document Overview, Required, and Additional properties are copied
+ * from the original protocol to the new one.
  * </li>
- * <li>The new protocol document is saved to the database so that we
- *     can obtain its ProtocolId and ProtocolNumber.
+ * <li>The new protocol document is saved to the database so that we can obtain
+ * its ProtocolId and ProtocolNumber.
  * </li>
- * <li>The list properties are moved from the original protocol to
- *     the new protocol and their primary keys are initialized along with
- *     their values for ProtocolId and ProtocolNumber.
+ * <li>The list properties are moved from the original protocol to the new
+ * protocol and their primary keys are initialized along with their values for
+ * ProtocolId and ProtocolNumber.
  * </li>
  * <li>The new document is saved a second time to the database.
  * </li>
@@ -56,7 +61,7 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class ProtocolCopyServiceImpl extends ProtocolCopyServiceImplBase<ProtocolDocument> implements ProtocolCopyService {
-    
+
     private ProtocolNumberService protocolNumberService;
 
     @Override
@@ -78,7 +83,7 @@ public class ProtocolCopyServiceImpl extends ProtocolCopyServiceImplBase<Protoco
     protected String getProtocolPersonSequenceNumberNameHook() {
         return ProtocolPerson.SEQUENCE_NAME_IRB_PROTOCOL_PERSONID;
     }
-    
+
     @Override
     protected ProtocolNumberService getProtocolNumberServiceHook() {
         return protocolNumberService;
@@ -104,13 +109,27 @@ public class ProtocolCopyServiceImpl extends ProtocolCopyServiceImplBase<Protoco
     protected String getProtocolRoleTypeHook() {
         return RoleConstants.PROTOCOL_ROLE_TYPE;
     }
-    
+
     /**
      * Set the Protocol Number Service
-     * 
+     *
      * @param protocolNumberService the Protocol Number Service
      */
     public void setProtocolNumberService(ProtocolNumberService protocolNumberService) {
         this.protocolNumberService = protocolNumberService;
+    }
+
+    @Override
+    protected void copyCustomDataAttributeValues(ProtocolDocument srcProtocolDocument, ProtocolDocument destProtocolDocument) {
+        destProtocolDocument.initialize();
+
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+
+        String protocolCopyEnabled = paramServ.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROTOCOL,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ARIAH_IRB_PROTOCOL_COPY_CUSTOM_DATA_ENABLED);
+
+        if ("true".equalsIgnoreCase(protocolCopyEnabled)) {
+            destProtocolDocument.setCustomDataList((List<CustomAttributeDocValue>) deepCopy(srcProtocolDocument.getCustomDataList()));
+        }
     }
 }

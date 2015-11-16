@@ -16,7 +16,6 @@
 package org.kuali.kra.protocol.actions.copy;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
@@ -45,7 +44,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 /**
  * The ProtocolBase Copy Service creates a new ProtocolBase Document based upon
@@ -368,15 +368,6 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
      */
     protected void copyCustomDataAttributeValues(GenericProtocolDocument srcProtocolDocument, GenericProtocolDocument destProtocolDocument) {
         destProtocolDocument.initialize();
-        for (Entry<String, CustomAttributeDocument> entry : destProtocolDocument.getCustomAttributeDocuments().entrySet()) {
-            CustomAttributeDocument cad = srcProtocolDocument.getCustomAttributeDocuments().get(entry.getKey());
-            if (ObjectUtils.isNotNull(cad)) {
-                if (ObjectUtils.isNull(cad.getCustomAttribute())) {
-                    cad.refreshReferenceObject("customAttribute");
-                }
-                entry.getValue().getCustomAttribute().setValue(cad.getCustomAttribute().getValue());
-            }
-        }
     }
 
     public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
@@ -388,7 +379,7 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
     protected abstract String getProtocolActionProtocolCreatedCodeHook();
 
     protected abstract String getSequenceNumberNameHook();
-    
+
     protected abstract String getProtocolPersonSequenceNumberNameHook();
 
     protected abstract ProtocolNumberServiceBase getProtocolNumberServiceHook();
@@ -400,5 +391,4 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
     protected abstract String getProtocolApproverHook();
 
     protected abstract String getProtocolRoleTypeHook();
-
 }
