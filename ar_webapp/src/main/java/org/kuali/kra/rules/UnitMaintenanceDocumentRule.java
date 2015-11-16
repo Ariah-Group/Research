@@ -23,10 +23,13 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class UnitMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
-    
-     
+
+    private static final Log LOG = LogFactory.getLog(UnitMaintenanceDocumentRule.class);
+
     /**
      * Constructs a UnitMaintenanceDocumentRule.java.
      */
@@ -35,45 +38,86 @@ public class UnitMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase 
     }
 
     /**
-     * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */ 
+     *
+     * @see
+     * org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     */
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        return moveUnit(document);
+
+        boolean valid = moveUnit(document);
+        valid &= validateParentUnit(document);
+        return valid;
     }
-    
+
     /**
-     * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     *
+     * @return @see
+     * org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-        return moveUnit(document);
+
+        boolean valid = moveUnit(document);
+        valid &= validateParentUnit(document);
+        return valid;
     }
+
     /**
-     * 
-     * Units cannot be moved to its own descendants.
-     * This method returns false if it is moving to its own descendants.
+     *
+     * Units cannot be moved to its own descendants. This method returns false
+     * if it is moving to its own descendants.
+     *
      * @param maintenanceDocument
      * @return
      */
     private boolean moveUnit(MaintenanceDocument maintenanceDocument) {
 
         boolean valid = true;
-        Unit unit=(Unit)maintenanceDocument.getNewMaintainableObject().getDataObject();
-        String unitNumber=unit.getUnitNumber();
-        String parentUnitNumber=unit.getParentUnitNumber();
-        List<Unit> allSubUnits = KraServiceLocator.getService(UnitService.class).getAllSubUnits(unitNumber); 
-        for (Unit subunits : allSubUnits) {  
-            if(subunits.getUnitNumber().equals(parentUnitNumber)){
+        Unit unit = (Unit) maintenanceDocument.getNewMaintainableObject().getDataObject();
+        String unitNumber = unit.getUnitNumber();
+        String parentUnitNumber = unit.getParentUnitNumber();
+        List<Unit> allSubUnits = KraServiceLocator.getService(UnitService.class).getAllSubUnits(unitNumber);
+        for (Unit subunits : allSubUnits) {
+            if (subunits.getUnitNumber().equals(parentUnitNumber)) {
                 GlobalVariables.getMessageMap().putError("document.newMaintainableObject.parentUnitNumber", KeyConstants.MOVE_UNIT_OWN_DESCENDANTS,
-                        new String[] { unit.getParentUnitNumber(), unit.getParentUnitNumber() });
-                valid=false;
+                        new String[]{unit.getParentUnitNumber(), unit.getParentUnitNumber()});
+                valid = false;
             }
-            
-        }
 
-        
-    return valid;
-}
+        }
+        return valid;
+    }
+
+    private boolean validateParentUnit(MaintenanceDocument document) {
+
+        boolean valid = true;
+
+//        LOG.error("validateParentUnit running...");
+//
+//        Unit unit = KraServiceLocator.getService(UnitService.class).getTopUnit();
+//
+//        if (unit != null) {
+//            LOG.error("Topunit Unit lookup # : " + unit.getUnitNumber());
+//        } else {
+//            LOG.error("Topunit Unit lookup null");
+//        }
+//        Unit updatedUnit = (Unit) document.getNewMaintainableObject().getDataObject();
+//
+//        List<Unit> allSubUnits = KraServiceLocator.getService(UnitService.class).getAllSubUnits(updatedUnit.getUnitNumber());
+//
+//        if (!StringUtils.isEmpty(updatedUnit.getParentUnitNumber())) {
+//
+//            for (Unit subunit : allSubUnits) {
+//
+//                if (subunit.getUnitNumber().equals(parentUnitNumber)) {
+//                    GlobalVariables.getMessageMap().putError("document.newMaintainableObject.parentUnitNumber", KeyConstants.MOVE_UNIT_OWN_DESCENDANTS,
+//                            new String[]{unit.getParentUnitNumber(), unit.getParentUnitNumber()});
+//                    valid = false;
+//                }
+//            }
+//
+//        }
+        return valid;
+    }
 }
