@@ -44,6 +44,9 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -176,17 +179,39 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
         newDoc.getProtocol().getProtocolActions().add(protocolAction);
 
         if (!isAmendmentRenewal) {
-            newDoc.getProtocol().setAttachmentProtocols(new ArrayList<ProtocolAttachmentProtocolBase>());
-            newDoc.getProtocol().setNotepads(new ArrayList<ProtocolNotepadBase>());
-            if (newDoc.getProtocol().getProtocolPersons() != null) {
-                for (ProtocolPersonBase person : newDoc.getProtocol().getProtocolPersons()) {
-                    person.setAttachmentPersonnels(new ArrayList<ProtocolAttachmentPersonnelBase>());
+
+            ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+
+            String protocolCopyNotesEnabled = paramServ.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROTOCOL,
+                    Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ARIAH_IRB_PROTOCOL_COPY_NOTES_ENABLED);
+
+            String protocolCopyAttachmentEnabled = paramServ.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROTOCOL,
+                    Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ARIAH_IRB_PROTOCOL_COPY_ATTACHMENTS_ENABLED);
+
+            // if the flag is NOT true, then reset protocol notepads so that they are NOT copied during protocol copy operation
+            if (!"true".equalsIgnoreCase(protocolCopyNotesEnabled)) {
+                newDoc.getProtocol().setNotepads(new ArrayList<ProtocolNotepadBase>());
+            }
+
+            // if the flag is NOT true, then reset protocol attachments and personnel attachments
+            // so that they are NOT copied during protocol copy operation
+            if (!"true".equalsIgnoreCase(protocolCopyAttachmentEnabled)) {
+
+                newDoc.getProtocol().setAttachmentProtocols(new ArrayList<ProtocolAttachmentProtocolBase>());
+
+                if (newDoc.getProtocol().getProtocolPersons() != null) {
+                    for (ProtocolPersonBase person : newDoc.getProtocol().getProtocolPersons()) {
+                        person.setAttachmentPersonnels(new ArrayList<ProtocolAttachmentPersonnelBase>());
+                    }
                 }
             }
+
         } else {
             initPersonAttachments(newDoc.getProtocol());
         }
+        
         documentService.saveDocument(newDoc);
+        
         if (isAmendmentRenewal) {
             refreshAttachmentsPersonnels(newDoc.getProtocol());
         }
