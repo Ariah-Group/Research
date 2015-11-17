@@ -108,8 +108,8 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
     @Override
     public void setPersonXml(ProtocolPersonRolodexBase rolodex, PersonType personType) {
         personType.setPersonID(rolodex.getRolodexId().toString());
-        String fullName = rolodex.getMiddleName() != null ? rolodex.getLastName() + "," + rolodex.getFirstName()
-                + rolodex.getMiddleName() : rolodex.getLastName() + "," + rolodex.getFirstName();
+        String fullName = rolodex.getMiddleName() != null ? rolodex.getLastName() + ", " + rolodex.getFirstName()
+                + " " + rolodex.getMiddleName() : rolodex.getLastName() + ", " + rolodex.getFirstName();
         personType.setFullname(fullName);
         personType.setLastName(rolodex.getLastName());
         personType.setFirstname(rolodex.getFirstName());
