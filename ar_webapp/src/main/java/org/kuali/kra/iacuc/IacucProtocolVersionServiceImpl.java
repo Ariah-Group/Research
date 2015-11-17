@@ -91,8 +91,7 @@ public class IacucProtocolVersionServiceImpl extends ProtocolVersionServiceImplB
 
     @Override
     public ProtocolBase versionProtocol(ProtocolBase protocol) throws Exception {
-        // TODO Auto-generated method stub
-        return null;
+        return createProtocolNewVersionHook(protocol);
     }
 
     @Override
