@@ -61,7 +61,7 @@ public abstract class ProtocolVersionServiceImplBase implements ProtocolVersionS
     private SequenceAccessorService sequenceAccessorService;
     private SessionDocumentService sessionDocumentService;
     private WorkflowDocumentService workflowDocumentService;
-    private KcPersonService personService;
+    protected KcPersonService kcPersonService;
     
     /**
      * Inject the Document Service.
@@ -198,9 +198,11 @@ public abstract class ProtocolVersionServiceImplBase implements ProtocolVersionS
     
     @Override
     public ProtocolDocumentBase getVersionedDocumentAndPreserveInitiator(ProtocolBase protocol) throws Exception {
+        
         ProtocolDocumentBase oldProtocolDocument = protocol.getProtocolDocument();
         ProtocolBase newProtocol = versionProtocol(protocol);
         newProtocol.setProtocolSubmission(null);
+        
         if(!protocol.isAmendment()) {
             newProtocol.setApprovalDate(null);
             newProtocol.setLastApprovalDate(null);
@@ -210,14 +212,16 @@ public abstract class ProtocolVersionServiceImplBase implements ProtocolVersionS
         newProtocol.refreshReferenceObject("protocolSubmission");
 
         String originalInitiator = oldProtocolDocument.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-        KcPerson originalPerson = personService.getKcPersonByPersonId(originalInitiator);
+        KcPerson originalPerson = kcPersonService.getKcPersonByPersonId(originalInitiator);
         originalInitiator = originalPerson != null ? originalPerson.getUserName() : GlobalVariables.getUserSession().getPrincipalName();
         ProtocolDocumentBase newProtocolDocument = getNewProtocolDocumentHook(originalInitiator);
         newProtocolDocument.getDocumentHeader().setDocumentDescription(oldProtocolDocument.getDocumentHeader().getDocumentDescription());
         newProtocolDocument.setProtocol(newProtocol);
         newProtocol.setProtocolDocument(newProtocolDocument);
+        
         protocol.setActive(false);
         businessObjectService.save(protocol);
+        
         copyCustomDataAttributeValues(oldProtocolDocument, newProtocolDocument);
         fixNextValues(oldProtocolDocument, newProtocolDocument);
         fixActionSequenceNumbers(oldProtocolDocument.getProtocol(), newProtocol);
@@ -408,8 +412,8 @@ public abstract class ProtocolVersionServiceImplBase implements ProtocolVersionS
         this.workflowDocumentService = workflowDocumentService;
     }
 
-    public void setKcPersonService(KcPersonService personService) {
-        this.personService = personService;
+    public void setKcPersonService(KcPersonService kcPersonService) {
+        this.kcPersonService = kcPersonService;
     }
 
     protected abstract ProtocolModuleQuestionnaireBeanBase getNewInstanceProtocolModuleQuestionnaireBeanHook(ProtocolBase protocol);
