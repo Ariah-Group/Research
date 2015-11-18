@@ -27,16 +27,18 @@ import org.kuali.kra.service.VersionException;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
- * ProtocolBase Version Service Implementation.
+ * IACUC Protocol implementation of ProtocolVersionServiceImplBase Version Service.
  */
 public class IacucProtocolVersionServiceImpl extends ProtocolVersionServiceImplBase implements IacucProtocolVersionService {
 
     private IacucProtocolProcedureService iacucProtocolProcedureService;
 
+    @Override
     protected String getProtocolDocumentTypeHook() {
         return "IacucProtocolDocument";
     }
 
+    @Override
     protected ProtocolBase createProtocolNewVersionHook(ProtocolBase protocol) throws Exception {
         IacucProtocol iacucProtocol = (IacucProtocol) protocol;
         iacucProtocol = versioningService.createNewVersion(iacucProtocol);
@@ -46,6 +48,7 @@ public class IacucProtocolVersionServiceImpl extends ProtocolVersionServiceImplB
         return iacucProtocol;
     }
 
+    @Override
     protected ProtocolModuleQuestionnaireBeanBase getNewInstanceProtocolModuleQuestionnaireBeanHook(ProtocolBase protocol) {
         return new IacucProtocolModuleQuestionnaireBean((IacucProtocol) protocol);
     }
@@ -96,6 +99,6 @@ public class IacucProtocolVersionServiceImpl extends ProtocolVersionServiceImplB
 
     @Override
     public ProtocolDocumentBase getNewProtocolDocumentHook(String originalInitiator) throws VersionException, WorkflowException {
-        return (ProtocolDocument) getDocumentService().getNewDocument("IacucProtocolDocument", originalInitiator);
+        return (IacucProtocolDocument) getDocumentService().getNewDocument("IacucProtocolDocument", originalInitiator);
     }
 }
