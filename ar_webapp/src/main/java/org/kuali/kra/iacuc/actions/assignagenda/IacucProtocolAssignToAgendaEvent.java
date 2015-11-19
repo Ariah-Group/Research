@@ -20,10 +20,10 @@ import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaEventBa
 import org.kuali.kra.rule.BusinessRuleInterface;
 
 /**
- * The event that occurs when the IRB Administrator assigns a protocol to an agenda.
+ * The event that occurs when the IACUC Administrator assigns a protocol to an
+ * agenda.
  */
 public class IacucProtocolAssignToAgendaEvent extends ProtocolAssignToAgendaEventBase {
-
 
     public IacucProtocolAssignToAgendaEvent(IacucProtocolDocument document, IacucProtocolAssignToAgendaBean protocolAssignToAgendaBean) {
         super(document, protocolAssignToAgendaBean);
@@ -34,5 +34,5 @@ public class IacucProtocolAssignToAgendaEvent extends ProtocolAssignToAgendaEven
     public BusinessRuleInterface getRule() {
         return new IacucProtocolAssignToAgendaRule();
     }
-    
+
 }
