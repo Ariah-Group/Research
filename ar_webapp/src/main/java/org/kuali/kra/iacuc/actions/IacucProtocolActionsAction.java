@@ -12,22 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * ------------------------------------------------------
- * Updates made after January 1, 2015 are :
- * Copyright 2015 The Ariah Group, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 package org.kuali.kra.iacuc.actions;
 
@@ -167,6 +151,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     /**
      * {@inheritDoc}
      */
+    @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
@@ -515,8 +500,8 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocolDocument protocolDocument = protocolForm.getIacucProtocolDocument();
         IacucProtocol protocol = protocolDocument.getIacucProtocol();
-        protocolForm.getActionHelper().setCurrentTask(TaskName.MODIFY_PROTOCOL_AMENDMENT_SECTIONS);
-        IacucProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_PROTOCOL_AMENDMENT_SECTIONS, protocol);
+        protocolForm.getActionHelper().setCurrentTask(TaskName.MODIFY_IACUC_PROTOCOL_AMENDMENT_SECTIONS);
+        IacucProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_AMENDMENT_SECTIONS, protocol);
         if (isAuthorized(task)) {
             if (!applyRules(new ModifyIacucAmendmentSectionsEvent(protocolDocument, Constants.PROTOCOL_MODIFY_AMENDMENT_KEY,
                     protocolForm.getActionHelper().getProtocolAmendmentBean()))) {
@@ -2467,7 +2452,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         String numberOfReviewersParam = "actionHelper." + beanName + ".numberOfReviewers";
         int number = Integer.parseInt(request.getParameter(numberOfReviewersParam));
         List<ProtocolReviewerBeanBase> beans = new ArrayList<ProtocolReviewerBeanBase>();
-
         for (int i = 0; i < number; i++) {
             String reviewerTypeCode = request.getParameter(reviewerBean + i + "].reviewerTypeCode");
             String personId = request.getParameter(reviewerBean + i + "].personId");
