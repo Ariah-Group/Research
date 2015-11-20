@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    
+    <groups xmlns="ns:workflow/Group" xsi:schemaLocation="ns:workflow/Group resource:Group">
+        <group>
+            <name>IACUCAdmin</name>
+            <namespace>KC-WKFLW</namespace>
+            <description>IACUC Administrator</description>
+            <members>
+                <principalName>kr</principalName>
+                <principalName>admin</principalName>
+            </members>
+        </group>
+    </groups>
+        
     <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
         <documentType>
             <name>IacucProtocolDocument</name>
@@ -7,9 +20,9 @@
             <label>IACUC Protocol</label>
             <parent>AR</parent>
             <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
-            <superUserWorkgroupName>KC-WKFLW:KcAdmin</superUserWorkgroupName>
-            <blanketApproveWorkgroupName>KC-WKFLW:KcAdmin</blanketApproveWorkgroupName>
-            <defaultExceptionWorkgroupName>KC-WKFLW:KcAdmin</defaultExceptionWorkgroupName>
+            <superUserGroupName namespace="KC-WKFLW">IACUCAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KC-WKFLW">IACUCAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KC-WKFLW">IACUCAdmin</defaultExceptionGroupName>
             <docHandler>${kuali.docHandler.url.prefix}/iacucProtocolProtocol.do?methodToCall=docHandler</docHandler>
             <helpDefinitionURL>default.htm?turl=Documents/iacucProtocol.htm</helpDefinitionURL>
             <active>true</active>
