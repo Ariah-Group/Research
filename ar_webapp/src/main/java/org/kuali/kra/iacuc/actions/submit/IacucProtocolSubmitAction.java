@@ -31,16 +31,16 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
 import org.springframework.util.AutoPopulatingList;
 
 /**
- * This class is really just a "form" for submitting a protocol for review in the Submit for Review Action.
+ * This class is really just a "form" for submitting a protocol for review in
+ * the Submit for Review Action.
  */
 public class IacucProtocolSubmitAction extends IacucProtocolActionBean implements ProtocolSubmitAction {
-
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 4456005318168340284L;
-    
+
     private String submissionTypeCode = "";
     private String protocolReviewTypeCode = "";
     private String submissionQualifierTypeCode = "";
@@ -56,16 +56,13 @@ public class IacucProtocolSubmitAction extends IacucProtocolActionBean implement
      * the form is submitted, this list will automatically grow to accommodate all of the reviewers.
      */
     protected List<ProtocolReviewerBeanBase> reviewers = new AutoPopulatingList<ProtocolReviewerBeanBase>(IacucProtocolReviewerBean.class);
-    
     private String newCommitteeId = "";
     private String newScheduleId = "";
-
-
     private boolean javascriptEnabled = true;
 
     /**
      * Constructs a ProtocolSubmitAction.
-     * 
+     *
      * @param actionHelper Reference back to the action helper for this bean
      */
     public IacucProtocolSubmitAction(ActionHelperBase actionHelper) {
@@ -87,20 +84,19 @@ public class IacucProtocolSubmitAction extends IacucProtocolActionBean implement
                     reviewers.clear();
                     buildReviewers();
                 }
-            }
-            else {
+            } else {
                 reviewers.clear();
                 this.reviewerListAvailable = false;
             }
-        }
-        else {
+        } else {
             // use the numberOfReviewers property (sent in as a hidden input field) to truncate the reviewers collection if needed
-            this.reviewers.subList(this.numberOfReviewers, this.reviewers.size()).clear();            
+            this.reviewers.subList(this.numberOfReviewers, this.reviewers.size()).clear();
         }
     }
-    
+
     /**
-     * Create the list of reviewers based upon the currently selected committee and schedule.
+     * Create the list of reviewers based upon the currently selected committee
+     * and schedule.
      */
     @SuppressWarnings("unchecked")
     private void buildReviewers() {
@@ -114,7 +110,6 @@ public class IacucProtocolSubmitAction extends IacucProtocolActionBean implement
     public void setNumberOfReviewers(int numberOfReviewers) {
         this.numberOfReviewers = numberOfReviewers;
     }
-
 
     public CommitteeServiceBase getCommitteeService() {
         return KraServiceLocator.getService(IacucCommitteeService.class);
@@ -179,7 +174,7 @@ public class IacucProtocolSubmitAction extends IacucProtocolActionBean implement
             this.scheduleIdChanged = false;
         }
         this.scheduleId = scheduleId;
-        
+
         // TODO: to be removed eventually
         this.newScheduleId = scheduleId;
     }
@@ -202,8 +197,9 @@ public class IacucProtocolSubmitAction extends IacucProtocolActionBean implement
     }
 
     /**
-     * We display the reviewers in two columns. These are the reviewers in the left column.
-     * 
+     * We display the reviewers in two columns. These are the reviewers in the
+     * left column.
+     *
      * @return
      */
     public List<ProtocolReviewerBeanBase> getLeftReviewers() {
@@ -215,8 +211,9 @@ public class IacucProtocolSubmitAction extends IacucProtocolActionBean implement
     }
 
     /**
-     * We display the reviewers in two columns. These are the reviewers in the right column.
-     * 
+     * We display the reviewers in two columns. These are the reviewers in the
+     * right column.
+     *
      * @return
      */
     public List<ProtocolReviewerBeanBase> getRightReviewers() {
@@ -241,7 +238,7 @@ public class IacucProtocolSubmitAction extends IacucProtocolActionBean implement
 
     /**
      * Constructs a ProtocolSubmitAction.
-     * 
+     *
      * @param actionHelper Reference back to the action helper for this bean
      */
     public IacucProtocolSubmitAction(IacucActionHelper actionHelper) {
