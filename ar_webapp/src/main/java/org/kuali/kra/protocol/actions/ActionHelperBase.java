@@ -1772,9 +1772,9 @@ public abstract class ActionHelperBase implements Serializable {
             } else {
                 protocolAction.setIsInFilterView(true);
             }
-            if (protocolAction.getIsInFilterView()) {
-
-            }
+//            if (protocolAction.getIsInFilterView()) {
+//
+//            }
         }
     }
 
