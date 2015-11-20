@@ -456,8 +456,6 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
 
         if (protocolContingencyCode != null && !protocolContingencyCode.equals(committeeScheduleMinute.getProtocolContingencyCode())) {
             isChanged &= !protocolContingencyCode.equals(committeeScheduleMinute.getProtocolContingencyCode());
-        } else {
-            isChanged &= !committeeScheduleMinute.getProtocolContingencyCode().equals(protocolContingencyCode);
         }
 
         return isChanged;
