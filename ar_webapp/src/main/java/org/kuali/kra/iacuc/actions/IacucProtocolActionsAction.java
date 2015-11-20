@@ -89,6 +89,10 @@ import org.kuali.kra.printing.print.PrintableAttachment;
 import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.ariahgroup.research.bo.AttachmentDataSource;
+import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
+import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
+import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
@@ -304,7 +308,27 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     private boolean isCommitteeMeetingAssignedMaxProtocols(String committeeId, String scheduleId) {
         boolean isMax = false;
 
+        IacucCommittee committee = getIacucCommitteeService().getCommitteeById(committeeId);
+        if (committee != null) {
+            IacucCommitteeSchedule schedule = getIacucCommitteeService().getCommitteeSchedule(committee, scheduleId);
+            if (schedule != null) {
+                int currentSubmissionCount = (schedule.getLatestProtocolSubmissions() == null) ? 0 : activeSubmissonCount(schedule.getLatestProtocolSubmissions());
+                int maxSubmissionCount = schedule.getMaxProtocols();
+                isMax = currentSubmissionCount >= maxSubmissionCount;
+            }
+        }
+
         return isMax;
+    }
+
+    private int activeSubmissonCount(List<IacucProtocolSubmission> submissions) {
+        int count = 0;
+        for (IacucProtocolSubmission submission : submissions) {
+            if (submission.getProtocol().isActive()) {
+                count++;
+            }
+        }
+        return count;
     }
 
     /*
@@ -2526,4 +2550,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
     }
 
+    private IacucCommitteeService getIacucCommitteeService() {
+        return KraServiceLocator.getService(IacucCommitteeService.class);
+    }
 }
