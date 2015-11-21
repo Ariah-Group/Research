@@ -593,6 +593,7 @@ public final class KeyConstants {
     
     //IRB Protocol Search Screen Error Messages
     public static final String ERROR_PROTOCOL_SEARCH_INVALID_DATE = "error.search.invalid.date";
+    public static final String ERROR_PROTOCOL_SEARCH_MISSING_ATLEAST_ONE = "error.search.missing.at.least.one.field";
     
     //IRB Protocol Online Review Error Messages
     public static final String ERROR_PROTOCOL_ONLINE_REVIEW_INVALID_ONE_PERSON_ONLY="error.protocol.onlinereview.search.onlyoneperson";

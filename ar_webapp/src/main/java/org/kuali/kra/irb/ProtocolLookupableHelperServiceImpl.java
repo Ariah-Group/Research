@@ -12,23 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-
- *
- * ------------------------------------------------------
- * Updates made after January 1, 2015 are :
- * Copyright 2015 The Ariah Group, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 package org.kuali.kra.irb;
 
@@ -43,10 +26,15 @@ import org.kuali.kra.protocol.ProtocolLookupableHelperServiceImplBase;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * This class handles searching for protocols.
@@ -106,10 +94,70 @@ public class ProtocolLookupableHelperServiceImpl extends ProtocolLookupableHelpe
         } else {
             // Add minimum viable security to ensure the user AT LEAST has View Protocol permission 
             // on one of their roles or else the record should NOT even be visible in the result list.
-            searchResults = filterProtocolsByTask(fieldValues,TaskName.VIEW_PROTOCOL);
+            searchResults = filterProtocolsByTask(fieldValues, TaskName.VIEW_PROTOCOL);
         }
 
         return searchResults;
+    }
+
+    @Override
+    public void validateSearchParameters(Map fieldValues) {
+        super.validateSearchParameters(fieldValues);
+
+        boolean requireAtLeastOneField = getParameterService().getParameterValueAsBoolean(Constants.MODULE_CODE_IRB,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ARIAH_IRB_PROTOCOL_SEARCH_REQUIRE_FIELD_ENABLED, false);
+
+        // if the parameter flag is true, check the search field values entered and 
+        // if none have a value send an error to user that they must enter at least 
+        // one search field
+        if (requireAtLeastOneField) {
+            requireAtLeastOneSearchField(fieldValues);
+        }
+
+    }
+
+    /**
+     * Check the values of the search fields and verify at least one has been set. 
+     * If not set add an error to the message map.
+     * 
+     * @param fieldValues Map of search fields and values.
+     */
+    protected void requireAtLeastOneSearchField(Map<String, String> fieldValues) {
+
+        // create a new Map and copy values over to ensure we're not modifying original Map
+        Map<String, String> fieldValuesToCheck = new HashMap<String, String>(fieldValues.size());
+        Set<String> keys = fieldValues.keySet();
+
+        for (String key : keys) {
+            String value = fieldValues.get(key);
+            fieldValuesToCheck.put(key, value);
+        }
+
+        fieldValuesToCheck.remove(AMEND_RENEW_PROTOCOL_LOOKUP_ACTION);
+        fieldValuesToCheck.remove(NOTIFY_IRB_PROTOCOL_LOOKUP_ACTION);
+        fieldValuesToCheck.remove(REQUEST_PROTOCOL_ACTION);
+        fieldValuesToCheck.remove(PENDING_PROTOCOL_LOOKUP);
+        fieldValuesToCheck.remove(PENDING_PI_ACTION_PROTOCOL_LOOKUP);
+        fieldValuesToCheck.remove(PROTOCOL_PERSON_ID_LOOKUP);
+        fieldValuesToCheck.remove(KRADConstants.BACK_LOCATION);
+        fieldValuesToCheck.remove(KRADConstants.DOC_FORM_KEY);
+        fieldValuesToCheck.remove("active");
+        fieldValuesToCheck.remove("docNum");
+
+        boolean atLeastOneSearchFieldIsSet = false;
+
+        Set<String> newKeys = fieldValuesToCheck.keySet();
+        for (String key : newKeys) {
+            String value = fieldValuesToCheck.get(key);
+            if (!value.isEmpty()) {
+                atLeastOneSearchFieldIsSet = true;
+                break;
+            }
+        }
+
+        if (!atLeastOneSearchFieldIsSet) {
+            GlobalVariables.getMessageMap().putError("singleFieldNotEntered", KeyConstants.ERROR_PROTOCOL_SEARCH_MISSING_ATLEAST_ONE);
+        }
     }
 
     @Override
