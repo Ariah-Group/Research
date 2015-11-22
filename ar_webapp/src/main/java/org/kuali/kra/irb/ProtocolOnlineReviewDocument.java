@@ -183,8 +183,8 @@ public class ProtocolOnlineReviewDocument extends ProtocolOnlineReviewDocumentBa
      */
     @Override
     protected List<RolePersons> getAllRolePersons() {
-        KraAuthorizationService kraAuthService
-                = (KraAuthorizationService) KraServiceLocator.getService(KraAuthorizationService.class);
+       // KraAuthorizationService kraAuthService
+        //        = (KraAuthorizationService) KraServiceLocator.getService(KraAuthorizationService.class);
         //return kraAuthService.getAllRolePersons(getProtocolOnlineReview());
         return new ArrayList<RolePersons>();
     }
