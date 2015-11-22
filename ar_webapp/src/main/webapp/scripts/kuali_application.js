@@ -52,12 +52,10 @@ function jq_escape(myid) {
   return '#' + myid.replace(/(:|\.|\[|\])/g,'\\$1');
 }
 
-
 var jq = jQuery.noConflict();
 jq(document).ready(function() {
     createLoading(false);
 });
-
 
 var formHasAlreadyBeenSubmitted = false;
 var excludeSubmitRestriction = false;
@@ -76,14 +74,12 @@ window.hasFormAlreadyBeenSubmitted = function(){
           createLoading(false);
         }, 500);
     }
-}
-
+};
 
 /**
  * Uses jQuery plug-in to show a loading notification for a page request. See
  * <link>http://plugins.jquery.com/project/showLoading</link> for documentation
  * on options.
- *
  * @param showLoading -
  *          boolean that indicates whether the loading indicator should be shown
  *          (true) or hidden (false)
@@ -91,7 +87,6 @@ window.hasFormAlreadyBeenSubmitted = function(){
 function createLoading(showLoading) {
 	//var jq = jQuery.noConflict();
     var processingMessage = '<h1><img src="' + "krad/images/" + 'loading.gif" alt="working..." />Page is being processed by the server....</h1>';
-    
         if (showLoading) {
             getContext().blockUI({message: processingMessage});
         }
@@ -115,7 +110,6 @@ function getContext(){
     }
 }
 function generateInputParams(reportSelect) {	
-	
 	var reportId = dwr.util.getValue(reportSelect);
 	var reportLabel = reportSelect.options[reportSelect.selectedIndex].text;
 	if(reportId > 0) {
@@ -155,11 +149,8 @@ function usePortalForContext() {
     return usePortal;
 }
 
-
 function updateSourceNameEditable(fundingSourceTypeCodeFieldName, fundingSourceNumberFieldName, fundingSourceNameFieldName, fundingSourceTitleFieldName, protocolModule) {
 	var fundingSourceTypeCode = dwr.util.getValue( fundingSourceTypeCodeFieldName );
-	var allowEdit;
-	
 	clearRecipients( fundingSourceNameFieldName);
 	clearRecipients( fundingSourceTitleFieldName);
 	if (fundingSourceTypeCode=='') {
@@ -196,7 +187,6 @@ function updateSourceNameEditable(fundingSourceTypeCodeFieldName, fundingSourceN
 		} else {
 			changeObjectVisibility(fundingSourceTypeCodeFieldName + ".startproposal.image.div", "none"); 
 		}
-
 	}
 }
 
@@ -205,7 +195,6 @@ function updateSourceNameEditable(fundingSourceTypeCodeFieldName, fundingSourceN
  */
 function loadFundingSourceNameTitle(fundingSourceTypeCodeField, fundingSourceNumberFieldName, fundingSourceNameFieldName, fundingSourceTitleFieldName, protocolModule) {
 	var fundingSourceTypeCode = dwr.util.getValue( fundingSourceTypeCodeField );
-	var fundingSource = "";
 	var fundingSourceNumber = dwr.util.getValue ( fundingSourceNumberFieldName );
 	var fundingSourceName = dwr.util.getValue( fundingSourceNameFieldName );
 	var fundingSourceTitle = dwr.util.getValue( fundingSourceTitleFieldName );
@@ -277,7 +266,6 @@ function loadFundingSourceNameTitle(fundingSourceTypeCodeField, fundingSourceNum
 		}
 	}
 }
- 
 
 function clearCommitteeScheduleRecurrenceData() {
 	var list = document.getElementsByName("committeeHelper.scheduleData.recurrenceType");
@@ -471,6 +459,7 @@ function unselectAllGGForms(document) {
 	  }
 	}
 }
+
 function selectAllKeywords(document, keywordsArray) {
     var j = 0;
 	for (var i = 0; i < document.KualiForm.elements.length; i++) {
@@ -485,16 +474,13 @@ function selectAllKeywords(document, keywordsArray) {
 	}
 }
 
-
 function setComment() {
   passData=document.location.search.substring(1);
-  var idx=passData.indexOf("&commentFieldName=")
-  var idx2=passData.indexOf("&commentFieldLabel=")
-  fieldName=passData.substring(idx+18,idx2)
+  var idx=passData.indexOf("&commentFieldName=");
+  var idx2=passData.indexOf("&commentFieldLabel=");
+  fieldName=passData.substring(idx+18,idx2);
   text = window.opener.document.getElementById(fieldName).value;
   document.getElementById(fieldName).value = text;
-  
-
 }
 
 /*
@@ -583,38 +569,31 @@ function showS2SAppSubmissionStatusDetails(proposalNumber,trackingId) {
 	var docFormKey = dwr.util.getValue( "docFormKey" );
 	var dwrReply = {
 			callback:function(data) {
-				//alert(data);
 				displayStatusDetails(data);
 			},
 			errorHandler:function( errorMessage ) {
-				//alert("da da da");
 				window.status = errorMessage;
 			},
 			cache : false,
 			async : false,
 			timeout : 1000
 	};
-	//alert(trackingId);
 	S2SService.getStatusDetails( trackingId, proposalNumber + ":" + docFormKey, dwrReply);
 }
 
 function displayStatusDetails(data){
-	//alert(data);
 	document.getElementById('s2s_status_detail').innerHTML=data;
 	changeObjectVisibility("s2s_status_popup","block");
 }
 function hideStatusDetails(){
-	//alert(data);
 	changeObjectVisibility("s2s_status_popup","none");
 }
-
 
 /*
  * Load Start and End Dates based on the Fiscal Year
  */ 
 function loadStartAndEndDates(fiscalYear,startDate,endDate){
 	var fiscalYearValue = dwr.util.getValue( fiscalYear );
-
 	if (fiscalYearValue=='') {
 		clearRecipients( startDate, "" );
 		clearRecipients( endDate, "" );
@@ -735,9 +714,9 @@ function loadJobCodeTitle(jobCodeFieldName, jobCodeTitleFieldName ) {
 
 var propAttRightWindow;
 function proposalAttachmentRightsPop(lineNumber,docFormKey, sessionDocument){
-  var documentWebScope
+  var documentWebScope;
   if (sessionDocument == "true") {
-      documentWebScope="session"
+      documentWebScope="session";
   }
 
   if (propAttRightWindow && propAttRightWindow.open && !propAttRightWindow.closed){
@@ -749,16 +728,16 @@ function proposalAttachmentRightsPop(lineNumber,docFormKey, sessionDocument){
 
 var propInstAttRightWindow;
 function proposalInstituteAttachmentRightsPop(lineNumber,docFormKey, sessionDocument){
-  var documentWebScope
+  var documentWebScope;
   if (sessionDocument == "true") {
-      documentWebScope="session"
+      documentWebScope="session";
   }
   if (propInstAttRightWindow && propInstAttRightWindow.open && !propInstAttRightWindow.closed){
   	propInstAttRightWindow.focus();
   }else{
     propInstAttRightWindow = window.open(extractUrlBase()+"/proposalDevelopmentAbstractsAttachments.do?methodToCall=getInstituteAttachmentRights&line="+lineNumber+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "instAttWindow", "width=800, height=300, scrollbars=yes");
     if (window.focus) {
-         propInstAttRightWindow.focus()
+         propInstAttRightWindow.focus();
     }
   }
 }
@@ -772,9 +751,9 @@ function extractUrlBase(){
   return extractUrl; 
 }
 function openNewWindow(action,methodToCall,lineNumber,docFormKey, sessionDocument){
-  var documentWebScope
+  var documentWebScope;
   if (sessionDocument == "true") {
-      documentWebScope="session"
+      documentWebScope="session";
   }
 //function openNewWindow(action,methodToCall,lineNumber){
 //  window.open(extractUrlBase()+"/"+action+".do?methodToCall="+methodToCall+"&line="+lineNumber);
@@ -837,7 +816,7 @@ function editRolesPop(lineNumber, docFormKey, sessionDocument) {
 
     var documentWebScope = "";
     if (sessionDocument == "true") {
-        documentWebScope="session"
+        documentWebScope="session";
     }
     
 	if (propEditRolesWindow != null) {
@@ -887,7 +866,7 @@ function permissionsEditRolesPop(name, lineNumber, docFormKey, sessionDocument) 
 
     var documentWebScope = "";
     if (sessionDocument == "true") {
-        documentWebScope="session"
+        documentWebScope="session";
     }
     
 	if (permissionsEditRolesWindow != null) {
@@ -908,7 +887,7 @@ function permissionsEditRolesPop(name, lineNumber, docFormKey, sessionDocument) 
  */
 String.prototype.trim = function() {
   return this.replace(/^\s+|\s+$/g, "");
-}
+};
 
 /**
  * The User Class.  A user has a name, its line number
@@ -926,23 +905,23 @@ User.prototype._roles;
 
 User.prototype.getName = function() {
     return this._name;
-}
+};
 
 User.prototype.getLineNumber = function() {
     return this._lineNumber;
-}
+};
 
 User.prototype.getRoles = function() {
 	return this._roles;
-}
+};
 
 User.prototype.addRole = function(role) {
     this._roles[this._roles.length] = role;
-}
+};
 
 User.prototype.clearRoles = function() {
     this._roles.length = 0;
-}
+};
 
 User.prototype.hasRole = function(role) {
     for (var i = 0; i < this._roles.length; i++) {
@@ -951,7 +930,7 @@ User.prototype.hasRole = function(role) {
         }
     }
     return false;
-}
+};
 
 /**
  * The PermissionsRoleState Class.  Stores the states of the roles as 
@@ -972,15 +951,15 @@ PermissionsRoleState.prototype._state;
 
 PermissionsRoleState.prototype.getName = function() {
     return this._name;
-}
+};
 
 PermissionsRoleState.prototype.getDisplayName = function() {
     return this._displayName;
-}
+};
 
 PermissionsRoleState.prototype.getState = function() {
     return this._state;
-}
+};
 
 
 /**
@@ -1117,7 +1096,6 @@ function loadPersonName(usernameFieldName, fullnameElementId,
 	}
 }
 
-
 /*
  * Load the contact person's full name based on the person's username.
  */
@@ -1129,7 +1107,7 @@ function loadContactPersonName(usernameFieldName, fullnameElementId,
 		var unitNumberElement= document.getElementById(unitNumberElementId);
 		var phoneNumberElement = document.getElementById(phoneNumberElementId);
 		var emailElement = document.getElementById(emailElementId);
-		var personIdElement = document.getElementById(personIdElementId)
+		var personIdElement = document.getElementById(personIdElementId);
 
 		if (username == '') {
 			if (fullNameElement != null) fullNameElement.innerHTML = "&nbsp;";
@@ -1142,7 +1120,7 @@ function loadContactPersonName(usernameFieldName, fullnameElementId,
 						if (phoneNumberElement != null) phoneNumberElement.innerHTML= data.phoneNumber;
 						if (emailElement != null) emailElement.innerHTML= data.emailAddress;
 						if (personIdElement != null) personIdElement.value= data.personId;
-						if (unitNumberElement != null) unitNumberElement.innerHTML= data.unit['unitNumber']
+						if (unitNumberElement != null) unitNumberElement.innerHTML= data.unit['unitNumber'];
 					} else {
 						if (personIdElement != null) personIdElement.value = "";
 						if (fullNameElement != null) fullNameElement.innerHTML = wrapError( "not found" );
@@ -1229,7 +1207,7 @@ function loadContactPersonName(usernameFieldName, fullnameElementId,
 							phoneNumberElement.innerHTML= data.phoneNumber;
 							emailElement.innerHTML= data.emailAddress;
 							rolodexElement.value= data.rolodexId;
-							unitNumberElement.innerHTML= data.unit['unitNumber']
+							unitNumberElement.innerHTML= data.unit['unitNumber'];
 						} else {
 							fullNameElement.innerHTML = wrapError( "not found" );
 							phoneNumberElement.innerHTML= wrapError( "not found" );
@@ -1250,7 +1228,6 @@ function loadContactPersonName(usernameFieldName, fullnameElementId,
 	}
 }
 
-	
 	/*
 	 * Load the fullname from rolodex info from rolodex id.
 	 */
@@ -1346,11 +1323,8 @@ function loadContactPersonName(usernameFieldName, fullnameElementId,
     	frequencyName =  findElPrefix( reportTypeField.name ) + ".frequencyCode" ;
     	reportClassName = findElPrefix( reportTypeField.name ) + ".reportClassCode" ;
     }
-  //  alert("frequencyName is " + frequencyName );
     var reportCode = reportTypeField.value;
     var reportClass = kualiElements[reportClassName].value;
-   // alert ("ReportCode is " + reportCode );
-    //alert ("ReportClass is " + reportClass);
  
 	if ( reportCode != "") {
 		var dwrReply = {
@@ -1364,7 +1338,6 @@ function loadContactPersonName(usernameFieldName, fullnameElementId,
 	}
 }
  function updateFrequency_Callback( data ) {
-//	alert("in callback function with data = " + data);
 	kualiElements[frequencyName].options.length=0; //reset 
 	var option_array=data.split(",");
 	var optionNum=0;
@@ -1388,7 +1361,6 @@ function loadContactPersonName(usernameFieldName, fullnameElementId,
     } else if (frequencyField.name.lastIndexOf("frequencyCode") > 0) {
     	frequencyBaseName =  findElPrefix( frequencyField.name ) + ".frequencyBaseCode" ;
     }
- //   alert("frequencyBaseName is " + frequencyBaseName );
     var frequency = frequencyField.value;
 	if ( frequency != "") {
 		var dwrReply = {
@@ -1418,13 +1390,11 @@ function loadContactPersonName(usernameFieldName, fullnameElementId,
 		  }
 		  optionNum+=1;
 	 }
-} 
- 
+}
  
 /*
  * functions for custom attribute maintenance 
- */	
-  
+ */
   var lookupReturnName ;
  function updateLookupReturn( lookupClassField, callbackFunction ) {
    
@@ -1433,11 +1403,8 @@ function loadContactPersonName(usernameFieldName, fullnameElementId,
     } else if (lookupClassField.name.lastIndexOf("lookupClass") > 0) {
 	    lookupReturnName =  findElPrefix( lookupClassField.name ) + ".lookupReturn" ;
     }
-
-    //alert ("in update" +lookupClassField+"-"+lookupClassField.name+"-"+lookupReturn+lookupClassField.value);
 	//var lookupClass = getElementValue( lookupClassField.name ); // ie7 get nothing out of this
     var lookupClass = lookupClassField.value;
-    //alert ('update ' +lookupClass);
 	if ( lookupClass != "") {
 		var dwrReply = {
 			callback:callbackFunction,
@@ -1669,13 +1636,13 @@ function updateOtherFields_Callback( data ) {
 	}
 	
 	var displayValueField = document.getElementById(displayValue).name;
-	var prefix = findElPrefix( document.getElementById(displayValue).name );
-	var imageUrl = document.getElementById("imageUrl").value;
-	var tabIndex = document.getElementById("tabIndex").value;
+	//var prefix = findElPrefix( document.getElementById(displayValue).name );
+	//var imageUrl = document.getElementById("imageUrl").value;
+	//var tabIndex = document.getElementById("tabIndex").value;
 	var lookupClass = document.getElementById(lookupArgument).value;
 	var lookupPkReturnValue = document.getElementById(lookupPkReturn).value;
 	var changedValueFieldName = document.getElementById(changedValue).name;
-	var myDiv = document.getElementById('changedValueExtraBody');
+	//var myDiv = document.getElementById('changedValueExtraBody');
 	var dataTypeValue = document.getElementById(dataType).value;
 	var lookupReturnValue = document.getElementById(lookupReturn).value;
 	dynamicDivUpdate(lookupClass, lookupPkReturnValue, lookupReturnValue, changedValueFieldName, displayValueField, dataTypeValue);
@@ -1683,7 +1650,7 @@ function updateOtherFields_Callback( data ) {
 
 function dynamicDivUpdate(lookupClass, lookupPkReturnValue, lookupReturnValue, changedValueFieldName, displayValueField, dataTypeValue) {
    	var imageUrl = document.getElementById("imageUrl").value;
-	var tabIndex = document.getElementById("tabIndex").value;
+	//var tabIndex = document.getElementById("tabIndex").value;
     var myDiv = document.getElementById('changedValueExtraBody');
 	var innerDivContent = "";
 	if(lookupClass != "" && lookupPkReturnValue != "" && changedValueFieldName != "") {
@@ -1767,7 +1734,6 @@ function updateBudgetOtherFields_Callback( data ) {
 	document.getElementById(changedValue).style.borderColor = "";
 	document.getElementById(comments).value = "";
 	
-	
 	while (counter < value_array.length)
 	{
 		if(counter == 0) {
@@ -1802,13 +1768,13 @@ function updateBudgetOtherFields_Callback( data ) {
 	}
 	
 	var displayValueField = document.getElementById(displayValue).name;	
-	var prefix = findElPrefix( document.getElementById(displayValue).name );
-	var imageUrl = document.getElementById("imageUrl").value;
-	var tabIndex = document.getElementById("tabIndex").value;
+	//var prefix = findElPrefix( document.getElementById(displayValue).name );
+	//var imageUrl = document.getElementById("imageUrl").value;
+	//var tabIndex = document.getElementById("tabIndex").value;
 	var lookupClass = document.getElementById(lookupArgument).value;
 	var lookupPkReturnValue = document.getElementById(lookupPkReturn).value;
 	var changedValueFieldName = document.getElementById(changedValue).name;	
-	var myDiv = document.getElementById('changedValueBudgetExtraBody');
+	//var myDiv = document.getElementById('changedValueBudgetExtraBody');
 	var dataTypeValue = document.getElementById(dataType).value;	
 	var lookupReturnValue = document.getElementById(lookupReturn).value;
 	dynamicBudgetDivUpdate(lookupClass, lookupPkReturnValue, lookupReturnValue, changedValueFieldName, displayValueField, dataTypeValue);
@@ -1816,7 +1782,7 @@ function updateBudgetOtherFields_Callback( data ) {
 
 function dynamicBudgetDivUpdate(lookupClass, lookupPkReturnValue, lookupReturnValue, changedValueFieldName, displayValueField, dataTypeValue) {
    	var imageUrl = document.getElementById("imageUrl").value;
-   	var tabIndex = document.getElementById("tabIndex").value;
+   	//var tabIndex = document.getElementById("tabIndex").value;
 	var myDiv = document.getElementById('changedValueBudgetExtraBody');
 	var innerDivContent = "";
 	if(lookupClass != "" && lookupPkReturnValue != "" && changedValueFieldName != "") {
@@ -1847,7 +1813,6 @@ function dynamicBudgetDivUpdate(lookupClass, lookupPkReturnValue, lookupReturnVa
 		    }
 		);
 	}
-	
 }
 
 function updateBudgetFlag(){
@@ -1915,9 +1880,7 @@ function getIndex(what) {
           }
        }
        return -1;
-       alert("leaveIndex");
 }
-
 
 function setupBudgetStatuses(document) {
 	for (var i = 0; i < document.KualiForm.elements.length; i++) {
@@ -1935,8 +1898,6 @@ function setupBudgetStatuses(document) {
 	  }
 	}
 }
-
-
 
 function setupBudgetStatusSummary(document) {
 	  var finalVersionFlag = document.getElementById('document.budget.finalVersionFlag');
@@ -1964,7 +1925,7 @@ function toggleFinalCheckboxSummary(document) {
 	var finalVersionFlagHidden = document.KualiForm.elements[finalVersionFlagIndex + 2];
 	var temp = document.getElementById('hack');
 	var hackIndex = getIndex(temp);
-	var statusHidden = document.KualiForm.elements[hackIndex + 1];
+	//var statusHidden = document.KualiForm.elements[hackIndex + 1];
 	var status = document.KualiForm.elements[hackIndex + 2];
 	if(status.value == '1'){
 		completed = true;
@@ -1978,8 +1939,7 @@ function toggleFinalCheckboxSummary(document) {
 		finalVersionFlagHidden.disabled = true;
 		finalVersionFlagHidden.value = false;
 	}
-}
-					
+}				
 
 function toggleFinalCheckboxes(document) {
 	var completed = false;
@@ -2057,7 +2017,6 @@ function toggleFinalCheckboxesAndDisable(document) {
 	
 }
 
-
 //For Award module
 function selectAllAwardKeywords(document) {
     var j = 0;
@@ -2081,7 +2040,7 @@ function loadApplicableTransactionIds(versionId, transactionId, awardNumber) {
 			if ( data != null ) {
 				//clear all current options
 				jQuery(transactionId).html("");
-			    for (key in data) {
+			    for (var key in data) {
 			    	jQuery(transactionId).append("<option value='"+key+"'>"+data[key]+"</option>");
 				}
 			}
@@ -2095,11 +2054,9 @@ function loadApplicableTransactionIds(versionId, transactionId, awardNumber) {
 	AwardTransactionLookupService.getApplicableTransactionIds(awardNumber+":"+docFormKey, sequenceNumber, dwrReply);
 }
 
-
 function setAllItemsIn(id, value) {
 	jQuery("#" + id + " INPUT[type='checkbox']").attr('checked', value);
 }
-
 
 //End Award module
 
@@ -2116,9 +2073,6 @@ function selectAllInstitutionalProposalKeywords(document) {
 	  }
 	}
 }
-
-
-
 
 /*
  * Load the Organization Name field based on the Organization Code passed in.
@@ -2187,7 +2141,6 @@ function loadAwardBasisOfPaymentCodes( awardTypeCode, basisOfPaymentCodeFieldNam
 		AwardPaymentAndInvoicesService.getEncodedValidAwardBasisPaymentsByAwardTypeCode( awardTypeCode, dwrReply )
 	}
 }
-
 
 function loadAwardMethodOfPaymentCodes( basisOfPaymentCodeFieldName, methodOfPaymentCodeFieldName) {    
     var basisOfPaymentCode = dwr.util.getValue( basisOfPaymentCodeFieldName );
@@ -2338,13 +2291,10 @@ function loadExpeditedDates(approveDateElementId, expiredDateElementId, differen
 				var YY = myDate.getFullYear();
 				  if(MM<10) MM="0"+MM;
 				  if(DD<10) DD="0"+DD;
-		    // alert(MM+"/"+DD+"/"+YY);				
 				  var expirationDate = MM+"/"+DD+"/"+YY;			
-			//alert('updated my date:'+ myDate );								
 				  $j(jq_escape(expiredDateElementId)).val(expirationDate);
 		}
-	}
-			
+	}		
 }
 
 /**
@@ -2355,7 +2305,7 @@ function loadExpeditedDates(approveDateElementId, expiredDateElementId, differen
 **/
 
 function checkdate(input){	
-	var validformat=/^\d{2}\/\d{2}\/\d{4}$/ 	
+	var validformat=/^\d{2}\/\d{2}\/\d{4}$/;
 	var returnval=true;
 	if(!validformat.test(input)){
 		returnval=false;
@@ -2375,8 +2325,6 @@ function checkdate(input){
 	}	
 	return returnval;
 }
-
-
 
 /*
  * Based upon the selected committe, load the scheduled dates for that committee
@@ -2450,7 +2398,7 @@ var protocolFundingSourceWindow = null;
 function protocolFundingSourcePop(name, docFormKey, sessionDocument, line, currentTabIndex, protocolModule) {
 
 	var documentWebScope = "";
-	var action = "/protocolProtocol.do"
+	var action = "/protocolProtocol.do";
 	if (sessionDocument == true) {
 		documentWebScope = "session";
 	}
@@ -2458,14 +2406,11 @@ function protocolFundingSourcePop(name, docFormKey, sessionDocument, line, curre
 	if (protocolFundingSourceWindow != null) {
 		protocolFundingSourceWindow.close();
 	} 
-	//alert(protocolModule);
 	
 	if(protocolModule == 'iacuc') {
 		action = "/iacucProtocolProtocol.do";
 	}
 
-	//alert(action);
-	
 	protocolFundingSourceWindow = window.open(extractUrlBase() +  
 			action + "?methodToCall=viewProtocolFundingSource&methodToCallAttribute=methodToCall.viewProtocolFundingSource.line="+line +".anchor"+currentTabIndex
 			+".x&line="+line 
@@ -2707,7 +2652,7 @@ function updateProtocolReviewerHtml(reviewerData, reviewerTypesData, beanName) {
 	reviewerTypes = reviewerTypesData.split(";");
 	document.getElementById("reviewers").style.display = '';
 	var reviewersArr = reviewerData.split(";");
-	var arrLength = reviewersArr.length;
+	//var arrLength = reviewersArr.length;
 	var numReviewers = Math.floor(reviewersArr.length / 3);
 	var numRows = Math.floor((numReviewers+1) / 2);
 	var reviewersTableLeft = document.getElementById("reviewersTableLeft");
@@ -2966,10 +2911,7 @@ function updateCostElement_Callback( data ) {
 }
 
 function disableGrpNameTextbox(groupNameSelectField) {
-	var selectedIndex = groupNameSelectField.selectedIndex;
 	var selectedText = groupNameSelectField.options[groupNameSelectField.selectedIndex].text;
-	//alert(selectedText);
-	
 	var groupNameTextField = document.getElementById("newGroupName");
 	groupNameTextField.value="";
 	
@@ -3040,7 +2982,6 @@ function loadStandardReviewComment(protocolContingencyCodeFieldName, protocolCon
 	//var protocolContingencyCode = dwr.util.getValue( protocolContingencyCodeFieldName );
 	var protocolContingencyCode = document.getElementById(protocolContingencyCodeFieldName).value;
 
-	//alert(protocolContingencyCodeFieldName+"-"+document.getElementById(protocolContingencyCodeFieldName).value);
 	if (protocolContingencyCode=='') {
 		//clearRecipients( protocolContingencyDescriptionFieldName, "" );
 		document.getElementById(protocolContingencyDescriptionFieldName).value="";
@@ -3050,7 +2991,6 @@ function loadStandardReviewComment(protocolContingencyCodeFieldName, protocolCon
 				if ( data != null ) {
 					if ( protocolContingencyDescriptionFieldName != null && protocolContingencyDescriptionFieldName != "" ) {
 						//setRecipientValue( protocolContingencyDescriptionFieldName, data );
-						//alert (protocolContingencyDescriptionFieldName+"-"+data);
 						document.getElementById(protocolContingencyDescriptionFieldName).value=data;
 					}
 				} else {
@@ -3140,9 +3080,9 @@ function generateAttendance(genAtt, noMember, noOther) {
 	            if (comment != "") {
 	                comment = comment +"\n";
 		        }    
-	            comment = comment + document.getElementById('meetingHelper.memberPresentBeans['+i+'].attendance.personName').value 
+	            comment = comment + document.getElementById('meetingHelper.memberPresentBeans['+i+'].attendance.personName').value; 
 	            if (document.getElementById('alternatePerson['+i+']')) {
-	                comment = comment + " Alternate For : "+ document.getElementById('alternatePerson['+i+']').value
+	                comment = comment + " Alternate For : "+ document.getElementById('alternatePerson['+i+']').value;
 	            } 
 	        }
 	        for (var i = 0; i < noOther; i++) {
@@ -3194,9 +3134,7 @@ function closeQuestionnairePop() {
 	if (viewQuestionnaireWindow != null) {
 		viewQuestionnaireWindow.close();
 	} 
-
 }
-
 
 function callAjaxByPath(url, methodToCall, codeValue, successCallback, errorCallback) {
 	$j.ajax( {
@@ -3292,7 +3230,6 @@ function updateFringeTotal(budgetPeriod,calcAmontsCount){
 
 function updateStateFromCountry() {
 	var countryCode = dwr.util.getValue( 'document.newMaintainableObject.countryCode' );
-	
 	var dwrReply = {
 		callback:function(data) {
 			if ( data != null ) {
@@ -3309,15 +3246,12 @@ function updateStateFromCountry() {
 	StateService.findAllStatesByAltCountryCode(countryCode, dwrReply);
 }
 
-
-
 /*
  * Load the Sponsor Name field based on the Sponsor Code passed in.
  */
 function loadSponsor(sponsorCodeFieldName, sponsorNameFieldName, entityNameFieldName, prevSponsorCodeFieldName ) {
     var sponsorCode = dwr.util.getValue( sponsorCodeFieldName );
-    var prevSponsorCode = dwr.util.getValue( prevSponsorCodeFieldName );
-
+    //var prevSponsorCode = dwr.util.getValue( prevSponsorCodeFieldName );
     if (sponsorCode=='') {
         clearRecipients( sponsorNameFieldName, "" );
         dwr.util.setValue(prevSponsorCodeFieldName, "");
@@ -3348,7 +3282,6 @@ function loadSponsor(sponsorCodeFieldName, sponsorNameFieldName, entityNameField
     }
 }
 
-
 function updateNotificationRecipients(moduleCode) {
 	var dwrReply = {
 		callback:updateNotificationRecipients_Callback,
@@ -3360,10 +3293,7 @@ function updateNotificationRecipients(moduleCode) {
 }
 
 function updateNotificationRecipients_Callback(data) {
-	//alert(data);
-	
 	var element = document.getElementById('document.newMaintainableObject.add.notificationTypeRecipients.roleName');
-	
 	if (element) {
 		element.options.length=0;
 		var option_array=data.split(",");
@@ -3378,6 +3308,7 @@ function updateNotificationRecipients_Callback(data) {
 		}
 	}
 }
+
 function loadRolodexInfoById() {
 	var fullNameElement = jq('input[name="document.newMaintainableObject.rolodexId"]');
 	if (jq(fullNameElement).length > 0) {
@@ -3424,10 +3355,9 @@ function unselectAllPersonMassChangeCategory(prefix) {
 
 var propDevPersonCertificationWindow;
 function proposalDevelopmentPersonCertificationPop(personIndex,docFormKey,sessionDocument) {
-	var documentWebScope
-	
+	var documentWebScope;	
 	if(sessionDocument == "true") {
-		documentWebScope = "session"
+		documentWebScope = "session";
 	}
 	if(propDevPersonCertificationWindow && propDevPersonCertificationWindow.open && !propDevPersonCertificationWindow.closed){
 		
@@ -3439,10 +3369,9 @@ function proposalDevelopmentPersonCertificationPop(personIndex,docFormKey,sessio
 
 var propDevCommentWindow;
 function proposalDevelopmentCommentPop(personIndex,docFormKey,sessionDocument,comments) {
-	var documentWebScope
-	
+	var documentWebScope;	
 	if(sessionDocument == "true") {
-		documentWebScope = "session"
+		documentWebScope = "session";
 	}
 	if(propDevCommentWindow && propDevCommentWindow.open && !propDevCommentWindow.closed){
 		
@@ -3488,16 +3417,10 @@ function showBudgetPersonSalaryDetails_Callback( data ) {
 				 cell.childNodes[prop].value = value_array[counter];				
 			 }
 		}
-		
 		counter+=1;
-
 	}
 	}
-		
-	
-	
 }
-
 
 function submitFormToMethod(formId, methodName) {
 	var hidden = document.createElement('input');
@@ -3673,7 +3596,7 @@ var WarningOnAddRow = (function($) {
 			if(matchingDiv.length > 0) {
 				return true;
 			}else {
-				for (idx in this.elementsToIgnore) {
+				for (var idx in this.elementsToIgnore) {
 					if ($(element).is(this.elementsToIgnore[idx])) {
 						return true;
 					}
@@ -3682,6 +3605,6 @@ var WarningOnAddRow = (function($) {
 			return false;
 		}
 		
-	}
+	};
 }(jQuery));
 jQuery(document).ready(function() {WarningOnAddRow.init();});
