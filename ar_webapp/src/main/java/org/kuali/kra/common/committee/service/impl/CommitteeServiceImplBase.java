@@ -34,12 +34,8 @@ import java.util.*;
 /**
  * The CommitteeBase Service implementation.
  */
-public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?, CS>, 
-                                           CS extends CommitteeScheduleBase<CS, CMT, PS, CSM>,
-                                           PS extends ProtocolSubmissionBase,
-                                           CSM extends CommitteeScheduleMinuteBase<CSM, CS>> 
-
-                                           implements CommitteeServiceBase<CMT, CS> {
+public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?, CS>, CS extends CommitteeScheduleBase<CS, CMT, PS, CSM>, PS extends ProtocolSubmissionBase, CSM extends CommitteeScheduleMinuteBase<CSM, CS>>
+        implements CommitteeServiceBase<CMT, CS> {
 
     private static final String COMMITTEE_ID = "committeeId";
     private static final String NO_PLACE = "[no location]";
@@ -47,44 +43,43 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
     private BusinessObjectService businessObjectService;
     private VersioningService versioningService;
 
-
     /**
      * Set the Business Object Service.
-     * 
+     *
      * @param businessObjectService the Business Object Service
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
     public BusinessObjectService getBusinessObjectService() {
-        if(this.businessObjectService == null) {
+        if (this.businessObjectService == null) {
             this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         }
         return this.businessObjectService;
     }
 
-    
-    
     /**
      * Inject the Versioning Service.
+     *
      * @param versioningService
      */
     public void setVersioningService(VersioningService versioningService) {
         this.versioningService = versioningService;
     }
-    
+
     public VersioningService getVersioningService() {
-        if(this.versioningService == null) {
+        if (this.versioningService == null) {
             this.versioningService = KraServiceLocator.getService(VersioningService.class);
         }
         return versioningService;
     }
-    
 
     /**
-     * @see org.kuali.kra.common.committee.service.CommitteeServiceBase#getCommitteeById(java.lang.String)
+     * @see
+     * org.kuali.kra.common.committee.service.CommitteeServiceBase#getCommitteeById(java.lang.String)
      */
+    @Override
     public CMT getCommitteeById(String committeeId) {
         CMT committee = null;
         if (!StringUtils.isBlank(committeeId)) {
@@ -105,9 +100,11 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
     protected abstract Class<CMT> getCommitteeBOClassHook();
 
     /**
-     * @see org.kuali.kra.common.committee.service.CommitteeServiceBase#addResearchAreas(org.kuali.kra.common.committee.bo.CMT,
-     *      java.util.Collection)
+     * @see
+     * org.kuali.kra.common.committee.service.CommitteeServiceBase#addResearchAreas(org.kuali.kra.common.committee.bo.CMT,
+     * java.util.Collection)
      */
+    @Override
     public void addResearchAreas(CMT committee, Collection<ResearchAreaBase> researchAreas) {
         for (ResearchAreaBase researchArea : researchAreas) {
             if (!hasResearchArea(committee, researchArea)) {
@@ -118,7 +115,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
 
     /**
      * Does the committee already have this research area?
-     * 
+     *
      * @param committee
      * @param researchArea
      * @return true if the committee has the research area; otherwise false
@@ -134,11 +131,11 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
 
     /**
      * Add a research area to the committee.
-     * 
+     *
      * @param committee
      * @param researchArea
      */
-    protected void addCommitteeResearchArea(CMT committee, ResearchAreaBase researchArea) { 
+    protected void addCommitteeResearchArea(CMT committee, ResearchAreaBase researchArea) {
         CommitteeResearchAreaBase committeeResearchArea = getNewCommitteeResearchAreaInstanceHook();
         committeeResearchArea.setCommittee(committee);
         committeeResearchArea.setCommitteeIdFk(committee.getId());
@@ -150,8 +147,10 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
     protected abstract CommitteeResearchAreaBase getNewCommitteeResearchAreaInstanceHook();
 
     /**
-     * @see org.kuali.kra.common.committee.service.CommitteeServiceBase#getAvailableCommitteeDates(java.lang.String)
+     * @see
+     * org.kuali.kra.common.committee.service.CommitteeServiceBase#getAvailableCommitteeDates(java.lang.String)
      */
+    @Override
     public List<KeyValue> getAvailableCommitteeDates(String committeeId) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
@@ -170,19 +169,20 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
 
     /**
      * Is it OK to schedule a review for the given committee and schedule?
+     *
      * @param committee
      * @param schedule
      * @return
      */
     protected boolean isOkayToScheduleReview(CMT committee, CS schedule) {
         Calendar now = getCalendar(new Date());
-        Calendar scheduleCalendar = getCalendar(schedule.getScheduledDate());
-       // now.add(Calendar.DAY_OF_MONTH, committee.getAdvancedSubmissionDaysRequired());
+        //Calendar scheduleCalendar = getCalendar(schedule.getScheduledDate());
+        // now.add(Calendar.DAY_OF_MONTH, committee.getAdvancedSubmissionDaysRequired());
         boolean dateRangeOK = now.compareTo(getCalendar(schedule.getProtocolSubDeadline())) <= 0;
         boolean statusOK = "Scheduled".equals(schedule.getScheduleStatus().getDescription());
         return dateRangeOK && statusOK;
     }
-    
+
     /*
      * Create a calendar without hour, minutes, seconds, or milliseconds.
      */
@@ -197,8 +197,9 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
     }
 
     /**
-     * Get the date/place/time description that will be displayed in 
-     * the drop-down menu for the user.
+     * Get the date/place/time description that will be displayed in the
+     * drop-down menu for the user.
+     *
      * @param schedule
      * @return
      */
@@ -206,8 +207,8 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
         Date date = schedule.getScheduledDate();
         final SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
         final SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
-        StringBuffer sb = new StringBuffer(dateFormat.format(date));
-        sb.append( ", ");
+        StringBuilder sb = new StringBuilder(dateFormat.format(date));
+        sb.append(", ");
         if (schedule.getPlace() == null) {
             sb.append(NO_PLACE);
         } else {
@@ -218,8 +219,11 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
     }
 
     /**
-     * @see org.kuali.kra.common.committee.service.CommitteeServiceBase#getAvailableMembers(java.lang.String, java.lang.String)
+     * @see
+     * org.kuali.kra.common.committee.service.CommitteeServiceBase#getAvailableMembers(java.lang.String,
+     * java.lang.String)
      */
+    @Override
     public List<CommitteeMembershipBase> getAvailableMembers(String committeeId, String scheduleId) {
         if (StringUtils.isBlank(scheduleId)) {
             return getAvailableMembersNow(committeeId);
@@ -239,16 +243,20 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
         }
         return availableMembers;
     }
-    
+
     /**
-     * @see org.kuali.kra.common.committee.service.CommitteeServiceBase#getAvailableMembers(java.lang.String, java.lang.String)
+     * @param committeeId
+     * @return
+     * @see
+     * org.kuali.kra.common.committee.service.CommitteeServiceBase#getAvailableMembers(java.lang.String,
+     * java.lang.String)
      */
     public List<CommitteeMembershipBase> getAvailableMembersNow(String committeeId) {
         List<CommitteeMembershipBase> availableMembers = new ArrayList<CommitteeMembershipBase>();
         CMT committee = getCommitteeById(committeeId);
         if (committee != null) {
             List<CommitteeMembershipBase> members = committee.getCommitteeMemberships();
-            Date currentDate = new Date(); 
+            Date currentDate = new Date();
             for (CommitteeMembershipBase member : members) {
                 if (isMemberAvailable(member, currentDate)) {
                     availableMembers.add(member);
@@ -257,46 +265,42 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
         }
         return availableMembers;
     }
-    
+
     /**
-     * Is the member available for the given schedule meeting date?
-     * The member must have a role for that date.
+     * Is the member available for the given schedule meeting date? The member
+     * must have a role for that date.
+     *
      * @param member the member
      * @param scheduledDate the date of the meeting
-     * @return true if the member will be at the meeting; otherwise false
-     * TODO: This method calls member.isActive() and then carries out date checking that has 
-     *  already been performed in member.isActive()? Perhaps this method should be removed and 
-     *  its invocation in getAvailableMembers() above should be replaced by a single 
-     *  call to member.isActive(schedule.getScheduledDate())
+     * @return true if the member will be at the meeting; otherwise false TODO:
+     * This method calls member.isActive() and then carries out date checking
+     * that has already been performed in member.isActive()? Perhaps this method
+     * should be removed and its invocation in getAvailableMembers() above
+     * should be replaced by a single call to
+     * member.isActive(schedule.getScheduledDate())
      */
     protected boolean isMemberAvailable(CommitteeMembershipBase member, Date scheduledDate) {
         java.sql.Date sqlDate = new java.sql.Date(scheduledDate.getTime());
-        if (member.isActive(sqlDate)) {
-            Calendar scheduleCalendar = getCalendar(scheduledDate);
-            List<CommitteeMembershipRole> roles = member.getMembershipRoles();
-            for (CommitteeMembershipRole role : roles) {
-                Calendar startCalendar = getCalendar(role.getStartDate());
-                Calendar endCalendar = getCalendar(role.getEndDate());
-                if (scheduleCalendar.compareTo(startCalendar) >= 0 &&
-                    scheduleCalendar.compareTo(endCalendar) <= 0) {
-                    return true;
-                }
-            }
-        }
-        return false;
+
+        return member.isActive(sqlDate);
     }
 
     /**
-     * @see org.kuali.kra.common.committee.service.CommitteeServiceBase#getCommitteeSchedule(org.kuali.kra.common.committee.bo.CommitteeBase, java.lang.String)
+     * @see
+     * org.kuali.kra.common.committee.service.CommitteeServiceBase#getCommitteeSchedule(org.kuali.kra.common.committee.bo.CommitteeBase,
+     * java.lang.String)
      */
+    @Override
     public CS getCommitteeSchedule(CMT committee, String scheduleId) {
         return committee.getCommitteeSchedule(scheduleId);
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kra.common.committee.service.CommitteeServiceBase#mergeCommitteeSchedule(java.lang.String)
+     *
+     * @see
+     * org.kuali.kra.common.committee.service.CommitteeServiceBase#mergeCommitteeSchedule(java.lang.String)
      */
+    @Override
     public List<CS> mergeCommitteeSchedule(String committeeId) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(COMMITTEE_ID, committeeId);
@@ -305,10 +309,10 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
         CMT newCommittee = committees.get(committees.size() - 1);
         CMT oldCommittee = committees.get(committees.size() - 2);
         List<CS> newMasterSchedules = new ArrayList<CS>();
-        
+
         List<CS> oldMasterSchedules = oldCommittee.getCommitteeSchedules();
         List<CS> newSchedules = newCommittee.getCommitteeSchedules();
-        
+
         // remove the to-be-retained old schedules and new schedules from the old master list and the new master list 
         // respectively, and combine these removed schedules to create the new master list.
         if (CollectionUtils.isNotEmpty(newSchedules) || CollectionUtils.isNotEmpty(oldMasterSchedules)) {
@@ -317,8 +321,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
             getBusinessObjectService().delete(oldMasterSchedules);
             getBusinessObjectService().delete(newSchedules);
         }
-        
-        
+
         return newMasterSchedules;
     }
 
@@ -335,7 +338,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
         // as we remove schedules from the original lists.
         List<CS> newSchedulesCopy = new ArrayList<CS>(newSchedules);
         List<CS> oldSchedulesCopy = new ArrayList<CS>(oldSchedules);
-        
+
         // loop over the old schedules and process those that need to be retained in the master list
         for (CS oldSchedule : oldSchedulesCopy) {
             CS newCommitteeVersionOfOldSchedule = getNewCommitteeSchedule(oldSchedule, newSchedules);
@@ -347,7 +350,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
                 masterSchedules.add(oldSchedule);
                 // remove the old schedule from the old list
                 oldSchedules.remove(oldSchedule);
-            } 
+            }
         }
         // add all the newly-added new schedules to the master list as well
         for (CS newSchedule : newSchedulesCopy) {
@@ -359,8 +362,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
         }
         return masterSchedules;
     }
-    
-    
+
     /*
      * check if new schedule is already exist in the new copied schedule list.
      */
@@ -372,7 +374,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
         }
         return false;
     }
-    
+
     /*
      * get the matched schedule from new committee.
      */
@@ -385,35 +387,31 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
         return null;
     }
 
-    
-    
     /**
-     * @see org.kuali.kra.common.committee.service.CommitteeServiceBase#updateCommitteeForProtocolSubmissions(org.kuali.kra.common.committee.bo.CommitteeBase)
+     * @see
+     * org.kuali.kra.common.committee.service.CommitteeServiceBase#updateCommitteeForProtocolSubmissions(org.kuali.kra.common.committee.bo.CommitteeBase)
      */
     @Override
     public void updateCommitteeForProtocolSubmissions(CMT committee) {
         // loop thru all the schedules for the committee and update each schedule's submissions if any
-        for(CS committeeSchedule : committee.getCommitteeSchedules()) {
-            for(PS protocolSubmission : committeeSchedule.getProtocolSubmissions()) {
+        for (CS committeeSchedule : committee.getCommitteeSchedules()) {
+            for (PS protocolSubmission : committeeSchedule.getProtocolSubmissions()) {
                 protocolSubmission.setCommitteeIdFk(committee.getId());
                 protocolSubmission.setCommittee(committee);
-                getBusinessObjectService().save(protocolSubmission); 
+                getBusinessObjectService().save(protocolSubmission);
             }
         }
     }
-    
-    
+
     @Override
-    public CMT getLightVersion(String committeeId) throws Exception{
+    public CMT getLightVersion(String committeeId) throws Exception {
         CMT committee = getCommitteeById(committeeId);
         // nullify the original committeeDocument
         committee.setCommitteeDocument(null);
         // iterate through each of the schedules and nullify the 'heavy' links
-        for(CS committeeSchedule : committee.getCommitteeSchedules()) {
+        for (CS committeeSchedule : committee.getCommitteeSchedules()) {
             committeeSchedule.nullifyHeavyMeetingData();
         }
         return getVersioningService().createNewVersion(committee);
     }
-    
-
 }
