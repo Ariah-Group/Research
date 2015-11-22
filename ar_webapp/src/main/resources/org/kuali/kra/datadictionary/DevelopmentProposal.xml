@@ -113,6 +113,7 @@
         <property name="name" value="executiveSummary" />
         <property name="label" value="Executive Summary" />
         <property name="shortLabel" value="Executive Summary" />
+        <property name="maxLength" value="800" />
         <property name="caseConstraint">
             <bean parent="CaseConstraint">
                 <property name="caseSensitive" value="false" />

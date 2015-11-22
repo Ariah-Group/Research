@@ -129,6 +129,11 @@
             <kra-summary:proposalDevelopmentSummaryPrintForms transparentBackground="${isTopPanel }" />
             <c:set var="isTopPanel" value="false"/>
         </c:if>
+                
+        <c:if test="${KualiForm.proposalDevelopmentParameters['enableSummaryChangeDataPanel'].value == 'Y'}">
+           <kra-pd:proposalChangeData />
+        </c:if>       
+                
         <c:if test="${fn:length(KualiForm.document.developmentProposalList[0].investigators) > 0}">
             <kra-pd:creditSplitSummary />
         </c:if>

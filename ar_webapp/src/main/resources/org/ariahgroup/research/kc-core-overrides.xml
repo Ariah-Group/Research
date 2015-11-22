@@ -16,5 +16,18 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="unitLookupDao" ref="unitLookupDao" />
     </bean>
+    
+    <bean id="devProposalChangeDataService" class="org.ariahgroup.research.service.impl.DevProposalChangeDataServiceImpl"/>
+    
+    <bean id="changedDataNotificationService" class="org.ariahgroup.research.proposaldevelopment.notification.ChangedDataNotificationServiceImpl">
+        <property name="sendNotificationService" ref="sendNotificationService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="roleManagementService" ref="roleService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+        <property name="rolodexService" ref="rolodexService" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="identityService" ref="identityService" />   
+        <property name="kcEmailService" ref="kcEmailService" />  
+    </bean>    
 
 </beans>

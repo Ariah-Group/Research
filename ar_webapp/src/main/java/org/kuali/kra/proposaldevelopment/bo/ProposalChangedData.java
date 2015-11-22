@@ -19,6 +19,8 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class ProposalChangedData extends KraPersistableBusinessObjectBase {
 
+    private Integer changeDataId;
+    
     private Integer changeNumber;
 
     private String columnName;
@@ -37,6 +39,30 @@ public class ProposalChangedData extends KraPersistableBusinessObjectBase {
 
     private ProposalColumnsToAlter editableColumn;
 
+    private boolean newOrDeletedCollectionItem;
+
+    /**
+     * used to determine what to show on the notification message
+     * <p>
+     * For deleted/new collection items, show the comment only, otherwise, show
+     * the comment (field label) and new/old values.</p>
+     * <p>
+     * This value is not stored in the db, it is only used while preparing a
+     * notification before document save</p>
+     *
+     * @return the newOrDeletedCollectionItem
+     */
+    public boolean isNewOrDeletedCollectionItem() {
+        return newOrDeletedCollectionItem;
+    }
+
+    /**
+     * @param newOrDeletedCollectionItem the newOrDeletedCollectionItem to set
+     */
+    public void setNewOrDeletedCollectionItem(boolean newOrDeletedCollectionItem) {
+        this.newOrDeletedCollectionItem = newOrDeletedCollectionItem;
+    }    
+    
     public ProposalChangedData() {
         super();
     }
@@ -111,5 +137,19 @@ public class ProposalChangedData extends KraPersistableBusinessObjectBase {
 
     public void setAttributeName(String attributeName) {
         this.attributeName = attributeName;
+    }
+
+    /**
+     * @return the changeDataId
+     */
+    public Integer getChangeDataId() {
+        return changeDataId;
+    }
+
+    /**
+     * @param changeDataId the changeDataId to set
+     */
+    public void setChangeDataId(Integer changeDataId) {
+        this.changeDataId = changeDataId;
     }
 }

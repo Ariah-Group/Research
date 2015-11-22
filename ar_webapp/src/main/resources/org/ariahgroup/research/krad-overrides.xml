@@ -3,6 +3,33 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
       
+    <bean id="documentService" class="org.ariahgroup.research.service.impl.DocumentServiceImpl">
+        <property name="documentDao">
+            <ref bean="documentDao"/>
+        </property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService"/>
+        </property>
+        <property name="workflowDocumentService">
+            <ref bean="workflowDocumentService"/>
+        </property>
+        <property name="documentHeaderService">
+            <ref bean="documentHeaderService"/>
+        </property>
+        <property name="businessObjectService">
+            <ref bean="businessObjectService"/>
+        </property>
+        <property name="noteService">
+            <ref bean="noteService"/>
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService"/>
+        </property>
+        <property name="kualiConfigurationService">
+            <ref bean="kualiConfigurationService"/>
+        </property>
+    </bean>      
+    
     <bean id="dictionaryValidationService" class="org.kuali.rice.krad.service.impl.DictionaryValidationServiceImpl">
         <property name="dataDictionaryService">
             <ref bean="dataDictionaryService"/>

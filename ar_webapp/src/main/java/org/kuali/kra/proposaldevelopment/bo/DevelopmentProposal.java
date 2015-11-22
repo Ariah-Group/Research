@@ -2051,13 +2051,14 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         // Arranging Proposal Change History  
         if (CollectionUtils.isNotEmpty(this.getProposalChangedDataList())) {
             for (ProposalChangedData proposalChangedData : this.getProposalChangedDataList()) {
-                if (this.getProposalChangeHistory().get(proposalChangedData.getEditableColumn().getColumnLabel()) == null) {
-                    this.getProposalChangeHistory().put(proposalChangedData.getEditableColumn().getColumnLabel(),
-                            new ArrayList<ProposalChangedData>());
-                }
+                if (this.getProposalChangeHistory() != null && proposalChangedData.getEditableColumn() != null) {
+                    if (this.getProposalChangeHistory().get(proposalChangedData.getEditableColumn().getColumnLabel()) == null) {
+                        this.getProposalChangeHistory().put(proposalChangedData.getEditableColumn().getColumnLabel(),
+                                new ArrayList<ProposalChangedData>());
+                    }
 
-                this.getProposalChangeHistory().get(proposalChangedData.getEditableColumn().getColumnLabel()).add(
-                        proposalChangedData);
+                    this.getProposalChangeHistory().get(proposalChangedData.getEditableColumn().getColumnLabel()).add(proposalChangedData);
+                }
             }
         }
     }

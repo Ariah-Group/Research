@@ -110,6 +110,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     private static final String KEY_PERSONNEL_INDICATOR = "enableKeyPersonnelPanel";
     private static final String SPECIAL_REVIEW_INDICATOR = "enableSpecialReviewPanel";
     private static final String SUMMARY_PRINT_FORMS_INDICATOR = "enableSummaryPrintPanel";
+    private static final String SUMMARY_CHANGE_DATA_INDICATOR = "enableSummaryChangeDataPanel";
     private static final String CUSTOM_DATA_INFO_INDICATOR = "enableCustomDataInfoPanel";
     private static final String SUMMARY_QUESTIONS_INDICATOR = "enableSummaryQuestionsPanel";
     private static final String SUMMARY_ATTACHMENTS_INDICATOR = "enableSummaryAttachmentsPanel";
@@ -1157,6 +1158,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         pdform.getProposalDevelopmentParameters().put(KEY_PERSONNEL_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, KEY_PERSONNEL_INDICATOR));
         pdform.getProposalDevelopmentParameters().put(SPECIAL_REVIEW_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, SPECIAL_REVIEW_INDICATOR));
         pdform.getProposalDevelopmentParameters().put(SUMMARY_PRINT_FORMS_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, SUMMARY_PRINT_FORMS_INDICATOR));
+        pdform.getProposalDevelopmentParameters().put(SUMMARY_CHANGE_DATA_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, Constants.ARIAH_PROPDEV_SUMMARY_CHANGEDATA_PANEL_ENABLED));
         pdform.getProposalDevelopmentParameters().put(CUSTOM_DATA_INFO_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, CUSTOM_DATA_INFO_INDICATOR));
         pdform.getProposalDevelopmentParameters().put(SUMMARY_QUESTIONS_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, SUMMARY_QUESTIONS_INDICATOR));
         pdform.getProposalDevelopmentParameters().put(SUMMARY_ATTACHMENTS_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, SUMMARY_ATTACHMENTS_INDICATOR));

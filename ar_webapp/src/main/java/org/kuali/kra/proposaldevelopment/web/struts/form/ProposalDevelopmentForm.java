@@ -38,6 +38,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.ariahgroup.research.datadictionary.AttributeDefinition;
+import org.ariahgroup.research.service.DevProposalChangeDataService;
 import org.ariahgroup.research.service.UnitService;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
@@ -182,6 +183,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private String optInUnitDetails;
     private String optInCertificationStatus;
     private ProposalChangedData newProposalChangedData;
+    private DevProposalChangeDataService proposalChangeDataService;
     private Long versionNumberForS2sOpportunity;
     private ProposalSite newPerformanceSite;
     private ProposalSite newOtherOrganization;
@@ -1384,6 +1386,16 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
     public void setNewProposalChangedData(ProposalChangedData newProposalChangedData) {
         this.newProposalChangedData = newProposalChangedData;
+    }
+
+    /**
+     * return the list of proposal changes as a map for display on the summary
+     * tab
+     *
+     * @return a map if there are is changed data
+     */
+    public Collection<ProposalChangedData> getProposalChangedData() {
+        return getProposalChangeDataService().getChangeDataForProposal(getProposalDevelopmentDocument().getDevelopmentProposal().getProposalNumber());
     }
 
     public boolean isSubmissionStatusVisible() {
@@ -2699,5 +2711,22 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
     public void setDefaultAbstractType(String defaultAbstractType) {
         this.defaultAbstractType = defaultAbstractType;
+    }
+
+    /**
+     * @return the proposalChangeDataService
+     */
+    public DevProposalChangeDataService getProposalChangeDataService() {
+        if (proposalChangeDataService == null) {
+            proposalChangeDataService = KraServiceLocator.getService(DevProposalChangeDataService.class);
+        }
+        return proposalChangeDataService;
+    }
+
+    /**
+     * @param proposalChangeDataService the proposalChangeDataService to set
+     */
+    public void setProposalChangeDataService(DevProposalChangeDataService proposalChangeDataService) {
+        this.proposalChangeDataService = proposalChangeDataService;
     }
 }

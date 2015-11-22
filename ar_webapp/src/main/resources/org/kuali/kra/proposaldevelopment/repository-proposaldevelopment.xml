@@ -37,18 +37,18 @@
             <inverse-foreignkey field-ref="parentDocumentKey"/> 
         </collection-descriptor>
         <!-- 
-        <collection-descriptor name="budgetDocuments" proxy="true" element-class-ref="org.kuali.kra.budget.versions.BudgetDocumentVersion" 
-                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-            <inverse-foreignkey field-ref="documentNumber" />
-        </collection-descriptor>
-         -->
+       <collection-descriptor name="budgetDocuments" proxy="true" element-class-ref="org.kuali.kra.budget.versions.BudgetDocumentVersion" 
+                              collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+           <inverse-foreignkey field-ref="documentNumber" />
+       </collection-descriptor>
+        -->
         <collection-descriptor name="documentNextvalues" element-class-ref="org.kuali.kra.bo.DocumentNextvalue" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="documentKey" /> 
         </collection-descriptor>
-		<collection-descriptor name="customDataList" proxy="true" element-class-ref="org.kuali.kra.bo.CustomAttributeDocValue" 
-			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			 <inverse-foreignkey field-ref="documentNumber"/>
-		</collection-descriptor>
+        <collection-descriptor name="customDataList" proxy="true" element-class-ref="org.kuali.kra.bo.CustomAttributeDocValue" 
+                                       collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="documentNumber"/>
+        </collection-descriptor>
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" table="EPS_PROPOSAL">
@@ -223,19 +223,18 @@
         </collection-descriptor>
         <collection-descriptor name="proposalChangedDataList" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalChangedData" 
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <orderby name="columnName" sort="DESC" /> 
-            <orderby name="changeNumber" sort="DESC" /> 
+            <orderby name="updateTimestamp" sort="DESC" /> 
             <inverse-foreignkey field-ref="proposalNumber"/>
         </collection-descriptor>
 
-	<collection-descriptor name="budgetChangedDataList"
-		proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.budget.bo.BudgetChangedData"
-		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
-		auto-retrieve="true" auto-update="none" auto-delete="none">
-		<orderby name="columnName" sort="DESC" />
-		<orderby name="changeNumber" sort="DESC" />
-		<inverse-foreignkey field-ref="proposalNumber" />
-	</collection-descriptor> 
+        <collection-descriptor name="budgetChangedDataList"
+                               proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.budget.bo.BudgetChangedData"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="none" auto-delete="none">
+            <orderby name="columnName" sort="DESC" />
+            <orderby name="changeNumber" sort="DESC" />
+            <inverse-foreignkey field-ref="proposalNumber" />
+        </collection-descriptor> 
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalOverview" table="EPS_PROPOSAL">
@@ -339,9 +338,10 @@
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalChangedData" table="EPS_PROP_CHANGED_DATA">
-        <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
-        <field-descriptor name="columnName" column="COLUMN_NAME" jdbc-type="VARCHAR" primarykey="true"/>
-        <field-descriptor name="changeNumber" column="CHANGE_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
+        <field-descriptor name="changeDataId" column="CHANGED_DATA_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_EPS_PROP_CHANGED_DATA_ID" autoincrement="true"/>
+        <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="columnName" column="COLUMN_NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="changeNumber" column="CHANGE_NUMBER" jdbc-type="INTEGER"/>
         <field-descriptor name="changedValue" column="CHANGED_VALUE" jdbc-type="VARCHAR"/>
         <field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR"/>
         <field-descriptor name="displayValue" column="DISPLAY_VALUE" jdbc-type="VARCHAR"/>
@@ -471,7 +471,7 @@
             <foreignkey field-ref="proposalPersonNumber"/>
         </reference-descriptor>
         <reference-descriptor name="developmentProposal" class-ref="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" auto-retrieve="true" auto-update="none" auto-delete="none">
-           <foreignkey field-ref="proposalNumber" />
+            <foreignkey field-ref="proposalNumber" />
         </reference-descriptor>     
         <reference-descriptor name="proposalPersonExtendedAttributes" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalPersonExtendedAttributes" auto-retrieve="true" auto-update="false" auto-delete="true">
             <foreignkey field-ref="proposalNumber"/>
@@ -804,41 +804,41 @@
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
         
         <!-- 
-        <reference-descriptor name="Proposal" class-ref="org.kuali.kra.proposaldevelopment.bo.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="proposalNumber"/> 
-        </reference-descriptor>
-         -->
+       <reference-descriptor name="Proposal" class-ref="org.kuali.kra.proposaldevelopment.bo.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+           <foreignkey field-ref="proposalNumber"/> 
+       </reference-descriptor>
+        -->
         <reference-descriptor name="ynq" class-ref="org.kuali.kra.bo.Ynq" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="questionId"/> 
         </reference-descriptor>
     </class-descriptor>
     <class-descriptor class="org.kuali.kra.proposaldevelopment.budget.bo.BudgetColumnsToAlter" table="BUDGET_COLUMNS_TO_ALTER">
-		<field-descriptor name="columnName" column="COLUMN_NAME" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="columnLabel" column="COLUMN_LABEL" jdbc-type="VARCHAR"/>
-		<field-descriptor name="dataLength" column="DATA_LENGTH" jdbc-type="INTEGER"/>
-		<field-descriptor name="dataType" column="DATA_TYPE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="hasLookup" column="HAS_LOOKUP" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-		<field-descriptor name="lookupClass" column="LOOKUP_ARGUMENT" jdbc-type="VARCHAR"/>
-		<field-descriptor name="lookupReturn" column="LOOKUP_RETURN" jdbc-type="VARCHAR"/>
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
-	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.proposaldevelopment.budget.bo.BudgetChangedData" table="BUDGET_CHANGED_DATA">
-		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="columnName" column="COLUMN_NAME" jdbc-type="VARCHAR" primarykey="true"/>
-		<field-descriptor name="changeNumber" column="CHANGE_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
-		<field-descriptor name="changedValue" column="CHANGED_VALUE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR"/>
-		<field-descriptor name="displayValue" column="DISPLAY_VALUE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="oldDisplayValue" column="OLD_DISPLAY_VALUE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
-		<reference-descriptor name="editableColumn" class-ref="org.kuali.kra.proposaldevelopment.budget.bo.BudgetColumnsToAlter" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="columnName"/>
-		</reference-descriptor>
-	</class-descriptor>
+        <field-descriptor name="columnName" column="COLUMN_NAME" jdbc-type="VARCHAR" primarykey="true"/>
+        <field-descriptor name="columnLabel" column="COLUMN_LABEL" jdbc-type="VARCHAR"/>
+        <field-descriptor name="dataLength" column="DATA_LENGTH" jdbc-type="INTEGER"/>
+        <field-descriptor name="dataType" column="DATA_TYPE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="hasLookup" column="HAS_LOOKUP" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="lookupClass" column="LOOKUP_ARGUMENT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="lookupReturn" column="LOOKUP_RETURN" jdbc-type="VARCHAR"/>
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
+    </class-descriptor>
+    <class-descriptor class="org.kuali.kra.proposaldevelopment.budget.bo.BudgetChangedData" table="BUDGET_CHANGED_DATA">
+        <field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" primarykey="true"/>
+        <field-descriptor name="columnName" column="COLUMN_NAME" jdbc-type="VARCHAR" primarykey="true"/>
+        <field-descriptor name="changeNumber" column="CHANGE_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
+        <field-descriptor name="changedValue" column="CHANGED_VALUE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR"/>
+        <field-descriptor name="displayValue" column="DISPLAY_VALUE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="oldDisplayValue" column="OLD_DISPLAY_VALUE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false"/>
+        <reference-descriptor name="editableColumn" class-ref="org.kuali.kra.proposaldevelopment.budget.bo.BudgetColumnsToAlter" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="columnName"/>
+        </reference-descriptor>
+    </class-descriptor>
 </descriptor-repository>
