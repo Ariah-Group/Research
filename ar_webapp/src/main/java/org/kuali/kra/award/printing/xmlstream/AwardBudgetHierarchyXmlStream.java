@@ -88,22 +88,22 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
         AwardHierarchy branchNode = award.getAwardHierarchyService().loadFullHierarchyFromAnyNode(award.getParentNumber());
         //org.kuali.kra.award.home.AwardAmountInfo awardAmount = award.getLastAwardAmountInfo();
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        Collection<Award> awards = businessObjectService.findAll(Award.class);
-        Award parentAward = null;
 
-        for (Award awardParent : awards) {
-            if (awardParent.getAwardNumber().equals(branchNode.getAwardNumber())) {
-                parentAward = awardParent;
-                break;
-            }
-        }
-        if (branchNode != null) {
+        Map<String, String> queryMap = new HashMap<String, String>();
+        queryMap.put("awardNumber", branchNode.getAwardNumber());
+        List<Award> awards = (List<Award>) businessObjectService.findMatching(Award.class, queryMap);
 
-            AmountInfoType amountInfoType = setAwardAmountInfo(parentAward, parentAward.getLastAwardAmountInfo());
+        if (awards != null) {
+            Award awd = awards.get(0);
+            AmountInfoType amountInfoType = setAwardAmountInfo(awd.getAccountNumber(),
+                    awd.getAwardNumber(), awd.getLastAwardAmountInfo());
+
             amountInfoTypes = recurseTree(branchNode, amountInfoTypes);
             amountInfoTypes.add(0, amountInfoType);
-            awardAmountInfo.setAmountInfoArray(amountInfoTypes.toArray(new AmountInfoType[0]));
         }
+
+        awardAmountInfo.setAmountInfoArray(amountInfoTypes.toArray(new AmountInfoType[0]));
+
         return awardAmountInfo;
     }
 
@@ -111,12 +111,13 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
      * This method will set the values to award amount info xml object
      * attributes .
      */
-    private AmountInfoType setAwardAmountInfo(Award award, org.kuali.kra.award.home.AwardAmountInfo awardAmount) {
+    private AmountInfoType setAwardAmountInfo(String awardAccountNumber,
+            String awardNumber, org.kuali.kra.award.home.AwardAmountInfo awardAmount) {
 
         AmountInfoType amountInfoType = AmountInfoType.Factory.newInstance();
 
-        if (award.getAccountNumber() != null) {
-            amountInfoType.setAccountNumber(award.getAccountNumber());
+        if (awardAccountNumber != null) {
+            amountInfoType.setAccountNumber(awardAccountNumber);
         }
         if (awardAmount.getTransactionId() != null) {
             amountInfoType.setAmountSequenceNumber(awardAmount.getTransactionId().intValue());
@@ -145,8 +146,8 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
         if (awardAmount.getAnticipatedTotalIndirect() != null) {
             amountInfoType.setAnticipatedTotalIndirect(awardAmount.getAnticipatedTotalIndirect().bigDecimalValue());
         }
-        if (award.getAwardNumber() != null) {
-            amountInfoType.setAwardNumber(award.getAwardNumber());
+        if (awardNumber != null) {
+            amountInfoType.setAwardNumber(awardNumber);
         }
         if (awardAmount.getObligationExpirationDate() != null) {
             amountInfoType.setObligationExpirationDate(dateTimeService.getCalendar(awardAmount.getObligationExpirationDate()));
@@ -174,7 +175,7 @@ public class AwardBudgetHierarchyXmlStream extends AwardBudgetBaseStream {
         if (branchNode.hasChildren()) {
             for (AwardHierarchy childNode : branchNode.getChildren()) {
                 org.kuali.kra.award.home.AwardAmountInfo awardAmount = childNode.getAward().getLastAwardAmountInfo();
-                amountInfoTypes.add(setAwardAmountInfo(childNode.getAward(), awardAmount));
+                amountInfoTypes.add(setAwardAmountInfo(childNode.getAward().getAccountNumber(), childNode.getAwardNumber(), awardAmount));
                 childNode.setParent(branchNode);
                 childNode.setRoot(branchNode.getRoot());
                 recurseTree(childNode, amountInfoTypes);
