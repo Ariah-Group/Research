@@ -1847,7 +1847,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
     /**
      *
-     * This method to delete a file added in norify irb panel
+     * This method to delete a file added in notify irb panel
      *
      * @param mapping
      * @param form

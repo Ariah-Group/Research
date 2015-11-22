@@ -168,7 +168,6 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
         copyProtocolLists(srcDoc, newDoc);
         if (isAmendmentRenewal && !srcDoc.getProtocol().isAmendment() && !srcDoc.getProtocol().isAmendment()) {
             removeDeletedAttachment(newDoc.getProtocol());
-
         }
         newDoc.getProtocol().setProtocolNumber(protocolNumber);
         copyCustomDataAttributeValues(srcDoc, newDoc);
@@ -209,9 +208,9 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
         } else {
             initPersonAttachments(newDoc.getProtocol());
         }
-        
+
         documentService.saveDocument(newDoc);
-        
+
         if (isAmendmentRenewal) {
             refreshAttachmentsPersonnels(newDoc.getProtocol());
         }
