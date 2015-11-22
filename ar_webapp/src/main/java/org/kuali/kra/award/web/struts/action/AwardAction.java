@@ -1755,7 +1755,9 @@ public class AwardAction extends BudgetParentActionBase {
             throws Exception {
         AwardForm awardForm = (AwardForm) form;
         String message = ADD_SYNC_CHANGE_QUESTION;
-        if (awardForm.getAwardSyncBean().getPendingChanges().get(0).getSyncType().equals(AwardSyncType.DELETE_SYNC.getSyncValue())) {
+        
+        AwardSyncType synType = awardForm.getAwardSyncBean().getPendingChanges().get(0).getSyncType();
+        if (synType!=null && synType.getSyncValue().equals(AwardSyncType.DELETE_SYNC.getSyncValue())) {
             message = DEL_SYNC_CHANGE_QUESTION;
         }
         //overwrite the method to call to call this instead of the original method which would result
