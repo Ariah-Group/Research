@@ -36,7 +36,7 @@ public class DeadlineTypeValuesFinder extends UifKeyValuesFinderBase {
     private BusinessObjectService businessObjectService;
 
     /**
-     * 
+     *
      */
     public DeadlineTypeValuesFinder() {
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
@@ -56,6 +56,12 @@ public class DeadlineTypeValuesFinder extends UifKeyValuesFinderBase {
         List<KeyValue> result = new ArrayList<KeyValue>();
         Collection<DeadlineType> types = getBusinessObjectService().findMatchingOrderBy(DeadlineType.class, values, "sortOrder", true);
 
+        // this is NOT a required field so add a blank row
+        ConcreteKeyValue emptypair = new ConcreteKeyValue();
+        emptypair.setKey("");
+        emptypair.setValue("select");
+        result.add(emptypair);
+
         for (DeadlineType type : types) {
             ConcreteKeyValue pair = new ConcreteKeyValue();
             pair.setKey(type.getDeadlineTypeCode());
@@ -66,8 +72,8 @@ public class DeadlineTypeValuesFinder extends UifKeyValuesFinderBase {
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
