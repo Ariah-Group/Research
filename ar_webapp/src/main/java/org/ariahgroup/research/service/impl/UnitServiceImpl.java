@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.ariahgroup.research.service.UnitService;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
@@ -35,6 +37,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  */
 public class UnitServiceImpl extends org.kuali.kra.service.impl.UnitServiceImpl implements UnitService {
 
+   
     @Override
     public List<UnitAdministrator> retrieveUnitAdminsByAdminTypesAll(String unitAdminTypeCode) {
 
