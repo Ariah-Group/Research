@@ -112,9 +112,6 @@
         <collection-descriptor name="awardReportTermItems" proxy="true" element-class-ref="org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="awardId" />
         </collection-descriptor>
-        <collection-descriptor name="awardApprovedSubawards" proxy="true" element-class-ref="org.kuali.kra.award.home.approvedsubawards.AwardApprovedSubaward" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-            <inverse-foreignkey field-ref="awardId" />
-        </collection-descriptor>
         <collection-descriptor name="approvedEquipmentItems" proxy="true" element-class-ref="org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment" 
                                collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="awardId" />
@@ -497,7 +494,7 @@
 	
     <class-descriptor class="org.kuali.kra.award.home.keywords.AwardScienceKeyword" table="AWARD_SCIENCE_KEYWORD">
         <field-descriptor name="awardScienceKeywordId" column="AWARD_SCIENCE_KEYWORD_ID" jdbc-type="BIGINT" primarykey="true" 
-                                  autoincrement="true" sequence-name="SEQ_AWARD_SCIENCE_KEYWORD_ID"/>
+                          autoincrement="true" sequence-name="SEQ_AWARD_SCIENCE_KEYWORD_ID"/>
         <field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous"/> 
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
@@ -514,7 +511,7 @@
 	
     <class-descriptor class="org.kuali.kra.award.specialreview.AwardSpecialReview" table="AWARD_SPECIAL_REVIEW">
         <field-descriptor name="awardSpecialReviewId" column="AWARD_SPECIAL_REVIEW_ID" jdbc-type="BIGINT" primarykey="true" 
-                                  autoincrement="true" sequence-name="SEQ_AWARD_SPECIAL_REVIEW_ID"/>
+                          autoincrement="true" sequence-name="SEQ_AWARD_SPECIAL_REVIEW_ID"/>
         <field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous"/>
         <field-descriptor name="specialReviewNumber" column="SPECIAL_REVIEW_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="specialReviewTypeCode" column="SPECIAL_REVIEW_CODE" jdbc-type="VARCHAR" />
