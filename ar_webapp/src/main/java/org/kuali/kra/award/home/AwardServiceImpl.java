@@ -106,13 +106,23 @@ public class AwardServiceImpl implements AwardService {
         if (newSubs != null) {
             for (SubAward newSub : newSubs) {
                 List<SubAwardFundingSource> subFundSources = newSub.getSubAwardFundingSourceList();
-                for (SubAwardFundingSource sfs : subFundSources) {
-                    sfs.setAwardId(newVersion.getAwardId());
+
+                if (subFundSources != null && subFundSources.size() > 0) {
+                    SubAwardFundingSource starter = subFundSources.get(0);
+
+                    SubAwardFundingSource newSubFunSource = new SubAwardFundingSource();
+                    newSubFunSource.setSubAwardCode(starter.getSubAwardCode());
+                    newSubFunSource.setSequenceNumber(starter.getSequenceNumber());
+                    newSubFunSource.setSubAwardId(starter.getSubAwardId());
+                    newSubFunSource.setAwardId(newVersion.getAwardId());
+
                     try {
-                        businessObjectService.save(sfs);
+                        businessObjectService.save(newSubFunSource);
                     } catch (Exception e) {
-                        LOG.error("Error saving SubAwardFundingSource : " + e.getLocalizedMessage() + " for Award ID " + newVersion.getAwardId(), e);
+                        LOG.error("Error saving new SubAwardFundingSource : " + e.getLocalizedMessage() + " for Newly Versioned Award ID " + newVersion.getAwardId(), e);
                     }
+
+                    subFundSources.add(newSubFunSource);
                 }
             }
         }

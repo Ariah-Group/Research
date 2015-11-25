@@ -475,7 +475,9 @@ public class AwardHomeAction extends AwardAction {
         awardForm.getAwardDocument().getAward().setNewVersion(true);
         AwardDocument newAwardDocument = getAwardService().createNewAwardVersion(awardForm.getAwardDocument());
         getDocumentService().saveDocument(newAwardDocument);
+
         getAwardService().updateAwardSubawardFundingSources(newAwardDocument);
+
         getAwardService().updateAwardSequenceStatus(newAwardDocument.getAward(), VersionStatus.PENDING);
         getVersionHistoryService().updateVersionHistory(newAwardDocument.getAward(), VersionStatus.PENDING,
                 GlobalVariables.getUserSession().getPrincipalName());
