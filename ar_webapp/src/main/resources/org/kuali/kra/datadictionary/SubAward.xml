@@ -61,23 +61,23 @@
 
     <!-- Attribute Definitions -->
 
-  <bean id="SubAward-sequenceNumber" parent="SubAward-sequenceNumber-parentBean" />
-  <bean id="SubAward-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="sequenceNumber" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Version Number" />
-    <property name="shortLabel" value="Version Number" />
-    <property name="maxLength" value="4" />
-    <property name="validationPattern" >
-      <bean parent="NumericValidationPattern" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
+    <bean id="SubAward-sequenceNumber" parent="SubAward-sequenceNumber-parentBean" />
+    <bean id="SubAward-sequenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="sequenceNumber" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Version Number" />
+        <property name="shortLabel" value="Version Number" />
+        <property name="maxLength" value="4" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
             p:size="4" />
-    </property>
-    <property name="summary" value="Version Number" />
-    <property name="description" value="Version Number" />
-  </bean>
+        </property>
+        <property name="summary" value="Version Number" />
+        <property name="description" value="Version Number" />
+    </bean>
 
     <bean id="SubAward-subAwardId" parent="SubAward-subAwardId-parentBean" />
     <bean id="SubAward-subAwardId-parentBean" abstract="true" parent="AttributeDefinition">
@@ -92,7 +92,7 @@
         <property name="required" value="false" />
         <property name="control" >
             <bean parent="TextControlDefinition"
-            p:size="10" />
+                  p:size="10" />
         </property>
         <property name="summary" value="Subaward ID" />
         <property name="description" value="Subaward ID" />    
@@ -111,7 +111,7 @@
         <property name="required" value="true" />
         <property name="control" >
             <bean parent="TextControlDefinition"
-            p:size="10" />
+                  p:size="10" />
         </property>
         <property name="summary" value="Subaward ID" />
         <property name="description" value="Subaward ID" />    
@@ -131,7 +131,7 @@
         <property name="required" value="true" />
         <property name="control" >
             <bean parent="TextControlDefinition"
-            p:size="60" />
+                  p:size="60" />
         </property>
         <property name="summary" value="Subrecipient" />
         <property name="description" value="Subrecipient" />    
@@ -149,7 +149,7 @@
         <property name="required" value="false" />
         <property name="control" >
             <bean parent="TextControlDefinition"
-            p:size="60" />
+                  p:size="60" />
         </property>
         <property name="summary" value="Subrecipient Name" />
         <property name="description" value="Subrecipient Name" />    
@@ -194,12 +194,12 @@
         <property name="required" value="true" />
         <property name="control" >
             <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.award.home.AwardType"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="false"
-            p:includeBlankRow="false"
-            p:keyAttribute="awardTypeCode"
-            p:labelAttribute="description" />
+                  p:businessObjectClass="org.kuali.kra.award.home.AwardType"
+                  p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                  p:includeKeyInLabel="false"
+                  p:includeBlankRow="false"
+                  p:keyAttribute="awardTypeCode"
+                  p:labelAttribute="description" />
         </property>
         <property name="summary" value="Subaward Type" />
         <property name="description" value="Subaward Type" />    
@@ -219,7 +219,7 @@
         <property name="required" value="false" />
         <property name="control" >
             <bean parent="TextControlDefinition"
-            p:size="60" />
+                  p:size="60" />
         </property>
         <property name="summary" value="Subaward Type" />
         <property name="description" value="Subaward Type" />    
@@ -239,7 +239,7 @@
         <property name="required" value="true" />
         <property name="control" >
             <bean parent="TextControlDefinition"
-            p:size="10" />
+                  p:size="10" />
         </property>
         <property name="summary" value="Purchase Order ID" />
         <property name="description" value="Purchase Order ID" />    
@@ -279,12 +279,12 @@
         <property name="required" value="true" />
         <property name="control" >
             <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.subaward.bo.SubAwardStatus"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="false"
-            p:includeBlankRow="false"
-            p:keyAttribute="subAwardStatusCode"
-            p:labelAttribute="description" />
+                  p:businessObjectClass="org.kuali.kra.subaward.bo.SubAwardStatus"
+                  p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                  p:includeKeyInLabel="false"
+                  p:includeBlankRow="false"
+                  p:keyAttribute="subAwardStatusCode"
+                  p:labelAttribute="description" />
         </property>
         <property name="summary" value="Status Code" />
         <property name="description" value="Status Code" />    
@@ -323,7 +323,7 @@
         <property name="required" value="false" />
         <property name="control" >
             <bean parent="TextControlDefinition"
-            p:size="15" />
+                  p:size="15" />
         </property>
         <property name="summary" value="Account ID" />
         <property name="description" value="Account ID" />    
@@ -344,7 +344,7 @@
         <property name="required" value="false" />
         <property name="control" >
             <bean parent="TextControlDefinition"
-            p:size="15" />
+                  p:size="15" />
         </property>
         <property name="summary" value="Vendor ID" />
         <property name="description" value="Vendor ID" />    
@@ -408,7 +408,7 @@
         <property name="required" value="false" />
         <property name="control" >
             <bean parent="TextControlDefinition"
-            p:size="10" />
+                  p:size="10" />
         </property>
         <property name="summary" value="Requisitioner Unit" />
         <property name="description" value="Requisitioner Unit" />    
@@ -429,7 +429,7 @@
         <property name="required" value="false" />
         <property name="control" >
             <bean parent="TextControlDefinition"
-            p:size="10" />
+                  p:size="10" />
         </property>
         <property name="summary" value="Requisitioner Unit Name" />
         <property name="description" value="Requisitioner Unit Name" />    
@@ -450,7 +450,7 @@
         <property name="required" value="false" />
         <property name="control" >
             <bean parent="TextControlDefinition"
-            p:size="50" />
+                  p:size="50" />
         </property>
         <property name="summary" value="Archive Location" />
         <property name="description" value="Archive Location" />    
@@ -499,7 +499,7 @@
         <property name="required" value="false" />
         <property name="control" >
             <bean parent="TextControlDefinition"
-            p:size="60" />
+                  p:size="60" />
         </property>
         <property name="summary" value="Site Investigator" />
         <property name="description" value="Site Investigator" />    
@@ -519,7 +519,7 @@
         <property name="required" value="false" />
         <property name="control" >
             <bean parent="TextControlDefinition"
-            p:size="10" />
+                  p:size="10" />
         </property>
         <property name="summary" value="Obligated Amount" />
         <property name="description" value="Obligated Amount" />    
@@ -538,7 +538,7 @@
         <property name="required" value="false" />
         <property name="control" >
             <bean parent="TextControlDefinition"
-            p:size="10" />
+                  p:size="10" />
         </property>
         <property name="summary" value="Anticipated Amount" />
         <property name="description" value="Anticipated Amount" />    
@@ -557,7 +557,7 @@
         <property name="required" value="false" />
         <property name="control" >
             <bean parent="TextControlDefinition"
-            p:size="10" />
+                  p:size="10" />
         </property>
         <property name="summary" value="Obligated Amount" />
         <property name="description" value="Obligated Amount" />    
@@ -576,7 +576,7 @@
         <property name="required" value="false" />
         <property name="control" >
             <bean parent="TextControlDefinition"
-            p:size="10" />
+                  p:size="10" />
         </property>
         <property name="summary" value="Obligated Amount" />
         <property name="description" value="Obligated Amount" />    
@@ -584,7 +584,7 @@
   
     <bean id="SubAward-docIdStatus" parent="SubAward-docIdStatus-parentBean" />
     <bean id="SubAward-docIdStatus-parentBean" abstract="true"
-              parent="AttributeDefinition">
+          parent="AttributeDefinition">
         <property name="name" value="docIdStatus" />
         <property name="label" value="Document ID:Status" />
         <property name="shortLabel" value="Document ID:Status" />
@@ -599,7 +599,7 @@
 	
     <bean id="SubAward-lastUpdate" parent="SubAward-lastUpdate-parentBean" />
     <bean id="SubAward-lastUpdate-parentBean" abstract="true"
-              parent="AttributeDefinition">
+          parent="AttributeDefinition">
         <property name="name" value="lastUpdate" />
         <property name="label" value="Last Update" />
         <property name="shortLabel" value="Last Update" />
@@ -626,12 +626,12 @@
         <property name="required" value="false" />
         <property name="control" >
             <bean parent="SelectControlDefinition"
-            p:businessObjectClass="org.kuali.kra.subaward.bo.SubAwardCostType"
-            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            p:includeKeyInLabel="false"
-            p:includeBlankRow="false"
-            p:keyAttribute="costTypeCode"
-            p:labelAttribute="costTypeDescription" />
+                  p:businessObjectClass="org.kuali.kra.subaward.bo.SubAwardCostType"
+                  p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+                  p:includeKeyInLabel="false"
+                  p:includeBlankRow="false"
+                  p:keyAttribute="costTypeCode"
+                  p:labelAttribute="costTypeDescription" />
         </property>
         <property name="summary" value="Cost Type" />
         <property name="description" value="Cost Type" />    
@@ -663,7 +663,7 @@
         <property name="required" value="false" />
         <property name="control" >
             <bean parent="TextControlDefinition"
-            p:size="50" />
+                  p:size="50" />
         </property>
         <property name="summary" value="Requisition ID" />
         <property name="description" value="Requisition ID" />    
@@ -691,8 +691,8 @@
         <property name="required" value="false" />
         <property name="control" >
             <bean parent="TextareaControlDefinition"
-            p:rows="2"
-            p:cols="30" />
+                  p:rows="2"
+                  p:cols="30" />
         </property>
         <property name="summary" value="Modification ID" />
         <property name="description" value="Modification ID" />    
@@ -734,8 +734,8 @@
                     <property name="inquiryFields" >
                         <list>
                             <bean parent="FieldDefinition"
-                    p:attributeName="subAwardId"
-                    p:forceInquiry="true" />   
+                                  p:attributeName="subAwardId"
+                                  p:forceInquiry="true" />   
                         </list>
                     </property>
                 </bean>
@@ -752,13 +752,13 @@
         <property name="maxLength" value="12" />
         <property name="validationPattern" >
             <bean parent="RegexValidationPattern"
-            p:pattern="\d\d\d\d\d\d-\d\d\d\d\d" 
-            p:validationErrorMessageKey="error.invalid.awardId"/>
+                  p:pattern="\d\d\d\d\d\d-\d\d\d\d\d" 
+                  p:validationErrorMessageKey="error.invalid.awardId"/>
         </property>
         <property name="required" value="false" />
         <property name="control" >
             <bean parent="TextControlDefinition"
-            p:size="12" />
+                  p:size="12" />
         </property>
         <property name="summary" value="Award ID" />
         <property name="description" value="Award ID" />
@@ -774,6 +774,13 @@
 
         <property name="defaultSort" >
             <bean parent="SortDefinition">
+                <property name="attributeNames">
+                    <list>
+                        <value>subAwardCode</value>
+                        <value>sequenceNumber</value>
+                    </list>
+                </property>
+                <property name="sortAscending" value="false"/>
             </bean>
         </property>
         <property name="lookupFields" >
