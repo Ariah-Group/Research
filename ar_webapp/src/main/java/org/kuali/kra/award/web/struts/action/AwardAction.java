@@ -662,7 +662,7 @@ public class AwardAction extends BudgetParentActionBase {
         AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
         setBooleanAwardInMultipleNodeHierarchyOnForm(awardDocument.getAward());
         setBooleanAwardHasTandMOrIsVersioned(awardDocument.getAward());
-        AwardAmountInfoService awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
+        //AwardAmountInfoService awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
         //int index = awardAmountInfoService.fetchIndexOfAwardAmountInfoWithHighestTransactionId(awardDocument.getAward().getAwardAmountInfos());
 
         return mapping.findForward(Constants.MAPPING_AWARD_HOME_PAGE);
@@ -1755,9 +1755,9 @@ public class AwardAction extends BudgetParentActionBase {
             throws Exception {
         AwardForm awardForm = (AwardForm) form;
         String message = ADD_SYNC_CHANGE_QUESTION;
-        
+
         AwardSyncType synType = awardForm.getAwardSyncBean().getPendingChanges().get(0).getSyncType();
-        if (synType!=null && synType.getSyncValue().equals(AwardSyncType.DELETE_SYNC.getSyncValue())) {
+        if (synType != null && synType.getSyncValue().equals(AwardSyncType.DELETE_SYNC.getSyncValue())) {
             message = DEL_SYNC_CHANGE_QUESTION;
         }
         //overwrite the method to call to call this instead of the original method which would result
@@ -1865,7 +1865,7 @@ public class AwardAction extends BudgetParentActionBase {
 
     /**
      * This method will populate the subawards if award is added as a funding
-     * source to perticular subaward
+     * source to particular subaward.
      *
      * @param award
      */
