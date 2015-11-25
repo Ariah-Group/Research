@@ -28,7 +28,8 @@ import org.kuali.kra.util.EmailAttachment;
 import java.util.List;
 
 /**
- * This class extends the notification context base and provides some helpful functions for any Award specific events.
+ * This class extends the notification context base and provides some helpful
+ * functions for any Subaward specific events.
  */
 public class SubAwardNotificationContext extends NotificationContextBase {
 
@@ -40,67 +41,82 @@ public class SubAwardNotificationContext extends NotificationContextBase {
     private String forwardName;
 
     /**
-     * Constructs an Award notification context and sets the necessary services.
-     * @param award
+     * Constructs an Subaward notification context and sets the necessary
+     * services.
+     *
+     * @param subAward
      * @param actionTypeCode
      * @param contextName
      * @param renderer
+     * @param forwardName
      */
     public SubAwardNotificationContext(SubAward subAward, String actionTypeCode, String contextName, NotificationRenderer renderer, String forwardName) {
         super(renderer);
-        
+
         this.subAward = subAward;
         this.documentNumber = subAward.getSubAwardDocument().getDocumentNumber();
         this.actionTypeCode = actionTypeCode;
         this.contextName = contextName;
         this.forwardName = forwardName;
-        
+
         setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
         setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
         setNotificationRoleQualifierService(KraServiceLocator.getService(SubAwardNotificationRoleQualifierService.class));
-        ((SubAwardNotificationRoleQualifierService)getNotificationRoleQualifierService()).setSubAward(subAward);
+        ((SubAwardNotificationRoleQualifierService) getNotificationRoleQualifierService()).setSubAward(subAward);
     }
-    
+
     public SubAwardNotificationContext(SubAward subAward, String actionTypeCode, String contextName) {
         this(subAward, actionTypeCode, contextName, new SubAwardNotificationRenderer(subAward), Constants.MAPPING_AWARD_ACTIONS_PAGE);
-        ((SubAwardNotificationRenderer)getRenderer()).setSubAward(subAward);
+        ((SubAwardNotificationRenderer) getRenderer()).setSubAward(subAward);
     }
-    
+
     public SubAwardNotificationContext(SubAward subAward, String actionTypeCode, String contextName, String forwardName) {
         this(subAward, actionTypeCode, contextName, new SubAwardNotificationRenderer(subAward), forwardName);
-        ((SubAwardNotificationRenderer)getRenderer()).setSubAward(subAward);
-    }    
-    
+        ((SubAwardNotificationRenderer) getRenderer()).setSubAward(subAward);
+    }
+
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContextBase#getModuleCode()
+     *
+     * @return
+     * @see
+     * org.kuali.kra.common.notification.NotificationContextBase#getModuleCode()
      */
     @Override
     public String getModuleCode() {
         return CoeusModule.AWARD_MODULE_CODE;
     }
-    
+
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContextBase#getDocumentNumber()
+     *
+     * @return
+     * @see
+     * org.kuali.kra.common.notification.NotificationContextBase#getDocumentNumber()
      */
     @Override
     public String getDocumentNumber() {
         return documentNumber;
     }
-    
+
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContext#getActionTypeCode()
+     *
+     * @return
+     * @see
+     * org.kuali.kra.common.notification.NotificationContext#getActionTypeCode()
      */
     @Override
     public String getActionTypeCode() {
         return actionTypeCode;
     }
-    
+
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContext#getContextName()
+     *
+     * @return
+     * @see
+     * org.kuali.kra.common.notification.NotificationContext#getContextName()
      */
     @Override
     public String getContextName() {
@@ -109,7 +125,10 @@ public class SubAwardNotificationContext extends NotificationContextBase {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContext#getEmailAttachments()
+     *
+     * @return
+     * @see
+     * org.kuali.kra.common.notification.NotificationContext#getEmailAttachments()
      */
     @Override
     public List<EmailAttachment> getEmailAttachments() {
@@ -118,6 +137,7 @@ public class SubAwardNotificationContext extends NotificationContextBase {
 
     /**
      * {@inheritDoc}
+     *
      * @param emailAttachments
      */
     public void setEmailAttachments(List<EmailAttachment> emailAttachments) {
@@ -139,5 +159,5 @@ public class SubAwardNotificationContext extends NotificationContextBase {
     public void setForwardName(String forwardName) {
         this.forwardName = forwardName;
     }
-    
+
 }
