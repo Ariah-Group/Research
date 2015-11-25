@@ -34,5 +34,25 @@ INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VA
 VALUES  ('KC-PD','Document','ARIAH_PROPDEV_SUMMARY_CHANGEDATA_PANEL_ENABLED', sys_guid(),0,'CONFG','Y','Flag to enable the Changed Data panel to be displayed in the Summary tab of a Dev Proposal','A','KUALI');
 
 
+
+
+-- add IRB Administrator to 'admin' user by default
+Insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID,VER_NBR,OBJ_ID,ROLE_ID,MBR_ID,MBR_TYP_CD,ACTV_FRM_DT,ACTV_TO_DT,LAST_UPDT_DT) 
+values (KRIM_ROLE_MBR_ID_S.nextval,1,SYS_GUID(), (select ROLE_ID FROM KRIM_ROLE_T where ROLE_NM='IRB Administrator') ,'admin','P',null,null,SYSDATE);
+
+Insert into KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID,OBJ_ID,VER_NBR,ROLE_MBR_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL)
+values (KRIM_ATTR_DATA_ID_S.nextval,SYS_GUID(),3,(select ROLE_MBR_ID FROM KRIM_ROLE_MBR_T where 
+ROLE_ID=(select ROLE_ID FROM KRIM_ROLE_T where ROLE_NM='IRB Administrator') AND MBR_ID='admin' ),
+(select KIM_TYP_ID from KRIM_TYP_T where NM='UnitHierarchy'),
+(select KIM_ATTR_DEFN_T from KRIM_ATTR_DEFN_T where NM='unitNumber' and NMSPC_CD='KC-SYS'),'000001');
+
+Insert into KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID,OBJ_ID,VER_NBR,ROLE_MBR_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL) 
+values (KRIM_ATTR_DATA_ID_S.nextval,SYS_GUID(),3,(select ROLE_MBR_ID FROM KRIM_ROLE_MBR_T where
+ROLE_ID=(select ROLE_ID FROM KRIM_ROLE_T where ROLE_NM='IRB Administrator') AND MBR_ID='admin' ),
+(select KIM_TYP_ID from KRIM_TYP_T where NM='UnitHierarchy'),
+select KIM_ATTR_DEFN_T from KRIM_ATTR_DEFN_T where NM='subunits' and NMSPC_CD='KC-SYS','Y');
+
+
+
 commit;
 exit
