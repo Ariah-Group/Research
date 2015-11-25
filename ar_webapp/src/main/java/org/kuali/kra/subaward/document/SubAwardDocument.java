@@ -248,7 +248,7 @@ public class SubAwardDocument extends ResearchDocumentBase implements Copyable, 
         SubAwardStatus stat = subaward.getSubAwardStatus();
         AwardType type = subaward.getSubAwardType();
 
-        String desc = String.format("%s; Id: %s; Status: %s; Status: %s",
+        String desc = String.format("%s; Id: %s; Status: %s; Type: %s",
                 subaward.getTitle() != null ? subaward.getTitle().substring(0, Math.min(subaward.getTitle().length(), 50)) : "null",
                 subaward.getSubAwardId(),
                 (stat != null ? stat.getDescription() : ""),
