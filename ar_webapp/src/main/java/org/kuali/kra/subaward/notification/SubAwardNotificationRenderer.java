@@ -23,18 +23,19 @@ import java.text.SimpleDateFormat;
 import java.util.Map;
 
 /**
- * Renders fields for the Award notifications.
+ * Renders fields for the Subaward notifications.
  */
 public class SubAwardNotificationRenderer extends NotificationRendererBase {
 
     private SubAward subAward;
-    
+
     public SubAwardNotificationRenderer() {
     }
-    
+
     /**
-     * Constructs an Award notification renderer.
-     * @param institutionalProposal
+     * Constructs an Subaward notification renderer.
+     *
+     * @param subAward
      */
     public SubAwardNotificationRenderer(SubAward subAward) {
         this.subAward = subAward;
@@ -42,48 +43,51 @@ public class SubAwardNotificationRenderer extends NotificationRendererBase {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationRenderer#getReplacementParameters()
+     *
+     * @return
+     * @see
+     * org.kuali.kra.common.notification.NotificationRenderer#getReplacementParameters()
      */
     @Override
     public Map<String, String> getDefaultReplacementParameters() {
         return getSubAwardReplacementParameters(subAward);
     }
-    
+
     public Map<String, String> getSubAwardReplacementParameters(SubAward subAward) {
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");        
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
         Map<String, String> result = super.getDefaultReplacementParameters();
         result.put("{SUBAWARD_ID}", subAward.getSubAwardId().toString());
         result.put("{SEQUENCE_NUMBER}", subAward.getSequenceNumber().toString());
         result.put("{SUBAWARD_TITLE}", subAward.getTitle());
-        result.put("{LEAD_UNIT}", subAward.getLeadUnitNumber()==null?"":subAward.getLeadUnitNumber());
-        result.put("{LEAD_UNIT_NAME}", subAward.getLeadUnitName()==null?"":subAward.getLeadUnitName());
-        result.put("{ACCOUNT_NUMBER}", subAward.getAccountNumber()==null?"":subAward.getAccountNumber());
-        result.put("{SPONSOR_AWARD_NUMBER}", subAward.getSponsorAwardNumber()==null?"":subAward.getSponsorAwardNumber());
+        result.put("{LEAD_UNIT}", subAward.getLeadUnitNumber() == null ? "" : subAward.getLeadUnitNumber());
+        result.put("{LEAD_UNIT_NAME}", subAward.getLeadUnitName() == null ? "" : subAward.getLeadUnitName());
+        result.put("{ACCOUNT_NUMBER}", subAward.getAccountNumber() == null ? "" : subAward.getAccountNumber());
+        result.put("{SPONSOR_AWARD_NUMBER}", subAward.getSponsorAwardNumber() == null ? "" : subAward.getSponsorAwardNumber());
         if (subAward.getStatusCode() != null) {
             result.put("{STATUS_CODE}", subAward.getStatusCode().toString());
             result.put("{STATUS_NAME}", subAward.getStatusDescription());
         } else {
             result.put("{STATUS_CODE}", "");
-            result.put("{STATUS_NAME}", "");                        
+            result.put("{STATUS_NAME}", "");
         }
         if (subAward.getStartDate() != null) {
             result.put("{BEGIN_DATE}", dateFormatter.format(subAward.getStartDate()));
         } else {
-            result.put("{BEGIN_DATE}", "");            
+            result.put("{BEGIN_DATE}", "");
         }
         if (subAward.getSponsorCode() != null) {
             result.put("{SPONSOR_CODE}", subAward.getSponsorCode());
             result.put("{SPONSOR_NAME}", subAward.getSponsorName());
         } else {
             result.put("{SPONSOR_CODE}", "");
-            result.put("{SPONSOR_NAME}", "");            
+            result.put("{SPONSOR_NAME}", "");
         }
         if (subAward.getPrimeSponsorCode() != null) {
             result.put("{PRIME_SPONSOR_CODE}", subAward.getPrimeSponsorCode());
             result.put("{PRIME_SPONSOR_NAME}", subAward.getPrimeSponsorName());
         } else {
             result.put("{PRIME_SPONSOR_CODE}", "");
-            result.put("{PRIME_SPONSOR_NAME}", "");            
+            result.put("{PRIME_SPONSOR_NAME}", "");
         }
         result.put("{USER_FULLNAME}", GlobalVariables.getUserSession().getPerson().getName());
         return result;
@@ -96,5 +100,4 @@ public class SubAwardNotificationRenderer extends NotificationRendererBase {
     public void setSubAward(SubAward subAward) {
         this.subAward = subAward;
     }
-    
 }
