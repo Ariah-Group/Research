@@ -84,7 +84,7 @@ public class SubAwardNotificationContext extends NotificationContextBase {
      */
     @Override
     public String getModuleCode() {
-        return CoeusModule.AWARD_MODULE_CODE;
+        return CoeusModule.SUBAWARD_MODULE_CODE;
     }
 
     /**

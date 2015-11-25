@@ -31,6 +31,7 @@ public class CoeusModule extends KraPersistableBusinessObjectBase {
     public static final String COI_DISCLOSURE_MODULE_CODE = "8";
     public static final String IACUC_PROTOCOL_MODULE_CODE = "9";
     public static final String COMMITTEE_MODULE_CODE = "11";
+    public static final String SUBAWARD_MODULE_CODE = "12";
 
     public static final int AWARD_MODULE_CODE_INT = 1;
 
