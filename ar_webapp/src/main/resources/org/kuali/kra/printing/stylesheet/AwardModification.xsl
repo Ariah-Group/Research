@@ -1768,7 +1768,7 @@
 																			</xsl:for-each>
 																			<fo:inline font-family="Times New Roman"
 																				font-size="9pt" font-weight="bold">
-																				<xsl:text>, E19-750. Any attachments may be kept for your records.</xsl:text>
+																				<xsl:text>. Any attachments may be kept for your records.</xsl:text>
 																			</fo:inline>
 																			<fo:inline-container>
 																				<fo:block>
