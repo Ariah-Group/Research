@@ -46,6 +46,9 @@ import org.kuali.kra.timeandmoney.service.TimeAndMoneyActionSummaryService;
 import org.kuali.kra.timeandmoney.transactions.AwardAmountTransaction;
 
 import java.util.*;
+import noNamespace.OtherGroupDetailsType;
+import noNamespace.OtherGroupType;
+import org.kuali.kra.bo.CustomAttribute;
 
 /**
  * This class generates XML that conforms with the XSD related to Award Delta
@@ -70,6 +73,7 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
      * @param reportParameters parameters related to XML generation
      * @return {@link XmlObject} representing the XML
      */
+    @Override
     public Map<String, XmlObject> generateXmlStream(
             KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
@@ -228,6 +232,7 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
      * This method will set the values to award attributes and finally returns
      * award Xml object
      */
+    @Override
     protected AwardType getAward() {
         AwardType awardType = super.getAward();
         awardType.setAwardTransferringSponsors(getAwardTransferringSponsors());
@@ -405,24 +410,33 @@ public class AwardDeltaXmlStream extends AwardBaseStream {
      */
     private AwardOtherDatas getAwardOtherDatas() {
         AwardOtherDatas awardOtherDatas = AwardOtherDatas.Factory.newInstance();
-        List<AwardCustomData> awardCustomDataList = award
-                .getAwardCustomDataList();
-        List<OtherData> otherDatas = new ArrayList<OtherData>();
+        List<AwardCustomData> awardCustomDataList = award.getAwardCustomDataList();
         OtherData otherData = null;
+        String prevGroupName = null;
+        OtherGroupType otherGroupType = null;
         for (AwardCustomData awardCustomData : awardCustomDataList) {
-            otherData = OtherData.Factory.newInstance();
-            String columnValue = awardCustomData.getValue();
-            if (awardCustomData.getCustomAttribute() != null
-                    && awardCustomData.getCustomAttribute().getName() != null) {
-                otherData.setColumnName(awardCustomData.getCustomAttribute()
-                        .getName());
+            awardCustomData.refreshReferenceObject("customAttribute");
+            CustomAttribute customAttribute = awardCustomData.getCustomAttribute();
+            if (customAttribute != null) {
+                otherData = awardOtherDatas.addNewOtherData();
+                String groupName = customAttribute.getGroupName();
+                String attributeLabel = customAttribute.getLabel();
+                String attributeValue = awardCustomData.getValue();
+                if (attributeValue != null) {
+                    if (groupName != null && !groupName.equals(prevGroupName)) {
+                        otherGroupType = otherData.addNewOtherDetails();
+                        otherGroupType.setDescription(groupName);
+                    }
+                    prevGroupName = groupName;
+                    if (otherGroupType != null) {
+                        OtherGroupDetailsType otherGroupDetailsType = otherGroupType.addNewOtherGroupDetails();
+                        otherGroupDetailsType.setColumnName(attributeLabel);
+                        otherGroupDetailsType.setColumnValue(attributeValue);
+                    }
+                }
+
             }
-            if (columnValue != null) {
-                otherData.setColumnValue(columnValue);
-            }
-            otherDatas.add(otherData);
         }
-        awardOtherDatas.setOtherDataArray(otherDatas.toArray(new OtherData[0]));
         return awardOtherDatas;
     }
 
