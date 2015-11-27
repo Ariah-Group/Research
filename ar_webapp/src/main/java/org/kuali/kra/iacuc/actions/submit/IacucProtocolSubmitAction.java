@@ -61,6 +61,7 @@ public class IacucProtocolSubmitAction extends IacucProtocolActionBean implement
     private boolean javascriptEnabled = true;
 
     /**
+     *
      * Constructs a ProtocolSubmitAction.
      *
      * @param actionHelper Reference back to the action helper for this bean
@@ -72,6 +73,7 @@ public class IacucProtocolSubmitAction extends IacucProtocolActionBean implement
     /**
      * Prepare the Submit for Review for rendering with JSP.
      */
+    @Override
     public void prepareView() {
         /*
          * The Submit for Review has to work with and without JavaScript. When JavaScript is enabled, the newly selected committee
@@ -90,7 +92,9 @@ public class IacucProtocolSubmitAction extends IacucProtocolActionBean implement
             }
         } else {
             // use the numberOfReviewers property (sent in as a hidden input field) to truncate the reviewers collection if needed
-            this.reviewers.subList(this.numberOfReviewers, this.reviewers.size()).clear();
+            if (this.numberOfReviewers <= this.reviewers.size()) {
+                this.reviewers.subList(this.numberOfReviewers, this.reviewers.size()).clear();
+            }
         }
     }
 

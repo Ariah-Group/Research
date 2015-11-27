@@ -174,8 +174,9 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         } else {
             protocolForm.getActionHelper().setCurrentTask("");
         }
+
         ActionForward actionForward = super.execute(mapping, form, request, response);
-        protocolForm.getActionHelper().prepareView();
+        ((IacucActionHelper) protocolForm.getActionHelper()).prepareView();
         protocolForm.getActionHelper().initFilterDatesView();
         // submit action may change "submission details", so re-initialize it
         // TODO do we really need this? the above call to prepareView() will invoke it anyway, so the below call seems redundant and wasteful.
@@ -273,8 +274,15 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         IacucProtocolDocument protocolDocument = (IacucProtocolDocument) protocolForm.getProtocolDocument();
         protocolForm.setAuditActivated(true);
         IacucProtocolTask task = new IacucProtocolTask(TaskName.SUBMIT_IACUC_PROTOCOL, protocolDocument.getIacucProtocol());
+
         if (isAuthorized(task)) {
             IacucProtocolSubmitAction submitAction = (IacucProtocolSubmitAction) protocolForm.getActionHelper().getProtocolSubmitAction();
+
+            if (submitAction.getReviewers() == null || submitAction.getReviewers().isEmpty()) {
+                List<ProtocolReviewerBeanBase> reviewers = getReviewers(protocolForm, request, "iacucProtocolSubmitAction");
+                submitAction.setReviewers(reviewers);
+            }
+
             if (applyRules(protocolForm, new IacucProtocolSubmitActionEvent(protocolDocument, submitAction))) {
                 AuditActionHelper auditActionHelper = new AuditActionHelper();
                 if (auditActionHelper.auditUnconditionally(protocolDocument)) {
@@ -358,7 +366,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             throws Exception {
 
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_SUBMIT_FOR_REVIEW_KEY.equals(question)) {
             forward = submitForReviewAndRedirect(mapping, form, request, response);
@@ -382,8 +389,15 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     private ActionForward submitForReviewAndRedirect(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        List<ProtocolReviewerBeanBase> reviewers = getReviewers(protocolForm, request, "iacucProtocolSubmitAction");
-        getProtocolActionRequestService().submitForReview(protocolForm, reviewers);
+        IacucProtocolSubmitAction submitAction = (IacucProtocolSubmitAction) protocolForm.getActionHelper().getProtocolSubmitAction();
+
+        if (submitAction.getReviewers() == null || submitAction.getReviewers().size() == 0) {
+            List<ProtocolReviewerBeanBase> reviewers = getReviewers(protocolForm, request, "iacucProtocolSubmitAction");
+            getProtocolActionRequestService().submitForReview(protocolForm, reviewers);
+        } else {
+            getProtocolActionRequestService().submitForReview(protocolForm, submitAction.getReviewers());
+        }
+
         super.route(mapping, protocolForm, request, response);
         return routeProtocolToHoldingPage(mapping, protocolForm);
     }
@@ -2474,19 +2488,22 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     protected List<ProtocolReviewerBeanBase> getReviewers(ActionForm form, HttpServletRequest request, String beanName) {
         String reviewerBean = "actionHelper." + beanName + ".reviewer[";
         String numberOfReviewersParam = "actionHelper." + beanName + ".numberOfReviewers";
-        int number = Integer.parseInt(request.getParameter(numberOfReviewersParam));
+        String numReviewers = request.getParameter(numberOfReviewersParam);
         List<ProtocolReviewerBeanBase> beans = new ArrayList<ProtocolReviewerBeanBase>();
-        for (int i = 0; i < number; i++) {
-            String reviewerTypeCode = request.getParameter(reviewerBean + i + "].reviewerTypeCode");
-            String personId = request.getParameter(reviewerBean + i + "].personId");
-            String fullName = request.getParameter(reviewerBean + i + "].fullName");
-            if (ObjectUtils.isNotNull(personId)) {
-                IacucProtocolReviewerBean bean = new IacucProtocolReviewerBean();
-                bean.setFullName(fullName);
-                bean.setPersonId(personId);
-                bean.setReviewerTypeCode(reviewerTypeCode);
-                bean.setActionFlag(IacucProtocolReviewerBean.CREATE);
-                beans.add(bean);
+        if (numReviewers != null && !numReviewers.isEmpty()) {
+            int number = Integer.parseInt(numReviewers);
+            for (int i = 0; i < number; i++) {
+                String reviewerTypeCode = request.getParameter(reviewerBean + i + "].reviewerTypeCode");
+                String personId = request.getParameter(reviewerBean + i + "].personId");
+                String fullName = request.getParameter(reviewerBean + i + "].fullName");
+                if (ObjectUtils.isNotNull(personId)) {
+                    IacucProtocolReviewerBean bean = new IacucProtocolReviewerBean();
+                    bean.setFullName(fullName);
+                    bean.setPersonId(personId);
+                    bean.setReviewerTypeCode(reviewerTypeCode);
+                    bean.setActionFlag(IacucProtocolReviewerBean.CREATE);
+                    beans.add(bean);
+                }
             }
         }
         return beans;
