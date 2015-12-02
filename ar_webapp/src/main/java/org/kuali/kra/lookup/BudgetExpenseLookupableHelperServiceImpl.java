@@ -31,26 +31,25 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 /**
- * 
- * This class implements a custom lookup for S2S Grants.gov Opportunity Lookup
+ * This class implements a custom lookup for Budget Expenses.
  */
 @Transactional
 public class BudgetExpenseLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    
+
     private static final String KFS_ON_PARM_NMSPC_CD = "KC-AWARD";
     private static final String KFS_ON_PARM_DTL_TYP_CD = "Document";
     private static final String KFS_ON_PARM_NM = "FIN_SYSTEM_INTEGRATION_ON";
     private static final String KFS_ON_OFF_VALUE = "OFF";
     private static final String KFS_FIELD_NAME = "financialObjectCode";
- 
 
     @Override
     public List<Row> getRows() {
         List<Row> oldRows = super.getRows();
-        
+
         String kfsOnParameterValue = getParameterService().getParameterValueAsString(KFS_ON_PARM_NMSPC_CD, KFS_ON_PARM_DTL_TYP_CD, KFS_ON_PARM_NM);
-        
+
         List<Row> rows = new ArrayList<Row>();
         if (!StringUtils.equals(kfsOnParameterValue, KFS_ON_OFF_VALUE)) {
             rows.addAll(oldRows);
@@ -67,16 +66,16 @@ public class BudgetExpenseLookupableHelperServiceImpl extends KualiLookupableHel
                 rows.add(row);
             }
         }
-        
+
         return rows;
     }
 
     @Override
     public List<Column> getColumns() {
         List<Column> oldColumns = super.getColumns();
-        
+
         String kfsOnParameterValue = getParameterService().getParameterValueAsString(KFS_ON_PARM_NMSPC_CD, KFS_ON_PARM_DTL_TYP_CD, KFS_ON_PARM_NM);
-        
+
         List<Column> columns = new ArrayList<Column>();
         if (!StringUtils.equals(kfsOnParameterValue, KFS_ON_OFF_VALUE)) {
             columns.addAll(oldColumns);
@@ -87,15 +86,16 @@ public class BudgetExpenseLookupableHelperServiceImpl extends KualiLookupableHel
                 }
             }
         }
-        
+
         return columns;
     }
-    
+
     /**
-     * 
-     * @see org.kuali.core.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
-     * It calls the S2sService#searchOpportunity service to look up the opportunity
+     * Perform custom processing of search results.
+     *
+     * @return
      */
+    @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         //LookupUtils.removeHiddenCriteriaFields( getBusinessObjectClass(), fieldValues );
         setBackLocation(fieldValues.get(KRADConstants.BACK_LOCATION));
@@ -109,25 +109,25 @@ public class BudgetExpenseLookupableHelperServiceImpl extends KualiLookupableHel
         // handle onoffcampusflag
         if (fieldValues.get(Constants.ON_OFF_CAMPUS_FLAG).equalsIgnoreCase("Y")) {
             fieldValues.put(Constants.ON_OFF_CAMPUS_FLAG, "N");
-       } else if (fieldValues.get(Constants.ON_OFF_CAMPUS_FLAG).equalsIgnoreCase("N")) {
+        } else if (fieldValues.get(Constants.ON_OFF_CAMPUS_FLAG).equalsIgnoreCase("N")) {
             fieldValues.put(Constants.ON_OFF_CAMPUS_FLAG, "F");
-       }
+        }
 
         searchResults = super.getSearchResults(fieldValues);
-        
+
         for (Iterator iterator = searchResults.iterator(); iterator.hasNext();) {
             CostElement costElement = (CostElement) iterator.next();
             costElement.refreshReferenceObject("budgetCategory");
             // TODO : need more test for ce maint doc which will display all ce and budgetcategorytypecode=""
-            if(StringUtils.isBlank(budgetCategoryTypeCode) || StringUtils.equalsIgnoreCase(costElement.getBudgetCategory().getBudgetCategoryTypeCode(),budgetCategoryTypeCode)){
+            if (StringUtils.isBlank(budgetCategoryTypeCode) || StringUtils.equalsIgnoreCase(costElement.getBudgetCategory().getBudgetCategoryTypeCode(), budgetCategoryTypeCode)) {
                 searchResultsReturn.add(costElement);
                 // TODO : what is categoryTypeName for ?
-                if(categoryTypeName==null){
+                if (categoryTypeName == null) {
                     categoryTypeName = costElement.getBudgetCategory().getBudgetCategoryType().getDescription();
                 }
             }
-        }       
-        if(StringUtils.isNotBlank(budgetCategoryTypeCode)) {
+        }
+        if (StringUtils.isNotBlank(budgetCategoryTypeCode)) {
             KNSGlobalVariables.getMessageList().add(Constants.BUDGET_EXPENSE_LOOKUP_MESSAGE1);
         }
         return searchResultsReturn;
