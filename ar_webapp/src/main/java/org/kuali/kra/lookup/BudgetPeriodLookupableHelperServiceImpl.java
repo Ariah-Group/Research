@@ -25,28 +25,29 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
-
 /**
- * This class...
+ * This class implements a custom lookup for Budget Periods.
  */
 public class BudgetPeriodLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
-    
+
     protected AwardBudgetService awardBudgetService;
-    
+
     /**
-     * 
-     * @see org.kuali.core.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map) It calls the
-     *      S2sService#searchOpportunity service to look up the opportunity
+     *
+     * @return
      */
+    @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         String awardNumber = fieldValues.get("budgetParentId");
         List<BudgetPeriod> budgetPeriods = getAwardBudgetService().findBudgetPeriodsFromLinkedProposal(awardNumber);
         filterSearchResults(budgetPeriods, fieldValues);
         return budgetPeriods;
-    }    
-    
+    }
+
     /**
-     * Using the list of linked budget periods filter the result set by the field values given in the search
+     * Using the list of linked budget periods filter the result set by the
+     * field values given in the search
+     *
      * @param budgetPeriods
      * @param fieldValues
      */
@@ -63,7 +64,7 @@ public class BudgetPeriodLookupableHelperServiceImpl extends KualiLookupableHelp
         ListIterator<BudgetPeriod> iter = budgetPeriods.listIterator();
         while (iter.hasNext()) {
             BudgetPeriod period = iter.next();
-            if (StringUtils.isNotBlank(instPropNumber) 
+            if (StringUtils.isNotBlank(instPropNumber)
                     && !StringUtils.equals(instPropNumber, period.getInstitutionalProposalNumber())) {
                 iter.remove();
             } else if (StringUtils.isNotBlank(instPropVersion)
