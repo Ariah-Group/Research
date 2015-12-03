@@ -307,6 +307,10 @@
     
     function getDescription(index) {
         var description = $j("#row-description-" +index+ " > textarea").html();
+        // account for case where page is read-only and no textarea exists
+        if(description==undefined || description == null) {
+            description = $j("#row-description-" +index+ " > input").val();
+        }             
         return $j.trim(description);        
     }
     
