@@ -201,23 +201,31 @@
     }
 
     function compareToDate(date1, date2) {
-        var dateParts1 = date1.split(" ");
-        var dateParts2 = date2.split(" ");
+    	var dateParts1 = date1.split(" ");
+    	var dateParts2 = date2.split(" ");
+    	
+    	var mmddyyyy1 = dateParts1[0].split("/");
+    	var mmddyyyy2 = dateParts2[0].split("/");
+    	
+        var hour1 = parseInt((dateParts1[1].split(":"))[0]);
+        var hour2 = parseInt((dateParts2[1].split(":"))[0]);
         
-        var mmddyyyy1 = dateParts1[0].split("/");
-        var mmddyyyy2 = dateParts2[0].split("/");
+        var min1 = (dateParts1[1].split(":"))[1];
+        var min2 = (dateParts2[1].split(":"))[1];
         
-        if (compareYear(mmddyyyy1[2], mmddyyyy2[2]) > 0) {
-            return 1;
-        } else if (compareMonth(mmddyyyy1[0], mmddyyyy2[0]) > 0) {
-            return 1;
-        } else if (compareDay(mmddyyyy1[1], mmddyyyy2[1]) > 0) {
-            return 1;
-        } else {
-            return compareTime(dateParts1[1], dateParts1[2], dateParts2[1], dateParts2[2]);
+        var amPM1 = dateParts1[2];
+        var amPM2 = dateParts2[2];
+        // convert 12-hour AM/PM clock hour to 24-hour hour if the time is 1PM-11PM
+        if(amPM1 =='PM' && hour1 < 12) {
+            hour1+=12;
         }
-            
-        return 0;
+        if(amPM2 =='PM' && hour2 < 12) {
+            hour2+=12;
+        }        
+        var d1 = new Date(mmddyyyy1[2], mmddyyyy1[0], mmddyyyy1[1], hour1, min1, 0, 0); 
+        var d2 = new Date( mmddyyyy2[2], mmddyyyy2[0], mmddyyyy2[1], hour2, min2, 0, 0); 
+        
+         return d1 > d2 ? 1 : d1 < d2 ? -1 : 0;
     }
     
     function compareYear(year1, year2) {
