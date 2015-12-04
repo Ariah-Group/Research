@@ -12,22 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * ------------------------------------------------------
- * Updates made after January 1, 2015 are :
- * Copyright 2015 The Ariah Group, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
@@ -124,7 +108,6 @@ import java.util.*;
 import org.ariahgroup.research.bo.AttachmentDataSource;
 import org.ariahgroup.research.service.UnitService;
 
-import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.rice.krad.util.KRADConstants.CONFIRMATION_QUESTION;
 
@@ -212,7 +195,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 question.setQuestionId(Constants.ARIAH_PROPDEV_TEXT_APPROVAL_CERT_QUESTION);
                 question.setQuestionType(CONFIRMATION_QUESTION);
 
-                return confirm(question, "originalExecute", "");
+                return confirm(question, "originalExecute", "originalExecute");
             }
         } else {
             return originalExecute(mapping, form, request, response);
@@ -292,7 +275,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                 forward = actionListForward;
             }
         }
-
         acceptedForwards.add(mapping.findForward(KRADConstants.MAPPING_PORTAL));
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(acceptedForwards, forward, holdingPageForward, returnLocation);
@@ -1325,7 +1307,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     public ActionForward printSponsorForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument) proposalDevelopmentForm.getProposalDevelopmentDocument();
-       // ActionForward actionForward = mapping.findForward(MAPPING_BASIC);
+        // ActionForward actionForward = mapping.findForward(MAPPING_BASIC);
         //  String proposalNumber = proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber();
 
         List<SponsorFormTemplateList> sponsorFormTemplateLists = proposalDevelopmentForm.getSponsorFormTemplates();
