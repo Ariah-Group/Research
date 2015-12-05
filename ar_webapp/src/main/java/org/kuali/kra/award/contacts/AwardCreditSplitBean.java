@@ -170,7 +170,7 @@ public class AwardCreditSplitBean implements Serializable {
     }
     
     /**
-     * This method fetches the Award Crddit Splits enabled system parm
+     * This method fetches the Award Credit Splits enabled system parm
      * @param parmName
      * @return
      */
