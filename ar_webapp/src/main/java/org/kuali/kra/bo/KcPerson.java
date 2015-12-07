@@ -65,7 +65,7 @@ public class KcPerson implements Contactable, BusinessObject {
     private KcPersonExtendedAttributes extendedAttributes;
     
     private transient CountryService countryService;
-    private ParameterService parameterService;
+    private transient ParameterService parameterService;
 
     /**
      * When using this ctor {@link #setPersonId(String)} must be call else this call is in an invalid state.
