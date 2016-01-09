@@ -730,7 +730,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements Copyab
     public boolean isHideFundingProposalsPanel() {
         return false;
     }
-    
+
     public void defaultDocumentDescription() {
         Award award = getAward();
         String desc = String.format("%s; Award Id: %s; PI: %s; Sponsor: %s",
@@ -741,7 +741,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements Copyab
 
         getDocumentHeader().setDocumentDescription(desc);
     }
-    
+
     public boolean isAttachmentsPanelDefaultOpen() {
         return getParameterService().getParameterValueAsBoolean(AwardDocument.class, Constants.ARIAH_AWARD_DEFAULT_ATTACHMENTS_TAB_OPEN, false);
     }

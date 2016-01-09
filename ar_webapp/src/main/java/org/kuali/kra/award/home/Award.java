@@ -1700,7 +1700,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      *
      * Get the award Proposal IP Review Comments. If the comment has not been
      * set...... initialize and return new Comment.
-     * @return 
+     *
+     * @return
      */
     public AwardComment getAwardProposalIPReviewComment() {
         return getAwardCommentByType(Constants.PROPOSAL_IP_REVIEW_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST, true);
@@ -1941,7 +1942,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * Get AwardSpecialReview from special review list
      *
      * @param index
-     * @return 
+     * @return
      * @see org.kuali.kra.document.SpecialReviewHandler#getSpecialReview(int)
      */
     public AwardSpecialReview getSpecialReview(int index) {
@@ -1951,7 +1952,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     /**
      * Get special review list
      *
-     * @return 
+     * @return
      * @see org.kuali.kra.document.SpecialReviewHandler#getSpecialReviews()
      */
     public List<AwardSpecialReview> getSpecialReviews() {
@@ -2763,11 +2764,10 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
             if (pi.getIsRolodexPerson()) {
 
                 ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
-
                 boolean awardPiAddressBookUseNameEnabled = paramServ.getParameterValueAsBoolean(
-                        Constants.MODULE_NAMESPACE_AWARD,
-                        Constants.PARAMETER_COMPONENT_DOCUMENT,
-                        Constants.ARIAH_AWARD_HEADER_PI_NONEMP_FULLNAME_OVERRIDE, false);
+                 Constants.MODULE_NAMESPACE_AWARD,
+                  Constants.PARAMETER_COMPONENT_DOCUMENT,
+                  Constants.ARIAH_AWARD_HEADER_PI_NONEMP_FULLNAME_OVERRIDE, false);
 
                 if (awardPiAddressBookUseNameEnabled) {
                     String fullName = pi.getRolodex().getFullName();
@@ -3075,7 +3075,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * It also removes the AwardFundingProposal from the InstitutionalProposal
      *
      * @param index
-     * @return 
+     * @return
      */
     public AwardFundingProposal removeFundingProposal(int index) {
         AwardFundingProposal afp = (index >= 0) ? fundingProposals.remove(index) : null;
@@ -3849,8 +3849,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public KrmsRulesContext getKrmsRulesContext() {
         return getAwardDocument();
     }
-    
+
     public AwardAmountInfo getLatestAwardAmountInfo() {
         return getAwardAmountInfoService().fetchAwardAmountInfoWithHighestTransactionId(awardAmountInfos);
-    }    
+    }
 }

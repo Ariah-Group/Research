@@ -198,6 +198,10 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      * @see https://test.kuali.org/confluence/x/EoFXAQ
      */
     public ActionForward confirm(StrutsConfirmation question, String yesMethodName, String noMethodName) throws Exception {
+        
+        LOG.error("confirm 1 : yesMethodName = " + yesMethodName);
+        LOG.error("confirm 1 : noMethodName = " + noMethodName);
+
         // Figure out what the caller is. We want the direct caller of confirm()
         question.setCaller(((KualiForm) question.getForm()).getMethodToCall());
         debug("Caller is ", question.getCaller());
@@ -205,18 +209,26 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         debug("Current action is ", getClass());
 
         if (question.hasQuestionInstAttributeName()) {
+            
+            LOG.error("confirm 2"); 
+            
             Object buttonClicked = question.getRequest().getParameter(QUESTION_CLICKED_BUTTON);
             if (ConfirmationQuestion.YES.equals(buttonClicked) && isNotBlank(yesMethodName)) {
+                LOG.error("confirm 3");
                 return dispatchMethod(question.getMapping(), question.getForm(), question.getRequest(), question.getResponse(),
                         yesMethodName);
             } else if (isNotBlank(noMethodName)) {
+                LOG.error("confirm 4");
                 return dispatchMethod(question.getMapping(), question.getForm(), question.getRequest(), question.getResponse(),
                         noMethodName);
+            } else {
+                LOG.error("confirm 5");
             }
         } else {
+            LOG.error("confirm 6");
             return this.performQuestionWithoutInput(question, EMPTY_STRING);
         }
-
+LOG.error("confirm 7");
         return question.getMapping().findForward(Constants.MAPPING_BASIC);
     }
 
