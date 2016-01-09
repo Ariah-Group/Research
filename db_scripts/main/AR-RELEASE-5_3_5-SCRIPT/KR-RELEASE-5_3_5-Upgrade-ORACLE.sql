@@ -44,13 +44,14 @@ Insert into KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID,OBJ_ID,VER_NBR,ROLE_MBR_ID,K
 values (KRIM_ATTR_DATA_ID_S.nextval,SYS_GUID(),3,(select ROLE_MBR_ID FROM KRIM_ROLE_MBR_T where 
 ROLE_ID=(select ROLE_ID FROM KRIM_ROLE_T where ROLE_NM='IRB Administrator') AND MBR_ID='admin' ),
 (select KIM_TYP_ID from KRIM_TYP_T where NM='UnitHierarchy'),
-(select KIM_ATTR_DEFN_T from KRIM_ATTR_DEFN_T where NM='unitNumber' and NMSPC_CD='KC-SYS'),'000001');
+(select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NM='unitNumber' and NMSPC_CD='KC-SYS'),'000001');
 
 Insert into KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID,OBJ_ID,VER_NBR,ROLE_MBR_ID,KIM_TYP_ID,KIM_ATTR_DEFN_ID,ATTR_VAL) 
-values (KRIM_ATTR_DATA_ID_S.nextval,SYS_GUID(),3,(select ROLE_MBR_ID FROM KRIM_ROLE_MBR_T where
-ROLE_ID=(select ROLE_ID FROM KRIM_ROLE_T where ROLE_NM='IRB Administrator') AND MBR_ID='admin' ),
+values (KRIM_ATTR_DATA_ID_S.nextval,SYS_GUID(),3,
+(select ROLE_MBR_ID FROM KRIM_ROLE_MBR_T where ROLE_ID=(select ROLE_ID FROM KRIM_ROLE_T where ROLE_NM='IRB Administrator') AND MBR_ID='admin' ),
 (select KIM_TYP_ID from KRIM_TYP_T where NM='UnitHierarchy'),
-select KIM_ATTR_DEFN_T from KRIM_ATTR_DEFN_T where NM='subunits' and NMSPC_CD='KC-SYS','Y');
+(select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NM='subunits' and NMSPC_CD='KC-SYS'),
+'Y');
 
 
 
