@@ -26,7 +26,7 @@ echo Invalid Database Type <%dbtype%>
 goto dbtype
 
 :Version
-set /p Version="Enter Currently Installed Version (NEW, 3.1.1, 5.0, 5.0.1, 5.1, 5.1.1, 5.2, 5.2.1, 5.3.0, 5.3.1, 5.3.2, 5.3.3, 5.3.4) <%Version%>: "
+set /p Version="Enter Currently Installed Version (NEW, 3.1.1, 5.0, 5.0.1, 5.1, 5.1.1, 5.2, 5.2.1, 5.3.0, 5.3.1, 5.3.2, 5.3.3, 5.3.4, 5.3.5) <%Version%>: "
 if /i "%Version%" == "NEW" goto User
 if /i "%Version%" == "3.1.1" goto User
 if /i "%Version%" == "5.0" goto User
@@ -40,6 +40,7 @@ if /i "%Version%" == "5.3.1" goto User
 if /i "%Version%" == "5.3.2" goto User
 if /i "%Version%" == "5.3.3" goto User
 if /i "%Version%" == "5.3.4" goto User
+if /i "%Version%" == "5.3.5" goto User
 echo Invalid Version <%Version%>
 goto Version
 
@@ -354,6 +355,13 @@ sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-5_3_5-Upgrade-ORACLE.
 move *.log ../LOGS
 cd ..
 
+:5.3.5ORACLE
+cd AR-RELEASE-5_4_0-SCRIPT
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < AR-RELEASE-5_4_0-Upgrade-ORACLE.sql
+sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-5_4_0-Upgrade-ORACLE.sql
+move *.log ../LOGS
+cd ..
+
 cd KC-RELEASE-99_9_9-SCRIPT
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-99_9_9-Upgrade-ORACLE.sql
 move *.log ../LOGS/
@@ -616,9 +624,9 @@ Echo       - Standalone = Rice installed along with Ariah Research database tabl
 Echo       - Shared = Rice installed in a separate database schema 
 Echo           - When installing in Shared mode, you will be asked to install Shared Rice server.
 Echo    - DB_Type = Choose one: oracle
-Echo    - Ver = Choose one: NEW, 5.3.4, 5.3.3, 5.2.1, ...
+Echo    - Ver = Choose one: NEW, 5.3.5, 5.3.4, 5.3.3, 5.2.1, ...
 Echo       - NEW = New install with an empty database schema
-Echo       - 5.3.3, etc. = upgrading from 5.2.1 KC version, etc.
+Echo       - 5.4.0, etc. = upgrading from 5.2.1 KC version, etc.
 Echo    - un = The AR Database schema name to install database scripts to (Standalone Rice goes here too).
 Echo    - pw = the password for username
 Echo    - DB_svr_name = the TNS name used to locate the database server where AR schema is located (Oracle Only)

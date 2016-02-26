@@ -52,7 +52,7 @@ fi
 
 dbtype=`getChoice 'Enter Database Type' ORACLE`
 
-version=`getChoice 'Enter Currently Installed Version' NEW 3.1.1 5.0 5.0.1 5.1 5.1.1 5.2 5.2.1`5.3.0 5.3.1 5.3.2 5.3.3 5.3.4
+version=`getChoice 'Enter Currently Installed Version' NEW 3.1.1 5.0 5.0.1 5.1 5.1.1 5.2 5.2.1`5.3.0 5.3.1 5.3.2 5.3.3 5.3.4 5.3.5
 
 un=`getAnswer 'Enter AR Database Username'`
 
@@ -375,6 +375,15 @@ case "${dbtype}" in
             cd AR-RELEASE-5_3_5-SCRIPT
             sqlplus "${un}"/"${pw}${DBSvrNm}" < AR-RELEASE-5_3_5-Upgrade-ORACLE.sql
             sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-5_3_5-Upgrade-ORACLE.sql
+            mv *.log ../LOGS/
+            cd ..
+		fi
+
+	if [ "${version}" = "5.3.5" ] || [ "${version}" = "5.3.4" ] || [ "${version}" = "5.3.3" ] || [ "${version}" = "5.3.2" ] || [ "${version}" = "5.3.1" ] || [ "${version}" = "5.3.0" ] || [ "${version}" = "5.2.1" ] || [ ${version}" = "5.2" ] || [ "${version}" = "5.1.1" ] || [ "${version}" = "5.1" ] || [ "${version}" = "5.0.1" ] || [ "${version}" = "5.0" ] || [ "${version}" = '3.1.1' ] || [ "${version}" = "NEW" ]
+        then
+            cd AR-RELEASE-5_4_0-SCRIPT
+            sqlplus "${un}"/"${pw}${DBSvrNm}" < AR-RELEASE-5_4_0-Upgrade-ORACLE.sql
+            sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-5_4_0-Upgrade-ORACLE.sql
             mv *.log ../LOGS/
             cd ..
 		fi
