@@ -90,11 +90,6 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
             auditErrors.add(new AuditError(Constants.DEADLINE_DATE_KEY, KeyConstants.WARNING_PAST_DEADLINE_DATE, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
         }
 
-        if (auditErrors.size() > 0) {
-            KNSGlobalVariables.getAuditErrorMap().put("sponsorProgramInformationAuditWarnings", new AuditCluster(Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_NAME, auditErrors, Constants.AUDIT_WARNINGS));
-            valid &= false;
-        }
-
         auditErrors = new ArrayList<AuditError>();
 
         if (proposal.getS2sOpportunity() != null) {
