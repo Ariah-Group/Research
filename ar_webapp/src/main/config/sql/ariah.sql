@@ -737,3 +737,33 @@ update NOTIFICATION_TYPE set MODULE_CODE=12 where ACTION_CODE=501;
 
 Insert into NOTIFICATION_MODULE_ROLE (NOTIFICATION_MODULE_ROLE_ID,OBJ_ID,VER_NBR,UPDATE_TIMESTAMP,UPDATE_USER,MODULE_CODE,ROLE_NAME)
 values (SEQ_NTFCTN_MODULE_ROLE_ID.nextval,SYS_GUID(),1,sysdate,'admin',12,'KC-SUBAWARD:Subaward Requisitioner Review Approver');
+
+
+-------------------
+-- Version 5.4.0 --
+-------------------
+
+Declare
+  nextnum NUMBER;
+ BEGIN
+  select (MAX(TO_NUMBER(TBN_ID))+1) into nextnum from TBN;
+  execute immediate 'CREATE SEQUENCE "SEQ_TBN_ID" MINVALUE 1 MAXVALUE 999999999999999999 INCREMENT BY 1 START WITH ' || nextnum || ' NOCACHE  ORDER  NOCYCLE';
+END;
+
+-- change TBN.TBN_ID from VARCHAR to NUMBER
+alter table TBN add TBN_ID_2 NUMBER;
+update TBN set TBN_ID_2 = TO_NUMBER(TBN_ID);
+ALTER TABLE    TBN drop constraint    TBNP1;
+update TBN set TBN_ID = null;
+alter table TBN modify (TBN_ID NUMBER);
+update TBN set TBN_ID = TBN_ID_2;
+alter table TBN ADD CONSTRAINT PK_TBNID PRIMARY KEY (TBN_ID);
+alter table TBN drop column TBN_ID_2;
+
+-- change BUDGET_PERSONS.TBN_ID from VARCHAR to NUMBER
+alter table BUDGET_PERSONS add TBN_ID_2 NUMBER;
+update BUDGET_PERSONS set TBN_ID_2 = TO_NUMBER(TBN_ID);
+update BUDGET_PERSONS set TBN_ID = null;
+alter table BUDGET_PERSONS modify (TBN_ID NUMBER);
+update BUDGET_PERSONS set TBN_ID = TBN_ID_2;
+alter table BUDGET_PERSONS drop column TBN_ID_2;

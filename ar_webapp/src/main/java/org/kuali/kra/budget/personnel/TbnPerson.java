@@ -22,7 +22,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  */
 public class TbnPerson extends KraPersistableBusinessObjectBase {
 
-    private String tbnId;
+    private Integer tbnId;
 
     private String personName;
 
@@ -46,11 +46,11 @@ public class TbnPerson extends KraPersistableBusinessObjectBase {
         this.personName = personName;
     }
 
-    public String getTbnId() {
+    public Integer getTbnId() {
         return tbnId;
     }
 
-    public void setTbnId(String tbnId) {
+    public void setTbnId(Integer tbnId) {
         this.tbnId = tbnId;
     }
 

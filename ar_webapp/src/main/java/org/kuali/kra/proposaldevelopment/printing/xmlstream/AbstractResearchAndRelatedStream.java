@@ -1074,6 +1074,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
             }
             if (lineItemIsSeniorPersonnel) {
                 for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
+
                     personAlreadyAdded = false;
                     for (ProposalPerson proposalPerson : developmentProposal.getProposalPersons()) {
                         if (s2SUtilService.proposalPersonEqualsBudgetPerson(proposalPerson, budgetPersonnelDetails)) {
@@ -1086,7 +1087,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
                         if (budgetPersonnelDetails.getBudgetPerson().getRolodexId() != null) {
                             keyPerson = getKeyPersonFromRolodex(budgetPersonnelDetails);
                             keyPersons.add(keyPerson);
-                        } else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getTbnId())) {
+                        } else if (budgetPersonnelDetails.getBudgetPerson().getTbnId() != null) {
                             keyPerson = getKeyPersonFromTbnPerson(budgetPersonnelDetails);
                             keyPersons.add(keyPerson);
                         } else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getPersonId())) {
@@ -1103,7 +1104,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         String budgetCatCodePersonnel = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
                 Constants.PARAMETER_COMPONENT_DOCUMENT,
                 Constants.ARIAH_PROPDEV_PRINTFORMS_BUDGET_CATCODE_PERSONNEL);
-        
+
         for (KeyPersonInfo keyPersonInfo : keyPersons) {
             KeyPersonInfo keyPersonComp = keyPersonInfo;
             CompensationInfo compensationInfo = new CompensationInfo();
@@ -1150,6 +1151,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
                 }
                 if (lineItemIsSeniorPersonnel) {
                     for (BudgetPersonnelDetails budgetPersonnelDetails : lineItem.getBudgetPersonnelDetailsList()) {
+
                         personAlreadyAdded = false;
                         for (ProposalPerson proposalPerson : developmentProposal.getProposalPersons()) {
                             if (s2SUtilService.proposalPersonEqualsBudgetPerson(proposalPerson, budgetPersonnelDetails)) {
@@ -1162,7 +1164,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
                             if (budgetPersonnelDetails.getBudgetPerson().getRolodexId() != null) {
                                 keyPerson = getKeyPersonFromRolodex(budgetPersonnelDetails);
                                 addToKeyPersonList(keyPerson, keyPersons);
-                            } else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getTbnId())) {
+                            } else if (budgetPersonnelDetails.getBudgetPerson().getTbnId() != null) {
                                 keyPerson = getKeyPersonFromTbnPerson(budgetPersonnelDetails);
                                 addToKeyPersonList(keyPerson, keyPersons);
                             } else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getPersonId())) {
@@ -1245,14 +1247,16 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     private KeyPersonInfo getKeyPersonFromTbnPerson(BudgetPersonnelDetails budgetPersonnelDetails) {
         KeyPersonInfo keyPerson = null;
         Map<String, String> searchMap = new HashMap<String, String>();
-        searchMap.put("tbnId", budgetPersonnelDetails.getBudgetPerson().getTbnId());
+        Integer tbnId = budgetPersonnelDetails.getBudgetPerson().getTbnId();
+        searchMap.put("tbnId", tbnId != null ? tbnId.toString() : "");
         TbnPerson tbnPerson = (TbnPerson) businessObjectService.findByPrimaryKey(TbnPerson.class, searchMap);
         if (tbnPerson != null) {
             keyPerson = new KeyPersonInfo();
             keyPerson.setPersonId(tbnPerson.getJobCode());
             String[] tbnNames = tbnPerson.getPersonName().split(" ");
             int nameIndex = 0;
-            keyPerson.setPersonId(tbnPerson.getTbnId());
+            Integer persTbnId = tbnPerson.getTbnId();
+            keyPerson.setPersonId(persTbnId != null ? persTbnId.toString() : "");
             keyPerson.setFirstName(tbnNames.length >= 1 ? tbnNames[nameIndex++] : S2SConstants.VALUE_UNKNOWN);
             keyPerson.setMiddleName(tbnNames.length >= 3 ? tbnNames[nameIndex++] : " ");
             keyPerson.setLastName(tbnNames.length >= 2 ? tbnNames[nameIndex++] : S2SConstants.VALUE_UNKNOWN);

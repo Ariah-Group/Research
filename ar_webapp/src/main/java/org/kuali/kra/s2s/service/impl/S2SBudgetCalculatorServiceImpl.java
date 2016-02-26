@@ -1693,6 +1693,10 @@ public class S2SBudgetCalculatorServiceImpl implements
                 budgetPersonnelDetails.refreshReferenceObject("budgetPerson");
                 if (!personAlreadyAdded) {
                     if (budgetPersonnelDetails.getNonEmployeeFlag()) {
+                        
+                        Integer tbnId = budgetPersonnelDetails.getBudgetPerson().getTbnId();
+                        String sTbnId = tbnId!=null ? tbnId.toString() : "";
+                        
                         if (budgetPersonnelDetails.getBudgetPerson().getRolodexId() != null) {
                             budgetPersonnelDetails.getBudgetPerson().refreshReferenceObject("rolodex");
                             Rolodex rolodexPerson = budgetPersonnelDetails.getBudgetPerson().getRolodex();
@@ -1710,16 +1714,16 @@ public class S2SBudgetCalculatorServiceImpl implements
                             if (isSeniorLineItem(budgetCategoryList, lineItem.getBudgetCategoryCode())) {
                                 keyPersons.add(keyPerson);
                             }
-                        } else if (StringUtils.isNotBlank(budgetPersonnelDetails.getBudgetPerson().getTbnId())) {
+                        } else if (StringUtils.isNotBlank(sTbnId)) {
                             Map<String, String> searchMap = new HashMap<String, String>();
-                            searchMap.put("tbnId", budgetPersonnelDetails.getBudgetPerson().getTbnId());
+                            searchMap.put("tbnId", sTbnId);
                             TbnPerson tbnPerson = (TbnPerson) businessObjectService.findByPrimaryKey(TbnPerson.class, searchMap);
                             if (tbnPerson != null) {
                                 keyPerson = new KeyPersonInfo();
                                 keyPerson.setPersonId(tbnPerson.getJobCode());
                                 String[] tbnNames = tbnPerson.getPersonName().split(" ");
                                 int nameIndex = 0;
-                                keyPerson.setPersonId(tbnPerson.getTbnId());
+                                keyPerson.setPersonId(sTbnId);
                                 keyPerson.setFirstName(tbnNames.length >= 1 ? tbnNames[nameIndex++] : S2SConstants.VALUE_UNKNOWN);
                                 keyPerson.setMiddleName(tbnNames.length >= 3 ? tbnNames[nameIndex++] : " ");
                                 keyPerson.setLastName(tbnNames.length >= 2 ? tbnNames[nameIndex++] : S2SConstants.VALUE_UNKNOWN);
@@ -1908,6 +1912,10 @@ public class S2SBudgetCalculatorServiceImpl implements
         for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
 
             for (BudgetPersonnelDetails personDetails : lineItem.getBudgetPersonnelDetailsList()) {
+                
+                Integer tbnId = personDetails.getBudgetPerson().getTbnId();
+                String sTbnId = tbnId != null ? tbnId.toString() : "";
+                
                 if (s2SUtilService.keyPersonEqualsBudgetPerson(keyPerson, personDetails)) {
                     numberOfMonths = s2SUtilService.getNumberOfMonths(personDetails.getStartDate(), personDetails.getEndDate());
                     if (personDetails.getPeriodTypeCode().equals(
@@ -1931,7 +1939,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                                     .multiply(new BudgetDecimal(0.01)));
                         }
                     } else {
-                        if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId())) {
+                        if (StringUtils.isNotBlank(sTbnId)) {
                             if (lineItem.getBudgetCategory()
                                     .getBudgetCategoryCode().equals(budgetCatagoryCodePersonnel)) {
                                 if (lineItem.getSubmitCostSharingFlag()) {
@@ -1952,7 +1960,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                             }
                         }
                     }
-                    if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId())) {
+                    if (StringUtils.isNotBlank(sTbnId)) {
                         if (lineItem.getBudgetCategory()
                                 .getBudgetCategoryCode().equals(budgetCatagoryCodePersonnel)) {
                             totalSal = totalSal.add(personDetails.getSalaryRequested());
@@ -1961,7 +1969,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                         totalSal = totalSal.add(personDetails.getSalaryRequested());
                     }
                     if (canBudgetLineItemCostSharingInclude(budgetPeriod.getBudget(), lineItem)) {
-                        if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId())) {
+                        if (StringUtils.isNotBlank(sTbnId)) {
                             if (lineItem.getBudgetCategory()
                                     .getBudgetCategoryCode().equals(budgetCatagoryCodePersonnel)) {
                                 totalSalCostSharing = totalSalCostSharing.add(personDetails.getCostSharingAmount());
@@ -1988,7 +1996,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                                 .getRateTypeCode().equals(
                                         getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                                                 Constants.S2SBUDGET_RATE_TYPE_ADMINISTRATIVE_SALARIES)))) {
-                            if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId())) {
+                            if (StringUtils.isNotBlank(sTbnId)) {
                                 if (lineItem.getBudgetCategory()
                                         .getBudgetCategoryCode().equals(budgetCatagoryCodePersonnel)) {
                                     fringe = fringe.add(personCalculatedAmt.getCalculatedCost());
@@ -1997,7 +2005,7 @@ public class S2SBudgetCalculatorServiceImpl implements
                                 fringe = fringe.add(personCalculatedAmt.getCalculatedCost());
                             }
                             if (canBudgetLineItemCostSharingInclude(budgetPeriod.getBudget(), lineItem)) {
-                                if (StringUtils.isNotBlank(personDetails.getBudgetPerson().getTbnId())) {
+                                if (StringUtils.isNotBlank(sTbnId)) {
                                     if (lineItem.getBudgetCategory()
                                             .getBudgetCategoryCode().equals(budgetCatagoryCodePersonnel)) {
                                         fringeCostSharing = fringeCostSharing.add(personCalculatedAmt.getCalculatedCostSharing());

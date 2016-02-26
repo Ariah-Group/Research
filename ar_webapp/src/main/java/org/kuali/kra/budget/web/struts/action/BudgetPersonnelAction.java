@@ -937,7 +937,8 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
             } else if (budget.getBudgetPerson(getSelectedLine(request)).getRolodexId() != null) {
                 budgetPerSalaryDetails.setPersonId(budget.getBudgetPerson(getSelectedLine(request)).getRolodexId().toString());
             } else {
-                budgetPerSalaryDetails.setPersonId(budget.getBudgetPerson(getSelectedLine(request)).getTbnId());
+                Integer tbnId = budget.getBudgetPerson(getSelectedLine(request)).getTbnId();
+                budgetPerSalaryDetails.setPersonId(tbnId != null ? tbnId.toString() : "");
             }
             if (personSalaryDetails != null && personSalaryDetails.size() > 0) {
                 budgetPerSalaryDetails.setBudgetPeriod(personSalaryDetails.get(listIndex).getBudgetPeriod());

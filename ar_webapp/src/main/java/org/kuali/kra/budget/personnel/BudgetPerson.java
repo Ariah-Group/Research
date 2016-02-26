@@ -37,9 +37,9 @@ import java.util.List;
 /**
  * BudgetPerson business object
  */
-public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainable,DateSortable{
+public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainable, DateSortable {
 
-    private static final long serialVersionUID = 1L;    
+    private static final long serialVersionUID = 1L;
 
     private Date effectiveDate;
 
@@ -53,7 +53,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
 
     private Integer rolodexId;
 
-    private String tbnId;
+    private Integer tbnId;
 
     private String appointmentTypeCode;
 
@@ -75,23 +75,22 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
     private String hierarchyProposalNumber;
 
     private boolean hiddenInHierarchy;
-    
+
     private BudgetPersonSalaryDetails personSalaryDetails;
-    
-    private List<BudgetPersonSalaryDetails>budgetPersonSalaryDetails;
-   
+
+    private List<BudgetPersonSalaryDetails> budgetPersonSalaryDetails;
 
     public List<BudgetPersonSalaryDetails> getBudgetPersonSalaryDetails() {
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         List<BudgetPersonSalaryDetails> salaryDetails = new ArrayList<BudgetPersonSalaryDetails>();
-        if(this.budgetPersonSalaryDetails == null || this.budgetPersonSalaryDetails.isEmpty()) {            
+        if (this.budgetPersonSalaryDetails == null || this.budgetPersonSalaryDetails.isEmpty()) {
             HashMap budgetMap = new HashMap();
             budgetMap.put("budgetId", getBudgetId());
             Collection<BudgetPeriod> periods = boService.findMatching(BudgetPeriod.class, budgetMap);
-            for(BudgetPeriod budgetPeriod : periods){
+            for (BudgetPeriod budgetPeriod : periods) {
                 salaryDetails.add(new BudgetPersonSalaryDetails());
             }
-            this.budgetPersonSalaryDetails = salaryDetails; 
+            this.budgetPersonSalaryDetails = salaryDetails;
         }
         return budgetPersonSalaryDetails;
     }
@@ -110,9 +109,9 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
 
     public BudgetPerson() {
         super();
-        budgetPersonSalaryDetails= new ArrayList<BudgetPersonSalaryDetails>();
+        budgetPersonSalaryDetails = new ArrayList<BudgetPersonSalaryDetails>();
         personSalaryDetails = new BudgetPersonSalaryDetails();
-      
+
     }
 
     public BudgetPerson(KcPerson person) {
@@ -151,8 +150,8 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
     }
 
     /*
-	 * Helper method for calculator. This is used for sorting and filtering after combining with rates purpose
-	 */
+     * Helper method for calculator. This is used for sorting and filtering after combining with rates purpose
+     */
     public Date getStartDate() {
         return effectiveDate;
     }
@@ -209,7 +208,8 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
     }
 
     /**
-     * Gets the appointmentTypeCode attribute. 
+     * Gets the appointmentTypeCode attribute.
+     *
      * @return Returns the appointmentTypeCode.
      */
     public String getAppointmentTypeCode() {
@@ -218,6 +218,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
 
     /**
      * Sets the appointmentTypeCode attribute value.
+     *
      * @param appointmentTypeCode The appointmentTypeCode to set.
      */
     public void setAppointmentTypeCode(String appointmentTypeCode) {
@@ -225,7 +226,8 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
     }
 
     /**
-     * Gets the rolodexId attribute. 
+     * Gets the rolodexId attribute.
+     *
      * @return Returns the rolodexId.
      */
     public Integer getRolodexId() {
@@ -234,6 +236,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
 
     /**
      * Sets the rolodexId attribute value.
+     *
      * @param rolodexId The rolodexId to set.
      */
     public void setRolodexId(Integer rolodexId) {
@@ -241,7 +244,8 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
     }
 
     /**
-     * Gets the person attribute. 
+     * Gets the person attribute.
+     *
      * @return Returns the person.
      */
     public KcPerson getPerson() {
@@ -250,6 +254,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
 
     /**
      * Gets the KC Person Service.
+     *
      * @return KC Person Service.
      */
     protected KcPersonService getKcPersonService() {
@@ -260,7 +265,8 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
     }
 
     /**
-     * Gets the roldex attribute. 
+     * Gets the roldex attribute.
+     *
      * @return Returns the roldex.
      */
     public Rolodex getRoldex() {
@@ -269,6 +275,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
 
     /**
      * Sets the rolodex attribute value.
+     *
      * @param rolodex The rolodex to set.
      */
     public void setRoldex(Rolodex rolodex) {
@@ -276,7 +283,8 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
     }
 
     /**
-     * Gets the personSequenceNumber attribute. 
+     * Gets the personSequenceNumber attribute.
+     *
      * @return Returns the personSequenceNumber.
      */
     public Integer getPersonSequenceNumber() {
@@ -285,22 +293,24 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
 
     /**
      * Sets the personSequenceNumber attribute value.
+     *
      * @param personSequenceNumber The personSequenceNumber to set.
      */
     public void setPersonSequenceNumber(Integer personSequenceNumber) {
         this.personSequenceNumber = personSequenceNumber;
     }
 
-    public String getTbnId() {
+    public Integer getTbnId() {
         return tbnId;
     }
 
-    public void setTbnId(String tbnId) {
+    public void setTbnId(Integer tbnId) {
         this.tbnId = tbnId;
     }
 
     /**
-     * Gets the rolodex attribute. 
+     * Gets the rolodex attribute.
+     *
      * @return Returns the rolodex.
      */
     public Rolodex getRolodex() {
@@ -309,6 +319,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
 
     /**
      * Sets the rolodex attribute value.
+     *
      * @param rolodex The rolodex to set.
      */
     public void setRolodex(Rolodex rolodex) {
@@ -324,7 +335,9 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
     }
 
     /**
-     * This method determines if the given budgetPerson is the same person with the same job code & effective date
+     * This method determines if the given budgetPerson is the same person with
+     * the same job code & effective date
+     *
      * @param budgetPerson
      * @return boolean
      */
@@ -364,7 +377,14 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
 
     public String getPersonRolodexTbnId() {
         String rolodexPersonId = getRolodexId() == null ? getPersonId() : getRolodexId().toString();
-        return rolodexPersonId == null ? getTbnId() : rolodexPersonId;
+        String returnValue = null;
+
+        if (rolodexPersonId == null) {
+            returnValue = (getTbnId() != null ? getTbnId().toString() : "");
+        } else {
+            returnValue = rolodexPersonId;
+        }
+        return returnValue;
     }
 
     public String getJobTitle() {
@@ -388,8 +408,8 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
     }
 
     private void getJobTitleFromJobCode() {
-        if (StringUtils.isNotBlank(getJobCode()) && 
-                (this.jobCodeRef == null || !StringUtils.isNotBlank(this.jobCodeRef.getJobTitle())) ) { 
+        if (StringUtils.isNotBlank(getJobCode())
+                && (this.jobCodeRef == null || !StringUtils.isNotBlank(this.jobCodeRef.getJobTitle()))) {
             JobCodeService jcService = KraServiceLocator.getService(JobCodeService.class);
             this.jobCodeRef = jcService.findJobCodeRef(getJobCode());
         }
@@ -405,6 +425,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
 
     /**
      * Sets the hierarchyProposalNumber attribute value.
+     *
      * @param hierarchyProposalNumber The hierarchyProposalNumber to set.
      */
     public void setHierarchyProposalNumber(String hierarchyProposalNumber) {
@@ -412,7 +433,8 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
     }
 
     /**
-     * Gets the hierarchyProposalNumber attribute. 
+     * Gets the hierarchyProposalNumber attribute.
+     *
      * @return Returns the hierarchyProposalNumber.
      */
     public String getHierarchyProposalNumber() {
@@ -420,7 +442,8 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
     }
 
     /**
-     * Gets the hiddenInHierarchy attribute. 
+     * Gets the hiddenInHierarchy attribute.
+     *
      * @return Returns the hiddenInHierarchy.
      */
     public boolean isHiddenInHierarchy() {
@@ -429,6 +452,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
 
     /**
      * Sets the hiddenInHierarchy attribute value.
+     *
      * @param hiddenInHierarchy The hiddenInHierarchy to set.
      */
     public void setHiddenInHierarchy(boolean hiddenInHierarchy) {
@@ -466,23 +490,22 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
             if (other.getBudgetId() != null) {
                 return false;
             }
-        }
-        else if (!getBudgetId().equals(other.getBudgetId())) {
+        } else if (!getBudgetId().equals(other.getBudgetId())) {
             return false;
         }
         if (personSequenceNumber == null) {
             if (other.personSequenceNumber != null) {
                 return false;
             }
-        }
-        else if (!personSequenceNumber.equals(other.personSequenceNumber)) {
+        } else if (!personSequenceNumber.equals(other.personSequenceNumber)) {
             return false;
         }
         return true;
     }
 
     /**
-     * Gets the salaryAnniversaryDate attribute. 
+     * Gets the salaryAnniversaryDate attribute.
+     *
      * @return Returns the salaryAnniversaryDate.
      */
     public Date getSalaryAnniversaryDate() {
@@ -491,6 +514,7 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
 
     /**
      * Sets the salaryAnniversaryDate attribute value.
+     *
      * @param salaryAnniversaryDate The salaryAnniversaryDate to set.
      */
     public void setSalaryAnniversaryDate(Date salaryAnniversaryDate) {
@@ -509,9 +533,5 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
     public BudgetPersonSalaryDetails getPersonSalaryDetails() {
         return personSalaryDetails;
     }
-   
-  
-    
-    
-    
+
 }
