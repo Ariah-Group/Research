@@ -21,8 +21,8 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
 public interface BudgetCostShareAllocationRule extends BusinessRule {
 
     /**
-     * ProcessDefinitionDefinitionDefinition business rules for allocation of BudgetCostShare
-     * @param addBudgetCostShareEvent
+     * business rules for allocation of BudgetCostShare
+     * @param budgetCostShareEvent
      * @return
      */
     public boolean processBudgetCostShareAllocationBusinessRules(BudgetCostShareAllocationEvent budgetCostShareEvent);
