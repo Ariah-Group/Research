@@ -179,7 +179,6 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
             protocol.setInitialSubmissionDate(new Date(submission.getSubmissionDate().getTime()));
         }
         
-        protocolAssignReviewersService.assignReviewers(submission, submitAction.getReviewers());
         ProtocolAction protocolAction = new ProtocolAction(protocol, submission, ProtocolActionType.SUBMIT_TO_IRB);
         protocolAction.setComments(SUBMIT_TO_IRB);
         //For the purpose of audit trail
@@ -187,6 +186,13 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         protocolAction.setPrevSubmissionStatusCode(prevSubmissionStatus);
         protocolAction.setSubmissionTypeCode(submissionTypeCode);
         protocol.getProtocolActions().add(protocolAction);
+        
+        // need to save protocol so the submit action above saves and generate a ProtocolActionIds
+        businessObjectService.save(protocol);
+        
+        // moved assignReviewers until ATFER submit To IRB action takes place as KC associates the notifications 
+        // with the LAST action taken which SHOULD be the submit operation 
+        protocolAssignReviewersService.assignReviewers(submission, submitAction.getReviewers());        
         
         //TODO this is for workflow testing, but we do need to plumb the status change in here somewhere.
         ProtocolStatus protocolStatus = new ProtocolStatus();
