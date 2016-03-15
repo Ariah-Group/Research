@@ -767,3 +767,7 @@ update BUDGET_PERSONS set TBN_ID = null;
 alter table BUDGET_PERSONS modify (TBN_ID NUMBER);
 update BUDGET_PERSONS set TBN_ID = TBN_ID_2;
 alter table BUDGET_PERSONS drop column TBN_ID_2;
+
+
+-- RES-559
+Insert into KRCR_CMPNT_T (NMSPC_CD,CMPNT_CD,OBJ_ID,VER_NBR,NM,ACTV_IND) values ('KC-IDM','All',SYS_GUID(),1,'All','Y');
