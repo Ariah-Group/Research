@@ -112,7 +112,7 @@ public class AwardSyncServiceImpl implements AwardSyncService {
     public AwardDocument getAwardLockingHierarchyForSync(AwardDocument awardDocument, String principalId) {
         AwardHierarchy hierarchy = getAwardHierarchyService().loadAwardHierarchy(awardDocument.getAward().getAwardNumber());
         if (hierarchy != null) {
-            Person person = getPersonService().getPerson(principalId);
+            //Person person = getPersonService().getPerson(principalId);
             while (hierarchy.getParent() != null) {
                 hierarchy = hierarchy.getParent();
                 Award parentAward = getPendingAward(hierarchy.getAwardNumber());
