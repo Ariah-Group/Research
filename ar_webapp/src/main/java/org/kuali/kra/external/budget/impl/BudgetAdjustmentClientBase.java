@@ -368,7 +368,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
             } else {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,
                         KeyConstants.FINANCIAL_OBJECT_CODE_MAPPING_NOT_FOUND,
-                        "Object Code: " + costElement);
+                        "Cost Element: " + costElement);
                 complete &= false;
             }
         }
@@ -548,8 +548,8 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
         if (ObjectUtils.isNull(costElement.getFinancialObjectCode())) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,
                     KeyConstants.FINANCIAL_OBJECT_CODE_MAPPING_NOT_FOUND,
-                    "Object Code: " + costElementName);
-            LOG.error("No financial system object code mapped to object code " + costElementName + " .");
+                    "Cost Element: " + costElementName);
+            LOG.error("No financial system Cost Element mapped to Cost Element " + costElementName + " .");
         }
         return costElement.getFinancialObjectCode();
     }

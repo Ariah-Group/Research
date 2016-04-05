@@ -59,8 +59,8 @@
     <bean id="CostElement-costElement-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="costElement" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Object Code Name" />
-        <property name="shortLabel" value="Object Code Name" />
+        <property name="label" value="Cost Element Name" />
+        <property name="shortLabel" value="Cost Element Name" />
         <property name="maxLength" value="8" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
@@ -69,8 +69,8 @@
             <bean parent="TextControlDefinition"
             p:size="8" />
         </property>
-        <property name="summary" value="Object Code Name" />
-        <property name="description" value="Object Code Name" />
+        <property name="summary" value="Cost Element Name" />
+        <property name="description" value="Cost Element Name" />
     </bean>
 
     <bean id="CostElement-budgetCategoryCode" parent="CostElement-budgetCategoryCode-parentBean" />
@@ -96,8 +96,8 @@
     <bean id="CostElement-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="financialObjectCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Financial Object Code" />
-        <property name="shortLabel" value="Financial Object Code" />
+        <property name="label" value="Financial Cost Element" />
+        <property name="shortLabel" value="Financial Cost Element" />
         <property name="maxLength" value="8" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
@@ -106,8 +106,8 @@
             <bean parent="TextControlDefinition"
             p:size="8" />
         </property>
-        <property name="summary" value="Financial Object Code" />
-        <property name="description" value="Financial Object Code" />
+        <property name="summary" value="Financial Cost Element" />
+        <property name="description" value="Financial Cost Element" />
     </bean>
   
     <bean id="CostElement-budgetCategory.description" parent="CostElement-budgetCategory.description-parentBean" />
@@ -181,12 +181,12 @@
 
     <bean id="CostElement-inquiryDefinition" parent="CostElement-inquiryDefinition-parentBean" />
     <bean id="CostElement-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-        <property name="title" value="Object Code" />
+        <property name="title" value="Cost Element" />
         <property name="inquirableClass" value="org.kuali.kra.budget.core.CostElementInquirableImpl" />
         <property name="inquirySections" >
             <list>
                 <bean parent="InquirySectionDefinition">
-                    <property name="title" value="Object Code" />
+                    <property name="title" value="Cost Element" />
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
@@ -205,7 +205,7 @@
                     </property>
                 </bean>
                 <bean parent="InquirySectionDefinition">
-                    <property name="title" value="Object Code KFS Options" />
+                    <property name="title" value="Cost Element KFS Options" />
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
@@ -223,7 +223,7 @@
 
     <bean id="CostElement-lookupDefinition" parent="CostElement-lookupDefinition-parentBean" />
     <bean id="CostElement-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Object Code Lookup" />
+        <property name="title" value="Cost Element Lookup" />
         <property name="lookupableID" value="budgetExpenseLookupable" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 

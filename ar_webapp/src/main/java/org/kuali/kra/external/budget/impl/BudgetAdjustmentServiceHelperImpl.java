@@ -273,8 +273,8 @@ public class BudgetAdjustmentServiceHelperImpl implements BudgetAdjustmentServic
                 String[] personElements = person.split(",");
                 return personElements;
         }
-        LOG.error("The string is not in the format objectCode,personId  . Unable to retrieve object code.");
-        throw new Exception("The string " + person + "is not in the format objectCode,personId  . Unable to retrieve object code.");
+        LOG.error("The string is not in the format objectCode,personId  . Unable to retrieve Cost Element.");
+        throw new Exception("The string " + person + "is not in the format costElement,personId  . Unable to retrieve Cost Element.");
     }
    
     

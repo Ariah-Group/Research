@@ -185,8 +185,8 @@
   <bean id="BudgetLineItem-costElement-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="costElement" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Object Code Name" />
-    <property name="shortLabel" value="Object Code Name" />
+    <property name="label" value="Cost Element Name" />
+    <property name="shortLabel" value="Cost Element Name" />
     <property name="maxLength" value="8" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
@@ -197,8 +197,8 @@
             p:valuesFinderClass="org.ariahgroup.research.budget.lookup.keyvalue.CostElementValuesFinder"
             p:includeKeyInLabel="false" />
     </property>
-    <property name="summary" value="Object Code Name" />
-    <property name="description" value="Object Code Name" />
+    <property name="summary" value="Cost Element Name" />
+    <property name="description" value="Cost Element Name" />
   </bean>
   <bean id="BudgetLineItem-groupName" parent="BudgetLineItem-groupName-parentBean" />
 

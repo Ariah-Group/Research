@@ -285,7 +285,7 @@
       <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.budget.lookup.keyvalue.BudgetOnOffCampusValuesFinder" p:includeKeyInLabel="false"/>
     </property>
     <property name="summary" value="On Off CampusContractContract flag"/>
-    <property name="description" value="On Off CampusContractContract flag allowing the user to set all expense line items to be either 'all on' or 'all off-campus'; overriding the object code level defaults."/>
+    <property name="description" value="On Off CampusContractContract flag allowing the user to set all expense line items to be either 'all on' or 'all off-campus'; overriding the Cost Element level defaults."/>
   </bean>
   <bean id="Budget-versionNumber" parent="Budget-versionNumber-parentBean"/>
 

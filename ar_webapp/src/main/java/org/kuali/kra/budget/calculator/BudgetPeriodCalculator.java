@@ -146,7 +146,7 @@ public class BudgetPeriodCalculator {
                     if(StringUtils.equals(currentBudgetLineItem.getCostElement(), budgetLineItemToBeApplied.getCostElement()) && 
                             StringUtils.equals(currentBudgetLineItem.getGroupName(), budgetLineItemToBeApplied.getGroupName())) {
                         errorMessages.add("This line item contains personnel budget details"
-                                + " and there is already a line item on period " + budgetPeriod + " for this Object Code \\ Group combination. \n"
+                                + " and there is already a line item on period " + budgetPeriod + " for this Cost Element \\ Group combination. \n"
                                 + "Cannot apply the changes to later periods.");
                         return;
                     }

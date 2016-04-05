@@ -33,8 +33,8 @@
   <bean id="FinancialObjectCodeMapping-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="financialObjectCode" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="Financial Object Code" />
-    <property name="shortLabel" value="Financial Object Code" />
+    <property name="label" value="Financial Cost Element" />
+    <property name="shortLabel" value="Financial Cost Element" />
     <property name="maxLength" value="8" />
     <property name="validationPattern" >
       <bean parent="AlphaNumericValidationPattern" />
@@ -43,8 +43,8 @@
       <bean parent="TextControlDefinition"
             p:size="8" />
     </property>
-    <property name="summary" value="Financial Object Code" />
-    <property name="description" value="Financial Object Code" />
+    <property name="summary" value="Financial Cost Element" />
+    <property name="description" value="Financial Cost Element" />
   </bean>
   
 

@@ -3,7 +3,7 @@
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>FinancialObjectCodeMappingMaintenanceDocument</name>
-			<description>Create new Financial Object Code</description>
+			<description>Create new Financial Cost Element</description>
 			<label>FinancialObjectCodeMapping Maintenance Document</label>
 			<parent>ArSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/FinancialObjectCodeMapping.htm</helpDefinitionURL>
