@@ -12,6 +12,8 @@
 	<param name="datasource.password">db_password</param>
 	<param name="datasource.ojb.platform">Oracle9i</param>
 
+
+
 	<!-- For Embedded Mode - up to S2S Configuration - uncomment as needed -->
 	<!--
 	<param name="rice.server.url">http://127.0.0.1:8080/kr-${environment}</param>
