@@ -53,8 +53,9 @@ public class ReturnForSMRUnavailableAuthorizer extends ProtocolAuthorizer {
             boolean traditionalSubPerform = ProtocolActionType.RECORD_COMMITTEE_DECISION.equals(lastAction.getProtocolActionTypeCode())
                     && CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS.equals(lastSubmission.getCommitteeDecisionMotionTypeCode());
 
-            boolean exemptExpeditePerform = false;
             boolean submittedToIrb = false;
+            boolean exemptExpeditePerform = false;
+            boolean isFullReviewType = false;
 
             // if the protocol submission status is Submitted To Committee, then it can be returned for SMR or SRR
             if (ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE.equals(lastSubmission.getSubmissionStatusCode())) {
@@ -64,9 +65,10 @@ public class ReturnForSMRUnavailableAuthorizer extends ProtocolAuthorizer {
             // if a protocol hasn't been submitted yet the review type object is NULL
             if (lastSubmission.getProtocolReviewType() != null) {
                 exemptExpeditePerform = canPerformActionOnExpeditedOrExempt(lastSubmission, lastAction);
+                isFullReviewType = isFullConvend(lastSubmission.getProtocolReviewType().getReviewTypeCode());
             }
 
-            canPerform = (traditionalSubPerform || submittedToIrb) && (exemptExpeditePerform);
+            canPerform = (traditionalSubPerform || submittedToIrb) && (exemptExpeditePerform || isFullReviewType);
         }
 
         return canPerform;
