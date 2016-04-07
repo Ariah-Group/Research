@@ -20,6 +20,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 
 /**
  * Is the user allowed to return protocols for substantive revisions and the action is currently not available?
@@ -41,17 +42,27 @@ public class ReturnForSRRUnavailableAuthorizer extends ProtocolAuthorizer {
     private boolean canPerform(ProtocolAction lastAction, ProtocolSubmission lastSubmission) {
         boolean canPerform = false;
         
-        if (lastAction != null && lastSubmission != null) {
+       if (lastAction != null && lastSubmission != null) {
             
+            // if the committee reviewed it and submitted a decision to return for SRR,
+            // then it should be allowed to use Return for SMR/SRR actions            
             boolean normalCanPerform = ProtocolActionType.RECORD_COMMITTEE_DECISION.equals(lastAction.getProtocolActionTypeCode()) 
             && CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(lastSubmission.getCommitteeDecisionMotionTypeCode());
             
+            boolean submittedToIrb = false;
             boolean exemptExpeditePerform = false;
+            
+            // if the protocol submission status is Submitted To Committee, then it can be returned for SMR or SRR
+            if (ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE.equals(lastSubmission.getSubmissionStatusCode())) {
+                submittedToIrb = true;
+            }
+
+            // if a protocol hasn't been submitted yet the review type object is NULL            
             if (lastSubmission.getProtocolReviewType() != null){
                 exemptExpeditePerform =  canPerformActionOnExpeditedOrExempt(lastSubmission, lastAction);
             }
             
-            canPerform = normalCanPerform || exemptExpeditePerform;
+            canPerform = (normalCanPerform || submittedToIrb) && (exemptExpeditePerform);
         }
         
         return canPerform;
