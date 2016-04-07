@@ -12,22 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * ------------------------------------------------------
- * Updates made after January 1, 2015 are :
- * Copyright 2015 The Ariah Group, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 package org.kuali.kra.questionnaire.question;
 
@@ -36,6 +20,7 @@ import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.*;
+import org.ariahgroup.research.questionnaire.dao.QuestionnaireFinderDao;
 
 /**
  * Implementation of the various Question services.
@@ -48,8 +33,10 @@ public class QuestionServiceImpl implements QuestionService {
     private static final String QUESTION_ID = "questionId";
     private static final String QUESTION_QUESTION_ID = "questionnaireQuestions.question.questionId";
     private static final String QUESTIONNAIRE_ID = "questionnaireId";
+    private static final String SEQUENCE_NUMBER = "sequenceNumber";
 
     private BusinessObjectService businessObjectService;
+    private QuestionnaireFinderDao questionnaireFinderDao;
 
     /**
      * Set the Business Object Service.
@@ -128,15 +115,27 @@ public class QuestionServiceImpl implements QuestionService {
      */
     @SuppressWarnings("unchecked")
     protected boolean isActiveQuestionnaire(Questionnaire questionnaire) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(QUESTIONNAIRE_ID, questionnaire.getQuestionnaireId());
-        Collection<Questionnaire> questionnaires = businessObjectService.findMatching(Questionnaire.class, fieldValues);
+        Collection<Questionnaire> questionnaires = questionnaireFinderDao.getQuestionnaireById(Questionnaire.class, questionnaire.getQuestionnaireId());
         if (questionnaires.size() > 0) {
-            Questionnaire maxQuestionnaire = (Questionnaire) Collections.max(questionnaires);
+            Questionnaire maxQuestionnaire = questionnaires.iterator().next();
             if (maxQuestionnaire.getQuestionnaireRefId().equals(questionnaire.getQuestionnaireRefId())) {
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * @return the questionnaireFinderDao
+     */
+    public QuestionnaireFinderDao getQuestionnaireFinderDao() {
+        return questionnaireFinderDao;
+}
+
+    /**
+     * @param questionnaireFinderDao the questionnaireFinderDao to set
+     */
+    public void setQuestionnaireFinderDao(QuestionnaireFinderDao questionnaireFinderDao) {
+        this.questionnaireFinderDao = questionnaireFinderDao;
     }
 }
