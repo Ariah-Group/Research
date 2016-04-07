@@ -150,6 +150,10 @@ public abstract class ProtocolAuthorizer extends ProtocolAuthorizerBase {
     private boolean isExempt(String reviewTypeCode) {
         return ProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE.equals(reviewTypeCode);
     }
+    
+    protected boolean isFullConvend(String reviewTypeCode) {
+        return ProtocolReviewType.FULL_TYPE_CODE.equals(reviewTypeCode);
+    }    
 
     /**
      * Is the submission expedited?

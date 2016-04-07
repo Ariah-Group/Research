@@ -42,7 +42,7 @@ public class ReturnForSRRUnavailableAuthorizer extends ProtocolAuthorizer {
     private boolean canPerform(ProtocolAction lastAction, ProtocolSubmission lastSubmission) {
         boolean canPerform = false;
         
-       if (lastAction != null && lastSubmission != null) {
+        if (lastAction != null && lastSubmission != null) {
             
             // if the committee reviewed it and submitted a decision to return for SRR,
             // then it should be allowed to use Return for SMR/SRR actions            
@@ -51,6 +51,7 @@ public class ReturnForSRRUnavailableAuthorizer extends ProtocolAuthorizer {
             
             boolean submittedToIrb = false;
             boolean exemptExpeditePerform = false;
+            boolean isFullReviewType = false;
             
             // if the protocol submission status is Submitted To Committee, then it can be returned for SMR or SRR
             if (ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE.equals(lastSubmission.getSubmissionStatusCode())) {
@@ -60,9 +61,10 @@ public class ReturnForSRRUnavailableAuthorizer extends ProtocolAuthorizer {
             // if a protocol hasn't been submitted yet the review type object is NULL            
             if (lastSubmission.getProtocolReviewType() != null){
                 exemptExpeditePerform =  canPerformActionOnExpeditedOrExempt(lastSubmission, lastAction);
+                isFullReviewType = isFullConvend(lastSubmission.getProtocolReviewType().getReviewTypeCode());
             }
             
-            canPerform = (normalCanPerform || submittedToIrb) && (exemptExpeditePerform);
+            canPerform = (normalCanPerform || submittedToIrb) && (exemptExpeditePerform || isFullReviewType);
         }
         
         return canPerform;
