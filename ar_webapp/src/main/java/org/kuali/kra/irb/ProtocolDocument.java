@@ -286,7 +286,8 @@ public class ProtocolDocument extends ProtocolDocumentBase {
     private boolean isProtocolApproved(String protocolActionTypeCode) {
         if (StringUtils.equals(ProtocolActionType.APPROVED, protocolActionTypeCode)
                 || StringUtils.equals(ProtocolActionType.EXPEDITE_APPROVAL, protocolActionTypeCode)
-                || StringUtils.equals(ProtocolActionType.RESPONSE_APPROVAL, protocolActionTypeCode)) {
+                || StringUtils.equals(ProtocolActionType.RESPONSE_APPROVAL, protocolActionTypeCode)
+                || StringUtils.equals(ProtocolActionType.GRANT_EXEMPTION, protocolActionTypeCode)) {
             return true;
         }
         return false;
