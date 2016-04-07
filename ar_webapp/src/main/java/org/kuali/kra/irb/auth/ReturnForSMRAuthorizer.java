@@ -20,6 +20,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 
 /**
  * Is the user allowed to return protocols for specific minor revisions?
@@ -28,34 +29,46 @@ public class ReturnForSMRAuthorizer extends ProtocolAuthorizer {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
+     *
+     * @see
+     * org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String,
+     * org.kuali.kra.irb.auth.ProtocolTask)
      */
     @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
         ProtocolAction lastAction = task.getProtocol().getLastProtocolAction();
         ProtocolSubmission lastSubmission = task.getProtocol().getProtocolSubmission();
-        
+
         return canPerform(lastAction, lastSubmission) && hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);
     }
-    
+
     private boolean canPerform(ProtocolAction lastAction, ProtocolSubmission lastSubmission) {
         boolean canPerform = false;
-        
+
         if (lastAction != null && lastSubmission != null) {
-            
-            boolean traditionalSubPerform  = ProtocolActionType.RECORD_COMMITTEE_DECISION.equals(lastAction.getProtocolActionTypeCode())
-            && CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS.equals(lastSubmission.getCommitteeDecisionMotionTypeCode());
-            
+
+            // if the committee reviewed it and submitted a decision to return for SMR,
+            // then it should be allowed to use Return for SMR/SRR actions
+            boolean traditionalSubPerform = ProtocolActionType.RECORD_COMMITTEE_DECISION.equals(lastAction.getProtocolActionTypeCode())
+                    && CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS.equals(lastSubmission.getCommitteeDecisionMotionTypeCode());
+
             boolean exemptExpeditePerform = false;
-            if (lastSubmission.getProtocolReviewType() != null){
-                exemptExpeditePerform =  canPerformActionOnExpeditedOrExempt(lastSubmission, lastAction);
+            boolean submittedToIrb = false;
+
+            // if the protocol submission status is Submitted To Committee, then it can be returned for SMR or SRR
+            if (ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE.equals(lastSubmission.getSubmissionStatusCode())) {
+                submittedToIrb = true;
             }
-            
-            
-            canPerform = traditionalSubPerform || exemptExpeditePerform;
+
+            // if a protocol hasn't been submitted yet the review type object is NULL
+            if (lastSubmission.getProtocolReviewType() != null) {
+                exemptExpeditePerform = canPerformActionOnExpeditedOrExempt(lastSubmission, lastAction);
+            }
+
+            canPerform = (traditionalSubPerform || submittedToIrb) && exemptExpeditePerform;
         }
-        
+
         return canPerform;
     }
-    
+
 }
