@@ -30,6 +30,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import org.ariahgroup.research.committee.dao.CommitteeFinderDao;
 
 /**
  * The CommitteeBase Service implementation.
@@ -42,6 +43,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
 
     private BusinessObjectService businessObjectService;
     private VersioningService versioningService;
+    private CommitteeFinderDao committeeFinderDao;
 
     /**
      * Set the Business Object Service.
@@ -83,15 +85,10 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
     public CMT getCommitteeById(String committeeId) {
         CMT committee = null;
         if (!StringUtils.isBlank(committeeId)) {
-            Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put(COMMITTEE_ID, committeeId);
-            Collection<CMT> committees = businessObjectService.findMatching(getCommitteeBOClassHook(), fieldValues);
+            Collection<CMT> committees = committeeFinderDao.getCommitteeById(getCommitteeBOClassHook(), committeeId);
+
             if (committees.size() > 0) {
-                /*
-                 * Return the most recent approved committee (i.e. the committee version with the highest 
-                 * sequence number that is approved/in the database).
-                 */
-                committee = (CMT) Collections.max(committees);
+                committee = (CMT) committees.iterator().next();
             }
         }
         return committee;
@@ -414,4 +411,19 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
         }
         return getVersioningService().createNewVersion(committee);
     }
+
+    /**
+     * @return the committeeFinderDao
+     */
+    public CommitteeFinderDao getCommitteeFinderDao() {
+        return committeeFinderDao;
+    }
+
+    /**
+     * @param committeeFinderDao the committeeFinderDao to set
+     */
+    public void setCommitteeFinderDao(CommitteeFinderDao committeeFinderDao) {
+        this.committeeFinderDao = committeeFinderDao;
+    }
+
 }
