@@ -17,19 +17,15 @@
 <script type='text/javascript' src='dwr/interface/KraPersonService.js'></script>
 <script type='text/javascript 'src='dwr/interface/PersonService.js'></script>
 <script type='text/javascript' src='dwr/interface/RolodexService.js'></script>
-<!-- <script type='text/javascript' src='dwr/engine.js'></script> -->
 <script type='text/javascript' src='dwr/util.js'></script>
 <script>
     $jq = jQuery.noConflict();
 </script>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
 <c:set var="awardPersonAttributes" value="${DataDictionary.AwardPerson.attributes}" />
 <c:set var="keyPersonRoleConstant" value="<%=org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE%>" />
 <c:set var="coiRoleConstant" value="<%=org.kuali.kra.infrastructure.Constants.CO_INVESTIGATOR_ROLE%>" />
-
 <%-- kra:section permission="modifyAward" --%>
-
 <kul:tab tabTitle="Key Personnel and Credit Split" tabItemCount="${KualiForm.projectPersonnelBean.projectPersonnelCount}" defaultOpen="false" 
          transparentBackground="true" useRiceAuditMode="true" innerTabErrorKey="document.awardList[0].projectPersons[*">
     <div class="tab-container" align="center">
@@ -40,7 +36,6 @@
         <kul:innerTab tabTitle="Key Personnel" parentTab="Key Personnel and Credit Split" defaultOpen="true" 
                       tabErrorKey="projectPersonnelBean.contactRoleCode*,projectPersonnelBean.newAwardContact*,document.awardList[0].projectPersons,projectPersonnelBean.projectPersonnel[*"
                       auditCluster="contactsAuditErrors,contactsAuditWarnings" tabAuditKey="document.awardList[0].projectPerson*">
-
             <table id="contacts-table" cellpadding="0" cellspacing="0" summary="Key Personnel">
                 <tr>
                     <th scope="row" width="5%">&nbsp;</th>
@@ -52,7 +47,6 @@
                     <th width="15%">Email</th>
                     <th width="15%"><div align="center">Actions</div></th>
                 </tr>
-
                 <c:if test="${!readOnly}">
                     <tbody class="addline">
                         <tr>
@@ -76,14 +70,11 @@
                                                 <kul:lookup boClassName="org.kuali.kra.bo.KcPerson"
                                                             fieldConversions="personId:projectPersonnelBean.personId" anchor="${tabKey}"
                                                             lookupParameters="projectPersonnelBean.newProjectPerson.person.fullName:lastName"/>				
-
                                             </c:if> <c:if test="${readOnly}">
                                                 <html:hidden styleId ="per.fullName.div" property="projectPersonnelBean.newProjectPerson.person.fullName" />
                                             </c:if>
-
                                             <html:hidden styleId ="key.personId" property="projectPersonnelBean.personId" />
                                             ${kfunc:registerEditableProperty(KualiForm, "projectPersonnelBean.personId")}				
-
                                             <div id="per.fullName.div">&nbsp; <c:if
                                                     test="${!empty KualiForm.projectPersonnelBean.newProjectPerson.person}">
                                                     <c:choose>
@@ -92,8 +83,7 @@
                                                             <span style='color: red;'>not found</span>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <c:out
-                                                                value="${KualiForm.projectPersonnelBean.newProjectPerson.person.fullName}" />
+                                                            <c:out value="${KualiForm.projectPersonnelBean.newProjectPerson.person.fullName}" />
                                                         </c:otherwise>
                                                     </c:choose>
                                                 </c:if></div>
@@ -102,7 +92,6 @@
                                     <tr>
                                         <td style="white-space:nowrap; border: none;">
                                             <label><span style="margin-right: 3;">Non-employee ID:</span></label>
-
                                         </td>
                                         <td style="white-space:nowrap; border: none;">
                                             <kul:htmlControlAttribute property="projectPersonnelBean.newProjectPerson.rolodex.fullName" 
@@ -122,10 +111,8 @@
                                             <c:if test="${readOnly}">
                                                 <html:hidden styleId ="rol.fullName.div" property="projectPersonnelBean.newProjectPerson.rolodex.fullName" />
                                             </c:if>
-
                                             ${kfunc:registerEditableProperty(KualiForm, "projectPersonnelBean.rolodexId")}
                                             <html:hidden styleId ="key.rolodexId" property="projectPersonnelBean.rolodexId" />
-
                                             <div id="rol.fullName.div">&nbsp; <c:if
                                                     test="${!empty KualiForm.projectPersonnelBean.newAwardContact}">
                                                     <c:choose>
@@ -277,21 +264,10 @@
                                 </c:if>
                             </div>
                             ${KualiForm.valueFinderResultCache}
-
                         </td>
-                        <td valign="middle">
-                            <div align="center">
-                                ${awardContact.phoneNumber}&nbsp;
-                            </div> 
-                        </td>
-                        <td valign="middle">
-                            <div align="center">                	
-                                ${awardContact.emailAddress}&nbsp;
-                            </div> 
-                        </td>
-
-                        <td>
-                            <div align="center">
+                        <td valign="middle"><div align="center">${awardContact.phoneNumber}&nbsp;</div></td>
+                        <td valign="middle"><div align="center">${awardContact.emailAddress}&nbsp;</div></td>
+                        <td><div align="center">
                                 <c:if test="${!readOnly}">
                                     <html:image property="methodToCall.deleteProjectPerson.line${awardContactRowStatus.index}.anchor${currentTabIndex}"
                                                 src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
@@ -304,24 +280,20 @@
                                 </div>
                             </td>
                         </tr>
-
                         <tr>
-                            <td colspan="6">
+                          <td colspan="6">
                             <kra-a:awardProjectPersonnelPersonDetails awardContact="${awardContact}" awardContactRowStatusIndex="${awardContactRowStatus.index}" />
-                        </td>
-                    </tr>
+                          </td>
+                        </tr>
                     <tr>
                         <td colspan="6">
                             <kra-a:awardProjectPersonnelUnits awardContact="${awardContact}" awardPersonIndex="${awardContactRowStatus.index}" />
                         </td>
                     </tr>
-                    <tr>
-                        <td colspan="6">&nbsp;</td>
-                    </tr>	                     
+                    <tr><td colspan="6">&nbsp;</td></tr>	                     
                 </c:forEach>	    	
             </table>
         </kul:innerTab>
-
         <c:if test="${KualiForm.awardCreditSplitBean.awardCreditsLimitApplicable && KualiForm.document.awardList[0].totalUnitCountAtLeastOne}" > 
             <kra-a:creditSplit/>
         </c:if>	    
