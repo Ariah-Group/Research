@@ -54,7 +54,7 @@
 </tbody>
 
 <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-	<tbody style="display: ;" id="tab-${tabKey}-div">
+	<tbody id="tab-${tabKey}-div">
 </c:if>
 <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
 	<tbody style="display: none;" id="tab-${tabKey}-div">

@@ -207,7 +207,7 @@
     <div align="left">    
 
 	<div style="position: relative; margin: 2px 0pt 0pt;">
-	  <div style="position:absolute; left:0px; height=285px; width:100%; text-align: center; z-index:100; display:none;" id="loading"><img style="margin-top: 90px;" src="static/images/awardHierarchy-loading.gif" alt="loading"/><span class="statusMessage"></span>
+	  <div style="position:absolute; left:0px; height: 285px; width:100%; text-align: center; z-index:100; display:none;" id="loading"><img style="margin-top: 90px;" src="static/images/awardHierarchy-loading.gif" alt="loading"/><span class="statusMessage"></span>
 	  </div>	
      <div id="awardHierarchyScrollable" style = "background:#e4e4e4; margin: 10px 0px 10px 0px; clear: left; height: 285px; width: 100%; overflow-y: auto; overflow-x: auto; position: relative;" >
        <html:hidden property="awardHierarchyScrollPosition"/>

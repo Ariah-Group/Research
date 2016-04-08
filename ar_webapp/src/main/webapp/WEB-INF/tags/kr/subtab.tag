@@ -47,7 +47,7 @@
     <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
     
     <c:choose>
-        <c:when test="${(useCurrentTabIndexAsKey)}">
+        <c:when test="${useCurrentTabIndexAsKey}">
             <c:set var="tabKey" value="${currentTabIndex}"/>
         </c:when>
         <c:otherwise>
