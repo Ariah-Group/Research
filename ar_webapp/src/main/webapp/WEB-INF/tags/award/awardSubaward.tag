@@ -85,8 +85,10 @@
                 $<fmt:formatNumber value="${KualiForm.document.awardList[0].totalApprovedSubawardAmount}" type="currency" currencySymbol="" maxFractionDigits="2" />
             </th>
             <th align="center" scope="row">
+                <c:if test="${!readOnly}">
                 <html:image property="methodToCall.recalculateSubawardTotal.anchor${tabKey}"
                             src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton"/>
+                </c:if>
             </th>
             </tr>
         </table>
