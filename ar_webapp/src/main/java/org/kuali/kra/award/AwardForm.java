@@ -1593,19 +1593,18 @@ public class AwardForm extends BudgetVersionFormBase
 
         boolean hidePanel = false;
 
+        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("moduleCode", CoeusModule.INSTITUTIONAL_PROPOSAL_MODULE_CODE);
+        fieldValues.put("active", "Y");
 
-        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        Collection<CoeusModule> modules = businessObjectService.findMatching(CoeusModule.class, fieldValues);
+        int numMatching = businessObjectService.countMatching(CoeusModule.class, fieldValues);
 
-        if (modules != null && !modules.isEmpty()) {
-            CoeusModule instProp = modules.iterator().next();
-
-            if (!instProp.isActive()) {
-                hidePanel = true;
-            }
+        if (numMatching == 0) {
+            hidePanel = true;
         }
+
         return hidePanel;
     }
 
