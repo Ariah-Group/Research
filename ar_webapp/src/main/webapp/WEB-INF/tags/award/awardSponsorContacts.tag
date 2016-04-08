@@ -39,14 +39,15 @@
             <th width="15%"><div align="center">Actions</div></th>
             </tr>
             </thead>
-            <tbody class="addline">
-                <c:if test="${readOnly}">
-                    <html:hidden styleId ="org.fullName" property="sponsorContactsBean.newAwardContact.rolodex.fullName" />
-                </c:if> 
-                <c:if test="${!readOnly}">                    
+
+            <c:if test="${readOnly}">
+                <html:hidden styleId ="org.fullName" property="sponsorContactsBean.newAwardContact.rolodex.fullName" />
+            </c:if> 
+            <c:if test="${!readOnly}">                    
+                <tbody class="addline">
                     <tr>
                         <th class="infoline" scope="row">Add</th>
-                        <td nowrap class="grid">
+                        <td nowrap class="infoline">
                             Non-employee ID:
                             <kul:htmlControlAttribute property="sponsorContactsBean.newAwardContact.rolodex.fullName" 
                                                       attributeEntry="${awardContactAttributes.fullName}" 
@@ -90,60 +91,60 @@
                             </div>
                         </td>
                     </tr>
-                </c:if>             
-                <c:forEach var="awardContact" items="${KualiForm.sponsorContactsBean.sponsorContacts}" varStatus="awardContactRowStatus">
-                    <tr>
-                        <th class="infoline" scope="row">
-                            <c:out value="${awardContactRowStatus.index + 1}" />
-                        </th>
-                        <td valign="middle">
-                            <div align="center">
-                                <input type="hidden" name="sponsor_contact.identifier_${awardContactRowStatus.index}" value="${awardContact.contact.identifier}" />
-                                <c:choose>
-                                    <c:when test="${empty awardContact.fullName}">
-                                        ${awardContact.contactOrganizationName}&nbsp;
-                                    </c:when>
-                                    <c:otherwise>
-                                        ${awardContact.fullName}&nbsp;
-                                    </c:otherwise>
-                                </c:choose>
+                </tbody>
+            </c:if>             
+            <c:forEach var="awardContact" items="${KualiForm.sponsorContactsBean.sponsorContacts}" varStatus="awardContactRowStatus">
+                <tr>
+                    <th class="infoline" scope="row">
+                        <c:out value="${awardContactRowStatus.index + 1}" />
+                    </th>
+                    <td valign="middle">
+                        <div align="center">
+                            <input type="hidden" name="sponsor_contact.identifier_${awardContactRowStatus.index}" value="${awardContact.contact.identifier}" />
+                            <c:choose>
+                                <c:when test="${empty awardContact.fullName}">
+                                    ${awardContact.contactOrganizationName}&nbsp;
+                                </c:when>
+                                <c:otherwise>
+                                    ${awardContact.fullName}&nbsp;
+                                </c:otherwise>
+                            </c:choose>
 
-                                <kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="sponsor_contact.identifier_${awardContactRowStatus.index}:rolodexId" anchor="${tabKey}" />		                	
-                            </div>
-                        </td>
-                        <td valign="middle">
-                            <div align="center">
-                                <kul:htmlControlAttribute property="sponsorContactsBean.sponsorContacts[${awardContactRowStatus.index}].contactRoleCode" 
-                                                          attributeEntry="${awardSponsorContactAttributes.contactRoleCode}" 
-                                                          readOnlyAlternateDisplay ="${awardContact.contactRole.description}"/>
-                            </div>
-                        </td>
-                        <td valign="middle">
-                            <div align="center">
-                                ${awardContact.phoneNumber}&nbsp;
-                            </div> 
-                        </td>
-                        <td valign="middle">
-                            <div align="center">                	
-                                ${awardContact.emailAddress}&nbsp;
-                            </div> 
-                        </td>
-                        <td>
-                            <div align="center">
-                                <c:if test="${!readOnly}">
-                                    <html:image property="methodToCall.deleteSponsorContact.line${awardContactRowStatus.index}.anchor${currentTabIndex}"
-                                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton" />
-                                    <c:if test="${KualiForm.syncMode}">
-                                        <html:image property="methodToCall.syncSponsorContact.line${awardContactRowStatus.index}.anchor${currentTabIndex}"
-                                                    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-sync.gif' alt="sync" styleClass="tinybutton" disabled="${readOnly}"/>
-                                    </c:if>
+                            <kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="sponsor_contact.identifier_${awardContactRowStatus.index}:rolodexId" anchor="${tabKey}" />		                	
+                        </div>
+                    </td>
+                    <td valign="middle">
+                        <div align="center">
+                            <kul:htmlControlAttribute property="sponsorContactsBean.sponsorContacts[${awardContactRowStatus.index}].contactRoleCode" 
+                                                      attributeEntry="${awardSponsorContactAttributes.contactRoleCode}" 
+                                                      readOnlyAlternateDisplay ="${awardContact.contactRole.description}"/>
+                        </div>
+                    </td>
+                    <td valign="middle">
+                        <div align="center">
+                            ${awardContact.phoneNumber}&nbsp;
+                        </div> 
+                    </td>
+                    <td valign="middle">
+                        <div align="center">                	
+                            ${awardContact.emailAddress}&nbsp;
+                        </div> 
+                    </td>
+                    <td>
+                        <div align="center">
+                            <c:if test="${!readOnly}">
+                                <html:image property="methodToCall.deleteSponsorContact.line${awardContactRowStatus.index}.anchor${currentTabIndex}"
+                                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton" />
+                                <c:if test="${KualiForm.syncMode}">
+                                    <html:image property="methodToCall.syncSponsorContact.line${awardContactRowStatus.index}.anchor${currentTabIndex}"
+                                                src='${ConfigProperties.kra.externalizable.images.url}tinybutton-sync.gif' alt="sync" styleClass="tinybutton" disabled="${readOnly}"/>
                                 </c:if>
-                                <c:if test="${readOnly}">&nbsp;</c:if>
-                                </div>
-                            </td>
-                        </tr>
-                </c:forEach>
-            </tbody>
+                            </c:if>
+                            <c:if test="${readOnly}">&nbsp;</c:if>
+                            </div>
+                        </td>
+                    </tr>
+            </c:forEach>
         </table>
         <div align="center">
             <c:set var="syncPropertyName" value="sponsorContacts" />
