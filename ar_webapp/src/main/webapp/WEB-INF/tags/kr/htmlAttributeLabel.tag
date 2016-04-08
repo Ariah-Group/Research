@@ -12,21 +12,6 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-
-Updates made after January 1, 2015 are :
-Copyright 2015 The Ariah Group, Inc.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"
 %><%@ tag body-content="empty"
@@ -52,12 +37,9 @@ limitations under the License.
 ><c:if test="${not empty labelLink && includeHelpUrl || (!skipHelpUrl && KualiForm.fieldLevelHelpEnabled)}"><a
         href="${ConfigProperties.application.url}/kr/help.do?methodToCall=getAttributeHelpText&amp;businessObjectClassName=${attributeEntry.fullClassName}&amp;attributeName=${attributeEntry.name}"
         tabindex="${KualiForm.nextArbitrarilyHighIndex}" target="helpWindow" title="[Help] ${attributeEntry.label}"></c:if
->
-<c:if test="${not empty labelLink}">
+><c:if test="${not empty labelLink}">
     <a href="${labelLink}" tabindex="${KualiForm.nextArbitrarilyHighIndex}" title="${attributeEntry.label}">
-</c:if>
-<c:if test="${useShortLabel == true}"><c:out value="${attributeEntry.shortLabel}" /></c:if
+</c:if><c:if test="${useShortLabel == true}"><c:out value="${attributeEntry.shortLabel}" /></c:if
 ><c:if test="${useShortLabel != true}"><c:out value="${attributeEntry.label}" /></c:if
-><c:if test="${!noColon}">:</c:if>
-<c:if test="${includeHelpUrl || (!skipHelpUrl && KualiForm.fieldLevelHelpEnabled)}"></a></c:if>
+><c:if test="${!noColon}">:</c:if><c:if test="${includeHelpUrl || (!skipHelpUrl && KualiForm.fieldLevelHelpEnabled)}"></a></c:if>
 <c:if test="${not empty labelFor}"></label></c:if>
