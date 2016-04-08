@@ -268,9 +268,7 @@ public class AwardForm extends BudgetVersionFormBase
         syncRequiresConfirmationMap = null;
         currentSyncScopes = null;
 
-        //setQuestionnaireHelper(createNewQuestionnaireHelperInstance(this));
         setQuestionnaireHelper(new AwardQuestionnaireHelper(this));
-
         syncMode = false;
         awardSyncBean = new AwardSyncBean(this);
         setDirectIndirectViewEnabled(getParameterService().getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
@@ -1270,13 +1268,11 @@ public class AwardForm extends BudgetVersionFormBase
      */
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
-        // super.populateHeaderFields(workflowDocument);
 
         AwardDocument awardDocument = getAwardDocument();
         getDocInfo().clear();
-        getDocInfo().add(
-                new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", awardDocument
-                        .getAward().getPrincipalInvestigatorName()));
+        getDocInfo().add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.principalInvestigator", awardDocument
+                .getAward().getPrincipalInvestigatorName()));
 
         String docIdAndStatus = COLUMN;
         if (workflowDocument != null) {
@@ -1292,7 +1288,6 @@ public class AwardForm extends BudgetVersionFormBase
 
         setupSponsor(awardDocument);
         setupLastUpdate(awardDocument);
-
     }
 
     private String getAwardIdAccount(AwardDocument awardDocument) {
@@ -1460,13 +1455,7 @@ public class AwardForm extends BudgetVersionFormBase
         specialReviewUsageParams.put("moduleCode", Constants.MODULE_CODE_AWARD);
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
 
-        List<SpecialReviewUsage> usages = (List<SpecialReviewUsage>) businessObjectService.findMatching(SpecialReviewUsage.class, specialReviewUsageParams);
-
-        boolean includeSpecialReviews = true;
-
-        if (usages == null || usages.isEmpty()) {
-            includeSpecialReviews = false;
-        }
+        int numUsages = businessObjectService.countMatching(SpecialReviewUsage.class, specialReviewUsageParams);
 
         for (HeaderNavigation nav : navigation) {
             if (StringUtils.equalsIgnoreCase(nav.getHeaderTabNavigateTo(), CUSTOM_DATA_NAV_TO)) {
@@ -1476,7 +1465,7 @@ public class AwardForm extends BudgetVersionFormBase
                     resultList.add(nav);
                 }
             } else if (StringUtils.equalsIgnoreCase(nav.getHeaderTabNavigateTo(), "specialReview")) {
-                if (includeSpecialReviews) {
+                if (numUsages > 0) {
                     resultList.add(nav);
                 }
             } else {
