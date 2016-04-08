@@ -118,12 +118,12 @@
                             <td>
                                 <div align=center>
                                     <c:if test="${!empty instituteAttachment.fileName}" >
-                                        <c:if test="${(downloadAttachment) }">							
+                                        <c:if test="${downloadAttachment }">							
                                             <html:image styleId="viewInstituteAttachment.line${status.index}"  property="methodToCall.downloadInstituteAttachment.line${status.index}.anchor${currentTabIndex}"
                                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
                                                         onclick="javascript: openNewWindow('${action}','downloadInstituteAttachment','${status.index}',${KualiForm.formKey},'${KualiForm.document.sessionDocument}'); return false" />
                                         </c:if>
-                                        <c:if test="${(replaceAttachment) }">							
+                                        <c:if test="${replaceAttachment }">							
                                             <html:image styleId="replaceInstituteAttachment.line${status.index}" 
                                                         onclick="javascript: showHide('instFileDiv${status.index}','replaceInstDiv${status.index}') ; return false"  
                                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif' styleClass="tinybutton"

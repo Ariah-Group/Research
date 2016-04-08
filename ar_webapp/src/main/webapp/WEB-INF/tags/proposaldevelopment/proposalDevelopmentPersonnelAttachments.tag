@@ -156,7 +156,7 @@
 						<c:set var="replaceKey" value="biographyAttachments.${propPersonBio.positionNumber}.replace" />
 						<c:set var="replaceAttachment" value="${KualiForm.editingMode[replaceKey]}" />
 						
-						<c:if test="${(replaceAttachment) }">							
+						<c:if test="${replaceAttachment }">							
 							<html:image styleId="replacePersonnelAttachment.line${status.index}" 
 											onclick="javascript: showHide('filePersonnelDiv${status.index}','replacePersonnelDiv${status.index}') ; return false"  
 											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-replace.gif' styleClass="tinybutton"
