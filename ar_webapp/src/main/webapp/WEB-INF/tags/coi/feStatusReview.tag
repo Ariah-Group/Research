@@ -40,7 +40,7 @@
 				<c:set var="userIndex" value="1"/>
         	    <c:forEach var="disclosureDetail" items="${disclProjectBean.coiDisclProject.coiDiscDetails}" varStatus="festatus">
 					<c:set var="entityNumber" value="${disclosureDetail.personFinIntDisclosure.entityNumber}"/>
-	        	    <c:if test="${(disclosureGroupedByEvent)  || (groupedEntityNumber eq entityNumber)}">
+	        	    <c:if test="${disclosureGroupedByEvent || (groupedEntityNumber eq entityNumber)}">
 	                    <tr>
 	        				<td>
 	        					${userIndex}
