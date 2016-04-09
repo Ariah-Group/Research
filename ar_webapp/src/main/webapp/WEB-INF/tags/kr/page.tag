@@ -111,12 +111,11 @@ limitations under the License.
         <c:choose>
             <c:when test="${lookup}" >
                 <c:if test="${not empty KualiForm.headerNavigationTabs}"><link href="kr/css/${KualiForm.navigationCss}" rel="stylesheet" type="text/css" /></c:if>
-                    <!-- allow for custom lookup calls -->
-                    <script language="JavaScript" type="text/javascript" src="${pageContext.request.contextPath}/kr/scripts/lookup.js"></script>
+<script language="JavaScript" type="text/javascript" src="${pageContext.request.contextPath}/kr/scripts/lookup.js"></script>
             </c:when>
             <c:otherwise>
                 <c:forEach items="${additionalScriptFiles}" var="scriptFile" >
-                    <script language="JavaScript" type="text/javascript" src="${scriptFile}"></script>
+<script language="JavaScript" type="text/javascript" src="${scriptFile}"></script>
                 </c:forEach>
             </c:otherwise>
         </c:choose>
@@ -134,32 +133,17 @@ limitations under the License.
                     <kul:backdoor />
                     <c:if
                         test="${! empty headerMenuBar and !_isInquiry and KualiForm.showMaintenanceLinks}">
-                        <div class="lookupcreatenew">
-                            ${headerMenuBar}
-                        </div>
+                        <div class="lookupcreatenew">${headerMenuBar}</div>
                     </c:if>
-                    <c:choose>
-                        <c:when test="${!empty alternativeHelp}">
-                            <h1>${docTitle}<kul:help documentTypeName="${KualiForm.docTypeName}" alternativeHelp="${alternativeHelp}" altText="document help"/></h1>
-                        </c:when>
-                        <c:otherwise>
-                            <c:if test="${showDocumentInfo}">
-                                <h1>${docTitle}<kul:help documentTypeName="${KualiForm.docTypeName}" altText="document help"/></h1>
-                            </c:if>
-                        </c:otherwise>
+                    <c:choose><c:when test="${!empty alternativeHelp}"><h1>${docTitle}<kul:help documentTypeName="${KualiForm.docTypeName}" alternativeHelp="${alternativeHelp}" altText="document help"/></h1></c:when>
+                        <c:otherwise><c:if test="${showDocumentInfo}"><h1>${docTitle}<kul:help documentTypeName="${KualiForm.docTypeName}" altText="document help"/></h1></c:if></c:otherwise>
                     </c:choose>
-
                 </c:when>
                 <c:otherwise>
                     <c:if test="${not empty KualiForm.anchor}">
-                        <c:if test="${ConfigProperties.test.mode ne 'true'}">
-                            <c:set var="anchorScript"
-                                   value="jumpToAnchor('${KualiForm.anchor}');" />
-                        </c:if>
+                        <c:if test="${ConfigProperties.test.mode ne 'true'}"><c:set var="anchorScript" value="jumpToAnchor('${KualiForm.anchor}');" /></c:if>
                     </c:if>
-                    <c:if test="${empty anchorScript}">
-                        <c:set var="anchorScript" value="placeFocus();" />
-                    </c:if>
+                    <c:if test="${empty anchorScript}"><c:set var="anchorScript" value="placeFocus();" /></c:if>
                     <body onload="if (!restoreScrollPosition()) {
                                 ${anchorScript}
     }"
@@ -170,59 +154,41 @@ limitations under the License.
                         </c:otherwise>
                     </c:choose>
                     <c:set var="encoding" value=""/>
-                    <c:if test="${not empty renderMultipart and renderMultipart eq true}">
-                        <c:set var="encoding" value="multipart/form-data"/>
-                    </c:if>
+                    <c:if test="${not empty renderMultipart and renderMultipart eq true}"><c:set var="encoding" value="multipart/form-data"/></c:if>
                     <html:form styleId="kualiForm" action="/${htmlFormAction}.do"
                                method="post" enctype="${encoding}" acceptCharset="utf-8"
                                onsubmit="return hasFormAlreadyBeenSubmitted();">
                         <c:choose>
-                            <c:when test="${lookup}" >
-                            </c:when>
+                            <c:when test="${lookup}" ></c:when>
                             <c:otherwise>
                                 <a name="topOfForm"></a>
                                 <div class="headerarea" id="headerarea">
-                                    <h1>
-                                        ${docTitle}&nbsp;
-                                        <c:choose>
-                                            <c:when test="${!empty alternativeHelp}">
-                                                <kul:help documentTypeName="${KualiForm.docTypeName}" alternativeHelp="${alternativeHelp}" altText="document help" />
-                                            </c:when>
-                                            <c:otherwise>
-                                                <c:if test="${showDocumentInfo}">
-                                                    <kul:help documentTypeName="${KualiForm.docTypeName}" altText="document help"/>
-                                                </c:if>
-                                            </c:otherwise>
+                                    <h1>${docTitle}&nbsp;
+                                        <c:choose><c:when test="${!empty alternativeHelp}"><kul:help documentTypeName="${KualiForm.docTypeName}" alternativeHelp="${alternativeHelp}" altText="document help" /></c:when>
+                                            <c:otherwise><c:if test="${showDocumentInfo}"><kul:help documentTypeName="${KualiForm.docTypeName}" altText="document help"/></c:if></c:otherwise>
                                         </c:choose>
                                     </h1>
-                                    <c:if test="${!empty defaultMethodToCall}">
-                                        <kul:enterKey methodToCall="${defaultMethodToCall}" />
-                                    </c:if>
+                                    <c:if test="${!empty defaultMethodToCall}"><kul:enterKey methodToCall="${defaultMethodToCall}" /></c:if>
                                 </c:otherwise>
                             </c:choose>
-                            <!-- DOCUMENT INFO HEADER BOX -->
                             <c:set var="docHeaderAttributes"
                                    value="${DataDictionary.DocumentHeader.attributes}" />
                             <c:if test="${showDocumentInfo}">
                                 <c:set var="KualiForm" value="${KualiForm}" />
                                 <jsp:useBean id="KualiForm" type="org.kuali.rice.kns.web.struts.form.KualiForm" />
-
-                                <c:set var="numberOfHeaderRows" value="<%=new Integer((int) java.lang.Math.ceil((double) KualiForm.getDocInfo().size()/KualiForm.getNumColumns()))%>" />
-                                <c:set var="headerFieldCount" value="<%=new Integer(KualiForm.getDocInfo().size())%>" />
-                                <c:set var="headerFields" value="${KualiForm.docInfo}" />
-                                <c:set var="fieldCounter" value="0" />
-
+                                <c:set var="numberOfHeaderRows" value="<%=new Integer((int) java.lang.Math.ceil((double) KualiForm.getDocInfo().size()/KualiForm.getNumColumns()))%>"
+                              /><c:set var="headerFieldCount" value="<%=new Integer(KualiForm.getDocInfo().size())%>" 
+                              /><c:set var="headerFields" value="${KualiForm.docInfo}" 
+                              /><c:set var="fieldCounter" value="0" />
                                 <div class="headerbox">
                                     <c:choose>
                                         <c:when test="${lookup}" >
-                                            <table summary="document header: general information"
-                                                   cellpadding="0" cellspacing="0">
+                                            <table summary="document header: general information" cellpadding="0" cellspacing="0">
                                             </c:when>
                                             <c:otherwise>
                                                 <table class="headerinfo" summary="document header: general information" cellpadding="0" cellspacing="0">
                                                 </c:otherwise>
                                             </c:choose>
-
                                             <c:forEach var="i" begin="1" end="${numberOfHeaderRows}" varStatus="status">
                                                 <tr>
                                                     <c:forEach var="j" begin="1" end="<%=KualiForm.getNumColumns()%>" varStatus="innerStatus">
@@ -237,28 +203,18 @@ limitations under the License.
                                                                     <c:otherwise>
                                                                         <kul:htmlAttributeHeaderCell attributeEntryName="${headerField.ddAttributeEntryName}" horizontal="true" scope="row" />
                                                                         <td>
-                                                                            <c:if test="${empty headerField.nonLookupValue and empty headerField.displayValue}">
-                                                                                &nbsp;
-                                                                            </c:if>
+                                                                            <c:if test="${empty headerField.nonLookupValue and empty headerField.displayValue}">&nbsp;</c:if>
                                                                             <c:choose>
-                                                                                <c:when test="${headerField.lookupAware and (not lookup)}" >
-                                                                                    ${headerField.nonLookupValue}
-                                                                                </c:when>
-                                                                                <c:otherwise>
-                                                                                    ${headerField.displayValue}
-                                                                                </c:otherwise>
+                                                                                <c:when test="${headerField.lookupAware and (not lookup)}" >${headerField.nonLookupValue}</c:when>
+                                                                                <c:otherwise>${headerField.displayValue}</c:otherwise>
                                                                             </c:choose>
                                                                         </td>
                                                                     </c:otherwise>
                                                                 </c:choose>
                                                             </c:when>
-                                                            <c:otherwise>
-                                                                <kul:htmlAttributeHeaderCell />
-                                                                <td>&nbsp;</td>
-                                                            </c:otherwise>
+                                                            <c:otherwise><kul:htmlAttributeHeaderCell /><td>&nbsp;</td></c:otherwise>
                                                         </c:choose>
-                                                        <c:if test="${headerFieldCount > fieldCounter}">
-                                                        </c:if>
+                                                        <c:if test="${headerFieldCount > fieldCounter}"></c:if>
                                                         <c:set var="fieldCounter" value="${fieldCounter+1}" />
                                                     </c:forEach>
                                                 </tr>
@@ -266,7 +222,6 @@ limitations under the License.
                                         </table>
                                 </div>
                             </c:if>
-
                             <c:choose>
                                 <c:when test="${lookup}" >
                                     <%-- Display the expand/collapse buttons for the lookup/inquiry, if specified. --%>
@@ -282,7 +237,6 @@ limitations under the License.
                                     </c:if>
                                 </c:when>
                                 <c:otherwise>
-
                                 </div>
                                 <c:if test="${not empty KualiForm.headerNavigationTabs}">
                                     <div class="horz-links-bkgrnd" id="horz-links">
@@ -318,13 +272,8 @@ limitations under the License.
                                 <div class="msg-excol">
                                     <div class="left-errmsg">
                                         <kul:errorCount auditCount="${auditCount}"/>
-                                        <c:if test="${!empty errorKey}">
-                                            <kul:errors keyMatch="${errorKey}" errorTitle=" "/>
-                                        </c:if>
-                                        <c:if test="${empty errorKey}">
-                                            <kul:errors keyMatch="${Constants.GLOBAL_ERRORS}"
-                                                        errorTitle=" " />
-                                        </c:if>
+                                        <c:if test="${!empty errorKey}"><kul:errors keyMatch="${errorKey}" errorTitle=" "/></c:if>
+                                        <c:if test="${empty errorKey}"><kul:errors keyMatch="${Constants.GLOBAL_ERRORS}" errorTitle=" " /></c:if>
                                         <kul:messages/>
                                         <kul:lockMessages/>
                                     </div>
@@ -339,25 +288,17 @@ limitations under the License.
                                                 <html:image property="methodToCall.showAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-expandall.gif" title="show all panel content" alt="show all panel content" styleClass="tinybutton" onclick="javascript: return expandAllTab(document, tabStatesSize); " tabindex="-1" />
                                                 <html:image property="methodToCall.hideAllTabs" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-collapseall.gif" title="hide all panel content" alt="hide all panel content" styleClass="tinybutton" onclick="javascript: return collapseAllTab(document, tabStatesSize); " tabindex="-1" />
                                             </c:if>
-                                            <c:if test="${renderRequiredFieldsLabel}" >
-                                                &nbsp;&nbsp;&nbsp;* required field
-                                            </c:if>
+                                            <c:if test="${renderRequiredFieldsLabel}" >&nbsp;&nbsp;&nbsp;* required field</c:if>
                                         </div>
                                     </div>
                                 </div>
                                 <table class="page-main" width="100%" cellpadding="0" cellspacing="0">
                                     <tr>
-                                        <td width="1%">
-                                            <img
-                                                src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif"
-                                                alt="" width="20" height="20" />
-                                        </td>
+                                        <td width="1%"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="20" height="20" /></td>
                                         <td>
-
                                         </c:otherwise>
                                     </c:choose>
                                     <jsp:doBody/>
-
                                     <c:choose>
                                         <c:when test="${lookup}" >
                                             <kul:footer lookup="true"/>
@@ -372,11 +313,8 @@ limitations under the License.
                                                             infoTitle="Other informational messages:"/>
                                             </div>
                                             <kul:footer feedbackKey="${feedbackKey}" />
-
-                                            <!-- So that JS expandAllTab / collapseAllTab know the tabStates size. Subtract 1 because currentTabIndex = size + 1. -->
                                             <html:hidden property="tabStatesSize"
                                                          value="${KualiForm.currentTabIndex - 1}" />
-                                            <!-- state maintenance for returning the user to the action list if they started there -->
                                             <logic:present name="KualiForm"
                                                            property="returnToActionList">
                                                 <html:hidden name="KualiForm"
@@ -385,16 +323,11 @@ limitations under the License.
                                         </c:otherwise>
                                     </c:choose>
                                     <c:if test="${transactionalDocument || maintenanceDocument}">
-                                        <html:hidden property="documentWebScope" value="session"/>
-                                        <html:hidden property="formKey" value="${KualiForm.formKey}" />
-                                        <html:hidden property="docFormKey" value="${KualiForm.formKey}" />
-                                        <html:hidden property="docNum" value="${KualiForm.document.documentNumber}" />
+                                        <html:hidden property="documentWebScope" value="session"/><html:hidden property="formKey" value="${KualiForm.formKey}" /><html:hidden property="docFormKey" value="${KualiForm.formKey}" /><html:hidden property="docNum" value="${KualiForm.document.documentNumber}" />
                                     </c:if>
                                     <kul:editablePropertiesGuid />
-
                                 </html:form>
                                 <div id="formComplete"></div>
                                 </div>
                                 </body>
-
                             </html:html>

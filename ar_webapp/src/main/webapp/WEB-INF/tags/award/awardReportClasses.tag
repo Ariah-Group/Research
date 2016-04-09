@@ -18,21 +18,19 @@
   //have jquery give up $ so dwr code used within this tag can have it
   $.noConflict();
 </script>
-<%@ attribute name="index" description="Index" required="true" %>
-<%@ attribute name="reportClassKey" description="Report Class Key" required="true" %>
-<%@ attribute name="reportClassLabel" description="Report Class Key" required="true" %>
-<%@ attribute name="reportCodeLabel" description="This string will be displayed above the report code select box" required="true" %>
-<%@ attribute name="defaultOpenForTab" description="Default Open For Tab" required="false" %>
-<%@ attribute name="noShowHideButton" description="Do not show show hide button in the following inner tab" required="false" %>
-
-<c:set var="awardReportTermAttributes" value="${DataDictionary.AwardReportTerm.attributes}" />
-
+<%@ attribute name="index" description="Index" required="true" 
+%><%@ attribute name="reportClassKey" description="Report Class Key" required="true" 
+%><%@ attribute name="reportClassLabel" description="Report Class Key" required="true" 
+%><%@ attribute name="reportCodeLabel" description="This string will be displayed above the report code select box" required="true" 
+%><%@ attribute name="defaultOpenForTab" description="Default Open For Tab" required="false" 
+%><%@ attribute name="noShowHideButton" description="Do not show show hide button in the following inner tab" required="false" 
+%><c:set var="awardReportTermAttributes" value="${DataDictionary.AwardReportTerm.attributes}" 
+/>
 <jsp:useBean id="paramMap1" class="java.util.HashMap"/>
 <jsp:useBean id="paramMap2" class="java.util.HashMap"/>
 <jsp:useBean id="paramMap3" class="java.util.HashMap"/>
 <c:set target="${paramMap1}" property="reportClassCode" value="${reportClassKey}" />
 <c:set target="${paramMap2}" property="reportClassCode" value="${reportClassKey}" />
-
 <%-- The logic in the updateBaseDateDisplay function is duplicated in ReportTrackingServiceImpl.calculateBaseDate.
 If you update one, please update the other. --%>
 <script>
@@ -61,7 +59,6 @@ function updateBaseDateDisplay(selectBox) {
 	jQuery(selectBox).parent().find("div.baseDateDisplay span").html(baseDate);
 }
 </script>
-
 <c:set var="tabErrorKeyString" value=""  />
 <c:set var="tabItemCount" value="0"  />
 <c:forEach var="awardReportTerm" items="${KualiForm.document.award.awardReportTermItems}" varStatus="status">        		 
@@ -77,20 +74,16 @@ function updateBaseDateDisplay(selectBox) {
              </c:choose>
     </c:if>
 </c:forEach>
-
 <c:if test="${empty defaultOpenForTab}">
 	<c:set var="defaultOpenForTab" value="false" />
 </c:if>
-
 <c:if test="${empty noShowHideButton}">
 	<c:set var="noShowHideButton" value="false" />
 </c:if>
-	                        
 <kul:innerTab parentTab="Report Classes" tabItemCount="${tabItemCount}" defaultOpen="${defaultOpenForTab}" tabTitle="${reportClassLabel}" tabErrorKey="awardReportsBean.newAwardReportTerms[${index}]*,${tabErrorKeyString}" noShowHideButton="${noShowHideButton}" >
     <table border="0" cellpadding="0" cellspacing="0" summary="">
         <tr>
             <th width="6%"><div align="center">&nbsp;</div></th>          	
-            <!-- The label for the first row is read from ${reportCodeLabel}, all others are htmlAttributeLabels -->	
           	<th width="18%"><div align="center">${reportCodeLabel}</div></th>
           	<th width="18%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardReportTermAttributes.frequencyCode}" noColon="true" /></div></th>
           	<th width="18%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${awardReportTermAttributes.frequencyBaseCode}" noColon="true" /></div></th>
@@ -101,11 +94,8 @@ function updateBaseDateDisplay(selectBox) {
         <c:if test="${!readOnly}">
         <tbody class="addline">
         <tr>        	
-		    <th width="6%" class="infoline">
-			    <c:out value="Add:" />
-			</th>
+	    <th width="6%" class="infoline"><c:out value="Add:" /></th>
             <td nowrap width="5%" valign="middle" class="infoline">
-            
             <div align="center">                        
                 <html:select property="awardReportsBean.newAwardReportTerms[${index}].reportCode" tabindex="0" 
                 onchange="javascript: loadFrequencyCode('${reportClassKey}', 'awardReportsBean.newAwardReportTerms[${index}].reportCode','awardReportsBean.newAwardReportTerms[${index}].frequencyCode');return false" >                                              

@@ -98,9 +98,5 @@ limitations under the License.
                 <c:if test="${!empty KualiForm.documentActions[Constants.KUALI_ACTION_CAN_COPY]}">
                    <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_copy.gif" styleClass="globalbuttons" property="methodToCall.copy" title="Copy current document" alt="Copy current document" onclick="resetScrollPosition();" tabindex="${tabindex}" />
                 </c:if>
-                    
-                    
-              <!--     &nbsp;
-                   <a href="javascript:submitFormToMethod('kualiForm', 'save');" class="cssbut" id="saveLinkButton">Test Link</a>-->
 	        </div>
-        </c:if>    
+        </c:if>

@@ -14,7 +14,4 @@
  limitations under the License.
 --%>
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
-
-<c:if test="${!empty KualiForm.actionEditablePropertiesGuid}">
-	<html:hidden property="actionEditablePropertiesGuid" value="${KualiForm.actionEditablePropertiesGuid}" />
-</c:if>
+<c:if test="${!empty KualiForm.actionEditablePropertiesGuid}"><html:hidden property="actionEditablePropertiesGuid" value="${KualiForm.actionEditablePropertiesGuid}" /></c:if>

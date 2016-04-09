@@ -14,7 +14,6 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="awardContacts"
@@ -25,12 +24,9 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="contacts"
   	extraTopButtons="${KualiForm.extraTopButtons}" >
-
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
-
 <%-- modeled after ProposalDevelopmentKeyPersonnel.jsp --%>
 <div align="right"><kul:help documentTypeName="AwardDocument" pageName="Contacts" /></div>
-
 <div id="workarea">
 	<kra-a:awardProjectPersonnel />
 	<kra-a:awardUnitContacts />
@@ -38,16 +34,11 @@
 	<kra-a:awardCentralAdministrationContacts />
 	<kul:panelFooter />
 </div>
-
-
-
 <SCRIPT type="text/javascript">
 	var kualiForm = document.forms['KualiForm'];
 	var kualiElements = kualiForm.elements;
 </SCRIPT>
 <script language="javascript" src="scripts/kuali_application.js"></script>
 <script language="javascript" src="dwr/interface/SponsorService.js"></script>
-
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
-
 </kul:documentPage>
