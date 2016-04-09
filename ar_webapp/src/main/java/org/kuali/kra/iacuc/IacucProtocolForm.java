@@ -287,12 +287,7 @@ public class IacucProtocolForm extends ProtocolFormBase {
         specialReviewUsageParams.put("moduleCode", Constants.MODULE_CODE_IACUC);
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
 
-        List<SpecialReviewUsage> usages = (List<SpecialReviewUsage>) businessObjectService.findMatching(SpecialReviewUsage.class, specialReviewUsageParams);
-        boolean includeSpecialReviews = true;
-
-        if (usages == null || usages.isEmpty()) {
-            includeSpecialReviews = false;
-        }
+        int numUsages = businessObjectService.countMatching(SpecialReviewUsage.class, specialReviewUsageParams);
 
         //We have to copy the HeaderNavigation elements into a new collection as the 
         //List returned by DD is it's cached copy of the header navigation list.
@@ -312,7 +307,7 @@ public class IacucProtocolForm extends ProtocolFormBase {
                     resultList.add(nav);
                 }
             } else if (StringUtils.equalsIgnoreCase(nav.getHeaderTabNavigateTo(), SPECIALREVIEW_NAV_TO)) {
-                if (includeSpecialReviews) {
+                if (numUsages > 0) {
                     resultList.add(nav);
                 }
 
