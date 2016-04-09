@@ -1737,13 +1737,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         specialReviewUsageParams.put("moduleCode", Constants.MODULE_CODE_PROPOSAL);
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
 
-        List<SpecialReviewUsage> usages = (List<SpecialReviewUsage>) businessObjectService.findMatching(SpecialReviewUsage.class, specialReviewUsageParams);
-
-        boolean includeSpecialReviews = true;
-
-        if (usages == null || usages.isEmpty()) {
-            includeSpecialReviews = false;
-        }
+        int numUsages = businessObjectService.countMatching(SpecialReviewUsage.class, specialReviewUsageParams);
 
         boolean displayCustomAttrTab = !((ProposalDevelopmentDocument) this.getDocument()).getCustomAttributeDocuments().isEmpty();
 
@@ -1753,8 +1747,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             }
 
             if (StringUtils.equalsIgnoreCase(tab.getHeaderTabNavigateTo(), "customData")) {
-
-                //  tab.setDisabled(!displayCustomAttrTab);
                 if (displayCustomAttrTab) {
                     newTabs.add(tab);
                 }
@@ -1764,22 +1756,12 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             }
 
             if (StringUtils.equalsIgnoreCase(tab.getHeaderTabNavigateTo(), "specialReview")) {
-                if (includeSpecialReviews) {
+                if (numUsages > 0) {
                     newTabs.add(tab);
                 }
 
-                // skip all the crap below as it's not necessary
                 continue;
             }
-//            if (showHierarchy || !tab.getHeaderTabNavigateTo().equals("hierarchy")) {
-//                if (tab.getHeaderTabNavigateTo().equals("customData")) {
-//                    if (!this.getProposalDevelopmentDocument().getCustomAttributeDocuments().isEmpty()) {
-//                        newTabs.add(tab);
-//                    }
-//                } else {
-//                    newTabs.add(tab);
-//                }
-//            }
             if ((showHierarchy || !tab.getHeaderTabNavigateTo().equals("hierarchy"))) {
                 if (!tab.getHeaderTabNavigateTo().toUpperCase().equals("APPROVERVIEW") || showProposalSummary || canPerformWorkflowAction()) {
                     newTabs.add(tab);
