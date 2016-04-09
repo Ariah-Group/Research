@@ -12,22 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * ------------------------------------------------------
- * Updates made after January 1, 2015 are :
- * Copyright 2015 The Ariah Group, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 package org.kuali.kra.irb;
 
@@ -152,15 +136,9 @@ public class ProtocolForm extends ProtocolFormBase {
         specialReviewUsageParams.put("moduleCode", Constants.MODULE_CODE_IRB);
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
 
-        List<SpecialReviewUsage> usages = (List<SpecialReviewUsage>) businessObjectService.findMatching(SpecialReviewUsage.class, specialReviewUsageParams);
+        int numUsages = businessObjectService.countMatching(SpecialReviewUsage.class, specialReviewUsageParams);
 
-        boolean includeSpecialReviews = true;
-
-        if (usages == null || usages.isEmpty()) {
-            includeSpecialReviews = false;
-        }
-
-            //We have to copy the HeaderNavigation elements into a new collection as the 
+        //We have to copy the HeaderNavigation elements into a new collection as the 
         //List returned by DD is it's cached copy of the header navigation list.
         for (HeaderNavigation nav : navigation) {
             if (StringUtils.equals(nav.getHeaderTabNavigateTo(), ONLINE_REVIEW_NAV_TO)) {
@@ -175,7 +153,7 @@ public class ProtocolForm extends ProtocolFormBase {
                     resultList.add(nav);
                 }
             } else if (StringUtils.equalsIgnoreCase(nav.getHeaderTabNavigateTo(), SPECIALREVIEW_NAV_TO)) {
-                if (includeSpecialReviews) {
+                if (numUsages > 0) {
                     resultList.add(nav);
                 }
             } else {
@@ -437,8 +415,8 @@ public class ProtocolForm extends ProtocolFormBase {
 
     public boolean isHideQuestionnairesOnHistoryPanel() {
         return getProtocolDocument().isHideQuestionnairesOnHistoryPanel();
-    }    
-    
+    }
+
     /**
      * Set to display more columns so that we can show additional fields in a
      * the document header.
@@ -446,5 +424,5 @@ public class ProtocolForm extends ProtocolFormBase {
     @Override
     public int getNumColumns() {
         return 3;
-    }     
+    }
 }
