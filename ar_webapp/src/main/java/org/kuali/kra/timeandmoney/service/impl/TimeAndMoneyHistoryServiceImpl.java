@@ -57,10 +57,8 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         Map<String, Object> fieldValues3 = new HashMap<String, Object>();
         Map<String, Object> fieldValues3a = new HashMap<String, Object>();
         Map<String, Object> fieldValues5 = new HashMap<String, Object>();
-
         Map<String, Object> fieldValues4 = new HashMap<String, Object>();
 
-        System.out.println("getTimeAndMoneyHistory 1");
         AwardAmountTransaction awardAmountTransaction = null;
         timeAndMoneyHistory.clear();
         Award award = awardVersionService.getWorkingAwardVersion(awardNumber);
@@ -71,38 +69,25 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         //to get all docs, we must pass the root award number for the subject award.
         String rootAwdNum = getRootAwardNumberForDocumentSearch(award.getAwardNumber());
         fieldValues1.put("rootAwardNumber", rootAwdNum);
-        System.out.println("getTimeAndMoneyHistory 2 , rootAwdNum: " + rootAwdNum);
         List<TimeAndMoneyDocument> docs = (List<TimeAndMoneyDocument>) businessObjectService.findMatching(TimeAndMoneyDocument.class, fieldValues1);
 
         Collections.sort(docs);
-        System.out.println("getTimeAndMoneyHistory 2 , t&M docs.size : " + docs.size());
         timeAndMoneyHistory.put(buildForwardUrl(award.getAwardDocument().getDocumentNumber()), buildAwardDescriptionLine(award, null, docs.get(docs.size() - 1)));
 
         for (TimeAndMoneyDocument tempDoc : docs) {
-            System.out.println("getTimeAndMoneyHistory, tempDoc.getDocumentNumber() 1 : " + tempDoc.getDocumentNumber());
             TimeAndMoneyDocument doc = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(tempDoc.getDocumentNumber());
             List<AwardAmountTransaction> awardAmountTransactions = doc.getAwardAmountTransactions();
 
             //we don't want canceled docs in history.
             if (doc.getDocumentHeader().hasWorkflowDocument()) {
-                System.out.println("getTimeAndMoneyHistory, tempDoc.getDocumentNumber() 2 : " + tempDoc.getDocumentNumber());
                 if (!doc.getDocumentHeader().getWorkflowDocument().isCanceled()) {
-                    System.out.println("getTimeAndMoneyHistory, tempDoc.getDocumentNumber() 3 : " + tempDoc.getDocumentNumber());
                     //capture initial transaction
-                    if (award.getAwardAmountInfos() != null) {
-                        System.out.println("getTimeAndMoneyHistory, tempDoc.getDocumentNumber() 4 : aai.size : " + award.getAwardAmountInfos().size());
-                    }
                     //we only want display this once.
                     for (AwardAmountInfo awardAmountInfo : award.getAwardAmountInfos()) {
 
                         String tmDocNumber = awardAmountInfo.getTimeAndMoneyDocumentNumber();
-                        System.out.println("getTimeAndMoneyHistory , awardAmountInfo.getTimeAndMoneyDocumentNumber : " + tmDocNumber);
                         if (tmDocNumber != null && tmDocNumber.equals(doc.getDocumentNumber())
                                 && StringUtils.equalsIgnoreCase(doc.getDocumentNumber(), tmDocNumber)) {
-
-                            if (awardAmountTransactions != null) {
-                                System.out.println("getTimeAndMoneyHistory, tempDoc.getDocumentNumber() awardAmountTransactions.size : " + awardAmountTransactions.size());
-                            }
 
                             if (awardAmountTransactions.size() > 0) {
                                 awardAmountTransaction = awardAmountTransactions.get(0);
@@ -113,10 +98,8 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
                             fieldValues5.put("transactionId", 0);
                             fieldValues5.put("timeAndMoneyDocumentNumber", tmDocNumber);
                             fieldValues5.put("transactionDetailType", TransactionDetailType.PRIMARY.toString());
-                            System.out.println("getTimeAndMoneyHistory, 5");
                             List<TransactionDetail> transactionDetailsA
                                     = ((List<TransactionDetail>) businessObjectService.findMatchingOrderBy(TransactionDetail.class, fieldValues5, "sourceAwardNumber", true));
-                            System.out.println("getTimeAndMoneyHistory, transactionDetailsA.size() : " + transactionDetailsA.size());
                             if (transactionDetailsA.size() > 0) {
                                 TransactionDetail transactionDetail = transactionDetailsA.get(0);
                                 timeAndMoneyHistory.put(0, awardAmountInfo);
@@ -131,13 +114,10 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
                     }
 
                     //capture money transactions
-                    System.out.println("getTimeAndMoneyHistory , 6");
                     for (AwardAmountInfo awardAmountInfo : award.getAwardAmountInfos()) {
 
                         String tmDocNumber = awardAmountInfo.getTimeAndMoneyDocumentNumber();
-                        System.out.println("getTimeAndMoneyHistory , 6 , awardAmountInfo.getTimeAndMoneyDocumentNumber() : " + tmDocNumber);
                         if (tmDocNumber != null && tmDocNumber.equals(doc.getDocumentNumber())) {
-                            System.out.println("getTimeAndMoneyHistory , 7 , awardAmountTransactions.size() : " + awardAmountTransactions.size());
                             if (awardAmountTransactions.size() > 0) {
                                 awardAmountTransaction = awardAmountTransactions.get(0);
                                 timeAndMoneyHistory.put(buildForwardUrl(doc.getDocumentNumber()),
@@ -162,8 +142,6 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
                                     = ((List<TransactionDetail>) businessObjectService.findMatchingOrderBy(TransactionDetail.class, fieldValues3, "sourceAwardNumber", true));
                             List<TransactionDetail> transactionDetailsB
                                     = ((List<TransactionDetail>) businessObjectService.findMatchingOrderBy(TransactionDetail.class, fieldValues3a, "sourceAwardNumber", true));
-                            System.out.println("getTimeAndMoneyHistory , 7 , transactionDetailsA.size() : " + transactionDetailsA.size());
-                            System.out.println("getTimeAndMoneyHistory , 7 , transactionDetailsB.size() : " + transactionDetailsB.size());
                             transactionDetails.addAll(transactionDetailsA);
                             transactionDetails.addAll(transactionDetailsB);
 
@@ -226,24 +204,16 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         List<Award> awardVersionList = (List<Award>) businessObjectService.findMatchingOrderBy(Award.class, getHashMapToFindActiveAward(awardNumber), "sequenceNumber", true);
         //we want the list in reverse chronological order.
         Collections.reverse(awardVersionList);
-        System.out.println("buildTimeAndMoneyHistoryObjects 1");
         Map<String, Object> fieldValues1 = new HashMap<String, Object>();
         //get the root award number.
         String rootAwdNum = getRootAwardNumberForDocumentSearch(awardVersionList.get(0).getAwardNumber());
         fieldValues1.put("rootAwardNumber", rootAwdNum);
-        System.out.println("buildTimeAndMoneyHistoryObjects 2 , rootAwdNum = " + rootAwdNum);
         List<TimeAndMoneyDocument> docs = (List<TimeAndMoneyDocument>) businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues1, "documentNumber", true);
 
-        if (docs != null) {
-            System.out.println("buildTimeAndMoneyHistoryObjects docs not null");
-        } else {
-            System.out.println("buildTimeAndMoneyHistoryObjects docs is null");
-        }
         //we don't want canceled docs to show in history.
         removeCanceledDocs(docs);
 
         for (Award award : awardVersionList) {
-            System.out.println("buildTimeAndMoneyHistoryObjects , award in awardVersionList , awd doc # : " + award.getAwardDocument().getDocumentNumber());
             AwardVersionHistory awardVersionHistory = new AwardVersionHistory(award);
             awardVersionHistory.setDocumentUrl(buildForwardUrl(award.getAwardDocument().getDocumentNumber()));
             awardVersionHistory.setAwardDescriptionLine(buildNewAwardDescriptionLine(award));
@@ -257,28 +227,12 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
     public List<TimeAndMoneyDocumentHistory> getDocHistoryAndValidInfosAssociatedWithAwardVersion(List<TimeAndMoneyDocument> docs,
             List<AwardAmountInfo> awardAmountInfos, Award award) throws WorkflowException {
 
-        System.out.println("getDocHistoryAndValidInfosAssociatedWithAwardVersion 1");
-
-        if (docs != null) {
-            System.out.println("getDocHistoryAndValidInfosAssociatedWithAwardVersion 1 , docs.size() : " + docs.size());
-        }
-        if (awardAmountInfos != null) {
-            System.out.println("getDocHistoryAndValidInfosAssociatedWithAwardVersion 1 , awardAmountInfos.size() : " + awardAmountInfos.size());
-        }
-
         List<TimeAndMoneyDocumentHistory> timeAndMoneyDocumentHistoryList = new ArrayList<TimeAndMoneyDocumentHistory>();
-
         List<AwardAmountInfo> validInfos = getValidAwardAmountInfosAssociatedWithAwardVersion(awardAmountInfos, award);
-        if (validInfos != null) {
-            System.out.println("getDocHistoryAndValidInfosAssociatedWithAwardVersion 1 , validInfos.size() : " + validInfos.size());
-        }
-        System.out.println("getDocHistoryAndValidInfosAssociatedWithAwardVersion 2");
         List<TimeAndMoneyDocument> awardVersionDocs = getValidDocumentsCreatedForAwardVersion(docs, validInfos);
-        System.out.println("getDocHistoryAndValidInfosAssociatedWithAwardVersion 3");
         //we want the list in reverse chronological order.
         Collections.reverse(awardVersionDocs);
         for (TimeAndMoneyDocument doc : awardVersionDocs) {
-            System.out.println("getDocHistoryAndValidInfosAssociatedWithAwardVersion : doc.getDocumentNumber() : " + doc.getDocumentNumber());
             TimeAndMoneyDocumentHistory docHistory = new TimeAndMoneyDocumentHistory();
             docHistory.setTimeAndMoneyDocument(doc);
             docHistory.setDocumentUrl(buildForwardUrl(doc.getDocumentNumber()));
@@ -286,7 +240,6 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
             docHistory.setValidAwardAmountInfoHistoryList(retrieveAwardAmountInfosFromPrimaryTransactions(doc, validInfos));
             timeAndMoneyDocumentHistoryList.add(docHistory);
         }
-        System.out.println("getDocHistoryAndValidInfosAssociatedWithAwardVersion , returning timeAndMoneyDocumentHistoryList.size : " + timeAndMoneyDocumentHistoryList.size());
         return timeAndMoneyDocumentHistoryList;
     }
 
@@ -346,7 +299,6 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
                 }
             }
         }
-        System.out.println("captureMoneyInfos returing moneyInfoHistoryList.size() : " + moneyInfoHistoryList.size());
         return moneyInfoHistoryList;
     }
 
@@ -373,7 +325,6 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
                 }
             }
         }
-        System.out.println("captureDateInfos returing dateInfoHistoryList.size() : " + dateInfoHistoryList.size());
         return dateInfoHistoryList;
     }
 
@@ -402,7 +353,6 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
                 }
             }
         }
-        System.out.println("captureInitialTransactionInfo returing initialInfoHistoryList.size() : " + initialInfoHistoryList.size());
         return initialInfoHistoryList;
     }
 
@@ -428,60 +378,30 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
     }
 
     protected List<AwardAmountInfo> getValidAwardAmountInfosAssociatedWithAwardVersion(List<AwardAmountInfo> awardAmountInfos, Award award) {
-        System.out.println("getValidAwardAmountInfosAssociatedWithAwardVersion 1");
         List<AwardAmountInfo> validInfos = new ArrayList<AwardAmountInfo>();
-
-        System.out.println("award.getAwardNumber() : " + award.getAwardNumber());
-        System.out.println("award.getSequenceNumber() : " + award.getSequenceNumber());
-        System.out.println("--------");
         for (AwardAmountInfo awardAmountInfo : awardAmountInfos) {
-            System.out.println("getValidAwardAmountInfosAssociatedWithAwardVersion AwardAmountInfo--- ");
-            System.out.println("awardAmountInfo.getAwardAmountInfoId() : " + awardAmountInfo.getAwardAmountInfoId());
-            System.out.println("awardAmountInfo.getOriginatingAwardVersion() : " + awardAmountInfo.getOriginatingAwardVersion());
-            System.out.println("awardAmountInfo.getTimeAndMoneyDocumentNumber() : " + awardAmountInfo.getTimeAndMoneyDocumentNumber());
-            System.out.println("awardAmountInfo.getAwardNumber() : " + awardAmountInfo.getAwardNumber());
-            System.out.println("awardAmountInfo.getTransactionId() : " + awardAmountInfo.getTransactionId());
-
-            System.out.println("--------------------------------------------------------------------------------------------");
-
             if (awardAmountInfo.getOriginatingAwardVersion() != null && awardAmountInfo.getOriginatingAwardVersion().equals(award.getSequenceNumber())) {
                 validInfos.add(awardAmountInfo);
             }
         }
-        System.out.println("getValidAwardAmountInfosAssociatedWithAwardVersion 2 , returning validInfos.size : " + validInfos.size());
         return validInfos;
     }
 
     protected List<TimeAndMoneyDocument> getValidDocumentsCreatedForAwardVersion(List<TimeAndMoneyDocument> docs, List<AwardAmountInfo> validInfos) {
-        System.out.println("getValidDocumentsCreatedForAwardVersion 1");
         List<TimeAndMoneyDocument> validDocs = new ArrayList<TimeAndMoneyDocument>();
 
         for (TimeAndMoneyDocument doc : docs) {
-
-            System.out.println("getValidDocumentsCreatedForAwardVersion , doc.getDocumentNumber()  : " + doc.getDocumentNumber());
-
             if (isInValidInfosCollection(doc, validInfos)) {
-                System.out.println("getValidDocumentsCreatedForAwardVersion , 3 isvalid doc.getDocumentNumber()  : " + doc.getDocumentNumber());
                 validDocs.add(doc);
             }
         }
-        System.out.println("getValidDocumentsCreatedForAwardVersion returning 2 validDocs.size : " + validDocs.size());
         return validDocs;
     }
 
     protected Boolean isInValidInfosCollection(TimeAndMoneyDocument doc, List<AwardAmountInfo> validInfos) {
         Boolean valid = false;
-        System.out.println("isInValidInfosCollection 1");
-        System.out.println("doc.getDocumentNumber() : " + doc.getDocumentNumber());
 
         for (AwardAmountInfo awardAmountInfo : validInfos) {
-
-            System.out.println("isInValidInfosCollection AwardAmountInfo--- ");
-            System.out.println("awardAmountInfo.getAwardAmountInfoId() : " + awardAmountInfo.getAwardAmountInfoId());
-            System.out.println("awardAmountInfo.getOriginatingAwardVersion() : " + awardAmountInfo.getOriginatingAwardVersion());
-            System.out.println("awardAmountInfo.getTimeAndMoneyDocumentNumber() : " + awardAmountInfo.getTimeAndMoneyDocumentNumber());
-            System.out.println("awardAmountInfo.getAwardNumber() : " + awardAmountInfo.getAwardNumber());
-            System.out.println("awardAmountInfo.getTransactionId() : " + awardAmountInfo.getTransactionId());
 
             if (awardAmountInfo.getTimeAndMoneyDocumentNumber() != null) {
                 if (awardAmountInfo.getTimeAndMoneyDocumentNumber().equals(doc.getDocumentNumber())) {
