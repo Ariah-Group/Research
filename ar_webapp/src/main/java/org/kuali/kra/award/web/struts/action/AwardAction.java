@@ -119,8 +119,6 @@ public class AwardAction extends BudgetParentActionBase {
     private transient SubAwardService subAwardService;
     TimeAndMoneyAwardDateSaveRuleImpl timeAndMoneyAwardDateSaveRuleImpl;
 
-    private static final Log LOG = LogFactory.getLog(AwardAction.class);
-
     //question constants
     private static final String QUESTION_VERIFY_SYNC = "VerifySync";
     private static final String QUESTION_VERIFY_EMPTY_SYNC = "VerifyEmptySync";
@@ -160,7 +158,6 @@ public class AwardAction extends BudgetParentActionBase {
         ActionForward forward;
         cleanUpUserSession();
         forward = handleDocument(mapping, form, request, response, awardForm);
-
         AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
         //check to see if this document might be a part of an active award sync(if it is lock it)
         AwardDocument parentSyncAward
@@ -211,17 +208,15 @@ public class AwardAction extends BudgetParentActionBase {
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
         AwardForm awardForm = (AwardForm) form;
-
         ActionForward actionForward = super.execute(mapping, form, request, response);
-
         if (awardForm.isAuditActivated()) {
             awardForm.setUnitRulesMessages(getUnitRulesMessages(awardForm.getAwardDocument()));
         }
         if (KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
             new AuditActionHelper().auditConditionally((AwardForm) form);
         }
-
         return actionForward;
     }
 
@@ -438,8 +433,15 @@ public class AwardAction extends BudgetParentActionBase {
     public ActionForward reload(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm) form;
+
+        if ("paymentReportsAndTerms".equalsIgnoreCase(awardForm.getNavigateTo())) {
+            // if the user has clickied the paymentReportsAndTerms TAB, then refresh come of its content
+            // so that it is ONLY called when the tab is visited, and not for all tabs as this RELOAD method
+            // is called on each tab click.
+            getReportTrackingService().refreshReportTracking(awardForm.getAwardDocument().getAward());
+        }
+
         ActionForward actionForward = super.reload(mapping, form, request, response);
-        getReportTrackingService().refreshReportTracking(awardForm.getAwardDocument().getAward());
         return actionForward;
     }
 
@@ -456,7 +458,7 @@ public class AwardAction extends BudgetParentActionBase {
 
     /**
      * This method returns the award associated with the AwardDocument on the
-     * AwardForm
+     * AwardForm reload
      *
      * @return
      */
@@ -664,7 +666,6 @@ public class AwardAction extends BudgetParentActionBase {
         setBooleanAwardHasTandMOrIsVersioned(awardDocument.getAward());
         //AwardAmountInfoService awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
         //int index = awardAmountInfoService.fetchIndexOfAwardAmountInfoWithHighestTransactionId(awardDocument.getAward().getAwardAmountInfos());
-
         return mapping.findForward(Constants.MAPPING_AWARD_HOME_PAGE);
     }
 
@@ -747,9 +748,7 @@ public class AwardAction extends BudgetParentActionBase {
      * @return
      */
     public ActionForward contacts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        //SponsorService sponsorService = getSponsorService();
         Award award = getAward(form);
-        //AwardForm awardForm = (AwardForm) form;
 
         award.initCentralAdminContacts();
 
@@ -1420,14 +1419,8 @@ public class AwardAction extends BudgetParentActionBase {
                 requiresQuestionMap.put(scope, defaultValue);
             } else {
                 if (awardTemplateSyncService.syncWillAlterData(awardDocument, scope)) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug(String.format("%s:%s", scope, true));
-                    }
                     requiresQuestionMap.put(scope, true);
                 } else {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.warn(String.format("%s:%s", scope, false));
-                    }
                     requiresQuestionMap.put(scope, false);
                 }
             }
@@ -1570,9 +1563,6 @@ public class AwardAction extends BudgetParentActionBase {
             } else if ((StringUtils.equals(awardForm.getCurrentSyncQuestionId(), question)
                     && ConfirmationQuestion.YES.equals(buttonClicked))
                     || !awardForm.getSyncRequiresConfirmationMap().get(currentScope)) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("USER ACCEPTED SYNC OR NO CONFIRM REQUIRED FOR:" + currentScope + " CALLING SYNC SERVICE.");
-                }
                 boolean templateHasScopedData = awardTemplateSyncService.templateContainsScopedData(awardDocument, currentScope);
                 boolean scopeRequiresEmptyConfirm = ArrayUtils.contains(DEFAULT_SCOPES_REQUIRE_VERIFY_FOR_EMPTY, currentScope);
 
@@ -1602,9 +1592,6 @@ public class AwardAction extends BudgetParentActionBase {
                 awardForm.setCurrentSyncScopes(scopesList);
 
             } else if (StringUtils.equals(awardForm.getCurrentSyncQuestionId(), question) && ConfirmationQuestion.NO.equals(buttonClicked)) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("USER DECLINED " + currentScope + ", SKIPPING.");
-                }
                 scopesList = (AwardTemplateSyncScope[]) ArrayUtils.remove(scopesList, 0);    // maintaining the current list
                 awardForm.setCurrentSyncScopes(scopesList);
             } else {
@@ -1975,5 +1962,29 @@ public class AwardAction extends BudgetParentActionBase {
         awardForm.getQuestionnaireHelper().populateAnswers();
         awardForm.getQuestionnaireHelper().setQuestionnaireActiveStatuses();
         return mapping.findForward("awardQuestionnaire");
+    }
+
+    /**
+     *
+     * This method gets called upon clicking the Create button next to the
+     * Account Number field in the Awards tab.
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward createAccountNumberCustom(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+
+        AwardForm awardForm = (AwardForm) form;
+
+        AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
+
+        String newAccountNum = "123456789";
+
+        awardDocument.getAward().setAccountNumber(newAccountNum);
+
+        return mapping.findForward(Constants.MAPPING_AWARD_HOME_PAGE);
     }
 }
