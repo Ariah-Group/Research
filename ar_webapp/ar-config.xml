@@ -171,6 +171,7 @@
     <!-- Filename of your logo placed in the <webapp>/static/images directory. -->
     <param name="portal.logo.filename">logo.png</param>
     <param name="portal.logo.alttext">Ariah Research</param>
+    <param name="portal.logo.pixelHeight">70</param>
     
     <!-- Default KC param, but portal modified to actually use it in the TITLE tag in the HEAD -->
     <param name="portal.title">Ariah Research</param>
