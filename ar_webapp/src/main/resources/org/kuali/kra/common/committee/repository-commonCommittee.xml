@@ -1,4 +1,4 @@
-<!--
+s<!--
  Copyright 2005-2014 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
@@ -92,40 +92,40 @@
     -->
     
 
-<!--  shared meeting classes -->
+    <!--  shared meeting classes -->
 	
 		
-<!-- 	<class-descriptor class="org.kuali.kra.common.committee.meeting.ProtocolContingency" table="PROTOCOL_CONTINGENCY"> -->
-<!-- 		<field-descriptor name="protocolContingencyCode" column="PROTOCOL_CONTINGENCY_CODE" jdbc-type="VARCHAR" primarykey="true" /> -->
-<!-- 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" /> -->
-<!-- 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" /> -->
-<!-- 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" /> -->
-<!-- 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" /> -->
-<!-- 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" /> -->
-<!-- 	</class-descriptor>	 -->
+    <!-- 	<class-descriptor class="org.kuali.kra.common.committee.meeting.ProtocolContingency" table="PROTOCOL_CONTINGENCY"> -->
+    <!-- 		<field-descriptor name="protocolContingencyCode" column="PROTOCOL_CONTINGENCY_CODE" jdbc-type="VARCHAR" primarykey="true" /> -->
+    <!-- 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" /> -->
+    <!-- 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" /> -->
+    <!-- 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" /> -->
+    <!-- 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" /> -->
+    <!-- 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" /> -->
+    <!-- 	</class-descriptor>	 -->
 
 	
-	<class-descriptor class="org.kuali.kra.common.committee.meeting.MinuteEntryType" table="MINUTE_ENTRY_TYPE">
-		<field-descriptor name="minuteEntryTypeCode" column="MINUTE_ENTRY_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
-		<field-descriptor name="sortId" column="SORT_ID" jdbc-type="INTEGER" />
-		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-	</class-descriptor>		
+    <class-descriptor class="org.kuali.kra.common.committee.meeting.MinuteEntryType" table="MINUTE_ENTRY_TYPE">
+        <field-descriptor name="minuteEntryTypeCode" column="MINUTE_ENTRY_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="sortId" column="SORT_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>		
 	
-	<class-descriptor class="org.kuali.kra.common.committee.meeting.ScheduleActItemType" table="SCHEDULE_ACT_ITEM_TYPE">
-		<field-descriptor name="scheduleActItemTypeCode" column="SCHEDULE_ACT_ITEM_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
-		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-	</class-descriptor>		
+    <class-descriptor class="org.kuali.kra.common.committee.meeting.ScheduleActItemType" table="SCHEDULE_ACT_ITEM_TYPE">
+        <field-descriptor name="scheduleActItemTypeCode" column="SCHEDULE_ACT_ITEM_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>		
 	
 	
-<!--  end meeting -->
+    <!--  end meeting -->
 
     <class-descriptor class="org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType" table="COMM_DECISION_MOTION_TYPE">
         <field-descriptor name="motionTypeCode" column="COMM_DECISION_MOTION_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
@@ -138,15 +138,15 @@
 
 
 	
-	<class-descriptor class="org.kuali.kra.common.committee.meeting.AttachmentsEntryType" table="ATTACHMENTS_TYPE">
-		<field-descriptor name="attachmentsTypeCode" column="ATTACHMENTS_CODE" jdbc-type="VARCHAR" primarykey="true" />
-		<field-descriptor name="sortId" column="SORT_ID" jdbc-type="INTEGER" />
-		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-	</class-descriptor>	
+    <class-descriptor class="org.kuali.kra.common.committee.meeting.AttachmentsEntryType" table="ATTACHMENTS_TYPE">
+        <field-descriptor name="attachmentsTypeCode" column="ATTACHMENTS_CODE" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="sortId" column="SORT_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>	
 	
 	
 </descriptor-repository>

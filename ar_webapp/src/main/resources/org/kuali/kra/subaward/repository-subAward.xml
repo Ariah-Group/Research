@@ -15,49 +15,49 @@
 -->
 <descriptor-repository version="1.0">
 
-	<class-descriptor class="org.kuali.kra.subaward.document.SubAwardDocument" table="SUBAWARD_DOCUMENT">
-		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />		
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />		
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    <class-descriptor class="org.kuali.kra.subaward.document.SubAwardDocument" table="SUBAWARD_DOCUMENT">
+        <field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" primarykey="true" />		
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />		
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		
         <reference-descriptor name="documentHeader" class-ref="org.kuali.rice.krad.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
             <foreignkey field-ref="documentNumber" />
         </reference-descriptor>
         
-		<collection-descriptor name="subAwardList" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAward" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        	<inverse-foreignkey field-ref="documentNumber" />
-    	</collection-descriptor>
-	</class-descriptor>
+        <collection-descriptor name="subAwardList" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAward" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="documentNumber" />
+        </collection-descriptor>
+    </class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.subaward.bo.SubAward" table="SUBAWARD">
-		<field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="BIGINT" primarykey="true"  autoincrement="true" sequence-name="SUBAWARD_ID_S" />
-		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" access="anonymous" />		
-		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>	
-		<field-descriptor name="subAwardCode" column="SUBAWARD_CODE" jdbc-type="VARCHAR" />
-		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR" />
-		<field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE" />
-		<field-descriptor name="endDate" column="END_DATE" jdbc-type="DATE" />
-		<field-descriptor name="subAwardTypeCode" column="SUBAWARD_TYPE_CODE" jdbc-type="INTEGER" />
-		<field-descriptor name="purchaseOrderNum" column="PURCHASE_ORDER_NUM" jdbc-type="VARCHAR" />
-		<field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR" />
-		<field-descriptor name="statusCode" column="STATUS_CODE" jdbc-type="INTEGER" />
-		<field-descriptor name="accountNumber" column="ACCOUNT_NUMBER" jdbc-type="VARCHAR" />
-		<field-descriptor name="vendorNumber" column="VENDOR_NUMBER" jdbc-type="VARCHAR" />
-		<field-descriptor name="requisitionerId" column="REQUISITIONER_ID" jdbc-type="VARCHAR" />
-		<field-descriptor name="requisitionerUnit" column="REQUISITIONER_UNIT" jdbc-type="VARCHAR" />
-		<field-descriptor name="archiveLocation" column="ARCHIVE_LOCATION" jdbc-type="VARCHAR" />
-		<field-descriptor name="closeoutDate" column="CLOSEOUT_DATE" jdbc-type="DATE" />		
-		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="siteInvestigator" column="SITE_INVESTIGATOR" jdbc-type="INTEGER" />
-		<field-descriptor name="costType" column="COST_TYPE" jdbc-type="INTEGER" />
-		<field-descriptor name="executionDate" column="DATE_OF_FULLY_EXECUTED" jdbc-type="DATE" />
-		<field-descriptor name="requisitionId" column="REQUISITION_NUMBER" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    <class-descriptor class="org.kuali.kra.subaward.bo.SubAward" table="SUBAWARD">
+        <field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="BIGINT" primarykey="true"  autoincrement="true" sequence-name="SUBAWARD_ID_S" />
+        <field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" access="anonymous" />		
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>	
+        <field-descriptor name="subAwardCode" column="SUBAWARD_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="startDate" column="START_DATE" jdbc-type="DATE" />
+        <field-descriptor name="endDate" column="END_DATE" jdbc-type="DATE" />
+        <field-descriptor name="subAwardTypeCode" column="SUBAWARD_TYPE_CODE" jdbc-type="INTEGER" />
+        <field-descriptor name="purchaseOrderNum" column="PURCHASE_ORDER_NUM" jdbc-type="VARCHAR" />
+        <field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR" />
+        <field-descriptor name="statusCode" column="STATUS_CODE" jdbc-type="INTEGER" />
+        <field-descriptor name="accountNumber" column="ACCOUNT_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="vendorNumber" column="VENDOR_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="requisitionerId" column="REQUISITIONER_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="requisitionerUnit" column="REQUISITIONER_UNIT" jdbc-type="VARCHAR" />
+        <field-descriptor name="archiveLocation" column="ARCHIVE_LOCATION" jdbc-type="VARCHAR" />
+        <field-descriptor name="closeoutDate" column="CLOSEOUT_DATE" jdbc-type="DATE" />		
+        <field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="siteInvestigator" column="SITE_INVESTIGATOR" jdbc-type="INTEGER" />
+        <field-descriptor name="costType" column="COST_TYPE" jdbc-type="INTEGER" />
+        <field-descriptor name="executionDate" column="DATE_OF_FULLY_EXECUTED" jdbc-type="DATE" />
+        <field-descriptor name="requisitionId" column="REQUISITION_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		
         <reference-descriptor name="subAwardDocument" class-ref="org.kuali.kra.subaward.document.SubAwardDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="documentNumber" />
@@ -77,37 +77,37 @@
         <reference-descriptor name="subAwardType" class-ref="org.kuali.kra.award.home.AwardType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="subAwardTypeCode"/> 
         </reference-descriptor>
-         <reference-descriptor name="subAwardCostType" class-ref="org.kuali.kra.subaward.bo.SubAwardCostType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="subAwardCostType" class-ref="org.kuali.kra.subaward.bo.SubAwardCostType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="costType"/> 
         </reference-descriptor>
         
- 	    <collection-descriptor name="subAwardFundingSourceList" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAwardFundingSource" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="subAwardId"/>
-		</collection-descriptor>
-		<collection-descriptor name="subAwardAmountInfoList" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAwardAmountInfo" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="subAwardId"/>
-		</collection-descriptor> 
-		<collection-descriptor name="subAwardContactsList" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAwardContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="subAwardId"/>
-		</collection-descriptor>
-	    <collection-descriptor name="subAwardCloseoutList" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAwardCloseout" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="subAwardId"/>
-		</collection-descriptor>
-		<collection-descriptor name="subAwardCustomDataList" proxy="true" element-class-ref="org.kuali.kra.subaward.customdata.SubAwardCustomData" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-			<inverse-foreignkey field-ref="subAwardId"/>
-		</collection-descriptor>
-		<collection-descriptor name="subAwardAttachments" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAwardAttachments" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-			<inverse-foreignkey field-ref="subAwardId"/>
-			<orderby name="attachmentId" sort="ASC" />
-		</collection-descriptor>
-		<collection-descriptor name="subAwardReportList" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAwardReports" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-			<inverse-foreignkey field-ref="subAwardId"/>
-			<orderby name="subAwardReportId" sort="ASC" />
-		</collection-descriptor>
-		<collection-descriptor name="subAwardTemplateInfo" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAwardTemplateInfo" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
-			<inverse-foreignkey field-ref="subAwardId"/>
-		</collection-descriptor>
-	</class-descriptor>
+        <collection-descriptor name="subAwardFundingSourceList" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAwardFundingSource" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="subAwardId"/>
+        </collection-descriptor>
+        <collection-descriptor name="subAwardAmountInfoList" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAwardAmountInfo" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="subAwardId"/>
+        </collection-descriptor> 
+        <collection-descriptor name="subAwardContactsList" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAwardContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="subAwardId"/>
+        </collection-descriptor>
+        <collection-descriptor name="subAwardCloseoutList" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAwardCloseout" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="subAwardId"/>
+        </collection-descriptor>
+        <collection-descriptor name="subAwardCustomDataList" proxy="true" element-class-ref="org.kuali.kra.subaward.customdata.SubAwardCustomData" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="subAwardId"/>
+        </collection-descriptor>
+        <collection-descriptor name="subAwardAttachments" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAwardAttachments" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="subAwardId"/>
+            <orderby name="attachmentId" sort="ASC" />
+        </collection-descriptor>
+        <collection-descriptor name="subAwardReportList" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAwardReports" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="subAwardId"/>
+            <orderby name="subAwardReportId" sort="ASC" />
+        </collection-descriptor>
+        <collection-descriptor name="subAwardTemplateInfo" proxy="true" element-class-ref="org.kuali.kra.subaward.bo.SubAwardTemplateInfo" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+            <inverse-foreignkey field-ref="subAwardId"/>
+        </collection-descriptor>
+    </class-descriptor>
 	
     <class-descriptor class="org.kuali.kra.subaward.bo.SubAwardAmountInfo" table="SUBAWARD_AMOUNT_INFO">
         <field-descriptor name="subAwardAmountInfoId" column="SUBAWARD_AMOUNT_INFO_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="SUBAWARD_AMT_INFO_ID_S"/>
@@ -230,7 +230,7 @@
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         
         <reference-descriptor name="customAttribute" class-ref="org.kuali.kra.bo.CustomAttribute" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-          <foreignkey field-ref="customAttributeId"/>
+            <foreignkey field-ref="customAttributeId"/>
         </reference-descriptor>
     </class-descriptor>
     
@@ -247,56 +247,56 @@
         <field-descriptor name="templateTypeCode" column="TEMPLATE_TYPE_CODE" jdbc-type="INTEGER" />
           
         <reference-descriptor name="subAwardTemplateType" class-ref="org.kuali.kra.subaward.bo.SubawardTemplateType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-          <foreignkey field-ref="templateTypeCode"/>
+            <foreignkey field-ref="templateTypeCode"/>
         </reference-descriptor>
         
     </class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.subaward.bo.SubAwardFundingSource" table="SUBAWARD_FUNDING_SOURCE">
-		<field-descriptor name="subAwardFundingSourceId" column="SUBAWARD_FUNDING_SOURCE_ID" jdbc-type="INTEGER" primarykey="true"  autoincrement="true"  sequence-name="SUBAWARD_FUNDING_SOURCE_ID_S" />
-		<field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="BIGINT" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="subAwardCode" column="SUBAWARD_CODE" jdbc-type="VARCHAR" />
-		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" />
+    <class-descriptor class="org.kuali.kra.subaward.bo.SubAwardFundingSource" table="SUBAWARD_FUNDING_SOURCE">
+        <field-descriptor name="subAwardFundingSourceId" column="SUBAWARD_FUNDING_SOURCE_ID" jdbc-type="INTEGER" primarykey="true"  autoincrement="true"  sequence-name="SUBAWARD_FUNDING_SOURCE_ID_S" />
+        <field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="subAwardCode" column="SUBAWARD_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" />
 		
-		<reference-descriptor name="award" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="awardId"/>
-		</reference-descriptor> 
-		<reference-descriptor name="subAward" class-ref="org.kuali.kra.subaward.bo.SubAward" auto-retrieve="true" auto-update="none" auto-delete="none">
-			<foreignkey field-ref="subAwardId"/>
-		</reference-descriptor>
-	</class-descriptor>
+        <reference-descriptor name="award" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="awardId"/>
+        </reference-descriptor> 
+        <reference-descriptor name="subAward" class-ref="org.kuali.kra.subaward.bo.SubAward" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="subAwardId"/>
+        </reference-descriptor>
+    </class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.subaward.bo.SubAwardStatus" table="SUBAWARD_STATUS">
-		<field-descriptor name="subAwardStatusCode" column="SUBAWARD_STATUS_CODE" jdbc-type="INTEGER" primarykey="true" />
-		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-	</class-descriptor> 
+    <class-descriptor class="org.kuali.kra.subaward.bo.SubAwardStatus" table="SUBAWARD_STATUS">
+        <field-descriptor name="subAwardStatusCode" column="SUBAWARD_STATUS_CODE" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor> 
 	
-	<class-descriptor class="org.kuali.kra.subaward.bo.AwardSubAwardTerms" table="AWARD_SUBAWARD_TERMS">
-		<field-descriptor name="awardSubawardTermsId" column="AWARD_SUBAWARD_TERMS_ID" jdbc-type="INTEGER" primarykey="true" />
-		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="INTEGER" />
-		<field-descriptor name="mitAwardNumber" column="MIT_AWARD_NUMBER" jdbc-type="VARCHAR" />		
-		<field-descriptor name="subAwardApprovalTypeCode" column="SUBAWARD_APPROVAL_CODE" jdbc-type="INTEGER" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    <class-descriptor class="org.kuali.kra.subaward.bo.AwardSubAwardTerms" table="AWARD_SUBAWARD_TERMS">
+        <field-descriptor name="awardSubawardTermsId" column="AWARD_SUBAWARD_TERMS_ID" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="awardId" column="AWARD_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="mitAwardNumber" column="MIT_AWARD_NUMBER" jdbc-type="VARCHAR" />		
+        <field-descriptor name="subAwardApprovalTypeCode" column="SUBAWARD_APPROVAL_CODE" jdbc-type="INTEGER" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		
-		<reference-descriptor name="award" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="awardId"/>
-		</reference-descriptor>
-		<reference-descriptor name="subAwardApproval" class-ref="org.kuali.kra.subaward.bo.SubAwardApprovalType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="subAwardApprovalTypeCode"/>
-		</reference-descriptor>
-	</class-descriptor>
+        <reference-descriptor name="award" class-ref="org.kuali.kra.award.home.Award" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="awardId"/>
+        </reference-descriptor>
+        <reference-descriptor name="subAwardApproval" class-ref="org.kuali.kra.subaward.bo.SubAwardApprovalType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="subAwardApprovalTypeCode"/>
+        </reference-descriptor>
+    </class-descriptor>
 	
     <class-descriptor class="org.kuali.kra.subaward.bo.TemplateSubAwardTerms" table="TEMPLATE_SUBAWARD_TERMS">
         <field-descriptor name="templateSubAwardTermsId" column="TEMPLATE_SUBAWARD_TERMS_ID" jdbc-type="INTEGER" primarykey="true" />
@@ -313,94 +313,94 @@
         <reference-descriptor name="template" class-ref="org.kuali.kra.award.home.AwardTemplate" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="templateCode"/>
         </reference-descriptor>
-     </class-descriptor>
+    </class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.subaward.bo.SubawardTemplateType" table="SUBAWARD_TEMPLATE_TYPE">
-		<field-descriptor name="templateTypeCode" column="SUBAWARD_TEMPLATE_TYPE_CODE " jdbc-type="INTEGER" primarykey="true" />
-		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-	</class-descriptor> 
+    <class-descriptor class="org.kuali.kra.subaward.bo.SubawardTemplateType" table="SUBAWARD_TEMPLATE_TYPE">
+        <field-descriptor name="templateTypeCode" column="SUBAWARD_TEMPLATE_TYPE_CODE " jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor> 
 	
-	<class-descriptor class="org.kuali.kra.subaward.bo.SubAwardCostType" table="SUBCONTRACT_COST_TYPE">
-		<field-descriptor name="costTypeCode" column="COST_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
-		<field-descriptor name="costTypeDescription" column="DESCRIPTION" jdbc-type="VARCHAR" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-	</class-descriptor> 
+    <class-descriptor class="org.kuali.kra.subaward.bo.SubAwardCostType" table="SUBCONTRACT_COST_TYPE">
+        <field-descriptor name="costTypeCode" column="COST_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="costTypeDescription" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor> 
 	 
-     <class-descriptor class="org.kuali.kra.subaward.bo.SubAwardCopyRightsType" table="SUBCONTRACT_COPYRIGHT_TYPE">
-		<field-descriptor name="copyRightTypeCode" column="COPYRIGHT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
-		<field-descriptor name="copyRightTypeDescription" column="DESCRIPTION" jdbc-type="VARCHAR" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-	</class-descriptor> 
+    <class-descriptor class="org.kuali.kra.subaward.bo.SubAwardCopyRightsType" table="SUBCONTRACT_COPYRIGHT_TYPE">
+        <field-descriptor name="copyRightTypeCode" column="COPYRIGHT_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="copyRightTypeDescription" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor> 
 	
-	<class-descriptor class="org.kuali.kra.subaward.bo.SubAwardReportType" table="SUBAWARD_REPORT_TYPE">
-		<field-descriptor name="subAwardReportTypeCode" column="REPORT_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
-		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
-		<field-descriptor name="sortId" column="SORT_ID" jdbc-type="VARCHAR"/>
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-	</class-descriptor>
+    <class-descriptor class="org.kuali.kra.subaward.bo.SubAwardReportType" table="SUBAWARD_REPORT_TYPE">
+        <field-descriptor name="subAwardReportTypeCode" column="REPORT_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="sortId" column="SORT_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.subaward.bo.SubAwardAttachmentType" table="SUBAWARD_ATTACHMENT_TYPE">
-		<field-descriptor name="subAwardAttachmentTypeCode" column="ATTACHMENT_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
-		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-	</class-descriptor>
+    <class-descriptor class="org.kuali.kra.subaward.bo.SubAwardAttachmentType" table="SUBAWARD_ATTACHMENT_TYPE">
+        <field-descriptor name="subAwardAttachmentTypeCode" column="ATTACHMENT_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.subaward.bo.SubAwardAttachments" table="SUBAWARD_ATTACHMENTS">
-		<field-descriptor name="attachmentId" column="ATTACHMENT_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_SUBAWARD_ATTACHMENT_ID" autoincrement="true"/>
-		<field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="BIGINT"  />
-		<field-descriptor name="subAwardCode" column="SUBAWARD_CODE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
-		<field-descriptor name="subAwardAttachmentTypeCode" column="ATTACHMENT_TYPE_CODE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="documentId" column="DOCUMENT_ID" jdbc-type="INTEGER" />
-		<field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT"/>
-		<field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR"/>
-		<field-descriptor name="document" column="DOCUMENT" jdbc-type="BINARY" />
-		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    <class-descriptor class="org.kuali.kra.subaward.bo.SubAwardAttachments" table="SUBAWARD_ATTACHMENTS">
+        <field-descriptor name="attachmentId" column="ATTACHMENT_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_SUBAWARD_ATTACHMENT_ID" autoincrement="true"/>
+        <field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="BIGINT"  />
+        <field-descriptor name="subAwardCode" column="SUBAWARD_CODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
+        <field-descriptor name="subAwardAttachmentTypeCode" column="ATTACHMENT_TYPE_CODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="documentId" column="DOCUMENT_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT"/>
+        <field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="document" column="DOCUMENT" jdbc-type="BINARY" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 		
-		<reference-descriptor name="typeAttachment" class-ref="org.kuali.kra.subaward.bo.SubAwardAttachmentType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="subAwardAttachmentTypeCode"/>
-		</reference-descriptor>
+        <reference-descriptor name="typeAttachment" class-ref="org.kuali.kra.subaward.bo.SubAwardAttachmentType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="subAwardAttachmentTypeCode"/>
+        </reference-descriptor>
 		
-		<reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="true"> 
-			<foreignkey field-ref="fileId"/>
-		</reference-descriptor>
-	</class-descriptor>
-	<class-descriptor class="org.kuali.kra.subaward.bo.SubAwardReports" table="SUBAWARD_REPORTS">
-		<field-descriptor name="subAwardReportId" column="SUBAWARD_REPORT_ID" jdbc-type="VARCHAR" primarykey="true" sequence-name="SEQ_SUBAWARD_REPORT_ID" autoincrement="true"/>
-		<field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="BIGINT" />
-		<field-descriptor name="subAwardCode" column="SUBAWARD_CODE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
-		<field-descriptor name="subAwardReportTypeCode" column="REPORT_TYPE_CODE" jdbc-type="VARCHAR"/>
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<reference-descriptor name="typeCode" class-ref="org.kuali.kra.subaward.bo.SubAwardReportType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="subAwardReportTypeCode"/>
-		</reference-descriptor>
-	</class-descriptor>
+        <reference-descriptor name="file" proxy="true" class-ref="org.kuali.kra.bo.AttachmentFile" auto-retrieve="true" auto-update="object" auto-delete="true"> 
+            <foreignkey field-ref="fileId"/>
+        </reference-descriptor>
+    </class-descriptor>
+    <class-descriptor class="org.kuali.kra.subaward.bo.SubAwardReports" table="SUBAWARD_REPORTS">
+        <field-descriptor name="subAwardReportId" column="SUBAWARD_REPORT_ID" jdbc-type="VARCHAR" primarykey="true" sequence-name="SEQ_SUBAWARD_REPORT_ID" autoincrement="true"/>
+        <field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="subAwardCode" column="SUBAWARD_CODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
+        <field-descriptor name="subAwardReportTypeCode" column="REPORT_TYPE_CODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="typeCode" class-ref="org.kuali.kra.subaward.bo.SubAwardReportType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="subAwardReportTypeCode"/>
+        </reference-descriptor>
+    </class-descriptor>
 	
-	<class-descriptor class="org.kuali.kra.subaward.bo.SubAwardTemplateInfo" table="SUBAWARD_TEMPLATE_INFO">
+    <class-descriptor class="org.kuali.kra.subaward.bo.SubAwardTemplateInfo" table="SUBAWARD_TEMPLATE_INFO">
         <field-descriptor name="subAwardId" column="SUBAWARD_ID" jdbc-type="BIGINT" primarykey="true" />
         <field-descriptor name="subAwardCode" column="SUBAWARD_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
@@ -425,7 +425,7 @@
         <field-descriptor name="applicableProgramRegulations" column="APPLICABLE_PROGRAM_REGULATIONS" jdbc-type="VARCHAR"/>
         <field-descriptor name="applicableProgramRegsDate" column="APPLICABLE_PROGRAM_REGS_DATE" jdbc-type="DATE" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
     </class-descriptor>
     
 </descriptor-repository>

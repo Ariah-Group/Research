@@ -231,7 +231,7 @@
     </bean>
 
     <bean id="awardLookupDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.AwardLookupDaoOjb">
-    	<property name="versionHistoryLookupDao" ref="versionHistoryLookupDao" /> 
+        <property name="versionHistoryLookupDao" ref="versionHistoryLookupDao" /> 
     </bean>
     
     <bean id="awardLookupableHelperService" class="org.kuali.kra.award.lookup.AwardLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
@@ -256,30 +256,30 @@
     <bean id="awardTemplateLookupableHelperServiceImpl" class="org.kuali.kra.award.lookup.AwardTemplateLookupableHelperServiceImpl" 
           parent="parentLookupableHelperService" scope="prototype" />
           
-   <!-- Exposing the award account service as a SOAP service and as a java service -->
+    <!-- Exposing the award account service as a SOAP service and as a java service -->
     <bean id="awardAccountService" class="org.kuali.kra.external.award.impl.AwardAccountServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="parameterService" ref="parameterService" />
     </bean>
-   <bean id="awardAccountServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+    <bean id="awardAccountServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition"
-                p:service-ref="awardAccountService"
-                p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
-                p:localServiceName="awardAccountService"
-                p:serviceInterface="org.kuali.kra.external.award.AwardAccountService"
-                p:busSecurity="${fin.system.integration.bus.security.on}"
-                p:retryAttempts="1" />
+                  p:service-ref="awardAccountService"
+                  p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
+                  p:localServiceName="awardAccountService"
+                  p:serviceInterface="org.kuali.kra.external.award.AwardAccountService"
+                  p:busSecurity="${fin.system.integration.bus.security.on}"
+                  p:retryAttempts="1" />
         </property>
     </bean>
     <bean id="awardAccountServiceSoapExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
-                p:service-ref="awardAccountService"
-                p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
-                p:localServiceName="awardAccountSoapService"
-                p:busSecurity="${fin.system.integration.bus.security.on}"
-                p:jaxWsService="true" />      
+                  p:service-ref="awardAccountService"
+                  p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
+                  p:localServiceName="awardAccountSoapService"
+                  p:busSecurity="${fin.system.integration.bus.security.on}"
+                  p:jaxWsService="true" />      
         </property>
     </bean>
     
@@ -289,9 +289,9 @@
     </bean>
    
     <bean id= "awardAllUnitAdministratorDerivedRoleTypeServiceCallback" parent="kcCallbackService" 
-		p:callbackService-ref="awardAllUnitAdministratorDerivedRoleTypeService" 
-		p:localServiceName="awardAllUnitAdministratorDerivedRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+          p:callbackService-ref="awardAllUnitAdministratorDerivedRoleTypeService" 
+          p:localServiceName="awardAllUnitAdministratorDerivedRoleTypeService" 
+          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
     
     <bean id="awardAmountInfoService" class="org.kuali.kra.award.AwardAmountInfoServiceImpl">   
         <property name="businessObjectService" ref="businessObjectService" />
@@ -310,8 +310,8 @@
     <bean id="awardDirectFandADistributionService" class="org.kuali.kra.service.impl.AwardDirectFandADistributionServiceImpl" />
     
     <bean id="awardFandaRateService" class="org.kuali.kra.award.commitments.AwardFandaRateServiceImpl">
-       <property name="businessObjectService" ref="businessObjectService" />  
-       <property name="fiscalYearMonthService" ref="fiscalYearMonthService" />           
+        <property name="businessObjectService" ref="businessObjectService" />  
+        <property name="fiscalYearMonthService" ref="fiscalYearMonthService" />           
     </bean>
     
     <bean id="keywordsService" class="org.kuali.kra.service.impl.KeywordsServiceImpl" />
@@ -338,8 +338,8 @@
     </bean>
     
     <bean id="awardInvestigatorsRoleTypeServiceCallback" parent="kcCallbackService"
-		p:callbackService-ref="awardInvestigatorsRoleTypeService" p:localServiceName="awardInvestigatorsRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
+          p:callbackService-ref="awardInvestigatorsRoleTypeService" p:localServiceName="awardInvestigatorsRoleTypeService" 
+          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
     
     <bean id="awardLockService" class="org.kuali.kra.award.AwardLockServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
@@ -472,10 +472,10 @@
         <property name="awardService" ref="awardService" />
     </bean>
     <bean id="reportTrackingPrintingService" class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingPrintingServiceImpl">
-		<property name="printingService" ref ="printingService" />
-		 <property name="reportTrackingPrint" ref="reportTrackingPrint" />
-		<property name="businessObjectService" ref="businessObjectService" />
-	</bean>
+        <property name="printingService" ref ="printingService" />
+        <property name="reportTrackingPrint" ref="reportTrackingPrint" />
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
     <bean id="reportTrackingLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="reportTrackingLookupableHelperService" />
     </bean>     
@@ -660,16 +660,32 @@
     </bean>
     
     <bean id="awardSyncHelpersService" class="org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncHelpersServiceImpl">
-            <property name="syncHelpers">
+        <property name="syncHelpers">
             <map>
-                <entry key="Award"><ref bean="awardSyncAwardHelper"/></entry>
-                <entry key="AwardPerson"><ref bean="awardSyncPersonHelper"/></entry>
-                <entry key="AwardPersonUnit"><ref bean="awardSyncUnitHelper"/></entry>
-                <entry key="AwardSponsorTerm"><ref bean="awardSyncTermHelper"/></entry>
-                <entry key="AwardSponsorContact"><ref bean="awardSyncSponsorContactHelper"/></entry>
-                <entry key="AwardReportTerm"><ref bean="awardSyncReportHelper"/></entry>
-                <entry key="AwardReportTermRecipient"><ref bean="awardSyncReportRecipientHelper"/></entry>
-                <entry key="AwardComment"><ref bean="awardSyncCommentsHelper"/></entry>
+                <entry key="Award">
+                    <ref bean="awardSyncAwardHelper"/>
+                </entry>
+                <entry key="AwardPerson">
+                    <ref bean="awardSyncPersonHelper"/>
+                </entry>
+                <entry key="AwardPersonUnit">
+                    <ref bean="awardSyncUnitHelper"/>
+                </entry>
+                <entry key="AwardSponsorTerm">
+                    <ref bean="awardSyncTermHelper"/>
+                </entry>
+                <entry key="AwardSponsorContact">
+                    <ref bean="awardSyncSponsorContactHelper"/>
+                </entry>
+                <entry key="AwardReportTerm">
+                    <ref bean="awardSyncReportHelper"/>
+                </entry>
+                <entry key="AwardReportTermRecipient">
+                    <ref bean="awardSyncReportRecipientHelper"/>
+                </entry>
+                <entry key="AwardComment">
+                    <ref bean="awardSyncCommentsHelper"/>
+                </entry>
             </map>
         </property>
     </bean>
@@ -711,29 +727,29 @@
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>
     
-     <!-- Exposing the CFDA number service as a Java service and SOAP service -->
+    <!-- Exposing the CFDA number service as a Java service and SOAP service -->
     <bean id="cfdaNumberService" class="org.kuali.kra.external.Cfda.service.impl.CfdaNumberServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     <bean id="cfdaNumberServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition"
-                p:service-ref="cfdaNumberService" 
-                p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
-                p:localServiceName="cfdaNumberService"
-                p:serviceInterface="org.kuali.kra.external.Cfda.service.CfdaNumberService"
-                p:busSecurity="${fin.system.integration.bus.security.on}"
-                p:retryAttempts="1" />
+                  p:service-ref="cfdaNumberService" 
+                  p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
+                  p:localServiceName="cfdaNumberService"
+                  p:serviceInterface="org.kuali.kra.external.Cfda.service.CfdaNumberService"
+                  p:busSecurity="${fin.system.integration.bus.security.on}"
+                  p:retryAttempts="1" />
         </property>
     </bean>
     <bean id="cfdaNumberServiceSoapExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
-                p:service-ref="cfdaNumberService" 
-                p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
-                p:localServiceName="cfdaNumberSoapService" 
-                p:busSecurity="${fin.system.integration.bus.security.on}"
-                p:jaxWsService="true" />
+                  p:service-ref="cfdaNumberService" 
+                  p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
+                  p:localServiceName="cfdaNumberSoapService" 
+                  p:busSecurity="${fin.system.integration.bus.security.on}"
+                  p:jaxWsService="true" />
         </property>
     </bean>
     
@@ -759,7 +775,7 @@
         <property name="triggers">
             <list>
                 <ref local="cfdaTrigger"/>
-				<ref local="reportTrackingNotificationTrigger"/>
+                <ref local="reportTrackingNotificationTrigger"/>
             </list>
         </property>
         <!-- 
@@ -777,9 +793,9 @@
                 <entry key="kcNotificationService"> 
                     <ref bean="kcNotificationService" /> 
                 </entry>
-				<entry key="reportTrackingNotificationService" > 
-					<ref bean="reportTrackingNotificationService" /> 
-				</entry>                
+                <entry key="reportTrackingNotificationService" > 
+                    <ref bean="reportTrackingNotificationService" /> 
+                </entry>                
                 <entry key="user" value="${batchJobUserName}" />
             </map>
         </property>
@@ -794,11 +810,11 @@
             manual deletion of values from tables will be required every time job is changed
         -->
         <property name="overwriteExistingJobs" value="true" />
-     </bean>
+    </bean>
      
-     <!-- Award Task Authorizers -->
+    <!-- Award Task Authorizers -->
      
-     <bean id="parentAwardAuthorizer" abstract="true">
+    <bean id="parentAwardAuthorizer" abstract="true">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kraWorkflowService" ref="kraWorkflowService" />
         <property name="kraAuthorizationService" ref="kraAuthorizationService" />
@@ -812,7 +828,7 @@
                     <property name="taskName" value="modifyAward" />
                 </bean>
                 <bean class="org.ariahgroup.research.award.auth.AwardQuestionnaireAuthorizer" parent="parentAwardAuthorizer">
-                	<property name="taskName" value="modifyAwardQuestionnaire"/>
+                    <property name="taskName" value="modifyAwardQuestionnaire"/>
                 </bean>                
                 <bean class="org.kuali.kra.award.document.authorizer.ViewAwardAuthorizer" parent="parentAwardAuthorizer">
                     <property name="taskName" value="viewAward" />
@@ -834,8 +850,8 @@
                     <property name="taskName" value="createAwardAccount" />
                 </bean>          
             </list>
-         </property>
-     </bean>
+        </property>
+    </bean>
      
     <bean id="awardBudgetsWebAuthorizer" class="org.kuali.kra.web.struts.authorization.WebAuthorizer">
         <property name="classname" value="org.kuali.kra.award.web.struts.action.AwardBudgetsAction" />
@@ -863,208 +879,208 @@
     <bean id="abstractReportTrackingNotification" class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotification"/>
     <bean id="abstractReportTrackingNotificationTask" class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationTask"/>
     <bean id="reportTrackingNotificationService" parent="abstractReportTrackingNotificationService" 
-    	class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationServiceImpl"/>
-	<bean id="abstractReportTrackingNotificationService" abstract="true">
-		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="notificationService" ref="kcNotificationService" />
-		<property name="awardService" ref="awardService" />
-		<property name="notifications">
-			<list>
-			    <!-- add a new bean for each report tracking notification you wish to send
-			    	 name - name of the notification
-			    	 actionCode - notification type actionCode
-			    	 days - days before or after today the due date must be for this notification to trigger
-			    	 overdue - determines whether looking for due dates before or after today
-			    	 scope - defaults to 30, and determines the number of days after the specified due date to check for records that
-			    	 	haven't had this notification already sent. Allows for the batch process to not run everyday and
-			    	 	not pick up records covered by other notifications.
-			    	 each notification must have one or more notification tasks. The tasks specify the criteria used to select
-			    	 report tracking records. Arguments that can be used are 
-			    	 	reportClassCode
-			    	 	reportCode
-			    	 	frequencyCode
-			    	 	frequencyBaseCode
-			    	 	ospDistributionCode
-			   	-->
-				<bean parent="abstractReportTrackingNotification" 
-					p:name="Fiscal Report Notification - 1" p:actionCode="401" p:days="90" p:overdue="false" p:scope="30">
-					<property name="tasks">
-						<list>
-							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="1"/>
-						</list>
-					</property>
-				</bean>
-				<bean parent="abstractReportTrackingNotification" p:name="Fiscal Report Notification - 2" p:actionCode="402" p:days="60" p:overdue="false">
-					<property name="tasks">
-						<list>
-							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="1"/>
-						</list>
-					</property>
-				</bean>
-				<bean parent="abstractReportTrackingNotification" p:name="Fiscal Report Notification - 3" p:actionCode="403" p:days="30" p:overdue="false">
-					<property name="tasks">
-						<list>
-							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="1"/>
-						</list>
-					</property>
-				</bean>
-				<bean parent="abstractReportTrackingNotification" p:name="Fiscal Report Notification - Overdue" p:actionCode="404" p:days="0" p:overdue="true" p:scope="120">
-					<property name="tasks">
-						<list>
-							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="1"/>
-						</list>
-					</property>
-				</bean>
-				<bean parent="abstractReportTrackingNotification" p:name="Property Report Notification - 1" p:actionCode="405" p:days="90" p:overdue="false">
-					<property name="tasks">
-						<list>
-							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="2"/>
-						</list>
-					</property>
-				</bean>
-				<bean parent="abstractReportTrackingNotification" p:name="Property Report Notification - 2" p:actionCode="406" p:days="60" p:overdue="false">
-					<property name="tasks">
-						<list>
-							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="2"/>
-						</list>
-					</property>
-				</bean>
-				<bean parent="abstractReportTrackingNotification" p:name="Property Report Notification - 3" p:actionCode="407" p:days="30" p:overdue="false">
-					<property name="tasks">
-						<list>
-							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="2"/>
-						</list>
-					</property>
-				</bean>
-				<bean parent="abstractReportTrackingNotification" p:name="Property Report Notification - Overdue" p:actionCode="408" p:days="0" p:overdue="true" p:scope="120">
-					<property name="tasks">
-						<list>
-							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="2"/>
-						</list>
-					</property>
-				</bean>
-				<bean parent="abstractReportTrackingNotification" p:name="IP Report Notification - 1" p:actionCode="409" p:days="90" p:overdue="false">
-					<property name="tasks">
-						<list>
-							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="3"/>
-						</list>
-					</property>
-				</bean>
-				<bean parent="abstractReportTrackingNotification" p:name="IP Report Notification - 2" p:actionCode="410" p:days="60" p:overdue="false">
-					<property name="tasks">
-						<list>
-							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="3"/>
-						</list>
-					</property>
-				</bean>
-				<bean parent="abstractReportTrackingNotification" p:name="IP Report Notification - 3" p:actionCode="411" p:days="30" p:overdue="false">
-					<property name="tasks">
-						<list>
-							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="3"/>
-						</list>
-					</property>
-				</bean>
-				<bean parent="abstractReportTrackingNotification" p:name="IP Report Notification - Overdue" p:actionCode="412" p:days="0" p:overdue="true" p:scope="120">
-					<property name="tasks">
-						<list>
-							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="3"/>
-						</list>
-					</property>
-				</bean>
-				<bean parent="abstractReportTrackingNotification" p:name="Technical Report Notification - 1" p:actionCode="413" p:days="90" p:overdue="false">
-					<property name="tasks">
-						<list>
-							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="4"/>
-						</list>
-					</property>
-				</bean>
-				<bean parent="abstractReportTrackingNotification" p:name="Technical Report Notification - 2" p:actionCode="414" p:days="60" p:overdue="false">
-					<property name="tasks">
-						<list>
-							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="4"/>
-						</list>
-					</property>
-				</bean>
-				<bean parent="abstractReportTrackingNotification" p:name="Technical Report Notification - 3" p:actionCode="415" p:days="30" p:overdue="false">
-					<property name="tasks">
-						<list>
-							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="4"/>
-						</list>
-					</property>
-				</bean>
-				<bean parent="abstractReportTrackingNotification" p:name="Technical Report Notification - Overdue" p:actionCode="416" p:days="0" p:overdue="true" p:scope="120">
-					<property name="tasks">
-						<list>
-							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="4"/>
-						</list>
-					</property>
-				</bean>
-				<bean parent="abstractReportTrackingNotification" p:name="Procurement Report Notification - 1" p:actionCode="417" p:days="90" p:overdue="false">
-					<property name="tasks">
-						<list>
-							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="5"/>
-						</list>
-					</property>
-				</bean>
-				<bean parent="abstractReportTrackingNotification" p:name="Procurement Report Notification - 2" p:actionCode="418" p:days="60" p:overdue="false">
-					<property name="tasks">
-						<list>
-							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="5"/>
-						</list>
-					</property>
-				</bean>
-				<bean parent="abstractReportTrackingNotification" p:name="Procurement Report Notification - 3" p:actionCode="419" p:days="30" p:overdue="false">
-					<property name="tasks">
-						<list>
-							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="5"/>
-						</list>
-					</property>
-				</bean>
-				<bean parent="abstractReportTrackingNotification" p:name="Procurement Report Notification - Overdue" p:actionCode="420" p:days="0" p:overdue="true" p:scope="120">
-					<property name="tasks">
-						<list>
-							<bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="5"/>
-						</list>
-					</property>
-				</bean>
+          class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationServiceImpl"/>
+    <bean id="abstractReportTrackingNotificationService" abstract="true">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="notificationService" ref="kcNotificationService" />
+        <property name="awardService" ref="awardService" />
+        <property name="notifications">
+            <list>
+                <!-- add a new bean for each report tracking notification you wish to send
+                 name - name of the notification
+                 actionCode - notification type actionCode
+                 days - days before or after today the due date must be for this notification to trigger
+                 overdue - determines whether looking for due dates before or after today
+                 scope - defaults to 30, and determines the number of days after the specified due date to check for records that
+                        haven't had this notification already sent. Allows for the batch process to not run everyday and
+                        not pick up records covered by other notifications.
+                 each notification must have one or more notification tasks. The tasks specify the criteria used to select
+                 report tracking records. Arguments that can be used are 
+                        reportClassCode
+                        reportCode
+                        frequencyCode
+                        frequencyBaseCode
+                        ospDistributionCode
+                -->
+                <bean parent="abstractReportTrackingNotification" 
+                                      p:name="Fiscal Report Notification - 1" p:actionCode="401" p:days="90" p:overdue="false" p:scope="30">
+                    <property name="tasks">
+                        <list>
+                            <bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="1"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="abstractReportTrackingNotification" p:name="Fiscal Report Notification - 2" p:actionCode="402" p:days="60" p:overdue="false">
+                    <property name="tasks">
+                        <list>
+                            <bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="1"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="abstractReportTrackingNotification" p:name="Fiscal Report Notification - 3" p:actionCode="403" p:days="30" p:overdue="false">
+                    <property name="tasks">
+                        <list>
+                            <bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="1"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="abstractReportTrackingNotification" p:name="Fiscal Report Notification - Overdue" p:actionCode="404" p:days="0" p:overdue="true" p:scope="120">
+                    <property name="tasks">
+                        <list>
+                            <bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="1"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="abstractReportTrackingNotification" p:name="Property Report Notification - 1" p:actionCode="405" p:days="90" p:overdue="false">
+                    <property name="tasks">
+                        <list>
+                            <bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="2"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="abstractReportTrackingNotification" p:name="Property Report Notification - 2" p:actionCode="406" p:days="60" p:overdue="false">
+                    <property name="tasks">
+                        <list>
+                            <bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="2"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="abstractReportTrackingNotification" p:name="Property Report Notification - 3" p:actionCode="407" p:days="30" p:overdue="false">
+                    <property name="tasks">
+                        <list>
+                            <bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="2"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="abstractReportTrackingNotification" p:name="Property Report Notification - Overdue" p:actionCode="408" p:days="0" p:overdue="true" p:scope="120">
+                    <property name="tasks">
+                        <list>
+                            <bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="2"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="abstractReportTrackingNotification" p:name="IP Report Notification - 1" p:actionCode="409" p:days="90" p:overdue="false">
+                    <property name="tasks">
+                        <list>
+                            <bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="3"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="abstractReportTrackingNotification" p:name="IP Report Notification - 2" p:actionCode="410" p:days="60" p:overdue="false">
+                    <property name="tasks">
+                        <list>
+                            <bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="3"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="abstractReportTrackingNotification" p:name="IP Report Notification - 3" p:actionCode="411" p:days="30" p:overdue="false">
+                    <property name="tasks">
+                        <list>
+                            <bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="3"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="abstractReportTrackingNotification" p:name="IP Report Notification - Overdue" p:actionCode="412" p:days="0" p:overdue="true" p:scope="120">
+                    <property name="tasks">
+                        <list>
+                            <bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="3"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="abstractReportTrackingNotification" p:name="Technical Report Notification - 1" p:actionCode="413" p:days="90" p:overdue="false">
+                    <property name="tasks">
+                        <list>
+                            <bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="4"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="abstractReportTrackingNotification" p:name="Technical Report Notification - 2" p:actionCode="414" p:days="60" p:overdue="false">
+                    <property name="tasks">
+                        <list>
+                            <bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="4"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="abstractReportTrackingNotification" p:name="Technical Report Notification - 3" p:actionCode="415" p:days="30" p:overdue="false">
+                    <property name="tasks">
+                        <list>
+                            <bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="4"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="abstractReportTrackingNotification" p:name="Technical Report Notification - Overdue" p:actionCode="416" p:days="0" p:overdue="true" p:scope="120">
+                    <property name="tasks">
+                        <list>
+                            <bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="4"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="abstractReportTrackingNotification" p:name="Procurement Report Notification - 1" p:actionCode="417" p:days="90" p:overdue="false">
+                    <property name="tasks">
+                        <list>
+                            <bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="5"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="abstractReportTrackingNotification" p:name="Procurement Report Notification - 2" p:actionCode="418" p:days="60" p:overdue="false">
+                    <property name="tasks">
+                        <list>
+                            <bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="5"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="abstractReportTrackingNotification" p:name="Procurement Report Notification - 3" p:actionCode="419" p:days="30" p:overdue="false">
+                    <property name="tasks">
+                        <list>
+                            <bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="5"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="abstractReportTrackingNotification" p:name="Procurement Report Notification - Overdue" p:actionCode="420" p:days="0" p:overdue="true" p:scope="120">
+                    <property name="tasks">
+                        <list>
+                            <bean parent="abstractReportTrackingNotificationTask" p:reportClassCode="5"/>
+                        </list>
+                    </property>
+                </bean>
 				
-			</list>
-		</property>
-	</bean>
+            </list>
+        </property>
+    </bean>
 
-	<bean id="reportTrackingXmlStream"
-		class="org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingXmlStream">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
-		<property name="documentService">
-			<ref bean="documentService" />
-		</property>
-	</bean>
-	<bean id="reportTrackingPrint"
-		class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingPrint"
-		scope="prototype">
-		<property name="xmlStream" ref="reportTrackingXmlStream" />
-	</bean>
+    <bean id="reportTrackingXmlStream"
+              class="org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTrackingXmlStream">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
+        <property name="documentService">
+            <ref bean="documentService" />
+        </property>
+    </bean>
+    <bean id="reportTrackingPrint"
+              class="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingPrint"
+              scope="prototype">
+        <property name="xmlStream" ref="reportTrackingXmlStream" />
+    </bean>
     
-	<bean id="reportTrackingNotificationJobDetail" class="org.quartz.JobDetail" >
-		<property name="jobClass" value="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationJobDetail" />
-		<property name="name" value="reportTrackingNotificationJobDetail" />
-	</bean>
+    <bean id="reportTrackingNotificationJobDetail" class="org.quartz.JobDetail" >
+        <property name="jobClass" value="org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationJobDetail" />
+        <property name="name" value="reportTrackingNotificationJobDetail" />
+    </bean>
 	
-	<bean id="reportTrackingNotificationTrigger" class="org.kuali.kra.scheduling.quartz.KcCronTriggerBean">
-		<property name="parameterNamespace" value="KC-AWARD" />
-		<property name="parameterComponent" value="Document" />
-		<property name="cronExpressionParameterName" value="REPORT_TRACKING_NOTIFICATIONS_BATCH_CRON_TRIGGER" />
-		<property name="jobDetail" ref="reportTrackingNotificationJobDetail" />
-		<property name="parameterService" ref="parameterService" />
-		<property name="dateTimeService" ref="dateTimeService" />
-	</bean>  
+    <bean id="reportTrackingNotificationTrigger" class="org.kuali.kra.scheduling.quartz.KcCronTriggerBean">
+        <property name="parameterNamespace" value="KC-AWARD" />
+        <property name="parameterComponent" value="Document" />
+        <property name="cronExpressionParameterName" value="REPORT_TRACKING_NOTIFICATIONS_BATCH_CRON_TRIGGER" />
+        <property name="jobDetail" ref="reportTrackingNotificationJobDetail" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+    </bean>  
 	
-	<bean id="awardFactBuilderService" class="org.kuali.kra.award.AwardFactBuilderServiceImpl">
+    <bean id="awardFactBuilderService" class="org.kuali.kra.award.AwardFactBuilderServiceImpl">
         <property name="documentService" ref="documentService" />
     </bean>
     
@@ -1074,8 +1090,8 @@
     </bean>
     
     <bean id ="subcontractingExpenditureCategoryService" class="org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryServiceImpl">
-    	<property name="detailsDao" ref="subcontractingExpenditureCategoryDetailsDao" />
-    	<property name="businessObjectService" ref="businessObjectService" />
+        <property name="detailsDao" ref="subcontractingExpenditureCategoryDetailsDao" />
+        <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
     <bean id ="subcontractingExpenditureCategoryDetailsDao" parent="platformAwareDao" class="org.kuali.kra.award.subcontracting.reporting.dao.SubcontractingExpenditureCategoryDetailsDaoOjb">

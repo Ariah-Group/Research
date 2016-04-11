@@ -163,7 +163,7 @@
         <field-descriptor name="negotiationCustomDataId" column="NEGOTIATION_CUSTOM_DATA_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_NEGOTIATION_CUSTOM_DATA_ID" />
         <field-descriptor name="negotiationId" column="NEGOTIATION_ID" jdbc-type="BIGINT" access="anonymous"/>
         <field-descriptor name="negotiationNumber" column="NEGOTIATION_NUMBER" jdbc-type="VARCHAR"/>
-`       <field-descriptor name="customAttributeId" column="CUSTOM_ATTRIBUTE_ID" jdbc-type="BIGINT"/>
+        `       <field-descriptor name="customAttributeId" column="CUSTOM_ATTRIBUTE_ID" jdbc-type="BIGINT"/>
         <field-descriptor name="value" column="VALUE" jdbc-type="VARCHAR"/>
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
@@ -231,7 +231,7 @@
         </reference-descriptor>
     </class-descriptor>
 
-	<class-descriptor class="org.kuali.kra.negotiations.notifications.NegotiationNotification" table="NEGOTIATION_NOTIFICATION">
+    <class-descriptor class="org.kuali.kra.negotiations.notifications.NegotiationNotification" table="NEGOTIATION_NOTIFICATION">
         <field-descriptor name="notificationId" column="NOTIFICATION_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_NOTIFICATION_ID" autoincrement="true" />
         <field-descriptor name="notificationTypeId" column="NOTIFICATION_TYPE_ID" jdbc-type="BIGINT" />
         <field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" />
