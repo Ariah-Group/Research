@@ -36,7 +36,6 @@ public class AwardLookupDaoOjb extends LookupDaoOjb implements AwardLookupDao {
     @SuppressWarnings("rawtypes")
     @Override
     public List<? extends BusinessObject> getAwardSearchResults(Map fieldValues, boolean usePrimaryKeys) {
-
         List<Award> searchResults = (List<Award>) getVersionHistoryLookupDao().getSequenceOwnerSearchResults(Award.class, fieldValues, usePrimaryKeys);
         List<Long> awardIds = new ArrayList<Long>();
 
@@ -47,16 +46,13 @@ public class AwardLookupDaoOjb extends LookupDaoOjb implements AwardLookupDao {
         if (awardIds.isEmpty()) {
             return new ArrayList<Award>();
         }
-
         Criteria awardCr = new Criteria();
         awardCr.addIn("awardId", awardIds);
-        
-        List<Award> awardList = (List<Award>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Award.class, awardCr));
 
+        List<Award> awardList = (List<Award>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Award.class, awardCr));
         if (searchResults instanceof CollectionIncomplete) {
             awardList = new CollectionIncomplete<Award>(awardList, ((CollectionIncomplete<Award>) searchResults).getActualSizeIfTruncated());
         }
-
         return awardList;
     }
 
