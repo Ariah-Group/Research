@@ -81,15 +81,12 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
             }
             fieldValues.put("awardUnitContacts.awardContactId", StringUtils.join(ids, '|'));
         }
-
         boolean usePrimaryKeys = getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(Award.class, fieldValues);
-
         setBackLocation(fieldValues.get(KRADConstants.BACK_LOCATION));
         setDocFormKey(fieldValues.get(KRADConstants.DOC_FORM_KEY));
         setReferencesToRefresh(fieldValues.get(KRADConstants.REFERENCES_TO_REFRESH));
 
         List<Award> unboundedResults = (List<Award>) getAwardLookupDao().getAwardSearchResults(fieldValues, usePrimaryKeys);
-
         List<Award> filteredResults = (List<Award>) filterForPermissions(unboundedResults);
         if (unboundedResults instanceof CollectionIncomplete) {
             filteredResults = new CollectionIncomplete<Award>(
@@ -112,9 +109,9 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
         // if the user has permission.
         for (Award award : results) {
             if (award != null && authorizer.canOpen(award.getAwardDocument(), user)) {
-                filteredResults.add(award);
-            }
-        }
+                    filteredResults.add(award);
+                    }
+                }
         return filteredResults;
     }
 
