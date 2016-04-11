@@ -258,7 +258,7 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         ActionForward actionForward = super.reload(mapping, form, request, response);
 
         setReportsAndTermsOnAwardForm(awardForm);
-
+        
         return actionForward;
     }
 
