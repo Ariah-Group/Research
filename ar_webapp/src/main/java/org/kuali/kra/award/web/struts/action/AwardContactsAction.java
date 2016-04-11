@@ -25,7 +25,6 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -325,7 +324,6 @@ public class AwardContactsAction extends AwardAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, ServletRequest request, ServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
-
         return actionForward;
     }
 
