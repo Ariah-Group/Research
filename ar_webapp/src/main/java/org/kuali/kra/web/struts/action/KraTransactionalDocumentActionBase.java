@@ -98,7 +98,6 @@ import static org.kuali.kra.logging.BufferedLogger.debug;
 import static org.kuali.kra.logging.BufferedLogger.error;
 import static org.kuali.rice.krad.util.KRADConstants.*;
 
-// TODO : should move this class to org.kuali.kra.web.struts.action
 public class KraTransactionalDocumentActionBase extends KualiTransactionalDocumentActionBase {
 
     private static final Log LOG = LogFactory.getLog(KraTransactionalDocumentActionBase.class);
@@ -127,7 +126,6 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                 ((ResearchDocumentBase) kcForm.getDocument()).setViewOnly(kcForm.isViewOnly());
             }
         }
-
         /*
          * Restore messages passed through the holding page
          */
@@ -136,10 +134,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             KNSGlobalVariables.getMessageList().addAll(messageList);
             GlobalVariables.getUserSession().removeObject(Constants.HOLDING_PAGE_MESSAGES);
         }
-
         ActionForward returnForward = mapping.findForward(Constants.MAPPING_BASIC);
         returnForward = super.execute(mapping, form, request, response);
-
         return returnForward;
     }
 
@@ -198,9 +194,6 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      * @see https://test.kuali.org/confluence/x/EoFXAQ
      */
     public ActionForward confirm(StrutsConfirmation question, String yesMethodName, String noMethodName) throws Exception {
-        
-        LOG.error("confirm 1 : yesMethodName = " + yesMethodName);
-        LOG.error("confirm 1 : noMethodName = " + noMethodName);
 
         // Figure out what the caller is. We want the direct caller of confirm()
         question.setCaller(((KualiForm) question.getForm()).getMethodToCall());
@@ -209,26 +202,18 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         debug("Current action is ", getClass());
 
         if (question.hasQuestionInstAttributeName()) {
-            
-            LOG.error("confirm 2"); 
-            
+
             Object buttonClicked = question.getRequest().getParameter(QUESTION_CLICKED_BUTTON);
             if (ConfirmationQuestion.YES.equals(buttonClicked) && isNotBlank(yesMethodName)) {
-                LOG.error("confirm 3");
                 return dispatchMethod(question.getMapping(), question.getForm(), question.getRequest(), question.getResponse(),
                         yesMethodName);
             } else if (isNotBlank(noMethodName)) {
-                LOG.error("confirm 4");
                 return dispatchMethod(question.getMapping(), question.getForm(), question.getRequest(), question.getResponse(),
                         noMethodName);
-            } else {
-                LOG.error("confirm 5");
             }
         } else {
-            LOG.error("confirm 6");
             return this.performQuestionWithoutInput(question, EMPTY_STRING);
         }
-LOG.error("confirm 7");
         return question.getMapping().findForward(Constants.MAPPING_BASIC);
     }
 
