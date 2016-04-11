@@ -56,6 +56,7 @@ import java.util.*;
 
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_CLOSE_PAGE;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 /**
@@ -474,11 +475,15 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         Budget budget = budgetDocument.getBudget();
         List<Integer> toBeDeletedLineItems;
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+                
         for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
             int i = 0;
             toBeDeletedLineItems = new ArrayList<Integer>();
             for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-                if (StringUtils.equalsIgnoreCase(budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode(), Constants.BUDGET_CATEGORY_PERSONNEL)) {
+                if (StringUtils.equalsIgnoreCase(budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode(), budgetCatCodePersonnel)) {
                     if (!StringUtils.equalsIgnoreCase(budgetLineItem.getCostElement(), budgetLineItem.getCostElementBO().getCostElement())) {
                         budgetLineItem.refreshReferenceObject("costElementBO");
                         budgetLineItem.setBudgetCategoryCode(budgetLineItem.getCostElementBO().getBudgetCategoryCode());
@@ -545,11 +550,14 @@ public class BudgetPersonnelAction extends BudgetExpensesAction {
         int i = 0;
         int j = 0;
 
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+        
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
             j = 0;
             budgetLineItems = budgetPeriod.getBudgetLineItems();
             for (BudgetLineItem budgetLineItem : budgetLineItems) {
-                if (budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equals(Constants.BUDGET_CATEGORY_PERSONNEL)) {
+                if (budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equals(budgetCatCodePersonnel)) {
                     valid &= budgetPersonnelDetailsCheck(budgetDocument, i, j);
                 }
                 j++;

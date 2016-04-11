@@ -59,6 +59,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.*;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStream {
@@ -209,8 +210,12 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      */
     protected OtherDirectCosts[] getOtherDirectCosts(DevelopmentProposal developmentProposal, List<BudgetLineItem> budgetLineItems) {
         List<OtherDirectCosts> otherDirectCostList = new ArrayList<OtherDirectCosts>();
+        
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+        
         for (BudgetLineItem budgetLineItem : budgetLineItems) {
-            if (isBudgetCategoryOther(budgetLineItem)) {
+            if (isBudgetCategoryOther(budgetLineItem, budgetCatCodePersonnel)) {
                 OtherDirectCosts otherDirectCost = OtherDirectCosts.Factory.newInstance();
                 otherDirectCost.setCost(budgetLineItem.getLineItemCost().bigDecimalValue());
                 otherDirectCost.setDescription(budgetLineItem.getLineItemDescription());
@@ -272,11 +277,12 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      * This method check budgetCagegoryCode for other in BudgetLineItem by checking budgetCategoryCode travel, equipment, patient
      * and participant
      */
-    protected boolean isBudgetCategoryOther(BudgetLineItem budgetLineItem) {
+    protected boolean isBudgetCategoryOther(BudgetLineItem budgetLineItem, String budgetCatCodePersonnel) {
         boolean isOther = true;
         if (isBudgetCategoryEquipment(budgetLineItem) || isBudgetCategoryTravel(budgetLineItem)
                 || isBudgetCategoryParticipantPatient(budgetLineItem)
-                || budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equals(Constants.BUDGET_CATEGORY_PERSONNEL) || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_TUITION)) {
+                || budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equals(budgetCatCodePersonnel) ||
+                budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_TUITION)) {
             isOther = false;
         }
         return isOther;
@@ -717,8 +723,11 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      */
     protected BigDecimal getOtherDirectTotal(List<BudgetLineItem> budgetLineItems) {
         BudgetDecimal cost = BudgetDecimal.ZERO;
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+        
         for (BudgetLineItem budgetLineItem : budgetLineItems) {
-            if (isBudgetCategoryOther(budgetLineItem)) {
+            if (isBudgetCategoryOther(budgetLineItem, budgetCatCodePersonnel)) {
                 cost = cost.add(budgetLineItem.getLineItemCost());
             }
         }

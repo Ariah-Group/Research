@@ -213,7 +213,6 @@ public interface Constants {
     public static final String PERSON_SEQUENCE_NUMBER = "personSequenceNumber";
     public static final String BUDGET_PERSONNEL_PAGE = "personnel";
     public static final String JOB_CODE = "jobCode";
-    public static final String BUDGET_CATEGORY_PERSONNEL = "P";
     public static final String BUDGET_PERSON_DEFAULT_JOB_CODE_PARAMETER = "budgetPersonDefaultJobCode";
     public static final String DEFAULT_INFLATION_RATE_FOR_SALARY = "DEFAULT_INFLATION_RATE_FOR_SALARY";
     

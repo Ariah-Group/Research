@@ -35,95 +35,106 @@ import org.kuali.kra.external.budget.RateClassRateType;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.util.*;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
- * This class is a helper that does all the required calculation for setting the accounting line amounts
- * for the Budget Adjustment Service.
+ * This class is a helper that does all the required calculation for setting the
+ * accounting line amounts for the Budget Adjustment Service.
  */
-public class BudgetAdjustmentServiceHelperImpl implements BudgetAdjustmentServiceHelper{
-    
-    
+public class BudgetAdjustmentServiceHelperImpl implements BudgetAdjustmentServiceHelper {
+
     private BusinessObjectService businessObjectService;
 
     private static final Log LOG = LogFactory.getLog(BudgetAdjustmentServiceHelperImpl.class);
 
-  
     /**
-     * In order to decrease or increase, the change amount is used, so this can be sent as is without
-     * subtracting from previous budget.
+     * In order to decrease or increase, the change amount is used, so this can
+     * be sent as is without subtracting from previous budget.
+     *
      * @return
      */
-    public HashMap<String, BudgetDecimal> getNonPersonnelCost(Budget currentBudget, AwardBudgetExt previousBudget) {        
-        HashMap<String, BudgetDecimal> netCost = new HashMap<String, BudgetDecimal>();
+    @Override
+    public HashMap<String, BudgetDecimal> getNonPersonnelCost(Budget currentBudget, AwardBudgetExt previousBudget) {
+        //HashMap<String, BudgetDecimal> netCost = new HashMap<String, BudgetDecimal>();
         // only do for one period, assume it is the first 
         int period = currentBudget.getBudgetPeriods().size() - 1;
         List<BudgetLineItem> currentLineItems = currentBudget.getBudgetPeriods().get(period).getBudgetLineItems();
-        
+
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+
         HashMap<String, BudgetDecimal> currentLineItemCosts = new HashMap<String, BudgetDecimal>();
         for (BudgetLineItem currentLineItem : currentLineItems) {
-            if (!StringUtils.equalsIgnoreCase(currentLineItem.getBudgetCategory().getBudgetCategoryTypeCode(), Constants.BUDGET_CATEGORY_PERSONNEL)) {
+            if (!StringUtils.equalsIgnoreCase(currentLineItem.getBudgetCategory().getBudgetCategoryTypeCode(), budgetCatCodePersonnel)) {
                 currentLineItemCosts.put(currentLineItem.getCostElement(), currentLineItem.getLineItemCost());
             }
         }
-        
+
         return currentLineItemCosts;
     }
-    
+
     /*
      * Returns the non personnel calculated direct cost.
      */
+    @Override
     public SortedMap<RateType, BudgetDecimal> getNonPersonnelCalculatedDirectCost(Budget currentBudget, AwardBudgetExt previousBudget) {
         SortedMap<RateType, List<BudgetDecimal>> currentNonPersonnelCalcDirectCost = currentBudget.getNonPersonnelCalculatedExpenseTotals();
         SortedMap<RateType, BudgetDecimal> netNonPersonnelCalculatedDirectCost = new TreeMap<RateType, BudgetDecimal>();
         int period = currentBudget.getBudgetPeriods().size() - 1;
 
         for (RateType rateType : currentNonPersonnelCalcDirectCost.keySet()) {
-            List<BudgetDecimal> currentExpenses = currentNonPersonnelCalcDirectCost.get(rateType);     
-                netNonPersonnelCalculatedDirectCost.put(rateType, currentExpenses.get(period));
-              
-        }     
+            List<BudgetDecimal> currentExpenses = currentNonPersonnelCalcDirectCost.get(rateType);
+            netNonPersonnelCalculatedDirectCost.put(rateType, currentExpenses.get(period));
+
+        }
         return netNonPersonnelCalculatedDirectCost;
     }
-    
+
     /**
      * This method returns the indirect cost for the accounting line.
+     *
      * @return
      */
+    @Override
     public Map<RateClassRateType, BudgetDecimal> getIndirectCost(Budget currentBudget, AwardBudgetExt previousBudget) {
         int period = currentBudget.getBudgetPeriods().size() - 1;
         List<BudgetLineItem> currentLineItems = currentBudget.getBudgetPeriods().get(period).getBudgetLineItems();
         Map<RateClassRateType, BudgetDecimal> currentIndirectTotals = new HashMap<RateClassRateType, BudgetDecimal>();
-        
+
         for (BudgetLineItem lineItem : currentLineItems) {
             for (BudgetLineItemCalculatedAmount lineItemCalculatedAmount : lineItem.getBudgetLineItemCalculatedAmounts()) {
                 lineItemCalculatedAmount.refreshReferenceObject("rateClass");
                 if (lineItemCalculatedAmount.getRateClass().getRateClassType().equalsIgnoreCase("O")) {
-                    RateClassRateType currentKey = new RateClassRateType(lineItemCalculatedAmount.getRateClassCode(), 
-                                                                         lineItemCalculatedAmount.getRateTypeCode());
+                    RateClassRateType currentKey = new RateClassRateType(lineItemCalculatedAmount.getRateClassCode(),
+                            lineItemCalculatedAmount.getRateTypeCode());
                     if (currentIndirectTotals.containsKey(currentKey)) {
                         currentIndirectTotals.put(currentKey, currentIndirectTotals.get(currentKey).
-                                                            add(lineItemCalculatedAmount.getCalculatedCost()));
+                                add(lineItemCalculatedAmount.getCalculatedCost()));
                     } else {
                         currentIndirectTotals.put(currentKey, lineItemCalculatedAmount.getCalculatedCost());
-                    }                   
+                    }
                 }
             }
         }
-        
+
         Map<RateClassRateType, BudgetDecimal> netIndirectTotals = new HashMap<RateClassRateType, BudgetDecimal>();
-        for (RateClassRateType rate : currentIndirectTotals.keySet()) {          
+        for (RateClassRateType rate : currentIndirectTotals.keySet()) {
             netIndirectTotals.put(rate, currentIndirectTotals.get(rate));
-           
+
         }
-        
+
         return netIndirectTotals;
     }
-    
+
     /**
      * This method returns the personnel calculated direct cost.
+     *
      * @return
      */
+    @Override
     public Map<RateClassRateType, BudgetDecimal> getPersonnelCalculatedDirectCost(Budget currentBudget, AwardBudgetExt previousBudget) {
         SortedMap<RateType, List<BudgetDecimal>> currentTotals = currentBudget.getPersonnelCalculatedExpenseTotals();
         int period = currentBudget.getBudgetPeriods().size() - 1;
@@ -136,34 +147,35 @@ public class BudgetAdjustmentServiceHelperImpl implements BudgetAdjustmentServic
                 currentCost.put(new RateClassRateType(rate.getRateClassCode(), rate.getRateTypeCode()), currentTotals.get(rate).get(period));
             }
         }
-       
+
         for (RateClassRateType rate : currentCost.keySet()) {
             netCost.put(rate, currentCost.get(rate));
         }
-       
+
         return netCost;
     }
-    
-    
+
     /*
      * The BudgetCalculationService does this by objectCodeType but we need by RateClass,RateType.
      */
+    @Override
     public Map<RateClassRateType, BudgetDecimal> getPersonnelFringeCost(Budget currentBudget, AwardBudgetExt previousBudget) {
-        
-        BudgetCategoryType personnelCategory =  getPersonnelCategoryType();
-        List<CostElement> currentPersonnelObjectCodes = currentBudget.getObjectCodeListByBudgetCategoryType().get(personnelCategory); 
-    
+
+        BudgetCategoryType personnelCategory = getPersonnelCategoryType();
+        List<CostElement> currentPersonnelObjectCodes = currentBudget.getObjectCodeListByBudgetCategoryType().get(personnelCategory);
+
         Map<RateClassRateType, BudgetDecimal> currentFringeTotals = getFringeTotals(currentPersonnelObjectCodes, currentBudget);
         Map<RateClassRateType, BudgetDecimal> netFringeTotals = new HashMap<RateClassRateType, BudgetDecimal>();
-        for (RateClassRateType rate : currentFringeTotals.keySet()) {    
+        for (RateClassRateType rate : currentFringeTotals.keySet()) {
             netFringeTotals.put(rate, currentFringeTotals.get(rate));
         }
-       
+
         return netFringeTotals;
     }
-    
+
     /**
      * This method returns the fringe totals.
+     *
      * @param currentPersonnelObjectCodes
      * @param budget
      * @return
@@ -174,8 +186,8 @@ public class BudgetAdjustmentServiceHelperImpl implements BudgetAdjustmentServic
          * out to only get Personnel
          */
         Map<RateClassRateType, BudgetDecimal> fringeTotals = new HashMap<RateClassRateType, BudgetDecimal>();
-        
-        if  (CollectionUtils.isNotEmpty(currentPersonnelObjectCodes)) {
+
+        if (CollectionUtils.isNotEmpty(currentPersonnelObjectCodes)) {
             for (CostElement personnelCostElement : currentPersonnelObjectCodes) {
                 for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
                     List<BudgetLineItem> filteredLineItems = getPersonnelLineItems(budgetPeriod, personnelCostElement);
@@ -184,26 +196,27 @@ public class BudgetAdjustmentServiceHelperImpl implements BudgetAdjustmentServic
                             lineItemCalculatedAmount.refreshReferenceObject("rateClass");
                             //Check for Employee Benefits RateClassType
                             if (lineItemCalculatedAmount.getRateClass().getRateClassType().equalsIgnoreCase("E")) {
-                                RateClassRateType currentKey = new RateClassRateType(lineItemCalculatedAmount.getRateClassCode(), 
-                                                                            lineItemCalculatedAmount.getRateTypeCode());
+                                RateClassRateType currentKey = new RateClassRateType(lineItemCalculatedAmount.getRateClassCode(),
+                                        lineItemCalculatedAmount.getRateTypeCode());
                                 if (fringeTotals.containsKey(currentKey)) {
-                                    fringeTotals.put(currentKey, 
-                                                            fringeTotals.get(currentKey).add(lineItemCalculatedAmount.getCalculatedCost()));
+                                    fringeTotals.put(currentKey,
+                                            fringeTotals.get(currentKey).add(lineItemCalculatedAmount.getCalculatedCost()));
                                 } else {
                                     fringeTotals.put(currentKey, lineItemCalculatedAmount.getCalculatedCost());
                                 }
-                               
+
                             }
                         }
                     }
-                }    
+                }
             }
         }
         return fringeTotals;
     }
-    
+
     /**
      * This method returns the personnel line items.
+     *
      * @param budgetPeriod
      * @param personnelCostElement
      * @return
@@ -215,37 +228,46 @@ public class BudgetAdjustmentServiceHelperImpl implements BudgetAdjustmentServic
         QueryList<BudgetLineItem> filteredLineItems = lineItemQueryList.filter(objectCodeEquals);
         return filteredLineItems;
     }
-    
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
     /**
      * This method returns the business object service.
+     *
      * @return
      */
     public BusinessObjectService getBusinessObjectService() {
-       return businessObjectService; 
+        return businessObjectService;
     }
-    
+
     /**
-     * This method returns the budget category type with type code representingPersonnel.
+     * This method returns the budget category type with type code
+     * representingPersonnel.
+     *
      * @return
      */
     protected BudgetCategoryType getPersonnelCategoryType() {
+
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+
         final Map<String, String> primaryKeys = new HashMap<String, String>();
-        primaryKeys.put("budgetCategoryTypeCode", Constants.BUDGET_CATEGORY_PERSONNEL);
+        primaryKeys.put("budgetCategoryTypeCode", budgetCatCodePersonnel);
         return (BudgetCategoryType) this.getBusinessObjectService().findByPrimaryKey(BudgetCategoryType.class, primaryKeys);
     }
-    
+
     /**
      * This method returns the personnel salary cost.
+     *
      * @return
      * @throws Exception
      */
+    @Override
     public SortedMap<String, BudgetDecimal> getPersonnelSalaryCost(Budget currentBudget, AwardBudgetExt previousBudget) throws Exception {
         SortedMap<String, List<BudgetDecimal>> currentSalaryTotals = currentBudget.getObjectCodePersonnelSalaryTotals();
-        SortedMap<String, BudgetDecimal> netSalary =  new TreeMap<String, BudgetDecimal>();
+        SortedMap<String, BudgetDecimal> netSalary = new TreeMap<String, BudgetDecimal>();
         int period = currentBudget.getBudgetPeriods().size() - 1;
 
         for (String person : currentSalaryTotals.keySet()) {
@@ -256,28 +278,25 @@ public class BudgetAdjustmentServiceHelperImpl implements BudgetAdjustmentServic
             }
             BudgetDecimal currentSalary = currentSalaryTotals.get(person).get(period);
             netSalary.put(key, currentSalary);
-           
+
         }
-        
+
         return netSalary;
     }
-    
+
     /**
      * This method...
+     *
      * @param person
      * @return
      * @throws Exception
      */
     protected String[] getElements(String person) throws Exception {
         if (person.contains(",")) {
-                String[] personElements = person.split(",");
-                return personElements;
+            String[] personElements = person.split(",");
+            return personElements;
         }
         LOG.error("The string is not in the format objectCode,personId  . Unable to retrieve Cost Element.");
         throw new Exception("The string " + person + "is not in the format costElement,personId  . Unable to retrieve Cost Element.");
     }
-   
-    
-    
-    
 }

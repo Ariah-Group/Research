@@ -42,8 +42,10 @@ import java.util.Date;
 import java.util.List;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 public class BudgetPeriodCalculator {
+
     private BudgetCalculationService budgetCalculationService;
     private List<String> errorMessages;
 
@@ -53,9 +55,9 @@ public class BudgetPeriodCalculator {
     }
 
     /**
-     * 
+     *
      * This method calculates and sync the budget period
-     * 
+     *
      * @param budget
      * @param budgetPeriod
      */
@@ -74,9 +76,9 @@ public class BudgetPeriodCalculator {
             budgetPeriod.setUnderrecoveryAmount(budgetPeriod.getUnderrecoveryAmount().add(budgetLineItem.getUnderrecoveryAmount()));
             budgetPeriod.setCostSharingAmount(budgetPeriod.getCostSharingAmount().add(budgetLineItem.getTotalCostSharingAmount()));
         }
-        if(budget.getOhRateClassCode()!=null && budgetCalculationService.getBudgetFormFromGlobalVariables()!=null){
+        if (budget.getOhRateClassCode() != null && budgetCalculationService.getBudgetFormFromGlobalVariables() != null) {
             budgetCalculationService.getBudgetFormFromGlobalVariables().setOhRateClassCodePrevValue(budget.getOhRateClassCode());
-        }        
+        }
     }
 
     public void applyToLaterPeriods(Budget budget, BudgetPeriod currentBudgetPeriod, BudgetLineItem currentBudgetLineItem) {
@@ -87,30 +89,33 @@ public class BudgetPeriodCalculator {
         int periodDuration = KraServiceLocator.getService(DateTimeService.class).dateDiff(currentBudgetPeriod.getStartDate(), currentBudgetPeriod.getEndDate(), false);
         // calculate for the apply-from item in case there is any change, so it will be updated properly after apply-to
         budgetCalculationService.calculateBudgetLineItem(budget, currentBudgetLineItem);
-        
+
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
-            if(budgetPeriod.getBudgetPeriod()<=currentBudgetPeriod.getBudgetPeriod()) {
+            if (budgetPeriod.getBudgetPeriod() <= currentBudgetPeriod.getBudgetPeriod()) {
                 continue;
             }
 //            allLineItems.addAll(budgetPeriod.getBudgetLineItems());
             QueryList<BudgetLineItem> currentBudgetPeriodLineItems = new QueryList<BudgetLineItem>(budgetPeriod.getBudgetLineItems());
             for (BudgetLineItem budgetLineItemToBeApplied : currentBudgetPeriodLineItems) {
-                if(prevBudgetLineItem.getLineItemNumber().equals(budgetLineItemToBeApplied.getBasedOnLineItem())) {
+                if (prevBudgetLineItem.getLineItemNumber().equals(budgetLineItemToBeApplied.getBasedOnLineItem())) {
                     budgetLineItemToBeApplied.setApplyInRateFlag(prevBudgetLineItem.getApplyInRateFlag());
-                    if (prevBudgetLineItem.getApplyInRateFlag()){
-                    // calculate no matter what because applyinrateflag maybe changed ??
-                    
-                        if (KeyConstants.PERSONNEL_CATEGORY.equals(budgetLineItemToBeApplied.getBudgetCategory().getBudgetCategoryTypeCode())
+                    if (prevBudgetLineItem.getApplyInRateFlag()) {
+                        // calculate no matter what because applyinrateflag maybe changed ??
+
+                        if (budgetCatCodePersonnel.equals(budgetLineItemToBeApplied.getBudgetCategory().getBudgetCategoryTypeCode())
                                 && (!budgetLineItemToBeApplied.getBudgetPersonnelDetailsList().isEmpty())) {
                             errorMessages.add("This line item contains personnel budget details"
                                     + " and there is already a line item on period " + budgetPeriod + " based on this line item."
                                     + "Cannot apply the changes to later periods.");
                             return;
                         }
-                        
+
                         BudgetDecimal lineItemCost = calculateInflation(budget, prevBudgetLineItem, budgetLineItemToBeApplied
                                 .getStartDate());
-                        if(!budgetLineItemToBeApplied.getCostElement().equals(prevBudgetLineItem.getCostElement())){
+                        if (!budgetLineItemToBeApplied.getCostElement().equals(prevBudgetLineItem.getCostElement())) {
                             budgetLineItemToBeApplied.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
                             budgetLineItemToBeApplied.setBudgetCategory(prevBudgetLineItem.getBudgetCategory());
                             budgetLineItemToBeApplied.setStartDate(budgetPeriod.getStartDate());
@@ -141,16 +146,16 @@ public class BudgetPeriodCalculator {
 
                     budgetCalculationService.calculateBudgetLineItem(budget, budgetLineItemToBeApplied);
                     prevBudgetLineItem = budgetLineItemToBeApplied;
-               } else if(StringUtils.equals(currentBudgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode(), KeyConstants.PERSONNEL_CATEGORY)){
+                } else if (StringUtils.equals(currentBudgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode(), budgetCatCodePersonnel)) {
                     //Additional Check for Personnel Source Line Item
-                    if(StringUtils.equals(currentBudgetLineItem.getCostElement(), budgetLineItemToBeApplied.getCostElement()) && 
-                            StringUtils.equals(currentBudgetLineItem.getGroupName(), budgetLineItemToBeApplied.getGroupName())) {
+                    if (StringUtils.equals(currentBudgetLineItem.getCostElement(), budgetLineItemToBeApplied.getCostElement())
+                            && StringUtils.equals(currentBudgetLineItem.getGroupName(), budgetLineItemToBeApplied.getGroupName())) {
                         errorMessages.add("This line item contains personnel budget details"
                                 + " and there is already a line item on period " + budgetPeriod + " for this Cost Element \\ Group combination. \n"
                                 + "Cannot apply the changes to later periods.");
                         return;
                     }
-                   
+
                 }
 
             }
@@ -159,55 +164,54 @@ public class BudgetPeriodCalculator {
             int lineDuration;
             int currentPeriodDuration;
             if (prevBudgetLineItem.getBudgetPeriod() < (budgetPeriod.getBudgetPeriod())) {
-                BudgetLineItem budgetLineItem = (BudgetLineItem)ObjectUtils.deepCopy(prevBudgetLineItem);
+                BudgetLineItem budgetLineItem = (BudgetLineItem) ObjectUtils.deepCopy(prevBudgetLineItem);
                 budgetLineItem.setBudgetLineItemId(null);
                 budgetLineItem.getBudgetCalculatedAmounts().clear();
                 budgetLineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
                 budgetLineItem.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
                 //budgetLineItem.setStartDate(budgetPeriod.getStartDate());
                 //budgetLineItem.setEndDate(budgetPeriod.getEndDate());
-                
-                boolean isLeapDateInPeriod = KraServiceLocator.getService(BudgetSummaryService.class).isLeapDaysInPeriod(prevBudgetLineItem.getStartDate(), prevBudgetLineItem.getEndDate()) ;
-                gap=KraServiceLocator.getService(DateTimeService.class).dateDiff(currentBudgetPeriod.getStartDate(), currentBudgetLineItem.getStartDate(), false);
+
+                boolean isLeapDateInPeriod = KraServiceLocator.getService(BudgetSummaryService.class).isLeapDaysInPeriod(prevBudgetLineItem.getStartDate(), prevBudgetLineItem.getEndDate());
+                gap = KraServiceLocator.getService(DateTimeService.class).dateDiff(currentBudgetPeriod.getStartDate(), currentBudgetLineItem.getStartDate(), false);
                 boolean isLeapDayInGap = KraServiceLocator.getService(BudgetSummaryService.class).isLeapDaysInPeriod(currentBudgetPeriod.getStartDate(), currentBudgetLineItem.getStartDate());
-                lineDuration=KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), false);
+                lineDuration = KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), false);
                 currentPeriodDuration = KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetPeriod.getStartDate(), budgetPeriod.getEndDate(), false);
-                List <java.sql.Date> startEndDates = new ArrayList<java.sql.Date> ();
+                List<java.sql.Date> startEndDates = new ArrayList<java.sql.Date>();
                 if (periodDuration == lineDuration || lineDuration > currentPeriodDuration) {
                     budgetLineItem.setStartDate(budgetPeriod.getStartDate());
                     budgetLineItem.setEndDate(budgetPeriod.getEndDate());
                 } else {
                     startEndDates.add(0, budgetPeriod.getStartDate());
                     startEndDates.add(1, budgetPeriod.getEndDate());
-                    List <java.sql.Date> dates = KraServiceLocator.getService(BudgetSummaryService.class).getNewStartEndDates(startEndDates, gap, lineDuration, budgetLineItem.getStartDate(), isLeapDateInPeriod,isLeapDayInGap);
+                    List<java.sql.Date> dates = KraServiceLocator.getService(BudgetSummaryService.class).getNewStartEndDates(startEndDates, gap, lineDuration, budgetLineItem.getStartDate(), isLeapDateInPeriod, isLeapDayInGap);
                     budgetLineItem.setStartDate(dates.get(0));
                     budgetLineItem.setEndDate(dates.get(1));
                 }
 
-                
                 budgetLineItem.setBasedOnLineItem(prevBudgetLineItem.getLineItemNumber());
                 budgetLineItem.setVersionNumber(null);
-                
-                if (prevBudgetLineItem.getApplyInRateFlag()){
+
+                if (prevBudgetLineItem.getApplyInRateFlag()) {
                     BudgetDecimal lineItemCost = calculateInflation(budget, prevBudgetLineItem, budgetLineItem.getStartDate());
                     budgetLineItem.setLineItemCost(lineItemCost);
                 }
-                
-                lineDuration=KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), false);
+
+                lineDuration = KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetLineItem.getStartDate(), budgetLineItem.getEndDate(), false);
                 int personnelDuration = 0;
 
                 /* add personnel line items */
                 List<BudgetPersonnelDetails> budgetPersonnelDetails = budgetLineItem.getBudgetPersonnelDetailsList();
-                for(BudgetPersonnelDetails budgetPersonnelDetail: budgetPersonnelDetails) {
-                    isLeapDateInPeriod = KraServiceLocator.getService(BudgetSummaryService.class).isLeapDaysInPeriod(budgetPersonnelDetail.getStartDate(), budgetPersonnelDetail.getEndDate()) ;
+                for (BudgetPersonnelDetails budgetPersonnelDetail : budgetPersonnelDetails) {
+                    isLeapDateInPeriod = KraServiceLocator.getService(BudgetSummaryService.class).isLeapDaysInPeriod(budgetPersonnelDetail.getStartDate(), budgetPersonnelDetail.getEndDate());
                     budgetPersonnelDetail.setBudgetPersonnelLineItemId(null);
                     budgetPersonnelDetail.getBudgetCalculatedAmounts().clear();
                     budgetPersonnelDetail.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
                     budgetPersonnelDetail.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
                     budgetPersonnelDetail.setLineItemSequence(getBudgetDocument(budget).getHackedDocumentNextValue(Constants.BUDGET_PERSON_LINE_SEQUENCE_NUMBER));
-                    
-                    personnelDuration=KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetPersonnelDetail.getStartDate(), budgetPersonnelDetail.getEndDate(), false);
-                    gap=KraServiceLocator.getService(DateTimeService.class).dateDiff(prevBudgetLineItem.getStartDate(), budgetPersonnelDetail.getStartDate(), false);
+
+                    personnelDuration = KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetPersonnelDetail.getStartDate(), budgetPersonnelDetail.getEndDate(), false);
+                    gap = KraServiceLocator.getService(DateTimeService.class).dateDiff(prevBudgetLineItem.getStartDate(), budgetPersonnelDetail.getStartDate(), false);
                     isLeapDayInGap = KraServiceLocator.getService(BudgetSummaryService.class).isLeapDaysInPeriod(prevBudgetLineItem.getStartDate(), budgetPersonnelDetail.getStartDate());
                     if (periodDuration == personnelDuration || personnelDuration >= lineDuration) {
                         budgetPersonnelDetail.setStartDate(budgetLineItem.getStartDate());
@@ -215,12 +219,11 @@ public class BudgetPeriodCalculator {
                     } else {
                         startEndDates.add(0, budgetLineItem.getStartDate());
                         startEndDates.add(1, budgetLineItem.getEndDate());
-                        List <java.sql.Date> dates = KraServiceLocator.getService(BudgetSummaryService.class).getNewStartEndDates(startEndDates, gap, personnelDuration, budgetPersonnelDetail.getStartDate(), isLeapDateInPeriod, isLeapDayInGap);
+                        List<java.sql.Date> dates = KraServiceLocator.getService(BudgetSummaryService.class).getNewStartEndDates(startEndDates, gap, personnelDuration, budgetPersonnelDetail.getStartDate(), isLeapDateInPeriod, isLeapDayInGap);
                         budgetPersonnelDetail.setStartDate(dates.get(0));
                         budgetPersonnelDetail.setEndDate(dates.get(1));
                     }
 
-                    
                     budgetPersonnelDetail.setVersionNumber(null);
                     budgetCalculationService.populateCalculatedAmount(budget, budgetPersonnelDetail);
                     List<BudgetPersonnelCalculatedAmount> persCalAmounts = budgetPersonnelDetail.getBudgetPersonnelCalculatedAmounts();
@@ -239,7 +242,7 @@ public class BudgetPeriodCalculator {
                     budgetRateAndBase.setBudgetRateAndBaseId(null);
                     budgetRateAndBase.setVersionNumber(null);
                 }
-                
+
                 budgetPeriod.getBudgetLineItems().add(budgetLineItem);
                 budgetCalculationService.populateCalculatedAmount(budget, budgetLineItem);
                 for (BudgetLineItemCalculatedAmount prevCalAmts : prevBudgetLineItem.getBudgetLineItemCalculatedAmounts()) {
@@ -254,11 +257,12 @@ public class BudgetPeriodCalculator {
                 // calculate again after reset apply rate flag
                 budgetCalculationService.calculateBudgetLineItem(budget, budgetLineItem);
 
-                prevBudgetLineItem=budgetLineItem;
+                prevBudgetLineItem = budgetLineItem;
             }
 
         }
     }
+
     private BudgetDocument getBudgetDocument(Budget budget) {
         return budget.getBudgetDocument();
     }
@@ -273,7 +277,7 @@ public class BudgetPeriodCalculator {
         Equals eqInflation = new Equals("rateClassType", RateClassType.INFLATION.getRateClassType());
         // Check for inflation for the Cost Element.
         // Get ValidCERateTypesBean From Server Side.
-        if(costElement.getValidCeRateTypes().isEmpty()) {
+        if (costElement.getValidCeRateTypes().isEmpty()) {
             costElement.refreshReferenceObject("validCeRateTypes");
         }
         QueryList<ValidCeRateType> vecValidCERateTypes = new QueryList<ValidCeRateType>(costElement.getValidCeRateTypes());
@@ -323,22 +327,22 @@ public class BudgetPeriodCalculator {
         }
         return proposalRatesBean;
     }
-    
+
     private void resetRateClassTypeIfNeeded(List<BudgetLineItemCalculatedAmount> vecCalAmts) {
-        for(BudgetLineItemCalculatedAmount calcAmt: vecCalAmts) {
-            if(StringUtils.isEmpty(calcAmt.getRateClassType())) {
+        for (BudgetLineItemCalculatedAmount calcAmt : vecCalAmts) {
+            if (StringUtils.isEmpty(calcAmt.getRateClassType())) {
                 calcAmt.refreshReferenceObject("rateClass");
-                if(calcAmt.getRateClass() != null) {
+                if (calcAmt.getRateClass() != null) {
                     calcAmt.setRateClassType(calcAmt.getRateClass().getRateClassType());
                 }
             }
         }
     }
-    
+
     public void syncToPeriodDirectCostLimit(Budget budget, BudgetPeriod budgetPeriodBean, BudgetLineItem budgetDetailBean) {
         // If total_cost equals total_cost_limit, disp msg "Cost limit and total cost for this period is already in sync."
         BudgetDecimal directCostLimit = budgetPeriodBean.getDirectCostLimit();
-        if(!checkSyncToLimitErrors(budget,budgetDetailBean,directCostLimit)){
+        if (!checkSyncToLimitErrors(budget, budgetDetailBean, directCostLimit)) {
             return;
         }
         calculate(budget, budgetPeriodBean);
@@ -364,16 +368,16 @@ public class BudgetPeriodCalculator {
         QueryList<BudgetLineItemCalculatedAmount> vecCalAmts = new QueryList<BudgetLineItemCalculatedAmount>(budgetDetailBean
                 .getBudgetLineItemCalculatedAmounts());
 
-        resetRateClassTypeIfNeeded(vecCalAmts); 
+        resetRateClassTypeIfNeeded(vecCalAmts);
 
         BudgetDecimal totalNOHCalcAmount = vecCalAmts.sumObjects("calculatedCost", new NotEquals("rateClassType",
-            RateClassType.OVERHEAD.getRateClassType()));
+                RateClassType.OVERHEAD.getRateClassType()));
         BudgetDecimal totalCost = budgetDetailBean.getLineItemCost().add(totalNOHCalcAmount);
         // If the lineItemCost <> 0, set multifactor to TotalCost divided by lineItemCost otherwise multifactor is TotalCost divided
         // by 10000
         if (!lineItemCost.equals(BudgetDecimal.ZERO)) {
             multifactor = totalCost.divide(lineItemCost);
-        }else {
+        } else {
             multifactor = totalCost.divide(new BudgetDecimal(10000));
             budgetDetailBean.setLineItemCost(BudgetDecimal.ZERO);
             calculate(budget, budgetPeriodBean);
@@ -390,13 +394,13 @@ public class BudgetPeriodCalculator {
         budgetDetailBean.setLineItemCost(newCost);
         calculate(budget, budgetPeriodBean);
 
-
     }
+
     public void syncToPeriodCostLimit(Budget budget, BudgetPeriod budgetPeriodBean, BudgetLineItem budgetDetailBean) {
 
         // If total_cost equals total_cost_limit, disp msg "Cost limit and total cost for this period is already in sync."
         BudgetDecimal costLimit = budgetPeriodBean.getTotalCostLimit();
-        if(!checkSyncToLimitErrors(budget,budgetDetailBean,costLimit)){
+        if (!checkSyncToLimitErrors(budget, budgetDetailBean, costLimit)) {
             return;
         }
         calculate(budget, budgetPeriodBean);
@@ -422,12 +426,12 @@ public class BudgetPeriodCalculator {
         QueryList<BudgetLineItemCalculatedAmount> vecCalAmts = new QueryList<BudgetLineItemCalculatedAmount>(budgetDetailBean
                 .getBudgetLineItemCalculatedAmounts());
 
-        resetRateClassTypeIfNeeded(vecCalAmts); 
+        resetRateClassTypeIfNeeded(vecCalAmts);
 
         BudgetDecimal totalNOHCalcAmount = vecCalAmts.sumObjects("calculatedCost", new NotEquals("rateClassType",
-            RateClassType.OVERHEAD.getRateClassType()));
+                RateClassType.OVERHEAD.getRateClassType()));
         BudgetDecimal totalOHCalcAmount = vecCalAmts.sumObjects("calculatedCost", new Equals("rateClassType",
-            RateClassType.OVERHEAD.getRateClassType()));
+                RateClassType.OVERHEAD.getRateClassType()));
 
         BudgetDecimal totalCost = budgetDetailBean.getLineItemCost().add(totalNOHCalcAmount).add(totalOHCalcAmount);
 
@@ -435,7 +439,7 @@ public class BudgetPeriodCalculator {
         // by 10000
         if (!lineItemCost.equals(BudgetDecimal.ZERO)) {
             multifactor = totalCost.divide(lineItemCost);
-        }else {
+        } else {
             multifactor = totalCost.divide(new BudgetDecimal(10000));
             budgetDetailBean.setLineItemCost(BudgetDecimal.ZERO);
             calculate(budget, budgetPeriodBean);
@@ -455,12 +459,17 @@ public class BudgetPeriodCalculator {
 
     /**
      * This method...
+     *
      * @param budgetPeriodBean
      * @param budgetDetailBean
      */
-    private boolean checkSyncToLimitErrors(Budget budget,BudgetLineItem budgetDetailBean,BudgetDecimal costLimit) {
-        if (budgetDetailBean.getBudgetCategory().getBudgetCategoryTypeCode().equals(KeyConstants.PERSONNEL_CATEGORY) && 
-              !budgetDetailBean.getBudgetPersonnelDetailsList().isEmpty()) {
+    private boolean checkSyncToLimitErrors(Budget budget, BudgetLineItem budgetDetailBean, BudgetDecimal costLimit) {
+
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+
+        if (budgetDetailBean.getBudgetCategory().getBudgetCategoryTypeCode().equals(budgetCatCodePersonnel)
+                && !budgetDetailBean.getBudgetPersonnelDetailsList().isEmpty()) {
             errorMessages.add(KeyConstants.PERSONNEL_LINE_ITEM_EXISTS);
             return false;
         }
@@ -472,7 +481,8 @@ public class BudgetPeriodCalculator {
         }
         return true;
     }
-    private boolean isProposalBudget(Budget budget){
+
+    private boolean isProposalBudget(Budget budget) {
         return budget.getBudgetDocument().getProposalBudgetFlag().equals("true");
     }
 

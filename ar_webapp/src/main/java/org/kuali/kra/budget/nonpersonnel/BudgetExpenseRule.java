@@ -27,6 +27,8 @@ import org.kuali.rice.krad.util.MessageMap;
 
 import java.util.List;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 public class BudgetExpenseRule {
 
@@ -55,6 +57,9 @@ public class BudgetExpenseRule {
 
         MessageMap errorMap = GlobalVariables.getMessageMap();
 
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+        
         List<BudgetPeriod> budgetPeriods = budgetDocument.getBudget().getBudgetPeriods();
         BudgetLineItem prevBudgetLineItem = currentBudgetLineItem;
         for (BudgetPeriod budgetPeriod : budgetPeriods) {
@@ -65,7 +70,7 @@ public class BudgetExpenseRule {
                     .getBudgetLineItems());
             for (BudgetLineItem budgetLineItemToBeApplied : currentBudgetPeriodLineItems) {
                 if (prevBudgetLineItem.getLineItemNumber().equals(budgetLineItemToBeApplied.getBasedOnLineItem())) {
-                    if (budgetLineItemToBeApplied.getBudgetCategory().getBudgetCategoryTypeCode().equals(Constants.BUDGET_CATEGORY_PERSONNEL)
+                    if (budgetLineItemToBeApplied.getBudgetCategory().getBudgetCategoryTypeCode().equals(budgetCatCodePersonnel)
                             && (!budgetLineItemToBeApplied.getBudgetPersonnelDetailsList().isEmpty() || !prevBudgetLineItem
                             .getBudgetPersonnelDetailsList().isEmpty())) {
                         errorMap.putError("document.budgetPeriod[" + (currentBudgetLineItem.getBudgetPeriod() - 1)
@@ -73,8 +78,7 @@ public class BudgetExpenseRule {
                                 KeyConstants.ERROR_APPLY_TO_LATER_PERIODS, budgetLineItemToBeApplied.getBudgetPeriod().toString());
                         return false;
                     }
-                } else if (StringUtils.equals(currentBudgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode(),
-                        Constants.BUDGET_CATEGORY_PERSONNEL)) {
+                } else if (StringUtils.equals(currentBudgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode(), budgetCatCodePersonnel)) {
                     // Additional Check for Personnel Source Line Item
                     if (StringUtils.equals(currentBudgetLineItem.getCostElement(), budgetLineItemToBeApplied.getCostElement())
                             && StringUtils.equals(currentBudgetLineItem.getGroupName(), budgetLineItemToBeApplied.getGroupName())) {

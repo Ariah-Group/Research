@@ -30,7 +30,10 @@ import org.kuali.kra.budget.printing.util.SalaryTypeVO;
 import org.kuali.kra.budget.rates.RateClass;
 
 import java.util.*;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This class will contain all common methods that can be used across budget
@@ -298,9 +301,9 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
      * This method will determine whether given budgetcategory type is personnel
      * or not
      */
-    protected boolean isPersonnel(String budgetCategoryType) {
+    protected boolean isPersonnel(String budgetCategoryType, String personnelTypeCode) {
         boolean personnelFound = false;
-        if (budgetCategoryType.equalsIgnoreCase(Constants.BUDGET_CATEGORY_PERSONNEL)) {
+        if (budgetCategoryType.equalsIgnoreCase(personnelTypeCode)) {
             personnelFound = true;
         }
         return personnelFound;
@@ -323,13 +326,17 @@ public abstract class BudgetBaseSalaryStream extends BudgetBaseStream {
             String rateClassCode, String rateTypeCode, boolean includeNonPersonnel) {
         List<BudgetDataPeriodVO> budgetPeriodDataList = new ArrayList<BudgetDataPeriodVO>();
         int budgetPeriodDataId = 0;
+
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+
         for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
             BudgetDataPeriodVO budgetPeriodVO = new BudgetDataPeriodVO();
             budgetPeriodVO.setBudgetPeriodId(++budgetPeriodDataId);
             BudgetDecimal periodCost = BudgetDecimal.ZERO;
             for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
                 String budgetCategoryType = getBudgetCategoryTypeCode(budgetLineItem);
-                if (includeNonPersonnel || isPersonnel(budgetCategoryType)) {
+                if (includeNonPersonnel || isPersonnel(budgetCategoryType, budgetCatCodePersonnel)) {
                     for (BudgetLineItemCalculatedAmount budgetLineItemCalcAmount : budgetLineItem.getBudgetLineItemCalculatedAmounts()) {
                         if (budgetLineItemCalcAmount.getRateClassCode() != null
                                 && budgetLineItemCalcAmount.getRateClassCode().equals(rateClassCode)

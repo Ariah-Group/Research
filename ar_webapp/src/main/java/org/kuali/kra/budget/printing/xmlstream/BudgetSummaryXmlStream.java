@@ -34,6 +34,10 @@ import org.kuali.kra.document.ResearchDocumentBase;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This class generates XML that conforms with the XSD related to Budget Summary
@@ -292,8 +296,12 @@ public class BudgetSummaryXmlStream extends BudgetBaseStream {
             List<ReportType> reportTypeList) {
         Map<String, ReportTypeVO> reportTypeMap = new HashMap<String, ReportTypeVO>();
         List<ReportTypeVO> tempReportTypeVOList = new ArrayList<ReportTypeVO>();
+        
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+              
         for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-            if (!isBudgetCategoryPersonnel(budgetLineItem)) {
+            if (!isBudgetCategoryPersonnel(budgetLineItem, budgetCatCodePersonnel)) {
                 ReportTypeVO tempReportTypeVO = getReportTypeVOForBudgetSummaryNonPersonnel(budgetLineItem);
                 tempReportTypeVOList.add(tempReportTypeVO);
             }

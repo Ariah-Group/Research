@@ -48,7 +48,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This class will contain all common methods that can be used across all XML
@@ -945,8 +948,12 @@ public abstract class BudgetBaseStream implements XmlStream {
      */
     protected void setReportTypeVOListForLAExclusionSortId3(
             List<ReportTypeVO> tempReportTypeVOList) {
+        
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+        
         for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-            if (!isBudgetCategoryPersonnel(budgetLineItem)
+            if (!isBudgetCategoryPersonnel(budgetLineItem, budgetCatCodePersonnel)
                     && !checkLineItemNumberAvailableForLAExclusion(budgetLineItem)) {
                 ReportTypeVO tempReportTypeVO = new ReportTypeVO();
                 tempReportTypeVO.setCostElementDesc(getCostElementDescription(budgetLineItem));
@@ -1084,10 +1091,14 @@ public abstract class BudgetBaseStream implements XmlStream {
         List<ReportTypeVO> tempReportTypeVOList = new ArrayList<ReportTypeVO>();
         List<ReportType> reportTypeList;
         Map<String, ReportType> reportTypeMap = new HashMap<String, ReportType>();
+        
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+         
         for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
             setBudgetPersRateAndBaseListForBudgetEBRateAndBase(
                     tempReportTypeVOList, budgetLineItem, rateClassType);
-            if (!isBudgetCategoryPersonnel(budgetLineItem)) {
+            if (!isBudgetCategoryPersonnel(budgetLineItem, budgetCatCodePersonnel)) {
                 setBudgetRateAndBaseListForBudgetEBRateAndBase(
                         tempReportTypeVOList, budgetLineItem, rateClassType);
             }
@@ -1125,11 +1136,15 @@ public abstract class BudgetBaseStream implements XmlStream {
         List<ReportTypeVO> tempReportTypeVOList = new ArrayList<ReportTypeVO>();
         List<ReportType> reportTypeList;
         Map<String, ReportType> reportTypeMap = new HashMap<String, ReportType>();
+
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+        
         for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
             setBudgetPersRateAndBaseListForBudgetLARateAndBase(
                     tempReportTypeVOList, budgetLineItem, rateClassType,
                     RateClassType.LA_SALARIES.getRateClassType());
-            if (!isBudgetCategoryPersonnel(budgetLineItem)) {
+            if (!isBudgetCategoryPersonnel(budgetLineItem, budgetCatCodePersonnel)) {
                 setBudgetRateAndBaseListForBudgetLARateAndBase(
                         tempReportTypeVOList, budgetLineItem, rateClassType,
                         RateClassType.LA_SALARIES.getRateClassType());
@@ -1167,10 +1182,14 @@ public abstract class BudgetBaseStream implements XmlStream {
         List<ReportTypeVO> tempReportTypeVOList = new ArrayList<ReportTypeVO>();
         List<ReportType> reportTypeList;
         Map<String, ReportType> reportTypeMap = new HashMap<String, ReportType>();
+        
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+
         for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
             setBudgetPersRateAndBaseListForBudgetVacRateAndBase(
                     tempReportTypeVOList, budgetLineItem, rateClassType);
-            if (!isBudgetCategoryPersonnel(budgetLineItem)) {
+            if (!isBudgetCategoryPersonnel(budgetLineItem, budgetCatCodePersonnel)) {
                 setBudgetRateAndBaseListForBudgetVacRateAndBase(
                         tempReportTypeVOList, budgetLineItem, rateClassType);
             }
@@ -1270,10 +1289,14 @@ public abstract class BudgetBaseStream implements XmlStream {
         List<ReportTypeVO> tempReportTypeVOList = new ArrayList<ReportTypeVO>();
         List<ReportType> reportTypeList;
         Map<String, ReportType> reportTypeMap = new HashMap<String, ReportType>();
+        
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+              
         for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
             setBudgetPersRateAndBaseListForBudgetOtherRateAndBase(
                     tempReportTypeVOList, budgetLineItem, rateClassType);
-            if (!isBudgetCategoryPersonnel(budgetLineItem)) {
+            if (!isBudgetCategoryPersonnel(budgetLineItem, budgetCatCodePersonnel)) {
                 setBudgetRateAndBaseListForBudgetOtherRateAndBase(
                         tempReportTypeVOList, budgetLineItem, rateClassType);
             }
@@ -1297,10 +1320,14 @@ public abstract class BudgetBaseStream implements XmlStream {
         List<ReportTypeVO> tempReportTypeVOList = new ArrayList<ReportTypeVO>();
         List<ReportType> reportTypeList;
         Map<String, ReportType> reportTypeMap = new HashMap<String, ReportType>();
+        
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+                  
         for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
             setBudgetPersRateAndBaseListForBudgetOHRateAndBase(
                     tempReportTypeVOList, budgetLineItem, rateClassType);
-            if (!isBudgetCategoryPersonnel(budgetLineItem)) {
+            if (!isBudgetCategoryPersonnel(budgetLineItem, budgetCatCodePersonnel)) {
                 setBudgetRateAndBaseListForBudgetOHRateAndBase(
                         tempReportTypeVOList, budgetLineItem, rateClassType);
             }
@@ -2051,10 +2078,10 @@ public abstract class BudgetBaseStream implements XmlStream {
      * @param budgetDetails
      * @return boolean
      */
-    protected boolean isBudgetCategoryPersonnel(BudgetLineItemBase budgetDetails) {
+    protected boolean isBudgetCategoryPersonnel(BudgetLineItemBase budgetDetails, String budgetCatCodePersonnel) {
         budgetDetails.refreshNonUpdateableReferences();
         if (budgetDetails.getBudgetCategory() != null
-                && Constants.BUDGET_CATEGORY_PERSONNEL.equals(budgetDetails
+                && budgetCatCodePersonnel.equals(budgetDetails
                         .getBudgetCategory().getBudgetCategoryTypeCode())) {
             return true;
         } else {
@@ -2207,8 +2234,12 @@ public abstract class BudgetBaseStream implements XmlStream {
      */
     protected List<ReportTypeVO> getReportTypeVOList(BudgetPeriod budgetPeriod) {
         List<ReportTypeVO> reportTypeVOList = new ArrayList<ReportTypeVO>();
+        
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+            
         for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-            if (StringUtils.equals(budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode(), Constants.BUDGET_CATEGORY_PERSONNEL)) {
+            if (StringUtils.equals(budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode(), budgetCatCodePersonnel)) {
                 if (!budgetLineItem.getBudgetPersonnelDetailsList().isEmpty()) {
                     for (BudgetPersonnelDetails budgetPersDetails : budgetLineItem
                             .getBudgetPersonnelDetailsList()) {

@@ -453,8 +453,12 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     }
 
     protected BudgetCategoryType getPersonnelCategoryType() {
+
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+
         final Map<String, String> primaryKeys = new HashMap<String, String>();
-        primaryKeys.put("budgetCategoryTypeCode", Constants.BUDGET_CATEGORY_PERSONNEL);
+        primaryKeys.put("budgetCategoryTypeCode", budgetCatCodePersonnel);
         return (BudgetCategoryType) this.getBusinessObjectService().findByPrimaryKey(BudgetCategoryType.class, primaryKeys);
     }
 
@@ -561,7 +565,7 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
                                 }
                             }
                             objectCodePersonnelFringeTotals.get(matchingLineItem.getCostElement() + "," + budgetPersonnelDetails.getPersonId()).set(budgetPeriod.getBudgetPeriod() - 1, personFringeTotalsForCurrentPeriod);
-                                //subTotalsBySubSection.get("personnelFringeTotals").set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) (subTotalsBySubSection.get("personnelFringeTotals").get(budgetPeriod.getBudgetPeriod() - 1))).add(personFringeTotalsForCurrentPeriod));
+                            //subTotalsBySubSection.get("personnelFringeTotals").set(budgetPeriod.getBudgetPeriod() - 1, ((BudgetDecimal) (subTotalsBySubSection.get("personnelFringeTotals").get(budgetPeriod.getBudgetPeriod() - 1))).add(personFringeTotalsForCurrentPeriod));
 //                            }
 
                             if (objectCodePersonnelFringeTotalsByPeriod.add(budgetPeriod.getBudgetPeriod().toString() + "," + matchingLineItem.getCostElement() + "," + budgetPersonnelDetails.getPersonId())) {
@@ -650,8 +654,12 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
     }
 
     protected void calculateNonPersonnelSummaryTotals(Budget budget) {
+
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+
         for (BudgetCategoryType budgetCategoryType : budget.getObjectCodeListByBudgetCategoryType().keySet()) {
-            if (!StringUtils.equals(budgetCategoryType.getBudgetCategoryTypeCode(), Constants.BUDGET_CATEGORY_PERSONNEL)) {
+            if (!StringUtils.equals(budgetCategoryType.getBudgetCategoryTypeCode(), budgetCatCodePersonnel)) {
                 List<BudgetDecimal> nonPersonnelTotals = new ArrayList<BudgetDecimal>();
                 for (int i = 0; i < budget.getBudgetPeriods().size(); i++) {
                     nonPersonnelTotals.add(i, BudgetDecimal.ZERO);
@@ -697,10 +705,16 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
         }
         budget.getBudgetSummaryTotals().put(totalsMapKey, calculatedDirectCostSummaryTotals);
 
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+
         for (BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
             for (BudgetLineItem budgetLineItem : budgetPeriod.getBudgetLineItems()) {
-                if ((personnelFlag && StringUtils.equals(budgetLineItem.getCostElementBO().getBudgetCategory().getBudgetCategoryTypeCode(), Constants.BUDGET_CATEGORY_PERSONNEL))
-                        || (!personnelFlag && !StringUtils.equals(budgetLineItem.getCostElementBO().getBudgetCategory().getBudgetCategoryTypeCode(), Constants.BUDGET_CATEGORY_PERSONNEL))) {
+
+                String budCatTypeCode = budgetLineItem.getCostElementBO().getBudgetCategory().getBudgetCategoryTypeCode();
+
+                if ((personnelFlag && StringUtils.equals(budCatTypeCode, budgetCatCodePersonnel))
+                        || (!personnelFlag && !StringUtils.equals(budCatTypeCode, budgetCatCodePersonnel))) {
                     // get calculated expenses                        
                     QueryList lineItemCalcAmtQueryList = new QueryList();
                     lineItemCalcAmtQueryList.addAll(budgetLineItem.getBudgetLineItemCalculatedAmounts());

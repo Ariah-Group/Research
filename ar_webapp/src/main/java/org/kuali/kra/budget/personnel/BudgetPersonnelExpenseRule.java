@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 
 public class BudgetPersonnelExpenseRule {
@@ -106,11 +108,14 @@ public class BudgetPersonnelExpenseRule {
         int i=0;
         int j=0;
         
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+        
         for(BudgetPeriod budgetPeriod: budgetPeriods){
             j=0;
             budgetLineItems = budgetPeriod.getBudgetLineItems();
             for(BudgetLineItem budgetLineItem: budgetLineItems){
-                if (budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equals(Constants.BUDGET_CATEGORY_PERSONNEL)) {
+                if (budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equals(budgetCatCodePersonnel)) {
                     valid &= processCheckDuplicateBudgetPersonnel(budgetDocument, i, j);
                 }
                 j++;

@@ -34,70 +34,76 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This class generates XML that conforms with the XSD related to Budget Salary
  * Report. The data for XML is derived from {@link ResearchDocumentBase} and
  * {@link Map} of details passed to the class.
- * 
+ *
  * @author
- * 
+ *
  */
 public class BudgetSalaryXmlStream extends BudgetBaseSalaryStream {
 
-	private static final String BUDGET_SALARY = "Budget Salary";
-	
-	private BudgetCalculationService budgetCalculationService;
+    private static final String BUDGET_SALARY = "Budget Salary";
 
-	/**
-	 * This method generates XML for Budget Salary Report. It uses data passed
-	 * in {@link ResearchDocumentBase} for populating the XML nodes. The XMl
-	 * once generated is returned as {@link XmlObject}
-	 * 
-	 * @param printableBusinessObject
-	 *            using which XML is generated
-	 * @param reportParameters
-	 *            parameters related to XML generation
-	 * @return {@link XmlObject} representing the XML
-	 */
-	public Map<String, XmlObject> generateXmlStream(
-			KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
-		Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
-		this.budget = (Budget) printableBusinessObject;
-		BudgetSalaryDocument budgetSalaryDocument = BudgetSalaryDocument.Factory
-				.newInstance();
-		if (budget != null) {
-			BudgetSalary budgetSalary = getSalaryType();
-			budgetSalaryDocument.setBudgetSalary(budgetSalary);
-			xmlObjectList.put(BUDGET_SALARY, budgetSalaryDocument);
-		}
+    private BudgetCalculationService budgetCalculationService;
 
-		return xmlObjectList;
-	}
+    /**
+     * This method generates XML for Budget Salary Report. It uses data passed
+     * in {@link ResearchDocumentBase} for populating the XML nodes. The XMl
+     * once generated is returned as {@link XmlObject}
+     *
+     * @param printableBusinessObject using which XML is generated
+     * @param reportParameters parameters related to XML generation
+     * @return {@link XmlObject} representing the XML
+     */
+    public Map<String, XmlObject> generateXmlStream(
+            KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
+        Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
+        this.budget = (Budget) printableBusinessObject;
+        BudgetSalaryDocument budgetSalaryDocument = BudgetSalaryDocument.Factory
+                .newInstance();
+        if (budget != null) {
+            BudgetSalary budgetSalary = getSalaryType();
+            budgetSalaryDocument.setBudgetSalary(budgetSalary);
+            xmlObjectList.put(BUDGET_SALARY, budgetSalaryDocument);
+        }
 
-	/**
-	 * This method will set the values to salary type attributes and finally
-	 * return the array of Salary type.
-	 */
-	protected BudgetSalary getSalaryType() {
-		List<SalaryTypeVO> salaryTypeVoList = new ArrayList<SalaryTypeVO>();
-		getBudgetCalculationService().calculateBudgetSummaryTotals(budget);
-		for (Map.Entry<BudgetCategoryType, List<CostElement>> entry : budget.getObjectCodeListByBudgetCategoryType().entrySet()) {
-		    if (isPersonnel(entry.getKey().getBudgetCategoryTypeCode())) {
-		        for (CostElement costElement : entry.getValue()) {
-		            addSalaryDataForCostElement(costElement, salaryTypeVoList);
-		        }
-		    }
-		}
-		boolean includeNonPersonnel = false;
-		setSalaryTypesForLineItemCalcuAmount(salaryTypeVoList,includeNonPersonnel);
-		List<SalaryType> salaryTypeList = getListOfSalaryTypeXmlObjects(salaryTypeVoList);
-		BudgetSalary budgetSalary = getBudgetSalaryTypeXmlObject();
-		budgetSalary.setSalaryArray(salaryTypeList.toArray(new SalaryType[0]));
-		return budgetSalary;
-	}
-	
-	private void addSalaryDataForCostElement(CostElement costElement, List<SalaryTypeVO> salaryTypeVoList) {
+        return xmlObjectList;
+    }
+
+    /**
+     * This method will set the values to salary type attributes and finally
+     * return the array of Salary type.
+     */
+    protected BudgetSalary getSalaryType() {
+        List<SalaryTypeVO> salaryTypeVoList = new ArrayList<SalaryTypeVO>();
+        getBudgetCalculationService().calculateBudgetSummaryTotals(budget);
+
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+
+        for (Map.Entry<BudgetCategoryType, List<CostElement>> entry : budget.getObjectCodeListByBudgetCategoryType().entrySet()) {
+            if (isPersonnel(entry.getKey().getBudgetCategoryTypeCode(), budgetCatCodePersonnel)) {
+                for (CostElement costElement : entry.getValue()) {
+                    addSalaryDataForCostElement(costElement, salaryTypeVoList);
+                }
+            }
+        }
+        boolean includeNonPersonnel = false;
+        setSalaryTypesForLineItemCalcuAmount(salaryTypeVoList, includeNonPersonnel);
+        List<SalaryType> salaryTypeList = getListOfSalaryTypeXmlObjects(salaryTypeVoList);
+        BudgetSalary budgetSalary = getBudgetSalaryTypeXmlObject();
+        budgetSalary.setSalaryArray(salaryTypeList.toArray(new SalaryType[0]));
+        return budgetSalary;
+    }
+
+    private void addSalaryDataForCostElement(CostElement costElement, List<SalaryTypeVO> salaryTypeVoList) {
         SalaryTypeVO groupVO = new SalaryTypeVO();
         groupVO.setCostElement(costElement.getDescription());
         salaryTypeVoList.add(groupVO);
@@ -113,11 +119,11 @@ public class BudgetSalaryXmlStream extends BudgetBaseSalaryStream {
             salaryTypeVoPerPerson.setName("Summary Line Item");
             salaryTypeVoPerPerson.setBudgetPeriodVOs(
                     getBudgetPeriodData(budget.getObjectCodePersonnelSalaryTotals().get(costElement.getCostElement())));
-            salaryTypeVoList.add(salaryTypeVoPerPerson);                        
-        }	    
-	}
-	
-	private List<BudgetDataPeriodVO> getBudgetPeriodData(List<BudgetDecimal> costs) {
+            salaryTypeVoList.add(salaryTypeVoPerPerson);
+        }
+    }
+
+    private List<BudgetDataPeriodVO> getBudgetPeriodData(List<BudgetDecimal> costs) {
         List<BudgetDataPeriodVO> budgetDataList = new ArrayList<BudgetDataPeriodVO>();
         int budgetPeriodId = 1;
         for (BudgetDecimal cost : costs) {
@@ -127,8 +133,7 @@ public class BudgetSalaryXmlStream extends BudgetBaseSalaryStream {
             budgetDataList.add(periodData);
         }
         return budgetDataList;
-	}
-	
+    }
 
     protected BudgetCalculationService getBudgetCalculationService() {
         return budgetCalculationService;

@@ -24,7 +24,10 @@ import org.kuali.kra.budget.rates.RateType;
 
 import java.io.Serializable;
 import java.util.*;
+import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * Helper class that simplifies building the award budget limits summary panel.
@@ -64,8 +67,12 @@ public class BudgetLimitSummaryHelper implements Serializable {
      * @return
      */
     public Set<CostElement> getCombinedPersonnelObjectCodes() {
+        
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+        
         for (Map.Entry<BudgetCategoryType, Set<CostElement>> entry : getCombinedObjectCodeListByCategory().entrySet()) {
-            if (StringUtils.equals(entry.getKey().getBudgetCategoryTypeCode(), Constants.BUDGET_CATEGORY_PERSONNEL)) {
+            if (StringUtils.equals(entry.getKey().getBudgetCategoryTypeCode(), budgetCatCodePersonnel)) {
                 return entry.getValue();
             }
         }
