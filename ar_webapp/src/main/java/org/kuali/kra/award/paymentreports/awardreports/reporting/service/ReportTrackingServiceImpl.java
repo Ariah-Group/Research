@@ -46,6 +46,9 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
     @Override
     public void refreshReportTracking(Award award) throws ParseException {
         List<AwardReportTerm> awardReportTermItems = award.getAwardReportTermItems();
+
+        boolean autoRegen = autoRegenerateReports(award);
+
         for (AwardReportTerm awardTerm : awardReportTermItems) {
             List<AwardReportTerm> awardReportTerms = new ArrayList<AwardReportTerm>();
             awardReportTerms.add(awardTerm);
@@ -56,7 +59,7 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
                 awardTerm.setReportTrackings(purgePendingReports(awardTerm, awardTerm.getReportTrackings(), new ArrayList<ReportTracking>()));
             }
 
-            if (autoRegenerateReports(award) && award.getPrincipalInvestigator() != null) {
+            if (autoRegen && award.getPrincipalInvestigator() != null) {
                 runDateCalcuations(dates, award, awardTerm, new ArrayList<ReportTracking>());
             }
             Collections.sort(awardTerm.getReportTrackings());
@@ -230,7 +233,6 @@ public class ReportTrackingServiceImpl implements ReportTrackingService {
         ReportStatus pending = getPendingReportStatus();
         reportTracking.setReportStatus(pending);
         reportTracking.setStatusCode(pending.getReportStatusCode());
-
         reportTracking.setSponsor(award.getSponsor());
         reportTracking.setSponsorAwardNumber(award.getSponsorAwardNumber());
         reportTracking.setSponsorCode(award.getSponsorCode());
