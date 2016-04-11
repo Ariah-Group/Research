@@ -88,9 +88,16 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
     }
 
     protected String buildJavascriptRecord(String awardNumber, AwardHierarchyNode aNode) {
-        StringBuilder sb = new StringBuilder();
+
         SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT_MM_DD_YYYY);
         Formatter formatter = Formatter.getFormatter(KualiDecimal.class);
+
+        return buildJavascriptRecord(awardNumber, aNode, df, formatter);
+    }
+
+    protected String buildJavascriptRecord(String awardNumber, AwardHierarchyNode aNode, SimpleDateFormat df, Formatter formatter) {
+        StringBuilder sb = new StringBuilder(1000);
+
         sb.append("{");
         appendJson(sb, "awardNumber", awardNumber);
         sb.append(",");
@@ -276,11 +283,17 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
 
     @Override
     public String getSubAwardHierarchiesForTreeView(String awardNumber, String currentAwardNumber, String currentSequenceNumber) throws ParseException {
-        StringBuilder sb = new StringBuilder();
+
+        List<AwardHierarchy> awdHier = getChildrenNodes(awardNumber);
+        StringBuilder sb = new StringBuilder(awdHier.size() * 1000);
         sb.append("[");
-        for (AwardHierarchy ah : getChildrenNodes(awardNumber)) {
+
+        SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT_MM_DD_YYYY);
+        Formatter formatter = Formatter.getFormatter(KualiDecimal.class);
+        
+        for (AwardHierarchy ah : awdHier) {
             AwardHierarchyNode aNode = getAwardHierarchyNode(ah.getAwardNumber(), currentAwardNumber, currentSequenceNumber);
-            sb.append(buildJavascriptRecord(ah.getAwardNumber(), aNode));
+            sb.append(buildJavascriptRecord(ah.getAwardNumber(), aNode, df, formatter));
             sb.append(",");
         }
         //removing trailing ,
@@ -314,7 +327,8 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
      * call businessobjectservice to get a list of children award nodes 'awardNumber'
      */
     protected List<AwardHierarchy> getChildrenNodes(String awardNumber) {
-        List<AwardHierarchy> awardHierarchyList = new ArrayList<AwardHierarchy>();
+        // provide large default size of arraylist to ensure resizes don't slow this down
+        List<AwardHierarchy> awardHierarchyList = new ArrayList<AwardHierarchy>(500);
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(FIELD_NAME_PARENT_AWARD_NUMBER, awardNumber);
         fieldValues.put("active", Boolean.TRUE);
