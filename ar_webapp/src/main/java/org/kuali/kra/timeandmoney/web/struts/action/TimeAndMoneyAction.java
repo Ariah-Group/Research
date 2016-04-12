@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.ojb.broker.accesslayer.LookupException;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -87,6 +88,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     TransactionRuleImpl transactionRuleImpl;
     private ActivePendingTransactionsService activePendingTransactionsService;
     private TimeAndMoneyVersionService timeAndMoneyVersionService;
+    private static Logger LOG = Logger.getLogger(TimeAndMoneyAction.class);
 
     /**
      * @see
@@ -260,7 +262,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             KualiDecimal obligatedChange = awardHierarchyNode.getAmountObligatedToDate().subtract(currentObligated);
             KualiDecimal anticipatedChange = awardHierarchyNode.getAnticipatedTotalAmount().subtract(currentAnticipated);
             if (transactionRuleImpl.processParameterDisabledRules(awardHierarchyNode, aai, timeAndMoneyDocument)) {
-               // List<Award> awardItems = new ArrayList<Award>();
+                // List<Award> awardItems = new ArrayList<Award>();
                 //awardItems.add(award);
 
                 if (obligatedChange.isGreaterThan(new KualiDecimal(0))) {
@@ -489,7 +491,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             //FYI, this will show an erorr to the user, we are doing this such they can see the error, and that they had put in a null value
             awardHierarchyNode.getValue().setFinalExpirationDate(null);
         }
-      //special case where a user can enter an invalid date that will throw a hard error.  If the user tries to change that date back
+        //special case where a user can enter an invalid date that will throw a hard error.  If the user tries to change that date back
         //to the original date, we need to capture that and change the value on the document which is the date value that gets validated
         //in save rules.
         if (timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate() != null
@@ -505,18 +507,44 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
      * check for changes to Direct F and A Distribution lists, if any differences, then we need to save them in the current Award.
      */
     private boolean mustSetFandADistributions(List<AwardDirectFandADistribution> awardFandADistributions, List<AwardDirectFandADistribution> tAndMFandADistributions) {
+
+        LOG.error("mustSetFandADistributions running...");
+
         boolean needToSave = false;
+
+        // check for Deleted or Modified records
         for (AwardDirectFandADistribution awardDistribution : awardFandADistributions) {
+
             boolean found = false;
             for (AwardDirectFandADistribution tAndMDistribution : tAndMFandADistributions) {
+
                 if (awardDistribution.equals(tAndMDistribution)) {
                     found = true;
+                    break;
                 }
             }
             if (!found) {
                 needToSave = true;
             }
         }
+
+        // now check for NEW records for going through the loops the other way
+        for (AwardDirectFandADistribution tAndMDistribution : tAndMFandADistributions) {
+
+            boolean found = false;
+            for (AwardDirectFandADistribution awardDistribution : awardFandADistributions) {
+
+                if (awardDistribution.equals(tAndMDistribution)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                needToSave = true;
+            }
+        }
+
+        LOG.error("mustSetFandADistributions ending : needToSave = " + needToSave);
         return needToSave;
     }
 
@@ -932,9 +960,9 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     private void populateOtherPanels(AwardAmountTransaction newAwardAmountTransaction, TimeAndMoneyForm timeAndMoneyForm, String goToAwardNumber)
             throws LookupException, SQLException, WorkflowException {
         //Award award = getWorkingAwardVersion(goToAwardNumber);
-        
+
         System.out.println("populateOtherPanels 1");
-        
+
         Award award = getAwardVersionService().getWorkingAwardVersion(goToAwardNumber);
         if (award == null) {
             GlobalVariables.getMessageMap().putError("goToAwardNumber", "error.timeandmoney.invalidawardnumber", goToAwardNumber);
@@ -947,15 +975,15 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         TimeAndMoneyHistoryService tamhs = KraServiceLocator.getService(TimeAndMoneyHistoryService.class);
 
         tamhs.getTimeAndMoneyHistory(timeAndMoneyDocument.getAwardNumber(), timeAndMoneyDocument.getTimeAndMoneyHistory(), timeAndMoneyForm.getColumnSpan());
-System.out.println("populateOtherPanels 3");
+        System.out.println("populateOtherPanels 3");
         timeAndMoneyDocument.getAwardVersionHistoryList().clear();
-        
+
         tamhs.buildTimeAndMoneyHistoryObjects(award.getAwardNumber(), timeAndMoneyDocument.getAwardVersionHistoryList());
         System.out.println("populateOtherPanels 4");
         TimeAndMoneyActionSummaryService tamass = KraServiceLocator.getService(TimeAndMoneyActionSummaryService.class);
         timeAndMoneyDocument.getTimeAndMoneyActionSummaryItems().clear();
         tamass.populateActionSummary(timeAndMoneyDocument.getTimeAndMoneyActionSummaryItems(), goToAwardNumber);
-System.out.println("populateOtherPanels 5");
+        System.out.println("populateOtherPanels 5");
         timeAndMoneyDocument.setNewAwardAmountTransaction(newAwardAmountTransaction);
     }
 
