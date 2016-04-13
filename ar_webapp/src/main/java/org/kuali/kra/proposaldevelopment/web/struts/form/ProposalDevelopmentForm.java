@@ -2188,7 +2188,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
                 String approverViewTabTitle = this.getParameterService().getParameterValueAsString(
                         ProposalDevelopmentDocument.class, Constants.PARAMETER_PROPOSAL_APPROVER_VIEW_TITLE);
                 if (StringUtils.isEmpty(approverViewTabTitle)) {
-                    approverViewTabTitle = "Proposal Summary";
+                    approverViewTabTitle = "Summary";
                 }
 
                 headerNavigation.setHeaderTabDisplayName(approverViewTabTitle);
