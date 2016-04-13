@@ -660,7 +660,7 @@
 		</property>
 		<property name="required" value="false" />
 		<property name="control">
-			<bean parent="TextareaControlDefinition" p:rows="3" p:cols="80" />
+			<bean parent="TextareaControlDefinition" p:rows="3" p:cols="50" />
 		</property>
 		<property name="summary" value="The Opportunity Title for this Proposal." />
 		<property name="description"
