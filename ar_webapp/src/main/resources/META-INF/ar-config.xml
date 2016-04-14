@@ -66,7 +66,7 @@ This config file should only contain config locations not actual config properti
 	<!-- 
 		Ariah Research's external config
 	-->
-	<param name="config.location">C:\\Users\Adam\\ariah\\research\\conf\\ar-config.xml</param>
+	<param name="config.location">${user.home}/ariah/research/conf/ar-config.xml</param>
 	
 	<!--
 		Ariah Research's external config
