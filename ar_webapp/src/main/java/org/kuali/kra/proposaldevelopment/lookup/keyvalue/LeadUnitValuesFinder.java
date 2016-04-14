@@ -43,7 +43,7 @@ public class LeadUnitValuesFinder extends UifKeyValuesFinderBase {
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "select"));
+        keyValues.add(new ConcreteKeyValue("", ""));
         
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         UnitAuthorizationService authService = KraServiceLocator.getService(UnitAuthorizationService.class);      

@@ -70,10 +70,10 @@
                   <c:choose>
                     <c:when test="${empty KualiForm.document.developmentProposalList[0].ownedByUnit or empty KualiForm.document.developmentProposalList[0].ownedByUnit.unitNumber}">
                         <c:if test="${KualiForm.displayProposalCoordinator}" >
-                             <kul:htmlControlAttribute property="document.developmentProposalList[0].ownedByUnitNumber" attributeEntry="${proposalDevelopmentAttributes.ownedByUnitNumberRestricted}" onchange="updateProposalCoordinators(this.value)"/>
+                             <kul:htmlControlAttribute propertyId="ownedByUnitNumber" textStyle="width: 380px;" property="document.developmentProposalList[0].ownedByUnitNumber" attributeEntry="${proposalDevelopmentAttributes.ownedByUnitNumberRestricted}" onchange="updateProposalCoordinators(this.value)"/>
                         </c:if>
                         <c:if test="${not KualiForm.displayProposalCoordinator}" >
-                             <kul:htmlControlAttribute property="document.developmentProposalList[0].ownedByUnitNumber" attributeEntry="${proposalDevelopmentAttributes.ownedByUnitNumberRestricted}"/>
+                             <kul:htmlControlAttribute propertyId="ownedByUnitNumber" textStyle="width: 380px;" property="document.developmentProposalList[0].ownedByUnitNumber" attributeEntry="${proposalDevelopmentAttributes.ownedByUnitNumberRestricted}"/>
                         </c:if>                        
                     </c:when>
                     <c:otherwise>
