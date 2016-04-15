@@ -487,8 +487,7 @@ public class AwardHomeAction extends AwardAction {
 
     /**
      *
-     * This method adds a new AwardTransferringSponsor to the list. It uses
-     * {@link KeywordsService} to process the request
+     * This method adds a new AwardTransferringSponsor to the list.
      *
      * @param mapping
      * @param form
@@ -504,8 +503,7 @@ public class AwardHomeAction extends AwardAction {
     }
 
     /**
-     * This method removes an AwardTransferringSponsor from the list. It uses
-     * {@link KeywordsService} to process the request
+     * This method removes an AwardTransferringSponsor from the list.
      *
      * @param mapping
      * @param form
