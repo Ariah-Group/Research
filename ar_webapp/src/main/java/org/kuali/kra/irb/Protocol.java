@@ -57,32 +57,32 @@ import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.document.KeywordsManager;
 
 /**
- * 
+ *
  * This class is Protocol Business Object.
  */
-public class Protocol extends ProtocolBase implements KeywordsManager<IrbProtocolKeyword>{
+public class Protocol extends ProtocolBase implements KeywordsManager<IrbProtocolKeyword> {
 
     private static final long serialVersionUID = 4396393806439396971L;
-    
+
     private static final String DEFAULT_PROTOCOL_TYPE_CODE = "1";
-  
+
     private String vulnerableSubjectIndicator;
     private List<ProtocolRiskLevel> protocolRiskLevels;
-    private List<ProtocolParticipant> protocolParticipants;    
+    private List<ProtocolParticipant> protocolParticipants;
     private transient boolean lookupActionNotifyIRBProtocol;
     private List<IrbProtocolKeyword> keywords;
 
     /**
-     * 
+     *
      * Constructs an Protocol BO.
      */
     public Protocol() {
         super();
         protocolRiskLevels = new ArrayList<ProtocolRiskLevel>();
-        protocolParticipants = new ArrayList<ProtocolParticipant>();        
+        protocolParticipants = new ArrayList<ProtocolParticipant>();
         keywords = new ArrayList<IrbProtocolKeyword>();
     }
-    
+
     public String getVulnerableSubjectIndicator() {
         return vulnerableSubjectIndicator;
     }
@@ -101,7 +101,7 @@ public class Protocol extends ProtocolBase implements KeywordsManager<IrbProtoco
             riskLevel.init(this);
         }
     }
-    
+
     public List<ProtocolParticipant> getProtocolParticipants() {
         return protocolParticipants;
     }
@@ -112,17 +112,17 @@ public class Protocol extends ProtocolBase implements KeywordsManager<IrbProtoco
             participant.init(this);
         }
     }
-    
+
     /**
      * Gets index i from the protocol participant list.
-     * 
+     *
      * @param index
      * @return protocol participant at index i
      */
     public ProtocolParticipant getProtocolParticipant(int index) {
         return getProtocolParticipants().get(index);
-    }    
-    
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
@@ -131,9 +131,10 @@ public class Protocol extends ProtocolBase implements KeywordsManager<IrbProtoco
         managedLists.add(getProtocolParticipants());
         return managedLists;
     }
-    
+
     /**
      * This method is to get protocol personnel service
+     *
      * @return protocolPersonnelService
      */
     @Override
@@ -144,17 +145,19 @@ public class Protocol extends ProtocolBase implements KeywordsManager<IrbProtoco
 
     @Override
     public ProtocolSubmission getProtocolSubmission() {
-        return (ProtocolSubmission) super.getProtocolSubmission(); 
-    }    
-    
+        return (ProtocolSubmission) super.getProtocolSubmission();
+    }
+
     @Override
     public ProtocolAction getLastProtocolAction() {
         return (ProtocolAction) super.getLastProtocolAction();
-    }    
-    
+    }
+
     /**
-     * 
-     * This method merges the data of a specific module of the amended protocol into this protocol.
+     *
+     * This method merges the data of a specific module of the amended protocol
+     * into this protocol.
+     *
      * @param amendment
      * @param protocolModuleTypeCode
      */
@@ -162,44 +165,32 @@ public class Protocol extends ProtocolBase implements KeywordsManager<IrbProtoco
     public void merge(ProtocolBase amendment, String protocolModuleTypeCode) {
         if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.GENERAL_INFO)) {
             mergeGeneralInfo(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.AREAS_OF_RESEARCH)) {
+        } else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.AREAS_OF_RESEARCH)) {
             mergeResearchAreas(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.FUNDING_SOURCE)) {
+        } else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.FUNDING_SOURCE)) {
             mergeFundingSources(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_ORGANIZATIONS)) {
+        } else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_ORGANIZATIONS)) {
             mergeOrganizations(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_PERSONNEL)) {
+        } else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_PERSONNEL)) {
             mergePersonnel(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.ADD_MODIFY_ATTACHMENTS)) {
+        } else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.ADD_MODIFY_ATTACHMENTS)) {
             if (amendment.isAmendment() || amendment.isRenewal()
                     || (!amendment.getAttachmentProtocols().isEmpty() && this.getAttachmentProtocols().isEmpty())) {
                 mergeAttachments(amendment);
-            }
-            else {
+            } else {
                 restoreAttachments(this);
             }
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_REFERENCES)) {
+        } else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_REFERENCES)) {
             mergeReferences(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.SPECIAL_REVIEW)) {
+        } else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.SPECIAL_REVIEW)) {
             mergeSpecialReview(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.SUBJECTS)) {
+        } else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.SUBJECTS)) {
             mergeSubjects((Protocol) amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.OTHERS)) {
+        } else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.OTHERS)) {
             mergeOthers(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_PERMISSIONS)) {
+        } else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.PROTOCOL_PERMISSIONS)) {
             mergeProtocolPermissions(amendment);
-        }
-        else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.QUESTIONNAIRE)) {
+        } else if (StringUtils.equals(protocolModuleTypeCode, ProtocolModule.QUESTIONNAIRE)) {
             mergeProtocolQuestionnaire(amendment);
         }
     }
@@ -208,20 +199,20 @@ public class Protocol extends ProtocolBase implements KeywordsManager<IrbProtoco
      * get submit for review questionnaire answerheaders
      */
     @Override
-    public List <AnswerHeader> getAnswerHeaderForProtocol(ProtocolBase protocol) {
+    public List<AnswerHeader> getAnswerHeaderForProtocol(ProtocolBase protocol) {
         ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean((Protocol) protocol);
         moduleQuestionnaireBean.setModuleSubItemCode("0");
-        List <AnswerHeader> answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
+        List<AnswerHeader> answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
         return answerHeaders;
     }
-    
+
     /*
      * merge amendment/renewal protocol action to original protocol when A/R is approved
      */
     @SuppressWarnings("unchecked")
     @Override
     protected void mergeProtocolAction(ProtocolBase amendment) {
-        List<ProtocolAction> protocolActions = (List<ProtocolAction>) deepCopy(amendment.getProtocolActions());  
+        List<ProtocolAction> protocolActions = (List<ProtocolAction>) deepCopy(amendment.getProtocolActions());
         Collections.sort(protocolActions, new Comparator<ProtocolAction>() {
             @Override
             public int compare(ProtocolAction action1, ProtocolAction action2) {
@@ -249,7 +240,7 @@ public class Protocol extends ProtocolBase implements KeywordsManager<IrbProtoco
                 protocolAction.setComments(type + "-" + index + ": ");
             }
             // reset persistence state for copied notifications so they break ties with old document
-            for (KcNotification notification: protocolAction.getProtocolNotifications()) {
+            for (KcNotification notification : protocolAction.getProtocolNotifications()) {
                 notification.setDocumentNumber(getProtocolDocument().getDocumentNumber());
                 notification.resetPersistenceState();
                 notification.setOwningDocumentIdFk(null);
@@ -257,12 +248,12 @@ public class Protocol extends ProtocolBase implements KeywordsManager<IrbProtoco
             this.getProtocolActions().add(protocolAction);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     private void mergeSubjects(Protocol amendment) {
         setProtocolParticipants((List<ProtocolParticipant>) deepCopy(amendment.getProtocolParticipants()));
     }
-    
+
     @Override
     public ProtocolSummary getProtocolSummary() {
         ProtocolSummary protocolSummary = createProtocolSummary();
@@ -276,7 +267,7 @@ public class Protocol extends ProtocolBase implements KeywordsManager<IrbProtoco
         addAdditionalInfoSummary(protocolSummary);
         return protocolSummary;
     }
-    
+
     private void addParticipantSummaries(ProtocolSummary protocolSummary) {
         for (ProtocolParticipant participant : this.getProtocolParticipants()) {
             ParticipantSummary participantSummary = new ParticipantSummary();
@@ -309,9 +300,8 @@ public class Protocol extends ProtocolBase implements KeywordsManager<IrbProtoco
         return summary;
     }
 
-    
     /**
-     * 
+     *
      * @see org.kuali.kra.common.permissions.Permissionable#getDocumentKey()
      */
     @Override
@@ -320,7 +310,7 @@ public class Protocol extends ProtocolBase implements KeywordsManager<IrbProtoco
     }
 
     /**
-     * 
+     *
      * @see org.kuali.kra.common.permissions.Permissionable#getRoleNames()
      */
     @Override
@@ -332,14 +322,14 @@ public class Protocol extends ProtocolBase implements KeywordsManager<IrbProtoco
 
         return roleNames;
     }
-    
+
     @Override
     public String getNamespace() {
         return Constants.MODULE_NAMESPACE_PROTOCOL;
     }
 
     /**
-     * 
+     *
      * @see org.kuali.kra.UnitAclLoadable#getDocumentRoleTypeCode()
      */
     @Override
@@ -350,7 +340,7 @@ public class Protocol extends ProtocolBase implements KeywordsManager<IrbProtoco
     @Override
     public void initializeProtocolAttachmentFilter() {
         ProtocolAttachmentFilterBase protocolAttachmentFilter = new ProtocolAttachmentFilter();
-        
+
         //Lets see if there is a default set for the attachment sort
         try {
             String defaultSortBy = getParameterService().getParameterValueAsString(ProtocolDocument.class, Constants.PARAMETER_PROTOCOL_ATTACHMENT_DEFAULT_SORT);
@@ -359,11 +349,11 @@ public class Protocol extends ProtocolBase implements KeywordsManager<IrbProtoco
             }
         } catch (Exception e) {
             //No default found, do nothing.
-        }        
-        
+        }
+
         setProtocolAttachmentFilter(protocolAttachmentFilter);
     }
-    
+
     @Override
     public KrmsRulesContext getKrmsRulesContext() {
         return (KrmsRulesContext) getProtocolDocument();
@@ -422,7 +412,7 @@ public class Protocol extends ProtocolBase implements KeywordsManager<IrbProtoco
         this.lookupActionNotifyIRBProtocol = lookupActionNotifyIRBProtocol;
     }
 
-        /**
+    /**
      * Gets the keywords attribute.
      *
      * @return Returns the keywords.
@@ -440,7 +430,7 @@ public class Protocol extends ProtocolBase implements KeywordsManager<IrbProtoco
     public void setKeywords(List<IrbProtocolKeyword> keywords) {
         this.keywords = keywords;
     }
-    
+
     /**
      * Add selected science keyword to award science keywords list.
      *
@@ -461,5 +451,5 @@ public class Protocol extends ProtocolBase implements KeywordsManager<IrbProtoco
     @Override
     public IrbProtocolKeyword getKeyword(int index) {
         return getKeywords().get(index);
-    }    
+    }
 }
