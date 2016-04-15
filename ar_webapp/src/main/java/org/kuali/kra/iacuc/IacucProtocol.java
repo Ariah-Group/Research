@@ -25,8 +25,11 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.ariahgroup.research.iacuc.keywords.IacucProtocolKeyword;
+import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.document.KeywordsManager;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolModule;
 import org.kuali.kra.iacuc.actions.copy.IacucProtocolCopyService;
@@ -79,7 +82,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  *
  * This class is ProtocolBase Business Object.
  */
-public class IacucProtocol extends ProtocolBase {
+public class IacucProtocol extends ProtocolBase implements KeywordsManager<IacucProtocolKeyword>{
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -117,6 +120,8 @@ public class IacucProtocol extends ProtocolBase {
     private List<IacucProtocolStudyGroupLocation> iacucProtocolStudyGroupLocations;
     private List<IacucProtocolSpeciesStudyGroup> iacucProtocolStudyGroupSpeciesList;
 
+    private List<IacucProtocolKeyword> keywords;
+    
     // lookup field
     private Integer speciesCode;
     private Integer exceptionCategoryCode;
@@ -144,6 +149,7 @@ public class IacucProtocol extends ProtocolBase {
         setIacucProtocolStudyGroupLocations(new ArrayList<IacucProtocolStudyGroupLocation>());
         setIacucProtocolStudyGroupSpeciesList(new ArrayList<IacucProtocolSpeciesStudyGroup>());
         initIacucPrinciples();
+        keywords = new ArrayList<IacucProtocolKeyword>();
     }
 
     @SuppressWarnings("unchecked")
@@ -760,4 +766,45 @@ public class IacucProtocol extends ProtocolBase {
         getProtocolProcedureService().mergeProtocolProcedurePersonnel(this);
     }
 
+    /**
+     * Gets the keywords attribute.
+     *
+     * @return Returns the keywords.
+     */
+    @Override
+    public List<IacucProtocolKeyword> getKeywords() {
+        return keywords;
+    }
+
+    /**
+     * Sets the keywords attribute value.
+     *
+     * @param keywords The keywords to set.
+     */
+    public void setKeywords(List<IacucProtocolKeyword> keywords) {
+        this.keywords = keywords;
+    }
+
+    /**
+     * Add selected science keyword to award science keywords list.
+     *
+     * @see
+     * org.kuali.kra.document.KeywordsManager#addKeyword(org.kuali.kra.bo.ScienceKeyword)
+     */
+    @Override
+    public void addKeyword(ScienceKeyword scienceKeyword) {
+        IacucProtocolKeyword protKeyword = new IacucProtocolKeyword(getProtocolId(), scienceKeyword);
+        getKeywords().add(protKeyword);
+    }
+
+    /**
+     * It returns the ScienceKeyword object from keywords list
+     *
+     * @see org.kuali.kra.document.KeywordsManager#getKeyword(int)
+     */
+    @Override
+    public IacucProtocolKeyword getKeyword(int index) {
+        return getKeywords().get(index);
+    }    
+    
 }

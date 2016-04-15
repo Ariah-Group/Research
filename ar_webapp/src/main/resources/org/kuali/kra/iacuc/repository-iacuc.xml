@@ -395,8 +395,28 @@
             <inverse-foreignkey field-ref="protocolId" />
         </collection-descriptor>
         
+        <collection-descriptor name="keywords" proxy="true" element-class-ref="org.ariahgroup.research.iacuc.keywords.IacucProtocolKeyword" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="protocolId" />
+        </collection-descriptor>
     </class-descriptor>
     
+    <class-descriptor class="org.ariahgroup.research.iacuc.keywords.IacucProtocolKeyword" table="IACUC_PROTOCOL_KEYWORD">
+        <field-descriptor name="protocolKeywordId" column="IACUC_PROTOCOL_KEYWORD_ID" jdbc-type="BIGINT" primarykey="true" 
+                          autoincrement="true" sequence-name="SEQ_IACUC_PROTOCOL_KEYWORD_ID"/>
+        <field-descriptor name="protocolId" column="IACUC_PROTOCOL_ID" jdbc-type="BIGINT" access="anonymous"/> 
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="scienceKeywordCode" column="KEYWORD_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <reference-descriptor name="protocol" class-ref="org.kuali.kra.iacuc.IacucProtocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolId"/>
+        </reference-descriptor>
+        <reference-descriptor name="scienceKeyword" class-ref="org.kuali.kra.bo.ScienceKeyword" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="scienceKeywordCode"/>
+        </reference-descriptor>
+    </class-descriptor>	
+        
     
     <class-descriptor class="org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendRenewal" table="IACUC_PROTO_AMEND_RENEWAL">
         <field-descriptor name="id" column="PROTO_AMEND_RENEWAL_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_IACUC_PROT_AMND_REN_ID" autoincrement="true"/>
