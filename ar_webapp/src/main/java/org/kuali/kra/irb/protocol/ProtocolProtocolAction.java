@@ -60,9 +60,7 @@ import java.util.Map.Entry;
 import org.ariahgroup.research.irb.keywords.IrbProtocolKeyword;
 
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
-import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.service.KeywordsService;
-import org.kuali.rice.kns.lookup.LookupResultsService;
 
 /**
  * The ProtocolProtocolAction corresponds to the Protocol tab (web page). It is
