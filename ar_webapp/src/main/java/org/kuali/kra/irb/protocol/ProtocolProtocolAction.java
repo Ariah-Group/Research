@@ -12,22 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * ------------------------------------------------------
- * Updates made after January 1, 2015 are :
- * Copyright 2015 The Ariah Group, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 package org.kuali.kra.irb.protocol;
 
@@ -73,8 +57,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
+import org.ariahgroup.research.irb.keywords.IrbProtocolKeyword;
 
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
+import org.kuali.kra.protocol.ProtocolFormBase;
+import org.kuali.kra.service.KeywordsService;
+import org.kuali.rice.kns.lookup.LookupResultsService;
 
 /**
  * The ProtocolProtocolAction corresponds to the Protocol tab (web page). It is
@@ -120,6 +108,30 @@ public class ProtocolProtocolAction extends ProtocolAction {
         return actionForward;
     }
 
+    @Override
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        
+        super.refresh(mapping, form, request, response);
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+                     
+        String lookupResultsBOClassName = request.getParameter(KRADConstants.LOOKUP_RESULTS_BO_CLASS_NAME);
+        String lookupResultsSequenceNumber = request.getParameter(KRADConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER);
+        protocolForm.setLookupResultsBOClassName(lookupResultsBOClassName);
+        protocolForm.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);        
+        
+        getKeywordService().addKeywords(protocol, protocolForm);
+        
+        return mapping.findForward(Constants.MAPPING_BASIC );
+    }    
+    
+    @SuppressWarnings("unchecked")
+    protected KeywordsService getKeywordService() {
+        return KraServiceLocator.getService(KeywordsService.class);
+    }
+    
     @Override
     public ActionForward headerTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -231,8 +243,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
      *
      * }
      *
-     * return mapping.findForward(Constants.MAPPING_BASIC);
-    }
+     * return mapping.findForward(Constants.MAPPING_BASIC); }
      */
     public ActionForward addProtocolReferenceBean(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -692,4 +703,51 @@ public class ProtocolProtocolAction extends ProtocolAction {
     private KcNotificationService getKcNotificationService() {
         return KraServiceLocator.getService(KcNotificationService.class);
     }
+
+    /**
+     *
+     * This method is for selecting all keywords if javascript is disabled on a
+     * browser.
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return Basic ActionForward
+     * @throws Exception
+     */
+    public ActionForward selectAllScienceKeyword(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+        List<IrbProtocolKeyword> keywords = protocolDocument.getProtocol().getKeywords();
+        for (IrbProtocolKeyword irbProtocolKeyword : keywords) {
+            irbProtocolKeyword.setSelectKeyword(true);
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    
+    /**
+     *
+     * This method is to delete selected keywords from the keywords list. It
+     * uses {@link KeywordsService} to process the request
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    public ActionForward deleteSelectedScienceKeyword(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+        KeywordsService keywordsService = KraServiceLocator.getService(KeywordsService.class);
+        keywordsService.deleteKeyword(protocolDocument.getProtocol());
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }    
 }

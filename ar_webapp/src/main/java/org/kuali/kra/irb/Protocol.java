@@ -52,12 +52,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import org.ariahgroup.research.irb.keywords.IrbProtocolKeyword;
+import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
+import org.kuali.kra.bo.ScienceKeyword;
+import org.kuali.kra.document.KeywordsManager;
 
 /**
  * 
  * This class is Protocol Business Object.
  */
-public class Protocol extends ProtocolBase {
+public class Protocol extends ProtocolBase implements KeywordsManager<IrbProtocolKeyword>{
 
     private static final long serialVersionUID = 4396393806439396971L;
     
@@ -67,6 +71,7 @@ public class Protocol extends ProtocolBase {
     private List<ProtocolRiskLevel> protocolRiskLevels;
     private List<ProtocolParticipant> protocolParticipants;    
     private transient boolean lookupActionNotifyIRBProtocol;
+    private List<IrbProtocolKeyword> keywords;
 
     /**
      * 
@@ -76,6 +81,7 @@ public class Protocol extends ProtocolBase {
         super();
         protocolRiskLevels = new ArrayList<ProtocolRiskLevel>();
         protocolParticipants = new ArrayList<ProtocolParticipant>();        
+        keywords = new ArrayList<IrbProtocolKeyword>();
     }
     
     public String getVulnerableSubjectIndicator() {
@@ -416,5 +422,45 @@ public class Protocol extends ProtocolBase {
     public void setLookupActionNotifyIRBProtocol(boolean lookupActionNotifyIRBProtocol) {
         this.lookupActionNotifyIRBProtocol = lookupActionNotifyIRBProtocol;
     }
+
+        /**
+     * Gets the keywords attribute.
+     *
+     * @return Returns the keywords.
+     */
+    @Override
+    public List<IrbProtocolKeyword> getKeywords() {
+        return keywords;
+    }
+
+    /**
+     * Sets the keywords attribute value.
+     *
+     * @param keywords The keywords to set.
+     */
+    public void setKeywords(List<IrbProtocolKeyword> keywords) {
+        this.keywords = keywords;
+    }
     
+    /**
+     * Add selected science keyword to award science keywords list.
+     *
+     * @see
+     * org.kuali.kra.document.KeywordsManager#addKeyword(org.kuali.kra.bo.ScienceKeyword)
+     */
+    @Override
+    public void addKeyword(ScienceKeyword scienceKeyword) {
+        IrbProtocolKeyword protKeyword = new IrbProtocolKeyword(getProtocolId(), scienceKeyword);
+        getKeywords().add(protKeyword);
+    }
+
+    /**
+     * It returns the ScienceKeyword object from keywords list
+     *
+     * @see org.kuali.kra.document.KeywordsManager#getKeyword(int)
+     */
+    @Override
+    public IrbProtocolKeyword getKeyword(int index) {
+        return getKeywords().get(index);
+    }    
 }

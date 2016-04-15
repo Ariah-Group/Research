@@ -114,8 +114,30 @@
         </collection-descriptor>      
         <collection-descriptor name="protocolAmendRenewals" element-class-ref="org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="protocolId" />
-        </collection-descriptor>   
+        </collection-descriptor>  
+        
+        <collection-descriptor name="keywords" proxy="true" element-class-ref="org.ariahgroup.research.irb.keywords.IrbProtocolKeyword" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="protocolId" />
+        </collection-descriptor>
     </class-descriptor>
+
+    <class-descriptor class="org.ariahgroup.research.irb.keywords.IrbProtocolKeyword" table="PROTOCOL_KEYWORD">
+        <field-descriptor name="protocolKeywordId" column="PROTOCOL_KEYWORD_ID" jdbc-type="BIGINT" primarykey="true" 
+                          autoincrement="true" sequence-name="SEQ_PROTOCOL_KEYWORD_ID"/>
+        <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" access="anonymous"/> 
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="scienceKeywordCode" column="KEYWORD_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolId"/>
+        </reference-descriptor> 
+        <reference-descriptor name="scienceKeyword" class-ref="org.kuali.kra.bo.ScienceKeyword" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="scienceKeywordCode"/>
+        </reference-descriptor>
+    </class-descriptor>	
+
 
     <class-descriptor class="org.kuali.kra.irb.actions.ProtocolStatus" table="PROTOCOL_STATUS">
         <field-descriptor name="protocolStatusCode" column="PROTOCOL_STATUS_CODE" jdbc-type="VARCHAR" primarykey="true"/>

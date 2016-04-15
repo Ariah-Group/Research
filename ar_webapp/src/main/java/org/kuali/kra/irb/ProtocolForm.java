@@ -66,6 +66,7 @@ import java.util.List;
 import java.util.Map;
 import org.kuali.kra.bo.SpecialReviewUsage;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.web.struts.form.MultiLookupFormBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -74,7 +75,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 @SuppressWarnings("deprecation")
-public class ProtocolForm extends ProtocolFormBase {
+public class ProtocolForm extends ProtocolFormBase implements MultiLookupFormBase {
 
     private static final long serialVersionUID = 3736148760520952504L;
 
@@ -86,7 +87,8 @@ public class ProtocolForm extends ProtocolFormBase {
     private static final String ONLINE_REVIEW_NAV_TO = "onlineReview";
     private static final String CUSTOM_DATA_NAV_TO = "customData";
     private static final String SPECIALREVIEW_NAV_TO = "specialReview";
-
+    private String lookupResultsBOClassName;
+    private String lookupResultsSequenceNumber;
     private boolean reinitializeModifySubmissionFields = true;
 
     public ProtocolForm() throws Exception {
@@ -425,4 +427,45 @@ public class ProtocolForm extends ProtocolFormBase {
     public int getNumColumns() {
         return 3;
     }
+    
+    /**
+     * Gets the lookupResultsBOClassName attribute.
+     *
+     * @return Returns the lookupResultsBOClassName.
+     */
+    @Override
+    public String getLookupResultsBOClassName() {
+        return lookupResultsBOClassName;
+    }
+
+    /**
+     * Sets the lookupResultsBOClassName attribute value.
+     *
+     * @param lookupResultsBOClassName The lookupResultsBOClassName to set.
+     */
+    @Override
+    public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
+        this.lookupResultsBOClassName = lookupResultsBOClassName;
+    }
+
+    /**
+     * Gets the lookupResultsSequenceNumber attribute.
+     *
+     * @return Returns the lookupResultsSequenceNumber.
+     */
+    @Override
+    public String getLookupResultsSequenceNumber() {
+        return lookupResultsSequenceNumber;
+    }
+
+    /**
+     * Sets the lookupResultsSequenceNumber attribute value.
+     *
+     * @param lookupResultsSequenceNumber The lookupResultsSequenceNumber to
+     * set.
+     */
+    @Override
+    public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
+        this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
+    }    
 }
