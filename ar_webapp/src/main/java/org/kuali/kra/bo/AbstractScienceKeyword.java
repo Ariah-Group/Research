@@ -41,7 +41,7 @@ public abstract class AbstractScienceKeyword extends KraPersistableBusinessObjec
 
     /**
      * Sets the scienceKeywordCode attribute value.
-     * @param scienceKeywordCode.
+     * @param scienceCode.
      */
     public void setScienceKeywordCode(String scienceCode) {
         this.scienceKeywordCode = scienceCode;
