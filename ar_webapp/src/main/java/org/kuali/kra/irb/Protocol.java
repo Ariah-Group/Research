@@ -53,7 +53,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import org.ariahgroup.research.irb.keywords.IrbProtocolKeyword;
-import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.document.KeywordsManager;
 
