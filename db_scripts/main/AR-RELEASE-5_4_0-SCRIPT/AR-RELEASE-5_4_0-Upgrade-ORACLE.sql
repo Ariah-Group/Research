@@ -148,6 +148,18 @@ CREATE INDEX "IX_AWDPERUNITS_UNITNUM" ON "AWARD_PERSON_UNITS" ("UNIT_NUMBER");
   CREATE SEQUENCE "SEQ_IACUC_PROTOCOL_KEYWORD_ID"  MINVALUE 1 MAXVALUE 9999999999999999999 INCREMENT BY 1 START WITH 1 NOCACHE  NOORDER  NOCYCLE;
 
 
+ -- RES-548
+update NARRATIVE_TYPE set DESCRIPTION='Project Summary' where DESCRIPTION='ProjectSummary';
+update NARRATIVE_TYPE set DESCRIPTION='Budget Justification' where DESCRIPTION='BudgetJustification';
+update NARRATIVE_TYPE set DESCRIPTION='Subaward Budget' where DESCRIPTION='SubawardBudget';
+update NARRATIVE_TYPE set DESCRIPTION='Table of Contents' where DESCRIPTION='TableofContents';
+update NARRATIVE_TYPE set DESCRIPTION='Supplementary Documentation' where DESCRIPTION='SupplementaryDocumentation';
+update NARRATIVE_TYPE set DESCRIPTION='Additional Congressional Districts' where DESCRIPTION='AdditionalCongressionalDistricts';
+update NARRATIVE_TYPE set DESCRIPTION='Personal Data' where DESCRIPTION='PersonalData';
+update NARRATIVE_TYPE set DESCRIPTION='Additional Equipment' where DESCRIPTION='Additionalequipment';
+update NARRATIVE_TYPE set DESCRIPTION='Additional Key Persons' where DESCRIPTION='Additionalkeypersons';
+update NARRATIVE_TYPE set DESCRIPTION='Current Pending' where DESCRIPTION='CurrentPending';
+
 
 
 commit;

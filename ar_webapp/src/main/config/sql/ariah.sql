@@ -913,3 +913,15 @@ update KRCR_PARM_T set VAL='Summary' where PARM_NM='proposaldevelopment.approver
  -- RES-516
   INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
       VALUES  ('KC-IP','Document','ARIAH_INSTPROPOSAL_HIDE_KEYWORDS_PANEL', sys_guid(),0,'CONFG','N','Flag to determine if the Keywords Panel is hidden on an Inst Proposal.','A','KUALI');
+
+ -- RES-548
+update NARRATIVE_TYPE set DESCRIPTION='Project Summary' where DESCRIPTION='ProjectSummary';
+update NARRATIVE_TYPE set DESCRIPTION='Budget Justification' where DESCRIPTION='BudgetJustification';
+update NARRATIVE_TYPE set DESCRIPTION='Subaward Budget' where DESCRIPTION='SubawardBudget';
+update NARRATIVE_TYPE set DESCRIPTION='Table of Contents' where DESCRIPTION='TableofContents';
+update NARRATIVE_TYPE set DESCRIPTION='Supplementary Documentation' where DESCRIPTION='SupplementaryDocumentation';
+update NARRATIVE_TYPE set DESCRIPTION='Additional Congressional Districts' where DESCRIPTION='AdditionalCongressionalDistricts';
+update NARRATIVE_TYPE set DESCRIPTION='Personal Data' where DESCRIPTION='PersonalData';
+update NARRATIVE_TYPE set DESCRIPTION='Additional Equipment' where DESCRIPTION='Additionalequipment';
+update NARRATIVE_TYPE set DESCRIPTION='Additional Key Persons' where DESCRIPTION='Additionalkeypersons';
+update NARRATIVE_TYPE set DESCRIPTION='Current Pending' where DESCRIPTION='CurrentPending';
