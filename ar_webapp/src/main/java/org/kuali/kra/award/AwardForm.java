@@ -1639,4 +1639,8 @@ public class AwardForm extends BudgetVersionFormBase
     public boolean isAttachmentsPanelDefaultOpen() {
         return getAwardDocument().isAttachmentsPanelDefaultOpen();
     }
+    
+    public boolean isHideAwardKeywordsPanel() {
+        return getParameterService().getParameterValueAsBoolean(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ARIAH_AWARD_HIDE_KEYWORDS_PANEL");
+    }    
 }
