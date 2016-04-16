@@ -161,6 +161,14 @@ update NARRATIVE_TYPE set DESCRIPTION='Additional Key Persons' where DESCRIPTION
 update NARRATIVE_TYPE set DESCRIPTION='Current Pending' where DESCRIPTION='CurrentPending';
 
 
+ -- RES-546
+Declare
+  nextnum NUMBER;
+ BEGIN
+  select (MAX(TO_NUMBER(SPECIAL_REVIEW_CODE))+1) into nextnum from SPECIAL_REVIEW;
+  execute immediate 'CREATE SEQUENCE "SEQ_SPECIAL_REVIEW_ID" MINVALUE 1 MAXVALUE 999999999999999999 INCREMENT BY 1 START WITH ' || nextnum || ' NOCACHE  ORDER  NOCYCLE';
+END;
+
 
 commit;
 exit
