@@ -16,7 +16,6 @@
 <%@ page import="org.kuali.kra.infrastructure.Constants"%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="protocolAttributes" value="${DataDictionary.ProtocolDocument.attributes}" />
-<c:set var="displayKeywordPanel" value="true" />
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="protocolProtocol"
@@ -50,7 +49,7 @@
 <kra-irb:protocolLocations />
 <kra-irb:protocolFundingSources />
 <kra-irb:protocolParticipants />
-<c:if test="${displayKeywordPanel}"><kra-irb:protocolKeywords /></c:if>
+<c:if test="${!KualiForm.hideKeywordsPanel}"><kra-irb:protocolKeywords /></c:if>
 <kul:panelFooter />
 	<kul:documentControls 
 		transactionalDocument="false"
@@ -65,5 +64,4 @@ var kualiForm = document.forms['KualiForm'];
 var kualiElements = kualiForm.elements;
 </SCRIPT>
 <script language="javascript" src="dwr/interface/ProtocolFundingSourceService.js"></script>
-<!-- <script language="javascript" src="dwr/interface/UnitService.js"></script> -->
 </kul:documentPage>
