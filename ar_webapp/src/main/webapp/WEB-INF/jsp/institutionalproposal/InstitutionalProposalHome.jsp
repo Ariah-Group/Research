@@ -23,12 +23,9 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="home">
-  	
 <c:set var="readOnly" value="${KualiForm.editingMode['viewOnly']}" scope="request" />
 <c:set var="canEdit" value="${KualiForm.editingMode['modifyIP'] && KualiForm.displayEditButton}" scope="request" />
-
 <div align="right"><kul:help documentTypeName="InstitutionalProposalDocument" pageName="Institutional Proposal" /></div>
-
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-ip:institutionalProposalInstitutionalProposal />
 <kra-ip:institutionalProposalSponsorAndProgramInformation />
@@ -36,17 +33,14 @@
 <kra-ip:institutionalProposalGraduateStudents />
 <kra-ip:institutionalProposalNotes />
 <kra-ip:institutionalProposalDeliveryInfo />
-<kra-ip:institutionalProposalKeywords />
-
+<c:if test="${!KualiForm.hideKeywordsPanel}"><kra-ip:institutionalProposalKeywords /></c:if>
 <kul:panelFooter />	
-
 <SCRIPT type="text/javascript">
 var kualiForm = document.forms['KualiForm'];
 var kualiElements = kualiForm.elements;
 </SCRIPT>
 <script language="javascript" src="scripts/kuali_application.js"></script>
 <script language="javascript" src="dwr/interface/SponsorService.js"></script>
-
 <c:if test="${readOnly and canEdit}">
     <c:set var="extraButtonSource" value="${ConfigProperties.kra.externalizable.images.url}buttonsmall_edit_temp.gif"/>
     <c:set var="extraButtonProperty" value="methodToCall.editOrVersion"/>
@@ -57,5 +51,4 @@ var kualiElements = kualiForm.elements;
                         extraButtonProperty="${extraButtonProperty}"
                         extraButtonAlt="${extraButtonAlt}" 
                         suppressCancelButton="true"/>
-
 </kul:documentPage>

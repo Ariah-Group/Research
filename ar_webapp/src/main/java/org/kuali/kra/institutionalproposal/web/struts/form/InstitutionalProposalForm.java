@@ -53,6 +53,7 @@ import java.util.Map;
 import org.ariahgroup.research.institutionalproposal.questionnaire.InstitutionalProposalQuestionnaireHelper;
 import org.kuali.kra.bo.SpecialReviewUsage;
 import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -580,4 +581,8 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
     public void setQuestionnaireHelper(QuestionnaireHelperBase questionnaireHelper) {
         this.questionnaireHelper = questionnaireHelper;
     }
+    
+    public boolean isHideKeywordsPanel() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL, ParameterConstants.DOCUMENT_COMPONENT, "ARIAH_INSTPROPOSAL_HIDE_KEYWORDS_PANEL");
+    }    
 }
