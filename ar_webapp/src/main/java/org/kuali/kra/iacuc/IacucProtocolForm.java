@@ -64,6 +64,8 @@ import java.util.Map;
 import org.kuali.kra.bo.SpecialReviewUsage;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.web.struts.form.MultiLookupFormBase;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -83,6 +85,7 @@ public class IacucProtocolForm extends ProtocolFormBase implements MultiLookupFo
     private boolean reinitializeModifySubmissionFields = true;
     private String lookupResultsBOClassName;
     private String lookupResultsSequenceNumber;
+    private transient ParameterService parameterService;
 
     public IacucProtocolForm() throws Exception {
         super();
@@ -445,5 +448,21 @@ public class IacucProtocolForm extends ProtocolFormBase implements MultiLookupFo
     @Override
     public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
         this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
+    }
+
+    /**
+     * Looks up and returns the ParameterService.
+     *
+     * @return the parameter service.
+     */
+    protected ParameterService getParameterService() {
+        if (this.parameterService == null) {
+            this.parameterService = KraServiceLocator.getService(ParameterService.class);
+        }
+        return this.parameterService;
+    }
+
+    public boolean isHideKeywordsPanel() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IACUC, ParameterConstants.DOCUMENT_COMPONENT, "ARIAH_IACUCPROTOCOL_HIDE_KEYWORDS_PANEL");
     }
 }

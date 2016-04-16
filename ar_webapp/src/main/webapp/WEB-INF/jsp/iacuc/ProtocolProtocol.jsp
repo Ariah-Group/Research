@@ -39,7 +39,6 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="protocol">
-<c:set var="displayKeywordPanel" value="true" />
 <script type="text/javascript">
    var $j = jQuery.noConflict();
 </script>
@@ -82,7 +81,7 @@
     protocolFundingSourceAttributes="${protocolFundingSourceAttributes}"
     fundingSourceTypeAttributes="${fundingSourceTypeAttributes}"
     protocolModule = "iacuc" />
-<c:if test="${displayKeywordPanel}"><kra-iacuc:protocolKeywords /></c:if>
+<c:if test="${!KualiForm.hideKeywordsPanel}"><kra-iacuc:protocolKeywords /></c:if>
 <kul:panelFooter />
 	<kul:documentControls 
 		transactionalDocument="false"
