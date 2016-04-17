@@ -13,20 +13,16 @@
         <property name="headerNavigationList">
             <list>
                 <bean parent="HeaderNavigation">
-        
                     <property name="helpDefinition">
                         <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalHelpUrl" p:parameterDetailType="Document"/>
                     </property>
-          
                     <property name="headerTabDisplayName" value="Institutional Proposal"/>
                     <property name="headerTabNavigateTo" value="home"/>
                 </bean>
                 <bean parent="HeaderNavigation">
-       
                     <property name="helpDefinition">
                         <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalConstactsHelpUrl" p:parameterDetailType="Document"/>
                     </property>
-          
                     <property name="headerTabDisplayName" value="Contacts"/>
                     <property name="headerTabNavigateTo" value="contacts"/>
                 </bean>
@@ -38,48 +34,38 @@
                     <property name="headerTabNavigateTo" value="questionnaire"/>
                 </bean>           
                 <bean parent="HeaderNavigation">
-        
                     <property name="helpDefinition">
                         <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalCustomDataHelpUrl" p:parameterDetailType="Document"/>
                     </property>
-         
                     <property name="headerTabDisplayName" value="Custom Data"/>
                     <property name="headerTabNavigateTo" value="customData"/>
                 </bean>
                 <bean parent="HeaderNavigation">
-        
                     <property name="helpDefinition">
                         <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalSpecialReviewHelpUrl" p:parameterDetailType="Document"/>
                     </property>
-        
                     <property name="headerTabDisplayName" value="Special Review"/>
                     <property name="headerTabNavigateTo" value="specialReview"/>
                 </bean>
                 <bean parent="HeaderNavigation">
-       
                     <property name="helpDefinition">
                         <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalIPReviewHelpUrl" p:parameterDetailType="Document"/>
                     </property>
-          
                     <property name="headerTabDisplayName" value="Intellectual Property Review"/>
                     <property name="headerTabNavigateTo" value="intellectualPropertyReview"/>
                 </bean>
                 <bean parent="HeaderNavigation">
-        
                     <property name="helpDefinition">
                         <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalDistributionHelpUrl" p:parameterDetailType="Document"/>
                     </property>
-        
                     <property name="headerTabDisplayName" value="Distribution"/>
                     <property name="headerTabNavigateTo" value="distribution"/>
                 </bean>
                 <bean parent="HeaderNavigation">
-        
                     <property name="helpDefinition">
                         <bean parent="HelpDefinition" p:parameterNamespace="KC-IP" p:parameterName="InstitutionalProposalActionsHelpUrl" p:parameterDetailType="Document"/>
                     </property>
-         
-                    <property name="headerTabDisplayName" value="Institutional Proposal Actions"/>
+                    <property name="headerTabDisplayName" value="Actions"/>
                     <property name="headerTabNavigateTo" value="institutionalProposalActions"/>
                 </bean>
                 <bean parent="HeaderNavigation">
@@ -91,11 +77,9 @@
                 </bean>
             </list>
         </property>
-    
         <property name="workflowProperties">
             <ref bean="InstitutionalProposalDocument-workflowProperties"/>
         </property>
-    
         <property name="attributes">
             <list>      	
                 <ref bean="InstitutionalProposalDocument-versionNumber"/>        
