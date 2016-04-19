@@ -41,6 +41,8 @@ import java.util.Map;
 
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_TYPE_NOT_SELECTED;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocumentRuleBase implements AddPersonnelAttachmentRule, SavePersonnelAttachmentRule, ReplacePersonnelAttachmentRule {
     public static final String OTHER_DOCUMENT_TYPE_DESCRIPTION = "Other";
@@ -65,6 +67,7 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocument
         ProposalDevelopmentDocument document = (ProposalDevelopmentDocument)addPersonnelAttachmentEvent.getDocument();
         ProposalPersonBiography proposalPersonBiography = addPersonnelAttachmentEvent.getProposalPersonBiography();
         boolean rulePassed = true;
+        MessageMap map = GlobalVariables.getMessageMap();
 
         if(StringUtils.isBlank(proposalPersonBiography.getDocumentTypeCode())){
             rulePassed = false;
@@ -94,6 +97,12 @@ public class ProposalDevelopmentPersonnelAttachmentRule extends ResearchDocument
                 }
             }
         }
+        
+        map.addToErrorPath("newPropPersonBio");
+        getKnsDictionaryValidationService().validateBusinessObject(proposalPersonBiography, false);
+        map.removeFromErrorPath("newPropPersonBio");
+        int size = map.getErrorMessages().keySet().size();
+        rulePassed &= size <= 0; 
         
         return rulePassed;
     }
