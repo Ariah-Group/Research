@@ -40,6 +40,7 @@ import java.util.Map;
 import static org.kuali.kra.infrastructure.Constants.INSTITUTE_NARRATIVE_TYPE_GROUP;
 import static org.kuali.kra.infrastructure.KeyConstants.*;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
+import org.kuali.rice.krad.util.MessageMap;
 
 public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocumentRuleBase implements AddInstituteAttachmentRule, ReplaceInstituteAttachmentRule { 
     private static final String NARRATIVE_TYPE_ALLOWMULTIPLE_NO = "N";
@@ -74,6 +75,8 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
         boolean rulePassed = true;
         populateNarrativeType(narrative);
         String errorPath = NEW_INSTITUTE_ATTACHMENT;
+        MessageMap map = GlobalVariables.getMessageMap();
+        
         if(narrative.getNarrativeType()==null) {
             rulePassed = false;
         }
@@ -122,6 +125,12 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
         }
     
         rulePassed &= validFileNameCharacters(narrative, errorPath);
+        
+        map.addToErrorPath("newInstituteAttachment");
+        getKnsDictionaryValidationService().validateBusinessObject(narrative, false);
+        map.removeFromErrorPath("newInstituteAttachment");
+        int size = map.getErrorMessages().keySet().size();
+        rulePassed &= size <= 0;        
         
         return rulePassed;
     }
