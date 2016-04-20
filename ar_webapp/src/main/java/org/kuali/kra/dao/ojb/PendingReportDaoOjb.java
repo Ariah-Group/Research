@@ -19,7 +19,6 @@ import org.kuali.kra.common.printing.PendingReportBean;
 import org.kuali.kra.dao.PendingReportDao;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.service.ServiceHelper;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 import java.util.*;
@@ -38,19 +37,26 @@ public class PendingReportDaoOjb extends BaseReportDaoOjb implements PendingRepo
         List<PendingReportBean> data = new ArrayList<PendingReportBean>();
         Person user = GlobalVariables.getUserSession().getPerson();
         InstitutionalProposalDocumentAuthorizer authorizer = new InstitutionalProposalDocumentAuthorizer();
-        
+
         for (InstitutionalProposalPerson ipPerson : executePendingSupportQuery(personId)) {
-            lazyLoadProposal(ipPerson);
 
-            // ipPerson.getInstitutionalProposal().getInstitutionalProposalDocument()!=null CHECK 
-            // is REQUIRED as the auth-check canOpen will fail in the depths of RICE otherwise.
-            if (ipPerson.getInstitutionalProposal()!= null && ipPerson.getInstitutionalProposal().getInstitutionalProposalDocument()!= null
-                    && authorizer.canOpen(ipPerson.getInstitutionalProposal().getInstitutionalProposalDocument(), user)) {
+            try {
 
-                PendingReportBean bean = buildPendingReportBean(ipPerson);
-                if (bean != null) {
-                    data.add(bean);
+                lazyLoadProposal(ipPerson);
+
+                // ipPerson.getInstitutionalProposal().getInstitutionalProposalDocument()!=null CHECK 
+                // is REQUIRED as the auth-check canOpen will fail in the depths of RICE otherwise.
+                if (ipPerson.getInstitutionalProposal() != null && ipPerson.getInstitutionalProposal().getInstitutionalProposalDocument() != null
+                        && authorizer.canOpen(ipPerson.getInstitutionalProposal().getInstitutionalProposalDocument(), user)) {
+                    PendingReportBean bean = buildPendingReportBean(ipPerson);
+                    if (bean != null) {
+                        data.add(bean);
+                    }
                 }
+
+            } catch (Exception e) {
+                System.out.println("InstProposal:Seq = " + ipPerson.getInstitutionalProposal().getProposalNumber() + " : " + ipPerson.getInstitutionalProposal().getSequenceNumber());
+                e.printStackTrace();
             }
         }
         return data;
@@ -59,7 +65,8 @@ public class PendingReportDaoOjb extends BaseReportDaoOjb implements PendingRepo
     private PendingReportBean buildPendingReportBean(InstitutionalProposalPerson ipPerson) throws WorkflowException {
         InstitutionalProposal proposal = ipPerson.getInstitutionalProposal();
         PendingReportBean bean = null;
-        if (shouldDataBeIncluded(proposal.getInstitutionalProposalDocument()) && proposal.isActiveVersion()) {
+        boolean shouldIt = shouldDataBeIncluded(proposal.getInstitutionalProposalDocument());
+        if (shouldIt && proposal.isActiveVersion()) {
             bean = new PendingReportBean(ipPerson);
         }
         return bean;
@@ -72,15 +79,13 @@ public class PendingReportDaoOjb extends BaseReportDaoOjb implements PendingRepo
 
     private void lazyLoadProposal(InstitutionalProposalPerson ipPerson) {
         if (ipPerson.getInstitutionalProposal() == null) {
-            ServiceHelper svcHelper = ServiceHelper.getInstance();
+
             Map<String, Object> searchParams = new HashMap<String, Object>();
             searchParams.put("proposalNumber", ipPerson.getProposalNumber());
             searchParams.put("sequenceNumber", ipPerson.getSequenceNumber());
-//            Map searchParms = svcHelper.buildCriteriaMap(new String[]{"proposalNumber", "sequenceNumber"},
-//                                                                           new Object[]{ipPerson.getProposalNumber(), ipPerson.getSequenceNumber()});
+
             InstitutionalProposal proposal = (InstitutionalProposal) getBusinessObjectService().findMatching(InstitutionalProposal.class, searchParams).iterator().next();
             ipPerson.setInstitutionalProposal(proposal);
         }
     }
-
 }

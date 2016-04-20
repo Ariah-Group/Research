@@ -23,33 +23,41 @@ import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.Map;
+import org.ariahgroup.research.institutionalproposal.auth.InstitutionalProposalTask;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.krad.document.Document;
 
 /**
- * This class is the Institutional Proposal Document Authorizer.  It determines the edit modes and
- * document actions for all institutional proposal documents.
+ * This class is the Institutional Proposal Document Authorizer. It determines
+ * the edit modes and document actions for all institutional proposal documents.
  */
-public class InstitutionalProposalDocumentAuthorizer extends TransactionalDocumentAuthorizerBase 
-    implements TransactionalDocumentAuthorizer {
-    
+public class InstitutionalProposalDocumentAuthorizer extends TransactionalDocumentAuthorizerBase
+        implements TransactionalDocumentAuthorizer {
+
     public static final String ALLOW_INIT_FOR_DISAPPROVED_PD_SESSION_KEY = "DISAPPROVED_PD_WITH_LINKED_IP";
-   
+
     @Override
     protected void addRoleQualification(
             Object primaryBusinessObjectOrDocument,
             Map<String, String> attributes) {
         super.addRoleQualification(primaryBusinessObjectOrDocument, attributes);
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) primaryBusinessObjectOrDocument;
-        if (institutionalProposalDocument.getInstitutionalProposal() != null 
+        if (institutionalProposalDocument.getInstitutionalProposal() != null
                 && institutionalProposalDocument.getInstitutionalProposal().getLeadUnit() != null) {
             attributes.put(KcKimAttributes.UNIT_NUMBER, institutionalProposalDocument.getInstitutionalProposal().getLeadUnit().getUnitNumber());
         } else {
             attributes.put(KcKimAttributes.UNIT_NUMBER, "*");
         }
-    }    
-    
+    }
+
     /**
-     * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.rice.kim.api.identity.Person)
+     * @see
+     * org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String,
+     * org.kuali.rice.kim.api.identity.Person)
      */
+    @Override
     public boolean canInitiate(String documentTypeName, Person user) {
         if (GlobalVariables.getUserSession().getObjectMap().get(ALLOW_INIT_FOR_DISAPPROVED_PD_SESSION_KEY) != null) {
             GlobalVariables.getUserSession().removeObject(ALLOW_INIT_FOR_DISAPPROVED_PD_SESSION_KEY);
@@ -57,5 +65,16 @@ public class InstitutionalProposalDocumentAuthorizer extends TransactionalDocume
         } else {
             return super.canInitiate(documentTypeName, user);
         }
-    }    
+    }
+
+    @Override
+    public boolean canOpen(Document document, Person user) {
+        InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
+
+        InstitutionalProposalTask instPropTask = new InstitutionalProposalTask(TaskName.VIEW_INSTPROP_QUESTIONNAIRE,
+                institutionalProposalDocument.getInstitutionalProposal());
+
+        boolean isAuth = KraServiceLocator.getService(TaskAuthorizationService.class).isAuthorized(user.getPrincipalId(), instPropTask);
+        return isAuth;
+    }
 }

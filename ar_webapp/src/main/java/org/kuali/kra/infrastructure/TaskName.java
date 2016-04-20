@@ -80,6 +80,7 @@ public interface TaskName {
     * Institutional Proposal Tasks.
     */
     public static final String MODIFY_INSTPROP_QUESTIONNAIRE = "modifyInstProposalQuestionnaire";
+    public static final String VIEW_INSTPROP_QUESTIONNAIRE = "viewInstProposal";
     
     /*
      * Protocol Tasks.

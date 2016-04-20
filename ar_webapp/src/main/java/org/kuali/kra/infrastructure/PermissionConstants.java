@@ -145,6 +145,7 @@ public interface PermissionConstants {
     String CREATE_INSTITUTIONAL_PROPOSAL = "Create Institutional Proposal";
     String SUBMIT_INSTITUTIONAL_PROPOSAL = "Submit Institutional Proposal";
     public static final String EDIT_INSTITUTE_PROPOSAL = "Edit Institutional Proposal";
+    public static final String OPEN_INSTITUTE_PROPOSAL = "Open Institutional Proposal";
     
     String DOCUMENT_TYPE_ATTRIBUTE_QUALIFIER = "documentTypeName";
     

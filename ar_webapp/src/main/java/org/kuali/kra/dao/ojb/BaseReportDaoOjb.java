@@ -20,7 +20,8 @@ public class BaseReportDaoOjb extends PlatformAwareDaoBaseOjb implements OjbColl
      * @return
      */
     protected boolean isInExcludedState(WorkflowDocument workflowDocument) {
-        return workflowDocument.isDisapproved() || workflowDocument.isCanceled() || workflowDocument.isException();
+        boolean returnVal = workflowDocument.isDisapproved() || workflowDocument.isCanceled() || workflowDocument.isException();
+        return returnVal;
     }
 
     /**
