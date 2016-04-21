@@ -108,10 +108,12 @@ public class UnitServiceImpl implements UnitService {
      */
     @Override
     public List<Unit> getSubUnits(String unitNumber) {
-        List<Unit> units = new ArrayList<Unit>();
+        
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("parentUnitNumber", unitNumber);
-        units.addAll(businessObjectService.findMatching(Unit.class, fieldValues));
+        
+        List<Unit> units = (ArrayList<Unit>) businessObjectService.findMatching(Unit.class, fieldValues);
+        
         return units;
     }
 
@@ -137,11 +139,12 @@ public class UnitServiceImpl implements UnitService {
      */
     @Override
     public List<Unit> getUnitHierarchyForUnit(String unitNumber) {
-        List<Unit> units = new ArrayList<Unit>();
+        List<Unit> units = null;
         Unit thisUnit = this.getUnit(unitNumber);
         if (thisUnit != null) {
-            units.addAll(getUnitParentsAndSelf(thisUnit));
-            //units.addAll(getAllSubUnits(unitNumber));
+            units = (ArrayList<Unit>)(getUnitParentsAndSelf(thisUnit));
+        } else {
+            units = new ArrayList<Unit>();
         }
         return units;
     }
