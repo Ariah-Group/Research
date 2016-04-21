@@ -18,7 +18,6 @@ package org.kuali.kra.service.impl;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.infrastructure.PermissionAttributes;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
@@ -39,7 +38,7 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
     private SystemAuthorizationService systemAuthorizationService;
     private RoleService roleManagementService;
     private PermissionService permissionService;
-    
+
     protected RoleService getRoleService() {
         return roleManagementService;
     }
@@ -51,15 +50,15 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
     protected UnitService getUnitService() {
         return unitService;
     }
-    
+
     public void setUnitService(UnitService unitService) {
         this.unitService = unitService;
     }
-    
+
     protected SystemAuthorizationService getSystemAuthorizationService() {
         return systemAuthorizationService;
     }
-    
+
     public void setSystemAuthorizationService(SystemAuthorizationService systemAuthorizationService) {
         this.systemAuthorizationService = systemAuthorizationService;
     }
@@ -69,12 +68,14 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
     }
 
     /**
-     * @see org.kuali.kra.service.UnitAuthorizationService#hasPermission(java.lang.String, java.lang.String, java.lang.String)
+     * @see
+     * org.kuali.kra.service.UnitAuthorizationService#hasPermission(java.lang.String,
+     * java.lang.String, java.lang.String)
      */
     @Override
     public boolean hasPermission(String userId, String unitNumber, String namespaceCode, String permissionName) {
         boolean userHasPermission = false;
-        Map<String, String> permissionAttributes = PermissionAttributes.getAttributes(permissionName);
+        //Map<String, String> permissionAttributes = PermissionAttributes.getAttributes(permissionName);
 
         if (unitNumber != null) {
             // Check the unit for the permission. If the user doesn't have the permission
@@ -82,49 +83,49 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
             // the permission in a higher-level unit with the SUBUNITS flag set to YES.
             Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
             qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, unitNumber);
-            
+
             //The UnitHierarchyRoleTypeService takes care of traversing the Unit tree.
-            userHasPermission = permissionService.isAuthorized(userId, namespaceCode, permissionName, qualifiedRoleAttributes); 
+            userHasPermission = permissionService.isAuthorized(userId, namespaceCode, permissionName, qualifiedRoleAttributes);
         }
         return userHasPermission;
     }
 
     /**
-     * @see org.kuali.kra.service.UnitAuthorizationService#hasPermission(java.lang.String, java.lang.String)
+     * @see
+     * org.kuali.kra.service.UnitAuthorizationService#hasPermission(java.lang.String,
+     * java.lang.String)
      */
     @Override
     public boolean hasPermission(String userId, String namespaceCode, String permissionName) {
-        boolean userHasPermission = false;
-        //Map<String, String> permissionAttributes = PermissionAttributes.getAttributes(permissionName);
-        
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-        qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, "*"); 
-        userHasPermission = permissionService.isAuthorized(userId, namespaceCode, permissionName, qualifiedRoleAttributes);
+        qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, "*");
+        boolean userHasPermission = permissionService.isAuthorized(userId, namespaceCode, permissionName, qualifiedRoleAttributes);
         return userHasPermission;
     }
-    
-    
+
     @Override
     public boolean hasMatchingQualifiedUnits(String userId, String namespaceCode, String permissionName, String unitNumber) {
-        List<String> roleIds = new ArrayList<String>();
+        
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, unitNumber);
-        roleIds = systemAuthorizationService.getRoleIdsForPermission(permissionName, namespaceCode);
-        
-        List<Map<String,String>> qualifiers = roleManagementService.getNestedRoleQualifiersForPrincipalByRoleIds(userId, roleIds, qualifiedRoleAttributes);
-        List<String> units = new ArrayList<String>();    
-        for(Map<String,String> qualifier : qualifiers) {
+        List<String> roleIds = systemAuthorizationService.getRoleIdsForPermission(permissionName, namespaceCode);
+
+        List<Map<String, String>> qualifiers = roleManagementService.getNestedRoleQualifiersForPrincipalByRoleIds(userId, roleIds, qualifiedRoleAttributes);
+        List<String> units = new ArrayList<String>();
+        for (Map<String, String> qualifier : qualifiers) {
             String tmpUnitNumber = qualifier.get(KcKimAttributes.UNIT_NUMBER);
-            if(StringUtils.isNotEmpty(tmpUnitNumber)) {
+            if (StringUtils.isNotEmpty(tmpUnitNumber)) {
                 units.add(tmpUnitNumber);
-            }  
+            }
         }
-        
-        return CollectionUtils.isNotEmpty(units) ;
+
+        return CollectionUtils.isNotEmpty(units);
     }
 
     /**
-     * @see org.kuali.kra.service.UnitAuthorizationService#getUnits(java.lang.String, java.lang.String)
+     * @see
+     * org.kuali.kra.service.UnitAuthorizationService#getUnits(java.lang.String,
+     * java.lang.String)
      */
     @Override
     public List<Unit> getUnits(String userId, String namespaceCode, String permissionName) {
@@ -134,14 +135,14 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
         // has the required permission.  If so, add that unit to the list.  Also, if the
         // qualified role has the SUBUNITS qualification set to YES, then also add all of the 
         // subunits the to the list.
-        List<String> roleIds = new ArrayList<String>();
+
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, "*");
-        Map<String,String> qualification =new HashMap<String,String>(qualifiedRoleAttributes);
-        roleIds = systemAuthorizationService.getRoleIdsForPermission(permissionName, namespaceCode);
-        
-        List<Map<String,String>> qualifiers = roleManagementService.getNestedRoleQualifiersForPrincipalByRoleIds(userId, roleIds, qualification);
-        for (Map<String,String> qualifier : qualifiers) {
+        Map<String, String> qualification = new HashMap<String, String>(qualifiedRoleAttributes);
+        List<String> roleIds = systemAuthorizationService.getRoleIdsForPermission(permissionName, namespaceCode);
+
+        List<Map<String, String>> qualifiers = roleManagementService.getNestedRoleQualifiersForPrincipalByRoleIds(userId, roleIds, qualification);
+        for (Map<String, String> qualifier : qualifiers) {
             Unit unit = unitService.getUnit(qualifier.get(KcKimAttributes.UNIT_NUMBER));
             if (unit != null) {
                 units.add(unit);
@@ -150,14 +151,13 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
                 }
             }
         }
-        //the above line could potentially be a performance problem - need to revisit
         return new ArrayList<Unit>(units);
     }
-    
-    protected void addDescendantUnits(Unit parentUnit, Set<Unit> units) { 
+
+    protected void addDescendantUnits(Unit parentUnit, Set<Unit> units) {
         List<Unit> subunits = unitService.getSubUnits(parentUnit.getUnitNumber());
         if (CollectionUtils.isNotEmpty(subunits)) {
-            units.addAll(subunits); 
+            units.addAll(subunits);
             for (Unit subunit : subunits) {
                 addDescendantUnits(subunit, units);
             }
