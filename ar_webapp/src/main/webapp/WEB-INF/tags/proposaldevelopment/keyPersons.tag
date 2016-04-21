@@ -30,9 +30,7 @@
     		<c:set var="moveUpBtn" value="<a name='moveUp'><input type='image' name='${ mtc }' src='${ConfigProperties.kra.externalizable.images.url}upArrow.png' class='tinybutton' alt='Move ${fn:substring(person.fullName, 0, 24)} Up' title='Move ${fn:substring(person.fullName, 0, 24)} Up' /></a>" />
     		${kfunc:registerEditableProperty(KualiForm, mtc)}
     	</c:when>
-    	<c:otherwise>
-    		<c:set var="moveUpBtn" value="" />
-    	</c:otherwise>
+    	<c:otherwise><c:set var="moveUpBtn" value="" /></c:otherwise>
     </c:choose>
     <c:choose>
 		<c:when test="${person.moveDownAllowed}">
@@ -40,22 +38,14 @@
     		<c:set var="moveDownBtn" value="<a name='moveDown'><input type='image' name='${ mtc }' src='${ConfigProperties.kra.externalizable.images.url}downArrow.png' class='tinybutton' alt='Move ${fn:substring(person.fullName, 0, 24)} Down' title='Move ${fn:substring(person.fullName, 0, 24)} Down'/></a>" />
     		${kfunc:registerEditableProperty(KualiForm, mtc)}
     	</c:when>
-    	<c:otherwise>
-    		<c:set var="moveDownBtn" value="" />
-    	</c:otherwise>
+    	<c:otherwise><c:set var="moveDownBtn" value="" /></c:otherwise>
     </c:choose>
-
-    <c:if test="${status.first}">
-      <c:set var="transparent" value="true" />
-    </c:if> 
-
+    <c:if test="${status.first}"><c:set var="transparent" value="true" /></c:if> 
 	<c:set var="extraButtonSource" value="${moveUpBtn} ${moveDownBtn}" />
-
 	<kul:checkErrors 
 		keyMatch="document.developmentProposalList[0].proposalPersons[${status.index}]*,newProposalPersonDegree[${status.index}]*,proposalPersonQuestionnaireHelpers[${status.index}].answerHeaders[0].answers[0].answer" 
 		auditMatch="document.developmentProposalList[0].proposalPersons[${status.index}]*"/>
 	<c:set var="isOpen" value="${hasErrors ? true : isOpen}"/>
-			
 	<kul:tab tabTitle="${fn:substring(person.fullName, 0, 24)}"
          tabDescription="${person.investigatorRoleDescription}${extraButtonSource}"
          leftSideHtmlProperty="${leftSideHtmlProperty}" 
@@ -67,13 +57,10 @@
          <kra-pd:person proposalPerson="${proposalPersonProperty}" personIndex="${status.index}"/>
      </kul:tab>
  </c:forEach>
-
 <c:if test="${not empty KualiForm.creditSplitEnabled and KualiForm.creditSplitEnabled}">
     <kra-pd:creditSplit/>
 </c:if>
-
 <c:if test="${fn:length(KualiForm.document.developmentProposalList[0].proposalPersons) > 0}">
     <kul:panelFooter />
 </c:if>
-
 </div>

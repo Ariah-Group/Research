@@ -14,16 +14,12 @@
  limitations under the License.
 --%>
  <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
- <%@ attribute name="proposalPerson" description="The ProposalPerson which this is for." required="true" %>
- <%@ attribute name="index" description="Index of the property for a ProposalPerson" required="false" %>
- <%@ attribute name="personIndex" description="Index of a ProposalPerson" required="true" %>
-
- <c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" />
- <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" />
- <c:set var="isParent" value="${KualiForm.document.developmentProposalList[0].parent}" />
-
- <!-- <table cellpadding=0 cellspacing="0" summary=""> -->
+ <%@ attribute name="proposalPerson" description="The ProposalPerson which this is for." required="true" 
+%><%@ attribute name="index" description="Index of the property for a ProposalPerson" required="false" 
+%><%@ attribute name="personIndex" description="Index of a ProposalPerson" required="true" 
+%><c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" 
+/><c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" 
+/><c:set var="isParent" value="${KualiForm.document.developmentProposalList[0].parent}" />
                 <tbody id="G4">
                   <tr>
                     <th width="10%">&nbsp;</th>
@@ -32,17 +28,15 @@
                     <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.ProposalPersonDegree.attributes.graduationYear" />
                     <kul:htmlAttributeHeaderCell attributeEntryName="DataDictionary.ProposalPersonDegree.attributes.school" />
                     <th><div align="center">Actions</div></th>
-                    
                   <kra:section permission="modifyProposal">
                   <c:if test="${ not isParent }">
                   	<kra-pd:personDegreeLine proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
                   </c:if>
                   </kra:section>
-
     			  <bean:define id="degrees" name="KualiForm" property="${proposalPerson}.proposalPersonDegrees"/>
 				  <c:forEach items="${degrees}"  var="degree" varStatus="status">
 				        <kra-pd:personDegreeLine proposalPerson="${proposalPerson}" index="${status.index}"  personIndex="${personIndex}"/>
 				  </c:forEach>
 
                 </tbody>
-             <!-- </table> -->
+             

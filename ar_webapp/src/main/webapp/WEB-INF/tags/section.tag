@@ -13,9 +13,6 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
-<%@ attribute name="permission" required="true" %>
-
- <c:if test="${KualiForm.editingMode[permission]}">
-   <jsp:doBody/>
-</c:if>
+<%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"
+%><%@ attribute name="permission" required="true"
+%><c:if test="${KualiForm.editingMode[permission]}"><jsp:doBody/></c:if>

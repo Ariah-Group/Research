@@ -39,8 +39,6 @@
 		  <c:if test="${readOnly or isParent}">
 		  	<c:set var="personEditableFields" value="${newMap}" />
 		  </c:if>
-
-          <!-- TAB -->
             <div>
             <div class="tab-container" align="center" id="G100">
               <h3>
@@ -50,9 +48,7 @@
 	<table cellpadding=0 cellspacing=0 summary="">
           	<tr>
 				<td>
-
 	<c:set var="personDetailsTabErrorKey" value="${proposalPerson}.projectRole*,${proposalPerson}.percentageEffort,${proposalPerson}.pagerNumber*,${proposalPerson}.userName,${proposalPerson}.emailAddress,${proposalPerson}.officePhone,${proposalPerson}.officePhone,${proposalPerson}.eraCommonsUserName,${proposalPerson}.primaryTitle,${proposalPerson}.directoryTitle,${proposalPerson}.faxNumber,${proposalPerson}.mobilePhoneNumber,${proposalPerson}.officeLocation,${proposalPerson}.addressLine1,${proposalPerson}.addressLine2,${proposalPerson}.addressLine3,${proposalPerson}.city,${proposalPerson}.county,${proposalPerson}.state,${proposalPerson}.postalCode,${proposalPerson}.countryCode,${proposalPerson}.facultyFlag" />				
-              
 	<kul:innerTab tabTitle="Person Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="${personDetailsTabErrorKey}" auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.developmentProposalList[0].proposalPersons[${personIndex}]*">
 			<div class="innerTab-container" align="left">
               <table class=tab cellpadding=0 cellspacing="0" summary=""> 
@@ -65,7 +61,6 @@
                   </tr>              
                   <tr>
                     <th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.fullName}"  /></div></th>
-
                     <td>
                       <kul:htmlControlAttribute property="${proposalPerson}.fullName" attributeEntry="${proposalPersonAttributes.fullName}" 
                                                 readOnly="${!personEditableFields['fullName'] }"/>
@@ -123,7 +118,6 @@
                                                                            readOnly="${!personEditableFields['officePhone'] }" />
                     </td>
                   </tr>
-               
                   <tr>
                     <th align="left" width="15%"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.primaryTitle}"  /> </div></th>
 
@@ -188,7 +182,6 @@
                                                                readOnly="${!personEditableFields['secondaryOfficeLocation'] }" />
                     </td>
                   </tr>
-                  
                   <tr>
                     <th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.addressLine1}"  /></div></th>
 
@@ -202,8 +195,6 @@
                                                                            readOnly="${!personEditableFields['city'] }" />
                     </td>
                    </tr>
-                  
-                  
                   <tr>
                   	<th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.addressLine2}"  /></div></th>
                      	<td><kul:htmlControlAttribute property="${proposalPerson}.addressLine2" 
@@ -219,7 +210,6 @@
                   </tr>
                   <tr>
                     <th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.addressLine3}"  /></div></th>
-
                     <td><kul:htmlControlAttribute property="${proposalPerson}.addressLine3" 
                                             attributeEntry="${proposalPersonAttributes.addressLine3}" 
                                                   readOnly="${!personEditableFields['addressLine3'] || addressLine3}" />
@@ -232,9 +222,7 @@
                     	<c:set var="currentCountryCode" value="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].countryCode}"/>
                     	<jsp:setProperty name="KualiForm" property="currentPersonCountryCode" value="${currentCountryCode }"  />  
                     </td>
-                    
                   </tr>
-                  
                   <tr>
                     <th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.postalCode}"  /></div></th>
                     <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.postalCode" attributeEntry="${proposalPersonAttributes.postalCode}" 
@@ -255,7 +243,6 @@
                                                 readOnly="${!personEditableFields['percentageEffort'] }" />
                     </span></td>
                     <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.facultyFlag}"  /></div></th>
-
                     <td align="left"><label>
                        <kul:htmlControlAttribute property="${proposalPerson}.facultyFlag" 
                                           attributeEntry="${proposalPersonAttributes.facultyFlag}" 
@@ -264,16 +251,12 @@
                   </tr>
      <c:choose>
        <c:when test="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].proposalPersonRoleId == keypersonrole}">
-    
-                  <tr>
+                 <tr>
                   <th align="left" nowrap="nowrap" width="15%"> <div align="right">*<kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.projectRole}"  /></div></th>
                     <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.projectRole" 
                                                                      attributeEntry="${proposalPersonAttributes.projectRole}" 
                                                                        readOnly="${!personEditableFields['projectRole'] }" />
                     </td>
-                    
-
- 
        <c:if test="${KualiForm.document.developmentProposalList[0].sponsorNihOsc && KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].proposalPersonRoleId == keypersonrole}">
                  <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.otherSignificantContributorFlag}" /></div></th>
                     <td align="left"><span>
@@ -282,7 +265,6 @@
                                                 readOnly="${!personEditableFields['otherSignificantContributorFlag'] }" />
                     </span></td>
          </c:if>
-          
            </tr>
        </c:when>
        <c:when test="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].proposalPersonRoleId == coirole && KualiForm.document.developmentProposal.sponsorNihMultiplePi}">
@@ -293,7 +275,6 @@
                                                                        readOnly="${!personEditableFields['multiplePi'] }" />
                     </td>
                   </tr>
-                         
 	   </c:when>
 	 </c:choose>
                   <tr>
@@ -627,7 +608,6 @@
   </table>
 </kul:innerTab>
 </td></tr>
-
 <bean:define id="unitDetailsRequired" name="KualiForm" property="${proposalPerson}.role.unitDetailsRequired" />
 <c:set var="unitsErrorKey" value="document.developmentProposalList[0].proposalPersons[${personIndex}].unit*,newProposalPersonUnit[${personIndex}]*" />
 <c:choose>
@@ -639,8 +619,7 @@
               <kra-pd:personUnitSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/>
   </table>
   </kul:innerTab>
- 
-  </td>
+   </td>
   </tr>
   </c:when>
   <c:otherwise>
@@ -691,9 +670,7 @@
   </c:choose>
 </c:otherwise>
 </c:choose>
-
 <bean:define id="certificationRequired" name="KualiForm" property="${proposalPerson}.role.certificationRequired" /> 
-
 <c:choose>
  <c:when test="${certificationRequired == 'Y'  || !KualiForm.editingMode['modifyProposal']}">
  	<c:choose>
@@ -740,7 +717,6 @@
           </div>
        </td>
      </tr>
-     
    <c:choose>
  		<c:when test="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].anyYNQsAnswered}">  
 		   <tr>
@@ -752,7 +728,6 @@
 		   </tr>
 	   </c:when>
    </c:choose>
-   
    <tr>
 		<td>
 			<c:set var="answerHeaderIndex" value="0" />
@@ -760,17 +735,13 @@
 			<c:set var="bean" value="${KualiForm.proposalPersonQuestionnaireHelpers[personIndex]}" />
 			<c:set var ="completed" value="${KualiForm.proposalPersonQuestionnaireHelpers[personIndex].answerHeaders[0].allQuestionsAnswered}"/>
 			<c:set var="questionnaireAnswerableUpToApproval" value="${KualiForm.proposalPersonQuestionnaireHelpers[personIndex].canAnswerAfterRouting}"/>			
-			
 			<kra-questionnaire:questionnaireAnswersInnerTab bean = "${bean}" property = "${property}" 
 				answerHeaderIndex = "${answerHeaderIndex}" parentTab="${parentTabName}" 
 				completed="${completed}"
 				printLineIndex="${personIndex }" answerableUpToApproval="${questionnaireAnswerableUpToApproval}"/>
-				
 			<%--<kra-questionnaire:questionnaireAnswers bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}"/>--%>
 		</td>
 	</tr>
-   
-   
    </div>
    </table>
    </kul:innerTab>
@@ -797,10 +768,7 @@
   </c:otherwise>
  </c:choose>
 </c:otherwise>
-
 </c:choose>
-
 </table>
   </div>
 </div>
-
