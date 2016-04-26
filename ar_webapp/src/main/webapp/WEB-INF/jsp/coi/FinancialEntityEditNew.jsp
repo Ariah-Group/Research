@@ -13,12 +13,9 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html:html>
-
     <head>
         <script>var jsContextPath = "${pageContext.request.contextPath}";</script>
         <title><bean:message key="app.title" /> :: $(headerTitle})</title>
@@ -37,28 +34,18 @@
                 border-bottom-color: #B2B2B2;
             }
         </style>
-    <c:forEach items="${fn:split(ConfigProperties.kns.css.files, ',')}"
-        var="cssFile">
-<c:if test="${fn:length(fn:trim(cssFile)) > 0}">
-            <link href="${pageContext.request.contextPath}/${cssFile}"
-                rel="stylesheet" type="text/css" />
-</c:if>
-</c:forEach>
-    <c:forEach items="${fn:split(ConfigProperties.kns.javascript.files, ',')}"
-        var="javascriptFile">
-<c:if test="${fn:length(fn:trim(javascriptFile)) > 0}">
-            <script language="JavaScript" type="text/javascript"
-                src="${pageContext.request.contextPath}/${javascriptFile}"></script>
-</c:if>
-</c:forEach>
+    <c:forEach items="${fn:split(ConfigProperties.kns.css.files, ',')}" var="cssFile">
+       <c:if test="${fn:length(fn:trim(cssFile)) > 0}"><link href="${pageContext.request.contextPath}/${cssFile}" rel="stylesheet" type="text/css" /></c:if>
+    </c:forEach>
+    <c:forEach items="${fn:split(ConfigProperties.kns.javascript.files, ',')}" var="javascriptFile">
+        <c:if test="${fn:length(fn:trim(javascriptFile)) > 0}"><script language="JavaScript" type="text/javascript" src="${pageContext.request.contextPath}/${javascriptFile}"></script></c:if>
+    </c:forEach>
         <script type="text/javascript" src="scripts/jquery/jquery.tablesorter.js"></script> 
         <script type="text/javascript">
             var $j = jQuery.noConflict();
         </script>
     </head>
-    <body onload="if ( !restoreScrollPosition() ) {  }"
-            onKeyPress="return isReturnKeyAllowed('methodToCall.' , event);">
-            
+    <body onload="if ( !restoreScrollPosition() ) {  };" onKeyPress="return isReturnKeyAllowed('methodToCall.' , event);">
         <html:form styleId="kualiForm" action="/financialEntityEditNew.do"
             method="post" enctype="multipart/form-data" onsubmit="return hasFormAlreadyBeenSubmitted();">
             <c:set var="KualiForm" value="${KualiForm}" /> 
@@ -123,15 +110,12 @@
                     <td>
                         <div  align="center">
                             <div id="workarea">
-                
             <!-- Tabbed Panel Head: reporter -->            
                                 <%-- kra-coi:financialEntityReporter / --%>
             <!-- Tabbed Panel Head: new financial entity -->            
                                 <kra-coi:newFinancialEntity />
             <!-- Tabbed Panel Head: financial entities -->            
                                 <%-- kra-coi:financialEntities /--%>
-                        
-                  
             <!-- Tabbed Panel Footer -->    
                                 <div class="tab-container" align="center" id="G125" style="display: none;"></div>
                                 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">
@@ -141,13 +125,8 @@
                                     </tr>
                                 </table>
                             </div> <%-- end workarea --%>
-                
-                
                             <div align="right"><br>
                               * required </div>
-                  
-                  
-                  
                             <div id="globalbuttons" class="globalbuttons"> 
                           <!--
                                 <input type="image" name="methodToCall.save" src="kr/static/images/buttonsmall_save.gif"  class="globalbuttons" title="save" alt="save">
