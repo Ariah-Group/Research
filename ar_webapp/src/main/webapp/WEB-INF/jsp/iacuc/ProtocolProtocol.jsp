@@ -96,4 +96,5 @@ var kualiForm = document.forms['KualiForm'];
 var kualiElements = kualiForm.elements;
 </SCRIPT>
 <script language="javascript" src="dwr/interface/IacucProtocolFundingSourceService.js"></script>
+<script language="javascript" src="scripts/ariah_research.js"></script>
 </kul:documentPage>
