@@ -96,5 +96,19 @@ var kualiForm = document.forms['KualiForm'];
 var kualiElements = kualiForm.elements;
 </SCRIPT>
 <script language="javascript" src="dwr/interface/IacucProtocolFundingSourceService.js"></script>
-<script language="javascript" src="scripts/ariah_research.js"></script>
+<script language="javascript">
+function selectAllIacucProtocolKeywords(document) {
+    var j = 0;
+    for (var i = 0; i < document.KualiForm.elements.length; i++) {
+        var e = document.KualiForm.elements[i];
+        if (e.type == 'checkbox') {
+            var name = 'document.protocol.keyword[' + j + '].selectKeyword';
+            if (e.name == name) {
+                e.checked = true;
+                j++;
+            }
+        }
+    }
+}
+</script>
 </kul:documentPage>
