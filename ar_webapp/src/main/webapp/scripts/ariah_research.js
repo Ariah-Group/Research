@@ -1,5 +1,5 @@
 /* 
- * Copyright 2015 The Ariah Group, Inc.
+ * Copyright 2015-2016 The Ariah Group, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 var propCoordId = "document.developmentProposalList[0].proposalCoordinatorPrincipalName".replace(/(:|\.|\[|\])/g, '\\$1');
 var relativeUrl = "ariah/proposalCoordinatorsForUnit/";
-var jq = jQuery.noConflict();
+var $j = jQuery.noConflict();
 
 /**
  * update the proposal coordinators drop down with coordinators for hierarchy starting at
@@ -25,7 +25,7 @@ var jq = jQuery.noConflict();
  */
 function updateProposalCoordinators(unitNumber) {
 	var getUrl = relativeUrl + unitNumber;
-	jq.getJSON(getUrl, function( data ) {
+	$j.getJSON(getUrl, function( data ) {
 		clearExistingProposalCoordinators();
 		populateProposalCoordinators(data);
 	});
@@ -37,9 +37,9 @@ function updateProposalCoordinators(unitNumber) {
  */
 function proposalCoordinatorsExists(principalName) {
 	var exists = false;
-	options = jq('#' + propCoordId + ' > option');
+	options = $j('#' + propCoordId + ' > option');
 	for (i=0; i<options.length; i++) {
-		if (jq(options[i]).val() == principalName) {
+		if ($j(options[i]).val() == principalName) {
 			exists = true;
 			break;
 		}
@@ -52,7 +52,7 @@ function proposalCoordinatorsExists(principalName) {
  * clear the existing entries in the proposal coordinators drop down
  */
 function clearExistingProposalCoordinators() {
-	jq('#' + propCoordId).empty();
+	$j('#' + propCoordId).empty();
 };
 
 /**
@@ -67,14 +67,14 @@ function populateProposalCoordinators(coordinators) {
 	for (i=0; i<coordinators.length; i++) {
 		options.push("<option value=\"" + coordinators[i].key + "\">" + coordinators[i].value + "</option>");
 	}
-	jq('#' + propCoordId).html(options.join(""));
+	$j('#' + propCoordId).html(options.join(""));
 };
 
 
 
 
 
-(function( jq, undefined ) {
+$j(function( jq, undefined ) {
    jq.widget( "ui.combobox", {
       version: "@VERSION",
       widgetEventPrefix: "combobox",
@@ -323,33 +323,3 @@ function populateProposalCoordinators(coordinators) {
 
 
 }(jQuery));
-
-//For IRB module
-function selectAllIrbProtocolKeywords(document) {
-    var j = 0;
-    for (var i = 0; i < document.KualiForm.elements.length; i++) {
-        var e = document.KualiForm.elements[i];
-        if (e.type == 'checkbox') {
-            var name = 'document.protocol.keyword[' + j + '].selectKeyword';
-            if (e.name == name) {
-                e.checked = true;
-                j++;
-            }
-        }
-    }
-}
-
-//For IACUC module
-function selectAllIacucProtocolKeywords(document) {
-    var j = 0;
-    for (var i = 0; i < document.KualiForm.elements.length; i++) {
-        var e = document.KualiForm.elements[i];
-        if (e.type == 'checkbox') {
-            var name = 'document.protocol.keyword[' + j + '].selectKeyword';
-            if (e.name == name) {
-                e.checked = true;
-                j++;
-            }
-        }
-    }
-}

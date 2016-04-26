@@ -62,7 +62,11 @@ var $j = jQuery.noConflict();
 <link rel="stylesheet" href="css/combobox.css">
 <SCRIPT type="text/javascript" language="javascript">
  $j( document ).ready(function() {
-   $j("#ownedByUnitNumber").combobox();
+   $j("#ownedByUnitNumber").combobox(
+           {select: function(event, ui) { 
+              updateProposalCoordinators(this.value);
+           }
+       });
   });
 </SCRIPT>
 
