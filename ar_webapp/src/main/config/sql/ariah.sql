@@ -361,7 +361,7 @@ VALUES  ('KC-NEGOTIATION','Document','ARIAH_NEGO_ACTIVITY_DEFAULT_RESTRICTED_ENA
 
  -- Fix ability for admin used to have Modify Subaward role so admin can use ADD INVOICE functionality on a Subaward
 Insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID,VER_NBR,OBJ_ID,ROLE_ID,MBR_ID,MBR_TYP_CD,ACTV_FRM_DT,ACTV_TO_DT,LAST_UPDT_DT) 
-values (KRIM_ROLE_MBR_ID_S.nextval,1,SYS_GUID(), (select ROLE_ID FROM KRIM_ROLE_T where ROLE_NM='Modify Subaward') ,'admin','P',null,null,SYSDATE);
+values (KRIM_ROLE_MBR_ID_S.nextval,1,SYS_GUID(), (select ROLE_ID FROM KRIM_ROLE_T where ROLE_NM='Modify Subaward' and NMSPC_CD='KC-SUBAWARD') ,'admin','P',null,null,SYSDATE);
 
 
 
