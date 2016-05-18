@@ -112,7 +112,7 @@ public class UnitServiceImpl implements UnitService {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("parentUnitNumber", unitNumber);
         
-        List<Unit> units = (ArrayList<Unit>) businessObjectService.findMatching(Unit.class, fieldValues);
+        List<Unit> units = (List<Unit>) businessObjectService.findMatching(Unit.class, fieldValues);
         
         return units;
     }
