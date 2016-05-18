@@ -13,17 +13,13 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
 <link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
 <link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
 <link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
 <script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
 <script type="text/javascript" src="scripts/jquery/CalendarPopup.js"></script>
 <script>var jsContextPath = "${pageContext.request.contextPath}";</script>
-
-
 <kul:tab defaultOpen="true" tabTitle="Questionnaire Details, Content & Use "
     tabErrorKey="document.newMaintainableObject.businessObject*">
     <c:choose>
@@ -37,14 +33,7 @@
       </c:otherwise>
      </c:choose>
 </kul:tab>
-    <input type="hidden" id="maintAction" name="maintAction" value = "${KualiForm.document.newMaintainableObject.maintenanceAction}"/>
-     <input type="hidden" id="docStatus" name="docStatus" value="${KualiForm.document.documentHeader.workflowDocument.status.code }"  />   
-     <input type="hidden" id="readOnly" name="readOnly" value="${KualiForm.readOnly}"  />   
-
+<input type="hidden" id="maintAction" name="maintAction" value = "${KualiForm.document.newMaintainableObject.maintenanceAction}"/>
+<input type="hidden" id="docStatus" name="docStatus" value="${KualiForm.document.documentHeader.workflowDocument.status.code }"  />   
+<input type="hidden" id="readOnly" name="readOnly" value="${KualiForm.readOnly}"  />   
 <script type="text/javascript" src="scripts/questionnaireMaint.js"></script>
-
-
-
-
-
-</script>

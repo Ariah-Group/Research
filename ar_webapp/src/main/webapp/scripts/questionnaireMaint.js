@@ -2119,24 +2119,34 @@ function moduleCodeChange(moduleCode) {
  */
 	function toggleHSControl(idx) {
 		jQuery("#HScontrol" + idx).toggle(function() {
-			       var curidx = jQuery(this).attr("id").substring(9);
-					jQuery("#HSdiv"+curidx).slideDown(400);
-					jQuery(this).attr("src", "kr/static/images/tinybutton-hide.gif");
-				}, function() {
-					var curidx = jQuery(this).attr("id").substring(9);
+
+var curidx = jQuery(this).attr("id").substring(9);
 					jQuery("#HSdiv"+curidx).slideUp(200);
 					jQuery(this).attr("src", "kr/static/images/tinybutton-show.gif");
+
+
+				}, function() {
+                                    
+			       var curidx = jQuery(this).attr("id").substring(9);
+					jQuery("#HSdiv"+curidx).slideDown(400);
+					jQuery(this).attr("src", "kr/static/images/tinybutton-hide.gif");                                    
+                                    
+					
 				});
 		jQuery("#HScontrol" + idx).click();
 		
 		jQuery("#HSReqcontrol" + idx).toggle(function() {
-		       var curidx = jQuery(this).attr("id").substring(12);
-				jQuery("#HSReqdiv"+curidx).slideDown(400);
-				jQuery(this).attr("src", "kr/static/images/tinybutton-hide.gif");
-			}, function() {
-				var curidx = jQuery(this).attr("id").substring(12);
+		      
+                      var curidx = jQuery(this).attr("id").substring(12);
 				jQuery("#HSReqdiv"+curidx).slideUp(200);
 				jQuery(this).attr("src", "kr/static/images/tinybutton-show.gif");
+                      
+			}, function() {
+                            
+                             var curidx = jQuery(this).attr("id").substring(12);
+				jQuery("#HSReqdiv"+curidx).slideDown(400);
+				jQuery(this).attr("src", "kr/static/images/tinybutton-hide.gif");
+                            
 			});
 	    jQuery("#HSReqcontrol" + idx).click();
 
