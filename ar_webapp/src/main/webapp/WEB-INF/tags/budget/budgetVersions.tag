@@ -106,7 +106,7 @@
                 </c:choose>
             </c:otherwise>
         </c:choose>
-        <kul:tab tabTitle="Budget Versions ${projectDatesString}  | modifyProposal = ${KualiForm.editingMode['modifyProposal']}"  transparentBackground="${transParent}" defaultOpen="true" tabErrorKey="document.budget.parentDocument.budgetParent.budgetVersion*,${Constants.DOCUMENT_ERRORS},${errorKey},document.budgetDocumentVersion[*" auditCluster="awardBudgetTotalCostAuditErrors" tabAuditKey="document.budget.totalCost">
+        <kul:tab tabTitle="Budget Versions ${projectDatesString}"  transparentBackground="${transParent}" defaultOpen="true" tabErrorKey="document.budget.parentDocument.budgetParent.budgetVersion*,${Constants.DOCUMENT_ERRORS},${errorKey},document.budgetDocumentVersion[*" auditCluster="awardBudgetTotalCostAuditErrors" tabAuditKey="document.budget.totalCost">
             <div class="tab-container" align="center">
                 <c:forEach var="warning" items="${budgetModularWarnings}">
                     <ul class="warnings">
