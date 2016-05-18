@@ -119,6 +119,10 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
     }
 
     public boolean sameText(AwardComment compare) {
+        
+        if(this.getComments() == null) {
+            return false;
+        }
         if (this.getComments().equals(compare.getComments())) {
             return true;
         }
@@ -128,7 +132,7 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
         if (!this.isEntered() || !compare.isEntered()) {
             return false;
         }
-        return comments.equals(compare.getComments());
+        return this.getComments().equals(compare.getComments());
     }
 
     /**
