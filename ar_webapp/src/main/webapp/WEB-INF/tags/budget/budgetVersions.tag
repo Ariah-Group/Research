@@ -12,25 +12,8 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-
-Updates made after January 1, 2015 are :
-Copyright 2015 The Ariah Group, Inc.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
 --%>
-
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
 <c:if test="${!proposalBudgetFlag}">
     <script language="javascript">
         //well IE7 is super helpful and doesn't support Array.indexOf(used below) so here we implement
@@ -79,14 +62,12 @@ limitations under the License.
         });
     </script>
 </c:if>
-
 <%@ attribute name="budgetDocumentVersions" required="true" type="java.util.List"%>
 <%@ attribute name="pathToVersions" required="true"%>
 <%@ attribute name="requestedStartDateInitial" required="true" %>
 <%@ attribute name="requestedEndDateInitial" required="true" %>
 <%@ attribute name="errorKey" required="false"%>
 <%@ attribute name="hierarchyParentBudgetIsComplete" required="true"%>
-
 <c:set var="budgetAttributes" value="${DataDictionary.Budget.attributes}" />
 <c:set var="awardBudgetAttributes" value="${DataDictionary.AwardBudgetExt.attributes}" />
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
@@ -125,17 +106,13 @@ limitations under the License.
                 </c:choose>
             </c:otherwise>
         </c:choose>
-
-        <kul:tab tabTitle="Budget Versions ${projectDatesString}"  transparentBackground="${transParent}" defaultOpen="true" tabErrorKey="document.budget.parentDocument.budgetParent.budgetVersion*,${Constants.DOCUMENT_ERRORS},${errorKey},document.budgetDocumentVersion[*" auditCluster="awardBudgetTotalCostAuditErrors" tabAuditKey="document.budget.totalCost">
-
+        <kul:tab tabTitle="Budget Versions ${projectDatesString}  | modifyProposal = ${KualiForm.editingMode['modifyProposal']}"  transparentBackground="${transParent}" defaultOpen="true" tabErrorKey="document.budget.parentDocument.budgetParent.budgetVersion*,${Constants.DOCUMENT_ERRORS},${errorKey},document.budgetDocumentVersion[*" auditCluster="awardBudgetTotalCostAuditErrors" tabAuditKey="document.budget.totalCost">
             <div class="tab-container" align="center">
-
                 <c:forEach var="warning" items="${budgetModularWarnings}">
                     <ul class="warnings">
                         <li class="warnings"><c:out value="${warning}"/></li>
                     </ul>
                 </c:forEach>
-
                 <h3>
                     <span class="subhead-left">Budget Versions</span>
                     <c:choose>
@@ -169,7 +146,6 @@ limitations under the License.
                         <th><div align="center">Actions</div></th>
                     </kra:section>
                     </tr>
-                    <kra:section permission="modifyProposal">
                         <kra:section permission="addBudget">
                             <tr class="addline">
                                 <th width="50" align="right" scope="row"><div align="right">Add:</div></th>
@@ -194,9 +170,7 @@ limitations under the License.
                             </td>
                             </tr>
                         </kra:section>
-                    </kra:section>                        
                     </thead>
-
                     <c:forEach var="budgetVersion" items="${budgetDocumentVersions}" varStatus="status">
                         <c:set var="version" value="${pathToVersions}.budgetDocumentVersion[${status.index}].budgetVersionOverview" />
                         <bean:define id="descriptionUpdatable" name="KualiForm" property="${pathToVersions}.budgetDocumentVersion[${status.index}].budgetVersionOverview.descriptionUpdatable" />
