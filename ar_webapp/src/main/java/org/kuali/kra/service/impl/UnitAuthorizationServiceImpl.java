@@ -153,6 +153,42 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
         }
         return new ArrayList<Unit>(units);
     }
+    
+    /**
+     * @see
+     * org.kuali.kra.service.UnitAuthorizationService#getUnitsActive(java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public List<Unit> getUnitsActive(String userId, String namespaceCode, String permissionName) {
+        Set<Unit> units = new LinkedHashSet<Unit>();
+        // Start by getting all of the Qualified Roles that the person is in.  For each
+        // qualified role that has the UNIT_NUMBER qualification, check to see if the role
+        // has the required permission.  If so, add that unit to the list.  Also, if the
+        // qualified role has the SUBUNITS qualification set to YES, then also add all of the 
+        // subunits the to the list.
+
+        Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
+        qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, "*");
+        
+        Map<String, String> qualification = new HashMap<String, String>(qualifiedRoleAttributes);
+        List<String> roleIds = systemAuthorizationService.getRoleIdsForPermission(permissionName, namespaceCode);
+
+        List<Map<String, String>> qualifiers = roleManagementService.getNestedRoleQualifiersForPrincipalByRoleIds(userId, roleIds, qualification);
+        for (Map<String, String> qualifier : qualifiers) {
+            Unit unit = unitService.getUnit(qualifier.get(KcKimAttributes.UNIT_NUMBER));
+            if (unit != null) {
+                
+                if(unit.isActive()) {
+                    units.add(unit);
+                }
+                
+                if (qualifier.containsKey(KcKimAttributes.SUBUNITS) && StringUtils.equalsIgnoreCase("Y", qualifier.get(KcKimAttributes.SUBUNITS))) {
+                    addDescendantUnitsActive(unit, units);
+                }
+            }
+        }
+        return new ArrayList<Unit>(units);
+    }    
 
     protected void addDescendantUnits(Unit parentUnit, Set<Unit> units) {
         List<Unit> subunits = unitService.getSubUnits(parentUnit.getUnitNumber());
@@ -163,4 +199,19 @@ public class UnitAuthorizationServiceImpl implements UnitAuthorizationService {
             }
         }
     }
+    
+    protected void addDescendantUnitsActive(Unit parentUnit, Set<Unit> units) {
+        List<Unit> subunits = unitService.getSubUnits(parentUnit.getUnitNumber());
+        if (CollectionUtils.isNotEmpty(subunits)) {
+            
+            for (Unit subunit : subunits) {
+               
+                if(subunit.isActive()) {
+                    units.add(subunit);
+                }
+                
+                addDescendantUnitsActive(subunit, units);
+            }
+        }
+    }    
 }

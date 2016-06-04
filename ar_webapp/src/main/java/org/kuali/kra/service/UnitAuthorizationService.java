@@ -60,5 +60,18 @@ public interface UnitAuthorizationService {
      */
     public List<Unit> getUnits(String userId, String namespaceCode, String permissionName);
     
+    /**
+     * Get the units that the user has the given permission in and that are ACTIVE if 
+     * If the user has the permission in the global space, all of
+     * the units will be returned.  If the user doesn't have permission
+     * in any unit, an empty list is returned.
+     * @param userId
+     * @param namespaceCode
+     * @param permissionName the name of the permission
+     * @return the list of active units the user has this permission in
+     */
+    public List<Unit> getUnitsActive(String userId, String namespaceCode, String permissionName);    
+    
     public boolean hasMatchingQualifiedUnits(String userId, String namespaceCode, String permissionName, String unitNumber); 
+    
 }

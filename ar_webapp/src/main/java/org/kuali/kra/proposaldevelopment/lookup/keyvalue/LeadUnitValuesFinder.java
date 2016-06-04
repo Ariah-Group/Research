@@ -47,7 +47,7 @@ public class LeadUnitValuesFinder extends UifKeyValuesFinderBase {
         
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         UnitAuthorizationService authService = KraServiceLocator.getService(UnitAuthorizationService.class);      
-        List<Unit> userUnits = authService.getUnits(userId, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.CREATE_PROPOSAL);
+        List<Unit> userUnits = authService.getUnitsActive(userId, Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, PermissionConstants.CREATE_PROPOSAL);
 
         // Sort the list of units by Unit Number.  If there are lots of units,
         // the sort will make it easier for the user to find when they view
