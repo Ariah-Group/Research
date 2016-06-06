@@ -197,7 +197,7 @@ public class NegotiationActivityHelper implements Serializable {
         }
     }
     public String getActivitySortingTypeName() {
-        return activitySortingType.name();
+        return (activitySortingType != null ? activitySortingType.name() : null);
     }
 
     public AttachmentSortingType getAttachmentSortingType() {
