@@ -33,13 +33,13 @@ import java.util.Map;
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 
 public class PersonEditableServiceImpl implements PersonEditableService {
-    
+
     private BusinessObjectService businessObjectService;
     private KcPersonService kcPersonService;
 
     @Override
     public void populateContactFieldsFromPersonId(PersonEditableInterface protocolPerson) {
-        
+
         DateFormat dateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
 
         KcPerson person = this.kcPersonService.getKcPersonByPersonId(protocolPerson.getPersonId());
@@ -51,14 +51,21 @@ public class PersonEditableServiceImpl implements PersonEditableService {
         protocolPerson.setPriorName(person.getPriorName());
         protocolPerson.setUserName(person.getUserName());
         protocolPerson.setEmailAddress(person.getEmailAddress());
-        //prop_person.setDateOfBirth(person.getDateOfBirth());
-        try{
-            java.util.Date dobUtil = dateFormat.parse(person.getDateOfBirth());
-            protocolPerson.setDateOfBirth(new java.sql.Date(dobUtil.getYear(), dobUtil.getMonth(), dobUtil.getDate()));
-        }catch(Exception e){
-            //invalid date
+
+        String personDob = person.getDateOfBirth();
+        if (personDob != null && !personDob.isEmpty()) {
+            try {
+
+                java.util.Date dobUtil = dateFormat.parse(personDob);
+                protocolPerson.setDateOfBirth(new java.sql.Date(dobUtil.getYear(), dobUtil.getMonth(), dobUtil.getDate()));
+            } catch (Exception e) {
+                //invalid date
+                protocolPerson.setDateOfBirth(null);
+            }
+        } else {
             protocolPerson.setDateOfBirth(null);
         }
+
         protocolPerson.setAge(person.getAge());
         protocolPerson.setAgeByFiscalYear(person.getAgeByFiscalYear());
         protocolPerson.setGender(person.getGender());
@@ -72,14 +79,21 @@ public class PersonEditableServiceImpl implements PersonEditableService {
         protocolPerson.setVeteranType(person.getVeteranType());
         protocolPerson.setVisaCode(person.getVisaCode());
         protocolPerson.setVisaType(person.getVisaType());
-        //prop_person.setVisaRenewalDate(person.getVisaRenewalDate());
-        try{
-            java.util.Date visaUtil = dateFormat.parse(person.getVisaRenewalDate());
-            protocolPerson.setVisaRenewalDate(new java.sql.Date(visaUtil.getYear(), visaUtil.getMonth(), visaUtil.getDate()));
-        }catch(Exception e){
-            //invalid date
+
+        String personVisaRenewal = person.getVisaRenewalDate();
+
+        if (personVisaRenewal != null && !personVisaRenewal.isEmpty()) {
+            try {
+                java.util.Date visaUtil = dateFormat.parse(person.getVisaRenewalDate());
+                protocolPerson.setVisaRenewalDate(new java.sql.Date(visaUtil.getYear(), visaUtil.getMonth(), visaUtil.getDate()));
+            } catch (Exception e) {
+                //invalid date
+                protocolPerson.setVisaRenewalDate(null);
+            }
+        } else {
             protocolPerson.setVisaRenewalDate(null);
         }
+
         protocolPerson.setHasVisa(person.getHasVisa());
         protocolPerson.setOfficeLocation(person.getOfficeLocation());
         protocolPerson.setOfficePhone(person.getOfficePhone());
@@ -116,7 +130,6 @@ public class PersonEditableServiceImpl implements PersonEditableService {
         protocolPerson.setPagerNumber(person.getPagerNumber());
         protocolPerson.setMobilePhoneNumber(person.getMobilePhoneNumber());
         protocolPerson.setEraCommonsUserName(person.getEraCommonsUserName());
-
     }
 
     @Override
