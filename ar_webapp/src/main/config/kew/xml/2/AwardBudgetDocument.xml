@@ -92,7 +92,7 @@
                     <display>
                         <type>text</type>
                     </display>
-                    <lookup businessObjectClass="org.kuali.kra.award.home.Award">
+                    <lookup dataObjectClass="org.kuali.kra.award.home.Award">
                         <fieldConversions>
                             <fieldConversion lookupFieldName="awardNumber" localFieldName="awardBudgetAwardId"/>
                         </fieldConversions>
@@ -115,7 +115,7 @@
                     <display>
                         <type>text</type>
                     </display>
-                    <lookup businessObjectClass="org.kuali.kra.award.home.Award">
+                    <lookup dataObjectClass="org.kuali.kra.award.home.Award">
                         <fieldConversions>
                             <fieldConversion lookupFieldName="title" localFieldName="awardBudgetAwardTitle"/>
                         </fieldConversions>
@@ -138,7 +138,7 @@
                     <display>
                         <type>text</type>
                     </display>
-                    <lookup businessObjectClass="org.kuali.kra.award.home.Award">
+                    <lookup dataObjectClass="org.kuali.kra.award.home.Award">
                         <fieldConversions>
                             <fieldConversion lookupFieldName="accountNumber" localFieldName="awardBudgetAccountNumber"/>
                         </fieldConversions>
@@ -161,7 +161,7 @@
                     <display>
                         <type>text</type>
                     </display>
-                    <lookup businessObjectClass="org.kuali.kra.bo.KcPerson">
+                    <lookup dataObjectClass="org.kuali.kra.bo.KcPerson">
                         <fieldConversions>
                             <fieldConversion lookupFieldName="fullName" localFieldName="awardBudgetInvestigator"/>
                         </fieldConversions>
@@ -184,7 +184,7 @@
                     <display>
                         <type>text</type>
                     </display>
-                    <lookup businessObjectClass="org.kuali.kra.bo.Unit">
+                    <lookup dataObjectClass="org.kuali.kra.bo.Unit">
                         <fieldConversions>
                             <fieldConversion lookupFieldName="unitNumber" localFieldName="awardBudgetLeadUnit"/>
                         </fieldConversions>
@@ -207,7 +207,7 @@
                     <display>
                         <type>text</type>
                     </display>
-                    <lookup businessObjectClass="org.kuali.kra.bo.Sponsor">
+                    <lookup dataObjectClass="org.kuali.kra.bo.Sponsor">
                         <fieldConversions>
                             <fieldConversion lookupFieldName="sponsorCode" localFieldName="awardBudgetSponsor"/>
                         </fieldConversions>
