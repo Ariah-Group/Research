@@ -85,7 +85,7 @@ public class ApprovedForeignTravelBean extends SpecialApprovalBean {
     }
 
     public String getSelectedTravelerId() {
-        return newApprovedForeignTravel.getContactId().toString();
+        return newApprovedForeignTravel.getContactId()!=null ? newApprovedForeignTravel.getContactId().toString() : null;
     }
 
     /**
