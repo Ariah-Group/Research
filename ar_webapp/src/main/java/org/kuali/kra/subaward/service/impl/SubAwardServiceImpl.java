@@ -268,18 +268,17 @@ public class SubAwardServiceImpl implements SubAwardService {
     }
 
     /**
-     * .
-     * this method is for getFollowupDateDefaultLength
+     * Retrieve the value of the "Subaward Follow Up" Parameter.
      *
      * @return followupDateRange
      */
     @Override
     public String getFollowupDateDefaultLength() {
-        String namespaceCode = "KC-SUBAWARD";
-        String componentCode = "Document";
-        String parameterName = "Subaward Follow Up";
+
         String followupDateRange = this.getParameterService().
-                getParameterValueAsString(namespaceCode, componentCode, parameterName);
+                getParameterValueAsString(Constants.MODULE_NAMESPACE_SUBAWARD, 
+                        Constants.PARAMETER_COMPONENT_DOCUMENT, "Subaward Follow Up");
+        
         return followupDateRange;
     }
 
