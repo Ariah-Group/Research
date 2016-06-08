@@ -100,10 +100,6 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
 
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        CoiDisclosureForm discForm = (CoiDisclosureForm) form;
-        if (discForm.isHideDocDescriptionPanel()) {
-            discForm.getCoiDisclosureDocument().defaultDocumentDescription();
-        }
     }
     
     protected CoiDisclosureActionService getCoiDisclosureActionService() {

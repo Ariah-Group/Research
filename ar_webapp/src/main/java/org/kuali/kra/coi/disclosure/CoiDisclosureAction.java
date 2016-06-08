@@ -130,6 +130,10 @@ public class CoiDisclosureAction extends CoiAction {
         } else {
             getCoiDisclosureService().resetLeadUnit(coiDisclosure.getDisclosureReporter());
         }
+        
+        // call new preSave method to default coidisc doc description
+        preSave(mapping, coiDisclosureForm, request, response);
+        
         if (coiDisclosure.isUpdateEvent() || (coiDisclosure.isAnnualEvent() && coiDisclosure.isAnnualUpdate())) {
             isValid &= getCoiDisclosureService().setDisclProjectForSave(coiDisclosure, coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean());
         }
@@ -1124,4 +1128,11 @@ public class CoiDisclosureAction extends CoiAction {
         return mapping.findForward("viewNotification");
     }
 
+    public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        CoiDisclosureForm discForm = (CoiDisclosureForm) form;
+        if (discForm.isHideDocDescriptionPanel()) {
+            discForm.getCoiDisclosureDocument().defaultDocumentDescription();
+        }
+    }    
 }
