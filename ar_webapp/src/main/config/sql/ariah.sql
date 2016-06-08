@@ -925,6 +925,14 @@ update NARRATIVE_TYPE set DESCRIPTION='Additional Equipment' where DESCRIPTION='
 update NARRATIVE_TYPE set DESCRIPTION='Additional Key Persons' where DESCRIPTION='Additionalkeypersons';
 update NARRATIVE_TYPE set DESCRIPTION='Current Pending' where DESCRIPTION='CurrentPending';
 
+
+ -- RES-627
+  INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
+      VALUES  ('KC-COIDISCLOSURE','Document','ARIAH_COI_HIDE_AND_DEFAULT_COI_DOC_DESC', sys_guid(),0,'CONFG','Y','Flag to determine if the document description panel is hidden on a COI Disclosure record.','A','KUALI');
+
+
+
+
  -- RES-546
 Declare
   nextnum NUMBER;

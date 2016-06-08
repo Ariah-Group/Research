@@ -1003,6 +1003,9 @@ public interface Constants {
     public static final String ARIAH_PERSON_PHONE_TYPE_PAGER = "ARIAH_PERSON_PHONE_TYPE_PAGER";
     public static final String ARIAH_PERSON_PHONE_TYPE_MOBILE = "ARIAH_PERSON_PHONE_TYPE_MOBILE";
     
+    // Parameter Constants for COI
+    public static final String ARIAH_COI_HIDE_AND_DEFAULT_COI_DOC_DESC = "ARIAH_COI_HIDE_AND_DEFAULT_COI_DOC_DESC";
+    
     /**
      * Module Code for "Award" records in as defined in COEUS_MODULE database table.
      */

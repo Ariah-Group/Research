@@ -56,13 +56,13 @@
                         {
                             var controlId = $j(this).attr("id");
                             var contentId = controlId.replace("Control","Content");
-                            $j("#"+contentId).slideDown(500);
-                            $j(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+                            $j("#"+contentId).slideUp(500);
+                            $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");                            
                         },function(){
                             var controlId = $j(this).attr("id");
                             var contentId = controlId.replace("Control","Content");
-                            $j("#"+contentId).slideUp(500);
-                            $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+                            $j("#"+contentId).slideDown(500);
+                            $j(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
                         }
                );
                $j(".financialEntitySubpanel").click();
@@ -72,7 +72,7 @@
                 $j(".disclosedProjectsSubpanel").toggle(
                          function()
                          {
-                        	 var controlId = $j(this).attr("id");
+                             var controlId = $j(this).attr("id");
                              var contentId = controlId.replace("Control","Content");
                              $j("#"+contentId).hide();
                              $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
@@ -96,8 +96,18 @@
 <%-- --%>
 <c:set var="readOnly" value="${not KualiForm.editingMode['fullEntry']}" scope="request" />
 <div align="right"><kul:help documentTypeName="CoiDisclosureDocument" pageName="CoiDisclosure" /></div>
-<kul:documentOverview editingMode="${KualiForm.editingMode}" />
-<kra-coi:disclosureReporter />
+
+    <c:choose>
+        <c:when test="${!KualiForm.hideDocDescriptionPanel}">
+            <kul:documentOverview editingMode="${KualiForm.editingMode}" />
+        </c:when>
+        <c:otherwise>
+                <c:set var="requiredTransparent" value="true"/> 
+        </c:otherwise>
+    </c:choose>    
+
+<kra-coi:disclosureReporter transparent="${requiredTransparent}"/>
+
 <c:if test="${KualiForm.document.coiDisclosureList[0].annualUpdate or KualiForm.document.coiDisclosureList[0].updateEvent}" >  
 	<kra-coi:disclosureQuestionnaire />
 	<script type="text/javascript" src="scripts/questionnaireAnswer.js"></script>

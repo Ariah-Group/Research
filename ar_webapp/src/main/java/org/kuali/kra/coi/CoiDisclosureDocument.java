@@ -33,22 +33,23 @@ import org.kuali.rice.krms.api.engine.Facts;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
- * 
+ *
  * This class is Coi disclosure document class
  */
-@NAMESPACE(namespace=Constants.MODULE_NAMESPACE_COIDISCLOSURE)
-@COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
-public class CoiDisclosureDocument extends ResearchDocumentBase implements Copyable, SessionDocument, KrmsRulesContext { 
-    
+@NAMESPACE(namespace = Constants.MODULE_NAMESPACE_COIDISCLOSURE)
+@COMPONENT(component = ParameterConstants.DOCUMENT_COMPONENT)
+public class CoiDisclosureDocument extends ResearchDocumentBase implements Copyable, SessionDocument, KrmsRulesContext {
+
     public static final String DOCUMENT_TYPE_CODE = "COI";
     private List<CoiDisclosure> coiDisclosureList;
-    
+
     /**
      * Constructs a CoiDisclosureDocument object.
      */
-    public CoiDisclosureDocument() { 
+    public CoiDisclosureDocument() {
         super();
         coiDisclosureList = new ArrayList<CoiDisclosure>();
         CoiDisclosure newCoiDisclosure = new CoiDisclosure();
@@ -69,12 +70,14 @@ public class CoiDisclosureDocument extends ResearchDocumentBase implements Copya
     public String getDocumentTypeCode() {
         // TODO Auto-generated method stub
         return DOCUMENT_TYPE_CODE;
-    } 
-    
+    }
+
     /**
-     * 
-     * This method is a convenience method for facilitating a 1:1 relationship between CoiDisclosureDocument 
-     * and CoiDisclosure to the outside world - aka a single CoiDisclosure field associated with CoiDocument
+     *
+     * This method is a convenience method for facilitating a 1:1 relationship
+     * between CoiDisclosureDocument and CoiDisclosure to the outside world -
+     * aka a single CoiDisclosure field associated with CoiDocument
+     *
      * @return
      */
     public CoiDisclosure getCoiDisclosure() {
@@ -85,18 +88,20 @@ public class CoiDisclosureDocument extends ResearchDocumentBase implements Copya
     }
 
     /**
-     * 
-     * This method is a convenience method for facilitating a 1:1 relationship between CoiDocument 
-     * and CoiDisclosure to the outside world - aka a single CoiDisclosure field associated with CoiDocument
+     *
+     * This method is a convenience method for facilitating a 1:1 relationship
+     * between CoiDocument and CoiDisclosure to the outside world - aka a single
+     * CoiDisclosure field associated with CoiDocument
+     *
      * @param coiDisclosure
      */
     public void setCoiDisclosure(CoiDisclosure coiDisclosure) {
         coiDisclosureList.set(0, coiDisclosure);
     }
 
- 
     /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see
+     * org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -111,6 +116,7 @@ public class CoiDisclosureDocument extends ResearchDocumentBase implements Copya
     /*
      * This is just a holder, business logic needs to be added to this
      */
+
     @Override
     public boolean isProcessComplete() {
 
@@ -120,26 +126,26 @@ public class CoiDisclosureDocument extends ResearchDocumentBase implements Copya
             isComplete = true;
         } else {
             // approved/ disapproved
-            if (!getDocumentHeader().getWorkflowDocument().isFinal() && !getDocumentHeader().getWorkflowDocument().isDisapproved()) {           
+            if (!getDocumentHeader().getWorkflowDocument().isFinal() && !getDocumentHeader().getWorkflowDocument().isDisapproved()) {
                 isComplete = false;
-            } 
+            }
         }
         return isComplete;
 
     }
-    
+
     @Override
     public void populateContextQualifiers(Map<String, String> qualifiers) {
         qualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_COIDISCLOSURE);
         qualifiers.put("name", KcKrmsConstants.CoiDisclosure.COI_DISCLOSURE_CONTEXT);
     }
-    
+
     @Override
     public void addFacts(Facts.Builder factsBuilder) {
         KcKrmsFactBuilderService fbService = KraServiceLocator.getService("coiDisclosureFactBuilderService");
         fbService.addFacts(factsBuilder, this);
     }
-    
+
     @Override
     public void populateAgendaQualifiers(Map<String, String> qualifiers) {
         qualifiers.put(KcKrmsConstants.UNIT_NUMBER, getCoiDisclosure().getLeadUnitNumber());
@@ -149,11 +155,22 @@ public class CoiDisclosureDocument extends ResearchDocumentBase implements Copya
     public List<? extends DocumentCustomData> getDocumentCustomData() {
         return new ArrayList();
     }
-    
+
     @Override
     public String getDocumentBoNumber() {
         return getCoiDisclosure().getCoiDisclosureNumber();
-        
+
     }
 
+    public boolean isDefaultDocumentDescription() {
+        return getParameterService().getParameterValueAsBoolean(CoiDisclosureDocument.class, Constants.ARIAH_COI_HIDE_AND_DEFAULT_COI_DOC_DESC);
+    }
+    
+    /**
+     * Looks up and returns the ParameterService.
+     * @return the parameter service. 
+     */
+    protected ParameterService getParameterService() {
+            return KraServiceLocator.getService(ParameterService.class);        
+    }    
 }

@@ -40,10 +40,16 @@
 
 
 <div align="right"><kul:help documentTypeName="CoiDisclosureDocument" pageName="CoiDisclosure" /></div>
-<kul:documentOverview editingMode="${KualiForm.editingMode}" />
-<%-- <kra-coi:disclosureReporter /> --%>
+    <c:choose>
+        <c:when test="${!KualiForm.hideDocDescriptionPanel}">
+            <kul:documentOverview editingMode="${KualiForm.editingMode}" />
+        </c:when>
+        <c:otherwise>
+                <c:set var="requiredTransparent" value="true"/> 
+        </c:otherwise>
+    </c:choose>   <%-- <kra-coi:disclosureReporter /> --%>
 
-	<kul:tab tabTitle="COI Disclosure" defaultOpen="true" transparentBackground="true" tabErrorKey="" >
+	<kul:tab tabTitle="COI Disclosure" defaultOpen="true" transparentBackground="${requiredTransparent}" tabErrorKey="" >
 	
 	<div>
 	 <table cellpadding="0" cellspacing="0" class="datatable" title="view/edit document overview information" summary="view/edit document overview information">

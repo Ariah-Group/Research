@@ -14,12 +14,10 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
-<c:set var="personAttributes" value="${DataDictionary.KcPerson.attributes}" />
-<c:set var="reporter" value = "document.coiDisclosureList[0].disclosurePersons[0].reporter" />
-<kul:tab defaultOpen="true" tabTitle="Reporter" transparentBackground="false"
-    tabErrorKey="" >
-
+<%@ attribute name="transparent" required="false"
+%><c:set var="personAttributes" value="${DataDictionary.KcPerson.attributes}" 
+/><c:set var="reporter" value = "document.coiDisclosureList[0].disclosurePersons[0].reporter" 
+/><kul:tab defaultOpen="true" tabTitle="Reporter" transparentBackground="${transparent}" tabErrorKey="" >
     <div class="tab-container" align="center">
         <h3>
             <span class="subhead-left"> Contact Information </span>
@@ -261,7 +259,6 @@
                                     attributeEntry="${personAttributes.countryCode}" readOnly="true"/>
                                 </td>
                             </tr>
-
                         </tbody>
                     </table>
                 </div>
@@ -271,4 +268,3 @@
     </div>
  <kra-coi:disclosureReporterUnits />
 </kul:tab>
-

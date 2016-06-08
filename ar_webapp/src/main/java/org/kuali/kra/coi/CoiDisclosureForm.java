@@ -364,4 +364,8 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
     public int getNumColumns() {
         return 3;
     }
+    
+    public boolean isHideDocDescriptionPanel() {
+        return getCoiDisclosureDocument().isDefaultDocumentDescription();
+    }    
 }
