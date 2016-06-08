@@ -37,7 +37,6 @@ import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class CoiAction extends KraTransactionalDocumentActionBase {
@@ -101,7 +100,10 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
 
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-
+        CoiDisclosureForm discForm = (CoiDisclosureForm) form;
+        if (discForm.isHideDocDescriptionPanel()) {
+            discForm.getCoiDisclosureDocument().defaultDocumentDescription();
+        }
     }
     
     protected CoiDisclosureActionService getCoiDisclosureActionService() {

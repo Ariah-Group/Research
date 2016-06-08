@@ -165,6 +165,15 @@ public class CoiDisclosureDocument extends ResearchDocumentBase implements Copya
     public boolean isDefaultDocumentDescription() {
         return getParameterService().getParameterValueAsBoolean(CoiDisclosureDocument.class, Constants.ARIAH_COI_HIDE_AND_DEFAULT_COI_DOC_DESC);
     }
+
+    public void defaultDocumentDescription() {
+        CoiDisclosure disc = getCoiDisclosure();
+        String desc = String.format("COI Disclosure Number: %s; Reporter: %s",
+                disc.getCoiDisclosureId(),
+                disc.getReporterUserName());
+
+        getDocumentHeader().setDocumentDescription(desc);
+    }    
     
     /**
      * Looks up and returns the ParameterService.

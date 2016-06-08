@@ -279,12 +279,12 @@
             <kul:documentOverview editingMode="${KualiForm.editingMode}" />
         </c:when>
         <c:otherwise>
+                <div id="workarea">
                 <c:set var="requiredTransparent" value="true"/> 
         </c:otherwise>
     </c:choose>    
     
     <kra-coi:disclosureReporter transparent="${requiredTransparent}"/>
-
 
     <c:if test="${not( (KualiForm.document.coiDisclosureList[0].manualEvent) and (empty KualiForm.document.coiDisclosureList[0].coiDisclProjects) and (not KualiForm.document.coiDisclosureList[0].updateEvent))}" >
         <!--  <c:if test="${not (KualiForm.document.coiDisclosureList[0].annualEvent and KualiForm.document.coiDisclosureList[0].annualUpdate)}" >  -->

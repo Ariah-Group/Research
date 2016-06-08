@@ -45,6 +45,7 @@
             <kul:documentOverview editingMode="${KualiForm.editingMode}" />
         </c:when>
         <c:otherwise>
+                <div id="workarea">
                 <c:set var="requiredTransparent" value="true"/> 
         </c:otherwise>
     </c:choose>   <%-- <kra-coi:disclosureReporter /> --%>
