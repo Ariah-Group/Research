@@ -439,9 +439,9 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         Answer nAnswer = newAnswer;
         while (questionHierarchyMatched && oAnswer.getQuestionnaireQuestion().getParentQuestionNumber() > 0
                 && nAnswer.getQuestionnaireQuestion().getParentQuestionNumber() > 0) {
-            if (!oAnswer.getQuestionRefIdFk().equals(nAnswer.getQuestionRefIdFk())) {
+            if (!oAnswer.getQuestion().getQuestionId().equals(nAnswer.getQuestion().getQuestionId())) {
                 questionHierarchyMatched = false;
-            }
+            }            
             oAnswer = oldParentAnswers.get(oAnswer.getQuestionnaireQuestion().getParentQuestionNumber()).get(0);
             nAnswer = newParentAnswers.get(nAnswer.getQuestionnaireQuestion().getParentQuestionNumber()).get(0);
         }
