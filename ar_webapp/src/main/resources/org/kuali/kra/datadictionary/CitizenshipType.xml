@@ -30,13 +30,13 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Citizenship Type" />
     <property name="shortLabel" value="Citizenship Type Code" />
-    <property name="maxLength" value="3" />
+    <property name="maxLength" value="9" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
     </property>
     <property name="control" >
       <bean parent="TextControlDefinition"
-            p:size="3" />
+            p:size="6" />
     </property>
     <property name="summary" value="Citizenship Type" />
     <property name="description" value="Citizenship Type Code" />
