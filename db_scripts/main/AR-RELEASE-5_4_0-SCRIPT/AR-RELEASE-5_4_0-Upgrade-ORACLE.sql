@@ -2,14 +2,6 @@ set define off
 set sqlblanklines on
 spool AR-RELEASE-5_4_0-Upgrade-ORACLE-Install.log
 
-
-Declare
-  nextnum NUMBER;
- BEGIN
-  select (MAX(TO_NUMBER(TBN_ID))+1) into nextnum from TBN;
-  execute immediate 'CREATE SEQUENCE "SEQ_TBN_ID" MINVALUE 1 MAXVALUE 999999999999999999 INCREMENT BY 1 START WITH ' || nextnum || ' NOCACHE  ORDER  NOCYCLE';
-END;
-
 -- change TBN.TBN_ID from VARCHAR to NUMBER
 alter table TBN add TBN_ID_2 NUMBER;
 update TBN set TBN_ID_2 = TO_NUMBER(TBN_ID);
@@ -160,6 +152,9 @@ update NARRATIVE_TYPE set DESCRIPTION='Additional Equipment' where DESCRIPTION='
 update NARRATIVE_TYPE set DESCRIPTION='Additional Key Persons' where DESCRIPTION='Additionalkeypersons';
 update NARRATIVE_TYPE set DESCRIPTION='Current Pending' where DESCRIPTION='CurrentPending';
 
+-- RES-647
+alter table COI_DISCL_PROJECTS MODIFY COI_PROJECT_TITLE VARCHAR2(2000);
+
 
  -- RES-546
 Declare
@@ -169,6 +164,13 @@ Declare
   execute immediate 'CREATE SEQUENCE "SEQ_SPECIAL_REVIEW_ID" MINVALUE 1 MAXVALUE 999999999999999999 INCREMENT BY 1 START WITH ' || nextnum || ' NOCACHE  ORDER  NOCYCLE';
 END;
 
+
+Declare
+  nextnum NUMBER;
+ BEGIN
+  select (MAX(TO_NUMBER(TBN_ID))+1) into nextnum from TBN;
+  execute immediate 'CREATE SEQUENCE "SEQ_TBN_ID" MINVALUE 1 MAXVALUE 999999999999999999 INCREMENT BY 1 START WITH ' || nextnum || ' NOCACHE  ORDER  NOCYCLE';
+END;
 
 commit;
 exit
