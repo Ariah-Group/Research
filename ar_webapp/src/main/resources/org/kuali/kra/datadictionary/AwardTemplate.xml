@@ -143,13 +143,13 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Prime Sponsor Code" />
 		<property name="shortLabel" value="Prime Sponsor Code" />
-		<property name="maxLength" value="6" />
+		<property name="maxLength" value="12" />
 		<property name="validationPattern" >
 			<bean parent="AlphaNumericValidationPattern" />
 		</property>
 		<property name="control" >
 			<bean parent="TextControlDefinition"
-				p:size="10" />
+				p:size="12" />
 		</property>
 		<property name="summary" value="Prime Sponsor Code" />
 		<property name="description" value="Prime Sponsor Code" />

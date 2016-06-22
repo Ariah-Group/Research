@@ -314,7 +314,7 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Sponsor Code" />
 		<property name="shortLabel" value="Sponsor" />
-		<property name="maxLength" value="6" />
+		<property name="maxLength" value="12" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern" />
 		</property>
@@ -591,7 +591,7 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Prime Sponsor ID" />
 		<property name="shortLabel" value="Prime Sponsor ID" />
-		<property name="maxLength" value="6" />
+		<property name="maxLength" value="12" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern" />
 		</property>
