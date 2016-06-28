@@ -742,12 +742,6 @@ values (SEQ_NTFCTN_MODULE_ROLE_ID.nextval,SYS_GUID(),1,sysdate,'admin',12,'KC-SU
 -- Version 5.4.0 --
 -------------------
 
-Declare
-  nextnum NUMBER;
- BEGIN
-  select (MAX(TO_NUMBER(TBN_ID))+1) into nextnum from TBN;
-  execute immediate 'CREATE SEQUENCE "SEQ_TBN_ID" MINVALUE 1 MAXVALUE 999999999999999999 INCREMENT BY 1 START WITH ' || nextnum || ' NOCACHE  ORDER  NOCYCLE';
-END;
 
 -- change TBN.TBN_ID from VARCHAR to NUMBER
 alter table TBN add TBN_ID_2 NUMBER;
@@ -1040,4 +1034,13 @@ Declare
  BEGIN
   select (MAX(TO_NUMBER(SPECIAL_REVIEW_CODE))+1) into nextnum from SPECIAL_REVIEW;
   execute immediate 'CREATE SEQUENCE "SEQ_SPECIAL_REVIEW_ID" MINVALUE 1 MAXVALUE 999999999999999999 INCREMENT BY 1 START WITH ' || nextnum || ' NOCACHE  ORDER  NOCYCLE';
+END;
+
+/
+
+Declare
+  nextnum NUMBER;
+ BEGIN
+  select (MAX(TO_NUMBER(TBN_ID))+1) into nextnum from TBN;
+  execute immediate 'CREATE SEQUENCE "SEQ_TBN_ID" MINVALUE 1 MAXVALUE 999999999999999999 INCREMENT BY 1 START WITH ' || nextnum || ' NOCACHE  ORDER  NOCYCLE';
 END;
