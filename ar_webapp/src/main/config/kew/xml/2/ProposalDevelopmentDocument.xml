@@ -163,7 +163,7 @@
                     <display>
                         <type>text</type>
                     </display>
-                    <lookup dataObjectClass="org.kuali.rice.kim.api.identity.Person">
+                    <lookup businessObjectClass="org.kuali.rice.kim.api.identity.Person">
                         <fieldConversions>
                             <fieldConversion lookupFieldName="principalName" localFieldName="aggregator"/>
                         </fieldConversions>
@@ -200,7 +200,7 @@
                     <display>
                         <type>text</type>
                     </display>
-                    <lookup dataObjectClass="org.kuali.rice.kim.api.identity.Person">
+                    <lookup businessObjectClass="org.kuali.rice.kim.api.identity.Person">
                         <fieldConversions>
                             <fieldConversion lookupFieldName="principalName" localFieldName="budgetCreator"/>
                         </fieldConversions>
@@ -234,7 +234,7 @@
                     <display>
                         <type>text</type>
                     </display>
-                    <lookup dataObjectClass="org.kuali.rice.kim.api.identity.Person">
+                    <lookup businessObjectClass="org.kuali.rice.kim.api.identity.Person">
                         <fieldConversions>
                             <fieldConversion lookupFieldName="principalName" localFieldName="narrativeWriter"/>
                         </fieldConversions>
@@ -267,7 +267,7 @@
                     <display>
                         <type>text</type>
                     </display>
-                    <lookup dataObjectClass="org.kuali.rice.kim.api.identity.Person">
+                    <lookup businessObjectClass="org.kuali.rice.kim.api.identity.Person">
                         <fieldConversions>
                             <fieldConversion lookupFieldName="principalName" localFieldName="viewer"/>
                         </fieldConversions>
