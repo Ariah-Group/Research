@@ -42,5 +42,10 @@ public class UnitAuthorizationServiceMock implements UnitAuthorizationService {
     public boolean hasMatchingQualifiedUnits(String userId, String namespaceCode, String permissionName, String unitNumber) {
         return false;
     }
+
+    @Override
+    public List<Unit> getUnitsActive(String userId, String namespaceCode, String permissionName) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
