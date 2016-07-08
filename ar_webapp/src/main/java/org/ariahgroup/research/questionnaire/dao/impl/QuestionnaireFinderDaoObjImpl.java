@@ -30,16 +30,16 @@ import org.kuali.rice.krad.bo.BusinessObject;
  */
 public class QuestionnaireFinderDaoObjImpl extends PlatformAwareDaoBaseOjb implements QuestionnaireFinderDao {
 
-    private static final String COMMITTEE_ID = "committeeId";
+    private static final String QUESTIONNAIRE_ID = "questionnaireId";
     private static final String SEQUENCE_NUM = "sequenceNumber";
 
     public <T extends BusinessObject> Collection<T> getQuestionnaireById(Class<T> clazz, String questionnaireId) {
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(COMMITTEE_ID, questionnaireId);
+        criteria.addEqualTo(QUESTIONNAIRE_ID, questionnaireId);
 
         Criteria subCriteria = new Criteria();
-        subCriteria.addEqualTo(COMMITTEE_ID, questionnaireId);
+        subCriteria.addEqualTo(QUESTIONNAIRE_ID, questionnaireId);
 
         ReportQueryByCriteria subQuery = new ReportQueryByCriteria(clazz, subCriteria);
         subQuery.setAttributes(new String[]{"MAX(" + SEQUENCE_NUM + ")"});
