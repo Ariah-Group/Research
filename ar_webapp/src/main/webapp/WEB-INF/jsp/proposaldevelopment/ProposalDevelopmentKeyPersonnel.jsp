@@ -16,13 +16,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ page import="java.util.HashMap" %>
 
-<link rel="stylesheet" href="css/jquery/questionnaire.css" type="text/css" />
-<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
-<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
-<link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
-<script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
-<script type="text/javascript" src="scripts/jquery/CalendarPopup.js"></script>
-
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" />
 <c:set var="readOnly" value="${not KualiForm.editingMode['modifyProposal']}" scope="request" />
@@ -59,7 +52,12 @@
   		}
   	</style>
   	<div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Key Personnel" /></div>
-
+<link rel="stylesheet" href="css/jquery/questionnaire.css" type="text/css" />
+<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
+<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
+<link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
+<script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
+<script type="text/javascript" src="scripts/jquery/CalendarPopup.js"></script>
 <c:set var="viewOnly" value="${not KualiForm.editingMode['modifyProposal']}" />
 <kra:section permission="modifyProposal">
 <c:if test="${not isHierarchyParent}">
