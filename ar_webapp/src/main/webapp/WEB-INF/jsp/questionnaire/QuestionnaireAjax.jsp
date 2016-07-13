@@ -2,15 +2,11 @@
 <%@ page language="java" %> 
 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 <c:set target="${paramMap}" property="moduleCode" value="${KualiForm.moduleCode}" />
-
-
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>Research Area Hierarchy Ajax</title>
-
+    <title>Research Area Hierarchy Ajax</title>
 </head>
-
 <body>
 <html:form styleId="kualiForm" method="post"
     action="/maintenanceQn.do" enctype=""
@@ -21,11 +17,7 @@
 				<option value="${option.key}">${option.value}</option>
 		 </c:forEach>
 	</select> 
-
 </h3>
-
-
-
 </html:form>
 </body>
 </html>

@@ -34,7 +34,7 @@
 
 <script language="javascript">
         $j(document).ready(function(){
-           if ($j("#readOnly").attr("value") == 'true' && $j("#docStatus").attr("value") == 'I') {    
+           if ($j("#readOnly").val() == 'true' && $j("#docStatus").val() == 'I') {    
        // option 1 : simply hide it
                $j("#tab-RouteLog-div").hide();
                $j("#tab-RouteLog-div").prev().hide();

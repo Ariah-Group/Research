@@ -20,9 +20,9 @@ var ruleReferenced;
 					function(index) {
 					var idSplit = $j(this).attr("id").split(":");
 					var formProperty = idSplit[1];
-					for( var i = 0; i < $j(this).attr("value");i++) {
+					for( var i = 0; i < $j(this).val();i++) {
 						//$j("#questionpanelcontent\\:"+formProperty+"\\:"+i).hide();
-						if ($j("#"+formProperty+"\\.answerHeaders\\["+i+"\\]\\.showQuestions").attr("value") == 'Y')  {
+						if ($j("#"+formProperty+"\\.answerHeaders\\["+i+"\\]\\.showQuestions").val() == 'Y')  {
 							$j("#questionpanelcontrol\\:"+formProperty+"\\:"+i).click();
 						}
 					}
@@ -60,7 +60,7 @@ var ruleReferenced;
     // this is for root-node, for PD/opportunity/forname equivalency.  not ready yet.  so, comment out
 //    $j('input[id^=childDisplay-0]').each(
 //			function() {
-//			    if ($j(this).attr("value") == 'N') {
+//			    if ($j(this).val() == 'N') {
 //				    $j(this).parents('table[id^=table-0]').hide();
 //			    }
 //			});

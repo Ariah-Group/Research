@@ -71,7 +71,7 @@ function getQuestionNew(description, qtypeid, vers, dispans, ansmax, maxlength, 
 	linktmp.appendTo(div62);
 	
 	// new version question message & link
-	if (jQuery("#readOnly").attr("value") != 'true' && newqn[curi] && !isNaN(newqn[curi])) {
+	if (jQuery("#readOnly").val() != 'true' && newqn[curi] && !isNaN(newqn[curi])) {
 		var outerLinkSpan = jQuery('<span style="margin-left: 10px; font-style: italic;">A new question </span>');
 	    var linkNewQ = jQuery('<a style="margin-left:2px;"></a>').attr("id",
 			"newqn" + curi).attr("name","newqn" + curi).html("<font color=red><u>version</u></font>");
@@ -154,7 +154,7 @@ function getMaintTable(description, qtypeid, vers, idx, childNode) {
 	var ruleId = '';
 	// the requirement response is also including root node, so comment out this childnode check.
 //	if (childNode == 'true') {
-		var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+		var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").val().split("#f#");
 		response = responseArray[splitq[6]];
 		value = splitq[7];
 		ruleId = splitq[11];
@@ -167,7 +167,7 @@ function getMaintTable(description, qtypeid, vers, idx, childNode) {
 		dataType : 'html',
 		data : 'methodToCall=getQuestionMaintainTable&qidx=' + idx +'&questionId='+jQuery('#qid'+idx).attr('value')
 		       + '&moveup=' + jQuery("#qnaireid" + idx).prev().size()+ '&movedn=' + jQuery("#qnaireid" + idx).next().size()
-		       + '&childNode=' + childNode + '&response=' + response+ '&value=' + value + '&ruleId=' + ruleId + '&readOnly=' + jQuery("#readOnly").attr("value"),
+		       + '&childNode=' + childNode + '&response=' + response+ '&value=' + value + '&ruleId=' + ruleId + '&readOnly=' + jQuery("#readOnly").val(),
 		cache : false,
 		async : false,
 		timeout : 1000,
@@ -197,9 +197,8 @@ function clickAdd(curidx) {
 //	alert("add question "+curidx);
 	var idx = curidx;
 	var addQn = "#addQn"+curidx
-	 //alert(jQuery("#newqdesc"+idx).attr("value")+"-"+jQuery("#newqdispans"+idx).attr("value"))
-		if (jQuery("#newqdesc" + idx).attr("value") == ''
-				|| jQuery("#newqtypeid" + idx).attr("value") == '') {
+		if (jQuery("#newqdesc" + idx).val() == ''
+				|| jQuery("#newqtypeid" + idx).val() == '') {
 			alert("Please select a question to add");
 		} else {
 			curi++;
@@ -215,12 +214,12 @@ function clickAdd(curidx) {
 			}
 			var listitem = getQuestionNew(jQuery(
 					"#newqdesc" + jQuery(addQn).attr("id").substring(5))
-					.attr("value"),
-					jQuery("#newqtypeid"+ jQuery(addQn).attr("id").substring(5)).attr("value"),
-					jQuery("#newqvers"+ jQuery(addQn).attr("id").substring(5)).attr("value"),
-					jQuery("#newqdispans"+ jQuery(addQn).attr("id").substring(5)).attr("value"),
-					jQuery("#newqmaxans"+ jQuery(addQn).attr("id").substring(5)).attr("value"),
-					jQuery("#newqmaxlength"+ jQuery(addQn).attr("id").substring(5)).attr("value"),
+					.val(),
+					jQuery("#newqtypeid"+ jQuery(addQn).attr("id").substring(5)).val(),
+					jQuery("#newqvers"+ jQuery(addQn).attr("id").substring(5)).val(),
+					jQuery("#newqdispans"+ jQuery(addQn).attr("id").substring(5)).val(),
+					jQuery("#newqmaxans"+ jQuery(addQn).attr("id").substring(5)).val(),
+					jQuery("#newqmaxlength"+ jQuery(addQn).attr("id").substring(5)).val(),
 					childNode);
 			var ultag = jQuery('<ul></ul>');
 			ultag.appendTo(listitem);
@@ -312,27 +311,27 @@ function clickAdd(curidx) {
 								+ jQuery(listitem).parents('ul:eq(0)')
 										.parents('li:eq(0)').attr(
 												"id").substring(8))
-						.attr("value");
+						.val();
 			}
 			jQuery("#qnum" + jQuery(listitem).attr("id").substring(8)).attr(
-					"value", jQuery("#questionNumber").attr("value"));
+					"value", jQuery("#questionNumber").val());
 			var qid = jQuery("#newqid" + jQuery(addQn).attr("id").substring(5))
-					.attr("value");
+					.val();
 			jQuery("#qid" + jQuery(listitem).attr("id").substring(8)).attr(
 					"value", qid);
 
 			var seqnum = Number(jQuery(listitem).siblings().size()) + 1;
 			if (radioVal == 'sibling') {
-				//var num = Number(jQuery("#qseq"+jQuery(this).attr("id").substring(5)).attr("value"))+1;
+				//var num = Number(jQuery("#qseq"+jQuery(this).attr("id").substring(5)).val())+1;
 				
-			    seqnum = Number(jQuery("#qseq"+jQuery(addQn).attr("id").substring(5)).attr("value"))+1;
+			    seqnum = Number(jQuery("#qseq"+jQuery(addQn).attr("id").substring(5)).val())+1;
 			   // seqnum = num;
 				//alert(seqnum+"-"+jQuery(this).attr("id"));
 			    var nextseq = seqnum +1;
 			    var nextitem = jQuery(listitem).next();
 			    // update seq for the siblings after the new node
 			    while (nextitem.size() > 0) {
-					var splitq = jQuery("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value").split("#f#");
+					var splitq = jQuery("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").val().split("#f#");
 				    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 			        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
 			        splitq[7] +"#f#" +nextseq +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
@@ -343,13 +342,13 @@ function clickAdd(curidx) {
 			    }	
 			}    
 			
-			var qnum = jQuery("#questionNumber").attr("value");
+			var qnum = jQuery("#questionNumber").val();
 			jQuery("#qseq" + jQuery(listitem).attr("id").substring(8)).attr("value", seqnum);
 			jQuery("#questionNumber").attr("value",
-					Number(jQuery("#questionNumber").attr("value")) + 1);
+					Number(jQuery("#questionNumber").val()) + 1);
 
 			idx = jQuery(listitem).attr("id").substring(8);		
-            var tmpstr = "" +"#f#" +jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
+            var tmpstr = "" +"#f#" +jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').val() 
                +"#f#" +qid +"#f#" +qnum +"#f#" +parentNum +"#f#" +"N" +"#f#" +"" +"#f#" +
                "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N"+"#f#" +null ;
             jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
@@ -380,7 +379,7 @@ function addrequirement(curidx) {
 				.children('table:eq(0)').children('tbody'));
 		var idx = jQuery("#addrequirement"+curidx).parents('li:eq(0)').attr("id")
 				.substring(8);
-		var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+		var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").val().split("#f#");
 	    var tmpstr = splitq[0] +"#f#" +splitq[1] 
         +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"Y" +"#f#" +response +"#f#" +
         value +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
@@ -413,7 +412,7 @@ function addRuleRequirement(curidx) {
 				.children('table:eq(0)').children('tbody'));
 		var idx = jQuery("#addRuleRequirement"+curidx).parents('li:eq(0)').attr("id")
 				.substring(8);
-		var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+		var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").val().split("#f#");
 	    var tmpstr = splitq[0] +"#f#" +splitq[1] 
         +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
         splitq[7] +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +value ;
@@ -430,7 +429,7 @@ function clickDeleteResponse(idx) {
 	// + jQuery(this).parents('tr:eq(0)').next().size());
 	//var idx = jQuery(this).parents('li:eq(0)').attr("id")
 	//		.substring(8);
-	var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+	var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").val().split("#f#");
     var tmpstr = splitq[0] +"#f#" +splitq[1] 
     +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"N" +"#f#" +"" +"#f#" +
     "" +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
@@ -449,7 +448,7 @@ function clickDeleteRule(idx) {
 	// + jQuery(this).parents('tr:eq(0)').next().size());
 	//var idx = jQuery(this).parents('li:eq(0)').attr("id")
 	//		.substring(8);
-	var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+	var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").val().split("#f#");
     var tmpstr = splitq[0] +"#f#" +splitq[1] 
     +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"N" +"#f#" +"" +"#f#" +
     "" +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
@@ -499,7 +498,7 @@ function clickMoveup(curidx) {
 		if (jQuery(nextNode).parents('ul:eq(0)').attr("id") == 'example') {
 			childNode = 'false';
 		}
-		var splitq = jQuery("#question"+nextidx).attr("value").split("#f#");
+		var splitq = jQuery("#question"+nextidx).val().split("#f#");
 
 		var divtmp = getMaintTable(splitq[0], splitq[1],splitq[2], nextidx, childNode);
 		divtmp.appendTo(jQuery(nextNode).children('div:eq(1)'));
@@ -530,9 +529,9 @@ function clickMoveup(curidx) {
 
 	curNode.insertBefore(nextNode);
 	var idx = jQuery(curNode).attr("id").substring(8);
-	var seq = Number(jQuery("#qseq" + idx).attr("value")) - 1;
+	var seq = Number(jQuery("#qseq" + idx).val()) - 1;
 	jQuery("#qseq" + idx).attr("value", seq);
-	var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+	var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").val().split("#f#");
     var tmpstr = splitq[0] +"#f#" +splitq[1] 
     +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
     splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
@@ -553,9 +552,9 @@ function clickMoveup(curidx) {
 	    jQuery("#movedn" + nextNode.attr("id").substring(8)).hide();
     }
 	idx = jQuery(nextNode).attr("id").substring(8);
-	seq = Number(jQuery("#qseq" + idx).attr("value")) + 1;
+	seq = Number(jQuery("#qseq" + idx).val()) + 1;
 	jQuery("#qseq" + idx).attr("value", seq);
-	var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+	var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").val().split("#f#");
     var tmpstr = splitq[0] +"#f#" +splitq[1] 
     +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
     splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
@@ -589,7 +588,7 @@ function clickMovedn(curidx) {
 		if (jQuery(nextNode).parents('ul:eq(0)').attr("id") == 'example') {
 			childNode = 'false';
 		}
-		var splitq = jQuery("#question"+nextidx).attr("value").split("#f#");
+		var splitq = jQuery("#question"+nextidx).val().split("#f#");
 		var divtmp = getMaintTable(splitq[0], splitq[1], splitq[2],nextidx, childNode);
 		divtmp.appendTo(jQuery(nextNode).children('div:eq(1)'));
 		toggleHSControl(nextidx);
@@ -607,10 +606,10 @@ function clickMovedn(curidx) {
 
 	curNode.insertAfter(nextNode);
 	var idx = jQuery(curNode).attr("id").substring(8);
-	var seq = Number(jQuery("#qseq" + idx).attr("value")) + 1;
+	var seq = Number(jQuery("#qseq" + idx).val()) + 1;
 	jQuery("#qseq" + idx).attr("value", seq);
 
-	var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+	var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").val().split("#f#");
     var tmpstr = splitq[0] +"#f#" +splitq[1] 
     +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
     splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
@@ -633,9 +632,9 @@ function clickMovedn(curidx) {
 				.hide();
 	}
 	var idx = jQuery(nextNode).attr("id").substring(8);
-	seq = Number(jQuery("#qseq" + idx).attr("value")) - 1;
+	seq = Number(jQuery("#qseq" + idx).val()) - 1;
 	jQuery("#qseq" + idx).attr("value", seq);
-	var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+	var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").val().split("#f#");
     var tmpstr = splitq[0] +"#f#" +splitq[1] 
     +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
     splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
@@ -690,11 +689,11 @@ function clickRemove(curidx) {
 					"#qnum"
 							+ jQuery(liId).parents('ul:eq(0)').parents(
 									'li:eq(0)').attr("id")
-									.substring(8)).attr("value");
+									.substring(8)).val();
 		}
 
 		deleteChild(parentNum, jQuery(liId).attr("id"));
-		var nextseq = Number(jQuery("#qseq"+jQuery(liId).attr("id").substring(8)).attr("value"));
+		var nextseq = Number(jQuery("#qseq"+jQuery(liId).attr("id").substring(8)).val());
 	    var nextitem = jQuery(liId).next();
 	    // update hidden seq# for the items follow the deleted item
 	    while (nextitem.size() > 0) {
@@ -759,10 +758,10 @@ function clickPaste(curidx) {
 				    parentNum = jQuery(
 						"#qnum"
 								+ jQuery(cutNode).parents('ul:eq(0)').parents('li:eq(0)')
-										.attr("id").substring(8)).attr("value");
+										.attr("id").substring(8)).val();
 			    }
 				deleteChild(parentNum, jQuery(cutNode).attr("id"));
-				var nextseq = Number(jQuery("#qseq"+jQuery(cutNode).attr("id").substring(8)).attr("value"));
+				var nextseq = Number(jQuery("#qseq"+jQuery(cutNode).attr("id").substring(8)).val());
 			    var nextitem = jQuery(cutNode).next();
 			    // update hidden seq# for the items follow the deleted item
 			    while (nextitem.size() > 0) {
@@ -838,7 +837,7 @@ function pasteChild(parentid, startnode) {
 	// startnode = jQuery("#"+childid);
 	// alert("copy node "+jQuery(startnode).attr("id").substring(8));
 	var stidx = jQuery(startnode).attr("id").substring(8);
-	var splitq = jQuery("#question"+stidx).attr("value").split("#f#");
+	var splitq = jQuery("#question"+stidx).val().split("#f#");
 	var qdesc = splitq[0];
 	var qtypeid = splitq[1];
     var qvers= splitq[2];
@@ -869,32 +868,32 @@ function pasteChild(parentid, startnode) {
 		add : listitem
 	});
 
-	jQuery("#qnum" + idx).attr("value", jQuery("#questionNumber").attr("value"));
-	var qid = jQuery("#qid" + jQuery(startnode).attr("id").substring(8)).attr("value");
+	jQuery("#qnum" + idx).attr("value", jQuery("#questionNumber").val());
+	var qid = jQuery("#qid" + jQuery(startnode).attr("id").substring(8)).val();
 	jQuery("#qid" + idx).attr("value", qid);
 	var seqnum = Number(jQuery(listitem).siblings().size()) + 1;
 	jQuery("#qseq" + idx).attr("value", seqnum);
 
 	var liId = "li#" + parentid;
-	var qid = jQuery("#qid" + idx).attr("value");
-	var qnum = jQuery("#questionNumber").attr("value");
-	var parentNum = jQuery("#qnum" + jQuery(liId).attr("id").substring(8)).attr("value");
+	var qid = jQuery("#qid" + idx).val();
+	var qnum = jQuery("#questionNumber").val();
+	var parentNum = jQuery("#qnum" + jQuery(liId).attr("id").substring(8)).val();
 	jQuery("#questionNumber").attr("value",
-			Number(jQuery("#questionNumber").attr("value")) + 1)
+			Number(jQuery("#questionNumber").val()) + 1)
 
 	// questionnaireQuestionsId/questionnaireRefIdFk/questionRefIdFk/questionNumber/parentQuestionNumber		
     //conditionFlag/condition/conditionValue/questionSeqNumber/versionNumber/deleted
-	var tmpstr = "" +"#f#" +jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
+	var tmpstr = "" +"#f#" +jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').val() 
           +"#f#" +qid +"#f#" +qnum +"#f#" +parentNum +"#f#" +"N" +"#f#" +"" +"#f#" +
           "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" +"#f#" +null ;
 	jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
     	
 			
 	// alert("child copy node"
-	// + jQuery("#cond" + jQuery(startnode).attr("id").substring(8)).attr("value"));
+	// + jQuery("#cond" + jQuery(startnode).attr("id").substring(8)).val());
 	cidx = jQuery(startnode).attr("id").substring(8);
 
-	var splitq = jQuery("#qnaireQuestions\\["+ cidx+"\\]").attr("value").split("#f#");
+	var splitq = jQuery("#qnaireQuestions\\["+ cidx+"\\]").val().split("#f#");
 	cond = splitq[6];
 	value = splitq[7];
 	ruleId = splitq[11];
@@ -905,7 +904,7 @@ function pasteChild(parentid, startnode) {
 				.children('table:eq(0)').children('tbody'));
 		jQuery("#addrequirement" + idx).parents('tr:eq(0)').remove();
 		
-		splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+		splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").val().split("#f#");
 	    var tmpstr = splitq[0] +"#f#" +splitq[1] 
         +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"Y" +"#f#" +cond +"#f#" +
         value +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
@@ -916,7 +915,7 @@ function pasteChild(parentid, startnode) {
 		newResponse.appendTo(jQuery("#addRuleRequirement"+idx).parents('div:eq(0)')
 				.children('table:eq(0)').children('tbody'));
 		jQuery("#addRuleRequirement" + idx).parents('tr:eq(0)').remove();
-		var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+		var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").val().split("#f#");
 	    var tmpstr = splitq[0] +"#f#" +splitq[1] 
         +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
         splitq[7] +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +ruleId ;
@@ -944,9 +943,9 @@ function pasteChild(parentid, startnode) {
 function deleteChild(parentNum, childid) {
 
 	var idx = jQuery("#" + childid).attr("id").substring(8);
-	var qnum = jQuery("#qnum" + idx).attr("value");
+	var qnum = jQuery("#qnum" + idx).val();
 	var childrenli = jQuery("#" + childid).children('ul').children('li');
-	var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+	var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").val().split("#f#");
     var tmpstr = splitq[0] +"#f#" +splitq[1] 
     +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
     splitq[7] +"#f#" +splitq[8]  +"#f#" +splitq[9] +"#f#" +"Y" +"#f#" +splitq[11] ;
@@ -957,7 +956,7 @@ var nextseq = splitq[8];
 var nextitem = jQuery("#" + childid).next();
 // update seq for the siblings after the new node
 while (nextitem.size() > 0) {
-	var splitq = jQuery("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value").split("#f#");
+	var splitq = jQuery("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").val().split("#f#");
     var tmpstr = splitq[0] +"#f#" +splitq[1] 
     +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
     splitq[7] +"#f#" +(nextseq++) +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
@@ -1048,7 +1047,7 @@ function getAddRequirementRow(curidx) {
 									.children('table:eq(0)').children('tbody'));
 							var idx = jQuery(this).parents('li:eq(0)').attr("id")
 									.substring(8);
-							var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+							var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").val().split("#f#");
 						    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 					        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"Y" +"#f#" +response +"#f#" +
 					        value +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
@@ -1109,7 +1108,7 @@ function getAddRuleRequirementRow(curidx) {
 							var idx = jQuery(this).parents('li:eq(0)').attr("id")
 									.substring(8);
 							jQuery('<input type="hidden" size="25" />').attr("id", "ruleId" + curidx).attr("value", value);
-							var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+							var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").val().split("#f#");
 						    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 					        				+"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
 					        				splitq[7] +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +value ;
@@ -1138,7 +1137,7 @@ function okToAddRequirement(response, value, idx) {
 	if (jQuery("#qnaireid"+idx).parents('ul:eq(0)').parents('li:eq(0)').length > 0) {
 	// this is a child node, then check
     	var stidx = jQuery("#qnaireid"+idx).parents('ul:eq(0)').parents('li:eq(0)').attr("id").substring(8);
-    	var splitq = jQuery("#question"+stidx).attr("value").split("#f#");
+    	var splitq = jQuery("#question"+stidx).val().split("#f#");
 	var qtypeid = splitq[1];
 	//lookup 
 	if (qtypeid == 6 && splitq[5] > 0) {
@@ -1208,7 +1207,7 @@ function getRequirementDeleteRow(response, value, curidx) {
 						// + jQuery(this).parents('tr:eq(0)').next().size());
 						var idx = jQuery(this).parents('li:eq(0)').attr("id")
 								.substring(8);
-						var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+						var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").val().split("#f#");
 					    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 				        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"N" +"#f#" +"" +"#f#" +
 				        "" +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
@@ -1220,7 +1219,7 @@ function getRequirementDeleteRow(response, value, curidx) {
 						jQuery(this).parents('tr:eq(0)').remove();
 						return false;
 					});
-	if (jQuery("#readOnly").attr("value") != 'true') {
+	if (jQuery("#readOnly").val() != 'true') {
 	image.appendTo(tdtmp);
 	}
 	tdtmp.appendTo(trtmp);
@@ -1244,7 +1243,7 @@ function getRuleEvaluationDeleteRow(value, curidx) {
 						// alert("This would delete this requirement."
 						// + jQuery(this).parents('tr:eq(0)').next().size());
 						var idx = jQuery(this).parents('li:eq(0)').attr("id").substring(8);
-						var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+						var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").val().split("#f#");
 					    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 				        				+"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
 				        				splitq[7] +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +null ;
@@ -1255,7 +1254,7 @@ function getRuleEvaluationDeleteRow(value, curidx) {
 						jQuery(this).parents('tr:eq(0)').remove();
 						return false;
 					});
-	if (jQuery("#readOnly").attr("value") != 'true') {
+	if (jQuery("#readOnly").val() != 'true') {
 		image.appendTo(tdtmp);
 	}
 	tdtmp.appendTo(trtmp);
@@ -1306,7 +1305,7 @@ function returnQuestion(newQuestionId, newQuestion, newQuestionTypeId,newQuestio
 	jQuery("#newqdispans" + nodeIndex).attr("value", displayedAnswers);
 	jQuery("#newqmaxans" + nodeIndex).attr("value", maxAnswers);
 	jQuery("#newqmaxlength" + nodeIndex).attr("value", answerMaxLength);
-	 //alert("qid "+ nodeIndex+"-"+jQuery("#newqdesc" + nodeIndex).attr("value")+"-"+newQuestion);
+	 //alert("qid "+ nodeIndex+"-"+jQuery("#newqdesc" + nodeIndex).val()+"-"+newQuestion);
 }
 
 /*
@@ -1372,12 +1371,12 @@ function returnQuestionList(questionList) {
 
 		var seqnum = Number(jQuery(listitem).siblings().size()) + 1;
 		jQuery("#qseq" + jQuery(listitem).attr("id").substring(8)).attr("value", seqnum);
-		var qnum = jQuery("#questionNumber").attr("value");
+		var qnum = jQuery("#questionNumber").val();
 		jQuery("#qnum" + jQuery(listitem).attr("id").substring(8)).attr("value", qnum);
 		jQuery("#questionNumber").attr("value",
-				Number(jQuery("#questionNumber").attr("value")) + 1)
+				Number(jQuery("#questionNumber").val()) + 1)
 
-    var tmpstr = "" +"#f#" +jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
+    var tmpstr = "" +"#f#" +jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').val() 
           +"#f#" +field[0]+"#f#" +qnum +"#f#" +parentnum +"#f#" +"N" +"#f#" +"" +"#f#" +
           "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" +"#f#" +null ;
 	jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
@@ -1607,14 +1606,17 @@ jQuery('<option value="13">Rule Evaluation</option>').appendTo(rootNodeResponseO
 
 // TODO : currently this one is not working copied to questionnairequestion.jsp
 jQuery("#addUsage").click(function() {
-			var newItemCode = jQuery("#newQuestionnaireUsage\\.moduleItemCode").attr("value");
-			var newSubItemCode = jQuery("#newQuestionnaireUsage\\.moduleSubItemCode").attr("value");
+			//var newItemCode = jQuery("#newQuestionnaireUsage\\.moduleItemCode").val();
+                        var newItemCode = jQuery("#newQuestionnaireUsage\\.moduleItemCode").val();
+			//var newSubItemCode = jQuery("#newQuestionnaireUsage\\.moduleSubItemCode").val();
+                        var newSubItemCode = jQuery("#newQuestionnaireUsage\\.moduleSubItemCode").val();
 			var newItemCodeDesc = jQuery("#newQuestionnaireUsage\\.moduleItemCode option:selected").text();
-			var newSubItemCodeDesc = newSubItemCode != '0' ? jQuery("#newQuestionnaireUsage\\.moduleSubItemCode option:selected").text()
-					: "";
-			var ruleId = jQuery("#newQuestionnaireUsage\\.ruleId").attr("value");
-			var label = jQuery("#newQuestionnaireUsage\\.questionnaireLabel").attr("value");
-			var mandatory = jQuery("#newQuestionnaireUsage\\.mandatory").attr("checked") ? "Yes" : "No";
+			var newSubItemCodeDesc = newSubItemCode != '0' ? jQuery("#newQuestionnaireUsage\\.moduleSubItemCode option:selected").text() : "";
+			//var ruleId = jQuery("#newQuestionnaireUsage\\.ruleId").val();
+                        var ruleId = jQuery("#newQuestionnaireUsage\\.ruleId").val();
+			var label = jQuery("#newQuestionnaireUsage\\.questionnaireLabel").val();
+			//var mandatory = jQuery("#newQuestionnaireUsage\\.mandatory").attr("checked") ? "Yes" : "No";
+                        var mandatory = jQuery("#newQuestionnaireUsage\\.mandatory:checked").val() ? "Yes" : "No";
 			if (newItemCode == '') {
 				alert("Please select a module");
 			} else if (label == '') {
@@ -1734,7 +1736,7 @@ jQuery("#backToTop").click(function() {
 
 jQuery(document).ready(function() {
 
-    if (jQuery("#maintAction").attr("value") != 'Copy') {
+    if (jQuery("#maintAction").val() != 'Copy') {
         jQuery("#globalbuttons").find('input').each(function() {
               //alert(jQuery(this).attr("name"));
               if (jQuery(this).attr("name") == 'methodToCall.route') {
@@ -1755,10 +1757,10 @@ jQuery(document).ready(function() {
         });
 
     }
-    if (jQuery("#maintAction").attr("value") == 'Edit') {
-        qnversion = jQuery("#document\\.newMaintainableObject\\.businessObject\\.sequenceNumber").attr("value");
-    } else if (jQuery("#maintAction").attr("value") == 'New') {
-  	    qnversion = jQuery("#document\\.newMaintainableObject\\.businessObject\\.sequenceNumber").attr("value");
+    if (jQuery("#maintAction").val() == 'Edit') {
+        qnversion = jQuery("#document\\.newMaintainableObject\\.businessObject\\.sequenceNumber").val();
+    } else if (jQuery("#maintAction").val() == 'New') {
+  	    qnversion = jQuery("#document\\.newMaintainableObject\\.businessObject\\.sequenceNumber").val();
     }
 	
 	/*
@@ -1791,8 +1793,8 @@ jQuery(document).ready(function() {
 		return retval;  
     }); // #add template
     // hide routelog for view because it is using edit to create new doc for view
-   // alert(jQuery("#readOnly").attr("value") +  jQuery("#docStatus").attr("value") )
-   if (jQuery("#readOnly").attr("value") == 'true' && jQuery("#docStatus").attr("value") == 'I') {    
+   // alert(jQuery("#readOnly").val() +  jQuery("#docStatus").val() )
+   if (jQuery("#readOnly").val() == 'true' && jQuery("#docStatus").val() == 'I') {    
        // option 1 : simply hide it
         jQuery("#tab-RouteLog-div").hide();
         jQuery("#tab-RouteLog-div").prev().hide();
@@ -1846,16 +1848,16 @@ jQuery(document).ready(function() {
 function checkBeforeSubmit() {
 	//alert("in checkbeforesubmit")
 	//var numOfQuestions =  jQuery('#numOfQuestions').attr("value",i);
-	var qname = jQuery('#document\\.newMaintainableObject\\.businessObject\\.name').attr("value");
-	var qnaireid = jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value");
-	var qid = jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireId').attr("value");
-	var docstatus = jQuery('#docStatus').attr("value");
-	var qdescription = jQuery('#document\\.newMaintainableObject\\.businessObject\\.description').attr("value");
-	var qisfinal = jQuery('#document\\.newMaintainableObject\\.businessObject\\.isFinal').attr("checked");
-	var qtemplate = jQuery('#templateFileNameHidden').val();
+	var qname = $j('#document\\.newMaintainableObject\\.businessObject\\.name').val();
+	var qnaireid = $j('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').val();
+	var qid = $j('#document\\.newMaintainableObject\\.businessObject\\.questionnaireId').val();
+	var docstatus = $j('#docStatus').val();
+	var qdescription = $j('#document\\.newMaintainableObject\\.businessObject\\.description').val();
+	var qisfinal = $j('#document\\.newMaintainableObject\\.businessObject\\.isFinal').attr("checked");
+	var qtemplate = $j('#templateFileNameHidden').val();
 
 	var retval = false;
-	//if (jQuery('#newQuestionnaire\\.questionnaireId').attr("value") == '0') {
+	//if (jQuery('#newQuestionnaire\\.questionnaireId').val() == '0') {
 	//	// TODO : temp hack for 'edit', the first time to save,it will based on this to version
 	//}	qnaireid=":"+qnaireid;
 	// alert
@@ -1885,7 +1887,7 @@ function isDuplicateUsage(moduleitemcode, modulesubitemcode, vers) {
 	var k =0;
 	jQuery("#usage-table").children('tbody:eq(0)').children('tr').each(
 	  function() {
-        if (k++ > 0 && jQuery(this).children('td:eq(0)').children('input:eq(0)').attr("value") == moduleitemcode && jQuery(this).children('td:eq(1)').children('input:eq(0)').attr("value") == modulesubitemcode && jQuery(this).children('td:eq(4)').html() == vers) {
+        if (k++ > 0 && jQuery(this).children('td:eq(0)').children('input:eq(0)').val() == moduleitemcode && jQuery(this).children('td:eq(1)').children('input:eq(0)').val() == modulesubitemcode && jQuery(this).children('td:eq(4)').html() == vers) {
         	isduplicate = true;
         }   
 	});
@@ -1902,7 +1904,7 @@ function loadQuestion() {
     var rootidx;
     var pnum0 = 0;
     var nodecount = 0;
-    var refid = jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value");
+    var refid = jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').val();
     for ( var k = 0; k < qlen; k++) {
         var curq = questions[k];
         // alert("parent 0 "+k+"-"+curq+pnum0+"-"+nodecount+"-"+qlen);
@@ -1924,8 +1926,8 @@ function loadQuestion() {
                     parentidx = curi - 1;
                 } else {
                     for ( var l = rootidx; l <= curi - 1; l++) {
-                        if (jQuery("#qnum" + l).attr("value")) {
-                            if (jQuery("#qnum" + l).attr("value") == parentnum) {
+                        if (jQuery("#qnum" + l).val()) {
+                            if (jQuery("#qnum" + l).val() == parentnum) {
                                 parentidx = l;
                             }
                         }
@@ -2022,7 +2024,7 @@ function loadQuestion() {
 
 
 // ok now the load questions & usages if this is editing
-if (jQuery("#maintAction").attr("value") != 'Copy') {
+if (jQuery("#maintAction").val() != 'Copy') {
 jQuery("#nextGroup").hide();
 jQuery("#prevGroup").hide();
 }
@@ -2030,7 +2032,7 @@ jQuery("#prevGroup").hide();
 
 var editdata = document.getElementById("editData").value;
 // new/edit or when 'copy' is approved, then questions/usage should be displayed
-if ((jQuery("#maintAction").attr("value") != 'Copy' || jQuery("#docStatus").attr("value") == 'F') && editdata.indexOf("#;#") > -1 ) {    
+if ((jQuery("#maintAction").val() != 'Copy' || jQuery("#docStatus").val() == 'F') && editdata.indexOf("#;#") > -1 ) {    
     var dataarray = editdata.split("#;#");
     var idxArray = new Array(dataarray.length);
     var questions = dataarray[0].split("#q#");
@@ -2191,10 +2193,10 @@ function addForReplace(curidx) {
 	//alert("replace question "+curidx);
 	var idx = curidx;
 	var addQn = "#addQn"+curidx
-	var originalNodeConfig = jQuery("#qnaireQuestions\\["+ curidx+"\\]").attr("value");
-	//alert(jQuery("#repqdesc").attr("value")+"-"+jQuery("#repqdispans").attr("value"))
-		if (jQuery("#repqdesc").attr("value") == ''
-				|| jQuery("#repqtypeid").attr("value") == '') {
+	var originalNodeConfig = jQuery("#qnaireQuestions\\["+ curidx+"\\]").val();
+	//alert(jQuery("#repqdesc").val()+"-"+jQuery("#repqdispans").val())
+		if (jQuery("#repqdesc").val() == ''
+				|| jQuery("#repqtypeid").val() == '') {
 			alert("Please select a question to add");
 		} else {
 			curi++;
@@ -2202,14 +2204,14 @@ function addForReplace(curidx) {
 			var radioVal = 'sibling';
 			var childNode = 'false';
 
-			//alert(jQuery("#repqdesc").attr("value"));
+			//alert(jQuery("#repqdesc").val());
 			var listitem = getQuestionNew(
-					jQuery("#repqdesc").attr("value"),
-					jQuery("#repqtypeid").attr("value"),
-					jQuery("#repqvers").attr("value"),
-					jQuery("#repqdispans").attr("value"),
-					jQuery("#repqmaxans").attr("value"),
-					jQuery("#repqmaxlength").attr("value"),
+					jQuery("#repqdesc").val(),
+					jQuery("#repqtypeid").val(),
+					jQuery("#repqvers").val(),
+					jQuery("#repqdispans").val(),
+					jQuery("#repqmaxans").val(),
+					jQuery("#repqmaxlength").val(),
 					childNode);
 			var ultag = jQuery('<ul></ul>');
 			ultag.appendTo(listitem);
@@ -2269,28 +2271,28 @@ function addForReplace(curidx) {
 								+ jQuery(listitem).parents('ul:eq(0)')
 										.parents('li:eq(0)').attr(
 												"id").substring(8))
-						.attr("value");
+						.val();
 			}
 			//alert(parentNum);
-			//alert(jQuery("#questionNumber").attr("value"));
+			//alert(jQuery("#questionNumber").val());
 			jQuery("#qnum" + jQuery(listitem).attr("id").substring(8)).attr(
-					"value", jQuery("#questionNumber").attr("value"));
-			var qid = jQuery("#repqid").attr("value");
+					"value", jQuery("#questionNumber").val());
+			var qid = jQuery("#repqid").val();
 			jQuery("#qid" + jQuery(listitem).attr("id").substring(8)).attr(
 					"value", qid);
 
 			var seqnum = Number(jQuery(listitem).siblings().size()) + 1;
 			if (radioVal == 'sibling') {
-				//var num = Number(jQuery("#qseq"+jQuery(this).attr("id").substring(5)).attr("value"))+1;
+				//var num = Number(jQuery("#qseq"+jQuery(this).attr("id").substring(5)).val())+1;
 				
-			    seqnum = Number(jQuery("#qseq"+jQuery(addQn).attr("id").substring(5)).attr("value"))+1;
+			    seqnum = Number(jQuery("#qseq"+jQuery(addQn).attr("id").substring(5)).val())+1;
 			   // seqnum = num;
 				//alert(seqnum+"-"+jQuery(this).attr("id"));
 			    var nextseq = seqnum +1;
 			    var nextitem = jQuery(listitem).next();
 			    // update seq for the siblings after the new node
 			    while (nextitem.size() > 0) {
-					var splitq = jQuery("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value").split("#f#");
+					var splitq = jQuery("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").val().split("#f#");
 				    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 			        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
 			        splitq[7] +"#f#" +nextseq +"#f#" +splitq[9] +"#f#" +splitq[10] + "#f#" +splitq[11];
@@ -2301,17 +2303,17 @@ function addForReplace(curidx) {
 			    }	
 			}    
 			
-			var qnum = jQuery("#questionNumber").attr("value");
+			var qnum = jQuery("#questionNumber").val();
 			jQuery("#qseq" + jQuery(listitem).attr("id").substring(8)).attr("value", seqnum);
 			jQuery("#questionNumber").attr("value",
-					Number(jQuery("#questionNumber").attr("value")) + 1);
+					Number(jQuery("#questionNumber").val()) + 1);
 
 			var splitq = originalNodeConfig.split("#f#");
 			var cond = splitq[6];
 			var value = splitq[7];
 			var ruleId =splitq[11];
 			idx = jQuery(listitem).attr("id").substring(8);		
-            var tmpstr = "" +"#f#" +jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
+            var tmpstr = "" +"#f#" +jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').val() 
                +"#f#" +qid +"#f#" +qnum +"#f#" +parentNum +"#f#" + "N" +"#f#" + cond +"#f#" +
                value +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" +"#f#" + ruleId;
             jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
