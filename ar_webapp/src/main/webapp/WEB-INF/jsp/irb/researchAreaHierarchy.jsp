@@ -19,18 +19,12 @@
 <kul:page showDocumentInfo="false" docTitle="Area Of Research"
 	htmlFormAction="researchAreas" transactionalDocument="false"
 	headerTitle="Area Of Research" auditCount="0">
-
 	<div align="left"><kul:help parameterNamespace="KC-M" parameterDetailType="Document" parameterName="researchAreaHelp" altText="help"/>
-
 	<link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
-	<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css"
-		type="text/css" />
-	<link rel="stylesheet" href="css/jquery/jquery.treeview.css"
-		type="text/css" />
+	<link rel="stylesheet" href="css/jquery/kuali-stylesheet.css" type="text/css" />
+	<link rel="stylesheet" href="css/jquery/jquery.treeview.css" type="text/css" />
 	<script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
-
 	<a name="topOfForm"></a>
-
 	<div align="center" style="margin: 10px">
 	<div id="headermsg" align="left"></div>
 	<br />

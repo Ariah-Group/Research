@@ -1,9 +1,9 @@
 var AJAX_LOCATION = "awardHierarchyAwardActionsAjax.do";
 var ROOT_AWARD_LOCATION = "rootAwardNumber";
-var selectedAwardNumber = jQuery('#selectedAwardNumber').attr("value");
-var currentAwardNumber = jQuery("#currentAwardNumber").attr("value");
+var selectedAwardNumber = jQuery('#selectedAwardNumber').val();
+var currentAwardNumber = jQuery("#currentAwardNumber").val();
 var selectedNodeReached = false;
-var canCreateAward = jQuery("#canCreateAward").attr("value");
+var canCreateAward = jQuery("#canCreateAward").val();
 jQuery(document).ready(function () {
     if (selectedAwardNumber.length > 1) {
         forceLoading();
@@ -150,8 +150,8 @@ function tbodyTag2(info, firstCounter) {
     if (!info['hasChildren']) {
         disabled = "disabled=''";
     }
-    if (jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.copyDescendants").attr("value")) {
-        var checkbox = jQuery('<input class="nobord" type="checkbox" ' + disabled + '></input>').attr("name", "awardHierarchyTempObject[" + indexForHiddenField + "].copyDescendants").attr("id", "awardHierarchyTempObject[" + indexForHiddenField + "].copyDescendants").attr("value", jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.copyDescendants").attr("value")).attr("checked", jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.copyDescendants").attr("value"));
+    if (jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.copyDescendants").val()) {
+        var checkbox = jQuery('<input class="nobord" type="checkbox" ' + disabled + '></input>').attr("name", "awardHierarchyTempObject[" + indexForHiddenField + "].copyDescendants").attr("id", "awardHierarchyTempObject[" + indexForHiddenField + "].copyDescendants").attr("value", jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.copyDescendants").val()).attr("checked", jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.copyDescendants").val());
     } else {
         var checkbox = jQuery('<input class="nobord" type="checkbox" ' + disabled + '></input>').attr("name", "awardHierarchyTempObject[" + indexForHiddenField + "].copyDescendants").attr("id", "awardHierarchyTempObject[" + indexForHiddenField + "].copyDescendants");
     }
@@ -172,7 +172,7 @@ function tbodyTag2(info, firstCounter) {
     var subTdTag3 = jQuery('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: left; width: 125px;">');
     var subTdTag4 = jQuery('<td style="border: medium none ; background: transparent none repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; vertical-align: bottom; text-align: right; width: 20px;">');
 
-    if (jQuery("#awardHierarchyTempObject" + indexForHiddenField + "copyAwardRadio").attr("value") == "a" || firstCounter == 0) {
+    if (jQuery("#awardHierarchyTempObject" + indexForHiddenField + "copyAwardRadio").val() == "a" || firstCounter == 0) {
         var radio1 = jQuery('<input class="nobord" value="a" checked="checked" type="radio" name="awardHierarchyTempObject[' + indexForHiddenField + '].copyAwardRadio" />').attr("id", "awardHierarchyTempObject" + indexForHiddenField + "copyAwardRadio");
         firstCounter = 1;
     } else {
@@ -183,7 +183,7 @@ function tbodyTag2(info, firstCounter) {
     subTdTag1.html('new');
     radio1.appendTo(subTdTag1);
 
-    if (jQuery("#awardHierarchyTempObject" + indexForHiddenField + "copyAwardRadio").attr("value") == "d") {
+    if (jQuery("#awardHierarchyTempObject" + indexForHiddenField + "copyAwardRadio").val() == "d") {
         var radio2 = jQuery('<input class="nobord"  type="radio" value="d" checked="checked" name="awardHierarchyTempObject[' + indexForHiddenField + '].copyAwardRadio" />').attr("id", "awardHierarchyTempObject" + indexForHiddenField + "copyAwardRadio");
     } else {
         var radio2 = jQuery('<input class="nobord" type="radio" name="awardHierarchyTempObject[' + indexForHiddenField + '].copyAwardRadio" />').attr("id", "awardHierarchyTempObject" + indexForHiddenField + "copyAwardRadio").attr("value", "d");
@@ -193,14 +193,14 @@ function tbodyTag2(info, firstCounter) {
     radio2.appendTo(subTdTag2);
 
     var lookupField = jQuery('<input type="image" title="Lookup" alt="Lookup" src="static/images/searchicon.gif"/>').attr("name", "methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempObject[" + indexForHiddenField + "].awardNumber2))).((``)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~))");
-    var selectBoxText = jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.selectBox2").attr("value");
+    var selectBoxText = jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.selectBox2").val();
     var selectTag = jQuery('<select />').attr("name", "awardHierarchyTempObject[" + indexForHiddenField + "].copyAwardPanelTargetAward").attr("id", "awardHierarchyTempObject" + indexForHiddenField + "_copyAwardPanelTargetAward");
     var optionTag = jQuery("<option> select: </option>").attr("value", "0");
     optionTag.appendTo(selectTag);
     while (selectBoxText.length > 1) {
         var optionValue = selectBoxText.substring(0, selectBoxText.indexOf("%3A")).trim();
         selectBoxText = selectBoxText.substring(selectBoxText.indexOf("%3A") + 3, selectBoxText.length).trim();
-        if (jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.awardNumber2").attr("value") == optionValue) {
+        if (jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.awardNumber2").val() == optionValue) {
             var optionTag = jQuery("<option>" + optionValue + "</option>").attr("value", optionValue).attr("selected", true);
         } else {
             var optionTag = jQuery("<option>" + optionValue + "</option>").attr("value", optionValue);
@@ -278,7 +278,7 @@ function tbodyTag3(info, firstCounter) {
 
 
 
-    if (jQuery("#awardHierarchyTempObject" + indexForHiddenField + "createNewChildRadio").attr("value") == "a" || firstCounter == 0) {
+    if (jQuery("#awardHierarchyTempObject" + indexForHiddenField + "createNewChildRadio").val() == "a" || firstCounter == 0) {
         var radio1 = jQuery('<input class="nobord" type="radio" name="awardHierarchyTempObject[' + indexForHiddenField + '].createNewChildRadio" />').attr("id", "awardHierarchyTempObject" + indexForHiddenField + "createNewChildRadio").attr("value", "a").attr("checked", true);
         firstCounter = 1;
     } else {
@@ -287,7 +287,7 @@ function tbodyTag3(info, firstCounter) {
     subTdTag1.html('new');
     radio1.appendTo(subTdTag1);
 
-    if (jQuery("#awardHierarchyTempObject" + indexForHiddenField + "createNewChildRadio").attr("value") == "b") {
+    if (jQuery("#awardHierarchyTempObject" + indexForHiddenField + "createNewChildRadio").val() == "b") {
         var radio2 = jQuery('<input class="nobord" type="radio" name="awardHierarchyTempObject[' + indexForHiddenField + '].createNewChildRadio" />').attr("id", "awardHierarchyTempObject" + indexForHiddenField + "createNewChildRadio").attr("value", "b").attr("checked", true);
     } else {
         var radio2 = jQuery('<input class="nobord" type="radio" name="awardHierarchyTempObject[' + indexForHiddenField + '].createNewChildRadio" />').attr("id", "awardHierarchyTempObject" + indexForHiddenField + "createNewChildRadio").attr("value", "b");
@@ -295,7 +295,7 @@ function tbodyTag3(info, firstCounter) {
     subTdTag2.html('copy from parent');
     radio2.appendTo(subTdTag2);
 
-    if (jQuery("#awardHierarchyTempObject" + indexForHiddenField + "createNewChildRadio").attr("value") == "c") {
+    if (jQuery("#awardHierarchyTempObject" + indexForHiddenField + "createNewChildRadio").val() == "c") {
         var radio3 = jQuery('<input class="nobord" type="radio" name="awardHierarchyTempObject[' + indexForHiddenField + '].createNewChildRadio" />').attr("id", "awardHierarchyTempObject" + indexForHiddenField + "createNewChildRadio").attr("value", "c").attr("checked", true);
     } else {
         var radio3 = jQuery('<input class="nobord" type="radio" name="awardHierarchyTempObject[' + indexForHiddenField + '].createNewChildRadio" />').attr("id", "awardHierarchyTempObject" + indexForHiddenField + "createNewChildRadio").attr("value", "c");
@@ -305,14 +305,14 @@ function tbodyTag3(info, firstCounter) {
     radio3.appendTo(subTdTag3);
 
     var lookupField = jQuery('<input type="image" title="Lookup" alt="Lookup" src="static/images/searchicon.gif"/>').attr("name", "methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempObject[" + indexForHiddenField + "].awardNumber1))).((``)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~))");
-    var selectBoxText = jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.selectBox1").attr("value");
+    var selectBoxText = jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.selectBox1").val();
     var selectTag = jQuery('<select />').attr("name", "awardHierarchyTempObject[" + indexForHiddenField + "].newChildPanelTargetAward").attr("id", "awardHierarchyTempObject" + indexForHiddenField + "_newChildPanelTargetAward");
     var optionTag = jQuery("<option> select: </option>").attr("value", "0");
     optionTag.appendTo(selectTag);
     while (selectBoxText.length > 1) {
         var optionValue = selectBoxText.substring(0, selectBoxText.indexOf("%3A")).trim();
         selectBoxText = selectBoxText.substring(selectBoxText.indexOf("%3A") + 3, selectBoxText.length).trim();
-        if (jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.awardNumber1").attr("value") == optionValue) {
+        if (jQuery("#awardHierarchyTempObject\\[" + indexForHiddenField + "\\]\\.awardNumber1").val() == optionValue) {
             var optionTag = jQuery("<option>" + optionValue + "</option>").attr("value", optionValue).attr("selected", true);
         } else {
             var optionTag = jQuery("<option>" + optionValue + "</option>").attr("value", optionValue);

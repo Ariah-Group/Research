@@ -520,8 +520,8 @@ function loadSponsorName(sponsorCodeFieldName, sponsorNameFieldName) {
  * [ { 'key' :'400', 'value' : 'Disclosed Interests Unmanageable'} , ] 
  */
 function populateSelect(methodToCall, firstSelectId, secondSelectId) {
-    var valueSelected = $j(jq_escape(firstSelectId)).attr("value");
-    var valueSelectedSec = $j(jq_escape(secondSelectId)).attr("value");
+    var valueSelected = $j(jq_escape(firstSelectId)).val();
+    var valueSelectedSec = $j(jq_escape(secondSelectId)).val();
 
     var secondSelectIdEscaped = jq_escape(secondSelectId);
     callAjaxByPath('jqueryAjax.do', methodToCall, valueSelected,
@@ -2474,7 +2474,7 @@ function displayReviewers(protocolId) {
 function setDefaultReviewerTypeCode(methodToCall, committeeId, scheduleId, protocolId, beanName) {
     var reviewerBean = "actionHelper." + beanName + ".reviewer[";
     var cmtId = dwr.util.getValue(committeeId);
-    var schedId = $j(jq_escape(scheduleId)).attr("value");
+    var schedId = $j(jq_escape(scheduleId)).val();
     var queryString = "&committeeId=" + cmtId + "&scheduleId=" + schedId + "&protocolId=" + protocolId;
     callAjaxByPath('jqueryAjax.do', methodToCall, queryString,
             function (jQueyrData) {
@@ -2526,8 +2526,8 @@ function setDefaultReviewerTypeCode(methodToCall, committeeId, scheduleId, proto
 function setModifySubmissionDefaultReviewerTypeCode(methodToCall, committeeId, scheduleId, protocolId, beanName, protocolReviewTypeCode) {
     var reviewerBean = "actionHelper." + beanName + ".reviewer[";
     var cmtId = dwr.util.getValue(committeeId);
-    var schedId = $j(jq_escape(scheduleId)).attr("value");
-    var reviewTypeCode = $j(jq_escape(protocolReviewTypeCode)).attr("value");
+    var schedId = $j(jq_escape(scheduleId)).val();
+    var reviewTypeCode = $j(jq_escape(protocolReviewTypeCode)).val();
     var queryString = "&committeeId=" + cmtId + "&scheduleId=" + schedId + "&protocolId=" + protocolId + "&protocolReviewTypeCode=" + reviewTypeCode;
     callAjaxByPath('jqueryAjax.do', methodToCall, queryString,
             function (jQueyrData) {
@@ -2578,7 +2578,7 @@ function setModifySubmissionDefaultReviewerTypeCode(methodToCall, committeeId, s
 
 function protocolDisplayReviewers(methodToCall, committeeId, scheduleId, protocolId, beanName) {
     var cmtId = dwr.util.getValue(committeeId);
-    var schedId = $j(jq_escape(scheduleId)).attr("value");
+    var schedId = $j(jq_escape(scheduleId)).val();
     if (scheduleId == "select") {
         document.getElementById("reviewers").style.display = 'none';
     }
@@ -2599,7 +2599,7 @@ function protocolDisplayReviewers(methodToCall, committeeId, scheduleId, protoco
 
 function protocolModifySubmissionReviewers(methodToCall, committeeId, scheduleId, protocolId, beanName, protocolReviewTypeCode) {
     var cmtId = dwr.util.getValue(committeeId);
-    var schedId = $j(jq_escape(scheduleId)).attr("value");
+    var schedId = $j(jq_escape(scheduleId)).val();
     var reviewTypeCode = dwr.util.getValue(protocolReviewTypeCode);
 
     if ((committeeId == "select" || cmtId == "") ||
@@ -3181,7 +3181,7 @@ function ajaxLoad(methodToCall, codeField, fieldToUpdate) {
     codeField = codeField.replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g, "\\$1");
     //fieldToUpdate = fieldToUpdate.replace(/\./g, "\\.");
     fieldToUpdate = fieldToUpdate.replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g, "\\$1");
-    callAjax(methodToCall, $j("#" + codeField).attr("value"),
+    callAjax(methodToCall, $j("#" + codeField).val(),
             //success callback
                     function (xml) {
                         $j(xml).find('#ret_value').each(function () {

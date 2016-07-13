@@ -1,7 +1,7 @@
 
     $j(document).ready(function()     {
-        var idx = $j("#editIndex").attr("value");
-        var editType = $j("#editType").attr("value");
+        var idx = $j("#editIndex").val();
+        var editType = $j("#editType").val();
         if (idx != undefined && idx != -1) {
             if (editType == 'active') {
                 $j("#A"+idx).click(); 

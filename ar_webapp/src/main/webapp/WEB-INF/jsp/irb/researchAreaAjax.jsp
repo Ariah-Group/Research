@@ -18,21 +18,15 @@
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>Research Area Hierarchy Ajax</title>
-
+    <title>Research Area Hierarchy Ajax</title>
 </head>
-
 <body>
 <html:form styleId="kualiForm" method="post"
     action="/researchAreaAjax.do" enctype=""
     onsubmit="return hasFormAlreadyBeenSubmitted();"> 
-
 <input type="text" id = "researchAreaCode" name="researchAreaCode"   value="${ResearchAreasForm.researchAreaCode}"/>
 <input type="text" id = "addRA" name="addRA"   value="${ResearchAreasForm.addRA}"/>
 ${ResearchAreasForm.researchAreas}
-
-
-
 </html:form>
 </body>
 </html>

@@ -98,7 +98,7 @@
         }) // end document ready
 
         function handleEventType(eventType) {
-            var eventTypeValue = $j(eventType).find('option:selected').attr("value");
+            var eventTypeValue = $j(eventType).find('option:selected').val();
             if (eventTypeValue == "") {
                 hideProjectFields();
             } else {

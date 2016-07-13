@@ -171,7 +171,7 @@
     var kualiElements = kualiForm.elements;
 
     $(document).ready(function()     {
-       var viewId = $("#meetingHelper\\.viewId").attr("value");
+       var viewId = $("#meetingHelper\\.viewId").val();
        if (viewId) {
          //  $("#"+viewId).click();
            //window.open(extractUrlBase()+"/"+action+".do?methodToCall="+viewId.substr(0,viewId.length - 1)+"&line="+(viewId.substr(viewId.length - 1))+"&docFormKey=0&documentWebScope=false");

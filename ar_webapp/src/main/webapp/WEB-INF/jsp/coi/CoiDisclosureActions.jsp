@@ -35,13 +35,13 @@
                      {
                          var controlId = $j(this).attr("id");
                          var contentId = controlId.replace("Control","Content");
-                         $j("#"+contentId).slideDown(500);
-                         $j(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+                         $j("#"+contentId).slideUp(500);
+                         $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");                         
                      },function(){
                          var controlId = $j(this).attr("id");
                          var contentId = controlId.replace("Control","Content");
-                         $j("#"+contentId).slideUp(500);
-                         $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+                         $j("#"+contentId).slideDown(500);
+                         $j(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
                      }
             );
             $j(".financialEntitySubpanel").click();
