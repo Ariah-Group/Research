@@ -63,10 +63,7 @@
                      This is only displayed once when the 1st answer of this question is displayed --%>
                     <c:if test="${!empty questionid}" >
                     <%-- close tags for each question --%>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
+                </div></td></tr></table>
                     </c:if>
                     <c:set var="questionid" value="${answer.questionNumber}" />
                    	<c:set var="displayCondition" value="({ 'conditionFlag' : '${answer.questionnaireQuestion.conditionFlag}', 'condition': '${answer.questionnaireQuestion.condition}', 'conditionValue' : '${answer.questionnaireQuestion.conditionValue}'})"/>
@@ -84,11 +81,9 @@
                                     <div class="Qquestiondiv">
                                         <span class="Qmoreinfocontrol">More Information...</span>
                                         <span class="Qquestion">${answer.question.question}</span>
-        
                                     </div>
                                     <kra-questionnaire:questionMoreInfo question="${answer.question}" />
                 </c:if>
-				
                 <c:choose>
                     <%-- decide whether it is readonly mode --%>
                     <c:when test = "${readOnly and not answerable}" >
@@ -105,9 +100,7 @@
                                 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 		                        <c:set target="${paramMap}" property="argName" value="${answer.question.lookupReturn}" />
 		                        <c:forEach items="${krafn:getOptionList('org.kuali.kra.lookup.keyvalue.ArgValueLookupValuesFinder', paramMap)}" var="option">
-		        	                <c:if test="${answer.answer == option.key}">
-		        	                    ${option.value}
-		        	                </c:if>    
+                                                <c:if test="${answer.answer == option.key}">${option.value}</c:if>    
 		                        </c:forEach>
                             </c:when>
                             <c:otherwise>${answer.answer} </br></c:otherwise>
@@ -120,9 +113,11 @@
             </c:forEach>
             <c:set var="questionid" value="${answer.questionNumber}" />
            <%-- following 4 tags is to close the last question's display tag --%>
+    <c:if test="${!empty bean.answerHeaders[answerHeaderIndex].answers}">
                                 </div>
                             </td>
                         </tr>
+    </c:if>      
                         <c:if test="${answerable}">
                         <tr>
                         	<td>
@@ -134,5 +129,7 @@
                         	</td>
                         </tr>
                         </c:if>
+    <c:if test="${!empty bean.answerHeaders[answerHeaderIndex].answers}">
                     </table>
+    </c:if>                       
         </div>
