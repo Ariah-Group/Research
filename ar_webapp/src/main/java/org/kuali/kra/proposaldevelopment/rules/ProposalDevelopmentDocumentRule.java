@@ -273,6 +273,11 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
             }
         }
 
+        
+        
+        
+        
+        
         return valid;
     }
 
