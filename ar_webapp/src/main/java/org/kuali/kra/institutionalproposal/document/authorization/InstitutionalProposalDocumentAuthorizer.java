@@ -76,5 +76,5 @@ public class InstitutionalProposalDocumentAuthorizer extends TransactionalDocume
 
         boolean isAuth = KraServiceLocator.getService(TaskAuthorizationService.class).isAuthorized(user.getPrincipalId(), instPropTask);
         return isAuth;
-    }
+    }  
 }
