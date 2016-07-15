@@ -94,7 +94,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
             }
         }
         workflowDocument.addAttributeDefinition(refToUpdate.build());
-        workflowDocument.saveDocumentData();    
+        workflowDocument.saveDocumentData();
     }
 
     /**
