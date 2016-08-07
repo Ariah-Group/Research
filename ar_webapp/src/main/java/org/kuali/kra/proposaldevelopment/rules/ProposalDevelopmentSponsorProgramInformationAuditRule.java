@@ -56,9 +56,12 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
     }
 
     /**
+     * @param document
+     * @return 
      * @see
      * org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
      */
+    @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean valid = true;
 

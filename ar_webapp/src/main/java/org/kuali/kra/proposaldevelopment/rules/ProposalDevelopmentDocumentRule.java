@@ -379,9 +379,8 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
         ProposalDevelopmentForm proposalForm = (ProposalDevelopmentForm) KNSGlobalVariables.getKualiForm();
 
-        if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber()!=null && 
-                proposalForm.isDeadlineDateRequired() && proposalDevelopmentDocument.getDevelopmentProposal().getDeadlineDate() == null) {
-
+        //if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber()!=null &&  proposalForm.isDeadlineDateRequired() && proposalDevelopmentDocument.getDevelopmentProposal().getDeadlineDate() == null) {
+        if (proposalForm.isDeadlineDateRequired() && proposalDevelopmentDocument.getDevelopmentProposal().getDeadlineDate() == null) {
             errorMap.putError("deadlineDate", KeyConstants.WARNING_EMPTY_DEADLINE_DATE,
                     dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "deadlineDate"));
             valid = false;
