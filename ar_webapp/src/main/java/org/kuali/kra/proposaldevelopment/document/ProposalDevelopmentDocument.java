@@ -138,7 +138,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     }
 
     @Override
-
     public void doRouteStatusChange(DocumentRouteStatusChange dto) {
         super.doRouteStatusChange(dto);
         String newStatus = dto.getNewRouteStatus();
@@ -460,7 +459,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     /**
      * {@inheritDoc}
      */
-
     public String getDocumentBoNumber() {
         return getDevelopmentProposal().getProposalNumber();
 
