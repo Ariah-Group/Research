@@ -64,8 +64,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@NAMESPACE(namespace=Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT)
-@COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
+@NAMESPACE(namespace = Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT)
+@COMPONENT(component = ParameterConstants.DOCUMENT_COMPONENT)
 public class ProposalDevelopmentDocument extends BudgetParentDocument<DevelopmentProposal> implements Copyable, SessionDocument, Permissionable, KrmsRulesContext {
 
     private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentDocument.class);
@@ -74,16 +74,16 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     private static final String KRA_EXTERNALIZABLE_IMAGES_URI_KEY = "kra.externalizable.images.url";
     private static final String RETURN_TO_PROPOSAL_ALT_TEXT = "return to proposal";
     private static final String RETURN_TO_PROPOSAL_METHOD_TO_CALL = "methodToCall.returnToProposal";
-    
+
     private static final String HIERARCHY_CHILD_SPLITNODE_QUESTION = "isHierarchyChild";
-    
+
     private static final long serialVersionUID = 2958631745964610527L;
     private List<DevelopmentProposal> developmentProposalList;
     private List<BudgetDocumentVersion> budgetDocumentVersions;
     private transient Boolean allowsNoteAttachments;
     //used to indicate if the proposal has been deleted
     private boolean proposalDeleted;
-    
+
     /* Currently this property is just used for UI display.
      * If it becomes part of the domain, it should probably move to DevelopmentProposal.java
      */
@@ -95,7 +95,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         super();
 
         developmentProposalList = new ArrayList<DevelopmentProposal>();
-        DevelopmentProposal newProposal = new DevelopmentProposal(); 
+        DevelopmentProposal newProposal = new DevelopmentProposal();
         newProposal.setProposalDocument(this);
         developmentProposalList.add(newProposal);
         budgetDocumentVersions = new ArrayList<BudgetDocumentVersion>();
@@ -122,7 +122,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     public void setDevelopmentProposal(DevelopmentProposal proposal) {
         developmentProposalList.set(0, proposal);
     }
-    
+
     public String getInstitutionalProposalNumber() {
         return institutionalProposalNumber;
     }
@@ -143,130 +143,129 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         super.doRouteStatusChange(dto);
         String newStatus = dto.getNewRouteStatus();
         String oldStatus = dto.getOldRouteStatus();
-        
-        if( LOG.isDebugEnabled() ) {
-            LOG.debug(String.format( "Route Status change for document %s from %s to %s" , this.getDocumentNumber(), oldStatus, newStatus ) );
+
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(String.format("Route Status change for document %s from %s to %s", this.getDocumentNumber(), oldStatus, newStatus));
         }
-        
+
         if (!isProposalDeleted()) {
             DevelopmentProposal bp = this.getDevelopmentProposal();
             ProposalHierarchyService hierarchyService = KraServiceLocator.getService(ProposalHierarchyService.class);
             LOG.info(String.format("Route status change for document %s - proposal number %s is moving from %s to %s", bp
                     .getProposalDocument().getDocumentHeader().getDocumentNumber(), bp.getProposalNumber(), oldStatus, newStatus));
-            
+
             if (bp.isParent()) {
                 try {
-                    hierarchyService.routeHierarchyChildren( this, dto );
-                 
+                    hierarchyService.routeHierarchyChildren(this, dto);
+
+                } catch (ProposalHierarchyException e) {
+                    throw new RuntimeException("ProposalHierarchyException thrown while routing children.", e);
                 }
-                catch (ProposalHierarchyException e) {
-                   throw new RuntimeException( "ProposalHierarchyException thrown while routing children.", e );
-                }
-            } else if ( !bp.isInHierarchy() ) {
+            } else if (!bp.isInHierarchy()) {
                 try {
-                    hierarchyService.calculateAndSetProposalAppDocStatus(this, dto );
-                } catch ( ProposalHierarchyException pe )  {
-                    throw new RuntimeException( String.format( "ProposalHierarchyException thrown while updating app doc status for document %s", getDocumentNumber() ));
+                    hierarchyService.calculateAndSetProposalAppDocStatus(this, dto);
+                } catch (ProposalHierarchyException pe) {
+                    throw new RuntimeException(String.format("ProposalHierarchyException thrown while updating app doc status for document %s", getDocumentNumber()));
                 }
             }
-            
-            bp.setProposalStateTypeCode( KraServiceLocator.getService(ProposalStateService.class).getProposalStateTypeCode( this, true, false ) );
+
+            bp.setProposalStateTypeCode(KraServiceLocator.getService(ProposalStateService.class).getProposalStateTypeCode(this, true, false));
         }
-        
+
     }
 
     /**
-     * @see org.kuali.rice.krad.document.Document#doActionTaken(org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent)
+     * @see
+     * org.kuali.rice.krad.document.Document#doActionTaken(org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent)
      */
     @Override
     public void doActionTaken(ActionTakenEvent event) {
         super.doActionTaken(event);
         ActionTaken actionTaken = event.getActionTaken();
-        
-        if( LOG.isDebugEnabled() ) {
-            LOG.debug( String.format( "Action taken on document %s: event code %s, action taken is %s"  , getDocumentNumber(), event.getDocumentEventCode(), actionTaken.getActionTaken().getCode()) );
+
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(String.format("Action taken on document %s: event code %s, action taken is %s", getDocumentNumber(), event.getDocumentEventCode(), actionTaken.getActionTaken().getCode()));
         }
         if (!isProposalDeleted()) {
             ProposalHierarchyService hService = KraServiceLocator.getService(ProposalHierarchyService.class);
             KraDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KraDocumentRejectionService.class);
-            if( StringUtils.equals( KewApiConstants.ACTION_TAKEN_APPROVED_CD, actionTaken.getActionTaken().getCode()) ) {
+            if (StringUtils.equals(KewApiConstants.ACTION_TAKEN_APPROVED_CD, actionTaken.getActionTaken().getCode())) {
                 try {
-                
-                    if( documentRejectionService.isDocumentOnInitialNode(this) ) {
+
+                    if (documentRejectionService.isDocumentOnInitialNode(this)) {
                         DocumentRouteStatusChange dto = new DocumentRouteStatusChange(getDocumentHeader().getWorkflowDocument().getDocumentId(), getDocumentNumber(), KewApiConstants.ROUTE_HEADER_ENROUTE_CD, KewApiConstants.ROUTE_HEADER_ENROUTE_CD);
                         //DocumentRouteStatusChange.documentEventCode is always returned as rt_status_change
                         //dto.setDocumentEventCode("REJECTED_APPROVED");
-                        
-                        if( getDevelopmentProposal().isParent() ) {
-                            hService.routeHierarchyChildren(this, dto );
+
+                        if (getDevelopmentProposal().isParent()) {
+                            hService.routeHierarchyChildren(this, dto);
                             hService.calculateAndSetProposalAppDocStatus(this, dto);
                         }
-                    
-                        if( !getDevelopmentProposal().isInHierarchy() ) {
+
+                        if (!getDevelopmentProposal().isInHierarchy()) {
                             hService.calculateAndSetProposalAppDocStatus(this, dto);
                         }
-                        }
-               
-                } catch( ProposalHierarchyException pe ) {
-                    throw new RuntimeException( String.format("ProposalHeierachyException encountered trying to re-submit rejected parent document:%s",getDocumentNumber()), pe );
-                } catch( Exception we) {
-                        throw new RuntimeException( String.format( "Exception trying to re-submit rejected parent:%s", getDocumentNumber() ),we);
+                    }
+
+                } catch (ProposalHierarchyException pe) {
+                    throw new RuntimeException(String.format("ProposalHeierachyException encountered trying to re-submit rejected parent document:%s", getDocumentNumber()), pe);
+                } catch (Exception we) {
+                    throw new RuntimeException(String.format("Exception trying to re-submit rejected parent:%s", getDocumentNumber()), we);
                 }
             }
-           
+
             String pCode = getDevelopmentProposal().getProposalStateTypeCode();
             getDevelopmentProposal().setProposalStateTypeCode(KraServiceLocator.getService(ProposalStateService.class).getProposalStateTypeCode(this, false, documentRejectionService.isDocumentOnInitialNode(this)));
-            if( !StringUtils.equals(pCode, getDevelopmentProposal().getProposalStateTypeCode() )) {
+            if (!StringUtils.equals(pCode, getDevelopmentProposal().getProposalStateTypeCode())) {
                 getDevelopmentProposal().refresh();
                 KraServiceLocator.getService(BusinessObjectService.class).save(getDevelopmentProposal());
             }
-          
-            if( getDevelopmentProposal().isChild() && StringUtils.equals(KewApiConstants.ACTION_TAKEN_CANCELED_CD, actionTaken.getActionTaken().getCode())) {
+
+            if (getDevelopmentProposal().isChild() && StringUtils.equals(KewApiConstants.ACTION_TAKEN_CANCELED_CD, actionTaken.getActionTaken().getCode())) {
                 try {
-                    hService.removeFromHierarchy(this.getDevelopmentProposal() );
-                    
+                    hService.removeFromHierarchy(this.getDevelopmentProposal());
+
                 } catch (ProposalHierarchyException e) {
-                    throw new RuntimeException( String.format( "COULD NOT REMOVE CHILD:%s", this.getDevelopmentProposal().getProposalNumber() ) );
+                    throw new RuntimeException(String.format("COULD NOT REMOVE CHILD:%s", this.getDevelopmentProposal().getProposalNumber()));
                 }
             }
-            
-           
-            
+
             if (isLastSubmitterApprovalAction(event.getActionTaken()) && shouldAutogenerateInstitutionalProposal()) {
                 InstitutionalProposalService institutionalProposalService = KraServiceLocator.getService(InstitutionalProposalService.class);
                 String proposalNumber = institutionalProposalService.createInstitutionalProposal(this.getDevelopmentProposal(), this.getFinalBudgetForThisProposal());
                 this.setInstitutionalProposalNumber(proposalNumber);
             }
         }
-        
+
     }
-    
+
     private boolean isLastSubmitterApprovalAction(ActionTaken actionTaken) {
         WorkflowDocumentActionsService workflowInfo = KewApiServiceLocator.getWorkflowDocumentActionsService();
         return actionTaken.getActionTaken().getCode().equals(KewApiConstants.ACTION_TAKEN_APPROVED_CD)
-            && workflowInfo.isFinalApprover(actionTaken.getDocumentId(), actionTaken.getPrincipalId());
-      
+                && workflowInfo.isFinalApprover(actionTaken.getDocumentId(), actionTaken.getPrincipalId());
+
         // also check person is last submitter.  Need KIM for this.
     }
-    
+
     private boolean shouldAutogenerateInstitutionalProposal() {
         return getParameterService().getParameterValueAsBoolean(
-                Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, 
+                Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
                 ParameterConstants.DOCUMENT_COMPONENT,
                 KeyConstants.AUTOGENERATE_INSTITUTIONAL_PROPOSAL_PARAM);
     }
-    
+
     protected ConfigurationService getKualiConfigurationService() {
         return CoreApiServiceLocator.getKualiConfigurationService();
     }
-    
+
     protected ParameterService getParameterService() {
         return KraServiceLocator.getService(ParameterService.class);
     }
+
     protected DateTimeService getDateTimeService() {
         return KraServiceLocator.getService(DateTimeService.class);
     }
-    
+
     public Budget getFinalBudgetForThisProposal() {
         BudgetDocumentVersion budgetDocumentVersion = this.getFinalBudgetVersion();
         if (budgetDocumentVersion != null) {
@@ -274,26 +273,26 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         }
         return null;
     }
-    
+
     public String getFinalrateClassCode() {
         String retVal = "";
-        Budget finalBudget =  getFinalBudgetForThisProposal();
+        Budget finalBudget = getFinalBudgetForThisProposal();
         if (finalBudget != null && finalBudget.getRateClass().getRateClassCode() != null) {
             retVal = finalBudget.getRateClass().getRateClassCode();
         }
         return retVal;
     }
 
-
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
     }
 
-
     /**
-     * Wraps a document in an instance of KualiDocumentXmlMaterializer, that provides additional metadata for serialization
-     * 
-     * @see org.kuali.core.document.Document#wrapDocumentWithMetadataForXmlSerialization()
+     * Wraps a document in an instance of KualiDocumentXmlMaterializer, that
+     * provides additional metadata for serialization
+     *
+     * @see
+     * org.kuali.core.document.Document#wrapDocumentWithMetadataForXmlSerialization()
      */
     @Override
     // This method should go away in favor of using DD workflowProperties bean to serialize properties
@@ -308,9 +307,9 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         super.prepareForSave();
         if (!isProposalDeleted()) {
             getDevelopmentProposal().updateS2sOpportunity();
-    
+
             KraServiceLocator.getService(ProposalStatusService.class).saveBudgetFinalVersionStatus(this);
-    
+
             if (getBudgetDocumentVersions() != null) {
                 updateDocumentDescriptions(getBudgetDocumentVersions());
             }
@@ -322,9 +321,9 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         super.processAfterRetrieve();
         if (!isProposalDeleted()) {
             KraServiceLocator.getService(ProposalStatusService.class).loadBudgetStatus(this.getDevelopmentProposal());
-    
+
             getDevelopmentProposal().updateProposalChangeHistory();
-            
+
         }
     }
 
@@ -343,7 +342,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     }
 
     /**
-     * 
+     *
      * @see org.kuali.kra.common.permissions.Permissionable#getRoleNames()
      */
     public List<String> getRoleNames() {
@@ -357,31 +356,33 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
         return roleNames;
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kra.common.permissions.Permissionable#getDocumentNumberForPermission()
+     *
+     * @see
+     * org.kuali.kra.common.permissions.Permissionable#getDocumentNumberForPermission()
      */
     public String getDocumentNumberForPermission() {
         return getDevelopmentProposal().getProposalNumber();
     }
 
     /**
-     * 
+     *
      * @see org.kuali.kra.common.permissions.Permissionable#getDocumentKey()
      */
     public String getDocumentKey() {
         return Permissionable.PROPOSAL_KEY;
-    }    
-    
+    }
+
     /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     * @see
+     * org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @SuppressWarnings("unchecked")
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
-        
+
         managedLists.addAll(getDevelopmentProposal().buildListOfDeletionAwareLists());
 
         managedLists.add(developmentProposalList);
@@ -390,6 +391,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     /**
      * Sets the budgetDocumentVersions attribute value.
+     *
      * @param budgetDocumentVersions The budgetDocumentVersions to set.
      */
     public void setBudgetDocumentVersions(List<BudgetDocumentVersion> budgetDocumentVersions) {
@@ -397,25 +399,23 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     }
 
     /**
-     * Gets the budgetDocumentVersions attribute. 
+     * Gets the budgetDocumentVersions attribute.
+     *
      * @return Returns the budgetDocumentVersions.
      */
     public List<BudgetDocumentVersion> getBudgetDocumentVersions() {
         return budgetDocumentVersions;
     }
 
-
     @Override
     public Task getParentAuthZTask(String taskName) {
-        return new ProposalTask(taskName,this);
+        return new ProposalTask(taskName, this);
     }
-
 
     @Override
     public boolean isComplete() {
         return getDevelopmentProposal().isProposalComplete();
     }
-
 
     @Override
     public void saveBudgetFinalVersionStatus(BudgetDocument budgetDocument) {
@@ -438,12 +438,13 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         returnToProposalButton.setExtraButtonProperty(RETURN_TO_PROPOSAL_METHOD_TO_CALL);
         returnToProposalButton.setExtraButtonSource(buildExtraButtonSourceURI("tinybutton-retprop.gif"));
         returnToProposalButton.setExtraButtonAltText(RETURN_TO_PROPOSAL_ALT_TEXT);
-        
+
         return returnToProposalButton;
     }
 
     /**
      * This method does what its name says
+     *
      * @param buttonFileName
      * @return
      */
@@ -455,16 +456,19 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     public DevelopmentProposal getBudgetParent() {
         return getDevelopmentProposal();
     }
-    /** {@inheritDoc} */
+
+    /**
+     * {@inheritDoc}
+     */
 
     public String getDocumentBoNumber() {
         return getDevelopmentProposal().getProposalNumber();
-        
+
     }
 
     @Override
     public Permissionable getBudgetPermissionable() {
-        return new Permissionable(){
+        return new Permissionable() {
 
             public String getDocumentKey() {
                 return Permissionable.PROPOSAL_BUDGET_KEY;
@@ -490,26 +494,27 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
             public String getDocumentRoleTypeCode() {
                 return RoleConstants.PROPOSAL_ROLE_TYPE;
             }
-            
+
             public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
             }
         };
     }
 
     /**
-     * @see org.kuali.kra.document.ResearchDocumentBase#answerSplitNodeQuestion(java.lang.String)
+     * @see
+     * org.kuali.kra.document.ResearchDocumentBase#answerSplitNodeQuestion(java.lang.String)
      */
     @Override
-    public boolean answerSplitNodeQuestion( String routeNodeName ) throws Exception {
-        LOG.debug("Processing answerSplitNodeQuestion:"+routeNodeName );
-        if( StringUtils.equals(HIERARCHY_CHILD_SPLITNODE_QUESTION, routeNodeName )) {
+    public boolean answerSplitNodeQuestion(String routeNodeName) throws Exception {
+        LOG.debug("Processing answerSplitNodeQuestion:" + routeNodeName);
+        if (StringUtils.equals(HIERARCHY_CHILD_SPLITNODE_QUESTION, routeNodeName)) {
             return getDevelopmentProposal().isChild();
         }
         //defer to the super class. ResearchDocumentBase will throw the UnsupportedOperationException
         //if no super class answers the question.
         return super.answerSplitNodeQuestion(routeNodeName);
     }
-    
+
     public String getNamespace() {
         return Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
     }
@@ -525,26 +530,27 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     public String getProposalBudgetFlag() {
         return "true";
     }
-    
+
     /**
-     * This method is to check whether rice async routing is ok now.   
-     * Close to hack.  called by holdingpageaction
-     * Different document type may have different routing set up, so each document type
-     * can implement its own isProcessComplete
+     * This method is to check whether rice async routing is ok now. Close to
+     * hack. called by holdingpageaction Different document type may have
+     * different routing set up, so each document type can implement its own
+     * isProcessComplete
+     *
      * @return
      */
     public boolean isProcessComplete() {
         boolean isComplete = false;
-        
+
         if (getDocumentHeader().hasWorkflowDocument()) {
             String docRouteStatus = getDocumentHeader().getWorkflowDocument().getStatus().getCode();
-            if (KewApiConstants.ROUTE_HEADER_ENROUTE_CD.equals(docRouteStatus) 
-                || KewApiConstants.ROUTE_HEADER_PROCESSED_CD.equals(docRouteStatus) 
-                || KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(docRouteStatus)) {
+            if (KewApiConstants.ROUTE_HEADER_ENROUTE_CD.equals(docRouteStatus)
+                    || KewApiConstants.ROUTE_HEADER_PROCESSED_CD.equals(docRouteStatus)
+                    || KewApiConstants.ROUTE_HEADER_FINAL_CD.equals(docRouteStatus)) {
                 isComplete = true;
             }
         }
-           
+
         return isComplete;
     }
 
@@ -558,19 +564,19 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     public void refreshBudgetDocumentVersions() {
         this.refreshReferenceObject("budgetDocumentVersions");
-        
+
     }
-    
+
     public void populateContextQualifiers(Map<String, String> qualifiers) {
         qualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT);
         qualifiers.put("name", KcKrmsConstants.ProposalDevelopment.PROPOSAL_DEVELOPMENT_CONTEXT);
     }
-    
+
     public void addFacts(Facts.Builder factsBuilder) {
         KcKrmsFactBuilderServiceHelper fbService = KraServiceLocator.getService("proposalDevelopmentFactBuilderService");
         fbService.addFacts(factsBuilder, this);
     }
-    
+
     public void populateAgendaQualifiers(Map<String, String> qualifiers) {
         qualifiers.put(KcKrmsConstants.UNIT_NUMBER, getLeadUnitNumber());
     }
@@ -582,7 +588,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                 proposal.getProposalNumber(),
                 proposal.getPrincipalInvestigatorName(),
                 proposal.getSponsorName(),
-                proposal.getDeadlineDate() != null ? getDateTimeService().toDateString(proposal.getDeadlineDate()) : "null"); 
+                proposal.getDeadlineDate() != null ? getDateTimeService().toDateString(proposal.getDeadlineDate()) : "null");
         getDocumentHeader().setDocumentDescription(desc);
     }
 
@@ -598,7 +604,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     public void setCustomDataList(List<CustomAttributeDocValue> customDataList) {
         this.customDataList = customDataList;
     }
-    
+
     public String getSaveXmlFolderName() {
         return saveXmlFolderName;
     }
@@ -606,11 +612,11 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     public void setSaveXmlFolderName(String saveXmlFolderName) {
         this.saveXmlFolderName = saveXmlFolderName;
     }
-    
+
     public boolean isDefaultDocumentDescription() {
         return getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, Constants.HIDE_AND_DEFAULT_PROP_DEV_DOC_DESC_PARAM);
     }
-    
+
     @Override
     public String getDocumentTitle() {
         if (isDefaultDocumentDescription()) {
