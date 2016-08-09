@@ -639,7 +639,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         //  System.err.println("               question null");
         ((ProposalDevelopmentForm) form).setShowRejectionConfirmation(true);
         return mapping.findForward(Constants.MAPPING_BASIC);
-            //return this.performQuestionWithInput(mapping, form, request, response, DOCUMENT_REJECT_QUESTION,
+        //return this.performQuestionWithInput(mapping, form, request, response, DOCUMENT_REJECT_QUESTION,
         //      "Are you sure you want to reject this document?", KRADConstants.CONFIRMATION_QUESTION, methodToCall, "");
         //}
         //else if ((DOCUMENT_REJECT_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
@@ -843,7 +843,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             }
             forward = submitApplication(mapping, form, request, response);
         }
-
         return forward;
     }
 
@@ -1094,12 +1093,10 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
                     proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(
                             proposalStateService.getProposalStateTypeCode(proposalDevelopmentDocument, false, false));
                 }
+            } else if (proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument().isFinal()) {
+                proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.APPROVED);
             } else {
-                if (proposalDevelopmentDocument.getDocumentHeader().getWorkflowDocument().isFinal()) {
-                    proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.APPROVED);
-                } else {
-                    proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.APPROVAL_PENDING);
-                }
+                proposalDevelopmentDocument.getDevelopmentProposal().setProposalStateTypeCode(ProposalState.APPROVAL_PENDING);
             }
             String pCode = proposalDevelopmentDocument.getDevelopmentProposal().getProposalStateTypeCode();
             DocumentService documentService = KRADServiceLocatorWeb.getDocumentService();
