@@ -49,9 +49,10 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- * 
- * This service creates Proposal Development Document from Protocol for users authorized to create proposal. This created
- * proposal is then added to Protocol Funding sources. 
+ *
+ * This service creates Proposal Development Document from Protocol for users
+ * authorized to create proposal. This created proposal is then added to
+ * Protocol Funding sources.
  */
 public class ProtocolProposalDevelopmentDocumentServiceImpl implements ProtocolProposalDevelopmentDocumentService {
 
@@ -59,39 +60,36 @@ public class ProtocolProposalDevelopmentDocumentServiceImpl implements ProtocolP
     public ProposalDevelopmentDocument createProposalDevelopmentDocument(ProtocolForm protocolForm) throws Exception {
         ProposalDevelopmentDocument proposalDevelopmentDocument = null;
         Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
-        if(isAuthorizedCreateProposal(protocolForm.getProtocolHelper()))
-        {
-            DocumentService docService = KRADServiceLocatorWeb.getDocumentService();       
+        if (isAuthorizedCreateProposal(protocolForm.getProtocolHelper())) {
+            DocumentService docService = KRADServiceLocatorWeb.getDocumentService();
             proposalDevelopmentDocument = (ProposalDevelopmentDocument) docService.getNewDocument(ProposalDevelopmentDocument.class);
             ProposalDevelopmentService proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
             populateDocumentOverview(protocol, proposalDevelopmentDocument);
             populateRequiredFields(protocol, proposalDevelopmentDocument);
-            proposalDevelopmentService.initializeUnitOrganizationLocation(proposalDevelopmentDocument);       
+            proposalDevelopmentService.initializeUnitOrganizationLocation(proposalDevelopmentDocument);
             proposalDevelopmentService.initializeProposalSiteNumbers(proposalDevelopmentDocument);
             populateProposalPerson_Investigator(protocol, proposalDevelopmentDocument);
             populateProposalSpecialReview(protocol, proposalDevelopmentDocument);
 
             docService.saveDocument(proposalDevelopmentDocument);
-            initializeAuthorization(proposalDevelopmentDocument);        
+            initializeAuthorization(proposalDevelopmentDocument);
         }
         return proposalDevelopmentDocument;
     }
-   
-    protected void populateDocumentOverview(Protocol protocol, ProposalDevelopmentDocument proposalDocument)
-    {
+
+    protected void populateDocumentOverview(Protocol protocol, ProposalDevelopmentDocument proposalDocument) {
         ProtocolDocument protocolDocument = (ProtocolDocument) protocol.getProtocolDocument();
         DocumentHeader proposalDocumentHeader = proposalDocument.getDocumentHeader();
         DocumentHeader protocolDocumentHeader = protocolDocument.getDocumentHeader();
-      
+
         proposalDocumentHeader.setDocumentDescription("PD - " + protocolDocumentHeader.getDocumentDescription());
-        proposalDocumentHeader.setExplanation("Document created from Protocol - "+protocolDocument.getDocumentNumber());
+        proposalDocumentHeader.setExplanation("Document created from Protocol - " + protocolDocument.getDocumentNumber());
         proposalDocumentHeader.setOrganizationDocumentNumber(protocolDocumentHeader.getOrganizationDocumentNumber());
 
     }
 
     protected void populateRequiredFields(Protocol protocol, ProposalDevelopmentDocument proposalDocument)
-    throws Exception
-    {
+            throws Exception {
         DevelopmentProposal developmentProposal = proposalDocument.getDevelopmentProposal();
 
         developmentProposal.setTitle(protocol.getTitle());
@@ -113,28 +111,26 @@ public class ProtocolProposalDevelopmentDocumentServiceImpl implements ProtocolP
 
         developmentProposal.setActivityTypeCode(activityTypeCode);
         developmentProposal.setProposalTypeCode(proposalTypeCode);
-                
+
         // find sponsor from funding source
         List<ProtocolFundingSourceBase> protocolFundingSources = protocol.getProtocolFundingSources();
-        ProtocolFundingSource sponsorProtocolFundingSource = null; 
-        for(ProtocolFundingSourceBase protocolFundingSource : protocolFundingSources)
-        {
-            if ( protocolFundingSource.isSponsorFunding() )
-            {
+        ProtocolFundingSource sponsorProtocolFundingSource = null;
+        for (ProtocolFundingSourceBase protocolFundingSource : protocolFundingSources) {
+            if (protocolFundingSource.isSponsorFunding()) {
                 sponsorProtocolFundingSource = (ProtocolFundingSource) protocolFundingSource;
                 break;
             }
         }
-        if(sponsorProtocolFundingSource != null)
-        {
+        if (sponsorProtocolFundingSource != null) {
             developmentProposal.setSponsorCode(sponsorProtocolFundingSource.getFundingSourceNumber());
         }
 
     }
 
     /**
-     * Initialize the Authorizations for a new proposal.  The initiator/creator
+     * Initialize the Authorizations for a new proposal. The initiator/creator
      * is assigned the Aggregator role.
+     *
      * @param document the proposal development document
      */
     protected void initializeAuthorization(ProposalDevelopmentDocument document) {
@@ -142,7 +138,6 @@ public class ProtocolProposalDevelopmentDocumentServiceImpl implements ProtocolP
         KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
         kraAuthService.addRole(userId, RoleConstants.AGGREGATOR, document);
     }
-
 
     public void populateProposalPerson_Investigator(Protocol protocol, ProposalDevelopmentDocument proposalDocument) {
         ProposalPerson proposalPerson = new ProposalPerson();
@@ -152,7 +147,7 @@ public class ProtocolProposalDevelopmentDocumentServiceImpl implements ProtocolP
         personEditableService.populateContactFieldsFromPersonId(proposalPerson);
 
         proposalPerson.setProposalPersonRoleId(Constants.PRINCIPAL_INVESTIGATOR_ROLE);
-        
+
         proposalPerson.setDevelopmentProposal(proposalDocument.getDevelopmentProposal());
         proposalPerson.setProposalNumber(proposalDocument.getDevelopmentProposal().getProposalNumber());
         proposalPerson.setProposalPersonNumber(new Integer(1));
@@ -164,32 +159,29 @@ public class ProtocolProposalDevelopmentDocumentServiceImpl implements ProtocolP
         KeyPersonnelService keyPersonnelService = (KeyPersonnelServiceImpl) KraServiceLocator.getService(KeyPersonnelService.class);
         keyPersonnelService.populateProposalPerson(proposalPerson, proposalDocument);
         keyPersonnelService.assignLeadUnit(proposalPerson, proposalDocument.getDevelopmentProposal().getOwnedByUnitNumber());
-    
+
     }
 
-    protected void populateProposalSpecialReview(Protocol protocol, ProposalDevelopmentDocument proposalDocument)
-    {
-    if (protocol != null) {
-        Integer specialReviewNumber = proposalDocument.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER);
-        
-        ProposalSpecialReview specialReview = new ProposalSpecialReview();
-        specialReview.setSpecialReviewNumber(specialReviewNumber);
-        specialReview.setSpecialReviewTypeCode(SpecialReviewType.HUMAN_SUBJECTS);
-        specialReview.setApprovalTypeCode(SpecialReviewApprovalType.PENDING);
-        specialReview.setProtocolNumber(protocol.getProtocolNumber());
-        specialReview.setProposalNumber(proposalDocument.getDevelopmentProposal().getProposalNumber());
-        
-        specialReview.setProtocolStatus(protocol.getProtocolStatus().getDescription());
-        specialReview.setComments(SpecialReviewServiceImpl.NEW_SPECIAL_REVIEW_COMMENT);
-        proposalDocument.getDevelopmentProposal().getPropSpecialReviews().add(specialReview);
+    protected void populateProposalSpecialReview(Protocol protocol, ProposalDevelopmentDocument proposalDocument) {
+        if (protocol != null) {
+            Integer specialReviewNumber = proposalDocument.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER);
+
+            ProposalSpecialReview specialReview = new ProposalSpecialReview();
+            specialReview.setSpecialReviewNumber(specialReviewNumber);
+            specialReview.setSpecialReviewTypeCode(SpecialReviewType.HUMAN_SUBJECTS);
+            specialReview.setApprovalTypeCode(SpecialReviewApprovalType.PENDING);
+            specialReview.setProtocolNumber(protocol.getProtocolNumber());
+            specialReview.setProposalNumber(proposalDocument.getDevelopmentProposal().getProposalNumber());
+
+            specialReview.setProtocolStatus(protocol.getProtocolStatus().getDescription());
+            specialReview.setComments(SpecialReviewServiceImpl.NEW_SPECIAL_REVIEW_COMMENT);
+            proposalDocument.getDevelopmentProposal().getPropSpecialReviews().add(specialReview);
         }
     }
-
 
     protected boolean isAuthorizedCreateProposal(ProtocolHelper protocolHelper) {
         boolean canCreateProposal = protocolHelper.isCanCreateProposalDevelopment();
         return canCreateProposal;
     }
-
 
 }
