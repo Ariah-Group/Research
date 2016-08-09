@@ -42,10 +42,20 @@ import org.kuali.rice.krad.util.MessageMap;
 
 import java.util.HashMap;
 import java.util.List;
+import org.ariahgroup.research.datadictionary.AttributeDefinition;
+import org.ariahgroup.research.datadictionary.validation.processor.WordCountConstraintProcessor;
 
 import static org.kuali.kra.logging.BufferedLogger.info;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.datadictionary.DataDictionaryEntry;
+import org.kuali.rice.krad.datadictionary.DataObjectEntry;
+import org.kuali.rice.krad.datadictionary.validation.AttributeValueReader;
+import org.kuali.rice.krad.datadictionary.validation.DictionaryObjectAttributeValueReader;
+import org.kuali.rice.krad.datadictionary.validation.ErrorLevel;
+import org.kuali.rice.krad.datadictionary.validation.result.ConstraintValidationResult;
+import org.kuali.rice.krad.datadictionary.validation.result.DictionaryValidationResult;
+import org.kuali.rice.krad.datadictionary.validation.result.ProcessorResult;
 
 /**
  * Main Business Rule class for
@@ -71,7 +81,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         retval &= super.processCustomRouteDocumentBusinessRules(document);
         retval &= new KeyPersonnelAuditRule().processRunAuditBusinessRules(document);
         retval &= new KeyPersonnelCertificationRule().processRouteDocument(document);
-
         return retval;
     }
 
@@ -256,15 +265,14 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
             }
         }
 
-        if(proposalForm.isDisplayProposalCoordinator() && proposalForm.isProposalCoordinatorRequired()) {
-            
-            if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalCoordinatorPrincipalName()== null) {
+        if (proposalForm.isDisplayProposalCoordinator() && proposalForm.isProposalCoordinatorRequired()) {
+            if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalCoordinatorPrincipalName() == null) {
                 valid = false;
                 errorMap.putError("proposalCoordinatorPrincipalName", KeyConstants.ERROR_MISSING,
                         dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "proposalCoordinatorPrincipalName"));
             }
         }
-        
+
         if (StringUtils.isNotBlank(proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom())) {
             if (proposalDevelopmentService.getProposalContinuedFromVersion(proposalDevelopmentDocument) == null) {
                 valid = false;
@@ -273,11 +281,43 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
             }
         }
 
-        
-        
-        
-        
-        
+        if (proposalForm.isDisplayExecutiveSummary()) {
+            final String entryName = DevelopmentProposal.class.getCanonicalName();
+            DataObjectEntry entry = dataDictionaryService.getDataDictionary().getDataObjectEntry(entryName);
+            AttributeDefinition defn = (AttributeDefinition) entry.getAttributeDefinition("executiveSummary");
+
+            if (defn.getWordCountConstraint() != null) {
+
+                try {
+                    String execSum = proposalDevelopmentDocument.getDevelopmentProposal().getExecutiveSummary();
+
+                    DictionaryValidationResult result = getDictionaryValidationService().validate(execSum, entry.getName(), entry, false);
+                    DataDictionaryEntry dictEntry = getDataDictionaryService().getDataDictionary().getDictionaryObjectEntry(entryName);
+                    AttributeValueReader attrReaderExisting = new DictionaryObjectAttributeValueReader(proposalDevelopmentDocument.getDevelopmentProposal(),
+                            entryName, dictEntry);
+                    attrReaderExisting.setAttributeName(defn.getName());
+
+                    WordCountConstraintProcessor wcp = new WordCountConstraintProcessor();
+                    ProcessorResult procRes = wcp.process(result, execSum, defn.getWordCountConstraint(), attrReaderExisting);
+
+                    if (procRes != null && procRes.getConstraintValidationResults() != null) {
+
+                        ConstraintValidationResult cvres = procRes.getConstraintValidationResults().get(0);
+
+                        if (cvres != null && cvres.getStatus() == ErrorLevel.ERROR) {
+                            valid = false;
+                            errorMap.putError("executiveSummary", Constants.MESSAGE_WORD_COUNT_EXCEEDED,
+                                    new String[]{dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "executiveSummary"),
+                                        String.valueOf(cvres.getErrorParameters()[1])});
+                        }
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
         return valid;
     }
 
