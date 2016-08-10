@@ -68,9 +68,13 @@ public class ProtocolProposalDevelopmentDocumentServiceImpl implements ProtocolP
             populateRequiredFields(protocol, proposalDevelopmentDocument);
             proposalDevelopmentService.initializeUnitOrganizationLocation(proposalDevelopmentDocument);
             proposalDevelopmentService.initializeProposalSiteNumbers(proposalDevelopmentDocument);
+            
+            // the following call to saveDocument MUST be done before calling populateProposalPerson_Investigator
+            docService.saveDocument(proposalDevelopmentDocument);
             populateProposalPerson_Investigator(protocol, proposalDevelopmentDocument);
             populateProposalSpecialReview(protocol, proposalDevelopmentDocument);
 
+            // then the changes to the PDDoc must be saved again
             docService.saveDocument(proposalDevelopmentDocument);
             initializeAuthorization(proposalDevelopmentDocument);
         }

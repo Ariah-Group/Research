@@ -48,6 +48,7 @@ import org.ariahgroup.research.datadictionary.validation.processor.WordCountCons
 import static org.kuali.kra.logging.BufferedLogger.info;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.datadictionary.DataDictionaryEntry;
 import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 import org.kuali.rice.krad.datadictionary.validation.AttributeValueReader;
@@ -67,7 +68,7 @@ import org.kuali.rice.krad.datadictionary.validation.result.ProcessorResult;
 public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase implements AddCongressionalDistrictRule, AddKeyPersonRule, AddNarrativeRule, ReplaceNarrativeRule, SaveNarrativesRule, AddInstituteAttachmentRule, ReplaceInstituteAttachmentRule, AddPersonnelAttachmentRule, ReplacePersonnelAttachmentRule, AddProposalSiteRule, BusinessRuleInterface, SaveProposalSitesRule, AbstractsRule, CopyProposalRule, ChangeKeyPersonRule, DeleteCongressionalDistrictRule, PermissionsRule, NewNarrativeUserRightsRule, SaveKeyPersonRule, CalculateCreditSplitRule, ProposalDataOverrideRule, ResubmissionPromptRule, BudgetDataOverrideRule {
 
     @SuppressWarnings("unused")
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentDocumentRule.class);
+    //private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentDocumentRule.class);
     private static final String PROPOSAL_QUESTIONS_KEY = "proposalYnq[%d].%s";
     private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_ANSWER = "answer";
     private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_REVIEW_DATE = "reviewDate";
@@ -239,81 +240,89 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
          DevelopmentProposal.class, "sponsorCode"));
          }
          */
-        ProposalDevelopmentForm proposalForm = (ProposalDevelopmentForm) KNSGlobalVariables.getKualiForm();
+        //
+        // we MUST check the TYPE of KualiForm since it is acually possible for the form object to be of type ProtocolForm (IRB) and IacucProtocolForm 
+        // since when a DevProposal is created as a Funding Source of a Protocol it creates a DevProp and saves it, which triggers
+        // this rules class
+        KualiForm form = KNSGlobalVariables.getKualiForm();
 
-        //if either is missing, it should be caught on the DD validation.
-        if (proposalForm.isProjectDatesRequired() && proposalDevelopmentDocument.getDevelopmentProposal().getRequestedStartDateInitial() != null
-                && proposalDevelopmentDocument.getDevelopmentProposal().getRequestedEndDateInitial() != null) {
+        if (form instanceof ProposalDevelopmentForm) {
+            ProposalDevelopmentForm proposalForm = (ProposalDevelopmentForm) form;
 
-            if (proposalDevelopmentDocument.getDevelopmentProposal().getRequestedStartDateInitial().after(
-                    proposalDevelopmentDocument.getDevelopmentProposal().getRequestedEndDateInitial())) {
+            //if either is missing, it should be caught on the DD validation.
+            if (proposalForm.isProjectDatesRequired() && proposalDevelopmentDocument.getDevelopmentProposal().getRequestedStartDateInitial() != null
+                    && proposalDevelopmentDocument.getDevelopmentProposal().getRequestedEndDateInitial() != null) {
 
-                valid = false;
-                errorMap.putError("requestedStartDateInitial", KeyConstants.ERROR_START_DATE_AFTER_END_DATE,
-                        new String[]{dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "requestedStartDateInitial"),
-                            dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "requestedEndDateInitial")});
+                if (proposalDevelopmentDocument.getDevelopmentProposal().getRequestedStartDateInitial().after(
+                        proposalDevelopmentDocument.getDevelopmentProposal().getRequestedEndDateInitial())) {
+
+                    valid = false;
+                    errorMap.putError("requestedStartDateInitial", KeyConstants.ERROR_START_DATE_AFTER_END_DATE,
+                            new String[]{dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "requestedStartDateInitial"),
+                                dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "requestedEndDateInitial")});
+                }
             }
-        }
 
-        ProposalDevelopmentService proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
+            ProposalDevelopmentService proposalDevelopmentService = KraServiceLocator.getService(ProposalDevelopmentService.class);
 
-        if (StringUtils.isNotBlank(proposalDevelopmentDocument.getDevelopmentProposal().getCurrentAwardNumber())) {
-            if (proposalDevelopmentService.getProposalCurrentAwardVersion(proposalDevelopmentDocument) == null) {
-                valid = false;
-                errorMap.putError("currentAwardNumber", KeyConstants.ERROR_MISSING,
-                        dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "currentAwardNumber"));
+            if (StringUtils.isNotBlank(proposalDevelopmentDocument.getDevelopmentProposal().getCurrentAwardNumber())) {
+                if (proposalDevelopmentService.getProposalCurrentAwardVersion(proposalDevelopmentDocument) == null) {
+                    valid = false;
+                    errorMap.putError("currentAwardNumber", KeyConstants.ERROR_MISSING,
+                            dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "currentAwardNumber"));
+                }
             }
-        }
 
-        if (proposalForm.isDisplayProposalCoordinator() && proposalForm.isProposalCoordinatorRequired()) {
-            if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalCoordinatorPrincipalName() == null) {
-                valid = false;
-                errorMap.putError("proposalCoordinatorPrincipalName", KeyConstants.ERROR_MISSING,
-                        dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "proposalCoordinatorPrincipalName"));
+            if (proposalForm.isDisplayProposalCoordinator() && proposalForm.isProposalCoordinatorRequired()) {
+                if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalCoordinatorPrincipalName() == null) {
+                    valid = false;
+                    errorMap.putError("proposalCoordinatorPrincipalName", KeyConstants.ERROR_MISSING,
+                            dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "proposalCoordinatorPrincipalName"));
+                }
             }
-        }
 
-        if (StringUtils.isNotBlank(proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom())) {
-            if (proposalDevelopmentService.getProposalContinuedFromVersion(proposalDevelopmentDocument) == null) {
-                valid = false;
-                errorMap.putError("continuedFrom", KeyConstants.ERROR_MISSING,
-                        dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "continuedFrom"));
+            if (StringUtils.isNotBlank(proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom())) {
+                if (proposalDevelopmentService.getProposalContinuedFromVersion(proposalDevelopmentDocument) == null) {
+                    valid = false;
+                    errorMap.putError("continuedFrom", KeyConstants.ERROR_MISSING,
+                            dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "continuedFrom"));
+                }
             }
-        }
 
-        if (proposalForm.isDisplayExecutiveSummary()) {
-            final String entryName = DevelopmentProposal.class.getCanonicalName();
-            DataObjectEntry entry = dataDictionaryService.getDataDictionary().getDataObjectEntry(entryName);
-            AttributeDefinition defn = (AttributeDefinition) entry.getAttributeDefinition("executiveSummary");
+            if (proposalForm.isDisplayExecutiveSummary()) {
+                final String entryName = DevelopmentProposal.class.getCanonicalName();
+                DataObjectEntry entry = dataDictionaryService.getDataDictionary().getDataObjectEntry(entryName);
+                AttributeDefinition defn = (AttributeDefinition) entry.getAttributeDefinition("executiveSummary");
 
-            if (defn.getWordCountConstraint() != null) {
+                if (defn.getWordCountConstraint() != null) {
 
-                try {
-                    String execSum = proposalDevelopmentDocument.getDevelopmentProposal().getExecutiveSummary();
+                    try {
+                        String execSum = proposalDevelopmentDocument.getDevelopmentProposal().getExecutiveSummary();
 
-                    DictionaryValidationResult result = getDictionaryValidationService().validate(execSum, entry.getName(), entry, false);
-                    DataDictionaryEntry dictEntry = getDataDictionaryService().getDataDictionary().getDictionaryObjectEntry(entryName);
-                    AttributeValueReader attrReaderExisting = new DictionaryObjectAttributeValueReader(proposalDevelopmentDocument.getDevelopmentProposal(),
-                            entryName, dictEntry);
-                    attrReaderExisting.setAttributeName(defn.getName());
+                        DictionaryValidationResult result = getDictionaryValidationService().validate(execSum, entry.getName(), entry, false);
+                        DataDictionaryEntry dictEntry = getDataDictionaryService().getDataDictionary().getDictionaryObjectEntry(entryName);
+                        AttributeValueReader attrReaderExisting = new DictionaryObjectAttributeValueReader(proposalDevelopmentDocument.getDevelopmentProposal(),
+                                entryName, dictEntry);
+                        attrReaderExisting.setAttributeName(defn.getName());
 
-                    WordCountConstraintProcessor wcp = new WordCountConstraintProcessor();
-                    ProcessorResult procRes = wcp.process(result, execSum, defn.getWordCountConstraint(), attrReaderExisting);
+                        WordCountConstraintProcessor wcp = new WordCountConstraintProcessor();
+                        ProcessorResult procRes = wcp.process(result, execSum, defn.getWordCountConstraint(), attrReaderExisting);
 
-                    if (procRes != null && procRes.getConstraintValidationResults() != null) {
+                        if (procRes != null && procRes.getConstraintValidationResults() != null) {
 
-                        ConstraintValidationResult cvres = procRes.getConstraintValidationResults().get(0);
+                            ConstraintValidationResult cvres = procRes.getConstraintValidationResults().get(0);
 
-                        if (cvres != null && cvres.getStatus() == ErrorLevel.ERROR) {
-                            valid = false;
-                            errorMap.putError("executiveSummary", Constants.MESSAGE_WORD_COUNT_EXCEEDED,
-                                    new String[]{dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "executiveSummary"),
-                                        String.valueOf(cvres.getErrorParameters()[1])});
+                            if (cvres != null && cvres.getStatus() == ErrorLevel.ERROR) {
+                                valid = false;
+                                errorMap.putError("executiveSummary", Constants.MESSAGE_WORD_COUNT_EXCEEDED,
+                                        new String[]{dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "executiveSummary"),
+                                            String.valueOf(cvres.getErrorParameters()[1])});
+                            }
                         }
-                    }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -417,13 +426,20 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
             }
         }
 
-        ProposalDevelopmentForm proposalForm = (ProposalDevelopmentForm) KNSGlobalVariables.getKualiForm();
+        // we MUST check the TYPE of KualiForm since it is acually possible for the form object to be of type ProtocolForm (IRB) and IacucProtocolForm 
+        // since when a DevProposal is created as a Funding Source of a Protocol it creates a DevProp and saves it, which triggers
+        // this rules class
+        KualiForm form = KNSGlobalVariables.getKualiForm();
 
-        //if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber()!=null &&  proposalForm.isDeadlineDateRequired() && proposalDevelopmentDocument.getDevelopmentProposal().getDeadlineDate() == null) {
-        if (proposalForm.isDeadlineDateRequired() && proposalDevelopmentDocument.getDevelopmentProposal().getDeadlineDate() == null) {
-            errorMap.putError("deadlineDate", KeyConstants.WARNING_EMPTY_DEADLINE_DATE,
-                    dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "deadlineDate"));
-            valid = false;
+        if (form instanceof ProposalDevelopmentForm) {
+            ProposalDevelopmentForm proposalForm = (ProposalDevelopmentForm) form;
+
+            //if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber()!=null &&  proposalForm.isDeadlineDateRequired() && proposalDevelopmentDocument.getDevelopmentProposal().getDeadlineDate() == null) {
+            if (proposalForm.isDeadlineDateRequired() && proposalDevelopmentDocument.getDevelopmentProposal().getDeadlineDate() == null) {
+                errorMap.putError("deadlineDate", KeyConstants.WARNING_EMPTY_DEADLINE_DATE,
+                        dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "deadlineDate"));
+                valid = false;
+            }
         }
 
         return valid;
