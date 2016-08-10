@@ -199,9 +199,10 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         person.setRoleChanged(false);
 
         try {
-            if (person.getPersonId() != null
-                    && person.getPerson().getExtendedAttributes() != null) {
+            if (person.getPersonId() != null && person.getPerson().getExtendedAttributes() != null) {
+
                 KcPerson origPerson = person.getPerson();
+
                 for (PersonDegree degree : origPerson.getExtendedAttributes().getPersonDegrees()) {
                     ProposalPersonDegree newDegree = new ProposalPersonDegree();
                     newDegree.setDegree(degree.getDegree());
@@ -214,13 +215,15 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                     newDegree.setDegreeSequenceNumber(document.getDocumentNextValue(Constants.PROPOSAL_PERSON_DEGREE_SEQUENCE_NUMBER));
                     person.addDegree(newDegree);
                 }
+
                 if (origPerson.getExtendedAttributes().getAttachments() != null) {
-                    
+
                     final String defaultPersonAttachmentDocType = getDefaultPersonAttachmentDocType();
-                    
+
                     for (PersonBiosketch attachment : origPerson.getExtendedAttributes().getAttachments()) {
                         ProposalPersonBiography bio = new ProposalPersonBiography();
                         bio.setProposalPersonNumber(person.getProposalPersonNumber());
+                        bio.setProposalNumber(person.getProposalNumber());
                         bio.setDocumentTypeCode(defaultPersonAttachmentDocType);
                         bio.setDescription(attachment.getDescription());
                         bio.setFileName(attachment.getFileName());
@@ -232,11 +235,13 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                         personnelAttachment.setProposalPersonNumber(person.getProposalPersonNumber());
                         personnelAttachment.setBiographyData(attachment.getAttachmentContent());
                         personnelAttachment.setContentType(attachment.getContentType());
+
                         if (bio.getPersonnelAttachmentList().isEmpty()) {
                             bio.getPersonnelAttachmentList().add(personnelAttachment);
                         } else {
                             bio.getPersonnelAttachmentList().set(0, personnelAttachment);
                         }
+
                         document.getDevelopmentProposal().addProposalPersonBiography(bio);
                     }
                 }
