@@ -35,33 +35,39 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiographyService {
     private BusinessObjectService businessObjectService;
     private AttachmentDao attachmentDao;
     private PersonService personService;
 
-    
+
     /**
-     * 
-     * @see org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService#addProposalPersonBiography(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument,
-     *      org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography)
+     *
+     * @see
+     * org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService#addProposalPersonBiography(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument,
+     * org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography)
      */
     @Override
     public void addProposalPersonBiography(ProposalDevelopmentDocument proposaldevelopmentDocument,
             ProposalPersonBiography proposalPersonBiography) {
+        
         proposalPersonBiography.setProposalNumber(proposaldevelopmentDocument.getDevelopmentProposal().getProposalNumber());
-        proposalPersonBiography.setBiographyNumber(proposaldevelopmentDocument
-                .getDocumentNextValue(Constants.PROP_PERSON_BIO_NUMBER));
+        proposalPersonBiography.setBiographyNumber(proposaldevelopmentDocument.getDocumentNextValue(Constants.PROP_PERSON_BIO_NUMBER));
         proposalPersonBiography.setPropPerDocType(new PropPerDocType());
         ProposalPerson proposalPerson = getPerson(proposaldevelopmentDocument, proposalPersonBiography.getProposalPersonNumber());
+
         if (proposalPerson != null) {
             proposalPersonBiography.setPersonId(proposalPerson.getPersonId());
             proposalPersonBiography.setRolodexId(proposalPerson.getRolodexId());
         }
+
         proposalPersonBiography.getPropPerDocType().setDocumentTypeCode(proposalPersonBiography.getDocumentTypeCode());
         proposalPersonBiography.refreshReferenceObject("propPerDocType");
         FormFile personnelAttachmentFile = proposalPersonBiography.getPersonnelAttachmentFile();
+
         if (personnelAttachmentFile != null) {
             try {
                 byte[] fileData = personnelAttachmentFile.getFileData();
@@ -80,26 +86,25 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
                         proposalPersonBiography.getPersonnelAttachmentList().set(0, personnelAttachment);
                     }
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 proposalPersonBiography.getPersonnelAttachmentList().clear();
             }
         }
         DocumentNextvalue documentNextvalue = proposaldevelopmentDocument.getDocumentNextvalueBo(Constants.PROP_PERSON_BIO_NUMBER);
-//        documentNextvalue.setDocumentKey(proposaldevelopmentDocument.getDevelopmentProposal().getProposalNumber());
+
         List<PersistableBusinessObject> businessObjects = new ArrayList<PersistableBusinessObject>();
         businessObjects.add(documentNextvalue);
         businessObjects.add(proposalPersonBiography);
         getBusinessObjectService().save(businessObjects);
         proposalPersonBiography.getPersonnelAttachmentList().clear();
         proposaldevelopmentDocument.getDevelopmentProposal().getPropPersonBios().add(proposalPersonBiography);
-
     }
 
     /**
-     * 
-     * @see org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService#removePersonnelAttachmentForDeletedPerson(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument,
-     *      org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
+     *
+     * @see
+     * org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService#removePersonnelAttachmentForDeletedPerson(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument,
+     * org.kuali.kra.proposaldevelopment.bo.ProposalPerson)
      */
     @Override
     public void removePersonnelAttachmentForDeletedPerson(ProposalDevelopmentDocument proposaldevelopmentDocument,
@@ -118,9 +123,10 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
     }
 
     /**
-     * 
-     * @see org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService#deleteProposalPersonBiography(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument,
-     *      int)
+     *
+     * @see
+     * org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService#deleteProposalPersonBiography(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument,
+     * int)
      */
     @Override
     public void deleteProposalPersonBiography(ProposalDevelopmentDocument proposaldevelopmentDocument, int lineToDelete) {
@@ -131,8 +137,9 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
     }
 
     /**
-     * 
+     *
      * This method find the matched person in key person list
+     *
      * @param proposaldevelopmentDocument
      * @param proposalPersonNumber
      * @return
@@ -148,7 +155,7 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
 
     /**
      * Gets the businessObjectService attribute.
-     * 
+     *
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -157,17 +164,17 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
+     *
      * @param businessObjectService The businessObjectService to set.
      */
-
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
     /**
-     * 
-     * @see org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService#setPersonnelBioTimeStampUser(java.util.List)
+     *
+     * @see
+     * org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService#setPersonnelBioTimeStampUser(java.util.List)
      */
     @Override
     public void setPersonnelBioTimeStampUser(List<ProposalPersonBiography> proposalPersonBios) {
@@ -175,17 +182,16 @@ public class ProposalPersonBiographyServiceImpl implements ProposalPersonBiograp
         for (ProposalPersonBiography proposalPersonBiography : proposalPersonBios) {
             Iterator personBioAtt = attachmentDao.getPersonnelTimeStampAndUploadUser(proposalPersonBiography.getProposalPersonNumber(), proposalPersonBiography.getProposalNumber(), proposalPersonBiography.getBiographyNumber());
             if (personBioAtt.hasNext()) {
-                Object[] item = (Object[])personBioAtt.next();
-                proposalPersonBiography.setTimestampDisplay((Timestamp)item[0]);
-                proposalPersonBiography.setUploadUserDisplay((String)item[1]);
+                Object[] item = (Object[]) personBioAtt.next();
+                proposalPersonBiography.setTimestampDisplay((Timestamp) item[0]);
+                proposalPersonBiography.setUploadUserDisplay((String) item[1]);
                 //using PersonService as it will display the user's name the same as the notes panel does
                 Person person = personService.getPersonByPrincipalName(proposalPersonBiography.getUploadUserDisplay());
                 proposalPersonBiography.setUploadUserFullName(ObjectUtils.isNull(person) ? proposalPersonBiography.getUploadUserDisplay() + "(not found)" : person.getName());
-             }
+            }
 
         }
-    }   
-    
+    }
 
     public AttachmentDao getAttachmentDao() {
         return attachmentDao;
