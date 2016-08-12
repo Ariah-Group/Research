@@ -83,6 +83,8 @@ and ATTR_VAL='KC';
 -- RES-674
 update krcr_parm_t set PARM_DESC_TXT='Flag in a dev proposal record to display the Delivery Info subpanel on the main Proposal tab. If Y then the subpanel is displayed. If N then the subpanel is not displayed.' where PARM_NM='deliveryInfoDisplayIndicator';
 
+update krcr_parm_t set PARM_DESC_TXT='"A semi-colon delimited list of regular expressions that identify potentially sensitive data in strings.  These patterns will be matched against notes, document explanations, and routing annotations."' where PARM_NM='SENSITIVE_DATA_PATTERNS';
+
 
 commit;
 exit
