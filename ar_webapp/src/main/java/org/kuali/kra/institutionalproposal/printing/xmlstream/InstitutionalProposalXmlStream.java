@@ -61,8 +61,6 @@ public class InstitutionalProposalXmlStream extends
     private static final String NOTICE_OF_OPPORTUNITY_CODE = "noticeOfOpportunityCode";
     private static final String PROPOSAL_TYPE_CODE = "proposalTypeCode";
     private static final String PROPOSAL_STATUS_CODE = "proposalStatusCode";
-    private static final String SCHOOL_NAME = "SCHOOL_NAME";
-    private static final String SCHOOL_ACRONYM = "SCHOOL_ACRONYM";
     private InstitutionalProposalPersonService institutionalProposalPersonService;
 
     static {
@@ -375,8 +373,8 @@ public class InstitutionalProposalXmlStream extends
     private IPSchoolInfoType getSchoolInfoType() {
         IPSchoolInfoType schoolInfoType = IPSchoolInfoType.Factory
                 .newInstance();
-        String schoolName = getIPParameterValue(SCHOOL_NAME);
-        String schoolAcronym = getIPParameterValue(SCHOOL_ACRONYM);
+        String schoolName = getIPParameterValue(Constants.SCHOOL_NAME);
+        String schoolAcronym = getIPParameterValue(Constants.SCHOOL_ACRONYM);
         if (schoolName != null) {
             schoolInfoType.setSchoolName(schoolName);
         }

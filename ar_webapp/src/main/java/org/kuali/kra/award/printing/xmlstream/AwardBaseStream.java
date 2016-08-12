@@ -104,8 +104,6 @@ public abstract class AwardBaseStream implements XmlStream {
     protected static final String START_ASTERISK_SPACE_INDICATOR = "* ";
     protected static final String END_ASTERISK_SPACE_INDICATOR = " *";
     protected static final String FELLOWSHIP_ADMIN_NAME = "FELLOWSHIP_OSP_ADMIN";
-    private static final String SCHOOL_NAME = "SCHOOL_NAME";
-    private static final String SCHOOL_ACRONYM = "SCHOOL_ACRONYM";
     protected static final String EMPTY_STRING = "";
     protected static final String INDICATOR_CONSTANT = "1";
     protected static final String SPONSOR_CODE_DELETED_INDICATOR = "DELETED - ";
@@ -186,8 +184,8 @@ public abstract class AwardBaseStream implements XmlStream {
     protected SchoolInfoType2 getSchoolInfoType() {
         SchoolInfoType2 schoolInfoType = SchoolInfoType2.Factory.newInstance();
         try {
-            String schoolName = getProposalParameterValue(SCHOOL_NAME);
-            String schoolAcronym = getProposalParameterValue(SCHOOL_ACRONYM);
+            String schoolName = getProposalParameterValue(Constants.SCHOOL_NAME);
+            String schoolAcronym = getProposalParameterValue(Constants.SCHOOL_ACRONYM);
             if (schoolName != null) {
                 schoolInfoType.setSchoolName(schoolName);
             }

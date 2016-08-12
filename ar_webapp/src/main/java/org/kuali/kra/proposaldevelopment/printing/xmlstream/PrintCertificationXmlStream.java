@@ -59,8 +59,6 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
     private static final String SPONSOR_TYPE_CODE_ZERO = "0";
     private static final String SPONSOR_TYPE_FED = "FED";
     private static final String SPONSOR_TYPE_NONFED = "NONFED";
-    private static final String SCHOOL_NAME = "SCHOOL_NAME";
-    private static final String SCHOOL_ACRONYM = "SCHOOL_ACRONYM";
     private static final String KEY_ROLODEX_ID = "rolodexId";
     private static final String STATEMENT_CONFLICT = "I have indicated whether or not there is any potential for a real or perceived conflict of interest as defined in MIT Policies and Procedures, 4.4:  http://web.mit.edu/afs/athena.mit.edu/org/p/policies/4.4.html";
     private static final String STATEMENT_CERTIFICATION_NOT_NEEDED = "Certification is not needed";
@@ -324,8 +322,8 @@ public class PrintCertificationXmlStream extends ProposalBaseStream {
      */
     private PCschoolInfoType getSchoolInfoType() {
         PCschoolInfoType schoolInfoType = PCschoolInfoType.Factory.newInstance();
-        String schoolName = getCertificationParameterValue(SCHOOL_NAME);
-        String schoolAcronym = getCertificationParameterValue(SCHOOL_ACRONYM);
+        String schoolName = getCertificationParameterValue(Constants.SCHOOL_NAME);
+        String schoolAcronym = getCertificationParameterValue(Constants.SCHOOL_ACRONYM);
 
         if (schoolName != null) {
             schoolInfoType.setSchoolName(schoolName);

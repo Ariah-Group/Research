@@ -52,8 +52,6 @@ public abstract class AwardBudgetBaseStream implements XmlStream {
 
     protected BusinessObjectService businessObjectService = null;
     protected DateTimeService dateTimeService = null;
-    private static final String SCHOOL_NAME = "SCHOOL_NAME";
-    private static final String SCHOOL_ACRONYM = "SCHOOL_ACRONYM";
     protected static final String DOCUMENT_NUMBER = "documentNumber";
     private ParameterService parameterService;
 
@@ -142,8 +140,8 @@ public abstract class AwardBudgetBaseStream implements XmlStream {
      */
     protected SchoolInfoType2 getSchoolInfoType() {
         SchoolInfoType2 schoolInfoType = SchoolInfoType2.Factory.newInstance();
-        String schoolName = getAwardParameterValue(SCHOOL_NAME);
-        String schoolAcronym = getProposalParameterValue(SCHOOL_ACRONYM);
+        String schoolName = getAwardParameterValue(Constants.SCHOOL_NAME);
+        String schoolAcronym = getProposalParameterValue(Constants.SCHOOL_ACRONYM);
         if (schoolName != null) {
             schoolInfoType.setSchoolName(schoolName);
         }

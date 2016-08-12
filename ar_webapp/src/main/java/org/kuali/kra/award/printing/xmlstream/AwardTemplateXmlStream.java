@@ -40,6 +40,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 import java.sql.Date;
 import java.util.*;
+import org.kuali.kra.infrastructure.Constants;
 
 /**
  * This class generates XML that conforms with the XSD related to Award Template
@@ -54,8 +55,6 @@ public class AwardTemplateXmlStream implements XmlStream {
 
     private BusinessObjectService businessObjectService = null;
     private DateTimeService dateTimeService = null;
-    private static final String SCHOOL_NAME = "SCHOOL_NAME";
-    private static final String SCHOOL_ACRONYM = "SCHOOL_ACRONYM";
     private String previousDescription = "";
 
     /**
@@ -443,8 +442,8 @@ public class AwardTemplateXmlStream implements XmlStream {
      */
     private SchoolInfoType getSchoolInfoType() {
         SchoolInfoType schoolInfoType = SchoolInfoType.Factory.newInstance();
-        String schoolName = getAwardParameterValue(SCHOOL_NAME);
-        String schoolAcronym = getAwardParameterValue(SCHOOL_ACRONYM);
+        String schoolName = getAwardParameterValue(Constants.SCHOOL_NAME);
+        String schoolAcronym = getAwardParameterValue(Constants.SCHOOL_ACRONYM);
         if (schoolName != null) {
             schoolInfoType.setSchoolName(schoolName);
         }

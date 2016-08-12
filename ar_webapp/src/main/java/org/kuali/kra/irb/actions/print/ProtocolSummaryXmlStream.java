@@ -67,9 +67,6 @@ import java.util.*;
  */
 public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
 
-    private static final String SCHOOL_NAME = "SCHOOL_NAME";
-    private static final String SCHOOL_ACRONYM = "SCHOOL_ACRONYM";
-
     private SponsorService sponsorService;
     private UnitService unitService;
     private BusinessObjectService businessObjectService;
@@ -158,10 +155,10 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
         ParameterService parameterService = KraServiceLocator.getService(ParameterService.class);
 
         String schoolName = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
-                Constants.PARAMETER_COMPONENT_DOCUMENT, SCHOOL_NAME);
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.SCHOOL_NAME);
 
         String schoolAcronym = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
-                Constants.PARAMETER_COMPONENT_DOCUMENT, SCHOOL_ACRONYM);
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.SCHOOL_ACRONYM);
 
         SchoolInfoType schoolInfoType = protocolSummary.addNewSchoolInfo();
         schoolInfoType.setSchoolName(schoolName);
