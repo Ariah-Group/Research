@@ -83,6 +83,7 @@ and ATTR_VAL='KC';
 -- RES-674
 update krcr_parm_t set PARM_DESC_TXT='Flag in a dev proposal record to display the Delivery Info subpanel on the main Proposal tab. If Y then the subpanel is displayed. If N then the subpanel is not displayed.' where PARM_NM='deliveryInfoDisplayIndicator';
 
+-- RES-676
 update krcr_parm_t set PARM_DESC_TXT='A semi-colon delimited list of regular expressions that identify potentially sensitive data in strings.  These patterns will be matched against notes, document explanations, and routing annotations.' where PARM_NM='SENSITIVE_DATA_PATTERNS';
 
 update krcr_parm_t set PARM_DESC_TXT='Code corresponding to Proposal Type Participant Tuition Category' where PARM_NM='s2sBudgetParticipantTutionCategory';
@@ -101,6 +102,11 @@ update krcr_parm_t set PARM_DESC_TXT='Reference id is configurable at impl time'
 update krcr_parm_t set PARM_DESC_TXT='Reference id is configurable at impl time' where PARM_NM='irb.protocol.referenceID2';
 update krcr_parm_t set PARM_DESC_TXT='Comma seperated list of Document Types to exclude from the Rule Quicklinks.' where PARM_NM='RESTRICT_DOCUMENT_TYPES';
 update krcr_parm_t set PARM_DESC_TXT='Defines whether the debug transform is enabled for eDocLite.' where PARM_NM='DEBUG_TRANSFORM_IND';
+
+
+-- RES-677
+  INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
+      VALUES  ('KC-PROTOCOL','Document','ARIAH_IRB_PROTOCOL_ATTACHMENT_TYPECODE_OTHER', sys_guid(),0,'CONFG','9','The IRB Protocol Attachment Type Code representing the OTHER type.','A','KUALI');
 
 
 commit;

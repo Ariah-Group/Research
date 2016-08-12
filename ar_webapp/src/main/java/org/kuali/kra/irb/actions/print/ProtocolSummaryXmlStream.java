@@ -67,7 +67,6 @@ import java.util.*;
  */
 public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
 
-    private static final String OTHER = "9";
     private static final String SCHOOL_NAME = "SCHOOL_NAME";
     private static final String SCHOOL_ACRONYM = "SCHOOL_ACRONYM";
 
@@ -150,32 +149,40 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
         setProtocolUserRoles(protocolSummary, protocol);
         setProtocolDocuments(protocolSummary, protocol);
 
-        setSchoolInfo(protocolSummary, protocol);
+        setSchoolInfo(protocolSummary);
         return protocolSummary;
     }
 
-    private void setSchoolInfo(ProtocolSummary protocolSummary, Protocol protoInfoBean) {
-        String schoolName = getProposalParameterValue(SCHOOL_NAME);
-        String schoolAcronym = getProposalParameterValue(SCHOOL_ACRONYM);
+    private void setSchoolInfo(ProtocolSummary protocolSummary) {
+
+        ParameterService parameterService = KraServiceLocator.getService(ParameterService.class);
+
+        String schoolName = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, SCHOOL_NAME);
+
+        String schoolAcronym = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, SCHOOL_ACRONYM);
+
         SchoolInfoType schoolInfoType = protocolSummary.addNewSchoolInfo();
         schoolInfoType.setSchoolName(schoolName);
         schoolInfoType.setAcronym(schoolAcronym);
+
         protocolSummary.setSchoolInfo(schoolInfoType);
     }
 
-    private String getProposalParameterValue(String param) {
-        ParameterService parameterService = KraServiceLocator.getService(ParameterService.class);
-        return parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
-                Constants.PARAMETER_COMPONENT_DOCUMENT, param);
-    }
-
     private void setProtocolDocuments(ProtocolSummary protocolSummary, Protocol protocol) {
+        
+        ParameterService parameterService = KraServiceLocator.getService(ParameterService.class);
+
+        final String protocolAttachmentTypeCodeOther = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROTOCOL,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ARIAH_IRB_PROTOCOL_ATTACHMENT_TYPECODE_OTHER);
+        
         ProtocolDocumentsType protocolDocumentsType = protocolSummary.addNewProtocolDocuments();
         protocolDocumentsType.setProtocolNumber(protocol.getProtocolNumber());
         protocolDocumentsType.setSequenceNumber(protocol.getSequenceNumber());
         List<ProtocolAttachmentProtocol> protocolAttachments = (List) protocol.getActiveAttachmentProtocols();
         for (ProtocolAttachmentProtocol protocolAttachmentProtocol : protocolAttachments) {
-            if (protocolAttachmentProtocol.getTypeCode().equals(OTHER)) {
+            if (protocolAttachmentProtocol.getTypeCode().equals(protocolAttachmentTypeCodeOther)) {
                 ProtocolOtherDocumentsType protocolOtherDocumentsType = protocolDocumentsType.addNewProtocolOtherDocuments();
                 protocolOtherDocumentsType.setDescription(protocolAttachmentProtocol.getDescription());
                 protocolOtherDocumentsType.setDocumentId(protocolAttachmentProtocol.getDocumentId());
