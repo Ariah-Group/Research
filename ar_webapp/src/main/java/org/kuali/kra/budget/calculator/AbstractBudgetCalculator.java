@@ -44,7 +44,7 @@ import java.util.*;
  * Base class for <code>LineItemCalculator<code> and <code>PersonnelLineItemCalculator</code>.
  */
 public abstract class AbstractBudgetCalculator {
-    private static final String UNDER_REECOVERY_RATE_TYPE_CODE = "1";
+    private static final String UNDER_RECOVERY_RATE_TYPE_CODE = "1";
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     protected Budget budget;
@@ -151,7 +151,7 @@ public abstract class AbstractBudgetCalculator {
             // Add underrecovery rates
             if(!isUndercoveryMatchesOverhead()){
                 Equals equalsRC = new Equals("rateClassCode", budget.getUrRateClassCode());
-                Equals equalsRT = new Equals("rateTypeCode", UNDER_REECOVERY_RATE_TYPE_CODE);
+                Equals equalsRT = new Equals("rateTypeCode", UNDER_RECOVERY_RATE_TYPE_CODE);
                 Equals equalsOnOff = new Equals("onOffCampusFlag", budgetLineItem.getOnOffCampusFlag());
                 And RCandRT = new And(equalsRC, equalsRT);
                 And RCRTandOnOff = new And(RCandRT, equalsOnOff);
@@ -535,7 +535,7 @@ public abstract class AbstractBudgetCalculator {
                 // Set the URRates if required
                 if (!isUndercoveryMatchesOverhead() && hasValidUnderRecoveryRate()) {
                     Equals equalsRC = new Equals("rateClassCode", budget.getUrRateClassCode());
-                    Equals equalsRT = new Equals("rateTypeCode", UNDER_REECOVERY_RATE_TYPE_CODE);
+                    Equals equalsRT = new Equals("rateTypeCode", UNDER_RECOVERY_RATE_TYPE_CODE);
                     Equals equalsOnOff = new Equals("onOffCampusFlag", budgetLineItem.getOnOffCampusFlag());
                     And RCandRT = new And(equalsRC, equalsRT);
                     And RCRTandOnOff = new And(RCandRT, equalsOnOff);
@@ -560,7 +560,7 @@ public abstract class AbstractBudgetCalculator {
 
     private boolean hasValidUnderRecoveryRate() {
         Equals equalsRC = new Equals("rateClassCode", budget.getUrRateClassCode());
-        Equals equalsRT = new Equals("rateTypeCode", UNDER_REECOVERY_RATE_TYPE_CODE);
+        Equals equalsRT = new Equals("rateTypeCode", UNDER_RECOVERY_RATE_TYPE_CODE);
         Equals equalsRCT = new Equals("rateClassType", RateClassType.OVERHEAD.getRateClassType());
         And RCandRT = new And(equalsRC, equalsRT);
         And RCRTandRCT = new And(RCandRT, equalsRCT);
