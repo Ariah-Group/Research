@@ -1635,8 +1635,7 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase
         for (ProtocolAttachmentProtocolBase attachment1 : getAttachmentProtocols()) {
             if (attachment1.isDraft()) {
                 activeAttachments.add(attachment1);
-            } else if (attachment1.isFinal() || attachment1.isDeleted()) {
-                //else if (attachment1.isFinal())) {
+            } else if (attachment1.isFinal()) {
                 boolean isActive = true;
                 for (ProtocolAttachmentProtocolBase attachment2 : getAttachmentProtocols()) {
                     if (attachment1.getDocumentId().equals(attachment2.getDocumentId())
