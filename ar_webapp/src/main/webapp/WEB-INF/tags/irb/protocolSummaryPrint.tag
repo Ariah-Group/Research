@@ -230,11 +230,12 @@ limitations under the License.
                  </table>
             </div>
         </kul:innerTab>
-          
-        <c:if test="${fn:length(KualiForm.document.protocolList[0].activeAttachmentProtocolsNoDelete) > 0 or fn:length(KualiForm.document.protocolList[0].attachmentPersonnels) > 0}">
+        <c:set var="activeAttachmentProtocolsNoDelete" value="${KualiForm.document.protocolList[0].activeAttachmentProtocolsNoDelete}"/>
+        <c:set var="attachmentPersonnels" value="${KualiForm.document.protocolList[0].protocolAttachmentPersonnel}"/>
+        <c:if test="${fn:length(activeAttachmentProtocolsNoDelete) > 0 or fn:length(attachmentPersonnels) > 0}">
             <kul:innerTab tabTitle="Attachments" parentTab="" defaultOpen="false">
                 <div class="innerTab-container">
-                    <c:if test="${fn:length(KualiForm.document.protocolList[0].activeAttachmentProtocolsNoDelete) > 0}">
+                    <c:if test="${fn:length(activeAttachmentProtocolsNoDelete) > 0}">
                         <table cellpadding="0" cellspacing="0" summary="protocol attachments print form" style="padding-top: 10px;">
                             <tr>
                                 <td class="tab-subhead">Protocol Attachments</td>
@@ -253,26 +254,13 @@ limitations under the License.
                                             </tr>
                                         </thead>
                                         <tbody>    
-                                            <c:forEach var="protocolAttachment" items="${KualiForm.document.protocolList[0].activeAttachmentProtocolsNoDelete}" varStatus="status">
+                                            <c:forEach var="protocolAttachment" items="${activeAttachmentProtocolsNoDelete}" varStatus="status">
                                                 <tr>
-                                                    <td>
-                                                        ${protocolAttachment.description}
-                                                        <%--<kul:htmlControlAttribute property="document.protocolList[0].attachmentProtocols[${status.index}].file.fileName"
-                                                                                  attributeEntry="${protocolAttachmentBaseAttributes.description}"
-                                                                                  readOnly="true" /> --%>
-                                                    </td>
-                                                    <td>
-                                                       ${protocolAttachment.status.description} (${protocolAttachment.file.name})
-                                                    </td>
-                                                    <td>
-                                                        <fmt:formatDate value="${protocolAttachment.updateTimestamp}" pattern="MM/dd/yyyy KK:mm a" />                      
-                                                    </td>
-                                                    <td>
-                                                       ${protocolAttachment.updateUser}
-                                                    </td>
-                                                    <td>
-                                                       ${protocolAttachment.type.description}
-                                                    </td>
+                                                    <td>${protocolAttachment.description}</td>
+                                                    <td>${protocolAttachment.status.description} (${protocolAttachment.file.name})</td>
+                                                    <td><fmt:formatDate value="${protocolAttachment.updateTimestamp}" pattern="MM/dd/yyyy KK:mm a" /></td>
+                                                    <td>${protocolAttachment.updateUser}</td>
+                                                    <td>${protocolAttachment.type.description}</td>
                                                     <td align="center" valign="middle">
                                                         <div align="center">
                                                              <html:image property="methodToCall.viewProtocolAttachment.line${status.index}.anchor${currentTabIndex}"
@@ -288,8 +276,7 @@ limitations under the License.
                             </tr>
                         </table>    
                     </c:if>
-        
-                   <c:if test="${fn:length(KualiForm.document.protocolList[0].attachmentPersonnels) > 0}">
+                   <c:if test="${fn:length(attachmentPersonnels) > 0}">
                         <table cellpadding="0" cellspacing="0" summary="personnel attachments print form" style="padding-top: 10px;">
                             <tr>
                                 <td class="tab-subhead">Personnel Attachments</td>
@@ -308,23 +295,13 @@ limitations under the License.
                                             </tr>
                                         </thead>
                                         <tbody>
-                                               <c:forEach var="attachmentPersonnel" items="${KualiForm.document.protocolList[0].attachmentPersonnels}" varStatus="status">
+                                               <c:forEach var="attachmentPersonnel" items="${attachmentPersonnels}" varStatus="status">
                                                    <tr>
-                                                    <td>
-                                                        ${attachmentPersonnel.description}
-                                                    </td>
-                                                    <td>
-                                                        ${attachmentPersonnel.file.name}
-                                                    </td>
-                                                    <td>
-                                                        <fmt:formatDate value="${attachmentPersonnel.updateTimestamp}" pattern="MM/dd/yyyy KK:mm a" />  
-                                                    </td>
-                                                    <td>
-                                                        ${attachmentPersonnel.updateUser}
-                                                    </td>
-                                                    <td>
-                                                        ${attachmentPersonnel.type.description} 
-                                                    </td>
+                                                    <td>${attachmentPersonnel.description}</td>
+                                                    <td>${attachmentPersonnel.file.name}</td>
+                                                    <td><fmt:formatDate value="${attachmentPersonnel.updateTimestamp}" pattern="MM/dd/yyyy KK:mm a" /></td>
+                                                    <td>${attachmentPersonnel.updateUser}</td>
+                                                    <td>${attachmentPersonnel.type.description}</td>
                                                     <td align="center" valign="middle">
                                                         <div align="center">
                                                              <html:image property="methodToCall.viewProtocolPersonnelAttachment.line${status.index}.anchor${currentTabIndex}"
