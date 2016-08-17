@@ -57,7 +57,7 @@ public class LookupableBoValuesFinder extends UifKeyValuesFinderBase {
     	for (String businessObject: businessObjectEntries.keySet()) {
     	    org.kuali.rice.kns.datadictionary.BusinessObjectEntry businessObjectEntry = (org.kuali.rice.kns.datadictionary.BusinessObjectEntry) businessObjectEntries.get(businessObject);
     	    if ((businessObjectEntry.hasLookupDefinition()) 
-    	            && (businessObject.startsWith("org.kuali.kra") 
+    	            && (businessObject.startsWith("org.kuali.kra") || businessObject.startsWith("org.ariahgroup.research") 
                             || businessObject.equals("org.kuali.rice.location.impl.campus.CampusBo")
                             || businessObject.equals("org.kuali.rice.location.impl.country.CountryBo")
                             || businessObject.equals("org.kuali.rice.location.impl.county.CountyBo")
