@@ -206,7 +206,7 @@ function collapseAll() {
 			<c:forEach var="objectCodeByTypeEntry" items="${budgetSummary.combinedObjectCodeListByCategory}">
 			 <c:set var="catType" value="${objectCodeByTypeEntry.key}"/>
 			 <c:set var="objCodes" value="${objectCodeByTypeEntry.value}"/>
-			 <c:if test="${catType.budgetCategoryTypeCode ne 'P'}">
+			 <c:if test="${catType.budgetCategoryTypeCode ne KualiForm.budgetCategoryTypeCodePersonnel}">
 			 <c:set var="curTotal" value="${budgetSummary.currentSummaryTotals[catType.budgetCategoryTypeCode] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.currentSummaryTotals[catType.budgetCategoryTypeCode])}" />
              <c:set var="prevTotal" value="${budgetSummary.previousSummaryTotals[catType.budgetCategoryTypeCode] == null ? 0.00 : krafn:getBigDecimal(budgetSummary.previousSummaryTotals[catType.budgetCategoryTypeCode])}" />
              <c:set var="total" value="${curTotal + prevTotal}" />

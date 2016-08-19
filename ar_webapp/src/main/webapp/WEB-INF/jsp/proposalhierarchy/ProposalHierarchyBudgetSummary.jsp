@@ -202,7 +202,7 @@ http://www.osedu.org/licenses/ECL-2.0
             
             <c:forEach var="objectCodeMapEntry" items="${budget.objectCodeListByBudgetCategoryType}" varStatus="mapIndex">
             <c:set var="categoryType" value="${objectCodeMapEntry.key}" /> 
-	            <c:if test="${categoryType.budgetCategoryTypeCode ne 'P'}" >
+	            <c:if test="${categoryType.budgetCategoryTypeCode ne KualiForm.budgetCategoryTypeCodePersonnel}" >
 			            <tr>
 			              <td class="tab-subhead" >${categoryType.description}</td>
 			              <c:set var="nonPersonnelSummaryTotals" value="${budget.budgetSummaryTotals[categoryType.budgetCategoryTypeCode]}" />

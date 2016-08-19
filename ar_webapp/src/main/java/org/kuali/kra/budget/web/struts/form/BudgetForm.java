@@ -65,80 +65,82 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 public class BudgetForm extends BudgetVersionFormBase implements CostShareFunctions {
-    
+
     private static final long serialVersionUID = -8853937659597422800L;
-    
+
     private static final String KR_EXTERNALIZABLE_IMAGES_URI_KEY = "kr.externalizable.images.url";
     public static final String VERSION_NUMBER_KEY = "DataDictionary.Budget.attributes.budgetVersionNumber";
     public static final String BUDGET_NAME_KEY = "DataDictionary.KraAttributeReferenceDummy.attributes.budgetName";
-    
 
+    private ParameterService parameterService;
     private String newBudgetPersons;
     private String newBudgetRolodexes;
     private String newTbnPersons;
-    
+
     private BudgetPeriod newBudgetPeriod;
-    private List<BudgetLineItem> newBudgetLineItems;   
+    private List<BudgetLineItem> newBudgetLineItems;
 //    private BudgetLineItem newPersonnelLineItem;   
-    private Integer newBudgetPeriodNumber = Integer.valueOf(0);    
-    
+    private Integer newBudgetPeriodNumber = Integer.valueOf(0);
+
     private BudgetCostShare newBudgetCostShare;
     private BudgetProjectIncome newBudgetProjectIncome;
     private BudgetUnrecoveredFandA newBudgetUnrecoveredFandA;
     private BudgetModularIdc newBudgetModularIdc;
     private BudgetModularSummary budgetModularSummary;
-    
+
     private BudgetJustificationWrapper budgetJustificationWrapper;
-    
+
     private BudgetDecimal costSharingAmount;
-    
+
     private List<ExtraButton> extraTopButtons;
 
     private Integer viewBudgetView;
     private Integer viewBudgetPeriod;
     private String viewLocation;
-    
+
     private Integer modularSelectedPeriod;
-            
+
     private boolean documentNextValueRefresh;
     private boolean saveAfterCopy;
-    
+
     private String personnelBudgetViewMode;
     private BudgetLineItem selectedBudgetLineItem;
     private BudgetPersonnelDetails newBudgetPersonnelDetails;
     private Integer selectedBudgetLineItemIndex;
     private String prevOnOffCampusFlag;
     private boolean updateFinalVersion;
-    
+
     private String ohRateClassCodePrevValue;
     private String urRateClassCodePrevValue;
-    
+
     private String[] selectedBudgetPrintFormId;
     private String syncBudgetRate;
     private BudgetSubAwards newSubAward;
     private Integer personnelDetailLine;
-    
+
     private String newGroupName;
-    
-    
+
     private String[] selectedToPrintComment;
-    
+
     private transient boolean viewDivFlag = false;
-    
+
     private transient boolean viewDivBooleanFlag = true;
-    
+
     private transient Integer personIndex = 0;
-    
+
     private transient String enableBudgetSalaryByPeriod;
-    
+
     private BudgetFormulatedCostDetail newBudgetFormulatedCost;
-    
+
     private transient ProposalHierarchyService proposalHierarchyService;
-    
+
     /**
-     * Gets the selectedToPrintComment attribute. 
+     * Gets the selectedToPrintComment attribute.
+     *
      * @return Returns the selectedToPrintComment.
      */
     public String[] getSelectedToPrintComment() {
@@ -147,6 +149,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
 
     /**
      * Sets the selectedToPrintComment attribute value.
+     *
      * @param selectedToPrintComment The selectedToPrintComment to set.
      */
     public void setSelectedToPrintComment(String[] selectedToPrintComment) {
@@ -155,8 +158,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
 
     private List<HierarchyPersonnelSummary> hierarchyPersonnelSummaries;
     private List<HierarchyProposalSummary> hierarchyProposalSummaries;
-    
- 
+
     public List<HierarchyPersonnelSummary> getHierarchyPersonnelSummaries() {
         return hierarchyPersonnelSummaries;
     }
@@ -167,6 +169,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
 
     /**
      * Sets the hierarchyProposalSummaries attribute value.
+     *
      * @param hierarchyProposalSummaries The hierarchyProposalSummaries to set.
      */
     public void setHierarchyProposalSummaries(List<HierarchyProposalSummary> hierarchyProposalSummaries) {
@@ -174,14 +177,14 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     }
 
     /**
-     * Gets the hierarchyProposalSummaries attribute. 
+     * Gets the hierarchyProposalSummaries attribute.
+     *
      * @return Returns the hierarchyProposalSummaries.
      */
     public List<HierarchyProposalSummary> getHierarchyProposalSummaries() {
         return hierarchyProposalSummaries;
     }
 
-    
     public String getOhRateClassCodePrevValue() {
         return ohRateClassCodePrevValue;
     }
@@ -219,28 +222,30 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         //Its actually calling from Action's docHandler. So, no need to call in here
 //        initialize();    
     }
-    
-    /** {@inheritDoc} */
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected String getDefaultDocumentTypeName() {
         return "BudgetDocument";
     }
 
     /**
-     * 
+     *
      * This method initialize all form variables
      */
     public void initialize() {
         Budget budget = getBudgetDocument().getBudget();
-        BudgetPeriod newBudgetPeriod =  budget.getNewBudgetPeriod();
+        BudgetPeriod newBudgetPeriod = budget.getNewBudgetPeriod();
         newBudgetPeriod.setBudget(budget);
         setNewBudgetPeriod(newBudgetPeriod);
-        
+
         configureExtraTopButtons();
-        
+
         newBudgetProjectIncome = new BudgetProjectIncome();
         newBudgetCostShare = new BudgetCostShare();
-        newBudgetUnrecoveredFandA = new BudgetUnrecoveredFandA();            
+        newBudgetUnrecoveredFandA = new BudgetUnrecoveredFandA();
         newBudgetLineItems = new ArrayList<BudgetLineItem>();
 //        newPersonnelLineItem = budget.getNewBudgetLineItem();    
         newBudgetPersonnelDetails = budget.getNewBudgetPersonnelLineItem();
@@ -252,20 +257,19 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         this.getDocInfo().add(new HeaderField(BUDGET_NAME_KEY, Constants.EMPTY_STRING));
         this.getDocInfo().add(new HeaderField(VERSION_NUMBER_KEY, Constants.EMPTY_STRING));
 
-
         setHierarchyProposalSummaries(new ArrayList<HierarchyProposalSummary>());
         Collections.sort(this.getBudgetDocument().getBudget().getBudgetSubAwards());
     }
-    
+
     public BudgetDocument getBudgetDocument() {
         return (BudgetDocument) this.getDocument();
     }
-    
+
     @Override
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);
         // if there are more ...
-        for(Object displayedErrorsKey: getDisplayedErrors().keySet()) {
+        for (Object displayedErrorsKey : getDisplayedErrors().keySet()) {
             getDisplayedErrors().put(displayedErrorsKey, false);
         }
     }
@@ -277,7 +281,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     public void setNewBudgetPeriod(BudgetPeriod newBudgetPeriod) {
         Integer budgetPeriod = 1;
         Budget budget = getBudgetDocument().getBudget();
-        if(budget.getBudgetPeriods() != null) {
+        if (budget.getBudgetPeriods() != null) {
             budgetPeriod = getBudgetDocument().getBudget().getBudgetPeriods().size() + 1;
         }
         newBudgetPeriod.setBudgetPeriod(budgetPeriod);
@@ -294,9 +298,9 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         String calculatePeriodImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_calculatePeriods.gif";
         String defaultImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_defaultPeriods.gif";
         addExtraButton("methodToCall.generateAllPeriods", generatePeriodImage, "Generate All Periods");
-        addExtraButton("methodToCall.questionCalculateAllPeriods",calculatePeriodImage, "Calculate All Periods");
-        addExtraButton("methodToCall.defaultPeriods",defaultImage, "Default Periods");
-        
+        addExtraButton("methodToCall.questionCalculateAllPeriods", calculatePeriodImage, "Calculate All Periods");
+        addExtraButton("methodToCall.defaultPeriods", defaultImage, "Default Periods");
+
         return extraButtons;
     }
 
@@ -310,24 +314,26 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         addExtraButton("methodToCall.calculateLineItem", calculateImage, "Calculate");
         return extraButtons;
     }
+
     public List<ExtraButton> getExtraExpensesButtons() {
         // clear out the extra buttons array
         extraButtons.clear();
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
-        String calculateCurrentPeriodImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_calculateCurrent2.gif"; 
+        String calculateCurrentPeriodImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_calculateCurrent2.gif";
         addExtraButton("methodToCall.calculateCurrentPeriod", calculateCurrentPeriodImage, "Calculate Current Period");
 
         return extraButtons;
     }
+
     public List<ExtraButton> getRatesExtraButtons() {
         // clear out the extra buttons array
         extraButtons.clear();
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
-        String syncAllImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_syncallrates.gif"; 
-        String resetAllImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_resetallrates.gif"; 
+        String syncAllImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_syncallrates.gif";
+        String resetAllImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_resetallrates.gif";
         addExtraButton("methodToCall.syncAllRates", syncAllImage, "Sync All Rates");
-        addExtraButton("methodToCall.resetAllRates",resetAllImage, "Reset All Rates");
-        
+        addExtraButton("methodToCall.resetAllRates", resetAllImage, "Reset All Rates");
+
         return extraButtons;
     }
 
@@ -336,73 +342,73 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         extraButtons.clear();
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
 
-        String calculateCurrentPeriodImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_calculateCurrent2.gif"; 
+        String calculateCurrentPeriodImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_calculateCurrent2.gif";
         addExtraButton("methodToCall.calculateCurrentPeriod", calculateCurrentPeriodImage, "Calculate Current Period");
-        String viewPersonnelSalariesImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_viewpersal.gif"; 
-        addExtraButton("methodToCall.viewPersonnelSalaries",viewPersonnelSalariesImage, "View Personnel Salaries","excludeSubmitRestriction=true");
-        
+        String viewPersonnelSalariesImage = lookupKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_viewpersal.gif";
+        addExtraButton("methodToCall.viewPersonnelSalaries", viewPersonnelSalariesImage, "View Personnel Salaries", "excludeSubmitRestriction=true");
+
         return extraButtons;
     }
 
-
     public List<ExtraButton> getExtraTotalsTopButtons() {
         extraTopButtons.clear();
-        extraTopButtons.add(configureReturnToParentTopButton()); 
-        
+        extraTopButtons.add(configureReturnToParentTopButton());
+
         ExtraButton customExpandAllButton = new ExtraButton();
-        String expandAllImage = lookupKualiConfigurationService().getPropertyValueAsString(KR_EXTERNALIZABLE_IMAGES_URI_KEY) + "tinybutton-expandall.gif"; 
+        String expandAllImage = lookupKualiConfigurationService().getPropertyValueAsString(KR_EXTERNALIZABLE_IMAGES_URI_KEY) + "tinybutton-expandall.gif";
         customExpandAllButton.setExtraButtonProperty("methodToCall.showAllTabs");
         customExpandAllButton.setExtraButtonSource(expandAllImage);
         customExpandAllButton.setExtraButtonAltText("show all panel content");
         customExpandAllButton.setExtraButtonOnclick("javascript: showAllPanels(); return false;");
-        
+
         ExtraButton customCollapseAllButton = new ExtraButton();
-        String hideAllImage = lookupKualiConfigurationService().getPropertyValueAsString(KR_EXTERNALIZABLE_IMAGES_URI_KEY) + "tinybutton-collapseall.gif"; 
+        String hideAllImage = lookupKualiConfigurationService().getPropertyValueAsString(KR_EXTERNALIZABLE_IMAGES_URI_KEY) + "tinybutton-collapseall.gif";
         customCollapseAllButton.setExtraButtonProperty("methodToCall.hideAllTabs");
         customCollapseAllButton.setExtraButtonSource(hideAllImage);
         customCollapseAllButton.setExtraButtonAltText("hide all panel content");
         customCollapseAllButton.setExtraButtonOnclick("javascript: expandAll('false', false); return false");
-        
+
         extraTopButtons.add(customExpandAllButton);
         extraTopButtons.add(customCollapseAllButton);
         return extraTopButtons;
     }
-    
+
     private ExtraButton configureReturnToParentTopButton() {
         BudgetParentDocument budgetParentDocument = getBudgetDocument().getParentDocument();
-        return budgetParentDocument!=null?getBudgetDocument().getParentDocument().configureReturnToParentTopButton():new ExtraButton();
+        return budgetParentDocument != null ? getBudgetDocument().getParentDocument().configureReturnToParentTopButton() : new ExtraButton();
     }
 
     /**
      * This is a utility method to add a new button to the extra buttons
      * collection.
-     *   
+     *
      * @param property
      * @param source
      * @param altText
-     */ 
-    protected void addExtraButton(String property, String source, String altText){
-        addExtraButton(property, source, altText,null);
+     */
+    protected void addExtraButton(String property, String source, String altText) {
+        addExtraButton(property, source, altText, null);
     }
+
     /**
      * This is a utility method to add a new button to the extra buttons
      * collection.
-     *   
+     *
      * @param property
      * @param source
      * @param altText
-     */ 
-    protected void addExtraButton(String property, String source, String altText,String extraButtonOnclick){
-        
+     */
+    protected void addExtraButton(String property, String source, String altText, String extraButtonOnclick) {
+
         ExtraButton newButton = new ExtraButton();
-        
+
         newButton.setExtraButtonProperty(property);
         newButton.setExtraButtonSource(source);
         newButton.setExtraButtonAltText(altText);
-        if(extraButtonOnclick!=null){
+        if (extraButtonOnclick != null) {
             newButton.setExtraButtonOnclick(extraButtonOnclick);
         }
-        
+
         extraButtons.add(newButton);
     }
 
@@ -412,24 +418,26 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
 
     /**
      * Determines if CostSharing edit form should be visible
+     *
      * @return
      */
     public boolean isCostSharingEditFormVisible() {
-        BudgetDocument budgetDocument = getBudgetDocument();  
+        BudgetDocument budgetDocument = getBudgetDocument();
         Budget budget = budgetDocument != null ? budgetDocument.getBudget() : null;
-        return budget != null && budget.isCostSharingApplicable() && budget.isCostSharingAvailable(); 
+        return budget != null && budget.isCostSharingApplicable() && budget.isCostSharingAvailable();
     }
-    
+
     /**
      * Determines if UnrecoveredFandAEdit edit form should be visible
+     *
      * @return
      */
     public boolean isUnrecoveredFandAEditFormVisible() {
-        BudgetDocument budgetDocument = getBudgetDocument(); 
-        Budget budget = budgetDocument != null?budgetDocument.getBudget():null;
-        return budget != null && budget.isUnrecoveredFandAApplicable() && budget.isUnrecoveredFandAAvailable(); 
+        BudgetDocument budgetDocument = getBudgetDocument();
+        Budget budget = budgetDocument != null ? budgetDocument.getBudget() : null;
+        return budget != null && budget.isUnrecoveredFandAApplicable() && budget.isUnrecoveredFandAAvailable();
     }
-    
+
     public void setExtraTopButtons(List<ExtraButton> extraTopButtons) {
         this.extraTopButtons = extraTopButtons;
     }
@@ -448,6 +456,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
 
     /**
      * Get the new BudgetProjectIncome
+     *
      * @return
      */
     public BudgetProjectIncome getNewBudgetProjectIncome() {
@@ -464,6 +473,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
 
     /**
      * Set the new BudgetProjectIncome
+     *
      * @param newBudgetProjectIncome
      */
     public void setNewBudgetProjectIncome(BudgetProjectIncome newBudgetProjectIncome) {
@@ -471,9 +481,9 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     }
 
     public void setNewBudgetRolodexes(String newBudgetRolodexes) {
-        this.newBudgetRolodexes = newBudgetRolodexes; 
+        this.newBudgetRolodexes = newBudgetRolodexes;
     }
-    
+
     public String getNewTbnPersons() {
         return newTbnPersons;
     }
@@ -483,7 +493,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     }
 
     /**
-     * 
+     *
      * This method to suppress copy/reload buttons for 'Totals' page
      */
     public void suppressButtonsForTotalPage() {
@@ -497,6 +507,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
 
     /**
      * Get the new BudgetCostShare
+     *
      * @return
      */
     public BudgetCostShare getNewBudgetCostShare() {
@@ -505,14 +516,16 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
 
     /**
      * Set the new BudgetCostShare
+     *
      * @param newBudgetCostShare
      */
     public void setNewBudgetCostShare(BudgetCostShare newBudgetCostShare) {
         this.newBudgetCostShare = newBudgetCostShare;
     }
-    
+
     /**
      * Get the new BudgetUnrecoveredFandA
+     *
      * @return
      */
     public BudgetUnrecoveredFandA getNewBudgetUnrecoveredFandA() {
@@ -521,12 +534,13 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
 
     /**
      * Set the new BudgetUnrecoveredFandA
+     *
      * @param newBudgetUnrecoveredFandA
      */
     public void setNewBudgetUnrecoveredFandA(BudgetUnrecoveredFandA newBudgetUnrecoveredFandA) {
         this.newBudgetUnrecoveredFandA = newBudgetUnrecoveredFandA;
     }
-    
+
     public Integer getModularSelectedPeriod() {
         return modularSelectedPeriod;
     }
@@ -546,15 +560,15 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     public BudgetModularSummary getBudgetModularSummary() {
         return budgetModularSummary;
     }
-    
+
     public BudgetJustificationWrapper getBudgetJustification() {
         return budgetJustificationWrapper;
     }
 
     public void setBudgetModularSummary(BudgetModularSummary budgetModularSummary) {
         this.budgetModularSummary = budgetModularSummary;
-    }        
-    
+    }
+
     public BudgetDecimal getCostSharingAmount() {
         return costSharingAmount;
     }
@@ -562,7 +576,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     public void setCostSharingAmount(BudgetDecimal costSharingAmount) {
         this.costSharingAmount = costSharingAmount;
     }
-    
+
     public Integer getViewBudgetView() {
         return viewBudgetView;
     }
@@ -574,12 +588,12 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-        
+
         if ("resetRates".equals(getMethodToCall()) || "resetAllRates".equals(getMethodToCall())) {
             GlobalVariables.getMessageMap().clearErrorMessages();
             getUnconvertedValues().clear();
         }
-        
+
         if (getActionFormUtilMap() != null && getActionFormUtilMap() instanceof ActionFormUtilMap) {
             ((ActionFormUtilMap) getActionFormUtilMap()).setCacheValueFinderResults(false);
         }
@@ -594,7 +608,8 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     }
 
     /**
-     * Gets the personnelBudgetViewMode attribute. 
+     * Gets the personnelBudgetViewMode attribute.
+     *
      * @return Returns the personnelBudgetViewMode.
      */
     public String getPersonnelBudgetViewMode() {
@@ -603,6 +618,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
 
     /**
      * Sets the personnelBudgetViewMode attribute value.
+     *
      * @param personnelBudgetViewMode The personnelBudgetViewMode to set.
      */
     public void setPersonnelBudgetViewMode(String personnelBudgetViewMode) {
@@ -610,7 +626,8 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     }
 
     /**
-     * Gets the selectedBudgetLineItem attribute. 
+     * Gets the selectedBudgetLineItem attribute.
+     *
      * @return Returns the selectedBudgetLineItem.
      */
     public BudgetLineItem getSelectedBudgetLineItem() {
@@ -619,6 +636,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
 
     /**
      * Sets the selectedBudgetLineItem attribute value.
+     *
      * @param selectedBudgetLineItem The selectedBudgetLineItem to set.
      */
     public void setSelectedBudgetLineItem(BudgetLineItem selectedBudgetLineItem) {
@@ -626,7 +644,8 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     }
 
     /**
-     * Gets the newBudgetPersonnelDetails attribute. 
+     * Gets the newBudgetPersonnelDetails attribute.
+     *
      * @return Returns the newBudgetPersonnelDetails.
      */
     public BudgetPersonnelDetails getNewBudgetPersonnelDetails() {
@@ -635,6 +654,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
 
     /**
      * Sets the newBudgetPersonnelDetails attribute value.
+     *
      * @param newBudgetPersonnelDetails The newBudgetPersonnelDetails to set.
      */
     public void setNewBudgetPersonnelDetails(BudgetPersonnelDetails newBudgetPersonnelDetails) {
@@ -642,7 +662,8 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     }
 
     /**
-     * Gets the selectedBudgetLineItemIndex attribute. 
+     * Gets the selectedBudgetLineItemIndex attribute.
+     *
      * @return Returns the selectedBudgetLineItemIndex.
      */
     public Integer getSelectedBudgetLineItemIndex() {
@@ -651,26 +672,30 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
 
     /**
      * Sets the selectedBudgetLineItemIndex attribute value.
-     * @param selectedBudgetLineItemIndex The selectedBudgetLineItemIndex to set.
+     *
+     * @param selectedBudgetLineItemIndex The selectedBudgetLineItemIndex to
+     * set.
      */
     public void setSelectedBudgetLineItemIndex(Integer selectedBudgetLineItemIndex) {
         this.selectedBudgetLineItemIndex = selectedBudgetLineItemIndex;
     }
-    
+
     /**
      * This method does what its name says
      */
     private void configureExtraTopButtons() {
         extraTopButtons = new ArrayList<ExtraButton>();
-        
+
         extraTopButtons.add(configureReturnToParentTopButton());
     }
-    
+
     public List<ExtraButton> getExtraActionsButtons() {
         return new ArrayList<ExtraButton>();
     }
+
     /**
      * This method does what its name says
+     *
      * @param buttonFileName
      * @return
      */
@@ -680,12 +705,13 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
 
     /**
      * This method does what its name says
+     *
      * @return
      */
     private ConfigurationService lookupKualiConfigurationService() {
         return CoreApiServiceLocator.getKualiConfigurationService();
     }
-    
+
     public String getPrevOnOffCampusFlag() {
         return prevOnOffCampusFlag;
     }
@@ -700,50 +726,50 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
 
     public void setUpdateFinalVersion(boolean updateFinalVersion) {
         this.updateFinalVersion = updateFinalVersion;
-    }    
-    
+    }
+
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
         BudgetDocument budgetDocument = getBudgetDocument();
         BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
         WorkflowDocument parentWorkflowDocument = null;
-        
+
         try {
-            if(parentDocument != null) {
+            if (parentDocument != null) {
                 parentWorkflowDocument = parentDocument.getDocumentHeader().getWorkflowDocument();
             }
         } catch (RuntimeException e) {
         }
-        
+
         try {
-            if(parentDocument != null && parentWorkflowDocument == null) {
+            if (parentDocument != null && parentWorkflowDocument == null) {
                 Document retrievedDocument = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(parentDocument.getDocumentNumber());
                 parentWorkflowDocument = retrievedDocument.getDocumentHeader().getWorkflowDocument();
             }
         } catch (WorkflowException e) {
-        } 
-        
+        }
+
         // Replaced setting local vars with method calls to ease overriding
         getDocInfo().clear();
         getDocInfo().add(getHeaderDocNumber());
-        getDocInfo().add(getHeaderDocStatus(parentWorkflowDocument)); 
+        getDocInfo().add(getHeaderDocStatus(parentWorkflowDocument));
         getDocInfo().add(getHeaderDocInitiator(parentWorkflowDocument));
         getDocInfo().add(getHeaderDocCreateDate(parentWorkflowDocument));
-        
+
         String budgetName = Constants.EMPTY_STRING;
         String budgetVersionNumber = Constants.EMPTY_STRING;
         if (budgetDocument != null && parentDocument != null) {
             Budget budget = budgetDocument.getBudget();
             List<BudgetDocumentVersion> budgetDocumentVersions = parentDocument.getBudgetDocumentVersions();
-            for (BudgetDocumentVersion budgetDocumentVersion: budgetDocumentVersions) {
+            for (BudgetDocumentVersion budgetDocumentVersion : budgetDocumentVersions) {
                 BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
-                if (budgetVersion!=null && budgetVersion.getBudgetVersionNumber()!=null && 
-                        budgetVersion.getBudgetVersionNumber().intValue() == budget.getBudgetVersionNumber().intValue()) {
+                if (budgetVersion != null && budgetVersion.getBudgetVersionNumber() != null
+                        && budgetVersion.getBudgetVersionNumber().intValue() == budget.getBudgetVersionNumber().intValue()) {
                     budgetName = budgetVersion.getDocumentDescription();
                     break;
                 }
             }
-            
+
             if (budget.getBudgetVersionNumber() != null) {
                 budgetVersionNumber = Integer.toString(budget.getBudgetVersionNumber());
             }
@@ -754,30 +780,30 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
 
     protected HeaderField getHeaderDocNumber() {
         BudgetParentDocument parentDocument = getBudgetDocument().getParentDocument();
-        return new HeaderField("DataDictionary.DocumentHeader.attributes.documentNumber", parentDocument != null? parentDocument.getDocumentNumber() : null); 
+        return new HeaderField("DataDictionary.DocumentHeader.attributes.documentNumber", parentDocument != null ? parentDocument.getDocumentNumber() : null);
     }
 
-    protected HeaderField getHeaderDocStatus (WorkflowDocument parentWorkflowDocument) {
-        return new HeaderField("DataDictionary.AttributeReference.attributes.workflowDocumentStatus", parentWorkflowDocument != null? parentWorkflowDocument.getStatus().getLabel() : null);
+    protected HeaderField getHeaderDocStatus(WorkflowDocument parentWorkflowDocument) {
+        return new HeaderField("DataDictionary.AttributeReference.attributes.workflowDocumentStatus", parentWorkflowDocument != null ? parentWorkflowDocument.getStatus().getLabel() : null);
     }
-    
+
     protected HeaderField getHeaderDocInitiator(WorkflowDocument parentWorkflowDocument) {
         KcPerson initiator = null;
         if (parentWorkflowDocument != null) {
             initiator = KcPerson.fromPersonId(parentWorkflowDocument.getInitiatorPrincipalId());
         }
-        return new HeaderField("DataDictionary.AttributeReference.attributes.initiatorNetworkId", 
+        return new HeaderField("DataDictionary.AttributeReference.attributes.initiatorNetworkId",
                 initiator != null ? initiator.getUserName() : null);
     }
-    
+
     protected HeaderField getHeaderDocCreateDate(WorkflowDocument parentWorkflowDocument) {
         String createDateStr = null;
-        if(parentWorkflowDocument != null && parentWorkflowDocument.getDateCreated() != null) {
-        createDateStr = CoreApiServiceLocator.getDateTimeService().toString(parentWorkflowDocument.getDateCreated().toDate(), "hh:mm a MM/dd/yyyy");
+        if (parentWorkflowDocument != null && parentWorkflowDocument.getDateCreated() != null) {
+            createDateStr = CoreApiServiceLocator.getDateTimeService().toString(parentWorkflowDocument.getDateCreated().toDate(), "hh:mm a MM/dd/yyyy");
         }
         return new HeaderField("DataDictionary.AttributeReference.attributes.createDate", createDateStr);
     }
-    
+
     public String getUrRateClassCodePrevValue() {
         return urRateClassCodePrevValue;
     }
@@ -792,12 +818,12 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
 
     /**
      * Sets the selectedBudgetPrintFormId attribute value.
+     *
      * @param selectedBudgetPrintFormId The selectedBudgetPrintFormId to set.
      */
     public void setSelectedBudgetPrintFormId(String[] selectedBudgetPrintFormId) {
         this.selectedBudgetPrintFormId = selectedBudgetPrintFormId;
     }
-
 
     public String getSyncBudgetRate() {
         return syncBudgetRate;
@@ -822,7 +848,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     public void setPersonnelDetailLine(Integer personnelDetailLine) {
         this.personnelDetailLine = personnelDetailLine;
     }
-    
+
     @Override
     public boolean isSaveAfterCopy() {
         return saveAfterCopy;
@@ -840,7 +866,6 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
 //    public void setNewPersonnelLineItem(BudgetLineItem newPersonnelLineItem) {
 //        this.newPersonnelLineItem = newPersonnelLineItem;
 //    }
-
     public String getNewGroupName() {
         return newGroupName;
     }
@@ -848,52 +873,56 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     public void setNewGroupName(String newGroupName) {
         this.newGroupName = newGroupName;
     }
-    
-    public String getActionPrefix(){
+
+    public String getActionPrefix() {
         return "budget";
     }
+
     /**
-     * {@inheritDocs}
+     * {
+     *
+     * @inheritDocs}
      */
     @Override
     protected void setSaveDocumentControl(Map editMode) {
-        
+
         if (hasModifyBudgetPermission(editMode) && !getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_SAVE)) {
             getDocumentActions().put(KRADConstants.KUALI_ACTION_CAN_SAVE, KRADConstants.KUALI_DEFAULT_TRUE_VALUE);
             return;
         }
-        
+
         if (!hasModifyBudgetPermission(editMode) && getDocumentActions().containsKey(KRADConstants.KUALI_ACTION_CAN_SAVE)) {
             getDocumentActions().remove(KRADConstants.KUALI_ACTION_CAN_SAVE);
         }
     }
-    
+
     /**
-     * This method checks if destination is the BudgetVersions page.
-     * This method works only if called after form properties are updated
-     * (ex: navigateTo).  Just because this method returns true does not
-     * mean that the request will actually end up at the budget versions
-     * page.  (ex: if on another page and a hard error occurs while trying
-     * to get to the budget versions page).
+     * This method checks if destination is the BudgetVersions page. This method
+     * works only if called after form properties are updated (ex: navigateTo).
+     * Just because this method returns true does not mean that the request will
+     * actually end up at the budget versions page. (ex: if on another page and
+     * a hard error occurs while trying to get to the budget versions page).
      *
      * @return true if headed to the versions page.
      */
     public boolean toBudgetVersionsPage() {
         return "versions".equals(this.navigateTo)
-        || ("BudgetVersionsAction".equals(this.actionName));
+                || ("BudgetVersionsAction".equals(this.actionName));
     }
-    
+
     @Override
     protected String getLockRegion() {
         return KraAuthorizationConstants.LOCK_DESCRIPTOR_BUDGET;
     }
-    
+
     /**
      * This method makes sure that the Rates tab is not displayed for proposals
      * in a hierarchy.
-     * 
-     * @return Returns the headerNavigationTabs filtered based on hierarchy status.
-     * @see org.kuali.rice.kns.web.struts.form.KualiForm#getHeaderNavigationTabs()
+     *
+     * @return Returns the headerNavigationTabs filtered based on hierarchy
+     * status.
+     * @see
+     * org.kuali.rice.kns.web.struts.form.KualiForm#getHeaderNavigationTabs()
      */
     @Override
     public HeaderNavigation[] getHeaderNavigationTabs() {
@@ -901,39 +930,42 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         BudgetParentDocument parentDocument = getBudgetDocument().getParentDocument();
         boolean hideRatesTab = false;
         boolean hideHierarchyTab = true;
-        if(parentDocument != null && parentDocument.getClass() == ProposalDevelopmentDocument.class){
-            hideHierarchyTab = !((ProposalDevelopmentDocument)parentDocument).getDevelopmentProposal().isInHierarchy();
+        if (parentDocument != null && parentDocument.getClass() == ProposalDevelopmentDocument.class) {
+            hideHierarchyTab = !((ProposalDevelopmentDocument) parentDocument).getDevelopmentProposal().isInHierarchy();
         }
-        
+
         if (parentDocument instanceof ProposalDevelopmentDocument) {
-            if (((ProposalDevelopmentDocument)parentDocument).getDevelopmentProposal().isParent()) {
+            if (((ProposalDevelopmentDocument) parentDocument).getDevelopmentProposal().isParent()) {
                 hideRatesTab = true;
             }
         }
         if (hideRatesTab || hideHierarchyTab) {
             List<HeaderNavigation> newTabs = new ArrayList<HeaderNavigation>();
             for (HeaderNavigation tab : tabs) {
-                if((tab.getHeaderTabNavigateTo().equals("rates") && hideRatesTab) || (tab.getHeaderTabNavigateTo().equals("hierarchy") && hideHierarchyTab)){
+                if ((tab.getHeaderTabNavigateTo().equals("rates") && hideRatesTab) || (tab.getHeaderTabNavigateTo().equals("hierarchy") && hideHierarchyTab)) {
                     //do not add the tab is it's rates or hierarchy tab and needs to be hided
-                }else{
-                    newTabs.add(tab); 
-                 }
+                } else {
+                    newTabs.add(tab);
+                }
             }
             tabs = newTabs.toArray(new HeaderNavigation[newTabs.size()]);
         }
         return tabs;
     }
-    
+
     @Override
     public String getProjectPeriodLabel() {
         String label = KraServiceLocator.getService(CostShareService.class).getCostShareLabel();
         return label;
     }
-    
+
     /**
-     * 
-     * This method determines if the budget rates are editable.  Note, this function should be overriden if this form
-     * gets extended.  Such as in the case of AwardBudgetForm, as that form has different requirements for editing budget rates.
+     *
+     * This method determines if the budget rates are editable. Note, this
+     * function should be overriden if this form gets extended. Such as in the
+     * case of AwardBudgetForm, as that form has different requirements for
+     * editing budget rates.
+     *
      * @return
      */
     public boolean getCanModifyBudgetRates() {
@@ -976,7 +1008,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     public java.util.Date getBudgetStartDate() {
         return this.getBudgetDocument().getBudgetStartDate();
     }
-    
+
     public java.util.Date getBudgetEndDate() {
         return this.getBudgetDocument().getBudgetEndDate();
     }
@@ -999,15 +1031,26 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     public void setProposalHierarchyService(ProposalHierarchyService proposalHierarchyService) {
         this.proposalHierarchyService = proposalHierarchyService;
     }
-    
+
     public boolean isSyncableBudget() throws ProposalHierarchyException {
-        BudgetDocument<DevelopmentProposal> budget = 
-                getProposalHierarchyService().getSyncableBudget((DevelopmentProposal) this.getBudgetDocument().getParentDocument().getBudgetParent());
+        BudgetDocument<DevelopmentProposal> budget
+                = getProposalHierarchyService().getSyncableBudget((DevelopmentProposal) this.getBudgetDocument().getParentDocument().getBudgetParent());
         if (budget != null
                 && StringUtils.equals(budget.getDocumentNumber(), getBudgetDocument().getDocumentNumber())) {
             return true;
         } else {
             return false;
         }
-    }    
+    }
+
+    protected ParameterService getParameterService() {
+        if (parameterService == null) {
+            parameterService = CoreFrameworkServiceLocator.getParameterService();
+        }
+        return this.parameterService;
+    }
+
+    public String getBudgetCategoryTypeCodePersonnel() {
+        return this.getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+    }
 }

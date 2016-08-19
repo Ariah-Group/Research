@@ -42,7 +42,7 @@
 <c:set var="budgetExpensePanelReadOnly" value="${budgetExpensePanelReadOnly || budgetLineItem.subAwardLineItem}" />
 
 <c:set var="budgetExpensePanelReadOnlyIfBudgetVersionIsFinal" value="${budgetExpensePanelReadOnly}" />
-<c:if test="${budgetCategoryTypeCode == 'P' and fn:length(budgetLineItem.budgetPersonnelDetailsList) > 0}" >
+<c:if test="${budgetCategoryTypeCode == KualiForm.budgetCategoryTypeCodePersonnel and fn:length(budgetLineItem.budgetPersonnelDetailsList) > 0}" >
 	<c:set var="budgetExpensePanelReadOnly" value="true" />
 </c:if>
 

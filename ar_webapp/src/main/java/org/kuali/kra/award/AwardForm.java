@@ -87,6 +87,7 @@ import java.util.*;
 import org.ariahgroup.research.award.questionnaire.AwardQuestionnaireHelper;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.SpecialReviewUsage;
+import org.kuali.kra.budget.document.BudgetDocument;
 import static org.kuali.kra.questionnaire.QuestionableFormInterface.DEFAULT_END;
 import static org.kuali.kra.questionnaire.QuestionableFormInterface.DEFAULT_MIDDLE;
 import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
@@ -1642,5 +1643,9 @@ public class AwardForm extends BudgetVersionFormBase
     
     public boolean isHideAwardKeywordsPanel() {
         return getParameterService().getParameterValueAsBoolean(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, "ARIAH_AWARD_HIDE_KEYWORDS_PANEL");
+    }    
+    
+    public String getBudgetCategoryTypeCodePersonnel() {
+        return this.getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
     }    
 }

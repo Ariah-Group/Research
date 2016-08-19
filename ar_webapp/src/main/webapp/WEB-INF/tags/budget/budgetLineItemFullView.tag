@@ -169,11 +169,11 @@
 							<html:image property="methodToCall.applyToLaterPeriods.line${budgetLineItemNumber}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-ApplyPeriods.gif' styleClass="tinybutton" />
 							</c:if>				
-							<c:if test="${!(budgetCategoryTypeCode == 'P' && not empty budgetLineItem.budgetPersonnelDetailsList)}" >
+							<c:if test="${!(budgetCategoryTypeCode == KualiForm.budgetCategoryTypeCodePersonnel && not empty budgetLineItem.budgetPersonnelDetailsList)}" >
 							<html:image property="methodToCall.syncToPeriodCostLimit.line${budgetLineItemNumber}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-period_cost_limit.jpg' styleClass="tinybutton" />
 							</c:if>	
-							<c:if test="${!(budgetCategoryTypeCode == 'P' && not empty budgetLineItem.budgetPersonnelDetailsList)}" >
+							<c:if test="${!(budgetCategoryTypeCode == KualiForm.budgetCategoryTypeCodePersonnel && not empty budgetLineItem.budgetPersonnelDetailsList)}" >
 							<html:image property="methodToCall.syncToPeriodDirectCostLimit.line${budgetLineItemNumber}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-period_direct_limit.jpg' styleClass="tinybutton" />
 							</c:if>	

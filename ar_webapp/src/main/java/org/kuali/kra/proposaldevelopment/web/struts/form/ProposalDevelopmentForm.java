@@ -2711,4 +2711,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     public void setProposalChangeDataService(DevProposalChangeDataService proposalChangeDataService) {
         this.proposalChangeDataService = proposalChangeDataService;
     }
+    
+    public String getBudgetCategoryTypeCodePersonnel() {
+        return this.getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
+    }    
 }

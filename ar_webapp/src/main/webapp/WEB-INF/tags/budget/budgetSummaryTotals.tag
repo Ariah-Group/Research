@@ -136,7 +136,7 @@
             <c:set var="personnelObjectCodes" />
             <c:forEach var="objectCodeMapEntry" items="${objectCodeListByBudgetCategoryType}" varStatus="mapIndex">
             	<c:set var="categoryType" value="${objectCodeMapEntry.key}" /> 
-            	<c:if test="${categoryType.budgetCategoryTypeCode eq 'P'}">
+            	<c:if test="${categoryType.budgetCategoryTypeCode eq KualiForm.budgetCategoryTypeCodePersonnel }">
             		<c:set var="personnelObjectCodes" value="${objectCodeMapEntry.value}" />
             	</c:if>
 			</c:forEach>
@@ -480,7 +480,7 @@
             
             <c:forEach var="objectCodeMapEntry" items="${objectCodeListByBudgetCategoryType}" varStatus="mapIndex">
             <c:set var="categoryType" value="${objectCodeMapEntry.key}" /> 
-	            <c:if test="${categoryType.budgetCategoryTypeCode ne 'P'}" >
+	            <c:if test="${categoryType.budgetCategoryTypeCode ne KualiForm.budgetCategoryTypeCodePersonnel }" >
 						<c:set var="anchorIndex" value="${anchorIndex+1}" />
 			            <tr>
 			           	  <td class="tab-subhead" width="5%">
