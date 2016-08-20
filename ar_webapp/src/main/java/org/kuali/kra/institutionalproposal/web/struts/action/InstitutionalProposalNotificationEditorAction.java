@@ -29,23 +29,25 @@ import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposal
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import org.kuali.kra.common.notification.bo.NotificationType;
+import org.kuali.kra.institutionalproposal.notification.InstitutionalProposalNotificationContext;
 
 public class InstitutionalProposalNotificationEditorAction extends InstitutionalProposalAction {
-    
+
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
-        
+
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
-        
+
         institutionalProposalForm.getNotificationHelper().prepareView();
-        
+
         return actionForward;
     }
-    
+
     /**
      * Adds a Notification Recipient.
-     * 
+     *
      * @param mapping
      * @param form
      * @param request
@@ -53,14 +55,14 @@ public class InstitutionalProposalNotificationEditorAction extends Institutional
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward addNotificationRecipient(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-        throws Exception {
-        
+    public ActionForward addNotificationRecipient(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         InstitutionalProposalDocument document = institutionalProposalForm.getInstitutionalProposalDocument();
         NotificationTypeRecipient notificationRecipient = institutionalProposalForm.getNotificationHelper().getNewNotificationRecipient();
         List<NotificationTypeRecipient> notificationRecipients = institutionalProposalForm.getNotificationHelper().getNotificationRecipients();
-        
+
         if (applyRules(new AddNotificationRecipientEvent(document, notificationRecipient, notificationRecipients))) {
             institutionalProposalForm.getNotificationHelper().getNotificationRecipients().add(notificationRecipient);
             institutionalProposalForm.getNotificationHelper().setNewNotificationRecipient(new NotificationTypeRecipient());
@@ -68,13 +70,13 @@ public class InstitutionalProposalNotificationEditorAction extends Institutional
             institutionalProposalForm.getNotificationHelper().setNewPersonId(null);
             institutionalProposalForm.getNotificationHelper().setNewRolodexId(null);
         }
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
      * Deletes a Notification Recipient.
-     * 
+     *
      * @param mapping the action mapping
      * @param form the action form
      * @param request the request
@@ -82,19 +84,19 @@ public class InstitutionalProposalNotificationEditorAction extends Institutional
      * @return the action forward
      * @throws Exception
      */
-    public ActionForward deleteNotificationRecipient(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-        throws Exception {
+    public ActionForward deleteNotificationRecipient(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
 
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
-        
+
         institutionalProposalForm.getNotificationHelper().getNotificationRecipients().remove(getLineToDelete(request));
-        
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     /**
      * Sends a Notification.
-     * 
+     *
      * @param mapping the action mapping
      * @param form the action form
      * @param request the request
@@ -104,13 +106,19 @@ public class InstitutionalProposalNotificationEditorAction extends Institutional
      */
     public ActionForward sendNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
-        
+
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
         InstitutionalProposalDocument document = institutionalProposalForm.getInstitutionalProposalDocument();
         KcNotification notification = institutionalProposalForm.getNotificationHelper().getNotification();
         List<NotificationTypeRecipient> notificationRecipients = institutionalProposalForm.getNotificationHelper().getNotificationRecipients();
-        
+
         if (applyRules(new SendNotificationEvent(document, notification, notificationRecipients))) {
+
+            InstitutionalProposalNotificationContext context
+                    = new InstitutionalProposalNotificationContext(document.getInstitutionalProposal(), NotificationType.AD_HOC_NOTIFICATION_TYPE,
+                            NotificationType.AD_HOC_CONTEXT, Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE);
+
+            institutionalProposalForm.getNotificationHelper().setNotificationContext(context);
             institutionalProposalForm.getNotificationHelper().sendNotification();
             String forwardName = institutionalProposalForm.getNotificationHelper().getNotificationContext().getForwardName();
             if (forwardName == null) {
@@ -125,7 +133,7 @@ public class InstitutionalProposalNotificationEditorAction extends Institutional
 
     /**
      * Cancels a Notification.
-     * 
+     *
      * @param mapping the action mapping
      * @param form the action form
      * @param request the request
@@ -135,10 +143,10 @@ public class InstitutionalProposalNotificationEditorAction extends Institutional
      */
     public ActionForward cancelNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
-        
+
         institutionalProposalForm.getNotificationHelper().setNotificationContext(null);
-        
+
         return mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_ACTIONS_PAGE);
     }
-    
+
 }
