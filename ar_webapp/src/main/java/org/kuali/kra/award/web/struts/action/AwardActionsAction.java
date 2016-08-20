@@ -58,6 +58,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import org.kuali.kra.common.notification.bo.NotificationType;
 
 /**
  *
@@ -998,7 +999,8 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         AwardForm awardForm = (AwardForm) form;
         Award award = awardForm.getAwardDocument().getAward();
 
-        AwardNotificationContext context = new AwardNotificationContext(award, null, "Ad-Hoc Notification", Constants.MAPPING_AWARD_ACTIONS_PAGE);
+        AwardNotificationContext context = new AwardNotificationContext(award, NotificationType.AD_HOC_NOTIFICATION_TYPE,
+                NotificationType.AD_HOC_CONTEXT, Constants.MAPPING_AWARD_ACTIONS_PAGE);
 
         awardForm.getNotificationHelper().initializeDefaultValues(context);
 

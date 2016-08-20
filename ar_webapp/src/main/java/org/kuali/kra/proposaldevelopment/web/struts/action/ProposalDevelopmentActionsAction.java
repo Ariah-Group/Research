@@ -107,6 +107,7 @@ import java.sql.Timestamp;
 import java.util.*;
 import org.ariahgroup.research.bo.AttachmentDataSource;
 import org.ariahgroup.research.service.UnitService;
+import org.kuali.kra.common.notification.bo.NotificationType;
 
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.rice.krad.util.KRADConstants.CONFIRMATION_QUESTION;
@@ -2014,7 +2015,9 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         DevelopmentProposal developmentProposal = proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal();
 
         ProposalDevelopmentNotificationRenderer renderer = new ProposalDevelopmentNotificationRenderer(developmentProposal);
-        ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(developmentProposal, null, "Ad-Hoc Notification", renderer);
+
+        ProposalDevelopmentNotificationContext context = new ProposalDevelopmentNotificationContext(developmentProposal,
+                NotificationType.AD_HOC_NOTIFICATION_TYPE, NotificationType.AD_HOC_CONTEXT, renderer);
 
         proposalDevelopmentForm.getNotificationHelper().initializeDefaultValues(context);
 
