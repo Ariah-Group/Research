@@ -85,6 +85,12 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     protected static final String TARGET_CATEGORY_CODE_PARTICIPANT_OTHER = "78";
     protected static final String TARGET_CATEGORY_CODE_PARTICIPANT_SUBSISTENCE = "79";
     protected static final String TARGET_CATEGORY_CODE_SUBCONTRACT = "04";
+    protected static final String TARGET_CATEGORY_CODE_PERSONNEL_OTHER = "01-Other";
+    protected static final String TARGET_CATEGORY_CODE_PERSONNEL_SECRE = "01-Secretarial";
+    protected static final String TARGET_CATEGORY_CODE_PERSONNEL_GRADS = "01-Graduates";
+    protected static final String TARGET_CATEGORY_CODE_PERSONNEL_OTHER_PROFS = "01-Other Profs";
+    protected static final String TARGET_CATEGORY_CODE_PERSONNEL_UNDERGRADS = "01-Undergrads";
+    protected static final String TARGET_CATEGORY_CODE_PERSONNEL_POSTDOCS = "01-PostDocs";
 
     //private static final String CATEGORY_CODE_EQUIPMENT_RENTAL = "13";
     //private static final String CATEGORY_CODE_EQUIPMENT = "20";
@@ -255,7 +261,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     private BudgetCategoryMap getBudgetCategoryMap(DevelopmentProposal developmentProposal, BudgetLineItem budgetLineItem) {
         boolean isNih = getSponsorService().isSponsorNihOsc(developmentProposal)
                 || getSponsorService().isSponsorNihMultiplePi(developmentProposal);
-        String mappingName = isNih ? Constants.BUDGET_CATEGORY_MAPPING_NAME_NIH: Constants.BUDGET_CATEGORY_MAPPING_NAME_NSF;
+        String mappingName = isNih ? Constants.BUDGET_CATEGORY_MAPPING_NAME_NIH : Constants.BUDGET_CATEGORY_MAPPING_NAME_NSF;
         BudgetCategoryMap budgetCategoryMap = null;
         Map<String, String> categoryMap = new HashMap<String, String>();
         categoryMap.put("budgetCategoryCode", budgetLineItem.getBudgetCategoryCode());
@@ -1391,10 +1397,10 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
         final String periodTypeAcademic = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.S2SBUDGET_PERIOD_TYPE_ACADEMIC_MONTHS);
         final String periodTypeSummer = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.S2SBUDGET_PERIOD_TYPE_SUMMER_MONTHS);
-        
+
         final String appointTypeSummerEmp = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.S2SBUDGET_APPOINTMENT_TYPE_SUM_EMPLOYEE);
         final String appointTypeTempEmp = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.S2SBUDGET_APPOINTMENT_TYPE_TMP_EMPLOYEE);
-        
+
         for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
             for (BudgetPersonnelDetails personDetails : lineItem.getBudgetPersonnelDetailsList()) {
                 if (s2SUtilService.keyPersonEqualsBudgetPerson(keyPerson, personDetails)) {

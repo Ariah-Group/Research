@@ -112,8 +112,6 @@ public class NIHResearchAndRelatedXmlStream extends
     private static final String FACILITIES_BLOCK_TYPE = "facilities";
     private static final String PROJECT_SUMMARY_BLOCK_TYPE = "summary";
     private static final String SPECIAL_REVIEW_CODE_1 = "1";
-    private static final String OTHER_PERSONNEL_CATEGORY_CODE = "30";
-
     private static final String APPROVAL_TYPE_EXEMPT = "4";
     protected static final String PROPOSAL_YNQ_QUESTION_16 = "16";
 
@@ -1038,39 +1036,43 @@ public class NIHResearchAndRelatedXmlStream extends
         boolean isNih = sponsorService.isSponsorNihOsc(developmentProposal) || sponsorService.isSponsorNihMultiplePi(developmentProposal);
         String mappingName = isNih ? Constants.BUDGET_CATEGORY_MAPPING_NAME_NIH: Constants.BUDGET_CATEGORY_MAPPING_NAME_NSF;
 
-        OtherPersonInfo otherPersonInfo = getOtherPersonInfo(developmentProposal, budgetPeriod, mappingName, "01-Secretarial");
+        OtherPersonInfo otherPersonInfo = getOtherPersonInfo(developmentProposal, budgetPeriod, mappingName, TARGET_CATEGORY_CODE_PERSONNEL_SECRE);
         otherPersonnelType.setClericalCount(BigInteger.valueOf(otherPersonInfo.getCount()));
         otherPersonnelType.setClericalFunds(otherPersonInfo.getFund().bigDecimalValue());
 
-        otherPersonInfo = getOtherPersonInfo(developmentProposal, budgetPeriod, mappingName, "01-Graduates");
+        otherPersonInfo = getOtherPersonInfo(developmentProposal, budgetPeriod, mappingName, TARGET_CATEGORY_CODE_PERSONNEL_GRADS);
         otherPersonnelType.setGradCount(BigInteger.valueOf(otherPersonInfo.getCount()));
         otherPersonnelType.setGradFunds(otherPersonInfo.getFund().bigDecimalValue());
 
-        otherPersonInfo = getOtherPersonInfo(developmentProposal, budgetPeriod, mappingName, "01-Other Profs");
+        otherPersonInfo = getOtherPersonInfo(developmentProposal, budgetPeriod, mappingName, TARGET_CATEGORY_CODE_PERSONNEL_OTHER_PROFS);
         otherPersonnelType.setOtherProfCount(BigInteger.valueOf(otherPersonInfo.getCount()));
         otherPersonnelType.setOtherProfFunds(otherPersonInfo.getFund().bigDecimalValue());
 
-        otherPersonInfo = getOtherPersonInfo(developmentProposal, budgetPeriod, mappingName, "01-Undergrads");
+        otherPersonInfo = getOtherPersonInfo(developmentProposal, budgetPeriod, mappingName, TARGET_CATEGORY_CODE_PERSONNEL_UNDERGRADS);
         otherPersonnelType.setUnderGradCount(BigInteger.valueOf(otherPersonInfo.getCount()));
         otherPersonnelType.setUnderGradFunds(otherPersonInfo.getFund().bigDecimalValue());
 
-        otherPersonInfo = getOtherPersonInfo(developmentProposal, budgetPeriod, mappingName, "01-Other");
+        otherPersonInfo = getOtherPersonInfo(developmentProposal, budgetPeriod, mappingName, TARGET_CATEGORY_CODE_PERSONNEL_OTHER);
         otherPersonnelType.setOtherCount(BigInteger.valueOf(otherPersonInfo.getCount()));
         otherPersonnelType.setOtherFunds(otherPersonInfo.getFund().bigDecimalValue());
 
-        otherPersonInfo = getOtherPersonInfo(developmentProposal, budgetPeriod, mappingName, "01-PostDocs");
+        otherPersonInfo = getOtherPersonInfo(developmentProposal, budgetPeriod, mappingName, TARGET_CATEGORY_CODE_PERSONNEL_POSTDOCS);
         otherPersonnelType.setPostDocCount(BigInteger.valueOf(otherPersonInfo.getCount()));
         otherPersonnelType.setPostDocFunds(otherPersonInfo.getFund().bigDecimalValue());
 
-        otherPersonnelType.setOtherLAFunds(getOtherLAFunds(budgetPeriod));
-
+        otherPersonnelType.setOtherLAFunds(getOtherLAFunds(developmentProposal, budgetPeriod));
     }
 
-    private BigDecimal getOtherLAFunds(BudgetPeriod budgetPeriod) {
+    private BigDecimal getOtherLAFunds(DevelopmentProposal developmentProposal, BudgetPeriod budgetPeriod) {
         BudgetDecimal laAmount = BudgetDecimal.ZERO;
+        
+        Map<String, String> bcmMapValues = loadBudgetCategoryCodeMapping(developmentProposal);
+
+        String budCatCodePersonnelOther = bcmMapValues.get(TARGET_CATEGORY_CODE_PERSONNEL_OTHER);
+        
         List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
         for (BudgetLineItem budgetLineItem : budgetLineItems) {
-            if (budgetLineItem.getBudgetCategoryCode().equals(OTHER_PERSONNEL_CATEGORY_CODE)) {
+            if (budgetLineItem.getBudgetCategoryCode().equals(budCatCodePersonnelOther)) {
                 List<BudgetLineItemCalculatedAmount> calcAmounts = budgetLineItem.getBudgetLineItemCalculatedAmounts();
                 for (BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmount : calcAmounts) {
                     budgetLineItemCalculatedAmount.refreshNonUpdateableReferences();
