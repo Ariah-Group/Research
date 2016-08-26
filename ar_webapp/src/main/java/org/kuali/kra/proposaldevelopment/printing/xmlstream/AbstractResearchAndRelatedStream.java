@@ -71,32 +71,17 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     protected static final String SPECIAL_REVIEW_CODE_2 = "2";
     protected static final String IACU_APPROVAL_PENDING_VALUE = "Pending";
     protected static final String BUDGET_JUSTIFICATION_IDENTIFIER = "budgetJust";
-
-    private Map<String, String> budgetCategoryCodeMapping;
-    protected static final String TARGET_CATEGORY_CODE_EQUIPMENT = "42";
-    protected static final String TARGET_CATEGORY_CODE_EQUIPMENT_RENTAL = "39";
-    protected static final String TARGET_CATEGORY_CODE_TRAVEL_DOMESTIC = "73";
-    protected static final String TARGET_CATEGORY_CODE_TRAVEL_FOREIGN = "74";
-    protected static final String TARGET_CATEGORY_CODE_INPATIENT = "37";
-    protected static final String TARGET_CATEGORY_CODE_OUTPATIENT = "38";
-    protected static final String TARGET_CATEGORY_CODE_PARTICIPANT_STIPENDS = "75";
-    protected static final String TARGET_CATEGORY_CODE_PARTICIPANT_TUITION = "76";
-    protected static final String TARGET_CATEGORY_CODE_PARTICIPANT_TRAVEL= "77";
-    protected static final String TARGET_CATEGORY_CODE_PARTICIPANT_OTHER = "78";
-    protected static final String TARGET_CATEGORY_CODE_PARTICIPANT_SUBSISTENCE = "79";
-    
-    //private static final String CATEGORY_CODE_EQUIPMENT_RENTAL = "13";
-    //private static final String CATEGORY_CODE_EQUIPMENT = "20";
-    //private static final String CATEGORY_CODE_TRAVEL_FOREIGN = "23";
-    //private static final String CATEGORY_CODE_TRAVEL_DOMESTIC = "7";
-    //private static final String CATEGORY_CODE_OUTPATIENT = "33";
-    //private static final String CATEGORY_CODE_INPATIENT = "9";
-    //private static final String CATEGORY_CODE_PARTICIPANT_TRAVEL = "31";
-    //private static final String CATEGORY_CODE_PARTICIPANT_SUBSISTANCE = "36";
-    //private static final String CATEGORY_CODE_PARTICIPANT_STIPENDS = "32";
-    //private static final String CATEGORY_CODE_PARTICIPANT_OTHER = "2";
-    //private static final String CATEGORY_CODE_PARTICIPANT_TUITION = "35";
-
+    private static final String CATEGORY_CODE_EQUIPMENT_RENTAL = "13";
+    private static final String CATEGORY_CODE_EQUIPMENT = "20";
+    private static final String CATEGORY_CODE_TRAVEL_FOREIGN = "23";
+    private static final String CATEGORY_CODE_TRAVEL_DOMESTIC = "7";
+    private static final String CATEGORY_CODE_PARTICIPANT_TRAVEL = "31";
+    private static final String CATEGORY_CODE_PARTICIPANT_SUBSISTANCE = "36";
+    private static final String CATEGORY_CODE_PARTICIPANT_STIPENDS = "32";
+    private static final String CATEGORY_CODE_PARTICIPANT_OTHER = "2";
+    private static final String CATEGORY_CODE_PARTICIPANT_TUITION = "35";
+    private static final String CATEGORY_CODE_OUTPATIENT = "33";
+    private static final String CATEGORY_CODE_INPATIENT = "9";
     protected static final String DEFAULT_VALUE_UNKNOWN = "Unknown";
     private static final String PROPOSALQUESTION_ID15 = "15";
     private static final String ANSWER_INDICATOR_VALUE = "Y";
@@ -225,12 +210,12 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      */
     protected OtherDirectCosts[] getOtherDirectCosts(DevelopmentProposal developmentProposal, List<BudgetLineItem> budgetLineItems) {
         List<OtherDirectCosts> otherDirectCostList = new ArrayList<OtherDirectCosts>();
-
+        
         ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
         final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
-
+        
         for (BudgetLineItem budgetLineItem : budgetLineItems) {
-            if (isBudgetCategoryOther(developmentProposal, budgetLineItem, budgetCatCodePersonnel)) {
+            if (isBudgetCategoryOther(budgetLineItem, budgetCatCodePersonnel)) {
                 OtherDirectCosts otherDirectCost = OtherDirectCosts.Factory.newInstance();
                 otherDirectCost.setCost(budgetLineItem.getLineItemCost().bigDecimalValue());
                 otherDirectCost.setDescription(budgetLineItem.getLineItemDescription());
@@ -292,18 +277,12 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      * This method check budgetCagegoryCode for other in BudgetLineItem by checking budgetCategoryCode travel, equipment, patient
      * and participant
      */
-    protected boolean isBudgetCategoryOther(DevelopmentProposal developmentProposal,
-            BudgetLineItem budgetLineItem, String budgetCatCodePersonnel) {
-
-        Map<String, String> bcmMapValues = loadBudgetCategoryCodeMapping(developmentProposal);
-        String budCatCodeParticTuition = bcmMapValues.get(TARGET_CATEGORY_CODE_PARTICIPANT_TUITION);        
-                
+    protected boolean isBudgetCategoryOther(BudgetLineItem budgetLineItem, String budgetCatCodePersonnel) {
         boolean isOther = true;
-        if (budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equals(budgetCatCodePersonnel) 
-                || isBudgetCategoryEquipment(developmentProposal, budgetLineItem)
-                || isBudgetCategoryTravel(developmentProposal, budgetLineItem)
-                || isBudgetCategoryParticipantPatient(developmentProposal, budgetLineItem)
-                || budgetLineItem.getBudgetCategoryCode().equals(budCatCodeParticTuition)) {
+        if (isBudgetCategoryEquipment(budgetLineItem) || isBudgetCategoryTravel(budgetLineItem)
+                || isBudgetCategoryParticipantPatient(budgetLineItem)
+                || budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equals(budgetCatCodePersonnel) ||
+                budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_TUITION)) {
             isOther = false;
         }
         return isOther;
@@ -312,25 +291,19 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     /*
      * This method check budgetCagegoryCode for equipment in BudgetLineItem
      */
-    protected boolean isBudgetCategoryEquipment(DevelopmentProposal developmentProposal, BudgetLineItem budgetLineItem) {
-
-        Map<String, String> bcmMapValues = loadBudgetCategoryCodeMapping(developmentProposal);
-
-        String budCatCodeEquipment = bcmMapValues.get(TARGET_CATEGORY_CODE_EQUIPMENT);
-        String budCatCodeEquipmentRental = bcmMapValues.get(TARGET_CATEGORY_CODE_EQUIPMENT_RENTAL);
-
-        return budgetLineItem.getBudgetCategoryCode().equals(budCatCodeEquipmentRental)
-                || budgetLineItem.getBudgetCategoryCode().equals(budCatCodeEquipment);
+    protected boolean isBudgetCategoryEquipment(BudgetLineItem budgetLineItem) {
+        return budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_EQUIPMENT_RENTAL)
+                || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_EQUIPMENT);
     }
 
     /*
      * This method gets sum of lineItemCost as travel total cost from List of BudgetLineItem, if budgetCategoryCode is travel for
      * budgetLineItem
      */
-    protected BigDecimal getTravelTotal(DevelopmentProposal developmentProposal, List<BudgetLineItem> budgetLineItems) {
+    protected BigDecimal getTravelTotal(List<BudgetLineItem> budgetLineItems) {
         BudgetDecimal cost = BudgetDecimal.ZERO;
         for (BudgetLineItem budgetLineItem : budgetLineItems) {
-            if (isBudgetCategoryTravel(developmentProposal, budgetLineItem)) {
+            if (isBudgetCategoryTravel(budgetLineItem)) {
                 cost = cost.add(budgetLineItem.getLineItemCost());
             }
         }
@@ -340,50 +313,31 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     /*
      * This method check budgetCagegoryCode for travel in BudgetLineItem
      */
-    protected boolean isBudgetCategoryTravel(DevelopmentProposal developmentProposal, BudgetLineItem budgetLineItem) {
-
-        Map<String, String> bcmMapValues = loadBudgetCategoryCodeMapping(developmentProposal);
-
-        String budCatCodeTravelDomestic = bcmMapValues.get(TARGET_CATEGORY_CODE_TRAVEL_DOMESTIC);
-        String budCatCodeTravelForeign = bcmMapValues.get(TARGET_CATEGORY_CODE_TRAVEL_FOREIGN);
-
-        return budgetLineItem.getBudgetCategoryCode().equals(budCatCodeTravelDomestic)
-                || budgetLineItem.getBudgetCategoryCode().equals(budCatCodeTravelForeign);
+    protected boolean isBudgetCategoryTravel(BudgetLineItem budgetLineItem) {
+        return budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_TRAVEL_DOMESTIC)
+                || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_TRAVEL_FOREIGN);
     }
 
     /*
      * This method check budgetCagegoryCode for Participant and Patient in BudgetLineItem
      */
-    protected boolean isBudgetCategoryParticipantPatient(DevelopmentProposal developmentProposal, BudgetLineItem budgetLineItem) {
-        
-        Map<String, String> bcmMapValues = loadBudgetCategoryCodeMapping(developmentProposal);
-
-        String budCatCodeParticipantOther = bcmMapValues.get(TARGET_CATEGORY_CODE_PARTICIPANT_OTHER);
-        String budCatCodeParticipantStipends = bcmMapValues.get(TARGET_CATEGORY_CODE_PARTICIPANT_STIPENDS);
-        String budCatCodeParticipantSubsistence = bcmMapValues.get(TARGET_CATEGORY_CODE_PARTICIPANT_SUBSISTENCE);
-        String budCatCodeParticipantTravel = bcmMapValues.get(TARGET_CATEGORY_CODE_PARTICIPANT_TRAVEL);
-        String budCatCodeParticipantTuition = bcmMapValues.get(TARGET_CATEGORY_CODE_PARTICIPANT_TUITION);
-        String budCatCodeInpatient = bcmMapValues.get(TARGET_CATEGORY_CODE_INPATIENT);
-        String budCatCodeOutpatient = bcmMapValues.get(TARGET_CATEGORY_CODE_OUTPATIENT);
-        
-        final String lineItemCatCode = budgetLineItem.getBudgetCategoryCode();
-        
-        return lineItemCatCode.equals(budCatCodeParticipantOther)
-                || lineItemCatCode.equals(budCatCodeParticipantStipends)
-                || lineItemCatCode.equals(budCatCodeParticipantSubsistence)
-                || lineItemCatCode.equals(budCatCodeParticipantTravel)
-                || lineItemCatCode.equals(budCatCodeInpatient)
-                || lineItemCatCode.equals(budCatCodeOutpatient)
-                || lineItemCatCode.equals(budCatCodeParticipantTuition);
+    protected boolean isBudgetCategoryParticipantPatient(BudgetLineItem budgetLineItem) {
+        return budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_OTHER)
+                || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_STIPENDS)
+                || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_SUBSISTANCE)
+                || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_TRAVEL)
+                || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_INPATIENT)
+                || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_OUTPATIENT)
+                || budgetLineItem.getBudgetCategoryCode().equals(CATEGORY_CODE_PARTICIPANT_TUITION);
     }
 
     /*
      * This method gets arrays of EquipmentCost XMLObject from list of budgetLineItems by checking the budgetCategory as equipment
      */
-    protected EquipmentCosts[] getEquipmentCosts(DevelopmentProposal developmentProposal, List<BudgetLineItem> budgetLineItems) {
+    protected EquipmentCosts[] getEquipmentCosts(List<BudgetLineItem> budgetLineItems) {
         List<EquipmentCosts> equipmentCostList = new ArrayList<EquipmentCosts>();
         for (BudgetLineItem budgetLineItem : budgetLineItems) {
-            if (isBudgetCategoryEquipment(developmentProposal, budgetLineItem)) {
+            if (isBudgetCategoryEquipment(budgetLineItem)) {
                 EquipmentCosts equipmentCost = EquipmentCosts.Factory.newInstance();
                 equipmentCost.setCost(budgetLineItem.getLineItemCost().bigDecimalValue());
                 equipmentCost.setDescription(budgetLineItem.getLineItemDescription());
@@ -753,10 +707,10 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      * This method gets sum of lineItemCost as otherDirect total cost from List of BudgetLineItem, if budgetCategoryCode is
      * paticipantPatient for budgetLineItem
      */
-    protected BigDecimal getParticipantPatientTotal(DevelopmentProposal developmentProposal, List<BudgetLineItem> budgetLineItems) {
+    protected BigDecimal getParticipantPatientTotal(List<BudgetLineItem> budgetLineItems) {
         BudgetDecimal cost = BudgetDecimal.ZERO;
         for (BudgetLineItem budgetLineItem : budgetLineItems) {
-            if (isBudgetCategoryParticipantPatient(developmentProposal, budgetLineItem)) {
+            if (isBudgetCategoryParticipantPatient(budgetLineItem)) {
                 cost = cost.add(budgetLineItem.getLineItemCost());
             }
         }
@@ -767,13 +721,13 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      * This method gets sum of lineItemCost as otherDirect total cost from List of BudgetLineItem, if budgetCategoryCode is other
      * for budgetLineItem
      */
-    protected BigDecimal getOtherDirectTotal(DevelopmentProposal developmentProposal, List<BudgetLineItem> budgetLineItems) {
+    protected BigDecimal getOtherDirectTotal(List<BudgetLineItem> budgetLineItems) {
         BudgetDecimal cost = BudgetDecimal.ZERO;
         ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
         final String budgetCatCodePersonnel = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
-
+        
         for (BudgetLineItem budgetLineItem : budgetLineItems) {
-            if (isBudgetCategoryOther(developmentProposal, budgetLineItem, budgetCatCodePersonnel)) {
+            if (isBudgetCategoryOther(budgetLineItem, budgetCatCodePersonnel)) {
                 cost = cost.add(budgetLineItem.getLineItemCost());
             }
         }
@@ -783,20 +737,14 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     /*
      * This method gets Arrays of TravelCost XMLObject from list of BudgetLineItems by checking the BudgetCategoryCode as Travel
      */
-    protected TravelCosts[] getTravelCosts(DevelopmentProposal developmentProposal, List<BudgetLineItem> budgetLineItems) {
-
+    protected TravelCosts[] getTravelCosts(List<BudgetLineItem> budgetLineItems) {
         List<TravelCosts> travelCostList = new ArrayList<TravelCosts>();
-
-        Map<String, String> bcmMapValues = loadBudgetCategoryCodeMapping(developmentProposal);
-
-        String budCatCodeTravelForeign = bcmMapValues.get(TARGET_CATEGORY_CODE_TRAVEL_FOREIGN);
-
         for (BudgetLineItem budgetLineItem : budgetLineItems) {
-            if (isBudgetCategoryTravel(developmentProposal, budgetLineItem)) {
+            if (isBudgetCategoryTravel(budgetLineItem)) {
                 TravelCosts travelCost = TravelCosts.Factory.newInstance();
-                if (budCatCodeTravelForeign.equals(budgetLineItem.getBudgetCategoryCode())) {
+                if (CATEGORY_CODE_TRAVEL_FOREIGN.equals(budgetLineItem.getBudgetCategoryCode())) {
                     travelCost.setType(TravelType.FOREIGN);
-                } else {
+                } else { // if (CATEGORY_CODE_TRAVEL_DOMESTIC.equals(budgetLineItem.getBudgetCategoryCode())) {
                     travelCost.setType(TravelType.DOMESTIC);
                 }
 
@@ -816,7 +764,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
             List<BudgetLineItem> budgetLineItems) {
         List<ParticipantPatientCosts> participantPatientCostList = new ArrayList<ParticipantPatientCosts>();
         for (BudgetLineItem budgetLineItem : budgetLineItems) {
-            if (isBudgetCategoryParticipantPatient(developmentProposal, budgetLineItem)) {
+            if (isBudgetCategoryParticipantPatient(budgetLineItem)) {
                 ParticipantPatientCosts participantPatientCost = ParticipantPatientCosts.Factory.newInstance();
                 participantPatientCost.setCost(budgetLineItem.getLineItemCost().bigDecimalValue());
                 participantPatientCost.setDescription(budgetLineItem.getLineItemDescription());
@@ -858,10 +806,10 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      * This method gets sum of lineItemCost as equipment total cost from List of BudgetLineItem, if budgetCategoryCode is equipment
      * for budgetLineItem
      */
-    protected BigDecimal getEquipmentTotal(DevelopmentProposal developmentProposal, List<BudgetLineItem> budgetLineItems) {
+    protected BigDecimal getEquipmentTotal(List<BudgetLineItem> budgetLineItems) {
         BudgetDecimal cost = BudgetDecimal.ZERO;
         for (BudgetLineItem budgetLineItem : budgetLineItems) {
-            if (isBudgetCategoryEquipment(developmentProposal, budgetLineItem)) {
+            if (isBudgetCategoryEquipment(budgetLineItem)) {
                 cost = cost.add(budgetLineItem.getLineItemCost());
             }
         }
@@ -1500,33 +1448,5 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      */
     public void setS2SUtilService(S2SUtilService utilService) {
         s2SUtilService = utilService;
-    }
-
-    /**
-     * @param developmentProposal
-     * @return the budgetCategoryCodeMapping
-     */
-    protected Map<String, String> loadBudgetCategoryCodeMapping(DevelopmentProposal developmentProposal) {
-
-        budgetCategoryCodeMapping = new HashMap<String, String>();
-
-        Map<String, String> categoryMap = new HashMap<String, String>();
-
-        boolean isNih = getSponsorService().isSponsorNihOsc(developmentProposal) || getSponsorService().isSponsorNihMultiplePi(developmentProposal);
-
-        if (isNih) {
-            categoryMap.put(KEY_MAPPING_NAME, "NIH_PRINTING");
-        } else {
-            categoryMap.put(KEY_MAPPING_NAME, "NSF_PRINTING");
-        }
-
-        List<BudgetCategoryMapping> budgetCategoryCodeMappingList = getBudgetCategoryMappings(categoryMap);
-
-        for (int i = 0; i < budgetCategoryCodeMappingList.size(); i++) {
-            BudgetCategoryMapping bcm = budgetCategoryCodeMappingList.get(i);
-            budgetCategoryCodeMapping.put(bcm.getTargetCategoryCode(), bcm.getBudgetCategoryCode());
-        }
-
-        return budgetCategoryCodeMapping;
     }
 }

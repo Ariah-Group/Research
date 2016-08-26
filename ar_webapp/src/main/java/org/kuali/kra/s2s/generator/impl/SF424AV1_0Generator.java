@@ -53,7 +53,6 @@ import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.kuali.kra.s2s.bo.S2sOpportunity;
 
 /**
  * Class for generating the XML object for grants.gov SF424AV1_0. Form is
@@ -224,12 +223,10 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
         SummaryLineItem summaryLineItem = SummaryLineItem.Factory.newInstance();
         boolean hasBudgetLineItem = false;
 
-        S2sOpportunity s2sOpp = pdDoc.getDevelopmentProposal().getS2sOpportunity();
-        
-        if (s2sOpp != null && s2sOpp.getS2sSubmissionTypeCode() != null) {
-            s2sOpp.refreshNonUpdateableReferences();
-            summaryLineItem.setActivityTitle(s2sOpp.getOpportunityTitle());
-            summaryLineItem.setCFDANumber(s2sOpp.getCfdaNumber());
+        if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null && pdDoc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode() != null) {
+            pdDoc.getDevelopmentProposal().getS2sOpportunity().refreshNonUpdateableReferences();
+            summaryLineItem.setActivityTitle(pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityTitle());
+            summaryLineItem.setCFDANumber(pdDoc.getDevelopmentProposal().getS2sOpportunity().getCfdaNumber());
         }
         if (budget != null) {
             BudgetDecimal fedNonFedCost = budget.getTotalCost();
@@ -280,12 +277,9 @@ public class SF424AV1_0Generator extends SF424BaseGenerator {
         ResourceLineItem[] resourceLineItemArray = new ResourceLineItem[1];
         ResourceLineItem resourceLineItem = ResourceLineItem.Factory.newInstance();
         boolean hasBudegetLineItem = false;
-        
-        S2sOpportunity s2sOpp = pdDoc.getDevelopmentProposal().getS2sOpportunity();
-        
-        if (s2sOpp != null && s2sOpp.getS2sSubmissionTypeCode() != null) {
-            s2sOpp.refreshNonUpdateableReferences();
-            resourceLineItem.setActivityTitle(s2sOpp.getOpportunityTitle());
+        if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null && pdDoc.getDevelopmentProposal().getS2sOpportunity().getS2sSubmissionTypeCode() != null) {
+            pdDoc.getDevelopmentProposal().getS2sOpportunity().refreshNonUpdateableReferences();
+            resourceLineItem.setActivityTitle(pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityTitle());
         }
         if (budget != null) {
             BudgetDecimal fedNonFedCost = BudgetDecimal.ZERO;
