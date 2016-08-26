@@ -81,11 +81,11 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     protected static final String TARGET_CATEGORY_CODE_OUTPATIENT = "38";
     protected static final String TARGET_CATEGORY_CODE_PARTICIPANT_STIPENDS = "75";
     protected static final String TARGET_CATEGORY_CODE_PARTICIPANT_TUITION = "76";
-    protected static final String TARGET_CATEGORY_CODE_PARTICIPANT_TRAVEL= "77";
+    protected static final String TARGET_CATEGORY_CODE_PARTICIPANT_TRAVEL = "77";
     protected static final String TARGET_CATEGORY_CODE_PARTICIPANT_OTHER = "78";
     protected static final String TARGET_CATEGORY_CODE_PARTICIPANT_SUBSISTENCE = "79";
     protected static final String TARGET_CATEGORY_CODE_SUBCONTRACT = "04";
-    
+
     //private static final String CATEGORY_CODE_EQUIPMENT_RENTAL = "13";
     //private static final String CATEGORY_CODE_EQUIPMENT = "20";
     //private static final String CATEGORY_CODE_TRAVEL_FOREIGN = "23";
@@ -97,7 +97,6 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     //private static final String CATEGORY_CODE_PARTICIPANT_STIPENDS = "32";
     //private static final String CATEGORY_CODE_PARTICIPANT_OTHER = "2";
     //private static final String CATEGORY_CODE_PARTICIPANT_TUITION = "35";
-
     protected static final String DEFAULT_VALUE_UNKNOWN = "Unknown";
     private static final String PROPOSALQUESTION_ID15 = "15";
     private static final String ANSWER_INDICATOR_VALUE = "Y";
@@ -121,9 +120,6 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     private static final String RATE_CLASS_TYPE_VACATION = "V";
     private static final String RATE_TYPE_ADMINISTRATIVE_SALARIES = "2";
     private static final String RATE_TYPE_SUPPORT_STAFF_SALARIES = "3";
-    private static final String PERIOD_TYPE_ACADEMIC_MONTHS = "2";
-    private static final String PERIOD_TYPE_CALENDAR_MONTHS = "3";
-    private static final String PERIOD_TYPE_SUMMER_MONTHS = "4";
     private static final String KEYPERSON_OTHER = "Other (Specify)";
     private static final String APPOINTMENT_TYPE_SUM_EMPLOYEE = "SUM EMPLOYEE";
     private static final String APPOINTMENT_TYPE_TMP_EMPLOYEE = "TMP EMPLOYEE";
@@ -297,10 +293,10 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
             BudgetLineItem budgetLineItem, String budgetCatCodePersonnel) {
 
         Map<String, String> bcmMapValues = loadBudgetCategoryCodeMapping(developmentProposal);
-        String budCatCodeParticTuition = bcmMapValues.get(TARGET_CATEGORY_CODE_PARTICIPANT_TUITION);        
-                
+        String budCatCodeParticTuition = bcmMapValues.get(TARGET_CATEGORY_CODE_PARTICIPANT_TUITION);
+
         boolean isOther = true;
-        if (budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equals(budgetCatCodePersonnel) 
+        if (budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equals(budgetCatCodePersonnel)
                 || isBudgetCategoryEquipment(developmentProposal, budgetLineItem)
                 || isBudgetCategoryTravel(developmentProposal, budgetLineItem)
                 || isBudgetCategoryParticipantPatient(developmentProposal, budgetLineItem)
@@ -356,7 +352,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      * This method check budgetCagegoryCode for Participant and Patient in BudgetLineItem
      */
     protected boolean isBudgetCategoryParticipantPatient(DevelopmentProposal developmentProposal, BudgetLineItem budgetLineItem) {
-        
+
         Map<String, String> bcmMapValues = loadBudgetCategoryCodeMapping(developmentProposal);
 
         String budCatCodeParticipantOther = bcmMapValues.get(TARGET_CATEGORY_CODE_PARTICIPANT_OTHER);
@@ -366,9 +362,9 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         String budCatCodeParticipantTuition = bcmMapValues.get(TARGET_CATEGORY_CODE_PARTICIPANT_TUITION);
         String budCatCodeInpatient = bcmMapValues.get(TARGET_CATEGORY_CODE_INPATIENT);
         String budCatCodeOutpatient = bcmMapValues.get(TARGET_CATEGORY_CODE_OUTPATIENT);
-        
+
         final String lineItemCatCode = budgetLineItem.getBudgetCategoryCode();
-        
+
         return lineItemCatCode.equals(budCatCodeParticipantOther)
                 || lineItemCatCode.equals(budCatCodeParticipantStipends)
                 || lineItemCatCode.equals(budCatCodeParticipantSubsistence)
@@ -1394,16 +1390,20 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     private void setCompensationForPeriod(KeyPersonInfo keyPerson, BudgetPeriod budgetPeriod,
             CompensationInfo compensationInfo, String budgetCatCodePersonnel) {
 
+        ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        final String periodTypeAcademic = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.S2SBUDGET_PERIOD_TYPE_ACADEMIC_MONTHS);
+        final String periodTypeSummer = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.S2SBUDGET_PERIOD_TYPE_SUMMER_MONTHS);
+
         for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
             for (BudgetPersonnelDetails personDetails : lineItem.getBudgetPersonnelDetailsList()) {
                 if (s2SUtilService.keyPersonEqualsBudgetPerson(keyPerson, personDetails)) {
                     BudgetDecimal numberOfMonths = s2SUtilService.getNumberOfMonths(personDetails.getStartDate(), personDetails.getEndDate());
-                    if (personDetails.getPeriodTypeCode().equals(PERIOD_TYPE_ACADEMIC_MONTHS)) {
+                    if (personDetails.getPeriodTypeCode().equals(periodTypeAcademic)) {
                         BudgetDecimal academicMonths = personDetails.getPercentEffort().multiply(numberOfMonths).multiply(new BudgetDecimal(0.01));
                         if (lineItem.getBudgetCategoryCode().equals(budgetCatCodePersonnel)) {
                             compensationInfo.setAcademicMonths(compensationInfo.getAcademicMonths().add(academicMonths));
                         }
-                    } else if (personDetails.getPeriodTypeCode().equals(PERIOD_TYPE_SUMMER_MONTHS)) {
+                    } else if (personDetails.getPeriodTypeCode().equals(periodTypeSummer)) {
                         BudgetDecimal summerMonths = personDetails.getPercentEffort().multiply(numberOfMonths).multiply(new BudgetDecimal(0.01));
                         if (lineItem.getBudgetCategoryCode().equals(budgetCatCodePersonnel)) {
                             compensationInfo.setSummerMonths(compensationInfo.getSummerMonths().add(summerMonths));
