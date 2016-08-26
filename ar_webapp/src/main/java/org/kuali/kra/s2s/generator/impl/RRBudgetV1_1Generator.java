@@ -97,8 +97,7 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
         BudgetSummaryInfo budgetSummary = null;
         try {
             validateBudgetForForm(pdDoc);
-            budgetperiodList = s2sBudgetCalculatorService
-                    .getBudgetPeriods(pdDoc);
+            budgetperiodList = s2sBudgetCalculatorService.getBudgetPeriods(pdDoc);
             budgetSummary = s2sBudgetCalculatorService.getBudgetInfo(pdDoc, budgetperiodList);
         } catch (S2SException e) {
             LOG.error(e.getMessage(), e);
@@ -108,26 +107,20 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
         for (BudgetPeriodInfo budgetPeriodData : budgetperiodList) {
 //			saveExtraKeyPersons(budgetPeriodData);
             if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_1) {
-                rrBudget
-                        .setBudgetYear1(getBudgetYear1DataType(budgetPeriodData));
+                rrBudget.setBudgetYear1(getBudgetYear1DataType(budgetPeriodData));
             } else if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_2) {
-                rrBudget
-                        .setBudgetYear2(getBudgetYearDataType(budgetPeriodData));
+                rrBudget.setBudgetYear2(getBudgetYearDataType(budgetPeriodData));
             } else if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_3) {
-                rrBudget
-                        .setBudgetYear3(getBudgetYearDataType(budgetPeriodData));
+                rrBudget.setBudgetYear3(getBudgetYearDataType(budgetPeriodData));
             } else if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_4) {
-                rrBudget
-                        .setBudgetYear4(getBudgetYearDataType(budgetPeriodData));
+                rrBudget.setBudgetYear4(getBudgetYearDataType(budgetPeriodData));
             } else if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_5) {
-                rrBudget
-                        .setBudgetYear5(getBudgetYearDataType(budgetPeriodData));
+                rrBudget.setBudgetYear5(getBudgetYearDataType(budgetPeriodData));
             }
         }
         for (BudgetPeriodInfo budgetPeriodData : budgetperiodList) {
             if (budgetPeriodData.getBudgetPeriod() == BudgetPeriodInfo.BUDGET_PERIOD_1) {
-                rrBudget
-                        .setBudgetYear1(getBudgetJustificationAttachment(rrBudget.getBudgetYear1()));
+                rrBudget.setBudgetYear1(getBudgetJustificationAttachment(rrBudget.getBudgetYear1()));
             }
         }
         rrBudget.setBudgetSummary(getBudgetSummary(budgetSummary));
