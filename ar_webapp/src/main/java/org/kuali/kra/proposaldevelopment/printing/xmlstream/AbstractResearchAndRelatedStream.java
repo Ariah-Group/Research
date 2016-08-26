@@ -1516,7 +1516,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         boolean isNih = getSponsorService().isSponsorNihOsc(developmentProposal) || getSponsorService().isSponsorNihMultiplePi(developmentProposal);
 
         if (isNih) {
-            categoryMap.put(KEY_MAPPING_NAME, "NIH_PRINTING");
+            categoryMap.put(KEY_MAPPING_NAME, Constants.BUDGET_CATEGORY_MAPPING_NAME_NIH);
         } else {
             categoryMap.put(KEY_MAPPING_NAME, Constants.BUDGET_CATEGORY_MAPPING_NAME_NSF);
         }
