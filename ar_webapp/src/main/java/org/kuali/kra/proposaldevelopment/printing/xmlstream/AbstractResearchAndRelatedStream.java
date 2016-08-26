@@ -121,8 +121,6 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     private static final String RATE_TYPE_ADMINISTRATIVE_SALARIES = "2";
     private static final String RATE_TYPE_SUPPORT_STAFF_SALARIES = "3";
     private static final String KEYPERSON_OTHER = "Other (Specify)";
-    private static final String APPOINTMENT_TYPE_SUM_EMPLOYEE = "SUM EMPLOYEE";
-    private static final String APPOINTMENT_TYPE_TMP_EMPLOYEE = "TMP EMPLOYEE";
     private BusinessObjectService businessObjectService;
     private KcPersonService kcPersonService;
     private S2SUtilService s2SUtilService;
@@ -1393,7 +1391,10 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         ParameterService paramServ = (ParameterService) KraServiceLocator.getService(ParameterService.class);
         final String periodTypeAcademic = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.S2SBUDGET_PERIOD_TYPE_ACADEMIC_MONTHS);
         final String periodTypeSummer = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.S2SBUDGET_PERIOD_TYPE_SUMMER_MONTHS);
-
+        
+        final String appointTypeSummerEmp = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.S2SBUDGET_APPOINTMENT_TYPE_SUM_EMPLOYEE);
+        final String appointTypeTempEmp = paramServ.getParameterValueAsString(BudgetDocument.class, Constants.S2SBUDGET_APPOINTMENT_TYPE_TMP_EMPLOYEE);
+        
         for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
             for (BudgetPersonnelDetails personDetails : lineItem.getBudgetPersonnelDetailsList()) {
                 if (s2SUtilService.keyPersonEqualsBudgetPerson(keyPerson, personDetails)) {
@@ -1437,8 +1438,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
                         compensationInfo.setBaseSalary(budgetPerson.getCalculationBase());
 
                         String apptTypeCode = budgetPerson.getAppointmentType().getAppointmentTypeCode();
-                        if (!apptTypeCode.equals(APPOINTMENT_TYPE_SUM_EMPLOYEE)
-                                && !apptTypeCode.equals(APPOINTMENT_TYPE_TMP_EMPLOYEE)) {
+                        if (!apptTypeCode.equals(appointTypeSummerEmp) && !apptTypeCode.equals(appointTypeTempEmp)) {
                             compensationInfo.setBaseSalary(budgetPerson.getCalculationBase());
                         }
                     }
