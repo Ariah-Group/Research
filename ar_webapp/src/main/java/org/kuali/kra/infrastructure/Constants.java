@@ -18,7 +18,6 @@ package org.kuali.kra.infrastructure;
 public interface Constants {
 
     //Generic constants
-
     public static final String COLON = ":";
     public static final String COMMA = ",";
     public static final String SEMI_COLON = ";";
@@ -219,7 +218,7 @@ public interface Constants {
     // Budget Category Maps / Mappings Names
     public static final String BUDGET_CATEGORY_MAPPING_NAME_NIH = "NIH_PRINTING";
     public static final String BUDGET_CATEGORY_MAPPING_NAME_NSF = "NSF_PRINTING";
-    
+
     // Key Permissions Info
     public static final String CONFIRM_DELETE_PROPOSAL_USER_KEY = "confirmDeleteProposalUser";
     public static final String PERMISSION_PROPOSAL_USERS_PROPERTY_KEY = "newProposalUser";
@@ -985,6 +984,11 @@ public interface Constants {
     // Parameter Constants for Budgets
     public static final String ARIAH_PROPDEV_BUDGET_DEFAULT_SUBMIT_COST_SHARING_FLAG = "ARIAH_PROPDEV_BUDGET_DEFAULT_SUBMIT_COST_SHARING_FLAG";
     public static final String ARIAH_BUDGET_INFLATION_FLAG_NONPERSONNEL_OFF = "ARIAH_BUDGET_INFLATION_FLAG_NONPERSONNEL_OFF";
+
+    public static final String ARIAH_PROPDEV_BUDGET_CATEGORY_TYPECODE_SUBPROJECTS = "ARIAH_PROPDEV_BUDGET_CATEGORY_TYPECODE_SUBPROJECTS";
+    public static final String ARIAH_PROPDEV_BUDGET_CATEGORY_TYPECODE_TRAVEL = "ARIAH_PROPDEV_BUDGET_CATEGORY_TYPECODE_TRAVEL";
+    public static final String ARIAH_PROPDEV_BUDGET_CATEGORY_TYPECODE_EQUIPMENT = "ARIAH_PROPDEV_BUDGET_CATEGORY_TYPECODE_EQUIPMENT";
+    public static final String ARIAH_PROPDEV_BUDGET_CATEGORY_TYPECODE_SUPPMATRL = "ARIAH_PROPDEV_BUDGET_CATEGORY_TYPECODE_SUPPMATRL";
 
     //Parameter Constants for Negotiations
     public static final String ARIAH_NEGO_HIDE_AND_DEFAULT_NEGO_DOC_DESC = "ARIAH_NEGO_HIDE_AND_DEFAULT_NEGO_DOC_DESC";

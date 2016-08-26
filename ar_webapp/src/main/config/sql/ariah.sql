@@ -1074,6 +1074,19 @@ update krcr_parm_t set PARM_DESC_TXT='Defines whether the debug transform is ena
   INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
       VALUES  ('KC-PROTOCOL','Document','ARIAH_IRB_PROTOCOL_ATTACHMENT_TYPECODE_OTHER', sys_guid(),0,'CONFG','9','The IRB Protocol Attachment Type Code representing the OTHER type.','A','KUALI');
 
+ -- RES-695
+   INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
+      VALUES  ('KC-B','Document','ARIAH_PROPDEV_BUDGET_CATEGORY_TYPECODE_SUBPROJECTS', sys_guid(),0,'CONFG','H','Budget Category Type code representing Proposal Hierarchy Subprojects/Subcontracts.','A','KUALI');
+
+   INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
+      VALUES  ('KC-B','Document','ARIAH_PROPDEV_BUDGET_CATEGORY_TYPECODE_TRAVEL', sys_guid(),0,'CONFG','T','Budget Category Type code representing Travel.','A','KUALI');
+
+   INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
+      VALUES  ('KC-B','Document','ARIAH_PROPDEV_BUDGET_CATEGORY_TYPECODE_EQUIPMENT', sys_guid(),0,'CONFG','E','Budget Category Type code representing Equipment.','A','KUALI');
+
+ INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
+      VALUES  ('KC-B','Document','ARIAH_PROPDEV_BUDGET_CATEGORY_TYPECODE_SUPPMATRL', sys_guid(),0,'CONFG','O','Budget Category Type code representing Supplies/Materials.','A','KUALI');
+     
 
 
  -- RES-546

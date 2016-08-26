@@ -1053,4 +1053,24 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     public String getBudgetCategoryTypeCodePersonnel() {
         return this.getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
     }
+
+    public String getBudgetCategoryTypeCodeParticipantSupport() {
+        return this.getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PARTICIPANT_SUPPORT);
+    }
+
+    public String getBudgetCategoryTypeCodeSubprojects() {
+        return this.getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.ARIAH_PROPDEV_BUDGET_CATEGORY_TYPECODE_SUBPROJECTS);
+    }
+
+    public String getBudgetCategoryTypeCodeTravel() {
+        return this.getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.ARIAH_PROPDEV_BUDGET_CATEGORY_TYPECODE_TRAVEL);
+    }
+
+    public String getBudgetCategoryTypeCodeEquipment() {
+        return this.getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.ARIAH_PROPDEV_BUDGET_CATEGORY_TYPECODE_EQUIPMENT);
+    }
+
+    public String getBudgetCategoryTypeCodeSupplyMaterial() {
+        return this.getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.ARIAH_PROPDEV_BUDGET_CATEGORY_TYPECODE_SUPPMATRL);
+    }
 }
