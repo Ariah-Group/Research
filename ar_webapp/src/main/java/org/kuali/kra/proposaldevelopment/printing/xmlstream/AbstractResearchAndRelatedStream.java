@@ -835,15 +835,15 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         BudgetCategoryMap budgetCategoryMap = getBudgetCategoryMap(developmentProposal, budgetLineItem);
         ParticipantType.Enum participantType = null;
         if (budgetCategoryMap != null) {
-            if (budgetCategoryMap.getTargetCategoryCode().equals("41")) {
+            if (budgetCategoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_INPATIENT)) {
                 participantType = ParticipantType.INPATIENT;
-            } else if (budgetCategoryMap.getTargetCategoryCode().equals("90")) {
+            } else if (budgetCategoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_OUTPATIENT)) {
                 participantType = ParticipantType.OUTPATIENT;
-            } else if (budgetCategoryMap.getTargetCategoryCode().equals("79")) {//SUBSISTANCE
+            } else if (budgetCategoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_PARTICIPANT_SUBSISTENCE)) {//SUBSISTANCE
                 participantType = ParticipantType.SUBSISTENCE;
-            } else if (budgetCategoryMap.getTargetCategoryCode().equals("77")) {//TRAVEL
+            } else if (budgetCategoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_PARTICIPANT_TRAVEL)) {//TRAVEL
                 participantType = ParticipantType.TRAVEL;
-            } else if (budgetCategoryMap.getTargetCategoryCode().equals("75")) {//STIPENDS
+            } else if (budgetCategoryMap.getTargetCategoryCode().equals(TARGET_CATEGORY_CODE_PARTICIPANT_STIPENDS)) {//STIPENDS
                 participantType = ParticipantType.STIPENDS;
             } else {
                 participantType = ParticipantType.OTHER;
@@ -872,7 +872,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      * This method will get the list of Organization YNQ for given question id.
      */
     protected List<OrganizationYnq> getOrganizationYNQ(String questionId) {
-        OrganizationYnq organizationYnq = null;
+
         Map<String, String> organizationYnqMap = new HashMap<String, String>();
         organizationYnqMap.put(ORGANIZATION_ID_PARAMETER, questionId);
         List<OrganizationYnq> organizationYnqs = (List<OrganizationYnq>) businessObjectService.findMatching(OrganizationYnq.class,
