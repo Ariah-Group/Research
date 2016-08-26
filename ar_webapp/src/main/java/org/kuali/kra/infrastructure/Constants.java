@@ -255,6 +255,7 @@ public interface Constants {
     public static final String SUBCONTRACTOR_F_AND_A_LT_25K_PARAM = "SUBCONTRACTOR_F_AND_A_LT_25K";
     public static final String SUBCONTRACTOR_DIRECT_GT_25K_PARAM = "SUBCONTRACTOR_DIRECT_GT_25K";
     public static final String SUBCONTRACTOR_DIRECT_LT_25K_PARAM = "SUBCONTRACTOR_DIRECT_LT_25K";
+    public static final String BROAD_F_AND_A_PARAM = "BROAD_F_AND_A";
 
     // research.gov 
     public static final String RESEARCH_GOV_SERVICE_HOST = "research.gov.s2s.host";

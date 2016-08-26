@@ -84,6 +84,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     protected static final String TARGET_CATEGORY_CODE_PARTICIPANT_TRAVEL= "77";
     protected static final String TARGET_CATEGORY_CODE_PARTICIPANT_OTHER = "78";
     protected static final String TARGET_CATEGORY_CODE_PARTICIPANT_SUBSISTENCE = "79";
+    protected static final String TARGET_CATEGORY_CODE_SUBCONTRACT = "04";
     
     //private static final String CATEGORY_CODE_EQUIPMENT_RENTAL = "13";
     //private static final String CATEGORY_CODE_EQUIPMENT = "20";

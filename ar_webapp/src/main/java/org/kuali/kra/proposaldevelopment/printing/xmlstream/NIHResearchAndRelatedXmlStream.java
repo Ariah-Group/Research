@@ -934,11 +934,12 @@ public class NIHResearchAndRelatedXmlStream extends
             boolean isNih = sponsorService.isSponsorNihOsc(developmentProposal) || sponsorService.isSponsorNihMultiplePi(developmentProposal);
             String mappingName = isNih ? "NIH_PRINTING" : "NSF_PRINTING";
 
-            String fnaGt25KParamValue = getParameterService().getParameterValueAsString(BudgetDocument.class, "SUBCONTRACTOR_F_AND_A_GT_25K");
-            String fnaLt25KParamValue = getParameterService().getParameterValueAsString(BudgetDocument.class, "SUBCONTRACTOR_F_AND_A_LT_25K");
-            String fnaBroadParamValue = getParameterService().getParameterValueAsString(BudgetDocument.class, "BROAD_F_AND_A");
+            String fnaGt25KParamValue = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_F_AND_A_GT_25K_PARAM);
+            String fnaLt25KParamValue = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_F_AND_A_LT_25K_PARAM);
+            String fnaBroadParamValue = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BROAD_F_AND_A_PARAM);
+            
             Map<String, String> categoryMap = new HashMap<String, String>();
-            categoryMap.put(KEY_TARGET_CATEGORY_CODE, "04");
+            categoryMap.put(KEY_TARGET_CATEGORY_CODE, TARGET_CATEGORY_CODE_SUBCONTRACT);
             categoryMap.put(KEY_MAPPING_NAME, mappingName);
             List<BudgetCategoryMapping> budgetCategoryList = getBudgetCategoryMappings(categoryMap);
             for (BudgetLineItem lineItem : budgetPeriod.getBudgetLineItems()) {
