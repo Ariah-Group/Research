@@ -216,6 +216,10 @@ public interface Constants {
     public static final String BUDGET_PERSON_DEFAULT_JOB_CODE_PARAMETER = "budgetPersonDefaultJobCode";
     public static final String DEFAULT_INFLATION_RATE_FOR_SALARY = "DEFAULT_INFLATION_RATE_FOR_SALARY";
 
+    // Budget Category Maps / Mappings Names
+    public static final String BUDGET_CATEGORY_MAPPING_NAME_NIH = "NIH_PRINTING";
+    public static final String BUDGET_CATEGORY_MAPPING_NAME_NSF = "NSF_PRINTING";
+    
     // Key Permissions Info
     public static final String CONFIRM_DELETE_PROPOSAL_USER_KEY = "confirmDeleteProposalUser";
     public static final String PERMISSION_PROPOSAL_USERS_PROPERTY_KEY = "newProposalUser";

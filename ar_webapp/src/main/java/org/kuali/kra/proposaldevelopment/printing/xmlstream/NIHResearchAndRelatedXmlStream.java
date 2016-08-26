@@ -670,7 +670,7 @@ public class NIHResearchAndRelatedXmlStream extends
     }
 
     private void setAllNSFSeniorPersonnels(DevelopmentProposal developmentProposal, Budget budget, BudgetSummaryType budgetSummaryType) {
-        List<KeyPersonInfo> nsfSeniorPersons = getBudgetPersonsForCategoryMap(developmentProposal, budget, "01", "NSF_PRINTING");
+        List<KeyPersonInfo> nsfSeniorPersons = getBudgetPersonsForCategoryMap(developmentProposal, budget, "01", Constants.BUDGET_CATEGORY_MAPPING_NAME_NSF);
         int rowNumber = 0;
         BudgetDecimal totalFringe = BudgetDecimal.ZERO;
         BudgetDecimal totalSalary = BudgetDecimal.ZERO;
@@ -724,7 +724,7 @@ public class NIHResearchAndRelatedXmlStream extends
 
     private int setNSFSeniorPersonnels(DevelopmentProposal developmentProposal, BudgetPeriod budgetPeriod,
             gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod BudgetPeriodType) {
-        List<KeyPersonInfo> nsfSeniorPersons = getBudgetPersonsForCategoryMap(developmentProposal, budgetPeriod, "01", "NSF_PRINTING");
+        List<KeyPersonInfo> nsfSeniorPersons = getBudgetPersonsForCategoryMap(developmentProposal, budgetPeriod, "01", Constants.BUDGET_CATEGORY_MAPPING_NAME_NSF);
         int rowNumber = 0;
         int period = budgetPeriod.getBudgetPeriod();
         for (KeyPersonInfo keyPersonInfo : nsfSeniorPersons) {
@@ -932,7 +932,7 @@ public class NIHResearchAndRelatedXmlStream extends
             consortiumDirectCost = budgetModular.getConsortiumFna();
         } else {
             boolean isNih = sponsorService.isSponsorNihOsc(developmentProposal) || sponsorService.isSponsorNihMultiplePi(developmentProposal);
-            String mappingName = isNih ? "NIH_PRINTING" : "NSF_PRINTING";
+            String mappingName = isNih ? Constants.BUDGET_CATEGORY_MAPPING_NAME_NIH: Constants.BUDGET_CATEGORY_MAPPING_NAME_NSF;
 
             String fnaGt25KParamValue = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_F_AND_A_GT_25K_PARAM);
             String fnaLt25KParamValue = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_F_AND_A_LT_25K_PARAM);
@@ -1036,7 +1036,7 @@ public class NIHResearchAndRelatedXmlStream extends
             gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod budgetPeriodType) {
         NSFOtherPersonnelType otherPersonnelType = budgetPeriodType.addNewNSFOtherPersonnel();
         boolean isNih = sponsorService.isSponsorNihOsc(developmentProposal) || sponsorService.isSponsorNihMultiplePi(developmentProposal);
-        String mappingName = isNih ? "NIH_PRINTING" : "NSF_PRINTING";
+        String mappingName = isNih ? Constants.BUDGET_CATEGORY_MAPPING_NAME_NIH: Constants.BUDGET_CATEGORY_MAPPING_NAME_NSF;
 
         OtherPersonInfo otherPersonInfo = getOtherPersonInfo(developmentProposal, budgetPeriod, mappingName, "01-Secretarial");
         otherPersonnelType.setClericalCount(BigInteger.valueOf(otherPersonInfo.getCount()));

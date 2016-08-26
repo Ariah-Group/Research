@@ -257,7 +257,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     private BudgetCategoryMap getBudgetCategoryMap(DevelopmentProposal developmentProposal, BudgetLineItem budgetLineItem) {
         boolean isNih = getSponsorService().isSponsorNihOsc(developmentProposal)
                 || getSponsorService().isSponsorNihMultiplePi(developmentProposal);
-        String mappingName = isNih ? "NIH_PRINTING" : "NSF_PRINTING";
+        String mappingName = isNih ? Constants.BUDGET_CATEGORY_MAPPING_NAME_NIH: Constants.BUDGET_CATEGORY_MAPPING_NAME_NSF;
         BudgetCategoryMap budgetCategoryMap = null;
         Map<String, String> categoryMap = new HashMap<String, String>();
         categoryMap.put("budgetCategoryCode", budgetLineItem.getBudgetCategoryCode());
@@ -1518,7 +1518,7 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         if (isNih) {
             categoryMap.put(KEY_MAPPING_NAME, "NIH_PRINTING");
         } else {
-            categoryMap.put(KEY_MAPPING_NAME, "NSF_PRINTING");
+            categoryMap.put(KEY_MAPPING_NAME, Constants.BUDGET_CATEGORY_MAPPING_NAME_NSF);
         }
 
         List<BudgetCategoryMapping> budgetCategoryCodeMappingList = getBudgetCategoryMappings(categoryMap);
