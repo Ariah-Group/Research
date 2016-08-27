@@ -44,7 +44,6 @@ public class FormMappingLoader {
     private static Map<String, FormMappingInfo> bindings;
     private static Map<Integer, List<String>> sortedNameSpaces;
     private static final String BINDING_FILE_NAME = "/S2SFormBinding.xml";
-    private static final String BINDING_FILE_NAME_V2 = "/org/kuali/kra/s2s/s2sform/S2SFormBinding-V2.xml";
     private static final String NAMESPACE = "namespace";
     private static final String MAIN_CLASS = "mainClass";
     private static final String STYLE_SHEET = "stylesheet";
@@ -121,9 +120,6 @@ public class FormMappingLoader {
                 bindings = new Hashtable<String, FormMappingInfo>();
                 sortedNameSpaces = new TreeMap<Integer, List<String>>();
                 loadBindings(BINDING_FILE_NAME);
-                if ((FormMappingLoader.class.getResourceAsStream(BINDING_FILE_NAME_V2)) != null) {
-                    loadBindings(BINDING_FILE_NAME_V2);
-                }
             }
         }
         return bindings;
