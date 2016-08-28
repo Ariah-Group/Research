@@ -298,6 +298,12 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
                     try {
                         String execSum = proposalDevelopmentDocument.getDevelopmentProposal().getExecutiveSummary();
+                        
+                        // null-check here is very important. If the first arg to getDictionaryValidationService().validate
+                        // is NULL, it causes NullPointer to be thrown several levels down the stack.
+                        if(execSum == null) {
+                            execSum = "";
+                        }
 
                         DictionaryValidationResult result = getDictionaryValidationService().validate(execSum, entry.getName(), entry, false);
                         DataDictionaryEntry dictEntry = getDataDictionaryService().getDataDictionary().getDictionaryObjectEntry(entryName);
