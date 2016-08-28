@@ -40,13 +40,14 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.ariahgroup.research.bo.AttachmentDataSource;
+import org.kuali.kra.bo.CoeusSubModule;
 
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
+import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
 
 public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentActionsAction {
 
@@ -71,6 +72,42 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
     @Override
     public ActionForward printForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return super.printForms(mapping, form, request, response);
+    }
+
+    // Note, this is a direct method copy from ProposalDevelopmentQuestionsAction.java
+    // Without this method here, it calls the super method, which prints the Proposal Person Certification Questions instead.
+    @Override
+    public ActionForward printQuestionnaireAnswer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward(MAPPING_BASIC);
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        final int answerHeaderIndex = this.getSelectedLine(request);
+        final String formProperty = getFormProperty(request, "printQuestionnaireAnswer");
+
+        if (StringUtils.equals(formProperty, ".questionnaireHelper")) {
+            reportParameters.put("questionnaireId", proposalDevelopmentForm.getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireIdAsInteger());
+            reportParameters.put("template", proposalDevelopmentForm.getQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getTemplate());
+            reportParameters.put("coeusModuleSubItemCode", CoeusSubModule.ZERO_SUBMODULE);
+        } else if (StringUtils.equals(formProperty, ".s2sQuestionnaireHelper")) {
+            reportParameters.put("questionnaireId", proposalDevelopmentForm.getS2sQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getQuestionnaireIdAsInteger());
+            reportParameters.put("template", proposalDevelopmentForm.getS2sQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire().getTemplate());
+            reportParameters.put("coeusModuleSubItemCode", CoeusSubModule.PROPOSAL_S2S_SUBMODULE);
+        } else {
+            throw new RuntimeException(String.format("Do not know how to process printQuestionnaireAnswer for formProperty %s", formProperty));
+        }
+
+        AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal(), reportParameters);
+
+        if (dataStream.getContent() != null) {
+            streamToResponse(dataStream, response);
+            forward = null;
+        }
+        return forward;
+    }
+
+    private QuestionnairePrintingService getQuestionnairePrintingService() {
+        return KraServiceLocator.getService(QuestionnairePrintingService.class);
     }
 
     public ActionForward downloadProposalAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
