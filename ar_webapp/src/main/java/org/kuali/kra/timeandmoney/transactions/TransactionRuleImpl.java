@@ -313,6 +313,13 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
             reportError(SOURCE_AWARD_PROPERTY, KeyConstants.ERROR_REQUIRED, SOURCE_AWARD_ERROR_PARM);
         }
         
+        //Both Source and Destination cannot be the same.
+        if ((pendingTransactionItem.getSourceAwardNumber()).equals(pendingTransactionItem.getDestinationAwardNumber())){
+        	reportError(SOURCE_AWARD_PROPERTY, KeyConstants.ERROR_TNM_PENDING_TRANSACTION_SOURCE_AND_DESTINATION_AWARDS_ARE_SAME);
+        	
+        	itemValid = false;
+        }
+        
         return itemValid;
     }
     
