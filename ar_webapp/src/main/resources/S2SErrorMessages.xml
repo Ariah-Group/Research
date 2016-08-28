@@ -1378,6 +1378,12 @@
         <Message>Research Strategy attachment is required for Research Plan.</Message> 
         <FixLink>abstractsAttachments</FixLink> 
     </Error>
+    <!-- #PHS398_ResearchPlan V3_0-->
+    <Error>
+        <MessageKey>/GrantApplication/Forms/PHS398_ResearchPlan_3_0/ResearchPlanAttachments/ResearchStrategy</MessageKey> 
+        <Message>Research Strategy attachment is required for Research Plan.</Message> 
+        <FixLink>abstractsAttachments</FixLink> 
+    </Error>    
     <!-- #PerformanceSite V1_3-->
     <Error>
         <MessageKey>/GrantApplication/Forms/PerformanceSite_1_3/AttachedFile</MessageKey> 

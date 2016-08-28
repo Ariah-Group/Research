@@ -39,6 +39,7 @@ public abstract class PHS398ResearchPlanBaseGenerator extends S2SBaseFormGenerat
     public static final int LETTERS_OF_SUPPORT = 32;
     public static final int RESOURCE_SHARING_PLANS = 33;
     public static final int APPENDIX = 34;
+    public static final int KEY_BIOLOGICAL_OR_CHEMICAL = 146;
 
     public static final int INCLUSION_ENROLLMENT_REPORT = 43;
     public static final int PROGRESS_REPORT_PUBLICATION_LIST = 44;
