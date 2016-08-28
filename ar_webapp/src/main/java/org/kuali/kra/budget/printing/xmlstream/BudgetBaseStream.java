@@ -2061,7 +2061,7 @@ public abstract class BudgetBaseStream implements XmlStream {
      * @param budgetPersonnelDetails
      * @return String categoryCode
      */
-    protected String getBudgetCategoryCodeFroBudgetSalarySummary(
+    protected String getBudgetCategoryCodeForBudgetSalarySummary(
             AbstractBudgetRateAndBase budgetPersRateAndBase, BudgetLineItemBase budgetPersonnelDetails) {
         String categoryCode = null;
         if (budgetPersRateAndBase != null && isRateAndBaseLASalary(budgetPersRateAndBase)) {
@@ -2339,7 +2339,7 @@ public abstract class BudgetBaseStream implements XmlStream {
         reportTypeVO.setFringe(rate.getCalculatedCost());
         reportTypeVO.setCostElementDesc(budgetDetails.getCostElementBO().getDescription());
 
-        reportTypeVO.setBudgetCategoryCode(getBudgetCategoryCodeFroBudgetSalarySummary(
+        reportTypeVO.setBudgetCategoryCode(getBudgetCategoryCodeForBudgetSalarySummary(
                 rate, budgetDetails));
 
         return reportTypeVO;
@@ -2391,7 +2391,7 @@ public abstract class BudgetBaseStream implements XmlStream {
         reportTypeVO.setFringe(BudgetDecimal.ZERO);
         reportTypeVO.setCostElementDesc(budgetDetails.getCostElementBO().getDescription());
 
-        reportTypeVO.setBudgetCategoryCode(getBudgetCategoryCodeFroBudgetSalarySummary(
+        reportTypeVO.setBudgetCategoryCode(getBudgetCategoryCodeForBudgetSalarySummary(
                 null, budgetDetails));
 
         return reportTypeVO;
