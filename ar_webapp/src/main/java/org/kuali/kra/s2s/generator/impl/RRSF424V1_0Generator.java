@@ -266,7 +266,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
                 contactInfo.setName(globLibV10Generator
                         .getHumanNameDataType(depPerson));
                 contactInfo.setPhone(depPerson.getOfficePhone());
-                if (depPerson.getFaxNumber() != null) {
+                if (depPerson.getFaxNumber() != null && !depPerson.getFaxNumber().isEmpty()) {
                     contactInfo.setFax(depPerson.getFaxNumber());
                 }
                 if (depPerson.getEmailAddress() != null) {
@@ -323,7 +323,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
         contactInfo.setPhone("");
         if (rolodexOrganization != null) {
             contactInfo.setPhone(rolodexOrganization.getPhoneNumber());
-            if (rolodexOrganization.getFaxNumber() != null) {
+            if (rolodexOrganization.getFaxNumber() != null && !rolodexOrganization.getFaxNumber().isEmpty()) {
                 contactInfo.setFax(rolodexOrganization.getFaxNumber());
             }
             if (rolodexOrganization.getEmailAddress() != null) {
@@ -516,7 +516,7 @@ public class RRSF424V1_0Generator extends RRSF424BaseGenerator {
                 PDPI.setName(globLibV10Generator.getHumanNameDataType(PI));
                 PDPI.setPhone(PI.getOfficePhone());
                 PDPI.setEmail(PI.getEmailAddress());
-                if (PI.getFaxNumber() != null) {
+                if (PI.getFaxNumber() != null && !PI.getFaxNumber().isEmpty()) {
                     PDPI.setFax(PI.getFaxNumber());
                 }
                 PDPI.setAddress(globLibV10Generator
