@@ -195,20 +195,21 @@ public class NSFCoverPageV1_3Generator extends NSFCoverPageBaseGenerator impleme
                 ProposalPersonModuleQuestionnaireBean moduleQuestionnaireBean
                         = new ProposalPersonModuleQuestionnaireBean(pdDoc.getDevelopmentProposal(), proposalPerson);
                 List<AnswerHeader> headers = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
-                AnswerHeader answerHeader = headers.get(0);
-                List<Answer> certificationAnswers = answerHeader.getAnswers();
+                if (!headers.isEmpty()) {
+                    AnswerHeader answerHeader = headers.get(0);
+                    List<Answer> certificationAnswers = answerHeader.getAnswers();
 
-                for (Answer certificatonAnswer : certificationAnswers) {
-                    if (certificatonAnswer != null
-                            && PROPOSAL_YNQ_LOBBYING_ACTIVITIES
-                            .equals(certificatonAnswer.getQuestion().getQuestionId())
-                            && S2SConstants.PROPOSAL_YNQ_ANSWER_Y
-                            .equals(certificatonAnswer.getAnswer())) {
-                        return YesNoDataType.Y_YES;
+                    for (Answer certificatonAnswer : certificationAnswers) {
+                        if (certificatonAnswer != null
+                                && PROPOSAL_YNQ_LOBBYING_ACTIVITIES
+                                .equals(certificatonAnswer.getQuestion().getQuestionId())
+                                && S2SConstants.PROPOSAL_YNQ_ANSWER_Y
+                                .equals(certificatonAnswer.getAnswer())) {
+                            return YesNoDataType.Y_YES;
+                        }
+
                     }
-
                 }
-
             }
         }
         Organization organization = getOrganizationFromDevelopmentProposal(pdDoc.getDevelopmentProposal());
