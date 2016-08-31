@@ -537,10 +537,7 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
 
     private void setDepartmentName(OrganizationContactPersonDataType PDPI, ProposalPerson PI) {
         if (PI.getHomeUnit() != null) {
-            KcPersonService kcPersonService = KraServiceLocator.getService(KcPersonService.class);
-            KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(PI.getPersonId());
-            String departmentName = kcPersons.getOrganizationIdentifier();
-            PDPI.setDepartmentName(departmentName);
+             PDPI.setDepartmentName(getDepartmentName(PI.getPerson())); 
         } else {
             DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
             PDPI.setDepartmentName(developmentProposal.getOwnedByUnit().getUnitName());

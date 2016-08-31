@@ -553,16 +553,13 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
      * @return OrganizationContactPersonDataType Principal investigator details.
      */
     private OrganizationContactPersonDataType getPDPI() {
-        OrganizationContactPersonDataType PDPI = OrganizationContactPersonDataType.Factory
-                .newInstance();
+        OrganizationContactPersonDataType PDPI = OrganizationContactPersonDataType.Factory.newInstance();
         ProposalPerson PI = null;
-        for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal()
-                .getProposalPersons()) {
-            if (PRINCIPAL_INVESTIGATOR.equals(proposalPerson
-                    .getProposalPersonRoleId())) {
+
+        for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
+            if (PRINCIPAL_INVESTIGATOR.equals(proposalPerson.getProposalPersonRoleId())) {
                 PI = proposalPerson;
-                ProposalSite applicantOrganization = pdDoc
-                        .getDevelopmentProposal().getApplicantOrganization();
+                ProposalSite applicantOrganization = pdDoc.getDevelopmentProposal().getApplicantOrganization();
                 PDPI.setName(globLibV20Generator.getHumanNameDataType(PI));
                 PDPI.setPhone(PI.getOfficePhone());
                 PDPI.setEmail(PI.getEmailAddress());
@@ -574,8 +571,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
                 setDepartmentName(PDPI, PI);
                 setDivisionName(PDPI, PI);
                 if (applicantOrganization != null) {
-                    PDPI.setOrganizationName(applicantOrganization
-                            .getLocationName());
+                    PDPI.setOrganizationName(applicantOrganization.getLocationName());
                 }
             }
         }
@@ -623,19 +619,11 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 
     private void setDepartmentName(OrganizationContactPersonDataType PDPI, ProposalPerson PI) {
         if (PI.getHomeUnit() != null) {
-            String personId = PI.getPersonId();
-            String departmentName = getPrimaryDepartment(personId);
-            PDPI.setDepartmentName(departmentName);
+            PDPI.setDepartmentName(getDepartmentName(PI.getPerson()));
         } else {
             DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
             PDPI.setDepartmentName(developmentProposal.getOwnedByUnit().getUnitName());
         }
-    }
-
-    private String getPrimaryDepartment(String personId) {
-        KcPersonService kcPersonService = KraServiceLocator.getService(KcPersonService.class);
-        KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(personId);
-        return getUnitName(kcPersons.getOrganizationIdentifier());
     }
 
     private String getUnitName(String departmentCode) {

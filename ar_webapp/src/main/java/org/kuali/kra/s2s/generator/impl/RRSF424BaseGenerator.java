@@ -17,8 +17,11 @@ package org.kuali.kra.s2s.generator.impl;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.lang.StringUtils;
 
 import org.kuali.kra.bo.SponsorHierarchy;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
@@ -70,6 +73,11 @@ public abstract class RRSF424BaseGenerator extends S2SBaseFormGenerator {
         s2sBudgetCalculatorService = KraServiceLocator.getService(S2SBudgetCalculatorService.class);
     }
 
+    protected String getDepartmentName(KcPerson kcPerson) {
+        final Unit unit = kcPerson.getUnit();
+        return unit != null ? StringUtils.substring(unit.getUnitName(), 0, DEPARTMENT_NAME_MAX_LENGTH) : "";
+    }    
+    
     /**
      *
      * This method returns the type of contact person for a proposal
