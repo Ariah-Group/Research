@@ -28,6 +28,7 @@ import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
+import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
@@ -146,7 +147,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
         if (index > 0) {
             retVal += ("-" + index);
         }
-        return retVal;
+        return (retVal + getNamespaceTag());
     }
 
     private int getIndexOfAttachmentAlreadyAdded(String contentId) {
@@ -177,7 +178,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
         if (index > 0) {
             retVal += index;
         }
-        return retVal;
+        return (retVal + getNamespaceTag());
     }
 
     /**
@@ -487,5 +488,54 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
      */
     public void setNamespace(String namespace) {
         this.namespace = namespace;
+    }
+    
+    private String getNamespaceTag() {
+    	int idx = namespace.lastIndexOf('/');
+    	if (idx < 0 || idx >= namespace.length()-1) return ("-" + namespace);
+    	return ("-" + namespace.substring(idx+1));
+}
+    
+    /**
+     *  Gets the answer from questionnaires given the answer header list and question id 
+     * @param answerHeaders
+     * @param questionId
+     * @return
+     */
+    public String getAnswer(List<AnswerHeader> answerHeaders, String questionId) {
+        String answer = null;
+        if (answerHeaders != null && !answerHeaders.isEmpty()) {
+            for (AnswerHeader answerHeader : answerHeaders) {
+                List<Answer> answerDetails = answerHeader.getAnswers();
+                for (Answer answers : answerDetails) {
+                    if (questionId.equals(answers.getQuestion().getQuestionId())) {
+                        answer = answers.getAnswer();
+                        return answer;
+                    }
+                }
+            }
+        }
+        return answer;        
+    }
+    
+    /**
+     *  Gets all the answers for questions that may have more than 1 max answer from questionnaires given the answer header list and question id 
+     * @param answerHeaders
+     * @param questionId
+     * @return
+     */
+    public List<String> getAnswers(List<AnswerHeader> answerHeaders, String questionId) {
+    	List<String> answers = new ArrayList<String>();
+        if (answerHeaders != null && !answerHeaders.isEmpty()) {
+            for (AnswerHeader answerHeader : answerHeaders) {
+                List<Answer> answerDetails = answerHeader.getAnswers();
+                for (Answer answerDetail : answerDetails) {
+                    if (questionId.equals(answerDetail.getQuestion().getQuestionId())) {
+                        answers.add(answerDetail.getAnswer());
+                    }
+                }
+            }
+        }
+        return answers;        
     }
 }

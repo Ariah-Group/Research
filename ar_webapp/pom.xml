@@ -1422,7 +1422,7 @@ module of int tests -->
         <dependency>
             <groupId>org.ariahgroup.research.s2s</groupId>
             <artifactId>ar-s2s-gg-forms-z</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.3</version>
         </dependency>
     </dependencies>
 

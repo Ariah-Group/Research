@@ -1,7 +1,7 @@
 /*
  * Copyright 2005-2014 The Kuali Foundation.
  * 
- * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
@@ -69,6 +69,12 @@ public abstract class PHS398FellowshipSupplementalBaseGenerator extends
     protected static final int FELLOWSHIP = 92;
     protected static final int DISSERTATION = 93;
     protected static final int ACTIVITIES = 94;
+
+    protected static final int BACKGROUND_AND_GOALS_FOR_TRAINING = 153;
+    protected static final int LETTERS_SUPPORT = 154;
+    protected static final int INST_ENVIRON_COMMITMENT_TRAINING = 155;
+    protected static final int DATA_SAFETY_MONITORING_PLAN = 156;
+    protected static final int KEY_BIO_AND_OR_CHEM_RESOURCES = 157;
 
     /**
      *

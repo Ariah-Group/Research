@@ -30,6 +30,8 @@ public interface S2SConstants {
     public static final String FORMVERSION_1_2 = "1.2";
     public static final String FORMVERSION_2_0 = "2.0";
     public static final String FORMVERSION_2_1 = "2.1";
+    public static final String FORMVERSION_3_0 = "3.0";
+    public static final String FORMVERSION_3_1 = "3.1";
     public static final String SPONSOR = "S2S";
     public static final String TASK_INFO = "taskInfo";
     public static final String VALUE_UNKNOWN = "Unknown";
@@ -80,6 +82,7 @@ public interface S2SConstants {
     public static final String STATUS_REJECTED_WITH_ERRORS = "REJECTED_WITH_ERRORS";
 	public static final String FORMVERSION_1_3 = "1.3";
     public static final String SUB_AWARD_BUDGET_NOT_FOUND = "budget.subaward.notfound";
+    public static final String TRAINING_SUB_AWARD_BUDGET_NOT_FOUND = "budget.training.subaward.notfound";
     public static final String FORMVERSION_1_4 = "1.4";
     public static final String CONGRESSIONAL_DISTRICT = "performancesite.district.notfound";
     public static final String STATUS_PUREGED = "PURGED";
@@ -88,4 +91,14 @@ public interface S2SConstants {
     public static final String PARTICIPANT_COSTS_REQUIRED = "s2s.budget.participantcost.required";
     public static final String MODULAR_BUDGET_REQUIRED = "s2s.budget.modularbudget.required";
 
+    public static class NarrativeType {
+    	public static final int PERSONNEL_JUSTIFICATION_CODE = 35;
+    	public static final int CONSORTIUM_JUSTIFICATION_CODE = 36;
+    	public static final int NARRATIVE_JUSTIFICATION_CODE = 37;
+    	public static final int PHS_RES_TRAINING_PLAN_METHODS_FOR_ENHANCING_REPRODUCIBILITY_CODE = 140;
+    	public static final int PHS_RES_TRAINING_PLAN_DATA_SAFETY_MONITORING_CODE = 129;
+
+}
+
+    
 }

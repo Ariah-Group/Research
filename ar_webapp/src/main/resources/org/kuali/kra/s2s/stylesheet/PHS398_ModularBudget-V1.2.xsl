@@ -48,6 +48,9 @@
 					<fo:block-container position="absolute" left="0.25in" top="1.2in" height="9px">
 						<fo:block text-align="end" font-size="6px" font-family="Helvetica">OMB Number: 0925-0001</fo:block>
 					</fo:block-container>
+					<fo:block-container position="absolute" left="0.25in" top="1.3in" height="9px">
+						<fo:block text-align="end" font-size="6px" font-family="Helvetica">Expiration Date: 10/31/2018</fo:block>
+					</fo:block-container>
 				</fo:static-content>
 
 				<fo:flow flow-name="xsl-region-body">

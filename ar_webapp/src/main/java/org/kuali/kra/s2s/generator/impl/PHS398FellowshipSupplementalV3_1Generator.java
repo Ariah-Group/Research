@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation.
+ * Copyright 2005-2014 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,47 +15,6 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.CitizenshipDataType;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.DegreeTypeDataType;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.FieldOfTrainingDataType;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.AdditionalInformation;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ApplicationType;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.Budget;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.Sponsors;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.AdditionalInformation.ActivitiesPlannedUnderThisAward;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.AdditionalInformation.ConcurrentSupportDescription;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.AdditionalInformation.CurrentPriorNRSASupport;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.AdditionalInformation.DissertationAndResearchExperience;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.AdditionalInformation.FellowshipTrainingAndCareerGoals;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.AdditionalInformation.GraduateDegreeSought;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.AdditionalInformation.StemCells;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ApplicationType.TypeOfApplication;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.Budget.FederalStipendRequested;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.Budget.InstitutionalBaseSalary;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.Budget.SupplementationFromOtherSources;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.Budget.InstitutionalBaseSalary.AcademicPeriod;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.InclusionOfChildren;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.InclusionOfWomenAndMinorities;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.IntroductionToApplication;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.ProgressReportPublicationList;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.ProtectionOfHumanSubjects;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.ResearchStrategy;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.ResourceSharingPlan;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.RespectiveContributions;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.ResponsibleConductOfResearch;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.SelectAgentResearch;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.SelectionOfSponsorAndInstitution;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.SpecificAims;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.ResearchTrainingPlan.VertebrateAnimals;
-import gov.grants.apply.forms.phsFellowshipSupplemental20V20.PHSFellowshipSupplemental20Document.PHSFellowshipSupplemental20.Sponsors.SponsorCosponsorInformation;
-import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
-import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
-import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
-import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -67,6 +26,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -74,7 +34,6 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.CitizenshipTypes;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -89,20 +48,73 @@ import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.util.S2SConstants;
 
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.DegreeTypeDataType;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.FieldOfTrainingDataType;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.NonUSCitizenDataType;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.AdditionalInformation;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.AdditionalInformation.ConcurrentSupportDescription;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.AdditionalInformation.CurrentPriorNRSASupport;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.AdditionalInformation.GraduateDegreeSought;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.AdditionalInformation.StemCells;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.Budget;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.Budget.FederalStipendRequested;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.Budget.InstitutionalBaseSalary;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.Budget.InstitutionalBaseSalary.AcademicPeriod;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.Budget.SupplementationFromOtherSources;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.FellowshipApplicant;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.FellowshipApplicant.BackgroundandGoals;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.InstitutionalEnvironment;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.InstitutionalEnvironment.InstitutionalEnvironmentCommitmenttoTraining;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.Introduction;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.Introduction.IntroductionToApplication;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.OtherResearchTrainingPlan;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.OtherResearchTrainingPlan.DataSafetyMonitoringPlan;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.OtherResearchTrainingPlan.InclusionOfChildren;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.OtherResearchTrainingPlan.InclusionOfWomenAndMinorities;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.OtherResearchTrainingPlan.KeyBiologicalAndOrChemicalResources;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.OtherResearchTrainingPlan.ProtectionOfHumanSubjects;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.OtherResearchTrainingPlan.ResourceSharingPlan;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.OtherResearchTrainingPlan.SelectAgentResearch;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.OtherResearchTrainingPlan.VertebrateAnimals;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.ResearchTrainingPlan;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.ResearchTrainingPlan.ProgressReportPublicationList;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.ResearchTrainingPlan.ResearchStrategy;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.ResearchTrainingPlan.RespectiveContribution;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.ResearchTrainingPlan.SpecificAims;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.ResearchTrainingPlan.SponsorandInstitution;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.ResearchTrainingPlan.TrainingInResponsibleConductOfResearch;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.Sponsors;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.Sponsors.LettersOfSupport;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.PHSFellowshipSupplemental31Document.PHSFellowshipSupplemental31.Sponsors.SponsorAndCoSponsorStatements;
+import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
+import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
+import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
+import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
+
 /**
  *
  * Class for generating the XML object for grants.gov
- * PHS398FellowshipSupplementalV2_0 Form is generated using XMLBean classes and
- * is based on PHS398FellowshipSupplementalV2_0 schema
+ * PHS_Fellowship_Supplemental_3_1V3.1 Form is generated using XMLBean classes
+ * and is based on PHS_Fellowship_Supplemental_3_1V3.1 schema
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipSupplementalBaseGenerator {
+public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipSupplementalBaseGenerator {
 
-    private static final Log LOG = LogFactory.getLog(PHS398FellowshipSupplementalV2_0Generator.class);
+    private static final Log LOG = LogFactory.getLog(PHS398FellowshipSupplementalV3_1Generator.class);
 
-    private static final int HUMAN = 1;
-    private static final int VERT = 4;
+    private static final String FORM_NAME = "PHS_Fellowship_Supplemental_3_1V3.1";
+    private static final String NAME_SPACE = "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_3_1-V3.1";
+
+    private static final int HUMAN_USE_INDEFINITE = 1;
+    private static final int HUMAN_USE = 10001;
+    private static final int VERTEBRATE_USE = 10000022;
+    private static final int VERT_INDEFINITE = 4;
+    private static final int VERT_EUTHANIZED = 10000001;
+    private static final int VERT_EUTHANIZED_AVMA = 10000002;
+    private static final int VERT_EUTHANIZED_METHOD = 10000003;
     private static final int CLINICAL = 2;
     private static final int PHASE3CLINICAL = 3;
     private static final int STEMCELLS = 5;
@@ -119,14 +131,7 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
     private static final int DEGREE_TYPE_SOUGHT = 99;
     private static final int DEG_EXP_COMP_DATE = 35;
     private static final int NRSA_SUPPORT = 24;
-    private static final int FIELD_TRAINING = 22;
-    private static final int BROAD_TRAINING = 23;
-    private static final int OTHER_MASTERS = 16;
-    private static final int OTHER_DOCT = 17;
-    private static final int OTHER_DDOT = 18;
-    private static final int OTHER_VDOT = 19;
-    private static final int OTHER_DBOTH = 100;
-    private static final int OTHER_MDOT = 21;
+    private static final int FIELD_TRAINING = 10000023;
     private static final int SUBMITTED_DIFF_INST = 28;
     private static final int SENIOR_FELL = 36;
     private static final int OTHER_SUPP_SOURCE = 37;
@@ -137,30 +142,33 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
     private static final int BASE_SALARY = 47;
     private static final int ACAD_PERIOD = 48;
     private static final int SALARY_MONTHS = 50;
+    private static final int FORMER_INSTITUTION = 29;
 
     private static final int APPENDIX = 96;
     private static final int SPONSOR_COSPONSOR = 134;
 
-    private static final String ANSWER_YES = "Yes";
-    private static final String ANSWER_NO = "No";
-    private static final String ANSWER_Y = "Y";
-    private static final String ANSWER_N = "N";
-    /*
-     * This method is used to get PHSFellowshipSupplemental20 XMLObject and set the data to it from DevelopmentProposal data.
+    /**
+     * This method is used to get PHSFellowshipSupplemental12 XMLObject and set
+     * the data to it from DevelopmentProposal data.
      */
-
-    private PHSFellowshipSupplemental20Document getPHSFellowshipSupplemental20() {
-        PHSFellowshipSupplemental20Document phsFellowshipSupplementalDocument = PHSFellowshipSupplemental20Document.Factory
+    private PHSFellowshipSupplemental31Document getPHSFellowshipSupplemental31() {
+        PHSFellowshipSupplemental31Document phsFellowshipSupplementalDocument = PHSFellowshipSupplemental31Document.Factory
                 .newInstance();
-        PHSFellowshipSupplemental20 phsFellowshipSupplemental = phsFellowshipSupplementalDocument
-                .addNewPHSFellowshipSupplemental20();
-        phsFellowshipSupplemental.setFormVersion(S2SConstants.FORMVERSION_2_0);
-        phsFellowshipSupplemental.setApplicationType(getApplicationType());
+        PHSFellowshipSupplemental31 phsFellowshipSupplemental = phsFellowshipSupplementalDocument
+                .addNewPHSFellowshipSupplemental31();
+        phsFellowshipSupplemental.setFormVersion(S2SConstants.FORMVERSION_3_1);
+
         phsFellowshipSupplemental.setAppendix(getAppendix());
         setQuestionnaireData(phsFellowshipSupplemental);
         return phsFellowshipSupplementalDocument;
     }
 
+    /**
+     *
+     * @param questionnaireQuestion
+     * @param answerHeader
+     * @return
+     */
     private List<Answer> getAnswers(QuestionnaireQuestion questionnaireQuestion, AnswerHeader answerHeader) {
         List<Answer> returnAnswers = new ArrayList<Answer>();
         if (answerHeader != null) {
@@ -174,268 +182,255 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
         return returnAnswers;
     }
 
-    private void setQuestionnaireData(PHSFellowshipSupplemental20 phsFellowshipSupplemental) {
+    private void setQuestionnaireData(PHSFellowshipSupplemental31 phsFellowshipSupplemental) {
         Map<Integer, String> hmBudgetQuestions = new HashMap<Integer, String>();
         List<AnswerHeader> answers = findQuestionnaireWithAnswers(pdDoc.getDevelopmentProposal());
         ResearchTrainingPlan researchTrainingPlan = phsFellowshipSupplemental.addNewResearchTrainingPlan();
-        setHumanSubjectInvolvedAndVertebrateAnimalUsed(researchTrainingPlan);
-        setNarrativeDataForResearchTrainingPlan(phsFellowshipSupplemental, researchTrainingPlan);
+        OtherResearchTrainingPlan otherResearchTrainingPlan = phsFellowshipSupplemental.addNewOtherResearchTrainingPlan();
+
+        setHumanSubjectInvolved(otherResearchTrainingPlan);
+
+        setNarrativeDataForResearchTrainingPlan(phsFellowshipSupplemental, researchTrainingPlan, otherResearchTrainingPlan);
+
         AdditionalInformation additionalInfoType = phsFellowshipSupplemental.addNewAdditionalInformation();
+
         GraduateDegreeSought graduateDegreeSought = GraduateDegreeSought.Factory.newInstance();
+
         StemCells stemCellstype = StemCells.Factory.newInstance();
+
         QueryList<KirschsteinBean> cvKirsch = new QueryList<KirschsteinBean>();
         for (AnswerHeader answerHeader : answers) {
             Questionnaire questionnaire = answerHeader.getQuestionnaire();
             List<QuestionnaireQuestion> questionnaireQuestions = questionnaire.getQuestionnaireQuestions();
             for (QuestionnaireQuestion questionnaireQuestion : questionnaireQuestions) {
                 Answer answerBO = getAnswer(questionnaireQuestion, answerHeader);
+                if (answerBO == null) {
+                    LOG.info("PHS398Fellowship: questionnaireQuestion " + questionnaireQuestion + " has no entry in answer table");
+                    continue;
+                }
+
                 String answer = answerBO.getAnswer();
                 Question question = questionnaireQuestion.getQuestion();
                 Integer questionNumber = questionnaireQuestion.getQuestionNumber();
                 Integer parentQuestionNumber = questionnaireQuestion.getParentQuestionNumber();
                 Integer questionId = question.getQuestionIdAsInteger();
-                if (answer != null) {
-                    if (!answer.equalsIgnoreCase(ANSWER_YES) || !answer.equalsIgnoreCase(ANSWER_NO)) {
-                        switch (questionId) {
-                            case HUMAN:
-                                researchTrainingPlan.setHumanSubjectsIndefinite(getYesNoEnum(answer));
-                                break;
-                            case VERT:
-                                // will the inclusion of vertebrate animals use be indefinite
-                                if (answer != null) {
-                                    researchTrainingPlan.setVertebrateAnimalsIndefinite(getYesNoEnum(answer));
-                                }
-                                break;
-                            case CLINICAL:
-                                // clinical trial
-                                if (answer != null) {
-                                    researchTrainingPlan.setClinicalTrial(getYesNoEnum(answer));
-                                }
-                                break;
-                            case PHASE3CLINICAL:
-                                // phase 3 clinical trial
-                                if (answer != null) {
-                                    researchTrainingPlan.setPhase3ClinicalTrial(getYesNoEnum(answer));
-                                }
-                                break;
-                            case STEMCELLS:
-                                // stem cells used
-                                if (answer != null) {
-                                    stemCellstype.setIsHumanStemCellsInvolved(getYesNoEnum(answer));
-                                }
-                                break;
-                            case CELLLINEIND:
-                                // stem cell line indicator
-                                stemCellstype.setStemCellsIndicator(answer
-                                        .equals(S2SConstants.PROPOSAL_YNQ_ANSWER_N) ? YesNoDataType.Y_YES
-                                                : YesNoDataType.N_NO);
-                                break;
-                            case STEMCELLLINES:
-                                List<Answer> answerList = getAnswers(questionnaireQuestion, answerHeader);
-                                for (Answer questionnaireAnswerBO : answerList) {
-                                    String questionnaireSubAnswer = questionnaireAnswerBO.getAnswer();
-                                    if (questionnaireSubAnswer != null) {
-                                        stemCellstype.addCellLines(questionnaireAnswerBO.getAnswer());
-                                    }
-                                }
-                                break;
-                            case DEGREE_TYPE_SOUGHT:
-                                graduateDegreeSought.setDegreeType(DegreeTypeDataType.Enum.forString(answer));
-                                break;
-                            case DEG_EXP_COMP_DATE:
-                                graduateDegreeSought.setDegreeDate(answer.substring(6, 10) + STRING_SEPRATOR + answer.substring(0, 2));
-                                break;
-                            case OTHER_MASTERS:
-                                graduateDegreeSought.setOtherDegreeTypeText(answer);
-                                graduateDegreeSought.setOtherDegreeTypeText(answer);
-                                graduateDegreeSought.setOtherDegreeTypeText(answer);
-                                break;
-                            case OTHER_DDOT:
-                                graduateDegreeSought.setDegreeType(DegreeTypeDataType.DDOT_OTHER_DOCTOR_OF_MEDICAL_DENTISTRY);
-                                graduateDegreeSought.setOtherDegreeTypeText(answer);
-                                break;
-                            case OTHER_VDOT:
-                                graduateDegreeSought.setDegreeType(DegreeTypeDataType.VDOT_OTHER_DOCTOR_OF_VETERINARY_MEDICINE);
-                                graduateDegreeSought.setOtherDegreeTypeText(answer);
-                                break;
-                            case OTHER_MDOT:
-                                graduateDegreeSought.setDegreeType(DegreeTypeDataType.MDOT_OTHER_DOCTOR_OF_MEDICINE);
-                                graduateDegreeSought.setOtherDegreeTypeText(answer);
-                                break;
-                            case OTHER_DBOTH:
-                                if (graduateDegreeSought.getDegreeType().equals(DegreeTypeDataType.OTH_OTHER)) {
-                                    graduateDegreeSought.setOtherDegreeTypeText(answer);
-                                }
-                                break;
-                            case OTHER_DOCT:
-                                graduateDegreeSought.setDegreeType(DegreeTypeDataType.DOTH_OTHER_DOCTORATE);
-                                graduateDegreeSought.setOtherDegreeTypeText(answer);
-                                break;
-                            case BROAD_TRAINING:
-                            case FIELD_TRAINING:
-                                if (!answer.toUpperCase().equals("SUB CATEGORY NOT FOUND")) {
-                                    additionalInfoType.setFieldOfTraining(FieldOfTrainingDataType.Enum.forString(answer));
-                                }
-                                break;
-                            case NRSA_SUPPORT:
-                                additionalInfoType.setCurrentPriorNRSASupportIndicator(getYesNoEnum(answer));
-                                break;
-                            case KIRST_START_KNOWN:
-                            case KIRST_END_KNOWN:
-                            case KIRST_START_DT:
-                            case KIRST_END_DT:
-                            case KIRST_GRANT_KNOWN:
-                            case KIRST_GRANT_NUM:
-                            case PRE_OR_POST:
-                            case IND_OR_INST:
-                                if (questionId == KIRST_START_KNOWN) {
-                                    if (answer.equals("N")) {
-                                        answer = S2SConstants.VALUE_UNKNOWN;
-                                        questionId = KIRST_START_DT;
-                                    } else {
-                                        break;
-                                    }
-                                }
-                                if (questionId == KIRST_END_KNOWN) {
-                                    if (answer.equals("N")) {
-                                        answer = S2SConstants.VALUE_UNKNOWN;
-                                        questionId = KIRST_END_DT;
-                                    } else {
-                                        break;
-                                    }
-                                }
-                                if (questionId == KIRST_GRANT_KNOWN) {
-                                    if (answer.equals("N")) {
-                                        answer = S2SConstants.VALUE_UNKNOWN;
-                                        questionId = KIRST_GRANT_NUM;
-                                    } else {
-                                        break;
-                                    }
-                                }
-                                KirschsteinBean cbKirschstein = new KirschsteinBean();
-                                cbKirschstein.setAnswer(answer);
-                                cbKirschstein.setQuestionId(questionId);
-                                cbKirschstein.setQuestionNumber(questionNumber);
-                                cbKirschstein.setParentQuestionNumber(parentQuestionNumber);
-                                cvKirsch.add(cbKirschstein);
-                                break;
-                            case SUBMITTED_DIFF_INST:
-                                additionalInfoType.setChangeOfInstitution(getYesNoEnum(answer));
-                                break;
-                            case 29:
-                                additionalInfoType.setFormerInstitution(answer);
-                                break;
-                            case SENIOR_FELL:
-                                hmBudgetQuestions.put(SENIOR_FELL, answer);
-                                break;
-                            case OTHER_SUPP_SOURCE:
-                                hmBudgetQuestions.put(OTHER_SUPP_SOURCE, answer);
-                                break;
-                            case SUPP_SOURCE:
-                                hmBudgetQuestions.put(SUPP_SOURCE, answer);
-                                break;
-                            case SUPP_FUNDING_AMT:
-                                hmBudgetQuestions.put(SUPP_FUNDING_AMT, answer);
-                                break;
-                            case SUPP_MONTHS:
-                                hmBudgetQuestions.put(SUPP_MONTHS, answer);
-                                break;
-                            case SUPP_TYPE:
-                                hmBudgetQuestions.put(SUPP_TYPE, answer);
-                                break;
-                            case SALARY_MONTHS:
-                                hmBudgetQuestions.put(SALARY_MONTHS, answer);
-                                break;
-                            case ACAD_PERIOD:
-                                hmBudgetQuestions.put(ACAD_PERIOD, answer);
-                                break;
-                            case BASE_SALARY:
-                                hmBudgetQuestions.put(BASE_SALARY, answer);
-                                break;
-                            default:
-                                break;
 
-                        }
-                    }
-                    if (answer.equalsIgnoreCase(ANSWER_YES) || answer.equalsIgnoreCase(ANSWER_NO)) {
-                        switch (questionId) {
-                            case HUMAN:
-                                researchTrainingPlan.setHumanSubjectsIndefinite(null);
-                                researchTrainingPlan.setHumanSubjectsInvolved(null);
-                                break;
-                            case VERT:
-                                researchTrainingPlan.setVertebrateAnimalsIndefinite(null);
-                                researchTrainingPlan.setVertebrateAnimalsUsed(null);
-                                break;
-                            case CLINICAL:
-                                researchTrainingPlan.setClinicalTrial(null);
-                                break;
-                            case PHASE3CLINICAL:
-                                if (researchTrainingPlan.getClinicalTrial() != null) {
-                                    if ((researchTrainingPlan.getClinicalTrial().equals(getYesNoEnum("N")))) {
-                                        researchTrainingPlan.setPhase3ClinicalTrial(getYesNoEnum(answer));
-                                    } else {
-                                        researchTrainingPlan.setPhase3ClinicalTrial(null);
-                                    }
-                                }
-                                break;
-                            case FIELD_TRAINING:
-                                additionalInfoType.setFieldOfTraining(null);
-                                break;
-                            case STEMCELLS:
-                                stemCellstype.setIsHumanStemCellsInvolved(null);
-                                break;
-                            case NRSA_SUPPORT:
-                                additionalInfoType.setCurrentPriorNRSASupportIndicator(null);
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                } else if (answer == null) {
+                LOG.debug("PHS398Fellowship: questionId " + questionId + " answer: " + answer);
+
+                if (answer != null) {
+
                     switch (questionId) {
-                        case HUMAN:
-                            researchTrainingPlan.setHumanSubjectsIndefinite(null);
-                            researchTrainingPlan.setHumanSubjectsInvolved(null);
+                        case HUMAN_USE:
+                            otherResearchTrainingPlan.setHumanSubjectsInvolved(getYesNoEnum(answer));
                             break;
-                        case VERT:
-                            researchTrainingPlan.setVertebrateAnimalsIndefinite(null);
-                            researchTrainingPlan.setVertebrateAnimalsUsed(null);
+
+                        case HUMAN_USE_INDEFINITE:
+                            otherResearchTrainingPlan.setHumanSubjectsIndefinite(getYesNoEnum(answer));
                             break;
+
+                        case VERTEBRATE_USE:
+                            otherResearchTrainingPlan.setVertebrateAnimalsUsed(getYesNoEnum(answer));
+                            break;
+
+                        case VERT_INDEFINITE:
+                            // will the inclusion of vertebrate animals use be indefinite
+                            otherResearchTrainingPlan.setVertebrateAnimalsIndefinite(getYesNoEnum(answer));
+                            break;
+
+                        case VERT_EUTHANIZED:
+                            // gonna kill `em?
+                            otherResearchTrainingPlan.setAreAnimalsEuthanized(getYesNoEnum(answer));
+                            break;
+
+                        case VERT_EUTHANIZED_AVMA:
+                            // AVMA approved killing?
+                            otherResearchTrainingPlan.setAVMAConsistentIndicator(getYesNoEnum(answer));
+                            break;
+
+                        case VERT_EUTHANIZED_METHOD:
+                            // How are you gonna kill `em?
+                            otherResearchTrainingPlan.setEuthanasiaMethodDescription(answer);
+                            break;
+
                         case CLINICAL:
-                            researchTrainingPlan.setClinicalTrial(null);
+                            // clinical trial
+                            otherResearchTrainingPlan.setClinicalTrial(getYesNoEnum(answer));
                             break;
+
                         case PHASE3CLINICAL:
-                            if (researchTrainingPlan.getClinicalTrial() == (YesNoDataType.Y_YES)) {
-                                researchTrainingPlan.setPhase3ClinicalTrial(null);
+                            // phase 3 clinical trial
+                            otherResearchTrainingPlan.setPhase3ClinicalTrial(getYesNoEnum(answer));
+                            break;
+
+                        case STEMCELLS:
+                            // stem cells used
+                            stemCellstype.setIsHumanStemCellsInvolved(getYesNoEnum(answer));
+                            break;
+
+                        case CELLLINEIND:
+                            // stem cell line indicator
+                            stemCellstype.setStemCellsIndicator(getYesNoEnum(answer));
+                            break;
+
+                        case STEMCELLLINES:
+                            List<Answer> answerList = getAnswers(questionnaireQuestion, answerHeader);
+                            for (Answer questionnaireAnswerBO : answerList) {
+                                String questionnaireSubAnswer = questionnaireAnswerBO.getAnswer();
+                                if (questionnaireSubAnswer != null) {
+                                    stemCellstype.addCellLines(questionnaireAnswerBO.getAnswer());
+                                }
                             }
                             break;
+
+                        case DEGREE_TYPE_SOUGHT:
+                            graduateDegreeSought.setDegreeType(DegreeTypeDataType.Enum.forString(answer));
+                            break;
+
+                        case DEG_EXP_COMP_DATE:
+                            graduateDegreeSought.setDegreeDate(answer.substring(6, 10) + STRING_SEPRATOR + answer.substring(0, 2));
+                            break;
+
                         case FIELD_TRAINING:
-                            additionalInfoType.setFieldOfTraining(null);
+                            if (!answer.toUpperCase().equals("SUB CATEGORY NOT FOUND")) {
+                                additionalInfoType.setFieldOfTraining(FieldOfTrainingDataType.Enum.forString(answer));
+                            }
                             break;
-                        case STEMCELLS:
-                            stemCellstype.setIsHumanStemCellsInvolved(null);
-                            break;
+
                         case NRSA_SUPPORT:
-                            additionalInfoType.setCurrentPriorNRSASupportIndicator(null);
+                            additionalInfoType.setCurrentPriorNRSASupportIndicator(getYesNoEnum(answer));
                             break;
+
+                        case KIRST_START_KNOWN:
+                        case KIRST_END_KNOWN:
+                        case KIRST_START_DT:
+                        case KIRST_END_DT:
+                        case KIRST_GRANT_KNOWN:
+                        case KIRST_GRANT_NUM:
+                        case PRE_OR_POST:
+                        case IND_OR_INST:
+                            if (questionId == KIRST_START_KNOWN) {
+                                if (answer.equals("N")) {
+                                    answer = S2SConstants.VALUE_UNKNOWN;
+                                    questionId = KIRST_START_DT;
+                                } else {
+                                    break;
+                                }
+                            }
+                            if (questionId == KIRST_END_KNOWN) {
+                                if (answer.equals("N")) {
+                                    answer = S2SConstants.VALUE_UNKNOWN;
+                                    questionId = KIRST_END_DT;
+                                } else {
+                                    break;
+                                }
+                            }
+                            if (questionId == KIRST_GRANT_KNOWN) {
+                                if (answer.equals("N")) {
+                                    answer = S2SConstants.VALUE_UNKNOWN;
+                                    questionId = KIRST_GRANT_NUM;
+                                } else {
+                                    break;
+                                }
+                            }
+                            KirschsteinBean cbKirschstein = new KirschsteinBean();
+                            cbKirschstein.setAnswer(answer);
+                            cbKirschstein.setQuestionId(questionId);
+                            cbKirschstein.setQuestionNumber(questionNumber);
+                            cbKirschstein.setParentQuestionNumber(parentQuestionNumber);
+                            cvKirsch.add(cbKirschstein);
+                            break;
+
+                        case SUBMITTED_DIFF_INST:
+                            additionalInfoType.setChangeOfInstitution(getYesNoEnum(answer));
+                            break;
+
+                        case FORMER_INSTITUTION:
+                            additionalInfoType.setFormerInstitution(answer);
+                            break;
+
+                        case SENIOR_FELL:
+                            hmBudgetQuestions.put(SENIOR_FELL, answer);
+                            break;
+
+                        case OTHER_SUPP_SOURCE:
+                            hmBudgetQuestions.put(OTHER_SUPP_SOURCE, answer);
+                            break;
+
+                        case SUPP_SOURCE:
+                            hmBudgetQuestions.put(SUPP_SOURCE, answer);
+                            break;
+
+                        case SUPP_FUNDING_AMT:
+                            hmBudgetQuestions.put(SUPP_FUNDING_AMT, answer);
+                            break;
+
+                        case SUPP_MONTHS:
+                            hmBudgetQuestions.put(SUPP_MONTHS, answer);
+                            break;
+
+                        case SUPP_TYPE:
+                            hmBudgetQuestions.put(SUPP_TYPE, answer);
+                            break;
+
+                        case SALARY_MONTHS:
+                            hmBudgetQuestions.put(SALARY_MONTHS, answer);
+                            break;
+
+                        case ACAD_PERIOD:
+                            hmBudgetQuestions.put(ACAD_PERIOD, answer);
+                            break;
+
+                        case BASE_SALARY:
+                            hmBudgetQuestions.put(BASE_SALARY, answer);
+                            break;
+
                         default:
+                            LOG.warn("PHS398Fellowship 3.1: unhandled question ID " + questionId);
                             break;
+
                     }
+                } else {
+                    LOG.debug("PHS398Fellowship 3.1:  NULL answer to question ID " + questionId);
                 }
             }
         }
-        if (stemCellstype != null) {
-            additionalInfoType.setStemCells(stemCellstype);
-        }
+
         if (graduateDegreeSought.getDegreeType() != null) {
             additionalInfoType.setGraduateDegreeSought(graduateDegreeSought);
         }
+
+        // Kirschsten NRSA 
+        handleKirschsteinNRSASupport(additionalInfoType, cvKirsch);
+
+        // Check AVMA, set method to blank if AVMA method is true
+        if (otherResearchTrainingPlan.getAVMAConsistentIndicator() != null && otherResearchTrainingPlan.getAVMAConsistentIndicator().equals(YesNoDataType.Y_YES)) {
+            otherResearchTrainingPlan.setEuthanasiaMethodDescription("");
+        }
+
+        // Budget
+        phsFellowshipSupplemental.setBudget(getBudget(hmBudgetQuestions));
+
+        // Stem cell data
+        additionalInfoType.setStemCells(stemCellstype);
+
+        // Citizenship
+        setCitizenship(additionalInfoType);
+    }
+
+    /**
+     * Kirschstein NRSA Support
+     *
+     * @param additionalInfoType
+     * @param cvKirsch
+     */
+    private void handleKirschsteinNRSASupport(AdditionalInformation additionalInfoType, QueryList<KirschsteinBean> cvKirsch) {
+
         QueryList<KirschsteinBean> cvType = new QueryList<KirschsteinBean>();
         QueryList<KirschsteinBean> cvStart = new QueryList<KirschsteinBean>();
         QueryList<KirschsteinBean> cvEnd = new QueryList<KirschsteinBean>();
         QueryList<KirschsteinBean> cvLevel = new QueryList<KirschsteinBean>();
         QueryList<KirschsteinBean> cvGrant = new QueryList<KirschsteinBean>();
+
         KirschsteinBean kbBean1 = new KirschsteinBean();
         KirschsteinBean kbBean2 = new KirschsteinBean();
         KirschsteinBean kbBean3 = new KirschsteinBean();
@@ -492,8 +487,6 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
             }
             additionalInfoType.setCurrentPriorNRSASupportArray(currentPriorNRSASupportList.toArray(new CurrentPriorNRSASupport[0]));
         }
-        phsFellowshipSupplemental.setBudget(getBudget(hmBudgetQuestions));
-        setAdditionalInformation(additionalInfoType);
     }
 
     /**
@@ -524,6 +517,7 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
      * value of TUITION_COST_ELEMENTS
      */
     private void setTuitionRequestedYears(Budget budget) {
+        @SuppressWarnings("rawtypes")
         BudgetDocument budgetDoc = getBudgetDocument();
         if (budgetDoc == null) {
             return;
@@ -591,11 +585,13 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
         }
     }
 
-    /*
-     * This method is used to get FederalStipendRequested XMLObject and set additional information data to it.
+    /**
+     * This method is used to get FederalStipendRequested XMLObject and set
+     * additional information data to it.
      */
     private void getFederalStipendRequested(Budget budget) {
         FederalStipendRequested federalStipendRequested = FederalStipendRequested.Factory.newInstance();
+        @SuppressWarnings("rawtypes")
         BudgetDocument budgetDoc = getBudgetDocument();
         if (budgetDoc != null) {
             org.kuali.kra.budget.core.Budget pBudget = budgetDoc.getBudget();
@@ -607,8 +603,7 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
                         if (getCostElementsByParam(STIPEND_COST_ELEMENTS).contains(
                                 budgetLineItem.getCostElementBO().getCostElement())) {
                             sumOfLineItemCost = sumOfLineItemCost.add(budgetLineItem.getLineItemCost());
-                            numberOfMonths = numberOfMonths.add(getNumberOfMonths(budgetLineItem.getStartDate(), budgetLineItem
-                                    .getEndDate()));
+                            numberOfMonths = numberOfMonths.add(getNumberOfMonths(budgetLineItem.getStartDate(), budgetLineItem.getEndDate()));
                         }
                     }
                 }
@@ -623,6 +618,7 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
     /*
      * This method is used to get final version of BudgetDocument from s2SBudgetCalculatorService using pdDoc
      */
+    @SuppressWarnings("rawtypes")
     private BudgetDocument getBudgetDocument() {
         BudgetDocument budgetDoc = null;
         try {
@@ -658,19 +654,70 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
      *
      * @param researchTrainingPlan
      */
-    private void setNarrativeDataForResearchTrainingPlan(PHSFellowshipSupplemental20 phsFellowshipSupplemental,
-            ResearchTrainingPlan researchTrainingPlan) {
+    private void setNarrativeDataForResearchTrainingPlan(PHSFellowshipSupplemental31 phsFellowshipSupplemental, ResearchTrainingPlan researchTrainingPlan, OtherResearchTrainingPlan otherResearchTrainingPlan) {
+
         AttachedFileDataType attachedFileDataType = null;
         researchTrainingPlan.addNewSpecificAims();
         researchTrainingPlan.addNewResearchStrategy();
-        researchTrainingPlan.addNewRespectiveContributions();
-        researchTrainingPlan.addNewSelectionOfSponsorAndInstitution();
-        researchTrainingPlan.addNewResponsibleConductOfResearch();
         Sponsors sponsors = phsFellowshipSupplemental.addNewSponsors();
-        SponsorCosponsorInformation sponsorCosponsorInfo = sponsors.addNewSponsorCosponsorInformation();
+        Introduction introduction = phsFellowshipSupplemental.addNewIntroduction();
+        FellowshipApplicant fellowshipApplicant = phsFellowshipSupplemental.addNewFellowshipApplicant();
+        InstitutionalEnvironment institutionalEnvironment = phsFellowshipSupplemental.addNewInstitutionalEnvironment();
+
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null) {
                 switch (Integer.parseInt(narrative.getNarrativeTypeCode())) {
+                    case BACKGROUND_AND_GOALS_FOR_TRAINING:
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType == null) {
+                            continue;
+                        }
+
+                        BackgroundandGoals goals = BackgroundandGoals.Factory.newInstance();
+                        goals.setAttFile(attachedFileDataType);
+                        fellowshipApplicant.setBackgroundandGoals(goals);
+                        break;
+
+                    case LETTERS_SUPPORT:
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType == null) {
+                            continue;
+                        }
+                        LettersOfSupport letters = LettersOfSupport.Factory.newInstance();
+                        letters.setAttFile(attachedFileDataType);
+                        sponsors.setLettersOfSupport(letters);
+                        break;
+
+                    case INST_ENVIRON_COMMITMENT_TRAINING:
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType == null) {
+                            continue;
+                        }
+                        InstitutionalEnvironmentCommitmenttoTraining training = InstitutionalEnvironmentCommitmenttoTraining.Factory.newInstance();
+                        training.setAttFile(attachedFileDataType);
+                        institutionalEnvironment.setInstitutionalEnvironmentCommitmenttoTraining(training);
+                        break;
+
+                    case DATA_SAFETY_MONITORING_PLAN:
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType == null) {
+                            continue;
+                        }
+                        DataSafetyMonitoringPlan plan = DataSafetyMonitoringPlan.Factory.newInstance();
+                        plan.setAttFile(attachedFileDataType);
+                        otherResearchTrainingPlan.setDataSafetyMonitoringPlan(plan);
+                        break;
+
+                    case KEY_BIO_AND_OR_CHEM_RESOURCES:
+                        attachedFileDataType = getAttachedFileType(narrative);
+                        if (attachedFileDataType == null) {
+                            continue;
+                        }
+                        KeyBiologicalAndOrChemicalResources resources = KeyBiologicalAndOrChemicalResources.Factory.newInstance();
+                        resources.setAttFile(attachedFileDataType);
+                        otherResearchTrainingPlan.setKeyBiologicalAndOrChemicalResources(resources);
+                        break;
+
                     case INTRODUCTION_TO_APPLICATION:
                         attachedFileDataType = getAttachedFileType(narrative);
                         if (attachedFileDataType == null) {
@@ -678,8 +725,9 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
                         }
                         IntroductionToApplication introductionToApplication = IntroductionToApplication.Factory.newInstance();
                         introductionToApplication.setAttFile(attachedFileDataType);
-                        researchTrainingPlan.setIntroductionToApplication(introductionToApplication);
+                        introduction.setIntroductionToApplication(introductionToApplication);
                         break;
+
                     case SPECIFIC_AIMS:
                         attachedFileDataType = getAttachedFileType(narrative);
                         if (attachedFileDataType == null) {
@@ -689,6 +737,7 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
                         specificAims.setAttFile(attachedFileDataType);
                         researchTrainingPlan.setSpecificAims(specificAims);
                         break;
+
                     case RESEARCH_STRATEGY:
                         attachedFileDataType = getAttachedFileType(narrative);
                         if (attachedFileDataType == null) {
@@ -698,16 +747,17 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
                         researchStrategy.setAttFile(attachedFileDataType);
                         researchTrainingPlan.setResearchStrategy(researchStrategy);
                         break;
+
                     case PROGRESS_REPORT_PUBLICATION_LIST:
                         attachedFileDataType = getAttachedFileType(narrative);
                         if (attachedFileDataType == null) {
                             continue;
                         }
-                        ProgressReportPublicationList progressReportPublicationList = ProgressReportPublicationList.Factory
-                                .newInstance();
+                        ProgressReportPublicationList progressReportPublicationList = ProgressReportPublicationList.Factory.newInstance();
                         progressReportPublicationList.setAttFile(attachedFileDataType);
                         researchTrainingPlan.setProgressReportPublicationList(progressReportPublicationList);
                         break;
+
                     case PROTECTION_OF_HUMAN_SUBJECTS:
                         attachedFileDataType = getAttachedFileType(narrative);
                         if (attachedFileDataType == null) {
@@ -715,18 +765,19 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
                         }
                         ProtectionOfHumanSubjects protectionOfHumanSubjects = ProtectionOfHumanSubjects.Factory.newInstance();
                         protectionOfHumanSubjects.setAttFile(attachedFileDataType);
-                        researchTrainingPlan.setProtectionOfHumanSubjects(protectionOfHumanSubjects);
+                        otherResearchTrainingPlan.setProtectionOfHumanSubjects(protectionOfHumanSubjects);
                         break;
+
                     case INCLUSION_OF_WOMEN_AND_MINORITIES:
                         attachedFileDataType = getAttachedFileType(narrative);
                         if (attachedFileDataType == null) {
                             continue;
                         }
-                        InclusionOfWomenAndMinorities inclusionOfWomenAndMinorities = InclusionOfWomenAndMinorities.Factory
-                                .newInstance();
+                        InclusionOfWomenAndMinorities inclusionOfWomenAndMinorities = InclusionOfWomenAndMinorities.Factory.newInstance();
                         inclusionOfWomenAndMinorities.setAttFile(attachedFileDataType);
-                        researchTrainingPlan.setInclusionOfWomenAndMinorities(inclusionOfWomenAndMinorities);
+                        otherResearchTrainingPlan.setInclusionOfWomenAndMinorities(inclusionOfWomenAndMinorities);
                         break;
+
                     case INCLUSION_OF_CHILDREN:
                         attachedFileDataType = getAttachedFileType(narrative);
                         if (attachedFileDataType == null) {
@@ -734,8 +785,9 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
                         }
                         InclusionOfChildren inclusionOfChildren = InclusionOfChildren.Factory.newInstance();
                         inclusionOfChildren.setAttFile(attachedFileDataType);
-                        researchTrainingPlan.setInclusionOfChildren(inclusionOfChildren);
+                        otherResearchTrainingPlan.setInclusionOfChildren(inclusionOfChildren);
                         break;
+
                     case VERTEBRATE_ANIMALS:
                         attachedFileDataType = getAttachedFileType(narrative);
                         if (attachedFileDataType == null) {
@@ -743,8 +795,9 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
                         }
                         VertebrateAnimals vertebrateAnimals = VertebrateAnimals.Factory.newInstance();
                         vertebrateAnimals.setAttFile(attachedFileDataType);
-                        researchTrainingPlan.setVertebrateAnimals(vertebrateAnimals);
+                        otherResearchTrainingPlan.setVertebrateAnimals(vertebrateAnimals);
                         break;
+
                     case SELECT_AGENT_RESEARCH:
                         attachedFileDataType = getAttachedFileType(narrative);
                         if (attachedFileDataType == null) {
@@ -752,8 +805,9 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
                         }
                         SelectAgentResearch selectAgentResearch = SelectAgentResearch.Factory.newInstance();
                         selectAgentResearch.setAttFile(attachedFileDataType);
-                        researchTrainingPlan.setSelectAgentResearch(selectAgentResearch);
+                        otherResearchTrainingPlan.setSelectAgentResearch(selectAgentResearch);
                         break;
+
                     case RESOURCE_SHARING_PLANS:
                         attachedFileDataType = getAttachedFileType(narrative);
                         if (attachedFileDataType == null) {
@@ -761,44 +815,51 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
                         }
                         ResourceSharingPlan resourceSharingPlan = ResourceSharingPlan.Factory.newInstance();
                         resourceSharingPlan.setAttFile(attachedFileDataType);
-                        researchTrainingPlan.setResourceSharingPlan(resourceSharingPlan);
+                        otherResearchTrainingPlan.setResourceSharingPlan(resourceSharingPlan);
                         break;
+
                     case RESPECTIVE_CONTRIBUTIONS:
                         attachedFileDataType = getAttachedFileType(narrative);
                         if (attachedFileDataType == null) {
                             continue;
                         }
-                        RespectiveContributions respectiveContributions = RespectiveContributions.Factory.newInstance();
+                        RespectiveContribution respectiveContributions = RespectiveContribution.Factory.newInstance();
                         respectiveContributions.setAttFile(attachedFileDataType);
-                        researchTrainingPlan.setRespectiveContributions(respectiveContributions);
+                        researchTrainingPlan.setRespectiveContribution(respectiveContributions);
                         break;
+
                     case SELECTION_OF_SPONSOR_AND_INSTITUTION:
                         attachedFileDataType = getAttachedFileType(narrative);
                         if (attachedFileDataType == null) {
                             continue;
                         }
-                        SelectionOfSponsorAndInstitution selectionOfSponsorAndInstitution = SelectionOfSponsorAndInstitution.Factory
-                                .newInstance();
+                        SponsorandInstitution selectionOfSponsorAndInstitution = SponsorandInstitution.Factory.newInstance();
                         selectionOfSponsorAndInstitution.setAttFile(attachedFileDataType);
-                        researchTrainingPlan.setSelectionOfSponsorAndInstitution(selectionOfSponsorAndInstitution);
+                        researchTrainingPlan.setSponsorandInstitution(selectionOfSponsorAndInstitution);
                         break;
+
                     case RESPONSIBLE_CONDUCT_OF_RESEARCH:
                         attachedFileDataType = getAttachedFileType(narrative);
                         if (attachedFileDataType == null) {
                             continue;
                         }
-                        ResponsibleConductOfResearch responsibleConductOfResearch = ResponsibleConductOfResearch.Factory
+                        TrainingInResponsibleConductOfResearch responsibleConductOfResearch = TrainingInResponsibleConductOfResearch.Factory
                                 .newInstance();
                         responsibleConductOfResearch.setAttFile(attachedFileDataType);
-                        researchTrainingPlan.setResponsibleConductOfResearch(responsibleConductOfResearch);
+                        researchTrainingPlan.setTrainingInResponsibleConductOfResearch(responsibleConductOfResearch);
                         break;
+
                     case SPONSOR_COSPONSOR:
                         attachedFileDataType = getAttachedFileType(narrative);
                         if (attachedFileDataType == null) {
                             continue;
                         }
+                        SponsorAndCoSponsorStatements sponsorCosponsorInfo = sponsors.addNewSponsorAndCoSponsorStatements();
                         sponsorCosponsorInfo.setAttFile(attachedFileDataType);
+                        sponsors.setSponsorAndCoSponsorStatements(sponsorCosponsorInfo);
+
                         break;
+
                     default:
                         break;
                 }
@@ -807,58 +868,26 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
     }
 
     /**
-     * This method is used to set Narrative Data to ResearchTrainingPlan
-     * XMLObject based on NarrativeTypeCode.
-     *
-     * @param researchTrainingPlan
-     */
-    private Sponsors setSponsorsInfo() {
-        Sponsors sponsors = Sponsors.Factory.newInstance();
-        AttachedFileDataType attachedFileDataType = null;
-        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
-            int typeCode = Integer.parseInt(narrative.getNarrativeTypeCode());
-            if ((narrative.getNarrativeTypeCode() != null) && (typeCode == SPONSOR_COSPONSOR)) {
-                attachedFileDataType = getAttachedFileType(narrative);
-                if (attachedFileDataType == null) {
-                    continue;
-                }
-                SponsorCosponsorInformation sponsorCosponsorInfo = SponsorCosponsorInformation.Factory.newInstance();
-                sponsorCosponsorInfo.setAttFile(attachedFileDataType);
-                sponsors.setSponsorCosponsorInformation(sponsorCosponsorInfo);
-                break;
-            }
-        }
-        return sponsors;
-    }
-
-    /**
-     * This method is used to set HumanSubjectInvoved and VertebrateAnimalUsed
-     * XMLObject Data.
+     * This method is used to set HumanSubjectInvoved
      *
      * @param developmentProposal
-     * @param researchTrainingPlan
+     * @param otherResearchTrainingPlan
      */
-    private void setHumanSubjectInvolvedAndVertebrateAnimalUsed(ResearchTrainingPlan researchTrainingPlan) {
-        researchTrainingPlan.setHumanSubjectsInvolved(YesNoDataType.N_NO);
-        researchTrainingPlan.setVertebrateAnimalsUsed(YesNoDataType.N_NO);
+    private void setHumanSubjectInvolved(OtherResearchTrainingPlan otherResearchTrainingPlan) {
+
+        // default to No
+        otherResearchTrainingPlan.setHumanSubjectsInvolved(YesNoDataType.N_NO);
+
         for (ProposalSpecialReview propSpecialReview : pdDoc.getDevelopmentProposal().getPropSpecialReviews()) {
-            switch (Integer.parseInt(propSpecialReview.getSpecialReviewTypeCode())) {
-                case 1:
-                    researchTrainingPlan.setHumanSubjectsInvolved(YesNoDataType.Y_YES);
-                    break;
-                case 2:
-                    researchTrainingPlan.setVertebrateAnimalsUsed(YesNoDataType.Y_YES);
-                    break;
-                default:
-                    break;
+            if (propSpecialReview.getSpecialReviewTypeCode().equals(SpecialReviewType.HUMAN_SUBJECTS)) {
+                otherResearchTrainingPlan.setHumanSubjectsInvolved(YesNoDataType.Y_YES);
             }
         }
     }
 
     private List<AnswerHeader> findQuestionnaireWithAnswers(DevelopmentProposal developmentProposal) {
         ProposalDevelopmentS2sQuestionnaireService questionnaireAnswerService = getProposalDevelopmentS2sQuestionnaireService();
-        return questionnaireAnswerService.getProposalAnswerHeaderForForm(developmentProposal,
-                "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_2_0-V2.0", "PHS_Fellowship_Supplemental_2_0");
+        return questionnaireAnswerService.getProposalAnswerHeaderForForm(developmentProposal, NAME_SPACE, FORM_NAME);
     }
 
     private ProposalDevelopmentS2sQuestionnaireService getProposalDevelopmentS2sQuestionnaireService() {
@@ -872,6 +901,7 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
                 return answer;
             }
         }
+        LOG.info("Did not find answer for questionnaire question id " + questionnaireQuestion.getQuestionnaireQuestionsId() + ", Answer header Id " + answerHeader.getAnswerHeaderId());
         return null;
     }
 
@@ -880,36 +910,35 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
      * This method is used to set additional information data to AdditionalInformation XMLObject from DevelopmentProposal,
      * ProposalYnq
      */
-    private void setAdditionalInformation(AdditionalInformation additionalInformation) {
-        Boolean hasInvestigator = false;
-        additionalInformation.addNewFellowshipTrainingAndCareerGoals();
-        additionalInformation.addNewActivitiesPlannedUnderThisAward();
+    @SuppressWarnings("static-access")
+    private void setCitizenship(AdditionalInformation additionalInformation) {
+
+        // Set the citizenship stuff
         ProposalPerson principalInvestigator = s2sUtilService.getPrincipalInvestigator(pdDoc);
         for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
             if (proposalPerson.isInvestigator()) {
-                hasInvestigator = true;
+
                 CitizenshipTypes citizenShip = s2sUtilService.getCitizenship(proposalPerson);
-                if (citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.NON_U_S_CITIZEN_WITH_TEMPORARY_VISA.toString())) {
-                    additionalInformation.setCitizenship(CitizenshipDataType.NON_U_S_CITIZEN_WITH_TEMPORARY_VISA);
-                } else if (citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S.toString())) {
-                    additionalInformation.setCitizenship(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S);
-                } else if (citizenShip.getCitizenShip().trim().equals(
-                        CitizenshipDataType.U_S_CITIZEN_OR_NONCITIZEN_NATIONAL.toString())) {
-                    additionalInformation.setCitizenship(CitizenshipDataType.U_S_CITIZEN_OR_NONCITIZEN_NATIONAL);
-                } else if (citizenShip.getCitizenShip().trim().equals(
-                        CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S_PENDING.toString())) {
-                    additionalInformation.setCitizenship(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S_PENDING);
+
+                if (citizenShip.getCitizenShip().trim().equals(citizenShip.NON_US_CITIZEN_WITH_TEMPORARY_VISA.toString())) {
+                    additionalInformation.setNonUSCitizen(NonUSCitizenDataType.WITH_A_TEMPORARY_U_S_VISA);
+                    additionalInformation.setUSCitizen(YesNoDataType.N_NO);
+                } else if (citizenShip.getCitizenShip().trim().equals(citizenShip.PERMANENT_RESIDENT_OF_US_PENDING)) {
+                    additionalInformation.setNonUSCitizen(NonUSCitizenDataType.WITH_A_PERMANENT_U_S_RESIDENT_VISA);
+                    additionalInformation.setUSCitizen(YesNoDataType.N_NO);
+                } else {
+                    additionalInformation.setUSCitizen(YesNoDataType.Y_YES);
                 }
 
             }
         }
+
+        // Get the phone number
         if (principalInvestigator != null && principalInvestigator.getMobilePhoneNumber() != null) {
             additionalInformation.setAlernatePhoneNumber(principalInvestigator.getMobilePhoneNumber());
         }
-        if (!hasInvestigator) {
-            additionalInformation.setCitizenship(null);
-        }
 
+        // Check if they have attached a Current Support doc
         additionalInformation.setConcurrentSupport(YesNoDataType.N_NO);
         AttachedFileDataType attachedFileDataType = null;
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
@@ -920,41 +949,10 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
                         if (attachedFileDataType == null) {
                             continue;
                         }
-                        ConcurrentSupportDescription concurrentSupportDescription = ConcurrentSupportDescription.Factory
-                                .newInstance();
+                        ConcurrentSupportDescription concurrentSupportDescription = ConcurrentSupportDescription.Factory.newInstance();
                         concurrentSupportDescription.setAttFile(attachedFileDataType);
                         additionalInformation.setConcurrentSupport(YesNoDataType.Y_YES);
                         additionalInformation.setConcurrentSupportDescription(concurrentSupportDescription);
-                        break;
-                    case FELLOWSHIP:
-                        attachedFileDataType = getAttachedFileType(narrative);
-                        if (attachedFileDataType == null) {
-                            continue;
-                        }
-                        FellowshipTrainingAndCareerGoals fellowshipTrainingAndCareerGoals = FellowshipTrainingAndCareerGoals.Factory
-                                .newInstance();
-                        fellowshipTrainingAndCareerGoals.setAttFile(attachedFileDataType);
-                        additionalInformation.setFellowshipTrainingAndCareerGoals(fellowshipTrainingAndCareerGoals);
-                        break;
-                    case DISSERTATION:
-                        attachedFileDataType = getAttachedFileType(narrative);
-                        if (attachedFileDataType == null) {
-                            continue;
-                        }
-                        DissertationAndResearchExperience dissertationAndResearchExperience = DissertationAndResearchExperience.Factory
-                                .newInstance();
-                        dissertationAndResearchExperience.setAttFile(attachedFileDataType);
-                        additionalInformation.setDissertationAndResearchExperience(dissertationAndResearchExperience);
-                        break;
-                    case ACTIVITIES:
-                        attachedFileDataType = getAttachedFileType(narrative);
-                        if (attachedFileDataType == null) {
-                            continue;
-                        }
-                        ActivitiesPlannedUnderThisAward activitiesPlannedUnderThisAward = ActivitiesPlannedUnderThisAward.Factory
-                                .newInstance();
-                        activitiesPlannedUnderThisAward.setAttFile(attachedFileDataType);
-                        additionalInformation.setActivitiesPlannedUnderThisAward(activitiesPlannedUnderThisAward);
                         break;
                     default:
                         break;
@@ -983,44 +981,6 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
         attachmentGroupType.setAttachedFileArray(attachedFileDataTypeList.toArray(new AttachedFileDataType[attachedFileDataTypeList
                 .size()]));
         return attachmentGroupType;
-    }
-
-    /*
-     * This method is used to get ApplicationType XMLObject and set data to it from types of Application.
-     */
-    private ApplicationType getApplicationType() {
-        ApplicationType applicationType = ApplicationType.Factory.newInstance();
-        applicationType.setTypeOfApplication(getTypeOfApplication());
-        return applicationType;
-    }
-
-    /*
-     * This method is used to get TypeOfApplication based on proposalTypeCode of DevelopmentProposal
-     */
-    private TypeOfApplication.Enum getTypeOfApplication() {
-        String proposalTypeCode = pdDoc.getDevelopmentProposal().getProposalTypeCode();
-        TypeOfApplication.Enum typeOfApplication = null;
-        if (proposalTypeCode != null) {
-            if (proposalTypeCode.equals(ProposalDevelopmentUtils
-                    .getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_NEW_PARM))) {
-                typeOfApplication = TypeOfApplication.NEW;
-            } else if (proposalTypeCode.equals(ProposalDevelopmentUtils
-                    .getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_CONTINUATION_PARM))) {
-                typeOfApplication = TypeOfApplication.CONTINUATION;
-            } else if (proposalTypeCode.equals(ProposalDevelopmentUtils
-                    .getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_REVISION_PARM))) {
-                typeOfApplication = TypeOfApplication.REVISION;
-            } else if (proposalTypeCode.equals(ProposalDevelopmentUtils
-                    .getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RENEWAL_PARM))) {
-                typeOfApplication = TypeOfApplication.RENEWAL;
-            } else if (proposalTypeCode.equals(ProposalDevelopmentUtils
-                    .getProposalDevelopmentDocumentParameter(ProposalDevelopmentUtils.PROPOSAL_TYPE_CODE_RESUBMISSION_PARM))) {
-                typeOfApplication = TypeOfApplication.RESUBMISSION;
-            } else if (proposalTypeCode.equals(PROPOSAL_TYPE_CODE_NEW7)) {
-                typeOfApplication = TypeOfApplication.NEW;
-            }
-        }
-        return typeOfApplication;
     }
 
     /*
@@ -1089,15 +1049,15 @@ public class PHS398FellowshipSupplementalV2_0Generator extends PHS398FellowshipS
      */
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         this.pdDoc = proposalDevelopmentDocument;
-        return getPHSFellowshipSupplemental20();
+        return getPHSFellowshipSupplemental31();
     }
 
     public String getFormName() {
-        return "PHS_Fellowship_Supplemental_2_0-V2.0";
+        return FORM_NAME;
     }
 
     public String getNamespace() {
-        return "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_2_0-V2.0";
+        return NAME_SPACE;
     }
 
     public class KirschsteinBean {

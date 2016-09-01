@@ -52,6 +52,13 @@ public abstract class PHS398CareerDevelopmentAwardSupBaseGenerator extends S2SBa
 	public static final int NARRATIVE_TYPE_PHS398_INSTITUTIONAL_COMMITMENT = 69;
 	public static final int NARRATIVE_TYPE_PHS_CAREER_APPENDIX = 85;
 	public static final int NARRATIVE_TYPE_PHS_CAREER_REASEARCH_STRATEGY = 128;
+	// New for Forms-D
+	public static final int NARRATIVE_TYPE_PHS_ResponsibleConductOfResearch = 147;
+	public static final int NARRATIVE_TYPE_PHS_StatemensOfSupport = 148;
+	public static final int NARRATIVE_TYPE_PHS_LettersOfSupport = 149;
+	public static final int NARRATIVE_TYPE_PHS_InsitutionalEnvironment = 150;
+	public static final int NARRATIVE_TYPE_PHS_KeyBiologicalAndOrChemicalResources = 151;
+	public static final int NARRATIVE_TYPE_PHS_DataSafetyMonitoringPlan = 152;
 	
 	public PHS398CareerDevelopmentAwardSupBaseGenerator(){
 		s2sUtilService = KraServiceLocator.getService(S2SUtilService.class);

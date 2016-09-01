@@ -1272,7 +1272,7 @@
             org/kuali/kra/s2s/stylesheet/PHS398_TrainingSubawardBudget-V1.0.xsl
         </stylesheet>
         <pkgName>
-            gov.grants.apply.forms.phs398TrainingBudgetV10
+            gov.grants.apply.forms.phs398TrainingSubawardBudgetV10
         </pkgName>
         <sortIndex>162</sortIndex>
     </Form>
@@ -1322,6 +1322,20 @@
         </pkgName>
         <sortIndex>200</sortIndex>
     </Form>
+    <Form
+        namespace="http://apply.grants.gov/forms/PHS398_CareerDevelopmentAwardSup_3_0-V3.0">
+        <formName>PHS398_CareerDevelopmentAwardSup_3_0-V3.0</formName>
+        <mainClass>
+            org.kuali.kra.s2s.generator.impl.PHS398CareerDevelopmentAwardSupV1_3Generator
+        </mainClass>
+        <stylesheet>
+            org/kuali/kra/s2s/stylesheet/PHS398_CareerDevelopmentAwardSup-V3.0.xsl
+        </stylesheet>
+        <pkgName>
+            gov.grants.apply.forms.phs398CareerDevelopmentAwardSup30V30
+        </pkgName>
+        <sortIndex>200</sortIndex>
+    </Form>    
     <Form
         namespace="http://apply.grants.gov/forms/PHS398_ResearchPlan_2_0-V2.0">
         <formName>PHS398_ResearchPlan_2_0</formName>
@@ -1386,6 +1400,35 @@
         <sortIndex>185</sortIndex>
     </Form>
     <Form
+        namespace="http://apply.grants.gov/forms/PHS398_CoverPageSupplement_3_0-V3.0">
+        <formName>PHS398_CoverPageSupplement_3_0</formName>
+        <mainClass>
+            org.kuali.kra.s2s.generator.impl.PHS398CoverPageSupplementV3_0Generator
+        </mainClass>
+        <stylesheet>
+            org/kuali/kra/s2s/stylesheet/PHS398_CoverPageSupplement-V3.0.xsl
+        </stylesheet>
+        <pkgName>gov.grants.apply.forms.phs398CoverPageSupplement30V30</pkgName>
+        <sortIndex>185</sortIndex>
+    </Form>
+    
+        
+    <Form
+        namespace="http://apply.grants.gov/forms/PHS_Inclusion_Enrollment_Report-V1.0">
+        <formName>PHS_Inclusion_Enrollment_Report</formName>
+        <mainClass>
+            org.kuali.kra.s2s.generator.impl.PHS398InclusionEnrollmentReport1_0Generator
+        </mainClass>
+        <stylesheet>
+            org/kuali/kra/s2s/stylesheet/PHS_Inclusion_Enrollment_Report-V1.0.xsl
+        </stylesheet>
+        <pkgName>
+            gov.grants.apply.forms.phsInclusionEnrollmentReportV10
+        </pkgName>
+        <sortIndex>200</sortIndex>
+    </Form>
+                        
+    <Form
         namespace="http://apply.grants.gov/forms/PerformanceSite_2_0-V2.0">
         <formName>PerformanceSite_2_0</formName>
         <mainClass>
@@ -1421,18 +1464,6 @@
         </stylesheet>
         <pkgName>gov.grants.apply.forms.phs398TrainingSubawardBudget20V20</pkgName>
         <sortIndex>162</sortIndex>
-    </Form>
-    <Form
-        namespace="http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_2_0-V2.0">
-        <formName>PHS_Fellowship_Supplemental_2_0</formName>
-        <mainClass>
-            org.kuali.kra.s2s.generator.impl.PHS398FellowshipSupplementalV2_0Generator
-        </mainClass>
-        <stylesheet>
-            org/kuali/kra/s2s/stylesheet/PHS_fellowship_supplemental-V2.xsl
-        </stylesheet>
-        <pkgName>gov.grants.apply.forms.phsFellowshipSupplemental20V20</pkgName>
-        <sortIndex>211</sortIndex>
     </Form>
     <Form namespace="http://apply.grants.gov/forms/RR_SF424_2_0-V2.0">
         <formName>RR_SF424_2_0-V2.0</formName>
@@ -1515,4 +1546,42 @@
     </Form>                
     
     
+    <Form
+        namespace="http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_2_0-V2.0">
+        <formName>PHS_Fellowship_Supplemental_2_0</formName>
+        <mainClass>
+            org.kuali.kra.s2s.generator.impl.PHS398FellowshipSupplementalV2_0Generator
+        </mainClass>
+        <stylesheet>
+            org/kuali/kra/s2s/stylesheet/PHS_FellowshipSupplemental-V2.0.xsl
+        </stylesheet>
+        <pkgName>gov.grants.apply.forms.phsFellowshipSupplemental20V20</pkgName>
+        <sortIndex>211</sortIndex>
+    </Form>
+   
+    <Form
+        namespace="http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_3_1-V3.1">
+        <formName>PHS_Fellowship_Supplemental_3_1</formName>
+        <mainClass>
+            org.kuali.kra.s2s.generator.impl.PHS398FellowshipSupplementalV3_1Generator
+        </mainClass>
+        <stylesheet>
+            org/kuali/kra/s2s/stylesheet/PHS_FellowshipSupplemental-V3.1.xsl
+        </stylesheet>
+        <pkgName>gov.grants.apply.forms.phsFellowshipSupplemental31V31</pkgName>
+        <sortIndex>212</sortIndex>
+    </Form>
+        
+        
+    <Form namespace="http://apply.grants.gov/forms/PHS_AssignmentRequestForm-V1.0">
+        <formName>PHS_AssignmentRequestForm</formName>
+        <mainClass>
+            org.kuali.kra.s2s.generator.impl.PHSAssignmentRequestV1_0Generator
+        </mainClass>
+        <stylesheet>
+            org/kuali/kra/s2s/stylesheet/PHS_AssignmentRequestForm-V1.0.xsl
+        </stylesheet>
+        <pkgName>gov.grants.apply.forms.phsAssignmentRequestFormV10</pkgName>
+        <sortIndex>241</sortIndex>
+    </Form>        
 </FormBinding>
