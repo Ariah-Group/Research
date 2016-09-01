@@ -1,7 +1,7 @@
 /*
  * Copyright 2005-2013 The Kuali Foundation.
  * 
- * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
@@ -73,13 +73,10 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
      */
 
     private RRKeyPersonExpanded20Document getRRKeyPersonExpanded() {
-        RRKeyPersonExpanded20Document rrKeyPersonExpandedDocument = RRKeyPersonExpanded20Document.Factory
-                .newInstance();
-        RRKeyPersonExpanded20 rrKeyPersonExpanded = RRKeyPersonExpanded20.Factory
-                .newInstance();
+        RRKeyPersonExpanded20Document rrKeyPersonExpandedDocument = RRKeyPersonExpanded20Document.Factory.newInstance();
+        RRKeyPersonExpanded20 rrKeyPersonExpanded = RRKeyPersonExpanded20.Factory.newInstance();
         setRRKeyPersonExpandedAttributes(rrKeyPersonExpanded);
-        rrKeyPersonExpandedDocument
-                .setRRKeyPersonExpanded20(rrKeyPersonExpanded);
+        rrKeyPersonExpandedDocument.setRRKeyPersonExpanded20(rrKeyPersonExpanded);
         return rrKeyPersonExpandedDocument;
     }
 
@@ -87,8 +84,8 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
      * This method is used to set all attributes of
      * RRkeyPersonExpandedAttributes object
      */
-    private void setRRKeyPersonExpandedAttributes(
-            RRKeyPersonExpanded20 rrKeyPersonExpanded) {
+    private void setRRKeyPersonExpandedAttributes(RRKeyPersonExpanded20 rrKeyPersonExpanded) {
+        
         rrKeyPersonExpanded.setFormVersion(S2SConstants.FORMVERSION_2_0);
         rrKeyPersonExpanded.setPDPI(getPersonProfilePI());
         PersonProfileDataType[] keyPersonArray = getpersonProfileKeyPerson();
@@ -99,11 +96,9 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
         if (extraPersons.size() > 0) {
             for (ProposalPerson extraPerson : extraPersons) {
                 setBioSketchAttchment(rrKeyPersonExpanded, extraPerson);
-                setCurrentPendingTypeAttachment(rrKeyPersonExpanded,
-                        extraPerson);
+                setCurrentPendingTypeAttachment(rrKeyPersonExpanded, extraPerson);
             }
-            for (Narrative narrative : pdDoc.getDevelopmentProposal()
-                    .getNarratives()) {
+            for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
                 if (narrative.getNarrativeTypeCode() != null) {
                     if (Integer.parseInt(narrative.getNarrativeTypeCode()) == PROFILE_TYPE) {
                         setProfileTypeAttachment(rrKeyPersonExpanded, narrative);
@@ -116,16 +111,13 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
     /*
      * This method is used to add profile type attachment to rrKeyPersonExpanded
      */
-    private void setProfileTypeAttachment(
-            RRKeyPersonExpanded20 rrKeyPersonExpanded, Narrative narrative) {
+    private void setProfileTypeAttachment(RRKeyPersonExpanded20 rrKeyPersonExpanded, Narrative narrative) {
+        
         AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
         if (attachedFileDataType != null) {
-            AdditionalProfilesAttached additionalProfilesAttached = AdditionalProfilesAttached.Factory
-                    .newInstance();
-            additionalProfilesAttached
-                    .setAdditionalProfileAttached(attachedFileDataType);
-            rrKeyPersonExpanded
-                    .setAdditionalProfilesAttached(additionalProfilesAttached);
+            AdditionalProfilesAttached additionalProfilesAttached = AdditionalProfilesAttached.Factory.newInstance();
+            additionalProfilesAttached.setAdditionalProfileAttached(attachedFileDataType);
+            rrKeyPersonExpanded.setAdditionalProfilesAttached(additionalProfilesAttached);
         }
     }
 
@@ -133,15 +125,14 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
      * This method is used to add current type pending attachment to
      * rrKeyPersonExpanded
      */
-    private void setCurrentPendingTypeAttachment(
-            RRKeyPersonExpanded20 rrKeyPersonExpanded,
-            ProposalPerson extraPerson) {
+    private void setCurrentPendingTypeAttachment(RRKeyPersonExpanded20 rrKeyPersonExpanded, ProposalPerson extraPerson) {
+        
         AttachedFileDataType supportAttachment = getPernonnelAttachments(pdDoc,
                 extraPerson.getPersonId(), extraPerson.getRolodexId(),
                 CURRENT_PENDING_TYPE);
+        
         if (supportAttachment != null) {
-            SupportsAttached supportsAttached = SupportsAttached.Factory
-                    .newInstance();
+            SupportsAttached supportsAttached = SupportsAttached.Factory.newInstance();
             supportsAttached.setSupportAttached(supportAttachment);
             rrKeyPersonExpanded.setSupportsAttached(supportsAttached);
         }
@@ -151,13 +142,13 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
      * This method is used to add biosketch type attachment to
      * rrKeyPersonExpanded
      */
-    private void setBioSketchAttchment(
-            RRKeyPersonExpanded20 rrKeyPersonExpanded,
-            ProposalPerson extraPerson) {
+    private void setBioSketchAttchment(RRKeyPersonExpanded20 rrKeyPersonExpanded, ProposalPerson extraPerson) {
+        
         BioSketchsAttached personBioSketch = BioSketchsAttached.Factory.newInstance();
         AttachedFileDataType bioSketchAttachment = getPernonnelAttachments(
                 pdDoc, extraPerson.getPersonId(), extraPerson.getRolodexId(),
                 BIOSKETCH_TYPE);
+        
         personBioSketch.setBioSketchAttached(bioSketchAttachment);
         rrKeyPersonExpanded.setBioSketchsAttached(personBioSketch);
     }
@@ -169,8 +160,7 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
      * 
      */
     private PersonProfileDataType getPersonProfilePI() {
-        PersonProfileDataType profileDataType = PersonProfileDataType.Factory
-                .newInstance();
+        PersonProfileDataType profileDataType = PersonProfileDataType.Factory.newInstance();
         Profile profile = Profile.Factory.newInstance();
         ProposalPerson PI = s2sUtilService.getPrincipalInvestigator(pdDoc);
         if (PI != null) {
@@ -194,14 +184,24 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
         KcPersonService kcPersonService = KraServiceLocator.getService(KcPersonService.class);
         KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(personId);
 
-        hndt.setPrefixName(kcPersons.getPrefix());
-        hndt.setSuffixName(kcPersons.getSuffix());
-
+        LOG.error("setPersonalProfileDetailsToProfile running...");
+        LOG.error("kcPersons.getPrefix() : " + kcPersons.getPrefix());
+        LOG.error("kcPersons.getSuffix() : " + kcPersons.getSuffix());
+        
+        if(kcPersons.getPrefix() != null && !kcPersons.getPrefix().isEmpty()) {
+            hndt.setPrefixName(kcPersons.getPrefix());
+        }
+        
+        if(kcPersons.getSuffix() != null && !kcPersons.getSuffix().isEmpty()) {
+            hndt.setSuffixName(kcPersons.getSuffix());
+        }        
+        
         profile.setName(hndt);
 
         setDirectoryTitleToProfile(profile, PI);
         profile.setAddress(globLibV20Generator.getAddressDataType(PI));
         profile.setPhone(PI.getOfficePhone());
+        
         if (PI.getFaxNumber() != null) {
             profile.setFax(PI.getFaxNumber());
         }
@@ -448,9 +448,18 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
         KcPersonService kcPersonService = KraServiceLocator.getService(KcPersonService.class);
         KcPerson kcPersonRecord = kcPersonService.getKcPersonByPersonId(personId);
 
-        hndt.setPrefixName(kcPersonRecord.getPrefix());
-        hndt.setSuffixName(kcPersonRecord.getSuffix());
-
+        LOG.error("setPersonalProfileDetailsToProfile 2 running...");
+        LOG.error("kcPersons.getPrefix() : " + kcPersonRecord.getPrefix());
+        LOG.error("kcPersons.getSuffix() : " + kcPersonRecord.getSuffix());
+        
+        if(kcPersonRecord.getPrefix() != null && !kcPersonRecord.getPrefix().isEmpty()) {
+            hndt.setPrefixName(kcPersonRecord.getPrefix());
+        }
+        
+        if(kcPersonRecord.getSuffix() != null && !kcPersonRecord.getSuffix().isEmpty()) {
+            hndt.setSuffixName(kcPersonRecord.getSuffix());
+        }            
+        
         profileKeyPerson.setName(hndt);
 
         setDirectoryTitleToProfile(profileKeyPerson, keyPerson);

@@ -639,7 +639,7 @@ public class KcPerson implements Contactable, BusinessObject {
         
         return name.getNameSuffix()!= null ? name.getNameSuffix() : "";
     }
-
+    
     /**
      * Gets the value of countryOfCitizenship.
      *
