@@ -610,6 +610,35 @@ public class KcPerson implements Contactable, BusinessObject {
         
         return name.getNameTitle() != null ? name.getNameTitle() : "";
     }
+    
+    /**
+     * Gets the value of Prefix.
+     *
+     * @return the value of Prefix
+     */
+    public String getPrefix() {
+        final EntityNameContract name = this.entity.getDefaultName();
+        if (name == null) {
+            return "";
+        }
+        
+        return name.getNamePrefix()!= null ? name.getNamePrefix() : "";
+    }
+    
+    
+    /**
+     * Gets the value of the Suffix.
+     *
+     * @return the value of Suffix
+     */
+    public String getSuffix() {
+        final EntityNameContract name = this.entity.getDefaultName();
+        if (name == null) {
+            return "";
+        }
+        
+        return name.getNameSuffix()!= null ? name.getNameSuffix() : "";
+    }
 
     /**
      * Gets the value of countryOfCitizenship.

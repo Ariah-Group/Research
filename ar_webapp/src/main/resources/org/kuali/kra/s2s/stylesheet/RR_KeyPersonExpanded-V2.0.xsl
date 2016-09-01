@@ -192,7 +192,7 @@
 												</fo:table-cell>
 												<fo:table-cell padding-start="4pt">
 													<fo:block font-size="9px">
-														<fo:inline>Middle Name&#160;</fo:inline>
+														<fo:inline>Middle Name:&#160;</fo:inline>
 														<fo:inline font-family="Georgia" font-size="10px">
 															<xsl:value-of select="./globLib:MiddleName" />
 														</fo:inline>

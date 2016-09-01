@@ -25,6 +25,7 @@ import gov.grants.apply.forms.rrKeyPersonExpanded20V20.RRKeyPersonExpanded20Docu
 import gov.grants.apply.forms.rrKeyPersonExpanded20V20.RRKeyPersonExpanded20Document.RRKeyPersonExpanded20.BioSketchsAttached;
 import gov.grants.apply.forms.rrKeyPersonExpanded20V20.RRKeyPersonExpanded20Document.RRKeyPersonExpanded20.SupportsAttached;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
+import gov.grants.apply.system.globalLibraryV20.HumanNameDataType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -183,10 +184,21 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
      * Investigator and attachments to profile
      */
     private void setPersonalProfileDetailsToProfile(
-            PersonProfileDataType profileDataType, Profile profile,
-            ProposalPerson PI) {
+            PersonProfileDataType profileDataType, Profile profile, ProposalPerson PI) {
+        
         assignRolodexId(PI);
-        profile.setName(globLibV20Generator.getHumanNameDataType(PI));
+
+        HumanNameDataType hndt = globLibV20Generator.getHumanNameDataType(PI);
+
+        String personId = PI.getPersonId();
+        KcPersonService kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(personId);
+
+        hndt.setPrefixName(kcPersons.getPrefix());
+        hndt.setSuffixName(kcPersons.getSuffix());
+
+        profile.setName(hndt);
+
         setDirectoryTitleToProfile(profile, PI);
         profile.setAddress(globLibV20Generator.getAddressDataType(PI));
         profile.setPhone(PI.getOfficePhone());
@@ -213,17 +225,14 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
             }
         }
         profile.setEmail(PI.getEmailAddress());
-        DevelopmentProposal developmentProposal = pdDoc
-                .getDevelopmentProposal();
+        DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
         setOrganizationName(profile, developmentProposal);
         setDepartmentNameToProfile(profile, PI);
         String divisionName = PI.getDivision();
+
         if (divisionName != null) {
             profile.setDivisionName(divisionName);
         } else {
-            String personId = PI.getPersonId();
-            KcPersonService kcPersonService = KraServiceLocator.getService(KcPersonService.class);
-            KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(personId);
             if (kcPersons.getOrganizationIdentifier() != null) {
                 divisionName = getPIDivision(kcPersons.getOrganizationIdentifier());
             }
@@ -255,7 +264,6 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
         if (hierarchyLevelNumber == null || hierarchyLevelNumber.isEmpty()) {
             HEIRARCHY_LEVEL = 1;
         } else {
-
             try {
                 HEIRARCHY_LEVEL = Integer.parseInt(hierarchyLevelNumber);
             } catch (Exception e) {
@@ -433,11 +441,20 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
     private void setAllkeyPersonDetailsToKeyPerson(ProposalPerson keyPerson,
             Profile profileKeyPerson) {
         assignRolodexId(keyPerson);
-        profileKeyPerson.setName(globLibV20Generator
-                .getHumanNameDataType(keyPerson));
+
+        HumanNameDataType hndt = globLibV20Generator.getHumanNameDataType(keyPerson);
+
+        String personId = keyPerson.getPersonId();
+        KcPersonService kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        KcPerson kcPersonRecord = kcPersonService.getKcPersonByPersonId(personId);
+
+        hndt.setPrefixName(kcPersonRecord.getPrefix());
+        hndt.setSuffixName(kcPersonRecord.getSuffix());
+
+        profileKeyPerson.setName(hndt);
+
         setDirectoryTitleToProfile(profileKeyPerson, keyPerson);
-        profileKeyPerson.setAddress(globLibV20Generator
-                .getAddressDataType(keyPerson));
+        profileKeyPerson.setAddress(globLibV20Generator.getAddressDataType(keyPerson));
         profileKeyPerson.setPhone(keyPerson.getOfficePhone());
         if (keyPerson.getFaxNumber() != null) {
             profileKeyPerson.setFax(keyPerson.getFaxNumber());
@@ -462,8 +479,7 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
             }
         }
         profileKeyPerson.setEmail(keyPerson.getEmailAddress());
-        DevelopmentProposal developmentProposal = pdDoc
-                .getDevelopmentProposal();
+        DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
         setOrganizationName(profileKeyPerson, developmentProposal);
         setDepartmentNameToProfile(profileKeyPerson, keyPerson);
         String divisionName = keyPerson.getDivision();
