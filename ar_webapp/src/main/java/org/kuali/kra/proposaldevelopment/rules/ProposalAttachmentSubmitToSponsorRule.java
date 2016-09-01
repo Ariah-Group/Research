@@ -38,7 +38,7 @@ public class ProposalAttachmentSubmitToSponsorRule extends ResearchDocumentRuleB
 
     public static final String ATTACHMENTS_AUDIT_CLUSTER_KEY = "proposalAttachmentsAuditWarnings";
 
-    private static final String AUDIT_PARM = ProposalDevelopmentUtils.AUDIT_INCOMPLETE_PROPOSAL_ATTATCHMENTS_PARM;
+    private static final String AUDIT_PARM = ProposalDevelopmentUtils.AUDIT_INCOMPLETE_PROPOSAL_ATTACHMENTS_PARM;
     private static final String AUDIT_PARAMETER_VALUE_NO = "N";
 
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentProposalAttachmentsAuditRule.class);

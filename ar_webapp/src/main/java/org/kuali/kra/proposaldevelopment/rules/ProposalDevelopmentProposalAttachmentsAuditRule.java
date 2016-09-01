@@ -47,7 +47,7 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends ResearchDoc
 
     public static final String AUDIT_CLUSTER_KEY = "proposalAttachmentsAuditWarnings";
     
-    private static final String AUDIT_PARAMETER = ProposalDevelopmentUtils.AUDIT_INCOMPLETE_PROPOSAL_ATTATCHMENTS_PARM;
+    private static final String AUDIT_PARAMETER = ProposalDevelopmentUtils.AUDIT_INCOMPLETE_PROPOSAL_ATTACHMENTS_PARM;
     private static final String AUDIT_PARAMETER_VALUE_YES = "Y";
     private static final String AUDIT_PARAMETER_VALUE_NO = "N";
     private static final String MODULE_STATUS_CODE_INCOMPLETE = "I";
