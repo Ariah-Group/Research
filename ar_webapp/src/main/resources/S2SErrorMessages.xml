@@ -1760,9 +1760,11 @@
         <Message>Please answer the State Review Date questions for this form within the Questions tab.</Message> 
         <FixLink>questions</FixLink> 
     </Error>
+    
+    <!--  RR_KeyPersonExpanded_2_0 -->
     <Error>
         <MessageKey>/GrantApplication/Forms/RR_KeyPersonExpanded_2_0/PDPI</MessageKey> 
-        <Message> A PD/PI is required, please add a Principal Investigator to the proposal.</Message> 
+        <Message>A PD/PI is required, please add a Principal Investigator to the proposal.</Message> 
         <FixLink>keyPersonnel</FixLink> 
     </Error>
     <Error>
@@ -1770,6 +1772,35 @@
         <Message>Each investigator and key person must have a BioSketch. Upload the PDF on the Personnel Attachments panel, with "BIOSKETCH" as the attachment type.</Message> 
         <FixLink>abstractsAttachments</FixLink> 
     </Error>
+    
+    <Error>
+        <MessageKey>/GrantApplication/Forms/RR_KeyPersonExpanded_2_0/PDPI/Profile/Address/Street1</MessageKey>
+        <Message>The PD/PI address is invalid.  Use the proposal person window to add a street address</Message>
+        <FixLink>keyPersonnel</FixLink>
+    </Error>
+    <Error>
+        <MessageKey>/GrantApplication/Forms/RR_KeyPersonExpanded_2_0/PDPI/Profile/Address/Country</MessageKey>
+        <Message>The PD/PI country code is invalid. Use the proposal person window to fix this</Message>
+        <FixLink>keyPersonnel</FixLink>
+    </Error>
+    <Error>
+        <MessageKey>/GrantApplication/Forms/RR_KeyPersonExpanded_2_0/PDPI/Profile/Address/City</MessageKey>
+        <Message>The PD/PI address is missing a city. Please use the Proposal Person window to fix this.</Message>
+        <FixLink>keyPersonnel</FixLink>
+    </Error>
+    <Error>
+        <MessageKey>/GrantApplication/Forms/RR_KeyPersonExpanded_2_0/PDPI/Profile/Phone</MessageKey>
+        <Message>The PD/PI phone number. Please use the Proposal Person window to fix this.</Message>
+        <FixLink>keyPersonnel</FixLink>
+    </Error>
+    <Error>
+        <MessageKey>/GrantApplication/Forms/RR_KeyPersonExpanded_2_0/PDPI/Profile/Email</MessageKey>
+        <Message>The PD/PI email address is missing. Please use the Proposal Person window to fix this.</Message>
+        <FixLink>keyPersonnel</FixLink>
+    </Error>        
+    
+    
+    
     <Error>
         <MessageKey>/GrantApplication/Forms/PerformanceSite_2_0/AttachedFile</MessageKey> 
         <Message>Performance Sites attachment is required since Performance Site Locations exceed the maximum of 29.</Message> 
