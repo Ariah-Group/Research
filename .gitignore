@@ -49,3 +49,5 @@ apache_v2_sample_header.txt
 /research-impl/research-service-api/target/
 /research-impl/research-notification/target/
 *.log
+/ar_s2s_gen/s2s_forms/target/
+/ar_webapp/src/main/config/xsd/target/
