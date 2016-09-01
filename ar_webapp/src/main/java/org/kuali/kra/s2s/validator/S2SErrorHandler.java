@@ -26,23 +26,37 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class S2SErrorHandler {
+
     private static Map<String, AuditError> auditErrorMap;
     private static final String ERROR_MAP_FILE = "/S2SErrorMessages.xml";
-    private static final String ERROR_MAP_FILE_V2="/org/kuali/kra/s2s/s2sform/S2SErrorMessagesV2.xml";
+    private static final String ERROR_MAP_FILE_V2 = "/org/kuali/kra/s2s/s2sform/S2SErrorMessagesV2.xml";
+    private static final Log LOG = LogFactory.getLog(S2SErrorHandler.class);
+
     public static AuditError getError(String key) {
+
         if (auditErrorMap == null) {
-        	auditErrorMap = new HashMap<String, AuditError>();
+            auditErrorMap = new HashMap<String, AuditError>();
             loadErrors(ERROR_MAP_FILE);
-            if((S2SErrorHandler.class.getResourceAsStream(ERROR_MAP_FILE_V2))!=null) {
+            if ((S2SErrorHandler.class.getResourceAsStream(ERROR_MAP_FILE_V2)) != null) {
                 loadErrors(ERROR_MAP_FILE_V2);
-                }
+            }
         }
         AuditError error = auditErrorMap.get(key);
         AuditError defaultError = new AuditError(Constants.NO_FIELD, key + " is not valid", Constants.GRANTS_GOV_PAGE + "."
                 + Constants.GRANTS_GOV_PANEL_ANCHOR);
-        return error == null ? defaultError : error;
+
+        if (error == null) {
+
+            LOG.warn("S2SErrorHandler.getError passed key that does NOT map to error message : Key = " + key);
+
+            return defaultError;
+        } else {
+            return error;
+        }
     }
 
     private static void loadErrors(String errorMapFile) {
@@ -63,10 +77,8 @@ public class S2SErrorHandler {
                 AuditError s2sError = new AuditError(errorKey == null ? Constants.NO_FIELD : errorKey, errorMessage, errorFixLink);
                 auditErrorMap.put(messageKey, s2sError);
             }
-           //            }
-        }
-        catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception ex) {
+            LOG.error("Error loading error map file : " + errorMapFile + ". Error = " + ex.getMessage(), ex);
         }
     }
 }
