@@ -231,8 +231,22 @@
         <Message>The PI email address is missing. Please use the Proposal Person window to fix this.</Message>
         <FixLink>keyPersonnel</FixLink>
     </Error>        
+    <Error>
+        <MessageKey>/GrantApplication/Forms/RR_SF424_2_0/ApplicationType/isOtherAgencySubmission</MessageKey> 
+        <Message> Please answer the Application Type Other Agency Submission questions for this form within the Questions tab.</Message> 
+        <FixLink>questions</FixLink> 
+    </Error>    
+    <Error>
+        <MessageKey>/GrantApplication/Forms/RR_SF424_2_0/StateReview/StateReviewCodeType</MessageKey> 
+        <Message> Please answer the State Executive Order questions for this form within the Questions tab.</Message> 
+        <FixLink>questions</FixLink> 
+    </Error>
+    <Error>
+        <MessageKey>/GrantApplication/Forms/RR_SF424_2_0/StateReview/StateReviewDate</MessageKey> 
+        <Message> Please answer the State Review Date questions for this form within the Questions tab.</Message> 
+        <FixLink>questions</FixLink> 
+    </Error>
     
-            
     <!-- #RR_SF424 -->
     <Error>
         <MessageKey>/GrantApplication/Forms/RR_SF424/ApplicantInfo/OrganizationInfo/DUNSID</MessageKey>
@@ -621,12 +635,12 @@
     </Error>
     <Error>
         <MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_2/ProjectSummaryAttachments</MessageKey> 
-        <Message>The ProjectSummary proposal attachment is required for this form.</Message> 
+        <Message>The Project Summary proposal attachment is required for the RR Other Project Info form.</Message> 
         <FixLink>abstractsAttachments</FixLink> 
     </Error>
     <Error>
         <MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_2/ProjectNarrativeAttachments</MessageKey> 
-        <Message>The Narrative proposal attachment is required for this form.</Message> 
+        <Message>The Narrative proposal attachment is required for the RR Other Project Info form.</Message> 
         <FixLink>abstractsAttachments</FixLink> 
     </Error>
     <Error>
@@ -682,12 +696,12 @@
     </Error>
     <Error>
         <MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_3/AbstractAttachments</MessageKey> 
-        <Message>The ProjectSummary proposal attachment is required for this form.</Message> 
+        <Message>The Project Summary proposal attachment is required for the RR Other Project Info form.</Message> 
         <FixLink>abstractsAttachments</FixLink> 
     </Error>
     <Error>
         <MessageKey>/GrantApplication/Forms/RR_OtherProjectInfo_1_3/ProjectNarrativeAttachments</MessageKey> 
-        <Message>The Narrative proposal attachment is required for this form.</Message> 
+        <Message>The Narrative proposal attachment is required for the RR Other Project Info form.</Message> 
         <FixLink>abstractsAttachments</FixLink> 
     </Error>
     <Error>
@@ -1371,6 +1385,27 @@
         <Message>Please answer the Stem Cells question.</Message> 
         <FixLink>questions</FixLink> 
     </Error>
+    
+    <!-- #PHS398_CoverPageSupplement-V3_0-->
+    
+    <Error>
+        <MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement_3_0/StemCells</MessageKey>
+        <Message>Please answer the human embryonic stem cells question.</Message>
+        <FixLink>questions</FixLink>
+    </Error>
+    <Error>
+        <MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement_3_0/StemCells/IsHumanStemCellsInvolved</MessageKey>
+        <Message>Please answer the human embryonic stem cells question.</Message>
+        <FixLink>questions</FixLink>
+    </Error>
+    <Error>
+        <MessageKey>/GrantApplication/Forms/PHS398_CoverPageSupplement_3_0/StemCells/CellLines</MessageKey>
+        <Message>The registration number of the specific cell line is too long. Please see the human embryonic stem cells question for explanation.</Message>
+        <FixLink>questions</FixLink>
+    </Error>
+    
+    
+    
     <!-- #PHS398_ModularBudget-V1_1-->
     <Error>
         <MessageKey>/GrantApplication/Forms/PHS398_ModularBudget</MessageKey> 
@@ -1420,19 +1455,19 @@
     <!-- #PHS398_ResearchPlan V1_3-->
     <Error>
         <MessageKey>/GrantApplication/Forms/PHS398_ResearchPlan_1_3/ResearchPlanAttachments/ResearchStrategy</MessageKey> 
-        <Message>Research Strategy attachment is required for Research Plan.</Message> 
+        <Message>Research Strategy proposal attachment is required for the PHS 398 Research Plan form.</Message> 
         <FixLink>abstractsAttachments</FixLink> 
     </Error>
     <!-- #PHS398_ResearchPlan V2_0-->
     <Error>
         <MessageKey>/GrantApplication/Forms/PHS398_ResearchPlan_2_0/ResearchPlanAttachments/ResearchStrategy</MessageKey> 
-        <Message>Research Strategy attachment is required for Research Plan.</Message> 
+        <Message>Research Strategy proposal attachment is required for the PHS 398 Research Plan form.</Message> 
         <FixLink>abstractsAttachments</FixLink> 
     </Error>      
     <!-- #PHS398_ResearchPlan V3_0-->
     <Error>
         <MessageKey>/GrantApplication/Forms/PHS398_ResearchPlan_3_0/ResearchPlanAttachments/ResearchStrategy</MessageKey> 
-        <Message>Research Strategy attachment is required for Research Plan.</Message> 
+        <Message>Research Strategy proposal attachment is required for the PHS 398 Research Plan form.</Message> 
         <FixLink>abstractsAttachments</FixLink> 
     </Error>    
     <!-- #PerformanceSite V1_3-->

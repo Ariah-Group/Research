@@ -149,12 +149,12 @@
 								</fo:table-cell>
 							</fo:table-row>
 							<fo:table-row>
-								<!-- EKC-2330 min-height converted to height due to translate error -->
+								<!--  min-height converted to height due to translate error -->
 								<fo:table-cell height=".2in">
 									<fo:block font-size="10px" font-family="arialuni"
 										font-weight="bold">Funding Opportunity Title:</fo:block>
 								</fo:table-cell>
-								<!-- EKC-2330 min-height converted to height due to translate error -->
+								<!--  min-height converted to height due to translate error -->
 								<fo:table-cell height=".2in"
 									number-columns-spanned="4" keep-together="always">
 									<fo:block font-size="10px" font-family="arialuni"
@@ -221,7 +221,7 @@
 										Information about Awarding Components can be found
 										here:
 										<fo:inline text-decoration="underline">
-											https://grants.nih.gov/grants/phs_assignment_information.htm#Awarding
+											https://grants.nih.gov/grants/phs_assignment_information.htm
 										</fo:inline>
 									</fo:block>
 								</fo:table-cell>
@@ -439,16 +439,10 @@
 								</fo:table-cell>
 							</fo:table-row>
 							<fo:table-row>
-								<fo:table-cell height=".2in"
-									number-columns-spanned="5" keep-together="always">
-									<fo:block font-size="10px" font-family="arialuni"
-										font-style="italic">
-										Information about Study Sections can be found
-										here:
-										<fo:inline text-decoration="underline">
-											https://grants.nih.gov/grants/phs_assignment_information.htm#Study
-											Section
-										</fo:inline>
+								<fo:table-cell height=".2in" number-columns-spanned="5" keep-together="always">
+									<fo:block font-size="10px" font-family="arialuni" font-style="italic">
+										Information about Study Sections can be found here:
+										<fo:inline text-decoration="underline">https://grants.nih.gov/grants/phs_assignment_information.htm</fo:inline>
 									</fo:block>
 								</fo:table-cell>
 							</fo:table-row>
@@ -486,7 +480,7 @@
 								</fo:table-cell>
 							</fo:table-row>
 							<fo:table-row>
-								<!-- EKC-2330 min-height converted to height due to translate error -->
+								<!--  min-height converted to height due to translate error -->
 								<fo:table-cell height="0.3in">
 									<fo:block font-size="10px" font-family="arialuni">Assign
 										to Study
@@ -495,7 +489,7 @@
 									<fo:block font-size="8px" font-family="arialuni"
 										font-style="italic">(only 20 characters allowed)</fo:block>
 								</fo:table-cell>
-								<!-- EKC-2330 min-height converted to height due to translate error -->
+								<!--  min-height converted to height due to translate error -->
 								<fo:table-cell height="0.3in">
 									<fo:block font-size="10px" font-family="arialuni"
 										font-weight="normal" wrap-option="wrap">
@@ -513,7 +507,7 @@
 										</xsl:choose>
 									</fo:block>
 								</fo:table-cell>
-								<!-- EKC-2330 min-height converted to height due to translate error -->
+								<!--  min-height converted to height due to translate error -->
 								<fo:table-cell height="0.3in">
 									<fo:block font-size="10px" font-family="arialuni"
 										font-weight="normal" wrap-option="wrap">
@@ -531,7 +525,7 @@
 										</xsl:choose>
 									</fo:block>
 								</fo:table-cell>
-								<!-- EKC-2330 min-height converted to height due to translate error -->
+								<!--  min-height converted to height due to translate error -->
 								<fo:table-cell height="0.3in">
 									<fo:block font-size="10px" font-family="arialuni"
 										font-weight="normal" wrap-option="wrap">
@@ -556,7 +550,7 @@
 								</fo:table-cell>
 							</fo:table-row>
 							<fo:table-row>
-								<!-- EKC-2330 min-height converted to height due to translate error -->
+								<!--  min-height converted to height due to translate error -->
 								<fo:table-cell height="0.3in">
 									<fo:block font-size="10px" font-family="arialuni">Do Not Assign
 										to Study Section:
@@ -564,7 +558,7 @@
 									<fo:block font-size="8px" font-family="arialuni"
 										font-style="italic">(only 20 characters allowed)</fo:block>
 								</fo:table-cell>
-								<!-- EKC-2330 min-height converted to height due to translate error -->
+								<!--  min-height converted to height due to translate error -->
 								<fo:table-cell height="0.3in">
 									<fo:block font-size="10px" font-family="arialuni"
 										font-weight="normal" wrap-option="wrap">
@@ -582,7 +576,7 @@
 										</xsl:choose>
 									</fo:block>
 								</fo:table-cell>
-								<!-- EKC-2330 min-height converted to height due to translate error -->
+								<!--  min-height converted to height due to translate error -->
 								<fo:table-cell height="0.3in">
 									<fo:block font-size="10px" font-family="arialuni"
 										font-weight="normal" wrap-option="wrap">
@@ -600,7 +594,7 @@
 										</xsl:choose>
 									</fo:block>
 								</fo:table-cell>
-								<!-- EKC-2330 min-height converted to height due to translate error -->
+								<!--  min-height converted to height due to translate error -->
 								<fo:table-cell height="0.3in">
 									<fo:block font-size="10px" font-family="arialuni"
 										font-weight="normal" wrap-option="wrap">

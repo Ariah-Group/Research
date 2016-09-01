@@ -1,7 +1,7 @@
 /*
  * Copyright 2005-2014 The Kuali Foundation.
  * 
- * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
@@ -123,9 +123,6 @@ public class PHSAssignmentRequestV1_0Generator extends S2SBaseFormGenerator {
         setIndividualsToNotReview(assignmentRequestForm);
         setScientificAreasOfExpertise(assignmentRequestForm);
 
-        /* EKC-2330 I don't believe there are any more data we can populate from the proposal development document.
-         * If there are, then add them here
-         */
         assignmentRequestFormDocument.setPHSAssignmentRequestForm(assignmentRequestForm);
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(assignmentRequestFormDocument.toString().getBytes());
         sortAttachments(byteArrayInputStream);

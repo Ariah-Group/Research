@@ -1,7 +1,7 @@
 /*
  * Copyright 2005-2013 The Kuali Foundation.
  * 
- * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
-import gov.grants.apply.forms.hhsCheckListV11.CheckListDocument.CheckList.ApplicationType;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.PHS398CareerDevelopmentAwardSup11Document.PHS398CareerDevelopmentAwardSup11.ApplicationType.TypeOfApplication;
 import gov.grants.apply.forms.phs398ResearchPlan13V13.PHS398ResearchPlan13Document;
 import gov.grants.apply.forms.phs398ResearchPlan30V30.PHS398ResearchPlan30Document;
 import gov.grants.apply.forms.phs398ResearchPlan30V30.PHS398ResearchPlan30Document.PHS398ResearchPlan30;
@@ -45,6 +43,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.s2s.util.S2SConstants;
 
 /**
  * Class for generating the XML object for grants.gov PHS398ResearchPlanV3.0.
@@ -62,20 +61,16 @@ public class PHS398ResearchPlan_V3_0_Generator extends PHS398ResearchPlanBaseGen
      * PHS398ResearchPlan13Document.
      */
     private PHS398ResearchPlan30Document getPHS398ResearchPlan() {
-        PHS398ResearchPlan30Document phsResearchPlanDocument = PHS398ResearchPlan30Document.Factory
-                .newInstance();
-        PHS398ResearchPlan30 phsResearchPlan = PHS398ResearchPlan30.Factory
-                .newInstance();
-        phsResearchPlan.setFormVersion("3.0");
-//		phsResearchPlan.setFormVersion(S2SConstants.FORMVERSION_1_3);
-//		phsResearchPlan.setApplicationType(getApplicationType());
-        ResearchPlanAttachments researchPlanAttachments = ResearchPlanAttachments.Factory
-                .newInstance();
+
+        PHS398ResearchPlan30Document phsResearchPlanDocument = PHS398ResearchPlan30Document.Factory.newInstance();
+        PHS398ResearchPlan30 phsResearchPlan = PHS398ResearchPlan30.Factory.newInstance();
+        phsResearchPlan.setFormVersion(S2SConstants.FORMVERSION_3_0);
+        ResearchPlanAttachments researchPlanAttachments = ResearchPlanAttachments.Factory.newInstance();
         getNarrativeAttachments(researchPlanAttachments);
+
         AttachmentGroupMin0Max100DataType attachmentGroupMin0Max100DataType = AttachmentGroupMin0Max100DataType.Factory
                 .newInstance();
-        attachmentGroupMin0Max100DataType
-                .setAttachedFileArray(getAttachedFileDataTypes());
+        attachmentGroupMin0Max100DataType.setAttachedFileArray(getAttachedFileDataTypes());
         researchPlanAttachments.setAppendix(attachmentGroupMin0Max100DataType);
         phsResearchPlan.setResearchPlanAttachments(researchPlanAttachments);
         phsResearchPlanDocument.setPHS398ResearchPlan30(phsResearchPlan);
@@ -85,17 +80,14 @@ public class PHS398ResearchPlan_V3_0_Generator extends PHS398ResearchPlanBaseGen
         return phsResearchPlanDocument;
     }
 
-    private void getNarrativeAttachments(
-            ResearchPlanAttachments researchPlanAttachments) {
-//		HumanSubjectSection humanSubjectSection = HumanSubjectSection.Factory
-//				.newInstance();
-//		OtherResearchPlanSections otherResearchPlanSections = OtherResearchPlanSections.Factory
-//				.newInstance();
+    private void getNarrativeAttachments(ResearchPlanAttachments researchPlanAttachments) {
 
         ResearchStrategy researchStrategy = ResearchStrategy.Factory.newInstance();
-        for (Narrative narrative : pdDoc.getDevelopmentProposal()
-                .getNarratives()) {
+
+        for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
+
             AttachedFileDataType attachedFileDataType = null;
+
             switch (Integer.parseInt(narrative.getNarrativeTypeCode())) {
 
                 case DATA_AND_SAFETY_MONITORING_PLAN:
@@ -235,34 +227,11 @@ public class PHS398ResearchPlan_V3_0_Generator extends PHS398ResearchPlanBaseGen
                     break;
 
                 default:
-                    System.out.println("**** UNHANDLED narrative type: " + Integer.parseInt(narrative.getNarrativeTypeCode()));
+                    System.out.println("**** PHS398ResearchPlan_V3_0_Generator : UNHANDLED narrative attachment type: " + narrative.getNarrativeTypeCode());
                     break;
             }
         }
         researchPlanAttachments.setResearchStrategy(researchStrategy);
-    }
-
-    /**
-     *
-     * This method is used to get ApplicationType from
-     * ProposalDevelopmentDocument
-     *
-     * @return ApplicationType corresponding to the proposal type code.
-     */
-    private ApplicationType getApplicationType() {
-        ApplicationType applicationType = ApplicationType.Factory.newInstance();
-        DevelopmentProposal developmentProposal = pdDoc
-                .getDevelopmentProposal();
-        if (developmentProposal.getProposalTypeCode() != null
-                && Integer.parseInt(developmentProposal.getProposalTypeCode()) < PROPOSAL_TYPE_CODE_6) {
-            TypeOfApplication.Enum typeOfApplication = TypeOfApplication.Enum
-                    .forInt(Integer.parseInt(developmentProposal
-                                    .getProposalTypeCode()));
-
-            // FIXME not sure what is going on here ...
-//			applicationType.setTypeOfApplication(typeOfApplication);
-        }
-        return applicationType;
     }
 
     /**
@@ -276,19 +245,16 @@ public class PHS398ResearchPlan_V3_0_Generator extends PHS398ResearchPlanBaseGen
     private AttachedFileDataType[] getAttachedFileDataTypes() {
         int size = 0;
         AttachedFileDataType[] attachedFileDataTypes = null;
-        DevelopmentProposal developmentProposal = pdDoc
-                .getDevelopmentProposal();
+        DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
         for (Narrative narrative : developmentProposal.getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == APPENDIX) {
+            if (narrative.getNarrativeTypeCode() != null && Integer.parseInt(narrative.getNarrativeTypeCode()) == APPENDIX) {
                 size++;
             }
         }
         attachedFileDataTypes = new AttachedFileDataType[size];
         int attachments = 0;
         for (Narrative narrative : developmentProposal.getNarratives()) {
-            if (narrative.getNarrativeTypeCode() != null
-                    && Integer.parseInt(narrative.getNarrativeTypeCode()) == APPENDIX) {
+            if (narrative.getNarrativeTypeCode() != null && Integer.parseInt(narrative.getNarrativeTypeCode()) == APPENDIX) {
                 attachedFileDataTypes[attachments] = getAttachedFileType(narrative);
                 attachments++;
             }
@@ -308,8 +274,8 @@ public class PHS398ResearchPlan_V3_0_Generator extends PHS398ResearchPlanBaseGen
      * @see
      * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
      */
-    public XmlObject getFormObject(
-            ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    @Override
+    public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         this.pdDoc = proposalDevelopmentDocument;
         return getPHS398ResearchPlan();
     }
@@ -326,8 +292,7 @@ public class PHS398ResearchPlan_V3_0_Generator extends PHS398ResearchPlanBaseGen
      */
     public XmlObject getFormObject(XmlObject xmlObject) {
         PHS398ResearchPlan30 phsResearchPlan = (PHS398ResearchPlan30) xmlObject;
-        PHS398ResearchPlan30Document phsResearchPlanDocument = PHS398ResearchPlan30Document.Factory
-                .newInstance();
+        PHS398ResearchPlan30Document phsResearchPlanDocument = PHS398ResearchPlan30Document.Factory.newInstance();
         phsResearchPlanDocument.setPHS398ResearchPlan30(phsResearchPlan);
         return phsResearchPlanDocument;
     }

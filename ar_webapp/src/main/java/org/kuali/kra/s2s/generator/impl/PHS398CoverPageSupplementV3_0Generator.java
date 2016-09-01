@@ -241,7 +241,7 @@ public class PHS398CoverPageSupplementV3_0Generator extends
             }
         }
 
-        // EKC-2810 make phase III clinical trial not a nested question, since the form is ambiguous   
+        // make phase III clinical trial not a nested question, since the form is ambiguous   
         subAnswer = getAnswer(PHASE_III_CLINICAL_TRIAL);
         if (subAnswer != null && !subAnswer.equals(NOT_ANSWERED)) {
             if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(subAnswer)) {
@@ -361,7 +361,8 @@ public class PHS398CoverPageSupplementV3_0Generator extends
                 List<Answer> answerDetails = answerHeader.getAnswers();
                 for (Answer answers : answerDetails) {
                     if (questionId.equals(answers.getQuestion().getQuestionId())) {
-                        if (answers.getAnswer() != null) {  // EKC-2810 temporary fix to duplicate answers for different rule_id.  We will need to come back and fix it correctly later.
+                        // TODO temporary fix to duplicate answers for different rule_id.  We will need to come back and fix it correctly later.
+                        if (answers.getAnswer() != null) {  
                             answer = answers.getAnswer();
                         }
                     }
