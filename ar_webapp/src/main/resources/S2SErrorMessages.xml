@@ -199,6 +199,40 @@
         <Message>Please attach a Cover Letter.</Message>
         <FixLink>abstractsAttachments</FixLink>
     </Error>
+    
+    <!-- #RR_SF424_2_0 -->    
+    <Error>
+        <MessageKey>/GrantApplication/Forms/RR_SF424_2_0/PDPIContactInfo</MessageKey>
+        <Message>Contact information missing for PD/PI, please make sure a Principal Investigator has been added.</Message>
+        <FixLink>keyPersonnel</FixLink>
+    </Error>
+    <Error>
+        <MessageKey>/GrantApplication/Forms/RR_SF424_2_0/PDPIContactInfo/Address/Street1</MessageKey>
+        <Message>The PI address is invalid.  Use the proposal person window to add a street address</Message>
+        <FixLink>keyPersonnel</FixLink>
+    </Error>
+    <Error>
+        <MessageKey>/GrantApplication/Forms/RR_SF424_2_0/PDPIContactInfo/Address/Country</MessageKey>
+        <Message>The PI country code is invalid. Use the proposal person window to fix this</Message>
+        <FixLink>keyPersonnel</FixLink>
+    </Error>
+    <Error>
+        <MessageKey>/GrantApplication/Forms/RR_SF424_2_0/PDPIContactInfo/Address/City</MessageKey>
+        <Message>The PI address is missing a city. Please use the Proposal Person window to fix this.</Message>
+        <FixLink>keyPersonnel</FixLink>
+    </Error>
+    <Error>
+        <MessageKey>/GrantApplication/Forms/RR_SF424_2_0/PDPIContactInfo/Phone</MessageKey>
+        <Message>The PI phone number. Please use the Proposal Person window to fix this.</Message>
+        <FixLink>keyPersonnel</FixLink>
+    </Error>
+    <Error>
+        <MessageKey>/GrantApplication/Forms/RR_SF424_2_0/PDPIContactInfo/Email</MessageKey>
+        <Message>The PI email address is missing. Please use the Proposal Person window to fix this.</Message>
+        <FixLink>keyPersonnel</FixLink>
+    </Error>        
+    
+            
     <!-- #RR_SF424 -->
     <Error>
         <MessageKey>/GrantApplication/Forms/RR_SF424/ApplicantInfo/OrganizationInfo/DUNSID</MessageKey>
