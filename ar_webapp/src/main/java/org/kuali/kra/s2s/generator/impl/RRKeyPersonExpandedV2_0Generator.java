@@ -248,8 +248,21 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
         String divisionName = null;
         String unitName = getUnitName(departmentId);
         String heirarchyLevelDivisionName = null;
-        HEIRARCHY_LEVEL = Integer.parseInt(KraServiceLocator.getService(ParameterService.class).
-                getParameterValueAsString("KC-PD", "Document", "HIERARCHY_LEVEL"));
+
+        String hierarchyLevelNumber = KraServiceLocator.getService(ParameterService.class).
+                getParameterValueAsString(ProposalDevelopmentDocument.class, "HIERARCHY_LEVEL");
+
+        if (hierarchyLevelNumber == null || hierarchyLevelNumber.isEmpty()) {
+            HEIRARCHY_LEVEL = 1;
+        } else {
+
+            try {
+                HEIRARCHY_LEVEL = Integer.parseInt(hierarchyLevelNumber);
+            } catch (Exception e) {
+                HEIRARCHY_LEVEL = 1;
+            }
+        }
+
         int levelCount = 1;
         List<Unit> heirarchyUnits = KraServiceLocator.getService(UnitService.class).getUnitHierarchyForUnit(departmentId);
         for (Unit heirarchyUnit : heirarchyUnits) {
