@@ -28,6 +28,9 @@ public interface S2SConstants {
     public static final String FORMVERSION_1_0 = "1.0";
     public static final String FORMVERSION_1_1 = "1.1";
     public static final String FORMVERSION_1_2 = "1.2";
+    public static final String FORMVERSION_1_3 = "1.3";
+    public static final String FORMVERSION_1_4 = "1.4";
+    public static final String FORMVERSION_1_6 = "1.6";
     public static final String FORMVERSION_2_0 = "2.0";
     public static final String FORMVERSION_2_1 = "2.1";
     public static final String FORMVERSION_3_0 = "3.0";
@@ -80,10 +83,8 @@ public interface S2SConstants {
     public static final String STATUS_VALIDATED = "Validated";
     public static final String STATUS_RECEIVED_BY_AGENCY = "Received by Agency";
     public static final String STATUS_REJECTED_WITH_ERRORS = "REJECTED_WITH_ERRORS";
-	public static final String FORMVERSION_1_3 = "1.3";
     public static final String SUB_AWARD_BUDGET_NOT_FOUND = "budget.subaward.notfound";
     public static final String TRAINING_SUB_AWARD_BUDGET_NOT_FOUND = "budget.training.subaward.notfound";
-    public static final String FORMVERSION_1_4 = "1.4";
     public static final String CONGRESSIONAL_DISTRICT = "performancesite.district.notfound";
     public static final String STATUS_PUREGED = "PURGED";
     public static final String ERROR_ERA_COMMON_USER_NAME="eRA Commons User Name is missing for ";

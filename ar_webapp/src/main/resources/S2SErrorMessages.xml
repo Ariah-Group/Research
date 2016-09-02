@@ -1689,7 +1689,19 @@
         <MessageKey>/GrantApplication/Forms/NSF_CoverPage_1_3/NSFUnitConsideration/ProgramCode</MessageKey> 
         <Message>Sponsor Program Code is required (must be at least 4 characters)</Message> 
         <FixLink>proposal</FixLink> 
+    
+    <!-- #NSF_CoverPage_1_6-V1_6-->
+    <Error>
+        <MessageKey>/GrantApplication/Forms/NSF_CoverPage_1_6/NSFUnitConsideration/DivisionCode</MessageKey> 
+        <Message>Sponsor Division Code is required (must be at least 8 characters)</Message> 
+        <FixLink>proposal</FixLink> 
     </Error>
+    <Error>
+        <MessageKey>/GrantApplication/Forms/NSF_CoverPage_1_6/NSFUnitConsideration/ProgramCode</MessageKey> 
+        <Message>Sponsor Program Code is required (must be at least 4 characters)</Message> 
+        <FixLink>proposal</FixLink>         
+    </Error>
+    
     <!-- #PHS398_TrainingBudget-V1_0-->
     <Error>
         <MessageKey>/GrantApplication/Forms/PHS398_TrainingBudget</MessageKey> 
@@ -1743,7 +1755,23 @@
         <Message>RR Budget10 form is not valid. Please attach the required details.</Message>
         <FixLink>abstractsAttachments</FixLink>
     </Error>
-	
+    
+    <!--	Proposal RR_Budget_1_3 BudgetSummary validation -->
+    <Error>
+        <MessageKey>/GrantApplication/Forms/RR_Budget_1_3/BudgetSummary</MessageKey>
+        <Message>Please add a budget to the proposal.</Message>
+        <FixLink>budgetVersions</FixLink>
+    </Error> 
+    <Error>			 
+        <MessageKey>/GrantApplication/Forms/RR_Budget_1_3/BudgetJustificationAttachment</MessageKey>
+        <Message>You must have a BudgetJustification 10YR with the proposal. Please attach the BudgetJustification 10YR in Abstracts and Attachments window</Message> 
+        <FixLink>abstractsAttachments</FixLink>
+    </Error>
+    <Error>			 
+        <MessageKey>/GrantApplication/Forms/RR_Budget_1_3</MessageKey>
+        <Message>RR Budget 1.3 form is not valid. Please attach the required details.</Message>
+        <FixLink>abstractsAttachments</FixLink>
+    </Error>	
     <Error>
         <MessageKey>/GrantApplication/Forms/RR_FedNonFedBudget/BudgetYear1/Equipment/EquipmentList/EquipmentItem</MessageKey>
         <Message>A description is required for each Equipment budget line item.</Message>
