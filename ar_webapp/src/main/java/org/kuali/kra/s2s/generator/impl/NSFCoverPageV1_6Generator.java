@@ -54,31 +54,31 @@ public class NSFCoverPageV1_6Generator extends NSFCoverPageBaseGenerator impleme
     /**
      *
      * This method returns NSFCoverPage16Document object based on proposal
-     * development document which contains the NSFCoverPage13Document
+     * development document which contains the NSFCoverPage16Document
      * informations
      * NSFUnitConsideration,FundingOpportunityNumber,PIInfo,CoPIInfo,OtherInfo,and
      * SingleCopyDocuments for a particular proposal
      *
-     * @return nsfCoverPage13Document {@link XmlObject} of type
+     * @return nsfCoverPage16Document {@link XmlObject} of type
      * NSFCoverPage16Document.
      */
-    private NSFCoverPage16Document getNSFCoverPage13() {
-        
+    private NSFCoverPage16Document getNSFCoverPage16() {
+
         NSFCoverPage16Document nsfCoverPage16Document = NSFCoverPage16Document.Factory.newInstance();
         NSFCoverPage16 nsfCoverPage16 = NSFCoverPage16.Factory.newInstance();
         nsfCoverPage16.setFormVersion(S2SConstants.FORMVERSION_1_6);
         setFundingOpportunityNumber(nsfCoverPage16);
-        
+
         if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null
                 && pdDoc.getDevelopmentProposal().getS2sOpportunity().getClosingDate() != null) {
-            
+
             nsfCoverPage16.setDueDate(dateTimeService.getCalendar(pdDoc
                     .getDevelopmentProposal().getS2sOpportunity()
                     .getClosingDate()));
         }
         nsfCoverPage16.setNSFUnitConsideration(getNSFUnitConsideration());
         setOtherInfo(nsfCoverPage16);
-        
+
         AttachmentGroupMin1Max100DataType attachmentGroup = AttachmentGroupMin1Max100DataType.Factory.newInstance();
         attachmentGroup.setAttachedFileArray(getAttachedFileDataTypes());
         if (attachmentGroup.getAttachedFileArray().length > 0) {
@@ -90,15 +90,15 @@ public class NSFCoverPageV1_6Generator extends NSFCoverPageBaseGenerator impleme
     }
 
     private void setFundingOpportunityNumber(NSFCoverPage16 nsfCoverPage16) {
+
+        DevelopmentProposal devProposal = pdDoc.getDevelopmentProposal();
+        String programAncNumber = devProposal.getProgramAnnouncementNumber();
         
-        if (pdDoc.getDevelopmentProposal().getProgramAnnouncementNumber() != null) {
-            
-            if (pdDoc.getDevelopmentProposal().getProgramAnnouncementNumber().length() > PROGRAM_ANNOUNCEMENT_NUMBER_MAX_LENGTH) {
-                nsfCoverPage16.setFundingOpportunityNumber(pdDoc
-                        .getDevelopmentProposal()
-                        .getProgramAnnouncementNumber().substring(0, PROGRAM_ANNOUNCEMENT_NUMBER_MAX_LENGTH));
+        if (programAncNumber != null) {
+            if (programAncNumber.length() > PROGRAM_ANNOUNCEMENT_NUMBER_MAX_LENGTH) {
+                nsfCoverPage16.setFundingOpportunityNumber(programAncNumber.substring(0, PROGRAM_ANNOUNCEMENT_NUMBER_MAX_LENGTH));
             } else {
-                nsfCoverPage16.setFundingOpportunityNumber(pdDoc.getDevelopmentProposal().getProgramAnnouncementNumber());
+                nsfCoverPage16.setFundingOpportunityNumber(programAncNumber);
             }
         }
     }
@@ -160,28 +160,29 @@ public class NSFCoverPageV1_6Generator extends NSFCoverPageBaseGenerator impleme
      * @return answer (YesNoDataType.Enum) corresponding to Ynq question id.
      */
     private YesNoDataType.Enum getLobbyingAnswer() {
+        
         YesNoDataType.Enum answer = YesNoDataType.N_NO;
+        DevelopmentProposal devProposal = pdDoc.getDevelopmentProposal();
 
-        for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal()
-                .getProposalPersons()) {
-            if (proposalPerson.getProposalPersonRoleId() != null
-                    && proposalPerson.getProposalPersonRoleId().equals(
-                            PRINCIPAL_INVESTIGATOR)
-                    || proposalPerson.getProposalPersonRoleId().equals(
-                            PI_C0_INVESTIGATOR)) {
+        for (ProposalPerson proposalPerson : devProposal.getProposalPersons()) {
+            
+            if (proposalPerson.getProposalPersonRoleId() != null && 
+                    proposalPerson.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR)
+                    || proposalPerson.getProposalPersonRoleId().equals(PI_C0_INVESTIGATOR)) {
+                
                 ProposalPersonModuleQuestionnaireBean moduleQuestionnaireBean
-                        = new ProposalPersonModuleQuestionnaireBean(pdDoc.getDevelopmentProposal(), proposalPerson);
+                        = new ProposalPersonModuleQuestionnaireBean(devProposal, proposalPerson);
+                
                 List<AnswerHeader> headers = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
+                
                 if (!headers.isEmpty()) {
                     AnswerHeader answerHeader = headers.get(0);
                     List<Answer> certificationAnswers = answerHeader.getAnswers();
 
                     for (Answer certificatonAnswer : certificationAnswers) {
-                        if (certificatonAnswer != null
-                                && PROPOSAL_YNQ_LOBBYING_ACTIVITIES
-                                .equals(certificatonAnswer.getQuestion().getQuestionId())
-                                && S2SConstants.PROPOSAL_YNQ_ANSWER_Y
-                                .equals(certificatonAnswer.getAnswer())) {
+                        
+                        if (certificatonAnswer != null && PROPOSAL_YNQ_LOBBYING_ACTIVITIES.equals(certificatonAnswer.getQuestion().getQuestionId())
+                                && S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(certificatonAnswer.getAnswer())) {
                             return YesNoDataType.Y_YES;
                         }
 
@@ -189,14 +190,24 @@ public class NSFCoverPageV1_6Generator extends NSFCoverPageBaseGenerator impleme
                 }
             }
         }
-        Organization organization = getOrganizationFromDevelopmentProposal(pdDoc.getDevelopmentProposal());
-        List<OrganizationYnq> organizationYnqs = null;
-        if (organization != null && organization.getOrganizationId() != null) {
-            organizationYnqs = getOrganizationYNQ(organization
-                    .getOrganizationId());
+        
+        Organization organization = null;
+        ProposalSite proposalSite = devProposal.getApplicantOrganization();
+        
+        if (proposalSite != null) {
+            organization = proposalSite.getOrganization();
         }
+
+        List<OrganizationYnq> organizationYnqs = null;
+        
+        if (organization != null && organization.getOrganizationId() != null) {
+            organizationYnqs = getOrganizationYNQ(organization.getOrganizationId());
+        }
+
         for (OrganizationYnq organizationYnq : organizationYnqs) {
+            
             if (organizationYnq.getQuestionId().equals(LOBBYING_QUESTION_ID)) {
+                
                 if (getAnswerFromOrganizationYnq(organizationYnq)) {
                     return YesNoDataType.Y_YES;
                 }
@@ -213,32 +224,21 @@ public class NSFCoverPageV1_6Generator extends NSFCoverPageBaseGenerator impleme
      * This method return true if question is answered otherwise false .
      */
     protected boolean getAnswerFromOrganizationYnq(OrganizationYnq organizationYnq) {
-        return organizationYnq.getAnswer().equals(ANSWER_INDICATOR_VALUE) ? true : false;
+        return organizationYnq.getAnswer().equals(ANSWER_INDICATOR_VALUE);
     }
+
     /*
      * This method will get the list of Organization YNQ for given question id.
      */
 
     private List<OrganizationYnq> getOrganizationYNQ(String questionId) {
-        
+
         Map<String, String> organizationYnqMap = new HashMap<String, String>();
         organizationYnqMap.put(ORGANIZATION_ID_PARAMETER, questionId);
-        
-        List<OrganizationYnq> organizationYnqs = (List<OrganizationYnq>) businessObjectService.findMatching(OrganizationYnq.class, organizationYnqMap);
-        
-        return organizationYnqs;
-    }
-    /*
-     * This method will get the Organization from the Development proposal.
-     */
 
-    private Organization getOrganizationFromDevelopmentProposal(DevelopmentProposal developmentProposal) {
-        Organization organization = null;
-        ProposalSite proposalSite = developmentProposal.getApplicantOrganization();
-        if (proposalSite != null) {
-            organization = proposalSite.getOrganization();
-        }
-        return organization;
+        List<OrganizationYnq> organizationYnqs = (List<OrganizationYnq>) businessObjectService.findMatching(OrganizationYnq.class, organizationYnqMap);
+
+        return organizationYnqs;
     }
 
     /**
@@ -250,11 +250,11 @@ public class NSFCoverPageV1_6Generator extends NSFCoverPageBaseGenerator impleme
      * informations like Division Code and Program code.
      */
     private NSFUnitConsideration getNSFUnitConsideration() {
-        
+
         NSFUnitConsideration nsfConsideration = NSFUnitConsideration.Factory.newInstance();
         nsfConsideration.setDivisionCode(pdDoc.getDevelopmentProposal().getAgencyDivisionCode());
         nsfConsideration.setProgramCode(pdDoc.getDevelopmentProposal().getAgencyProgramCode());
-        
+
         return nsfConsideration;
     }
 
@@ -287,7 +287,7 @@ public class NSFCoverPageV1_6Generator extends NSFCoverPageBaseGenerator impleme
 
     /**
      * This method creates {@link XmlObject} of type
-     * {@link NSFCoverPage13Document} by populating data from the given
+     * {@link NSFCoverPage16Document} by populating data from the given
      * {@link ProposalDevelopmentDocument}
      *
      * @param proposalDevelopmentDocument for which the {@link XmlObject} needs
@@ -298,10 +298,10 @@ public class NSFCoverPageV1_6Generator extends NSFCoverPageBaseGenerator impleme
      * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
      */
     @Override
-    public XmlObject getFormObject(
-            ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+
         this.pdDoc = proposalDevelopmentDocument;
-        return getNSFCoverPage13();
+        return getNSFCoverPage16();
     }
 
     /**
