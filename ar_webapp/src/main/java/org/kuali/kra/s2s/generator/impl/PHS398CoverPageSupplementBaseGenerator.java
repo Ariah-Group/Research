@@ -34,7 +34,7 @@ public abstract class PHS398CoverPageSupplementBaseGenerator extends
 
     public static final String IS_CLINICAL_TRIAL = "2";
     public static final String PHASE_III_CLINICAL_TRIAL = "3";
-	public static final String IS_HUMAN_STEM_CELLS_INVOLVED = "10000021";
+    public static final String IS_HUMAN_STEM_CELLS_INVOLVED = "5";
     public static final String SPECIFIC_STEM_CELL_LINE = "6";
     public static final String REGISTRATION_NUMBER = "7";
     public static final String IS_NEW_INVESTIGATOR = "13";

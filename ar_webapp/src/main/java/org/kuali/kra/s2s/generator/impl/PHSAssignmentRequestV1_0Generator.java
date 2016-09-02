@@ -39,23 +39,23 @@ public class PHSAssignmentRequestV1_0Generator extends S2SBaseFormGenerator {
     private static final String FORM_NAME = "PHS_AssignmentRequestForm";
     private static final String NAME_SPACE = "http://apply.grants.gov/forms/PHS_AssignmentRequestForm-V1.0";
 
-    public static final String AWARDING_COMPONENT_ASSIGNMENT_REQUEST_EXISTS_YNQ = "10000025";
-    public static final String ASSIGN_TO_AWARDING_COMPONENT_YNQ = "10000026";
-    public static final String ASSIGN_TO_AWARDING_COMPONENT = "10000027";
-    public static final String DO_NOT_ASSIGN_TO_AWARDING_COMPONENT_QUESTION = "10000028";
-    public static final String DO_NOT_ASSIGN_TO_AWARDING_COMPONENT = "10000029";
+    public static final String AWARDING_COMPONENT_ASSIGNMENT_REQUEST_EXISTS_YNQ = "100025";
+    public static final String ASSIGN_TO_AWARDING_COMPONENT_YNQ = "100026";
+    public static final String ASSIGN_TO_AWARDING_COMPONENT = "100027";
+    public static final String DO_NOT_ASSIGN_TO_AWARDING_COMPONENT_QUESTION = "100028";
+    public static final String DO_NOT_ASSIGN_TO_AWARDING_COMPONENT = "100029";
 
-    public static final String STUDY_SECTION_ASSIGNMENT_REQUEST_EXISTS_YNQ = "10000030";
-    public static final String ASSIGN_TO_STUDY_SECTION_YNQ = "10000031";
-    public static final String ASSIGN_TO_STUDY_SECTION = "10000032";
-    public static final String DO_NOT_ASSIGN_TO_STUDY_SECTION_YNQ = "10000033";
-    public static final String DO_NOT_ASSIGN_TO_STUDY_SECTION = "10000034";
+    public static final String STUDY_SECTION_ASSIGNMENT_REQUEST_EXISTS_YNQ = "100030";
+    public static final String ASSIGN_TO_STUDY_SECTION_YNQ = "100031";
+    public static final String ASSIGN_TO_STUDY_SECTION = "100032";
+    public static final String DO_NOT_ASSIGN_TO_STUDY_SECTION_YNQ = "100033";
+    public static final String DO_NOT_ASSIGN_TO_STUDY_SECTION = "100034";
 
-    public static final String INDIVIDUALS_WHOM_SHOULD_NOT_REVIEW_YOUR_APPLICATION_YNQ = "10000035";
-    public static final String INDIVIDUALS_WHOM_SHOULD_NOT_REVIEW_YOUR_APPLICATION_LISTING = "10000036";
+    public static final String INDIVIDUALS_WHOM_SHOULD_NOT_REVIEW_YOUR_APPLICATION_YNQ = "100035";
+    public static final String INDIVIDUALS_WHOM_SHOULD_NOT_REVIEW_YOUR_APPLICATION_LISTING = "100036";
 
-    public static final String SCEINTIFIC_AREAS_EXPERTISE_NEEDED_TO_REVIEW_EXISTS_YNQ = "10000037";
-    public static final String SCEINTIFIC_AREAS_EXPERTISE_NEEDED_TO_REVIEW_LISTING = "10000038";
+    public static final String SCEINTIFIC_AREAS_EXPERTISE_NEEDED_TO_REVIEW_EXISTS_YNQ = "100037";
+    public static final String SCEINTIFIC_AREAS_EXPERTISE_NEEDED_TO_REVIEW_LISTING = "100038";
 
     private static final Log LOG = LogFactory.getLog(PHSAssignmentRequestV1_0Generator.class);
 
