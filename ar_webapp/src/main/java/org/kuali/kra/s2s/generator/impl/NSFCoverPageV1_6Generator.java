@@ -38,10 +38,12 @@ import org.kuali.kra.s2s.generator.S2SQuestionnairing;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashMap; 
 import java.util.List;
 import java.util.Map;
-
+import org.kuali.kra.s2s.bo.S2sOpportunity;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 /**
  *
  * This class is used to generate XML Document object for grants.gov
@@ -51,6 +53,15 @@ import java.util.Map;
  */
 public class NSFCoverPageV1_6Generator extends NSFCoverPageBaseGenerator implements S2SQuestionnairing {
 
+    private static final int QUESTIONID_CURRENT_PI = 52;
+    private static final int QUESTIONID_BEGIN_INVESTIGATOR = 53;
+    private static final int QUESTIONID_ACCOMPLISHMENT_RENEWAL = 56;
+    private static final int QUESTIONID_FUNDING_MECH = 101000;
+    private static final int QUESTIONID_LOBBYING_ACT = 10088;
+    
+    private static final int NARRATIVE_TYPE_DATA_MANAGEMENT = 200;
+    private static final int NARRATIVE_TYPE_MENTORING = 400;
+    private static final Log LOG = LogFactory.getLog(NSFCoverPageV1_6Generator.class);
     /**
      *
      * This method returns NSFCoverPage16Document object based on proposal
@@ -69,18 +80,30 @@ public class NSFCoverPageV1_6Generator extends NSFCoverPageBaseGenerator impleme
         nsfCoverPage16.setFormVersion(S2SConstants.FORMVERSION_1_6);
         setFundingOpportunityNumber(nsfCoverPage16);
 
-        if (pdDoc.getDevelopmentProposal().getS2sOpportunity() != null
-                && pdDoc.getDevelopmentProposal().getS2sOpportunity().getClosingDate() != null) {
+        DevelopmentProposal devProposal = pdDoc.getDevelopmentProposal();
+        S2sOpportunity s2sOpp = devProposal.getS2sOpportunity();
 
-            nsfCoverPage16.setDueDate(dateTimeService.getCalendar(pdDoc
-                    .getDevelopmentProposal().getS2sOpportunity()
-                    .getClosingDate()));
+        if (s2sOpp != null && s2sOpp.getClosingDate() != null) {
+            nsfCoverPage16.setDueDate(dateTimeService.getCalendar(s2sOpp.getClosingDate()));
         }
+
         nsfCoverPage16.setNSFUnitConsideration(getNSFUnitConsideration());
+
         setOtherInfo(nsfCoverPage16);
+
+        AttachedFileDataType mentoringPlanAttachment = getNarrativeAttachmentMentoringPlan();
+        if (mentoringPlanAttachment != null) {
+            nsfCoverPage16.setMentoringPlan(mentoringPlanAttachment);
+        }
+
+        AttachedFileDataType dataManPlanAttachment = getNarrativeAttachmentDataManagement();
+        if (dataManPlanAttachment != null) {
+            nsfCoverPage16.setDataManagementPlan(dataManPlanAttachment);
+        }
 
         AttachmentGroupMin1Max100DataType attachmentGroup = AttachmentGroupMin1Max100DataType.Factory.newInstance();
         attachmentGroup.setAttachedFileArray(getAttachedFileDataTypes());
+
         if (attachmentGroup.getAttachedFileArray().length > 0) {
             nsfCoverPage16.setSingleCopyDocuments(attachmentGroup);
         }
@@ -89,11 +112,37 @@ public class NSFCoverPageV1_6Generator extends NSFCoverPageBaseGenerator impleme
         return nsfCoverPage16Document;
     }
 
+    private AttachedFileDataType getNarrativeAttachmentMentoringPlan() {
+        for (Narrative narrFile : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrFile.getNarrativeTypeCode() != null && NARRATIVE_TYPE_MENTORING == Integer.parseInt(narrFile.getNarrativeTypeCode())) {
+
+                AttachedFileDataType attachment = getAttachedFileType(narrFile);
+                if (attachment != null) {
+                    return attachment;
+                }
+            }
+        }
+        return null;
+    }
+
+    private AttachedFileDataType getNarrativeAttachmentDataManagement() {
+        for (Narrative narrFile : pdDoc.getDevelopmentProposal().getNarratives()) {
+            if (narrFile.getNarrativeTypeCode() != null && NARRATIVE_TYPE_DATA_MANAGEMENT == Integer.parseInt(narrFile.getNarrativeTypeCode())) {
+
+                AttachedFileDataType attachment = getAttachedFileType(narrFile);
+                if (attachment != null) {
+                    return attachment;
+                }
+            }
+        }
+        return null;
+    }
+
     private void setFundingOpportunityNumber(NSFCoverPage16 nsfCoverPage16) {
 
         DevelopmentProposal devProposal = pdDoc.getDevelopmentProposal();
         String programAncNumber = devProposal.getProgramAnnouncementNumber();
-        
+
         if (programAncNumber != null) {
             if (programAncNumber.length() > PROGRAM_ANNOUNCEMENT_NUMBER_MAX_LENGTH) {
                 nsfCoverPage16.setFundingOpportunityNumber(programAncNumber.substring(0, PROGRAM_ANNOUNCEMENT_NUMBER_MAX_LENGTH));
@@ -116,32 +165,92 @@ public class NSFCoverPageV1_6Generator extends NSFCoverPageBaseGenerator impleme
      * principal investigator.
      */
     private void setOtherInfo(NSFCoverPage16 nsfCoverPage16) {
+
         OtherInfo otherInfo = OtherInfo.Factory.newInstance();
         PIInfo pInfo = PIInfo.Factory.newInstance();
-        for (Answer questionnaireAnswer : s2sUtilService.getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), getNamespace(), getFormName())) {
-            String answer = questionnaireAnswer.getAnswer();
-            int questionId = questionnaireAnswer.getQuestionNumber();
 
+        LOG.error("setOtherInfo running... on getFormName() = " + getFormName());
+        
+        for (Answer questionnaireAnswer : s2sUtilService.getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), getNamespace(), getFormName())) {
+
+            String answer = questionnaireAnswer.getAnswer();
+            int questionId = questionnaireAnswer.getQuestion().getQuestionIdAsInteger();
+
+            LOG.error("setOtherInfo questionId = " + questionId + " , answer = " + answer);
+            
             if (answer != null) {
                 switch (questionId) {
-                    case QUESTION_CURRENT_PI:
-                        pInfo.setIsCurrentPI(answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES : YesNoDataType.N_NO);
+                    case QUESTIONID_FUNDING_MECH:
+
+                        if (FundingMechanism.IDEAS_LAB.toString().equalsIgnoreCase(answer)) {
+                            nsfCoverPage16.setFundingMechanism(FundingMechanism.IDEAS_LAB);
+
+                        } else if (FundingMechanism.FACILITY_CENTER.toString().equalsIgnoreCase(answer)) {
+                            nsfCoverPage16.setFundingMechanism(FundingMechanism.FACILITY_CENTER);
+
+                        } else if (FundingMechanism.EQUIPMENT.toString().equalsIgnoreCase(answer)) {
+                            nsfCoverPage16.setFundingMechanism(FundingMechanism.EQUIPMENT);
+
+                        } else if (FundingMechanism.CONFERENCE.toString().equalsIgnoreCase(answer)) {
+                            nsfCoverPage16.setFundingMechanism(FundingMechanism.CONFERENCE);
+
+                        } else if (FundingMechanism.EAGER.toString().equalsIgnoreCase(answer)) {
+                            nsfCoverPage16.setFundingMechanism(FundingMechanism.EAGER);
+
+                        } else if (FundingMechanism.FELLOWSHIP.toString().equalsIgnoreCase(answer)) {
+                            nsfCoverPage16.setFundingMechanism(FundingMechanism.FELLOWSHIP);
+
+                        } else if (FundingMechanism.RAPID.toString().equalsIgnoreCase(answer)) {
+                            nsfCoverPage16.setFundingMechanism(FundingMechanism.RAPID);
+
+                        } else if (FundingMechanism.INTERNATIONAL_TRAVEL.toString().equalsIgnoreCase(answer)) {
+                            nsfCoverPage16.setFundingMechanism(FundingMechanism.INTERNATIONAL_TRAVEL);
+
+                        } else if (FundingMechanism.RESEARCH_OTHER_THAN_RAPID_OR_EAGER.toString().equalsIgnoreCase(answer)) {
+                            nsfCoverPage16.setFundingMechanism(FundingMechanism.RESEARCH_OTHER_THAN_RAPID_OR_EAGER);
+                        } else {
+                            LOG.error("ERROR FundingMechanism unknown match:  " + answer);
+                            nsfCoverPage16.setFundingMechanism(FundingMechanism.RESEARCH_OTHER_THAN_RAPID_OR_EAGER);
+                        }
+
                         break;
-                    case QUESTION_BEGIN_INVESTIGATOR:
-                        otherInfo.setIsBeginInvestigator(answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES : YesNoDataType.N_NO);
+
+                    case QUESTIONID_CURRENT_PI:
+
+                        if (answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
+                            pInfo.setIsCurrentPI(YesNoDataType.Y_YES);
+                        } else {
+                            pInfo.setIsCurrentPI(YesNoDataType.N_NO);
+                        }
                         break;
-//                    case QUESTION_EARLY_CONCEPT_GRANT:
-//                        otherInfo.setIsEarlyConceptGrant(answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES : YesNoDataType.N_NO);
-//                        break;
-//                    case QUESTION_RAPIDRESPONSE_GRANT:
-//                        otherInfo.setIsRapidResponseGrant(answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES : YesNoDataType.N_NO);
-//                        break;
-                    case QUESTION_ACCOMPLISHMENT_RENEWAL:
-                        otherInfo.setIsAccomplishmentRenewal(answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES : YesNoDataType.N_NO);
+
+                    case QUESTIONID_LOBBYING_ACT:
+
+                        if (answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
+                            otherInfo.setIsDisclosureLobbyingActivities(YesNoDataType.Y_YES);
+                        } else {
+                            otherInfo.setIsDisclosureLobbyingActivities(YesNoDataType.N_NO);
+                        }
                         break;
-//                    case QUESTION_RESOLUTION_GRAPHICS:
-//                        otherInfo.setIsHighResolutionGraphics(answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y) ? YesNoDataType.Y_YES : YesNoDataType.N_NO);
-//                        break;
+
+                    case QUESTIONID_BEGIN_INVESTIGATOR:
+
+                        if (answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
+                            otherInfo.setIsBeginInvestigator(YesNoDataType.Y_YES);
+                        } else {
+                            otherInfo.setIsBeginInvestigator(YesNoDataType.N_NO);
+                        }
+                        break;
+
+                    case QUESTIONID_ACCOMPLISHMENT_RENEWAL:
+
+                        if (answer.equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
+                            otherInfo.setIsAccomplishmentRenewal(YesNoDataType.Y_YES);
+                        } else {
+                            otherInfo.setIsAccomplishmentRenewal(YesNoDataType.N_NO);
+                        }
+
+                        break;
                     default:
                         break;
                 }
@@ -160,27 +269,27 @@ public class NSFCoverPageV1_6Generator extends NSFCoverPageBaseGenerator impleme
      * @return answer (YesNoDataType.Enum) corresponding to Ynq question id.
      */
     private YesNoDataType.Enum getLobbyingAnswer() {
-        
+
         YesNoDataType.Enum answer = YesNoDataType.N_NO;
         DevelopmentProposal devProposal = pdDoc.getDevelopmentProposal();
 
         for (ProposalPerson proposalPerson : devProposal.getProposalPersons()) {
-            
-            if (proposalPerson.getProposalPersonRoleId() != null && 
-                    proposalPerson.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR)
+
+            if (proposalPerson.getProposalPersonRoleId() != null
+                    && proposalPerson.getProposalPersonRoleId().equals(PRINCIPAL_INVESTIGATOR)
                     || proposalPerson.getProposalPersonRoleId().equals(PI_C0_INVESTIGATOR)) {
-                
+
                 ProposalPersonModuleQuestionnaireBean moduleQuestionnaireBean
                         = new ProposalPersonModuleQuestionnaireBean(devProposal, proposalPerson);
-                
+
                 List<AnswerHeader> headers = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
-                
+
                 if (!headers.isEmpty()) {
                     AnswerHeader answerHeader = headers.get(0);
                     List<Answer> certificationAnswers = answerHeader.getAnswers();
 
                     for (Answer certificatonAnswer : certificationAnswers) {
-                        
+
                         if (certificatonAnswer != null && PROPOSAL_YNQ_LOBBYING_ACTIVITIES.equals(certificatonAnswer.getQuestion().getQuestionId())
                                 && S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(certificatonAnswer.getAnswer())) {
                             return YesNoDataType.Y_YES;
@@ -190,47 +299,33 @@ public class NSFCoverPageV1_6Generator extends NSFCoverPageBaseGenerator impleme
                 }
             }
         }
-        
+
         Organization organization = null;
         ProposalSite proposalSite = devProposal.getApplicantOrganization();
-        
+
         if (proposalSite != null) {
             organization = proposalSite.getOrganization();
         }
 
         List<OrganizationYnq> organizationYnqs = null;
-        
+
         if (organization != null && organization.getOrganizationId() != null) {
             organizationYnqs = getOrganizationYNQ(organization.getOrganizationId());
         }
 
         for (OrganizationYnq organizationYnq : organizationYnqs) {
-            
-            if (organizationYnq.getQuestionId().equals(LOBBYING_QUESTION_ID)) {
-                
-                if (getAnswerFromOrganizationYnq(organizationYnq)) {
-                    return YesNoDataType.Y_YES;
-                }
+
+            if (organizationYnq.getQuestionId().equals(LOBBYING_QUESTION_ID)
+                    && organizationYnq.getAnswer().equals(ANSWER_INDICATOR_VALUE)) {
+                return YesNoDataType.Y_YES;
             }
         }
         return answer;
     }
 
-    private QuestionnaireAnswerService getQuestionnaireAnswerService() {
-        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
-    }
-
     /*
-     * This method return true if question is answered otherwise false .
+     * This method will get the list of Organization YNQs for a given question id.
      */
-    protected boolean getAnswerFromOrganizationYnq(OrganizationYnq organizationYnq) {
-        return organizationYnq.getAnswer().equals(ANSWER_INDICATOR_VALUE);
-    }
-
-    /*
-     * This method will get the list of Organization YNQ for given question id.
-     */
-
     private List<OrganizationYnq> getOrganizationYNQ(String questionId) {
 
         Map<String, String> organizationYnqMap = new HashMap<String, String>();
@@ -329,5 +424,9 @@ public class NSFCoverPageV1_6Generator extends NSFCoverPageBaseGenerator impleme
     @Override
     public String getNamespace() {
         return "http://apply.grants.gov/forms/NSF_CoverPage_1_6-V1.6";
+    }
+
+    private QuestionnaireAnswerService getQuestionnaireAnswerService() {
+        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
     }
 }

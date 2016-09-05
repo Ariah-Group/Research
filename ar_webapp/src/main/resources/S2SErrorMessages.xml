@@ -1152,7 +1152,7 @@
     <Error> 
         <MessageKey>/GrantApplication/Forms/RR_FedNonFedBudget/BudgetYear1/BudgetJustificationAttachment</MessageKey> 
         <Message>A budget justification is required; please add one in Proposal Attachments</Message> 
-  		<FixLink>abstractsAttachments</FixLink> 
+        <FixLink>abstractsAttachments</FixLink> 
     </Error>
     <!-- #RR FedNonFedBudget10 V1_1 -->
     <Error>
@@ -1168,7 +1168,7 @@
     <Error> 
         <MessageKey>/GrantApplication/Forms/RR_FedNonFedBudget10/BudgetJustificationAttachment</MessageKey> 
         <Message>A budget justification is required; please add one in Proposal Attachments</Message> 
-  		<FixLink>abstractsAttachments</FixLink> 
+        <FixLink>abstractsAttachments</FixLink> 
     </Error>
     <Error>
         <MessageKey>/GrantApplication/Forms/RR_FedNonFedBudget10/BudgetYear/Equipment/EquipmentList/EquipmentItem</MessageKey> 
@@ -1442,11 +1442,11 @@
         <Message>Career Research Strategy attachment is required.</Message> 
         <FixLink>abstractsAttachments</FixLink> 
     </Error>
-	<Error>
- 		<MessageKey>/GrantApplication/Forms/PHS398_CareerDevelopmentAwardSup_2_0/CareerDevelopmentAwardAttachments/Appendix</MessageKey> 
- 		<Message>Career Research Strategy attachment is required.</Message> 
-  		<FixLink>abstractsAttachments</FixLink> 
-	</Error>    
+    <Error>
+        <MessageKey>/GrantApplication/Forms/PHS398_CareerDevelopmentAwardSup_2_0/CareerDevelopmentAwardAttachments/Appendix</MessageKey> 
+        <Message>Career Research Strategy attachment is required.</Message> 
+        <FixLink>abstractsAttachments</FixLink> 
+    </Error>    
     <Error>
         <MessageKey>/GrantApplication/Forms/PHS398_CareerDevelopmentAwardSup_1_1/CareerDevelopmentAwardAttachments</MessageKey> 
         <Message>PHS398_CareerDevelopmentAwardSup_1_1-V1.1 is not valid, missing required attachment.</Message> 
@@ -1682,23 +1682,23 @@
     <!-- #NSF_CoverPage_1_3-V1_3-->
     <Error>
         <MessageKey>/GrantApplication/Forms/NSF_CoverPage_1_3/NSFUnitConsideration/DivisionCode</MessageKey> 
-        <Message>Sponsor Division Code is required (must be at least 8 characters)</Message> 
+        <Message>Sponsor Division Code is required (must be 1-8 characters)</Message> 
         <FixLink>proposal</FixLink> 
     </Error>
     <Error>
         <MessageKey>/GrantApplication/Forms/NSF_CoverPage_1_3/NSFUnitConsideration/ProgramCode</MessageKey> 
-        <Message>Sponsor Program Code is required (must be at least 4 characters)</Message> 
+        <Message>Sponsor Program Code is required (must be 1-4 characters)</Message> 
         <FixLink>proposal</FixLink> 
-    
+    </Error>
     <!-- #NSF_CoverPage_1_6-V1_6-->
     <Error>
         <MessageKey>/GrantApplication/Forms/NSF_CoverPage_1_6/NSFUnitConsideration/DivisionCode</MessageKey> 
-        <Message>Sponsor Division Code is required (must be at least 8 characters)</Message> 
+        <Message>Sponsor Division Code is required (must be 1-8 characters)</Message> 
         <FixLink>proposal</FixLink> 
     </Error>
     <Error>
         <MessageKey>/GrantApplication/Forms/NSF_CoverPage_1_6/NSFUnitConsideration/ProgramCode</MessageKey> 
-        <Message>Sponsor Program Code is required (must be at least 4 characters)</Message> 
+        <Message>Sponsor Program Code is required (must be 1-4 characters)</Message> 
         <FixLink>proposal</FixLink>         
     </Error>
     
@@ -1747,7 +1747,7 @@
     </Error> 
     <Error>			 
         <MessageKey>/GrantApplication/Forms/RR_Budget10/BudgetJustificationAttachment</MessageKey>
-  		<Message>You must have a BudgetJustification 10YR with the proposal. Please attach the BudgetJustification 10YR in Abstracts and Attachments window</Message> 
+        <Message>You must have a BudgetJustification 10YR with the proposal. Please attach the BudgetJustification 10YR in Abstracts and Attachments window</Message> 
         <FixLink>abstractsAttachments</FixLink>
     </Error>
     <Error>			 

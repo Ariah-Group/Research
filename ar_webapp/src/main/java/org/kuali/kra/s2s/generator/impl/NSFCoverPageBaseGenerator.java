@@ -49,7 +49,6 @@ public abstract class NSFCoverPageBaseGenerator extends S2SBaseFormGenerator {
     protected static final int QUESTION_RAPIDRESPONSE_GRANT = 3;
     protected static final int QUESTION_ACCOMPLISHMENT_RENEWAL = 5;
     protected static final int QUESTION_RESOLUTION_GRAPHICS = 6;
-
     protected static final int SINGLE_COPY_DOCUMENT = 87;
     protected static final Integer QUESTIONNAIRE_ID_2 = 2;
     protected static final String ORGANIZATION_ID_PARAMETER = "organizationId";
