@@ -348,7 +348,9 @@ public class NSFCoverPageV1_6Generator extends NSFCoverPageBaseGenerator impleme
 
         NSFUnitConsideration nsfConsideration = NSFUnitConsideration.Factory.newInstance();
         nsfConsideration.setDivisionCode(pdDoc.getDevelopmentProposal().getAgencyDivisionCode());
+        nsfConsideration.setDivisionName(pdDoc.getDevelopmentProposal().getAgencyDivisionName());
         nsfConsideration.setProgramCode(pdDoc.getDevelopmentProposal().getAgencyProgramCode());
+        nsfConsideration.setProgramName(pdDoc.getDevelopmentProposal().getAgencyProgramName());
 
         return nsfConsideration;
     }
