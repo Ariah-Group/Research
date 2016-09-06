@@ -38,12 +38,13 @@ import org.kuali.kra.s2s.generator.S2SQuestionnairing;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.util.ArrayList;
-import java.util.HashMap; 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 /**
  *
  * This class is used to generate XML Document object for grants.gov
@@ -58,10 +59,11 @@ public class NSFCoverPageV1_6Generator extends NSFCoverPageBaseGenerator impleme
     private static final int QUESTIONID_ACCOMPLISHMENT_RENEWAL = 56;
     private static final int QUESTIONID_FUNDING_MECH = 101000;
     private static final int QUESTIONID_LOBBYING_ACT = 10088;
-    
+
     private static final int NARRATIVE_TYPE_DATA_MANAGEMENT = 200;
     private static final int NARRATIVE_TYPE_MENTORING = 400;
     private static final Log LOG = LogFactory.getLog(NSFCoverPageV1_6Generator.class);
+
     /**
      *
      * This method returns NSFCoverPage16Document object based on proposal
@@ -170,14 +172,14 @@ public class NSFCoverPageV1_6Generator extends NSFCoverPageBaseGenerator impleme
         PIInfo pInfo = PIInfo.Factory.newInstance();
 
         LOG.error("setOtherInfo running... on getFormName() = " + getFormName());
-        
+
         for (Answer questionnaireAnswer : s2sUtilService.getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), getNamespace(), getFormName())) {
 
             String answer = questionnaireAnswer.getAnswer();
             int questionId = questionnaireAnswer.getQuestion().getQuestionIdAsInteger();
 
             LOG.error("setOtherInfo questionId = " + questionId + " , answer = " + answer);
-            
+
             if (answer != null) {
                 switch (questionId) {
                     case QUESTIONID_FUNDING_MECH:
@@ -349,8 +351,14 @@ public class NSFCoverPageV1_6Generator extends NSFCoverPageBaseGenerator impleme
         NSFUnitConsideration nsfConsideration = NSFUnitConsideration.Factory.newInstance();
         nsfConsideration.setDivisionCode(pdDoc.getDevelopmentProposal().getAgencyDivisionCode());
         nsfConsideration.setDivisionName(pdDoc.getDevelopmentProposal().getAgencyDivisionName());
-        nsfConsideration.setProgramCode(pdDoc.getDevelopmentProposal().getAgencyProgramCode());
-        nsfConsideration.setProgramName(pdDoc.getDevelopmentProposal().getAgencyProgramName());
+
+        if (pdDoc.getDevelopmentProposal().getAgencyProgramCode() != null) {
+            nsfConsideration.setProgramCode(pdDoc.getDevelopmentProposal().getAgencyProgramCode());
+        }
+
+        if (pdDoc.getDevelopmentProposal().getAgencyProgramName() != null) {
+            nsfConsideration.setProgramName(pdDoc.getDevelopmentProposal().getAgencyProgramName());
+        }
 
         return nsfConsideration;
     }
