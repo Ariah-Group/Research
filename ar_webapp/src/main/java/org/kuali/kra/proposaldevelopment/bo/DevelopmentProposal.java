@@ -122,6 +122,10 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     private String agencyProgramCode;
 
+    private String agencyDivisionName;
+
+    private String agencyProgramName;
+    
     private String programAnnouncementTitle;
 
     private String mailBy;
@@ -2670,5 +2674,33 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      */
     public void setLockedTimeStamp(Timestamp lockedTime) {
         this.lockedTimeStamp = lockedTime;
+    }
+
+    /**
+     * @return the agencyDivisionName
+     */
+    public String getAgencyDivisionName() {
+        return agencyDivisionName;
+    }
+
+    /**
+     * @param agencyDivisionName the agencyDivisionName to set
+     */
+    public void setAgencyDivisionName(String agencyDivisionName) {
+        this.agencyDivisionName = agencyDivisionName;
+    }
+
+    /**
+     * @return the agencyProgramName
+     */
+    public String getAgencyProgramName() {
+        return agencyProgramName;
+    }
+
+    /**
+     * @param agencyProgramName the agencyProgramName to set
+     */
+    public void setAgencyProgramName(String agencyProgramName) {
+        this.agencyProgramName = agencyProgramName;
     }
 }

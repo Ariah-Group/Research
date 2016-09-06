@@ -78,6 +78,8 @@
         <field-descriptor name="subcontracts" column="SUBCONTRACT_FLAG" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" jdbc-type="VARCHAR" />
         <field-descriptor name="agencyDivisionCode" column="AGENCY_DIVISION_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="agencyProgramCode" column="AGENCY_PROGRAM_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="agencyDivisionName" column="AGENCY_DIVISION_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="agencyProgramName" column="AGENCY_PROGRAM_NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="programAnnouncementTitle" column="PROGRAM_ANNOUNCEMENT_TITLE" jdbc-type="VARCHAR" />
         <field-descriptor name="mailBy" column="MAIL_BY" jdbc-type="VARCHAR" />
         <field-descriptor name="mailType" column="MAIL_TYPE" jdbc-type="VARCHAR" />
@@ -261,6 +263,8 @@
         <field-descriptor name="subcontracts" column="SUBCONTRACT_FLAG" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" jdbc-type="VARCHAR" />
         <field-descriptor name="agencyDivisionCode" column="AGENCY_DIVISION_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="agencyProgramCode" column="AGENCY_PROGRAM_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="agencyDivisionName" column="AGENCY_DIVISION_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="agencyProgramName" column="AGENCY_PROGRAM_NAME" jdbc-type="VARCHAR" />        
         <field-descriptor name="programAnnouncementTitle" column="PROGRAM_ANNOUNCEMENT_TITLE" jdbc-type="VARCHAR" />
         <field-descriptor name="mailBy" column="MAIL_BY" jdbc-type="VARCHAR" />
         <field-descriptor name="mailType" column="MAIL_TYPE" jdbc-type="VARCHAR" />

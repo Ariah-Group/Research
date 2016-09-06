@@ -391,7 +391,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         hierarchyProposal.setNsfCode(srcProposal.getNsfCode());
         hierarchyProposal.setSponsorProposalNumber(srcProposal.getSponsorProposalNumber());
         hierarchyProposal.setAgencyDivisionCode(srcProposal.getAgencyDivisionCode());
+        hierarchyProposal.setAgencyDivisionName(srcProposal.getAgencyDivisionName());
         hierarchyProposal.setAgencyProgramCode(srcProposal.getAgencyProgramCode());
+        hierarchyProposal.setAgencyProgramName(srcProposal.getAgencyProgramName());
         hierarchyProposal.setSubcontracts(srcProposal.getSubcontracts());
         hierarchyProposal.setProgramAnnouncementNumber(srcProposal.getProgramAnnouncementNumber());
         hierarchyProposal.setProgramAnnouncementTitle(srcProposal.getProgramAnnouncementTitle());

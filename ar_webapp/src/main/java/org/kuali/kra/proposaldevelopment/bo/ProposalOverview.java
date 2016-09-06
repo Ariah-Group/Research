@@ -64,6 +64,10 @@ public class ProposalOverview extends KraPersistableBusinessObjectBase {
     private String agencyDivisionCode;
 
     private String agencyProgramCode;
+    
+    private String agencyDivisionName;
+
+    private String agencyProgramName;    
 
     private String programAnnouncementTitle;
 
@@ -429,5 +433,33 @@ public class ProposalOverview extends KraPersistableBusinessObjectBase {
      */
     public void setLocked(boolean locked) {
         this.locked = locked;
+    }
+
+    /**
+     * @return the agencyDivisionName
+     */
+    public String getAgencyDivisionName() {
+        return agencyDivisionName;
+    }
+
+    /**
+     * @param agencyDivisionName the agencyDivisionName to set
+     */
+    public void setAgencyDivisionName(String agencyDivisionName) {
+        this.agencyDivisionName = agencyDivisionName;
+    }
+
+    /**
+     * @return the agencyProgramName
+     */
+    public String getAgencyProgramName() {
+        return agencyProgramName;
+    }
+
+    /**
+     * @param agencyProgramName the agencyProgramName to set
+     */
+    public void setAgencyProgramName(String agencyProgramName) {
+        this.agencyProgramName = agencyProgramName;
     }
 }

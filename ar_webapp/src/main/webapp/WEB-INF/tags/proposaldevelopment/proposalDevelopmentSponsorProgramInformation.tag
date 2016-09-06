@@ -18,7 +18,7 @@
             /><c:set var="textAreaFieldName" value="document.developmentProposalList[0].programAnnouncementTitle" 
             /><c:set var="action" value="proposalDevelopmentProposal" />
 <kul:tab tabTitle="Sponsor & Program Information" defaultOpen="false" 
-         tabErrorKey="document.developmentProposalList[0].primeSponsorCode,document.developmentProposalList[0].deadlineDate,document.developmentProposalList[0].deadlineTime,document.developmentProposalList[0].noticeOfOpportunityCode,document.developmentProposalList[0].deadlineType,document.developmentProposalList[0].cfdaNumber,document.developmentProposalList[0].programAnnouncementNumber,document.developmentProposalList[0].primeSponsorCode,document.developmentProposalList[0].sponsorProposalNumber,document.developmentProposalList[0].nsfCode,document.developmentProposalList[0].subcontracts,document.developmentProposalList[0].agencyDivisionCode,document.developmentProposalList[0].agencyProgramCode,document.developmentProposalList[0].programAnnouncementTitle,document.developmentProposalList[0].primeSponsorCode" 
+         tabErrorKey="document.developmentProposalList[0].primeSponsorCode,document.developmentProposalList[0].deadlineDate,document.developmentProposalList[0].deadlineTime,document.developmentProposalList[0].noticeOfOpportunityCode,document.developmentProposalList[0].deadlineType,document.developmentProposalList[0].cfdaNumber,document.developmentProposalList[0].programAnnouncementNumber,document.developmentProposalList[0].primeSponsorCode,document.developmentProposalList[0].sponsorProposalNumber,document.developmentProposalList[0].nsfCode,document.developmentProposalList[0].subcontracts,document.developmentProposalList[0].agencyDivisionCode,document.developmentProposalList[0].agencyDivisionName,document.developmentProposalList[0].agencyProgramCode,document.developmentProposalList[0].agencyProgramName,document.developmentProposalList[0].programAnnouncementTitle,document.developmentProposalList[0].primeSponsorCode" 
          auditCluster="sponsorProgramInformationAuditErrors,sponsorProgramInformationAuditWarnings" 
          tabAuditKey="document.developmentProposalList[0].deadlineDate,document.developmentProposalList[0].programAnnouncementNumber,document.developmentProposalList[0].cfdaNumber,document.developmentProposalList[0].programAnnouncementTitle,document.developmentProposalList[0].sponsorProposalNumber,document.developmentProposalList[0].primeSponsorCode" 
          useRiceAuditMode="true">
@@ -90,28 +90,18 @@
             </td>
 
             </tr>`
-            <tr>				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.agencyDivisionCode}" /></div></th>
+            <tr>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.anticipatedAwardTypeCode}" /></div></th>
             <td>
-                <kul:htmlControlAttribute property="document.developmentProposalList[0].agencyDivisionCode" attributeEntry="${proposalDevelopmentAttributes.agencyDivisionCode}" />
+                <kul:htmlControlAttribute property="document.developmentProposalList[0].anticipatedAwardTypeCode" readOnly="${readOnly}" attributeEntry="${proposalDevelopmentAttributes.anticipatedAwardTypeCode}" styleClass="fixed-size-200-select"/>
             </td>
             <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.subcontracts}" /></div></th>
             <td>
                 <kul:htmlControlAttribute property="document.developmentProposalList[0].subcontracts" attributeEntry="${proposalDevelopmentAttributes.subcontracts}" />
             </td>
             </tr>
-
             <tr>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.anticipatedAwardTypeCode}" /></div></th>
-            <td>
-                <kul:htmlControlAttribute property="document.developmentProposalList[0].anticipatedAwardTypeCode" readOnly="${readOnly}" attributeEntry="${proposalDevelopmentAttributes.anticipatedAwardTypeCode}" styleClass="fixed-size-200-select"/>
-            </td>
-            <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.agencyProgramCode}" /></div></th>
-            <td>
-                <kul:htmlControlAttribute property="document.developmentProposalList[0].agencyProgramCode" attributeEntry="${proposalDevelopmentAttributes.agencyProgramCode}" />
-            </td>
-            </tr>
-            <tr>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.agencyRoutingIdentifier}" /></div></th>
+            <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.agencyRoutingIdentifier}" /></div></th>
             <td>
                 <kul:htmlControlAttribute property="document.developmentProposalList[0].agencyRoutingIdentifier" readOnly="${readOnly}" attributeEntry="${proposalDevelopmentAttributes.agencyRoutingIdentifier}" styleClass="fixed-size-200-select"/>
             </td>
@@ -128,8 +118,28 @@
             <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.linkToOpportunity}" /></div></th>
             <td>
                 <kul:htmlControlAttribute property="document.developmentProposalList[0].linkToOpportunity" attributeEntry="${proposalDevelopmentAttributes.linkToOpportunity}" />
-            </td>            
+            </td> 
             </tr>
+            <tr>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.agencyDivisionCode}" /></div></th>
+            <td>
+                <kul:htmlControlAttribute property="document.developmentProposalList[0].agencyDivisionCode" attributeEntry="${proposalDevelopmentAttributes.agencyDivisionCode}" />
+            </td>
+            <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.agencyProgramCode}" /></div></th>
+            <td>
+                <kul:htmlControlAttribute property="document.developmentProposalList[0].agencyProgramCode" attributeEntry="${proposalDevelopmentAttributes.agencyProgramCode}" />
+            </td>                
+            </tr>
+            <tr>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.agencyDivisionName}" /></div></th>
+            <td>
+                <kul:htmlControlAttribute property="document.developmentProposalList[0].agencyDivisionName" attributeEntry="${proposalDevelopmentAttributes.agencyDivisionName}" />
+            </td>
+            <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.agencyProgramName}" /></div></th>
+            <td>
+                <kul:htmlControlAttribute property="document.developmentProposalList[0].agencyProgramName" attributeEntry="${proposalDevelopmentAttributes.agencyProgramName}" />
+            </td>                
+            </tr>            
         </table>
     </div>
 </kul:tab>
