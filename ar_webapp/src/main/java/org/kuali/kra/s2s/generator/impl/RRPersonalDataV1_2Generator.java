@@ -43,10 +43,8 @@ public class RRPersonalDataV1_2Generator extends RRPersonalDataBaseGenerator {
      * RRPersonalDataDocument.
      */
     private RRPersonalData12Document getRRPersonalData() {
-        RRPersonalData12Document rrPersonalDataDocument = RRPersonalData12Document.Factory
-                .newInstance();
-        RRPersonalData12 rrPersonalData = RRPersonalData12.Factory
-                .newInstance();
+        RRPersonalData12Document rrPersonalDataDocument = RRPersonalData12Document.Factory.newInstance();
+        RRPersonalData12 rrPersonalData = RRPersonalData12.Factory.newInstance();
         rrPersonalData.setFormVersion(S2SConstants.FORMVERSION_1_2);
         rrPersonalData.setProjectDirector(getProjectDirectorType());
         rrPersonalData.setCoProjectDirectorArray(getCoProjectDirectoryType());
@@ -78,18 +76,19 @@ public class RRPersonalDataV1_2Generator extends RRPersonalDataBaseGenerator {
     private DirectorType[] getCoProjectDirectoryType() {
         DirectorType[] directorTypes = new DirectorType[0];
         List<DirectorType> directorTypeList = new ArrayList<DirectorType>();
+
         if (pdDoc.getDevelopmentProposal().getProposalPersons() != null) {
             ProposalPerson CoPI = null;
-            for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal()
-                    .getProposalPersons()) {
-                DirectorType coDirectorType = DirectorType.Factory
-                        .newInstance();
+
+            for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
+
+                DirectorType coDirectorType = DirectorType.Factory.newInstance();
+
                 if (proposalPerson.getProposalPersonRoleId() != null) {
-                    if (KEYPERSON_TYPE_C0_INVESTIGATOR.equals(proposalPerson
-                            .getProposalPersonRoleId())) {
+
+                    if (KEYPERSON_TYPE_C0_INVESTIGATOR.equals(proposalPerson.getProposalPersonRoleId())) {
                         CoPI = proposalPerson;
-                        coDirectorType.setName(globLibV20Generator
-                                .getHumanNameDataType(CoPI));
+                        coDirectorType.setName(globLibV20Generator.getHumanNameDataType(CoPI));
                         directorTypeList.add(coDirectorType);
                     }
                 }
@@ -131,8 +130,7 @@ public class RRPersonalDataV1_2Generator extends RRPersonalDataBaseGenerator {
      */
     public XmlObject getFormObject(XmlObject xmlObject) {
         RRPersonalData12 rrPersonalData = (RRPersonalData12) xmlObject;
-        RRPersonalData12Document rrPersonalDataDocument = RRPersonalData12Document.Factory
-                .newInstance();
+        RRPersonalData12Document rrPersonalDataDocument = RRPersonalData12Document.Factory.newInstance();
         rrPersonalDataDocument.setRRPersonalData12(rrPersonalData);
         return rrPersonalDataDocument;
     }
