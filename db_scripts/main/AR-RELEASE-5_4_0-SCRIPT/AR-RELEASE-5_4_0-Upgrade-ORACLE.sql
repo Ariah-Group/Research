@@ -644,6 +644,21 @@ END;
 
 /
 
+--RES-660
+Declare
+  nextnum NUMBER;
+ BEGIN
+  select (MAX(APU_CREDIT_SPLIT_ID)+1) into nextnum from AWARD_PERS_UNIT_CRED_SPLITS;
+  execute immediate 'CREATE SEQUENCE "SEQ_AWARD_PERS_UNITCREDSPLS_ID" MINVALUE 1 MAXVALUE 999999999999999999 INCREMENT BY 1 START WITH ' || nextnum || ' NOCACHE  ORDER  NOCYCLE';
+END;
+
+/
+
+
+
+
+
+
  -- RES-546
 Declare
   nextnum NUMBER;
