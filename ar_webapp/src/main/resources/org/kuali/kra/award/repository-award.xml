@@ -270,7 +270,7 @@
     </class-descriptor>
 	 
     <class-descriptor class="org.kuali.kra.award.contacts.AwardPersonCreditSplit" table="AWARD_PERSON_CREDIT_SPLITS">
-        <field-descriptor name="awardPersonCreditSplitId" column="AWARD_PERSON_CREDIT_SPLIT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />
+        <field-descriptor name="awardPersonCreditSplitId" column="AWARD_PERSON_CREDIT_SPLIT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_PERSON_CREDSPLITS_ID" />
         
         <!-- OJB Hacks -->
         <field-descriptor name="awardContactId" column="AWARD_PERSON_ID" jdbc-type="BIGINT" nullable="false" />
