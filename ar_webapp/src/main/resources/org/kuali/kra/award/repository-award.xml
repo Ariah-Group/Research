@@ -292,7 +292,7 @@
     </class-descriptor>
 	 
     <class-descriptor class="org.kuali.kra.award.contacts.AwardPersonUnit" table="AWARD_PERSON_UNITS">
-        <field-descriptor name="awardPersonUnitId" column="AWARD_PERSON_UNIT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />
+        <field-descriptor name="awardPersonUnitId" column="AWARD_PERSON_UNIT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_PERSON_UNITS_ID" />
 		
         <field-descriptor name="awardContactId" column="AWARD_PERSON_ID" jdbc-type="BIGINT" nullable="false" />
         <field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" nullable="false" />
