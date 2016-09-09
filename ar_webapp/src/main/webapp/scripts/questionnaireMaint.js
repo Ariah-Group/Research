@@ -361,35 +361,27 @@ function clickAdd(curidx) {
 
 function addrequirement(curidx) {
 	var idx = curidx;
-	var response = jQuery("#addrequirement"+curidx).parents('tr:eq(0)').children(
-			'td:eq(0)').children('select:eq(0)').attr(
-			"value");
-	var value = jQuery("#addrequirement"+curidx).parents('tr:eq(0)').children(
-			'td:eq(1)').children('input:eq(0)').attr(
-			"value");
+	var response = jQuery("#addrequirement"+curidx).parents('tr:eq(0)').children('td:eq(0)').children('select:eq(0)').val();
+	var value = jQuery("#addrequirement"+curidx).parents('tr:eq(0)').children('td:eq(1)').children('input:eq(0)').val();
 	if (okToAddRequirement(response, value, idx)) {
 		/*
 		 * var opDesc; if (sequence == 1) { opDesc =
 		 * "Current Requirements:"; } else { opDesc =
 		 * opArray[operator]; }
 		 */
-		var newResponse = getRequirementDeleteRow(
-				responseArray[response], value, idx);
-		newResponse.prependTo(jQuery("#addrequirement"+curidx).parents('div:eq(0)')
-				.children('table:eq(0)').children('tbody'));
-		var idx = jQuery("#addrequirement"+curidx).parents('li:eq(0)').attr("id")
-				.substring(8);
+		var newResponse = getRequirementDeleteRow(responseArray[response], value, idx);
+		newResponse.prependTo(jQuery("#addrequirement"+curidx).parents('div:eq(0)').children('table:eq(0)').children('tbody'));
+		var idx = jQuery("#addrequirement"+curidx).parents('li:eq(0)').attr("id").substring(8);
 		var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").val().split("#f#");
-	    var tmpstr = splitq[0] +"#f#" +splitq[1] 
-        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"Y" +"#f#" +response +"#f#" +
-        value +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
+	        var tmpstr = splitq[0] +"#f#" +splitq[1] +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"Y" +"#f#" +response +"#f#" +
+                             value +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
+                     
 	jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 		jQuery("#addrequirement"+curidx).parents('tr:eq(0)').remove();
 	}
-	// }
 	return false;
-	
 }
+
 function addRuleRequirement(curidx) {
 	var idx = curidx;
 	var response = jQuery("#addRuleRequirement"+curidx).parents('tr:eq(1)').children(
@@ -1848,13 +1840,13 @@ jQuery(document).ready(function() {
 function checkBeforeSubmit() {
 	//alert("in checkbeforesubmit")
 	//var numOfQuestions =  jQuery('#numOfQuestions').attr("value",i);
-	var qname = $j('#document\\.newMaintainableObject\\.businessObject\\.name').val();
-	var qnaireid = $j('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').val();
-	var qid = $j('#document\\.newMaintainableObject\\.businessObject\\.questionnaireId').val();
-	var docstatus = $j('#docStatus').val();
-	var qdescription = $j('#document\\.newMaintainableObject\\.businessObject\\.description').val();
-	var qisfinal = $j('#document\\.newMaintainableObject\\.businessObject\\.isFinal').attr("checked");
-	var qtemplate = $j('#templateFileNameHidden').val();
+	var qname = jQuery('#document\\.newMaintainableObject\\.businessObject\\.name').val();
+	var qnaireid = jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').val();
+	var qid = jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireId').val();
+	var docstatus = jQuery('#docStatus').val();
+	var qdescription = jQuery('#document\\.newMaintainableObject\\.businessObject\\.description').val();
+	var qisfinal = jQuery('#document\\.newMaintainableObject\\.businessObject\\.isFinal').attr("checked");
+	var qtemplate = jQuery('#templateFileNameHidden').val();
 
 	var retval = false;
 	//if (jQuery('#newQuestionnaire\\.questionnaireId').val() == '0') {
