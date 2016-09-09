@@ -57,7 +57,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
 
     /**
      * @param document
-     * @return 
+     * @return
      * @see
      * org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
      */
@@ -84,7 +84,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
             }
 
             auditErrors = new ArrayList<AuditError>();
-            
+
         } else if (proposal.getDeadlineDate() == null) {
             // WARNING
             auditErrors.add(new AuditError(Constants.DEADLINE_DATE_KEY, KeyConstants.WARNING_EMPTY_DEADLINE_DATE, Constants.PROPOSAL_PAGE + "." + Constants.SPONSOR_PROGRAM_INFORMATION_PANEL_ANCHOR));
@@ -114,7 +114,7 @@ public class ProposalDevelopmentSponsorProgramInformationAuditRule implements Do
 
             String federalIdComesFromAwardStr = null;
             try {
-                federalIdComesFromAwardStr = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, "FEDERAL_ID_COMES_FROM_CURRENT_AWARD");
+                federalIdComesFromAwardStr = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.FEDERAL_ID_COMES_FROM_CURRENT_AWARD);
             } catch (Exception e) {
             }
             Boolean federalIdComesFromAward = federalIdComesFromAwardStr != null

@@ -236,7 +236,7 @@ public class NIHResearchAndRelatedXmlStream extends
 
         if (isProposalTypeRenewalRevisionContinuation(proposalTypeCode)) {
             String federalIdComesFromAwardStr = parameterService
-                    .getParameterValueAsString(ProposalDevelopmentDocument.class, "FEDERAL_ID_COMES_FROM_CURRENT_AWARD");
+                    .getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.FEDERAL_ID_COMES_FROM_CURRENT_AWARD);
             if ("Y".equalsIgnoreCase(federalIdComesFromAwardStr)) {
                 String currentAwardNumber = developmentProposal.getCurrentAwardNumber();
                 Award award = getAward(currentAwardNumber);

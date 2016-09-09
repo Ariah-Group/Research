@@ -78,7 +78,6 @@ import java.util.*;
  */
 public class S2SUtilServiceImpl implements S2SUtilService {
 
-    private static final String FEDERAL_ID_COMES_FROM_CURRENT_AWARD = "FEDERAL_ID_COMES_FROM_CURRENT_AWARD";
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private ConfigurationService kualiConfigurationService;
@@ -343,7 +342,7 @@ public class S2SUtilServiceImpl implements S2SUtilService {
     @Override
     public String getFederalId(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         String federalIdComesFromAwardStr = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class,
-                FEDERAL_ID_COMES_FROM_CURRENT_AWARD);
+                Constants.FEDERAL_ID_COMES_FROM_CURRENT_AWARD);
         Boolean federalIdComesFromAward = federalIdComesFromAwardStr != null && federalIdComesFromAwardStr.equalsIgnoreCase("Y");
         DevelopmentProposal proposal = proposalDevelopmentDocument.getDevelopmentProposal();
         Award currentAward = null;

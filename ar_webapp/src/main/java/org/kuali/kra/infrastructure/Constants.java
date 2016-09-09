@@ -253,8 +253,10 @@ public interface Constants {
     //Budget Totals
     public static final int BUDGET_SUMMARY_PERIOD_GROUP_SIZE = 5;
 
-    //Subawards
     public static final String SUBCONTRACTOR_F_AND_A_GT_25K_PARAM = "SUBCONTRACTOR_F_AND_A_GT_25K";
+    
+    //Subawards
+    public static final String FEDERAL_ID_COMES_FROM_CURRENT_AWARD = "FEDERAL_ID_COMES_FROM_CURRENT_AWARD";
     public static final String SUBCONTRACTOR_F_AND_A_LT_25K_PARAM = "SUBCONTRACTOR_F_AND_A_LT_25K";
     public static final String SUBCONTRACTOR_DIRECT_GT_25K_PARAM = "SUBCONTRACTOR_DIRECT_GT_25K";
     public static final String SUBCONTRACTOR_DIRECT_LT_25K_PARAM = "SUBCONTRACTOR_DIRECT_LT_25K";
