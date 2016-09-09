@@ -337,7 +337,7 @@
     </class-descriptor>
 	
     <class-descriptor class="org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment" table="AWARD_APPROVED_EQUIPMENT">
-        <field-descriptor name="approvedEquipmentId" column="AWARD_APPROVED_EQUIPMENT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />
+        <field-descriptor name="approvedEquipmentId" column="AWARD_APPROVED_EQUIPMENT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_APPRV_EQUIPMENT_ID" />
         <field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous" />
         <field-descriptor name="item" column="ITEM" jdbc-type="VARCHAR" nullable="false" />
         <field-descriptor name="model" column="MODEL" jdbc-type="VARCHAR" nullable="true" />
