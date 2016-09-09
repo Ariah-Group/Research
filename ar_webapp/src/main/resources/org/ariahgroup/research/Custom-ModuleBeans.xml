@@ -10,6 +10,7 @@
             <list>
                 <value>classpath:org/ariahgroup/research/datadictionary/DataDictionaryBaseTypes.xml</value>
                 <value>org/ariahgroup/research/datadictionary</value>
+                <value>org/ariahgroup/research/datadictionary/docs</value>
             </list>
         </property>
     </bean>

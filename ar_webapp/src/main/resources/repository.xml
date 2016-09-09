@@ -1711,5 +1711,18 @@
             <foreignkey field-ref="moduleCode" />
         </reference-descriptor>
     </class-descriptor>    
+
+    <class-descriptor class="org.ariahgroup.research.bo.S2sErrorMessage" table="S2S_ERROR_MESSAGES">
+        <field-descriptor name="errorMessageId" column="ERROR_MESSAGE_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_S2S_ERROR_MESSAGES" autoincrement="true"/>
+        <field-descriptor name="formDescription" column="FORM_DESC" jdbc-type="VARCHAR"/>
+        <field-descriptor name="messageKey" column="MESSAGE_KEY" jdbc-type="VARCHAR"/>
+        <field-descriptor name="messageDecription" column="MESSAGE_DESC" jdbc-type="VARCHAR"/>
+        <field-descriptor name="fixLink" column="FIXLINK" jdbc-type="VARCHAR"/>
+        <field-descriptor name="active" column="ACTIVE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="updateTimestamp" column="UPDATED_DATE" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="updateUser" column="UPDATED_USER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>    
     
 </descriptor-repository>

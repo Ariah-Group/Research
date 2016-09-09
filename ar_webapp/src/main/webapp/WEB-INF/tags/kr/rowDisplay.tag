@@ -79,7 +79,7 @@
             <%-- NOTE: The part about "fieldVarStatus.count mod 2" will work for any even number
             of columns assuming that all columns alternate between read-only and not-read-only. --%>
             <c:set var="isFieldReadOnly" value="${isFieldSecure || field.readOnly || isFormReadOnly || (isMaintenance && not isActionNew && fieldVarStatus.count le numberOfColumns)}" />
-            <%-- textStyle is used to store the style of the field value. i.e. whether or not it
+                <%-- textStyle is used to store the style of the field value. i.e. whether or not it
             should display as red text. --%>
             <c:set var="textStyle" value="" />
             <%-- fieldValue should be used to store the appropriate value for a field, i.e. handle
@@ -230,13 +230,9 @@
                             </c:when>
                             <c:otherwise>
                                 ${kfunc:registerEditableProperty(KualiForm, field.propertyName)}
-                                <input type="text" name='${field.propertyName}' id='${field.propertyName}' value='<c:out value="${fieldValue}"/>'
-                                    size='${field.size}' maxlength='${field.maxLength}' style="${textStyle}" ${onblurcall} ${onchangecall}
-                                    class="${field.styleClass}" tabindex="${tabIndex}"/>
+                                <input type="text" name='${field.propertyName}' id='${field.propertyName}' value='<c:out value="${fieldValue}"/>' size='${field.size}' maxlength='${field.maxLength}' style="${textStyle}" ${onblurcall} ${onchangecall} class="${field.styleClass}" tabindex="${tabIndex}"/>
                                 <c:if test="${field.datePicker eq true}">
-                                    <img src="${ConfigProperties.kr.externalizable.images.url}cal.gif" id="${field.propertyName}_datepicker"
-                                        style="cursor: pointer;" title="Date selector" alt="Date selector"
-                                        onmouseover="this.style.backgroundColor='red';" onmouseout="this.style.backgroundColor='transparent';" />
+                                    <img src="${ConfigProperties.kr.externalizable.images.url}cal.gif" id="${field.propertyName}_datepicker" style="cursor: pointer;" title="Date selector" alt="Date selector" onmouseover="this.style.backgroundColor='red';" onmouseout="this.style.backgroundColor='transparent';" />
                                     <script type="text/javascript">
                                         Calendar.setup(
                                             {

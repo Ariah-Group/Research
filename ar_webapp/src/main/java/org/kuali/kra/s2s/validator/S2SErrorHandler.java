@@ -15,70 +15,49 @@
  */
 package org.kuali.kra.s2s.validator;
 
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.input.DOMBuilder;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.util.AuditError;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.ariahgroup.research.bo.S2sErrorMessage;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class S2SErrorHandler {
 
-    private static Map<String, AuditError> auditErrorMap;
-    private static final String ERROR_MAP_FILE = "/S2SErrorMessages.xml";
-    private static final String ERROR_MAP_FILE_V2 = "/org/kuali/kra/s2s/s2sform/S2SErrorMessagesV2.xml";
     private static final Log LOG = LogFactory.getLog(S2SErrorHandler.class);
 
     public static AuditError getError(String key) {
 
-        if (auditErrorMap == null) {
-            auditErrorMap = new HashMap<String, AuditError>();
-            loadErrors(ERROR_MAP_FILE);
-            if ((S2SErrorHandler.class.getResourceAsStream(ERROR_MAP_FILE_V2)) != null) {
-                loadErrors(ERROR_MAP_FILE_V2);
-            }
+        AuditError error = null;
+
+        Map<String, Object> fieldValues1 = new HashMap<String, Object>();
+        fieldValues1.put("messageKey", key);
+        List<S2sErrorMessage> errorList = (List<S2sErrorMessage>) KraServiceLocator.getService(BusinessObjectService.class).findMatching(S2sErrorMessage.class, fieldValues1);
+
+        if (errorList != null && errorList.size() > 0) {
+            S2sErrorMessage errorObj = errorList.get(0);
+
+            String errorFixLink = errorObj.getFixLink() == null || errorObj.getFixLink().equals("") ? Constants.GRANTS_GOV_PAGE + "."
+                    + Constants.GRANTS_GOV_PANEL_ANCHOR : errorObj.getFixLink();
+
+            error = new AuditError(errorObj.getMessageKey() == null ? Constants.NO_FIELD : errorObj.getMessageKey(), errorObj.getMessageDecription(), errorFixLink);
+
         }
-        AuditError error = auditErrorMap.get(key);
-        AuditError defaultError = new AuditError(Constants.NO_FIELD, key + " is not valid", Constants.GRANTS_GOV_PAGE + "."
-                + Constants.GRANTS_GOV_PANEL_ANCHOR);
 
         if (error == null) {
 
             LOG.warn("S2SErrorHandler.getError passed key that does NOT map to error message : Key = " + key);
+            AuditError defaultError = new AuditError(Constants.NO_FIELD, key + " is not valid", Constants.GRANTS_GOV_PAGE + "."
+                    + Constants.GRANTS_GOV_PANEL_ANCHOR);
 
             return defaultError;
         } else {
             return error;
-        }
-    }
-
-    private static void loadErrors(String errorMapFile) {
-        InputStream stream = null;
-        try {
-            stream = S2SErrorHandler.class.getResourceAsStream(errorMapFile);
-            org.w3c.dom.Document errorsDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(stream);
-            Document document = new DOMBuilder().build(errorsDocument);
-            Element root = document.getRootElement();
-            for (Iterator errorsElementIt = root.getChildren("Error").iterator(); errorsElementIt.hasNext();) {
-                Element errorElement = (Element) errorsElementIt.next();
-                String errorKey = errorElement.getChildTextTrim("ErrorKey");
-                String messageKey = errorElement.getChildTextTrim("MessageKey");
-                String errorMessage = errorElement.getChildTextTrim("Message");
-                String errorFixLink = errorElement.getChildTextTrim("FixLink");
-                errorFixLink = errorFixLink == null || errorFixLink.equals("") ? Constants.GRANTS_GOV_PAGE + "."
-                        + Constants.GRANTS_GOV_PANEL_ANCHOR : errorFixLink;
-                AuditError s2sError = new AuditError(errorKey == null ? Constants.NO_FIELD : errorKey, errorMessage, errorFixLink);
-                auditErrorMap.put(messageKey, s2sError);
-            }
-        } catch (Exception ex) {
-            LOG.error("Error loading error map file : " + errorMapFile + ". Error = " + ex.getMessage(), ex);
         }
     }
 }
