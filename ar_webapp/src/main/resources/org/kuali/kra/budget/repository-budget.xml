@@ -311,7 +311,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="submitCostSharingFlag" column="SUBMIT_COST_SHARING" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-    	<field-descriptor name="formulatedCostElementFlag" column="IS_FORMULATED_COST_ELELMENT" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    	<field-descriptor name="formulatedCostElementFlag" column="IS_FORMULATED_COST_ELEMENT" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
     	<field-descriptor name="subAwardNumber" column="SUBAWARD_NUMBER" jdbc="INTEGER"/>
 		<collection-descriptor name="budgetLineItemCalculatedAmounts" proxy="true" element-class-ref="org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="budgetLineItemId"/>
