@@ -617,7 +617,7 @@
     </class-descriptor>
 	
     <class-descriptor class="org.kuali.kra.award.contacts.AwardSponsorContact" table="AWARD_SPONSOR_CONTACTS">
-        <field-descriptor name="awardContactId" column="AWARD_SPONSOR_CONTACT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />
+        <field-descriptor name="awardContactId" column="AWARD_SPONSOR_CONTACT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_SPONSOR_CONTACT_ID" />
 		
         <field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" nullable="true" />
         <field-descriptor name="fullName" column="FULL_NAME" jdbc-type="VARCHAR" nullable="false"  />
