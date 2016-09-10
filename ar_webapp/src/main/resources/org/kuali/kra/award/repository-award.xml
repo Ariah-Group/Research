@@ -1096,7 +1096,7 @@
     </class-descriptor>	
 
     <class-descriptor class="org.kuali.kra.award.paymentreports.paymentschedule.AwardPaymentSchedule" table="AWARD_PAYMENT_SCHEDULE">
-        <field-descriptor name="awardPaymentScheduleId" column="AWARD_PAYMENT_SCHEDULE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQUENCE_AWARD_ID" autoincrement="true" />
+        <field-descriptor name="awardPaymentScheduleId" column="AWARD_PAYMENT_SCHEDULE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_AWARD_PAYMENT_SCHED_ID" autoincrement="true" />
         <field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous"/>
         <field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
