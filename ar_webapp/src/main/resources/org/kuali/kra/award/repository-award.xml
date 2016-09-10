@@ -1184,7 +1184,7 @@
     </class-descriptor>
 	
     <class-descriptor class="org.kuali.kra.award.home.AwardAmountInfo" table="AWARD_AMOUNT_INFO">
-        <field-descriptor name="awardAmountInfoId" column="AWARD_AMOUNT_INFO_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQUENCE_AWARD_ID" autoincrement="true" />
+        <field-descriptor name="awardAmountInfoId" column="AWARD_AMOUNT_INFO_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_AWARD_AMOUNT_INFO_ID" autoincrement="true" />
         <field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous" />
         <field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />		
