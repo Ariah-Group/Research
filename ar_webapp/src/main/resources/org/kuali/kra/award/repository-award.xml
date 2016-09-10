@@ -557,7 +557,7 @@
 	
 	
     <class-descriptor class="org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm" table="AWARD_REPORT_TERMS">
-        <field-descriptor name="awardReportTermId" column="AWARD_REPORT_TERMS_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID"/>
+        <field-descriptor name="awardReportTermId" column="AWARD_REPORT_TERMS_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_REPORT_TERMS_ID"/>
         <field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" access="anonymous" />		
         <field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
