@@ -671,7 +671,15 @@ END;
 /
 
 
+--RES-669
+Declare
+  nextnum NUMBER;
+ BEGIN
+  select (NVL(MAX(AWARD_IDC_RATE_ID),0)+1) into nextnum from AWARD_IDC_RATE;
+  execute immediate 'CREATE SEQUENCE "SEQ_AWARD_IDC_RATE_ID" MINVALUE 1 MAXVALUE 999999999999999999 INCREMENT BY 1 START WITH ' || nextnum || ' NOCACHE  ORDER  NOCYCLE';
+END;
 
+/
 
 
 
