@@ -640,7 +640,7 @@
     </class-descriptor>
 	
     <class-descriptor class="org.kuali.kra.award.contacts.AwardUnitContact" table="AWARD_UNIT_CONTACTS">
-        <field-descriptor name="awardContactId" column="AWARD_UNIT_CONTACT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />
+        <field-descriptor name="awardContactId" column="AWARD_UNIT_CONTACT_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_AWARD_UNIT_CONTACT_ID" />
 		
         <field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" nullable="true" />
         <field-descriptor name="fullName" column="FULL_NAME" jdbc-type="VARCHAR" nullable="false"  />		
