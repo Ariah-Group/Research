@@ -131,6 +131,9 @@ update krcr_parm_t set PARM_DESC_TXT='Defines whether the debug transform is ena
   INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
       VALUES  ('KC-PD','Document','ARIAH_PROPDEV_ABSTRACT_TYPECODE_PROJDESC', sys_guid(),0,'CONFG','1','The Abstract Type Code representing the abstract type named Project Description.','A','KUALI');
 
+--RES-652
+  INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
+      VALUES  ('KC-PD','Document','ARIAH_PROPDEV_ABSTRACT_TYPECODE_AREASAFFECTED', sys_guid(),0,'CONFG','16','The Abstract Type Code representing the abstract type named Areas Affected.','A','KUALI');
 
 
 commit;

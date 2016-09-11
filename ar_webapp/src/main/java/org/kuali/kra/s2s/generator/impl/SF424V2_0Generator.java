@@ -56,6 +56,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This Class is used to generate XML object for grants.gov SF424V2.0. This form
@@ -73,6 +76,7 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
     private String stateReviewDate = null;
     private String strReview = null;
     private static final String ORGANIZATION_YNQ_ANSWER_YES = "Y";
+    private ParameterService parameterService = KraServiceLocator.getService(ParameterService.class);
 
     /**
      *
@@ -246,13 +250,19 @@ public class SF424V2_0Generator extends SF424BaseGenerator {
         } else {
             sf424V2.setFundingOpportunityTitle(null);
         }
+
+        String abstractTypeCodeAreasAffected = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ARIAH_PROPDEV_ABSTRACT_TYPECODE_AREASAFFECTED);
+
         String areasAffected = null;
         for (ProposalAbstract proposalAbstract : pdDoc.getDevelopmentProposal().getProposalAbstracts()) {
-            if (proposalAbstract.getAbstractTypeCode() != null
-                    && Integer.parseInt(proposalAbstract.getAbstractTypeCode()) == ABSTRACTTYPE_CODE_AREAS_AFFECTED) {
+            
+            if (proposalAbstract.getAbstractTypeCode() != null && proposalAbstract.getAbstractTypeCode().equals(abstractTypeCodeAreasAffected)) {
+                
                 areasAffected = proposalAbstract.getAbstractDetails();
-                if (areasAffected != null && areasAffected.length() > AREAS_AFFECTED_MAX_LENGTH) {
-                    sf424V2.setAffectedAreas(areasAffected.substring(0, AREAS_AFFECTED_MAX_LENGTH));
+                
+                if (areasAffected != null && areasAffected.length() > Constants.AREAS_AFFECTED_MAX_LENGTH) {
+                    sf424V2.setAffectedAreas(areasAffected.substring(0, Constants.AREAS_AFFECTED_MAX_LENGTH));
                 } else {
                     sf424V2.setAffectedAreas(areasAffected);
                 }
