@@ -1247,8 +1247,6 @@ insert into VALID_NARR_FORMS (VALID_NARR_FORMS_ID,FORM_NAME,NARRATIVE_TYPE_CODE,
 /  
 
 -- RES-696 : Forms-D work : phs-assignment-request-form
-SET DEFINE OFF;
-
 Insert into QUESTIONNAIRE (QUESTIONNAIRE_REF_ID,QUESTIONNAIRE_ID,SEQUENCE_NUMBER,NAME,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,IS_FINAL,VER_NBR,OBJ_ID,FILE_NAME,DOCUMENT_NUMBER) 
    values (SEQ_QUESTIONNAIRE_REF_ID.nextval,SEQ_QUESTIONNAIRE_ID.nextval,1,
             'PHS Assignment Request Form V1.0','The responses are used to populate the PHS Assignment Request Form version 1.0 for submission via Grants.gov.',
@@ -1480,6 +1478,12 @@ CREATE SEQUENCE SEQ_S2S_ERROR_MESSAGES INCREMENT BY 1 START WITH 1 NOCACHE;
 
 -- RES-685
 alter table BUDGET_DETAILS rename column IS_FORMULATED_COST_ELELMENT TO IS_FORMULATED_COST_ELEMENT;
+
+
+-- RES-651
+  INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
+      VALUES  ('KC-PD','Document','ARIAH_PROPDEV_ABSTRACT_TYPECODE_PROJDESC', sys_guid(),0,'CONFG','1','The Abstract Type Code representing the abstract type named Project Description.','A','KUALI');
+
 
 
  --RES-657

@@ -36,6 +36,8 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * This Class is used to generate XML object for grants.gov SF424ShortV1_0. This
@@ -48,7 +50,6 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
 
     //private String applicantTypeOtherSpecify = null;
     private static final String SPONSOR_CODE = "sponsorCode";
-    private static final String ABSTRACT_TYPE_PROJECT_DESCRIPTION = "1";
     private static final int SPONSOR_NAME_MAX_LENGTH = 60;
     private static final int CFDA_NUMBER_MAX_LENGTH = 15;
     private static final int PROGRAM_ANNOUNCEMENT_TITLE_MAX_LENGTH = 120;
@@ -58,7 +59,7 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
     private static final int EMAIL_ADDRESS_MAX_LENGTH = 60;
     private static final int FAX_NUMBER_MAX_LENGTH = 25;
     private BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-
+    private ParameterService parameterService = KraServiceLocator.getService(ParameterService.class);
     /**
      *
      * This method gets SF424Short information for the form which includes
@@ -87,6 +88,7 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
         Map<String, String> sponsorMap = new HashMap<String, String>();
         sponsorMap.put(SPONSOR_CODE, pdDoc.getDevelopmentProposal().getPrimeSponsorCode());
         Sponsor sponsor = (Sponsor) businessObjectService.findByPrimaryKey(Sponsor.class, sponsorMap);
+        
         if (pdDoc.getDevelopmentProposal().getSponsor() != null && pdDoc.getDevelopmentProposal().getSponsor().getSponsorName() != null) {
             if (pdDoc.getDevelopmentProposal().getSponsor().getSponsorName().length() > SPONSOR_NAME_MAX_LENGTH) {
                 sf424Short.setAgencyName(pdDoc.getDevelopmentProposal().getSponsor().getSponsorName().substring(0, SPONSOR_NAME_MAX_LENGTH));
@@ -171,9 +173,13 @@ public class SF424ShortV1_0Generator extends SF424BaseGenerator {
 
         sf424Short.setProjectTitle(pdDoc.getDevelopmentProposal().getTitle());
 
+        
+        String abstractTypeCodeProjectDescription = parameterService.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ARIAH_PROPDEV_ABSTRACT_TYPECODE_PROJDESC);
+        
         for (ProposalAbstract proposalAbstract : pdDoc.getDevelopmentProposal().getProposalAbstracts()) {
             if (proposalAbstract.getAbstractTypeCode() != null
-                    && proposalAbstract.getAbstractTypeCode().equals(ABSTRACT_TYPE_PROJECT_DESCRIPTION)) {
+                    && proposalAbstract.getAbstractTypeCode().equals(abstractTypeCodeProjectDescription)) {
                 if (proposalAbstract.getAbstractDetails().length() > ABSTRACT_TYPE_CODE_MAX_LENGTH) {
                     sf424Short.setProjectDescription(proposalAbstract.getAbstractDetails().substring(0,
                             ABSTRACT_TYPE_CODE_MAX_LENGTH));
