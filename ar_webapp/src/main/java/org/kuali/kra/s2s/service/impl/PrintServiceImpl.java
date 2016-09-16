@@ -670,7 +670,9 @@ public class PrintServiceImpl implements PrintService {
         List<String> userAttachedFormNamespaces = findUserAttachedNamespaces(proposalNumber);
         for (S2sOppForms oppForm : s2sOppForms) {
             if (userAttachedFormNamespaces.contains(oppForm.getOppNameSpace())) {
-                orderedNamespaces.add(oppForm.getOppNameSpace());
+                if (Boolean.TRUE.equals(oppForm.getSelectToPrint())) {
+                    orderedNamespaces.add(oppForm.getOppNameSpace());
+                }
             }
         }
         return orderedNamespaces;
