@@ -200,9 +200,9 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
             source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
 
             if (fdpType.equals(SUB_AWARD_FDP_TEMPLATE)) {
-                source.setFileName(SUB_AWARD_FDP_TEMPLATE);
+                source.setFileName(SUB_AWARD_FDP_TEMPLATE + Constants.PDF_FILE_EXTENSION);
             } else {
-                source.setFileName(SUB_AWARD_FDP_MODIFICATION);
+                source.setFileName(SUB_AWARD_FDP_MODIFICATION + Constants.PDF_FILE_EXTENSION);
             }
         }
 
