@@ -37,13 +37,13 @@ public class CoiMessagesServiceImpl implements CoiMessagesService {
     private transient BusinessObjectService businessObjectService;
     private transient ParameterService parameterService;
     private transient ConfigurationService configurationService;
-    
+
     /**
      * @ Check COI to see if annual disclosure is coming due
      */
     @Override
     public List<String> getMessages() {
-        List<String>results = new ArrayList<String>();
+        List<String> results = new ArrayList<String>();
 
         UserSession session = GlobalVariables.getUserSession();
         if (session != null && StringUtils.isNotEmpty(GlobalVariables.getUserSession().getPrincipalId())) {
@@ -53,16 +53,14 @@ public class CoiMessagesServiceImpl implements CoiMessagesService {
                 Date renewalDue = null;
                 try {
                     renewalDue = new Date(new SimpleDateFormat("MM/dd").parse(renewalDateString).getTime());
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     System.err.println("***** no valid Annual Disclosure Certification renewal date found.  Defaulting to anniversary of last Annual");
                 }
                 String advanceNoticeString = getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_COIDISCLOSURE, ParameterConstants.DOCUMENT_COMPONENT, "ANNUAL_DISCLOSURE_ADVANCE_NOTICE");
                 int advanceDays = -1;
                 try {
                     advanceDays = Integer.parseInt(advanceNoticeString);
-                } 
-                catch (Exception e) {
+                } catch (Exception e) {
                     System.err.println("***** no valid Annual Disclosure Certification advance notice parameter found.  Defaulting to 30 days.");
                     advanceDays = 30;
                 }
@@ -71,8 +69,9 @@ public class CoiMessagesServiceImpl implements CoiMessagesService {
                 fieldValues.put("personId", personId);
                 fieldValues.put("eventTypeCode", CoiDisclosureEventType.ANNUAL);
                 List<CoiDisclosure> annualDisclosures = (List<CoiDisclosure>) businessObjectService.findMatching(CoiDisclosure.class, fieldValues);
+                
                 Timestamp lastAnnualDate = null;
-                for (CoiDisclosure disclosure: annualDisclosures) {
+                for (CoiDisclosure disclosure : annualDisclosures) {
                     if (lastAnnualDate == null || lastAnnualDate.before(disclosure.getCertificationTimestamp())) {
                         lastAnnualDate = disclosure.getCertificationTimestamp();
                     }
@@ -93,14 +92,19 @@ public class CoiMessagesServiceImpl implements CoiMessagesService {
                     Calendar reminderDate = Calendar.getInstance();
                     reminderDate.setTimeInMillis(renewalDue.getTime());
                     reminderDate.add(Calendar.DATE, -advanceDays);
-                    if (currentTime.after(reminderDate) &&
-                        ((lastAnnualCalendar == null) || currentTime.after(lastAnnualCalendar))) {
-                        sendErrorWithDate = true;                        
+
+                    // fix COI reminder still shows when it has already submitted annual 
+                    Calendar previousDueCalendarDate = (Calendar) dueCalendarDate.clone();
+                    previousDueCalendarDate.add(Calendar.YEAR, -1);
+
+                    if (currentTime.after(reminderDate) && ((lastAnnualCalendar == null) || !lastAnnualCalendar.after(previousDueCalendarDate))) {
+                        // user did not submit an annual disc after the previous due date, that means one is due by the new due date
+                        sendErrorWithDate = true;
                     }
-                } else {
+                } else {  // if renewal date is not specified, the due date is 1 year from the last submitted annual renewal
                     Calendar dueCalendarDate = Calendar.getInstance();
                     if (lastAnnualDate == null) {
-                        sendError = true;
+                        sendError = true;	// no submissions found, 1 is due immediately.
                     } else {
                         dueCalendarDate.setTimeInMillis(lastAnnualDate.getTime());
                         dueCalendarDate.add(Calendar.YEAR, 1);
@@ -109,8 +113,8 @@ public class CoiMessagesServiceImpl implements CoiMessagesService {
                         Calendar reminderDate = Calendar.getInstance();
                         reminderDate.setTimeInMillis(renewalDue.getTime());
                         reminderDate.add(Calendar.DATE, -advanceDays);
-                        if (currentTime.after(reminderDate)) {
-                            sendErrorWithDate = true;                        
+                        if (currentTime.after(reminderDate) && !currentTime.before(dueCalendarDate)) {
+                            sendErrorWithDate = true;
                         }
                     }
                 }
@@ -119,8 +123,7 @@ public class CoiMessagesServiceImpl implements CoiMessagesService {
                     if (!StringUtils.isEmpty(msg)) {
                         results.add(msg);
                     }
-                }
-                if (sendErrorWithDate) {
+                } else if (sendErrorWithDate) {
                     String msg = getConfigurationService().getPropertyValueAsString("annual.disclosure.due.message.with.date");
                     if (!StringUtils.isEmpty(msg)) {
                         results.add(msg.replace("{0}", new SimpleDateFormat("MM/dd/yyyy").format(renewalDue)));
@@ -134,16 +137,16 @@ public class CoiMessagesServiceImpl implements CoiMessagesService {
     protected BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
-    
-    public void setBusinessObjectService( BusinessObjectService businessObjectService ) {
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
     protected ParameterService getParameterService() {
         return parameterService;
     }
-    
-    public void setParameterService( ParameterService parameterService ) {
+
+    public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
 
@@ -154,5 +157,5 @@ public class CoiMessagesServiceImpl implements CoiMessagesService {
     public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
-    
+
 }
