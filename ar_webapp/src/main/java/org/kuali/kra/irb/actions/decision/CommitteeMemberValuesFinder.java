@@ -33,12 +33,11 @@ import org.kuali.rice.krad.document.Document;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
- * 
+ *
  */
 public class CommitteeMemberValuesFinder extends IrbActionsKeyValuesBase {
-    
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -48,7 +47,7 @@ public class CommitteeMemberValuesFinder extends IrbActionsKeyValuesBase {
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
-        
+
         Protocol protocol = getProtocol();
         if (protocol != null) {
             ProtocolSubmission submission = getCurrentSubmission(protocol);
@@ -65,14 +64,14 @@ public class CommitteeMemberValuesFinder extends IrbActionsKeyValuesBase {
                 }
             }
         }
-        
+
         return keyValues;
     }
 
     private ProtocolSubmission getCurrentSubmission(Protocol protocol) {
         for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
-            if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA) ||
-                StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
+            if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA)
+                    || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
                 return (ProtocolSubmission) submission;
             }
         }
@@ -86,19 +85,23 @@ public class CommitteeMemberValuesFinder extends IrbActionsKeyValuesBase {
         }
         return null;
     }
-    
+
     private boolean isReviewerAttendingMeeting(CommitteeMembership member) {
         Protocol prot = getProtocol();
         boolean retVal = false;
         if (prot != null) {
-            List<CommitteeScheduleAttendanceBase> attendees = prot.getProtocolSubmission().getCommitteeSchedule().getCommitteeScheduleAttendances();
-            for (CommitteeScheduleAttendanceBase attendee : attendees) {
-                if (attendee.isCommitteeMember(member)) {
-                    return true;
+            // ensure Schedule is NOT null, since in "Modify Submission" Action the protocol can technically
+            // be submitted without a schedule selected
+            if (prot.getProtocolSubmission().getCommitteeSchedule() != null) {
+                List<CommitteeScheduleAttendanceBase> attendees = prot.getProtocolSubmission().getCommitteeSchedule().getCommitteeScheduleAttendances();
+                for (CommitteeScheduleAttendanceBase attendee : attendees) {
+                    if (attendee.isCommitteeMember(member)) {
+                        return true;
+                    }
                 }
             }
         }
         return retVal;
-        
+
     }
 }
