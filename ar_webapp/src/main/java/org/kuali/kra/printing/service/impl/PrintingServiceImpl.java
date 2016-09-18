@@ -74,21 +74,24 @@ public class PrintingServiceImpl implements PrintingService {
      * process
      */
     protected Map<String, byte[]> getPrintBytes(Printable printableArtifact) throws PrintingException {
+
         try {
-            Map<String, byte[]> streamMap = printableArtifact.renderXML();
+            Map<String, byte[]> streamMap = null;
             try {
+                streamMap = printableArtifact.renderXML();
+
                 String loggingEnable = kualiConfigurationService.getPropertyValueAsString(Constants.PRINT_LOGGING_ENABLE);
                 if (loggingEnable != null && Boolean.parseBoolean(loggingEnable)) {
                     logPrintDetails(streamMap);
                 }
             } catch (Exception ex) {
                 LOG.error(ex.getMessage());
+                ex.printStackTrace();
             }
 
             Map<String, byte[]> pdfByteMap = new LinkedHashMap<String, byte[]>();
 
             FopFactory fopFactory = FopFactory.newInstance();
-
             int xslCount = 0;
             // Apply all the style sheets to the xml document and generate the
             // PDF bytes
@@ -106,8 +109,7 @@ public class PrintingServiceImpl implements PrintingService {
                 Map<String, Source> templatesWithBookmarks = printableArtifact.getXSLTemplateWithBookmarks();
                 for (Map.Entry<String, Source> templatesWithBookmark : templatesWithBookmarks.entrySet()) {
                     StreamSource xslt = (StreamSource) templatesWithBookmark.getValue();
-                    createPdfWithFOP(streamMap, pdfByteMap, fopFactory, xslCount, xslt, templatesWithBookmark.getKey(),
-                            printableArtifact);
+                    createPdfWithFOP(streamMap, pdfByteMap, fopFactory, xslCount, xslt, templatesWithBookmark.getKey(), printableArtifact);
                 }
 
             }
@@ -130,7 +132,6 @@ public class PrintingServiceImpl implements PrintingService {
             LOG.error(e.getMessage(), e);
             throw new PrintingException(e.getMessage(), e);
         }
-
     }
 
     /**
@@ -152,16 +153,21 @@ public class PrintingServiceImpl implements PrintingService {
     protected void createPdfWithFOP(Map<String, byte[]> streamMap, Map<String, byte[]> pdfByteMap, FopFactory fopFactory,
             int xslCount, StreamSource xslt, String bookmark, Printable printableArtifact) throws FOPException,
             TransformerException {
+
         TransformerFactory factory = TransformerFactory.newInstance();
         Transformer transformer = factory.newTransformer(xslt);
+
         String applicationUrl = getKualiConfigurationService().getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY);
+
         FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
         foUserAgent.setBaseURL(applicationUrl);
+        foUserAgent.setFontBaseURL(applicationUrl);
+
         for (Map.Entry<String, byte[]> xmlData : streamMap.entrySet()) {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             ByteArrayInputStream inputStream = new ByteArrayInputStream(xmlData.getValue());
             Source src = new StreamSource(inputStream);
-            //Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, outputStream);
+
             Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, outputStream);
             Result res = new SAXResult(fop.getDefaultHandler());
             transformer.transform(src, res);
@@ -171,7 +177,6 @@ public class PrintingServiceImpl implements PrintingService {
                 pdfByteMap.put(pdfMapKey, pdfBytes);
             }
         }
-
     }
 
     /**
@@ -217,9 +222,11 @@ public class PrintingServiceImpl implements PrintingService {
     }
 
     public AttachmentDataSource print(List<Printable> printableArtifactList, boolean headerFooterRequired) throws PrintingException {
+
         PrintableAttachment printablePdf = null;
         List<String> bookmarksList = new ArrayList<String>();
         List<byte[]> pdfBaosList = new ArrayList<byte[]>();
+
         for (Printable printableArtifact : printableArtifactList) {
             Map<String, byte[]> printBytes = getPrintBytes(printableArtifact);
             for (String bookmark : printBytes.keySet()) {
@@ -230,16 +237,9 @@ public class PrintingServiceImpl implements PrintingService {
                 }
             }
         }
-
         printablePdf = new PrintableAttachment();
         byte[] mergedPdfBytes = mergePdfBytes(pdfBaosList, bookmarksList, headerFooterRequired);
-        Printable printableArtifactObject;
-        /*
-         * if(printableArtifactList!=null && printableArtifactList.size()>0){ printableArtifactObject =
-         * printableArtifactList.get(0); try { if(printableArtifactObject.isWatermarkEnabled()){ mergedPdfBytes =
-         * watermarkService.applyWatermark( mergedPdfBytes,printableArtifactObject.getWatermarkable().getWatermark()); } } catch
-         * (Exception e) { LOG.error("Exception Occured in printServiceImpl. Water mark Exception: ",e); } }
-         */// Commented for 1327 #1
+
         // If there is a stylesheet issue, the pdf bytes will be null. To avoid an exception
         // initialize to an empty array before sending the content back
         if (mergedPdfBytes == null) {
@@ -252,6 +252,7 @@ public class PrintingServiceImpl implements PrintingService {
         fileName.append(Constants.PDF_FILE_EXTENSION);
         printablePdf.setFileName(fileName.toString());
         printablePdf.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
+
         return printablePdf;
     }
 
@@ -277,6 +278,7 @@ public class PrintingServiceImpl implements PrintingService {
      */
     protected byte[] mergePdfBytes(List<byte[]> pdfBytesList, List<String> bookmarksList, boolean headerFooterRequired)
             throws PrintingException {
+
         Document document = null;
         PdfWriter writer = null;
         ByteArrayOutputStream mergedPdfReport = new ByteArrayOutputStream();
@@ -374,21 +376,6 @@ public class PrintingServiceImpl implements PrintingService {
         return dateFormat.format(calendar.getTime());
     }
 
-    // /**
-    // *
-    // * This class populates the bytes of PDF document to be generated
-    // */
-    // protected class PrintableAttachment extends AttachmentDataSource {
-    // private byte[] streamData;
-    //
-    // public byte[] getContent() {
-    // return streamData;
-    // }
-    //
-    // public void setContent(byte[] streamData) {
-    // this.streamData = streamData;
-    // }
-    // }
     /**
      * @return the dateTimeService
      */

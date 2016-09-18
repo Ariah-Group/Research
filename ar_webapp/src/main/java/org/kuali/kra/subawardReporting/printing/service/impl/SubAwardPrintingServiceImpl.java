@@ -39,6 +39,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * This class is the implementation of {@link AwardPrintingService}. It has
@@ -48,6 +50,8 @@ import java.util.Map;
  *
  */
 public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
+
+    private static final Log LOG = LogFactory.getLog(SubAwardPrintingServiceImpl.class);
 
     private static final String SF_295_REPORT = "SF295";
     private static final String SF_294_REPORT = "SF294";
@@ -167,45 +171,51 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
 
     @Override
     public AttachmentDataSource printSubAwardFDPReport(KraPersistableBusinessObjectBase subAwardDoc, SubAwardPrintType subAwardPrintType, Map<String, Object> reportParameters) throws PrintingException {
+
         AttachmentDataSource source = null;
         AbstractPrint printable = null;
-
         Object fdpType = reportParameters.get("fdpType");
 
-        if (fdpType != null) {
-            if (fdpType.equals(SUB_AWARD_FDP_TEMPLATE)) {
-                printable = getSubAwardFDPAgreement();
-            } else {
-                printable = getSubAwardFDPModification();
-            }
+        try {
 
-            SubAward subAward = (SubAward) subAwardDoc;
-            Map<String, byte[]> formAttachments = new LinkedHashMap<String, byte[]>();
-            if (subAward.getSubAwardAttachments() != null) {
-                for (SubAwardAttachments subAwardAttachments : subAward.getSubAwardAttachments()) {
-                    if (subAwardAttachments.getSelectToPrint()) {
-                        if (isPdf(subAwardAttachments.getAttachmentContent())) {
-                            formAttachments.put(subAwardAttachments.getAttachmentId().toString(),
-                                    subAwardAttachments.getAttachmentContent());
+            if (fdpType != null) {
+                if (fdpType.equals(SUB_AWARD_FDP_TEMPLATE)) {
+                    printable = getSubAwardFDPAgreement();
+                } else {
+                    printable = getSubAwardFDPModification();
+                }
+
+                SubAward subAward = (SubAward) subAwardDoc;
+                Map<String, byte[]> formAttachments = new LinkedHashMap<String, byte[]>();
+                if (subAward.getSubAwardAttachments() != null) {
+                    for (SubAwardAttachments subAwardAttachments : subAward.getSubAwardAttachments()) {
+                        if (subAwardAttachments.getSelectToPrint()) {
+                            if (isPdf(subAwardAttachments.getAttachmentContent())) {
+                                formAttachments.put(subAwardAttachments.getAttachmentId().toString(),
+                                        subAwardAttachments.getAttachmentContent());
+                            }
                         }
                     }
                 }
-            }
-            resetSelectedFormList(subAward.getSubAwardAttachments());
+                resetSelectedFormList(subAward.getSubAwardAttachments());
 
-            printable.setAttachments(formAttachments);
-            printable.setPrintableBusinessObject(subAwardDoc);
-            printable.setReportParameters(reportParameters);
-            source = getPrintingService().print(printable);
-            source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
+                printable.setAttachments(formAttachments);
+                printable.setPrintableBusinessObject(subAwardDoc);
+                printable.setReportParameters(reportParameters);
 
-            if (fdpType.equals(SUB_AWARD_FDP_TEMPLATE)) {
-                source.setFileName(SUB_AWARD_FDP_TEMPLATE + Constants.PDF_FILE_EXTENSION);
-            } else {
-                source.setFileName(SUB_AWARD_FDP_MODIFICATION + Constants.PDF_FILE_EXTENSION);
+                source = getPrintingService().print(printable);
+                source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
+
+                if (fdpType.equals(SUB_AWARD_FDP_TEMPLATE)) {
+                    source.setFileName(SUB_AWARD_FDP_TEMPLATE + Constants.PDF_FILE_EXTENSION);
+                } else {
+                    source.setFileName(SUB_AWARD_FDP_MODIFICATION + Constants.PDF_FILE_EXTENSION);
+                }
+
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
         return source;
     }
 

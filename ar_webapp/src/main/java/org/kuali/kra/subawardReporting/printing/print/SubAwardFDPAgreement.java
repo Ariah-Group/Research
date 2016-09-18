@@ -19,10 +19,8 @@ import java.io.ByteArrayInputStream;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.subaward.bo.SubAwardForms;
@@ -53,15 +51,17 @@ public class SubAwardFDPAgreement extends AbstractPrint {
 
     @Override
     public Map<String, Source> getXSLTemplateWithBookmarks() {
+
         Map<String, Source> sourceMap = new LinkedHashMap<String, Source>();
         List<SubAwardForms> printFormTemplates = (List<SubAwardForms>) getReportParameters().get(SubAwardPrintingService.SELECTED_TEMPLATES);
+
         for (SubAwardForms sponsorFormTemplate : printFormTemplates) {
             SubAwardForms sponsorTemplate = (SubAwardForms) getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class,
                     sponsorFormTemplate.getFormId());
+
             sourceMap.put(sponsorFormTemplate.getDescription(), new StreamSource(new ByteArrayInputStream(sponsorTemplate.getAttachmentContent())));
         }
 
         return sourceMap;
     }
-
 }

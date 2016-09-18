@@ -631,7 +631,6 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase {
         String subawardPrintFundingSource = subAwardForm.getSubAwardPrintAgreement().getFundingSource();
 
         if (subawardPrintFundingSource != null) {
-
             Map<String, String> params = new HashMap<String, String>();
             params.put("subAwardFundingSourceId", subawardPrintFundingSource);
 

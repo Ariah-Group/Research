@@ -254,33 +254,37 @@ public class SubAwardFDPPrintXmlStream implements XmlStream {
             Map<String, Object> reportParameters) {
 
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
-        SubContractDataDocument subContractDataDoc = SubContractDataDocument.Factory.newInstance();
-        SubContractData subContractData = SubContractData.Factory.newInstance();
-        SubAward subaward = (SubAward) printableBusinessObject;
-        this.awardNumber = (String) reportParameters.get("awardNumber");
-        this.awardTitle = (String) reportParameters.get("awardTitle");
-        this.sponsorAwardNumber = (String) reportParameters.get("sponsorAwardNumber");
-        this.sponsorName = (String) reportParameters.get("sponsorName");
-        this.cfdaNumber = (String) reportParameters.get("cfdaNumber");
-        this.awardID = (Long) reportParameters.get("awardID");
-        this.sponsorTemplates = (List<SubAwardForms>) reportParameters.get(SubAwardPrintingService.SELECTED_TEMPLATES);
-        setSubcontractTemplateInfo(subContractData, subaward);
-        setFundingSource(subContractData, subaward);
-        setSubcontractDetail(subContractData, subaward);
-        setSubcontractAmountInfo(subContractData, subaward);
-        setAwardHeader(subContractData, subaward);
-        setPrimeRecipientContacts(subContractData, subaward);
-        setPrintRequirement(subContractData, subaward);
-        setPrimeAdministrativeContact(subContractData, subaward);
-        setPrimePrincipalInvestigator(subContractData, subaward);
-        setPrimeFinancialContact(subContractData, subaward);
-        setPrimeAuthorizedOfficial(subContractData, subaward);
-        setAdministrativeContact(subContractData, subaward);
-        setFinancialContact(subContractData, subaward);
-        setAuthorizedOfficial(subContractData, subaward);
-        setSubcontractReports(subContractData, subaward);
-        subContractDataDoc.setSubContractData(subContractData);
-        xmlObjectList.put(SubAwardPrintType.SUB_AWARD_FDP_TEMPLATE.getSubAwardPrintType(), subContractDataDoc);
+        try {
+            SubContractDataDocument subContractDataDoc = SubContractDataDocument.Factory.newInstance();
+            SubContractData subContractData = SubContractData.Factory.newInstance();
+            SubAward subaward = (SubAward) printableBusinessObject;
+            this.awardNumber = (String) reportParameters.get("awardNumber");
+            this.awardTitle = (String) reportParameters.get("awardTitle");
+            this.sponsorAwardNumber = (String) reportParameters.get("sponsorAwardNumber");
+            this.sponsorName = (String) reportParameters.get("sponsorName");
+            this.cfdaNumber = (String) reportParameters.get("cfdaNumber");
+            this.awardID = (Long) reportParameters.get("awardID");
+            this.sponsorTemplates = (List<SubAwardForms>) reportParameters.get(SubAwardPrintingService.SELECTED_TEMPLATES);
+            setSubcontractTemplateInfo(subContractData, subaward);
+            setFundingSource(subContractData, subaward);
+            setSubcontractDetail(subContractData, subaward);
+            setSubcontractAmountInfo(subContractData, subaward);
+            setAwardHeader(subContractData, subaward);
+            setPrimeRecipientContacts(subContractData, subaward);
+            setPrintRequirement(subContractData, subaward);
+            setPrimeAdministrativeContact(subContractData, subaward);
+            setPrimePrincipalInvestigator(subContractData, subaward);
+            setPrimeFinancialContact(subContractData, subaward);
+            setPrimeAuthorizedOfficial(subContractData, subaward);
+            setAdministrativeContact(subContractData, subaward);
+            setFinancialContact(subContractData, subaward);
+            setAuthorizedOfficial(subContractData, subaward);
+            setSubcontractReports(subContractData, subaward);
+            subContractDataDoc.setSubContractData(subContractData);
+            xmlObjectList.put(SubAwardPrintType.SUB_AWARD_FDP_TEMPLATE.getSubAwardPrintType(), subContractDataDoc);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return xmlObjectList;
     }
 
@@ -630,7 +634,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream {
                     personDetails.setMobilePhoneNumber(awardPersons.getOfficePhone());
                     personDetails.setFaxNumber(awardPersons.getFaxNumber());
                     personDetails.setEmailAddress(awardPersons.getEmailAddress());
-                } else if(awardPerson.getRolodexId() != null && awardPerson.getRolodex()!=null){
+                } else if (awardPerson.getRolodexId() != null && awardPerson.getRolodex() != null) {
                     // is non-employee
                     personDetails.setFullName(awardPerson.getRolodex().getFullName());
                     personDetails.setAddressLine1(awardPerson.getRolodex().getAddressLine1());
@@ -652,7 +656,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream {
                 }
             }
         }
-        
+
         personDetailsList.add(personDetails);
         subContractData.setPrimePrincipalInvestigatorArray((PersonDetailsType[]) personDetailsList.toArray(new PersonDetailsType[0]));
     }
