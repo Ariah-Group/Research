@@ -2124,7 +2124,7 @@ module of int tests -->
         <displaytag.version>1.2</displaytag.version>
         <drools.version>5.5.0.Final</drools.version>
         <dwr.version>3.0.RC2</dwr.version>
-        <fop.version>0.93</fop.version>
+        <fop.version>0.94</fop.version>
         <gg-application.version>1.0</gg-application.version>
         <gg-forms1.version>1.0</gg-forms1.version>
         <gg-forms2.version>1.0</gg-forms2.version>
