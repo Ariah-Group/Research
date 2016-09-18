@@ -79,7 +79,6 @@ import edu.mit.coeus.utils.xml.bean.subcontractFdpReports.subcontract.SubContrac
 
 public class SubAwardFDPPrintXmlStream implements XmlStream {
 
-    private static final String SUB_AWARD_FDP_TEMPLATE = "fdpAgreement";
     private BusinessObjectService businessObjectService;
     protected SubAward subaward = null;
     protected SubAwardDocument subawarddoc = null;
@@ -281,7 +280,7 @@ public class SubAwardFDPPrintXmlStream implements XmlStream {
             setAuthorizedOfficial(subContractData, subaward);
             setSubcontractReports(subContractData, subaward);
             subContractDataDoc.setSubContractData(subContractData);
-            xmlObjectList.put(SubAwardPrintType.SUB_AWARD_FDP_TEMPLATE.getSubAwardPrintType(), subContractDataDoc);
+            xmlObjectList.put(Constants.SUBAWARD_PRINT_TYPE_FDP_TEMPLATE, subContractDataDoc);
         } catch (Exception e) {
             e.printStackTrace();
         }

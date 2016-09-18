@@ -25,7 +25,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.ariahgroup.research.bo.AttachmentDataSource;
 import org.kuali.kra.rules.ErrorReporter;
-import org.kuali.kra.subawardReporting.printing.SubAwardPrintType;
 import org.kuali.kra.subawardReporting.printing.service.SubAwardPrintingService;
 import org.kuali.kra.subawardReporting.web.struts.form.IsrSsrReportGenerationForm;
 import org.kuali.rice.kns.util.WebUtils;
@@ -38,25 +37,23 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-
 @SuppressWarnings("deprecation")
 public class IsrSsrReportGenerationAction extends KualiAction {
-    
+
     private static final String SF_295_REPORT = "SF295";
-    
-    
+
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
+
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward("close");
     }
-    
+
     /**
-     * 
-     *  method for report button.
-     * 
+     *
+     * method for report button.
+     *
      * @param mapping
      * @param form
      * @param request
@@ -65,28 +62,28 @@ public class IsrSsrReportGenerationAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward printReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Map<String, Object> reportParameters = new HashMap<String, Object>();          
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
         IsrSsrReportGenerationForm isrSsrReportGenerationForm = (IsrSsrReportGenerationForm) form;
-        if (isrSsrReportGenerationForm.getAwardNo() != null){
-            Award award=KraServiceLocator .getService(AwardService.class).findAwardsForAwardNumber((isrSsrReportGenerationForm.getAwardNo())).get(0);        
+        if (isrSsrReportGenerationForm.getAwardNo() != null) {
+            Award award = KraServiceLocator.getService(AwardService.class).findAwardsForAwardNumber((isrSsrReportGenerationForm.getAwardNo())).get(0);
             SubAwardPrintingService subAwardPrintingService = KraServiceLocator.getService(SubAwardPrintingService.class);
-            AttachmentDataSource dataStream ;
-            reportParameters.put("printType",isrSsrReportGenerationForm.getReportName());
-            reportParameters.put("reportType",isrSsrReportGenerationForm.getReportType());
-            reportParameters.put("awardNumber",isrSsrReportGenerationForm.getAwardNo());        
-           
-            if(isrSsrReportGenerationForm.getReportName().equals(SF_295_REPORT)){           
-                dataStream = subAwardPrintingService.printSubAwardReport(award, SubAwardPrintType.SUB_AWARD_SF_295_PRINT_TYPE, reportParameters);
-            } else{
-                dataStream = subAwardPrintingService.printSubAwardReport(award, SubAwardPrintType.SUB_AWARD_SF_294_PRINT_TYPE, reportParameters);
-            }                                           
-            streamToResponse(dataStream,response);
+            AttachmentDataSource dataStream;
+            reportParameters.put("printType", isrSsrReportGenerationForm.getReportName());
+            reportParameters.put("reportType", isrSsrReportGenerationForm.getReportType());
+            reportParameters.put("awardNumber", isrSsrReportGenerationForm.getAwardNo());
+
+            if (isrSsrReportGenerationForm.getReportName().equals(SF_295_REPORT)) {
+                dataStream = subAwardPrintingService.printSubAwardReport(award, reportParameters);
+            } else {
+                dataStream = subAwardPrintingService.printSubAwardReport(award, reportParameters);
+            }
+            streamToResponse(dataStream, response);
         } else {
             (new ErrorReporter()).reportError("awardNo",
                     KeyConstants.REPORT_INPUT_PARAMETER_MISSING, "");
         }
-        
-        return  mapping.findForward(Constants.MAPPING_BASIC);
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     private void streamToResponse(AttachmentDataSource attachmentDataSource,

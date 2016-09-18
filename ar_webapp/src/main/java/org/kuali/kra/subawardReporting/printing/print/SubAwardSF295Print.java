@@ -15,21 +15,18 @@
  */
 package org.kuali.kra.subawardReporting.printing.print;
 
-import org.kuali.kra.printing.print.AbstractPrint;
-import org.kuali.kra.printing.util.PrintingUtils;
-import org.kuali.kra.subawardReporting.printing.SubAwardPrintType;
-
-import javax.xml.transform.Source;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.transform.Source;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.printing.print.AbstractPrint;
+import org.kuali.kra.printing.util.PrintingUtils;
 
 public class SubAwardSF295Print extends AbstractPrint {
 
     @Override
     public List<Source> getXSLTemplates() {
-        ArrayList<Source> sourceList = PrintingUtils
-                .getXSLTforReport(SubAwardPrintType.SUB_AWARD_SF_295_PRINT_TYPE
-                        .getSubAwardPrintType());
+        ArrayList<Source> sourceList = PrintingUtils.getXSLTforReport(Constants.SUBAWARD_PRINT_TYPE_SF_295);
         return sourceList;
     }
 }

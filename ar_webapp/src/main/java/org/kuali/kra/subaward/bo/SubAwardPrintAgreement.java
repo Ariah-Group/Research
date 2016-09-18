@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.subaward.bo;
 
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.krad.bo.BusinessObjectBase;
 
 public class SubAwardPrintAgreement extends BusinessObjectBase {
@@ -118,7 +119,7 @@ public class SubAwardPrintAgreement extends BusinessObjectBase {
     }
 
     public void initialize() {
-        setFdpType("fdpAgreement");
+        setFdpType(Constants.SUBAWARD_PRINT_TYPE_FDP_TEMPLATE);
     }
 
     /**

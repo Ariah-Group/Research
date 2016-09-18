@@ -27,7 +27,6 @@ import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAttachments;
 import org.kuali.kra.subaward.bo.SubAwardForms;
 import org.kuali.kra.subaward.bo.SubAwardPrintAgreement;
-import org.kuali.kra.subawardReporting.printing.SubAwardPrintType;
 import org.kuali.kra.subawardReporting.printing.print.SubAwardFDPAgreement;
 import org.kuali.kra.subawardReporting.printing.print.SubAwardFDPModification;
 import org.kuali.kra.subawardReporting.printing.print.SubAwardSF294Print;
@@ -39,8 +38,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * This class is the implementation of {@link AwardPrintingService}. It has
@@ -50,13 +47,6 @@ import org.apache.commons.logging.LogFactory;
  *
  */
 public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
-
-    private static final Log LOG = LogFactory.getLog(SubAwardPrintingServiceImpl.class);
-
-    private static final String SF_295_REPORT = "SF295";
-    private static final String SF_294_REPORT = "SF294";
-    private static final String SUB_AWARD_FDP_TEMPLATE = "fdpAgreement";
-    private static final String SUB_AWARD_FDP_MODIFICATION = "fdpModification";
 
     private SubAwardSF294Print subAwardSF294Print;
     private SubAwardSF295Print subAwardSF295Print;
@@ -120,12 +110,11 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
     }
 
     @Override
-    public AttachmentDataSource printSubAwardReport(KraPersistableBusinessObjectBase awardDocument,
-            SubAwardPrintType subAwardPrintType, Map<String, Object> reportParameters) throws PrintingException {
+    public AttachmentDataSource printSubAwardReport(KraPersistableBusinessObjectBase awardDocument, Map<String, Object> reportParameters) throws PrintingException {
         AttachmentDataSource source = null;
         AbstractPrint printable = null;
         if (reportParameters.get("printType") != null) {
-            if (reportParameters.get("printType").equals(SF_295_REPORT)) {
+            if (reportParameters.get("printType").equals(Constants.SUBAWARD_PRINT_TYPE_SF_295)) {
                 printable = getSubAwardSF295Print();
             } else {
                 printable = getSubAwardSF294Print();
@@ -137,10 +126,10 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
         source = getPrintingService().print(printable);
         source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
 
-        if (reportParameters.get("printType").equals(SF_295_REPORT)) {
-            source.setFileName(SF_295_REPORT);
+        if (reportParameters.get("printType").equals(Constants.SUBAWARD_PRINT_TYPE_SF_295)) {
+            source.setFileName(Constants.SUBAWARD_PRINT_TYPE_SF_295);
         } else {
-            source.setFileName(SF_294_REPORT);
+            source.setFileName(Constants.SUBAWARD_PRINT_TYPE_SF_294);
         }
         return source;
     }
@@ -170,7 +159,7 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
     }
 
     @Override
-    public AttachmentDataSource printSubAwardFDPReport(KraPersistableBusinessObjectBase subAwardDoc, SubAwardPrintType subAwardPrintType, Map<String, Object> reportParameters) throws PrintingException {
+    public AttachmentDataSource printSubAwardFDPReport(KraPersistableBusinessObjectBase subAwardDoc, Map<String, Object> reportParameters) throws PrintingException {
 
         AttachmentDataSource source = null;
         AbstractPrint printable = null;
@@ -179,7 +168,7 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
         try {
 
             if (fdpType != null) {
-                if (fdpType.equals(SUB_AWARD_FDP_TEMPLATE)) {
+                if (fdpType.equals(Constants.SUBAWARD_PRINT_TYPE_FDP_TEMPLATE)) {
                     printable = getSubAwardFDPAgreement();
                 } else {
                     printable = getSubAwardFDPModification();
@@ -206,10 +195,10 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
                 source = getPrintingService().print(printable);
                 source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
 
-                if (fdpType.equals(SUB_AWARD_FDP_TEMPLATE)) {
-                    source.setFileName(SUB_AWARD_FDP_TEMPLATE + Constants.PDF_FILE_EXTENSION);
+                if (fdpType.equals(Constants.SUBAWARD_PRINT_TYPE_FDP_TEMPLATE)) {
+                    source.setFileName(Constants.SUBAWARD_PRINT_TYPE_FDP_TEMPLATE + Constants.PDF_FILE_EXTENSION);
                 } else {
-                    source.setFileName(SUB_AWARD_FDP_MODIFICATION + Constants.PDF_FILE_EXTENSION);
+                    source.setFileName(Constants.SUBAWARD_PRINT_TYPE_FDP_MODIFICATION + Constants.PDF_FILE_EXTENSION);
                 }
 
             }
@@ -243,9 +232,9 @@ public class SubAwardPrintingServiceImpl implements SubAwardPrintingService {
     @Override
     public List<SubAwardForms> getSponsorFormTemplates(SubAwardPrintAgreement subAwardPrint, List<SubAwardForms> subAwardFormList) {
         List<SubAwardForms> printFormTemplates = new ArrayList<SubAwardForms>();
-        if (subAwardPrint.getFdpType().equals(SUB_AWARD_FDP_TEMPLATE)) {
+        if (subAwardPrint.getFdpType().equals(Constants.SUBAWARD_PRINT_TYPE_FDP_TEMPLATE)) {
             printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP Template"));
-        } else if (subAwardPrint.getFdpType().equals(SUB_AWARD_FDP_MODIFICATION)) {
+        } else if (subAwardPrint.getFdpType().equals(Constants.SUBAWARD_PRINT_TYPE_FDP_MODIFICATION)) {
             printFormTemplates.add(getBusinessObjectService().findBySinglePrimaryKey(SubAwardForms.class, "FDP Modification"));
         }
         if (subAwardPrint.getAttachment3A()) {

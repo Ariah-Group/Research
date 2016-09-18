@@ -40,19 +40,15 @@ public interface SubAwardPrintingService {
      * {@link AttachmentDataSource}
      *
      * @param awardDocument awardData data using which report is generated
-     * @param reportName report to be generated
      * @param reportParameters {@link Map} of parameters required for report
      * generation
      * @return {@link AttachmentDataSource} which contains the byte array of the
      * generated PDF
      * @throws PrintingException if any errors occur during report generation
      */
-    public AttachmentDataSource printSubAwardReport(
-            KraPersistableBusinessObjectBase awardDocument, SubAwardPrintType subAwardPrintType,
-            Map<String, Object> reportParameters) throws PrintingException;
+    public AttachmentDataSource printSubAwardReport(KraPersistableBusinessObjectBase awardDocument, Map<String, Object> reportParameters) throws PrintingException;
 
-    public AttachmentDataSource printSubAwardFDPReport(KraPersistableBusinessObjectBase subAwardDoc, SubAwardPrintType subAwardPrintType,
-            Map<String, Object> reportParameters) throws PrintingException;
+    public AttachmentDataSource printSubAwardFDPReport(KraPersistableBusinessObjectBase subAwardDoc, Map<String, Object> reportParameters) throws PrintingException;
 
     List<SubAwardForms> getSponsorFormTemplates(SubAwardPrintAgreement subAwardPrintAgreement, List<SubAwardForms> subAwardFormList);
 

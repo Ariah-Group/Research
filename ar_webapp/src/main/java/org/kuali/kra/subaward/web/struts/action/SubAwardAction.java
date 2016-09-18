@@ -44,7 +44,6 @@ import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.notification.SubAwardNotificationContext;
 import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
-import org.kuali.kra.subawardReporting.printing.SubAwardPrintType;
 import org.kuali.kra.subawardReporting.printing.service.SubAwardPrintingService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.AuditActionHelper.ValidationState;
@@ -74,7 +73,6 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase {
 
     private transient SubAwardService subAwardService;
     private static final Log LOG = LogFactory.getLog(SubAwardAction.class);
-    private static final String SUBAWARD_AGREEMENT = "fdpAgreement";
     private static final String DOCUMENT_ROUTE_QUESTION = "DocRoute";
 
     /**
@@ -486,23 +484,21 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase {
         if (status == ValidationState.OK) {
             super.route(mapping, form, request, response);
             return sendNotification(mapping, subAwardForm, SubAward.NOTIFICATION_TYPE_SUBMIT, "Submit SubAward");
-        } else {
-            if (status == ValidationState.WARNING) {
-                if (question == null) {
-                    return this.performQuestionWithoutInput(mapping, form, request, response, DOCUMENT_ROUTE_QUESTION, "Validation Warning Exists. Are you sure want to submit to workflow routing.", KRADConstants.CONFIRMATION_QUESTION, methodToCall, "");
-                } else if (DOCUMENT_ROUTE_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                    super.route(mapping, form, request, response);
-                    return sendNotification(mapping, subAwardForm, SubAward.NOTIFICATION_TYPE_SUBMIT, "Submit SubAward");
-                } else {
-                    return mapping.findForward(Constants.MAPPING_BASIC);
-                }
+        } else if (status == ValidationState.WARNING) {
+            if (question == null) {
+                return this.performQuestionWithoutInput(mapping, form, request, response, DOCUMENT_ROUTE_QUESTION, "Validation Warning Exists. Are you sure want to submit to workflow routing.", KRADConstants.CONFIRMATION_QUESTION, methodToCall, "");
+            } else if (DOCUMENT_ROUTE_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                super.route(mapping, form, request, response);
+                return sendNotification(mapping, subAwardForm, SubAward.NOTIFICATION_TYPE_SUBMIT, "Submit SubAward");
             } else {
-                GlobalVariables.getMessageMap().clearErrorMessages();
-                GlobalVariables.getMessageMap().
-                        putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION, new String[]{});
-                subAwardForm.setAuditActivated(true);
                 return mapping.findForward(Constants.MAPPING_BASIC);
             }
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().
+                    putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION, new String[]{});
+            subAwardForm.setAuditActivated(true);
+            return mapping.findForward(Constants.MAPPING_BASIC);
         }
     }
 
@@ -620,7 +616,7 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase {
      * @throws Exception
      */
     public ActionForward printForms(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         SubAwardForm subAwardForm = (SubAwardForm) form;
         List<SubAwardForms> printFormTemplates = new ArrayList<SubAwardForms>();
@@ -654,11 +650,11 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase {
         AttachmentDataSource dataStream;
         reportParameters.put(SubAwardPrintingService.SELECTED_TEMPLATES, printFormTemplates);
         reportParameters.put("fdpType", subAwardForm.getSubAwardPrintAgreement().getFdpType());
-        
-        if (subAwardForm.getSubAwardPrintAgreement().getFdpType().equals(SUBAWARD_AGREEMENT)) {
-            dataStream = subAwardPrintingService.printSubAwardFDPReport(subAwardForm.getSubAwardDocument().getSubAward(), SubAwardPrintType.SUB_AWARD_FDP_TEMPLATE, reportParameters);
+
+        if (subAwardForm.getSubAwardPrintAgreement().getFdpType().equals(Constants.SUBAWARD_PRINT_TYPE_FDP_TEMPLATE)) {
+            dataStream = subAwardPrintingService.printSubAwardFDPReport(subAwardForm.getSubAwardDocument().getSubAward(), reportParameters);
         } else {
-            dataStream = subAwardPrintingService.printSubAwardFDPReport(subAwardForm.getSubAwardDocument().getSubAward(), SubAwardPrintType.SUB_AWARD_FDP_MODIFICATION, reportParameters);
+            dataStream = subAwardPrintingService.printSubAwardFDPReport(subAwardForm.getSubAwardDocument().getSubAward(), reportParameters);
         }
         streamToResponse(dataStream, response);
 

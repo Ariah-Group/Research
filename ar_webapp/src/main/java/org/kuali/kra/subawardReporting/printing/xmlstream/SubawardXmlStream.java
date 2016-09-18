@@ -98,7 +98,7 @@ public class SubawardXmlStream implements XmlStream {
         subcontractReports.setDateSubmitted(calendar);
         subcontractReportsDocument.setSubcontractReports(subcontractReports);
 
-        xmlObjectList.put(SubAwardPrintType.SUB_AWARD_SF_294_PRINT_TYPE.getSubAwardPrintType(), subcontractReportsDocument);
+        xmlObjectList.put(Constants.SUBAWARD_PRINT_TYPE_SF_294, subcontractReportsDocument);
         return xmlObjectList;
     }
 
