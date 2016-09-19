@@ -40,36 +40,31 @@ public abstract class PHS398CoverPageSupplementBaseGenerator extends
     public static final String IS_NEW_INVESTIGATOR = "13";
     public static final String NOT_ANSWERED = "No";
 
-	
-	public static final String VERTEBRATE_ANIMALS_EUTHANIZED = "10000001";
-	public static final String CONSISTENT_WITH_AVMA = "10000002";
-	public static final String DESCRIBE_EUTHANIZATION_METHOD = "10000003";
+    public static final String VERTEBRATE_ANIMALS_EUTHANIZED = "10000001";
+    public static final String CONSISTENT_WITH_AVMA = "10000002";
+    public static final String DESCRIBE_EUTHANIZATION_METHOD = "10000003";
 
-	// The following constants are for question_ref_id.  We are starting seq id to 10,000,000 so that they do not conflict with any client added question ids. 
-	public static final String PROGRAM_INCOME_ANTICIPATED = "10000000";
-	public static final String BUDGET_PERIOD = "10000004";
-	public static final String BUDGET_ANTICIPATED_AMOUNT = "10000005";
-	public static final String BUDGET_SOURCES = "10000006";
+    // The following constants are for question_ref_id.  We are starting seq id to 10,000,000 so that they do not conflict with any client added question ids. 
+    public static final String PROGRAM_INCOME_ANTICIPATED = "10000000";
+    public static final String BUDGET_PERIOD = "10000004";
+    public static final String BUDGET_ANTICIPATED_AMOUNT = "10000005";
+    public static final String BUDGET_SOURCES = "10000006";
 
-	
-	public static final String IS_RENEWAL = "10000007";
-	public static final String INVENTIONS = "10000008";
-	public static final String PATENTS_REPORTED = "10000009";
+    public static final String IS_RENEWAL = "10000007";
+    public static final String INVENTIONS = "10000008";
+    public static final String PATENTS_REPORTED = "10000009";
 
-	
-	public static final String CHANGE_PDPI = "10000010";
-	public static final String PDPI_PREFIX = "10000011";
-	public static final String PDPI_FIRST_NAME = "10000012";
-	public static final String PDPI_MID_NAME = "10000013";
-	public static final String PDPI_LAST_NAME = "10000014";
-	public static final String PDPI_SUFFIX = "10000015";
-	
-	// Question ID for prefix suffix and middle name are 10000016, 10000017, 10000018.  No java code needed.
-	
-	public static final String CHANGE_GRANTEE = "10000019";
-	public static final String NAME_FORMER_INST = "10000020";
+    public static final String CHANGE_PDPI = "10000010";
+    public static final String PDPI_PREFIX = "10000011";
+    public static final String PDPI_FIRST_NAME = "10000012";
+    public static final String PDPI_MID_NAME = "10000013";
+    public static final String PDPI_LAST_NAME = "10000014";
+    public static final String PDPI_SUFFIX = "10000015";
 
-	
+    // Question ID for prefix suffix and middle name are 10000016, 10000017, 10000018.  No java code needed.
+    public static final String CHANGE_GRANTEE = "10000019";
+    public static final String NAME_FORMER_INST = "10000020";
+
     protected S2SUtilService s2sUtilService;
     protected static final int MAX_NUMBER_OF_DEGREES = 3;
     protected static final int PERSON_DEGREE_MAX_LENGTH = 10;
