@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    <styles xmlns="ns:workflow/Style" xsi:schemaLocation="ns:workflow/Style resource:Style">
+        <style name="ProposalDevelopmentDocument.custom.email.style">
+            <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+                <xsl:strip-space elements="*" />
+                <!-- this is a map of document type names to nodesets -->
+                <xsl:key match="summarizedActionItem" name="doctypes-by-name" use="docName" />
+                <xsl:template match="immediateReminder">
+                    <xsl:variable name="docHandlerUrl" select="actionItem/documentType/resolvedDocumentHandlerUrl" />
+                    <email xmlns="">
+                        <subject>Ariah Research (AR) - Proposal Approval Request Notice<xsl:value-of select="actionItem/customSubject" />
+                        </subject>
+                        <body>
+Delivery of this email indicates that the proposal listed below is in line for your approval. Please use the link below to review and approve as appropriate in the Ariah Research (AR) Preaward Proposal Software System.
+
+Document #:	<xsl:value-of select="actionItem/actionItem/documentId" />
+Title:		<xsl:value-of select="actionItem/actionItem/docTitle" />
+
+Approval within the AR system signifies:
+- That the information submitted within the application is true, complete and accurate to the best of my knowledge;
+- That any false, fictitious, or fraudulent statements or claims may subject me to criminal, civil, or administrative penalties; and
+- That I agree to accept responsibility for the scientific conduct of the project and to provide the required progress reports if a grant is awarded as a result of the application.
+
+<b><u>Please contact a Preaward Coordinator in the Office of Sponsored Programs prior to rejecting any proposal within AR.</u></b>
+
+To respond to this action: Go to <xsl:value-of select="$docHandlerUrl" />
+<xsl:choose>
+   <xsl:when test="contains($docHandlerUrl, '?')">&amp;</xsl:when>
+   <xsl:otherwise>?</xsl:otherwise>
+</xsl:choose>docId=<xsl:value-of select="actionItem/actionItem/documentId" />&amp;command=displayActionListView
+
+Additional guidance on internal routing approval can be found at XXX
+For assistance please email grants@youruniversity.edu or phone ###-###-####.
+
+Thank you,
+Office of Sponsored Programs
+
+<xsl:if test="@env != 'prd'">
+Action Item sent to <xsl:value-of select="actionItem/actionItemPrincipalName" />
+<xsl:if test="string(actionItem/actionItem/delegationType)">
+ for delegate type <xsl:value-of select="actionItem/actionItem/delegationType" />
+</xsl:if>
+</xsl:if>
+<xsl:value-of select="actionItem/customBody" />
+</body>
+                    </email>
+                </xsl:template>
+
+
+                <xsl:template match="dailyReminder">
+                    <email xmlns="">
+                        <subject>Ariah Research (AR) Action List Reminder</subject>
+                        <body>Your Action List has <xsl:value-of select="count(summarizedActionItem)" /> eDocs(electronic documents) that need your attention:
+
+                            <xsl:for-each select="summarizedActionItem[count(. | key('doctypes-by-name', docName)[1]) = 1]">
+                                <!-- the xsl:sort modifies the for-each selection order (I think) -->
+                                <!-- <xsl:sort select="name" /> -->
+                                <!-- sort by count -->
+                                <!-- the order of identical values will be arbitrary in the Java map-based implementation;
+                                switching this to desceding here because 1) it seems more useful for a user and
+                                2) I want the unit test to pass, and given that it only uses two doc types, reversing
+                                the order will make it match the literal output of the Java version ;) -->
+                                <xsl:sort data-type="number" order="descending" select="count(key('doctypes-by-name', docName))" />
+                                <xsl:text>	</xsl:text>
+                                <xsl:value-of select="count(key('doctypes-by-name', docName))" />
+                                <xsl:text>	</xsl:text>
+                                <xsl:value-of select="docName" />
+                                <xsl:text>
+                                </xsl:text>
+                            </xsl:for-each>
+
+                            To respond to each of these eDocs: 
+                            Go to <xsl:value-of select="@actionListUrl" />, and then click on its numeric Document ID in the first column of the List.
+
+                            To change how these email notifications are sent (immediately, weekly or none): 
+                            Go to <xsl:value-of select="@preferencesUrl" />
+
+                            For additional help, email <![CDATA[<mailto:]]><xsl:value-of select="@applicationEmailAddress" /><![CDATA[>]]>
+                        </body>
+                    </email>
+                </xsl:template>   
+                <xsl:template match="weeklyReminder">
+                    <email xmlns="">
+                        <subject>Ariah Research (AR) Action List Reminder</subject>
+                        <body>Your Action List has <xsl:value-of select="count(summarizedActionItem)" /> eDocs(electronic documents) that need your attention: 
+
+                            <xsl:for-each select="summarizedActionItem[count(. | key('doctypes-by-name', docName)[1]) = 1]">
+                                <!-- the xsl:sort modifies the for-each selection order (I think) -->
+                                <!-- <xsl:sort select="name" /> -->
+                                <!-- sort by count -->
+                                <!-- the order of identical values will be arbitrary in the Java map-based implementation;
+                                switching this to desceding here because 1) it seems more useful for a user and
+                                2) I want the unit test to pass, and given that it only uses two doc types, reversing
+                                the order will make it match the literal output of the Java version ;) -->
+                                <xsl:sort data-type="number" order="descending" select="count(key('doctypes-by-name', docName))" />
+                                <xsl:text>	</xsl:text>
+                                <xsl:value-of select="count(key('doctypes-by-name', docName))" />
+                                <xsl:text>	</xsl:text>
+                                <xsl:value-of select="docName" />
+                                <xsl:text>
+                                </xsl:text>
+                            </xsl:for-each>
+
+                            To respond to each of these eDocs: 
+                            Go to <xsl:value-of select="@actionListUrl" />, and then click on its numeric Document ID in the first column of the List.
+
+                            To change how these email notifications are sent (immediately, daily or none): 
+                            Go to <xsl:value-of select="@preferencesUrl" />
+
+                            For additional help, email <![CDATA[<mailto:]]><xsl:value-of select="@applicationEmailAddress" /><![CDATA[>]]>
+
+                        </body>
+                    </email>
+                </xsl:template>
+                <xsl:template match="feedback">
+                    <email xmlns="">
+                        <subject>Feedback from <xsl:value-of select="networkId" />
+                            <xsl:variable name="documentId" select="documentId" />
+                            <xsl:choose>
+                                <xsl:when test="string($documentId)"> for document <xsl:value-of select="$documentId" />
+                                </xsl:when>
+                            </xsl:choose>
+                        </subject>
+                        <body>
+                            Network ID: <xsl:value-of select="networkId" />
+                            Name: <xsl:value-of select="userName" />
+                            Email: <xsl:value-of select="userEmail" />
+                            Phone: <xsl:value-of select="phone" />
+                            Time: <xsl:value-of select="timeDate" />
+                            Environment: <xsl:value-of select="@env" />
+
+                            Document type: <xsl:value-of select="documentType" />
+                            Document id: <xsl:value-of select="documentId" />
+
+                            Category: <xsl:value-of select="category" />
+                            Comments: 
+                            <xsl:value-of select="comments" />
+
+                            Exception: 
+                            <xsl:value-of select="exception" />
+                        </body>
+                    </email>
+                </xsl:template>
+            </xsl:stylesheet>
+        </style>
+    </styles>
+</data>

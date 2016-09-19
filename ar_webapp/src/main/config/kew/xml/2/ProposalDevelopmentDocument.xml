@@ -16,6 +16,7 @@
             <docHandler>${kuali.docHandler.url.prefix}/proposalDevelopmentProposal.do?methodToCall=docHandler</docHandler>
             <helpDefinitionURL>default.htm?turl=Documents/proposaldevelopment.htm</helpDefinitionURL>
             <authorizer>org.kuali.kra.proposaldevelopment.document.authorization.ProposalDevelopmentWorkflowDocumentAuthorizer</authorizer>
+            <emailStylesheet>ProposalDevelopmentDocument.custom.email.style</emailStylesheet>
             <active>true</active>
             <policies>
                 <policy>
