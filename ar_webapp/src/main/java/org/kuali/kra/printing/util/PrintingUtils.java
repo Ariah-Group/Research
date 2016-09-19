@@ -181,10 +181,6 @@ public class PrintingUtils {
             xsl = XSL_PRINT_SUB_AWARD_SF_294_REPORT;
         } else if (reportType.equals(Constants.SUBAWARD_PRINT_TYPE_SF_295)) {
             xsl = XSL_PRINT_SUB_AWARD_SF_295_REPORT;
-        } else if (reportType.equals(Constants.SUBAWARD_PRINT_TYPE_FDP_TEMPLATE)) {
-            xsl = XSL_SUB_AWARD_FDP_AGREEMENT;
-        } else if (reportType.equals(Constants.SUBAWARD_PRINT_TYPE_FDP_MODIFICATION)) {
-            xsl = XSL_SUB_AWARD_FDP_MODIFICATION;
         } else if (ProtocolPrintType.getReportTypes().contains(reportType)) {
             for (ProtocolPrintType protocolPrintType : ProtocolPrintType.values()) {
                 if (reportType.equals(protocolPrintType.getProtocolPrintType())) {
