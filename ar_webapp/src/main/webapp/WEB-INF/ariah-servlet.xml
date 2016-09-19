@@ -16,6 +16,7 @@
                         http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
   <context:component-scan base-package="org.ariahgroup.research.proposaldevelopment.web.controller"/>
+  <context:component-scan base-package="org.ariahgroup.research.keywords.web.controller"/>
   <mvc:annotation-driven />
 
 </beans>
