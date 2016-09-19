@@ -1668,15 +1668,11 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase
      */
     // TODO the method code below could be restructured to combine the two for loops into one loop.
     public List<ProtocolAttachmentProtocolBase> getActiveAttachmentProtocolsNoDelete() {
-        List<Integer> documentIds = new ArrayList<Integer>();
+        
         List<ProtocolAttachmentProtocolBase> activeAttachments = new ArrayList<ProtocolAttachmentProtocolBase>();
+        
         for (ProtocolAttachmentProtocolBase attachment : getActiveAttachmentProtocols()) {
-            if (attachment.isDeleted()) {
-                documentIds.add(attachment.getDocumentId());
-            }
-        }
-        for (ProtocolAttachmentProtocolBase attachment : getActiveAttachmentProtocols()) {
-            if (documentIds.isEmpty() || !documentIds.contains(attachment.getDocumentId())) {
+            if (!attachment.isDeleted()) {
                 activeAttachments.add(attachment);
             } else {
                 attachment.setActive(false);
