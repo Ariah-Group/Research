@@ -116,7 +116,12 @@
 
 <kra-coi:disclosureReporter transparent="${requiredTransparent}"/>
 
-<kra-coi:masterAnnualQuestionnaires />                    
+<c:if test="${KualiForm.standardQuestionnaireUsagesExist}">
+
+<kra-coi:masterAnnualQuestionnaires />  
+
+</c:if>
+
 <c:set var="masterDisclosure" value="${KualiForm.disclosureHelper.masterDisclosureBean}" />
 <kra-coi:allDisclosedProjects/>
 <kra-coi:coiNoteAndAttachment/>

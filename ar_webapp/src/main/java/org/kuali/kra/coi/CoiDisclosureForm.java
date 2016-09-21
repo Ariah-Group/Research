@@ -42,8 +42,13 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.kra.questionnaire.QuestionnaireUsage;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implements Auditable, QuestionableFormInterface {
 
@@ -364,8 +369,36 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
     public int getNumColumns() {
         return 3;
     }
-    
+
     public boolean isHideDocDescriptionPanel() {
         return getCoiDisclosureDocument().isDefaultDocumentDescription();
-    }    
+    }
+
+    public boolean isScreeningQuestionnaireUsagesExist() {
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("moduleItemCode", CoeusModule.COI_DISCLOSURE_MODULE_CODE);
+        params.put("moduleSubItemCode", CoeusSubModule.COI_SCREENING_SUBMODULE);
+
+        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+
+        int numUsages = businessObjectService.countMatching(QuestionnaireUsage.class, params);
+
+        return numUsages > 0;
+    }
+
+    public boolean isStandardQuestionnaireUsagesExist() {
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("moduleItemCode", CoeusModule.COI_DISCLOSURE_MODULE_CODE);
+        if (getCoiDisclosureDocument().getCoiDisclosure() != null) {
+            params.put("moduleSubItemCode", getCoiDisclosureDocument().getCoiDisclosure().getEventTypeCode());
+        }
+
+        BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+
+        int numUsages = businessObjectService.countMatching(QuestionnaireUsage.class, params);
+
+        return numUsages > 0;
+    }
 }
