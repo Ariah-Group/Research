@@ -1652,3 +1652,9 @@ END;
 
 -- RES-718
 alter table EPS_PROPOSAL MODIFY EXECUTIVE_SUMMARY varchar2(2400);
+
+--RES-719
+update krcr_parm_t set NMSPC_CD='KR-IDM' where PARM_NM='ARIAH_PERSON_PHONE_TYPE_OFFICE';
+update krcr_parm_t set NMSPC_CD='KR-IDM' where PARM_NM='ARIAH_PERSON_PHONE_TYPE_FAX';
+update krcr_parm_t set NMSPC_CD='KR-IDM' where PARM_NM='ARIAH_PERSON_PHONE_TYPE_PAGER';
+update krcr_parm_t set NMSPC_CD='KR-IDM' where PARM_NM='ARIAH_PERSON_PHONE_TYPE_MOBILE';

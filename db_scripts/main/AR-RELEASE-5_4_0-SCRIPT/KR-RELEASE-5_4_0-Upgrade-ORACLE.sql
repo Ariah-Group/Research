@@ -136,5 +136,12 @@ update krcr_parm_t set PARM_DESC_TXT='Defines whether the debug transform is ena
       VALUES  ('KC-PD','Document','ARIAH_PROPDEV_ABSTRACT_TYPECODE_AREASAFFECTED', sys_guid(),0,'CONFG','16','The Abstract Type Code representing the abstract type named Areas Affected.','A','KUALI');
 
 
+--RES-719
+update krcr_parm_t set NMSPC_CD='KR-IDM' where PARM_NM='ARIAH_PERSON_PHONE_TYPE_OFFICE';
+update krcr_parm_t set NMSPC_CD='KR-IDM' where PARM_NM='ARIAH_PERSON_PHONE_TYPE_FAX';
+update krcr_parm_t set NMSPC_CD='KR-IDM' where PARM_NM='ARIAH_PERSON_PHONE_TYPE_PAGER';
+update krcr_parm_t set NMSPC_CD='KR-IDM' where PARM_NM='ARIAH_PERSON_PHONE_TYPE_MOBILE';
+
+
 commit;
 exit
