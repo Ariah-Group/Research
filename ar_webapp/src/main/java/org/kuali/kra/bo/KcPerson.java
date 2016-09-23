@@ -332,6 +332,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of priorName
      */
     public String getPriorName() {
+
         return selectSingleValue(this.entity.getNames(), new Selector<EntityNameContract, String>() {
             public String notFoundValue() {
                 return "";
@@ -342,7 +343,16 @@ public class KcPerson implements Contactable, BusinessObject {
             }
 
             public boolean shouldSelect(EntityNameContract a) {
-                return "PRIOR".equals(a.getNameType().getName()) && a.getLastName() != null;
+
+                if (parameterService == null) {
+                    parameterService = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+                }
+
+                String nameTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE,
+                        Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                        Constants.ARIAH_PERSON_NAME_TYPE_PRIOR, "PRIOR");
+
+                return nameTypeCode.equals(a.getNameType().getName()) && a.getLastName() != null;
             }
         });
     }
@@ -723,7 +733,7 @@ public class KcPerson implements Contactable, BusinessObject {
         String affiliationTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE,
                 Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
                 Constants.ARIAH_PERSON_AFFILIATION_TYPE_FACULTY, "FCLTY");
-        
+
         return Boolean.valueOf(this.hasAffiliation(affiliationTypeCode));
     }
 
@@ -739,8 +749,8 @@ public class KcPerson implements Contactable, BusinessObject {
 
         String affiliationTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE,
                 Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
-                Constants.ARIAH_PERSON_AFFILIATION_TYPE_GRAD_STUDENT, "GRD_STDNT_STAFF");   
-        
+                Constants.ARIAH_PERSON_AFFILIATION_TYPE_GRAD_STUDENT, "GRD_STDNT_STAFF");
+
         return Boolean.valueOf(this.hasAffiliation(affiliationTypeCode));
     }
 
@@ -756,8 +766,8 @@ public class KcPerson implements Contactable, BusinessObject {
 
         String affiliationTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE,
                 Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
-                Constants.ARIAH_PERSON_AFFILIATION_TYPE_RESEARCH, "RSRCH_STAFF");   
-        
+                Constants.ARIAH_PERSON_AFFILIATION_TYPE_RESEARCH, "RSRCH_STAFF");
+
         return Boolean.valueOf(this.hasAffiliation(affiliationTypeCode));
     }
 
@@ -773,8 +783,8 @@ public class KcPerson implements Contactable, BusinessObject {
 
         String affiliationTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE,
                 Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
-                Constants.ARIAH_PERSON_AFFILIATION_TYPE_SERVICE, "SRVC_STAFF");   
-        
+                Constants.ARIAH_PERSON_AFFILIATION_TYPE_SERVICE, "SRVC_STAFF");
+
         return Boolean.valueOf(this.hasAffiliation(affiliationTypeCode));
     }
 
@@ -790,8 +800,8 @@ public class KcPerson implements Contactable, BusinessObject {
 
         String affiliationTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE,
                 Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
-                Constants.ARIAH_PERSON_AFFILIATION_TYPE_SUPPORT, "SUPPRT_STAFF");        
-        
+                Constants.ARIAH_PERSON_AFFILIATION_TYPE_SUPPORT, "SUPPRT_STAFF");
+
         return Boolean.valueOf(this.hasAffiliation(affiliationTypeCode));
     }
 
@@ -801,7 +811,7 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of otherAcademicGroup
      */
     public Boolean getOtherAcademicGroupFlag() {
-        
+
         if (parameterService == null) {
             parameterService = (ParameterService) KraServiceLocator.getService(ParameterService.class);
         }
@@ -809,7 +819,7 @@ public class KcPerson implements Contactable, BusinessObject {
         String affiliationTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE,
                 Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
                 Constants.ARIAH_PERSON_AFFILIATION_TYPE_OTHERACADEMIC, "OTH_ACADMC_GRP");
-        
+
         return Boolean.valueOf(this.hasAffiliation(affiliationTypeCode));
     }
 
