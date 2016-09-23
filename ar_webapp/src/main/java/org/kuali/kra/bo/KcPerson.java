@@ -57,18 +57,19 @@ public class KcPerson implements Contactable, BusinessObject {
     private static final long serialVersionUID = 1L;
 
     private String personId;
-    
+
     private transient IdentityService identityService;
     private EntityContract entity;
-    
+
     private transient BusinessObjectService boService;
     private KcPersonExtendedAttributes extendedAttributes;
-    
+
     private transient CountryService countryService;
     private transient ParameterService parameterService;
 
     /**
-     * When using this ctor {@link #setPersonId(String)} must be call else this call is in an invalid state.
+     * When using this ctor {@link #setPersonId(String)} must be call else this
+     * call is in an invalid state.
      */
     public KcPerson() {
         //no-arg ctor so that this BO can be used in rice...
@@ -76,10 +77,10 @@ public class KcPerson implements Contactable, BusinessObject {
         this.entity = Entity.Builder.create();
         this.extendedAttributes = new KcPersonExtendedAttributes();
     }
-    
+
     /**
      * Creates a KcPerson from a principal id.
-     * 
+     *
      * @param personId the principal id in KIM
      * @return a KcPerson instance
      * @throws IllegalArgumentException if the personId is empty
@@ -88,27 +89,28 @@ public class KcPerson implements Contactable, BusinessObject {
         if (StringUtils.isEmpty(personId)) {
             throw new IllegalArgumentException("the principalId is empty");
         }
-        
+
         KcPerson person = new KcPerson();
         person.personId = personId;
         person.refreshEntity();
         person.refreshExtendedAttributes();
-        
+
         return person;
     }
-    
+
     /**
      * Creates a KcPerson from an KcPersonExtendedAttributes BO.
-     * 
+     *
      * @param extendedAttributes the KC Person Extended Attributes.
      * @return a KcPerson instance
-     * @throws IllegalArgumentException if the extendedAttributes is null or the extendedAttributes.personId is empty
+     * @throws IllegalArgumentException if the extendedAttributes is null or the
+     * extendedAttributes.personId is empty
      */
     public static KcPerson fromExtendedAttributes(final KcPersonExtendedAttributes extendedAttributes) {
         if (extendedAttributes == null) {
             throw new IllegalArgumentException("the extendedAttributes is null");
         }
-        
+
         if (StringUtils.isEmpty(extendedAttributes.getPersonId())) {
             throw new IllegalArgumentException("the extendedAttributes.personId is empty");
         }
@@ -116,30 +118,32 @@ public class KcPerson implements Contactable, BusinessObject {
         person.personId = extendedAttributes.getPersonId();
         person.extendedAttributes = extendedAttributes;
         person.refreshEntity();
-        
+
         return person;
     }
-    
+
     /**
      * Creates a KcPerson from an EntityContract & principalId.
-     * 
+     *
      * @param entity the KIM entity.
-     * @param personId the principal id in KIM.  This is needed b/c a KIM entity can have multiple principal.  This determines
-     * which principal this wrapper will refer to.
+     * @param personId the principal id in KIM. This is needed b/c a KIM entity
+     * can have multiple principal. This determines which principal this wrapper
+     * will refer to.
      * @return a KcPerson instance
-     * @throws IllegalArgumentException if the entity is null, principalId is empty, or if the entity does not contain a principal
-     * with the passed in principal id
+     * @throws IllegalArgumentException if the entity is null, principalId is
+     * empty, or if the entity does not contain a principal with the passed in
+     * principal id
      */
     public static KcPerson fromEntityAndPersonId(final EntityContract entity, final String personId) {
         if (entity == null) {
             throw new IllegalArgumentException("the entity is null");
         }
-        
+
         if (StringUtils.isEmpty(personId)) {
             throw new IllegalArgumentException("the personId is empty");
         }
         KcPerson person = new KcPerson();
-        
+
         boolean contains = false;
         for (PrincipalContract principal : entity.getPrincipals()) {
             if (personId.equals(principal.getPrincipalId())) {
@@ -147,38 +151,40 @@ public class KcPerson implements Contactable, BusinessObject {
                 break;
             }
         }
-        
+
         if (!contains) {
             throw new IllegalArgumentException("the entity " + entity + " does not have a principal with id " + personId);
         }
-        
+
         person.personId = personId;
         person.entity = entity;
         person.refreshExtendedAttributes();
-        
+
         return person;
     }
-    
+
     /**
      * Creates a KcPerson from an EntityContract & principalId.
-     * 
+     *
      * @param entity the KIM entity.
-     * @param userName the principal's user name in KIM.  This is needed b/c a KIM entity can have multiple principal.  This determines
-     * which principal this wrapper will refer to.
+     * @param userName the principal's user name in KIM. This is needed b/c a
+     * KIM entity can have multiple principal. This determines which principal
+     * this wrapper will refer to.
      * @return a KcPerson instance
-     * @throws IllegalArgumentException if the entity is null, userName is empty, or if the entity does not contain a principal
-     * with the passed in user name
+     * @throws IllegalArgumentException if the entity is null, userName is
+     * empty, or if the entity does not contain a principal with the passed in
+     * user name
      */
     public static KcPerson fromEntityAndUserName(final EntityContract entity, final String userName) {
         if (entity == null) {
             throw new IllegalArgumentException("the entity is null");
         }
-        
+
         if (StringUtils.isEmpty(userName)) {
             throw new IllegalArgumentException("the userName is empty");
         }
         KcPerson person = new KcPerson();
-        
+
         boolean contains = false;
         for (PrincipalContract principal : entity.getPrincipals()) {
             if (userName.equalsIgnoreCase(principal.getPrincipalName())) {
@@ -187,57 +193,66 @@ public class KcPerson implements Contactable, BusinessObject {
                 break;
             }
         }
-        
+
         if (!contains) {
             throw new IllegalArgumentException("the entity " + entity + " does not have a principal name " + userName);
         }
-        
+
         person.entity = entity;
         person.refreshExtendedAttributes();
-        
+
         return person;
     }
-    
-    /** {@inheritDoc} */
+
+    /**
+     * {@inheritDoc}
+     */
     public void refresh() {
         this.refreshEntity();
         this.refreshExtendedAttributes();
     }
-    
-    /** refreshes just the entity object. */
+
+    /**
+     * refreshes just the entity object.
+     */
     private void refreshEntity() {
         this.entity = this.getIdentityService().getEntityByPrincipalId(this.personId);
-        
+
         if (this.entity == null) {
             this.entity = Entity.Builder.create();
         }
     }
-    
-    /** refreshes just the extended attributes object. */
+
+    /**
+     * refreshes just the extended attributes object.
+     */
     private void refreshExtendedAttributes() {
-        this.extendedAttributes = (KcPersonExtendedAttributes)
-            this.getBusinessObjectService().findByPrimaryKey(KcPersonExtendedAttributes.class, Collections.singletonMap("personId", this.personId));
-    
+        this.extendedAttributes = (KcPersonExtendedAttributes) this.getBusinessObjectService().findByPrimaryKey(KcPersonExtendedAttributes.class, Collections.singletonMap("personId", this.personId));
+
         if (this.extendedAttributes == null) {
             this.extendedAttributes = new KcPersonExtendedAttributes();
         }
     }
-    
-    /** {@inheritDoc} */
+
+    /**
+     * {@inheritDoc}
+     */
     public void prepareForWorkflow() {
         //do nothing
     }
 
     /**
      * Gets the person id which is the KIM principal id.
+     *
      * @return the person id
      */
     public String getPersonId() {
         return this.personId;
     }
-    
+
     /**
      * Sets the person id which is the KIM principal id.
+     *
      * @param personId the person id
      */
     public void setPersonId(String personId) {
@@ -245,18 +260,19 @@ public class KcPerson implements Contactable, BusinessObject {
         refreshEntity();
         refreshExtendedAttributes();
     }
-    
+
     /**
      * Gets the value of socialSecurityNumber.
+     *
      * @return the value of socialSecurityNumber
      */
     public String getSocialSecurityNumber() {
         return this.getExternalId("SSN");
     }
-    
-    
+
     /**
      * Gets the value of lastName.
+     *
      * @return the value of lastName
      */
     @Override
@@ -265,12 +281,13 @@ public class KcPerson implements Contactable, BusinessObject {
         if (name == null) {
             return "";
         }
-        
+
         return name.getLastName() != null ? name.getLastName() : "";
     }
 
     /**
      * Gets the value of firstName.
+     *
      * @return the value of firstName
      */
     @Override
@@ -279,7 +296,7 @@ public class KcPerson implements Contactable, BusinessObject {
         if (name == null) {
             return "";
         }
-        
+
         return name.getFirstName() != null ? name.getFirstName() : "";
     }
 
@@ -293,7 +310,7 @@ public class KcPerson implements Contactable, BusinessObject {
         if (name == null) {
             return "";
         }
-        
+
         return name.getMiddleName() != null ? name.getMiddleName() : "";
     }
 
@@ -305,7 +322,7 @@ public class KcPerson implements Contactable, BusinessObject {
     @Override
     public String getFullName() {
         final String middleName = this.getMiddleName() != null ? this.getMiddleName() + " " : "";
-        
+
         return (this.getFirstName() + " " + middleName + this.getLastName()).trim();
     }
 
@@ -316,9 +333,17 @@ public class KcPerson implements Contactable, BusinessObject {
      */
     public String getPriorName() {
         return selectSingleValue(this.entity.getNames(), new Selector<EntityNameContract, String>() {
-            public String notFoundValue() { return ""; }
-            public String select(EntityNameContract a) { return a.getLastName(); }
-            public boolean shouldSelect(EntityNameContract a) { return "PRIOR".equals(a.getNameType().getName()) && a.getLastName() != null; }
+            public String notFoundValue() {
+                return "";
+            }
+
+            public String select(EntityNameContract a) {
+                return a.getLastName();
+            }
+
+            public boolean shouldSelect(EntityNameContract a) {
+                return "PRIOR".equals(a.getNameType().getName()) && a.getLastName() != null;
+            }
         });
     }
 
@@ -328,8 +353,8 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of userName
      */
     public String getUserName() {
-        final String userName = this.getPrincipal() != null? this.getPrincipal().getPrincipalName() : null;
-        
+        final String userName = this.getPrincipal() != null ? this.getPrincipal().getPrincipalName() : null;
+
         return userName != null ? userName : "";
     }
 
@@ -341,9 +366,17 @@ public class KcPerson implements Contactable, BusinessObject {
     @Override
     public String getEmailAddress() {
         return selectSingleValue(this.getEntityType().getEmailAddresses(), new Selector<EntityEmailContract, String>() {
-            public String notFoundValue() { return ""; }
-            public String select(EntityEmailContract a) { return a.getEmailAddress(); }
-            public boolean shouldSelect(EntityEmailContract a) { return a.isActive() && a.isDefaultValue() && a.getEmailAddress() != null; }
+            public String notFoundValue() {
+                return "";
+            }
+
+            public String select(EntityEmailContract a) {
+                return a.getEmailAddress();
+            }
+
+            public boolean shouldSelect(EntityEmailContract a) {
+                return a.isActive() && a.isDefaultValue() && a.getEmailAddress() != null;
+            }
         });
     }
 
@@ -357,7 +390,7 @@ public class KcPerson implements Contactable, BusinessObject {
         if (bio == null) {
             return "";
         }
-        
+
         return bio.getBirthDate();
     }
 
@@ -372,16 +405,15 @@ public class KcPerson implements Contactable, BusinessObject {
             return null;
         }
         Date birthDate = null;
-        
+
         try {
-            birthDate = (bio.getBirthDate() != null) ? DateUtils.parseDate(bio.getBirthDate(), new String[] {"mm/dd/yyyy"}) : null;
-        }
-        catch (ParseException e) {
+            birthDate = (bio.getBirthDate() != null) ? DateUtils.parseDate(bio.getBirthDate(), new String[]{"mm/dd/yyyy"}) : null;
+        } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        
-        return birthDate != null ?  this.calcAge(birthDate): null;
-        
+
+        return birthDate != null ? this.calcAge(birthDate) : null;
+
     }
 
     /**
@@ -403,7 +435,7 @@ public class KcPerson implements Contactable, BusinessObject {
         if (bio == null) {
             return "";
         }
-        
+
         return bio.getGenderCode() != null ? bio.getGenderCode() : "";
     }
 
@@ -530,15 +562,15 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of officePhone
      */
     public String getOfficePhone() {
-        
-        if(parameterService == null) {
+
+        if (parameterService == null) {
             parameterService = (ParameterService) KraServiceLocator.getService(ParameterService.class);
         }
-        
-        String defaultOfficePhoneTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE, 
-                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
+
+        String defaultOfficePhoneTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE,
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
                 Constants.ARIAH_PERSON_PHONE_TYPE_OFFICE, "WRK");
-        
+
         return this.getPhoneNumber(defaultOfficePhoneTypeCode, true);
     }
 
@@ -557,16 +589,16 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of secondaryOfficePhone
      */
     public String getSecondaryOfficePhone() {
-        
-        if(parameterService == null) {
+
+        if (parameterService == null) {
             parameterService = (ParameterService) KraServiceLocator.getService(ParameterService.class);
         }
-        
+
         // this uses the same value as getOfficePhone as 
-        String defaultOfficePhoneTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE, 
-                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
+        String defaultOfficePhoneTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE,
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
                 Constants.ARIAH_PERSON_PHONE_TYPE_OFFICE, "WRK");
-        
+
         return this.getPhoneNumber(defaultOfficePhoneTypeCode, false);
     }
 
@@ -581,7 +613,7 @@ public class KcPerson implements Contactable, BusinessObject {
 
     /**
      * Gets the value of yearGraduated.
-     * 
+     *
      * @return the value of yearGraduated
      */
     public String getYearGraduated() {
@@ -607,10 +639,10 @@ public class KcPerson implements Contactable, BusinessObject {
         if (name == null) {
             return "";
         }
-        
+
         return name.getNameTitle() != null ? name.getNameTitle() : "";
     }
-    
+
     /**
      * Gets the value of Prefix.
      *
@@ -621,11 +653,10 @@ public class KcPerson implements Contactable, BusinessObject {
         if (name == null) {
             return "";
         }
-        
-        return name.getNamePrefix()!= null ? name.getNamePrefix() : "";
+
+        return name.getNamePrefix() != null ? name.getNamePrefix() : "";
     }
-    
-    
+
     /**
      * Gets the value of the Suffix.
      *
@@ -636,10 +667,10 @@ public class KcPerson implements Contactable, BusinessObject {
         if (name == null) {
             return "";
         }
-        
-        return name.getNameSuffix()!= null ? name.getNameSuffix() : "";
+
+        return name.getNameSuffix() != null ? name.getNameSuffix() : "";
     }
-    
+
     /**
      * Gets the value of countryOfCitizenship.
      *
@@ -647,9 +678,17 @@ public class KcPerson implements Contactable, BusinessObject {
      */
     public String getCountryOfCitizenship() {
         return selectSingleValue(this.entity.getCitizenships(), new Selector<EntityCitizenshipContract, String>() {
-            public String notFoundValue() { return ""; }
-            public String select(EntityCitizenshipContract a) { return convert2DigitCountryCodeTo3Digit(a.getCountryCode()); }
-            public boolean shouldSelect(EntityCitizenshipContract a) { return a.getCountryCode() != null; }
+            public String notFoundValue() {
+                return "";
+            }
+
+            public String select(EntityCitizenshipContract a) {
+                return convert2DigitCountryCodeTo3Digit(a.getCountryCode());
+            }
+
+            public boolean shouldSelect(EntityCitizenshipContract a) {
+                return a.getCountryCode() != null;
+            }
         });
     }
 
@@ -676,17 +715,33 @@ public class KcPerson implements Contactable, BusinessObject {
      *
      * @return the value of faculty
      */
-    public Boolean getFacultyFlag() {      
-        return Boolean.valueOf(this.hasAffiliation("FCLTY"));
+    public Boolean getFacultyFlag() {
+        if (parameterService == null) {
+            parameterService = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        }
+
+        String affiliationTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE,
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                Constants.ARIAH_PERSON_AFFILIATION_TYPE_FACULTY, "FCLTY");
+        
+        return Boolean.valueOf(this.hasAffiliation(affiliationTypeCode));
     }
-     
+
     /**
      * Gets the value of graduateStudentStaff.
      *
      * @return the value of graduateStudentStaff
      */
     public Boolean getGraduateStudentStaffFlag() {
-        return Boolean.valueOf(this.hasAffiliation("GRD_STDNT_STAFF"));
+        if (parameterService == null) {
+            parameterService = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        }
+
+        String affiliationTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE,
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                Constants.ARIAH_PERSON_AFFILIATION_TYPE_GRAD_STUDENT, "GRD_STDNT_STAFF");   
+        
+        return Boolean.valueOf(this.hasAffiliation(affiliationTypeCode));
     }
 
     /**
@@ -695,7 +750,15 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of researchStaff
      */
     public Boolean getResearchStaffFlag() {
-        return Boolean.valueOf(this.hasAffiliation("RSRCH_STAFF"));
+        if (parameterService == null) {
+            parameterService = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        }
+
+        String affiliationTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE,
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                Constants.ARIAH_PERSON_AFFILIATION_TYPE_RESEARCH, "RSRCH_STAFF");   
+        
+        return Boolean.valueOf(this.hasAffiliation(affiliationTypeCode));
     }
 
     /**
@@ -704,7 +767,15 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of serviceStaff
      */
     public Boolean getServiceStaffFlag() {
-        return Boolean.valueOf(this.hasAffiliation("SRVC_STAFF"));
+        if (parameterService == null) {
+            parameterService = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        }
+
+        String affiliationTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE,
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                Constants.ARIAH_PERSON_AFFILIATION_TYPE_SERVICE, "SRVC_STAFF");   
+        
+        return Boolean.valueOf(this.hasAffiliation(affiliationTypeCode));
     }
 
     /**
@@ -713,7 +784,15 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of supportStaff
      */
     public Boolean getSupportStaffFlag() {
-        return Boolean.valueOf(this.hasAffiliation("SUPPRT_STAFF"));
+        if (parameterService == null) {
+            parameterService = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        }
+
+        String affiliationTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE,
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                Constants.ARIAH_PERSON_AFFILIATION_TYPE_SUPPORT, "SUPPRT_STAFF");        
+        
+        return Boolean.valueOf(this.hasAffiliation(affiliationTypeCode));
     }
 
     /**
@@ -722,7 +801,16 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of otherAcademicGroup
      */
     public Boolean getOtherAcademicGroupFlag() {
-        return Boolean.valueOf(this.hasAffiliation("OTH_ACADMC_GRP"));
+        
+        if (parameterService == null) {
+            parameterService = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        }
+
+        String affiliationTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE,
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                Constants.ARIAH_PERSON_AFFILIATION_TYPE_OTHERACADEMIC, "OTH_ACADMC_GRP");
+        
+        return Boolean.valueOf(this.hasAffiliation(affiliationTypeCode));
     }
 
     /**
@@ -731,7 +819,16 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of medicalStaff
      */
     public Boolean getMedicalStaffFlag() {
-        return Boolean.valueOf(this.hasAffiliation("MED_STAFF"));
+
+        if (parameterService == null) {
+            parameterService = (ParameterService) KraServiceLocator.getService(ParameterService.class);
+        }
+
+        String affiliationTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE,
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
+                Constants.ARIAH_PERSON_AFFILIATION_TYPE_MEDICAL, "MED_STAFF");
+
+        return Boolean.valueOf(this.hasAffiliation(affiliationTypeCode));
     }
 
     /**
@@ -848,41 +945,41 @@ public class KcPerson implements Contactable, BusinessObject {
         final EntityAddressContract address = this.getDefaultActiveAddress();
         return address.getCountryCode() != null ? this.convert2DigitCountryCodeTo3Digit(address.getCountryCode()) : "";
     }
-    
+
     /**
      * Gets the value of faxNumber.
      *
      * @return the value of faxNumber
      */
     public String getFaxNumber() {
-        
-        if(parameterService == null) {
+
+        if (parameterService == null) {
             parameterService = (ParameterService) KraServiceLocator.getService(ParameterService.class);
         }
-        
+
         // this uses the same value as getOfficePhone as 
-        String defaultFaxPhoneTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE, 
-                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
+        String defaultFaxPhoneTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE,
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
                 Constants.ARIAH_PERSON_PHONE_TYPE_FAX, "FAX");
-        
+
         return this.getPhoneNumber(defaultFaxPhoneTypeCode);
     }
-    
+
     /**
      * Gets the value of pagerNumber.
      *
      * @return the value of pagerNumber
      */
-    public String getPagerNumber() {      
-        
-        if(parameterService == null) {
+    public String getPagerNumber() {
+
+        if (parameterService == null) {
             parameterService = (ParameterService) KraServiceLocator.getService(ParameterService.class);
         }
-        
-        String defaultPagerPhoneTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE, 
-                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
+
+        String defaultPagerPhoneTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE,
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
                 Constants.ARIAH_PERSON_PHONE_TYPE_PAGER, "PGR");
-        
+
         return this.getPhoneNumber(defaultPagerPhoneTypeCode);
     }
 
@@ -892,15 +989,15 @@ public class KcPerson implements Contactable, BusinessObject {
      * @return the value of mobilePhoneNumber
      */
     public String getMobilePhoneNumber() {
-        
-        if(parameterService == null) {
+
+        if (parameterService == null) {
             parameterService = (ParameterService) KraServiceLocator.getService(ParameterService.class);
         }
-        
-        String defaultMobilePhoneTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE, 
-                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, 
+
+        String defaultMobilePhoneTypeCode = parameterService.getParameterValueAsString(Constants.IDENTITY_MANAGEMENT_NAMESPACE,
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE,
                 Constants.ARIAH_PERSON_PHONE_TYPE_MOBILE, "MBL");
-        
+
         return this.getPhoneNumber(defaultMobilePhoneTypeCode);
     }
 
@@ -912,57 +1009,70 @@ public class KcPerson implements Contactable, BusinessObject {
     public String getEraCommonsUserName() {
         return this.getExternalId("ERAC");
     }
-    
+
     /**
      * Gets the active flag.
+     *
      * @return the active flag
      */
     public Boolean getActive() {
         return Boolean.valueOf(this.entity.isActive());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getIdentifier() {
         return this.getPersonId();
     }
-    
-    /** {@inheritDoc} */
+
+    /**
+     * {@inheritDoc}
+     */
     public Unit getUnit() {
         final String org = this.getOrganizationIdentifier();
-        
-        return org != null ? (Unit) this.getBusinessObjectService().findByPrimaryKey(Unit.class, Collections.singletonMap("unitNumber", org)) : null; 
+
+        return org != null ? (Unit) this.getBusinessObjectService().findByPrimaryKey(Unit.class, Collections.singletonMap("unitNumber", org)) : null;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getPhoneNumber() {
         return this.getOfficePhone();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getContactOrganizationName() {
         return this.getUnit() != null ? this.getUnit().getUnitName() : null;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getOrganizationIdentifier() {
         final EntityEmploymentContract emp = this.entity.getPrimaryEmployment();
         if (emp == null) {
             return "";
         }
-        
+
         return emp.getPrimaryDepartmentCode() != null ? emp.getPrimaryDepartmentCode() : "";
     }
-    
+
     /**
      * Gets the campus code.
+     *
      * @return the campus code
      */
     public String getCampusCode() {
         return this.getCampusCode(true);
     }
-    
+
     /**
      * Gets the {@link BusinessObjectService BusinessObjectService}.
+     *
      * @return Gets the BusinessObjectService
      */
     BusinessObjectService getBusinessObjectService() {
@@ -971,9 +1081,10 @@ public class KcPerson implements Contactable, BusinessObject {
         }
         return this.boService;
     }
-    
+
     /**
      * Gets the {@link IdentityService IdentityService}.
+     *
      * @return Gets the IdentityService
      */
     IdentityService getIdentityService() {
@@ -982,9 +1093,10 @@ public class KcPerson implements Contactable, BusinessObject {
         }
         return this.identityService;
     }
-    
+
     /**
      * Gets the {@link CountryService CountryService}.
+     *
      * @return Gets the CountryService
      */
     CountryService getCountryService() {
@@ -993,76 +1105,116 @@ public class KcPerson implements Contactable, BusinessObject {
         }
         return this.countryService;
     }
-    
+
     /**
-     * gets the extended attributes BO.  This is only here to make rice DD relationships work.
+     * gets the extended attributes BO. This is only here to make rice DD
+     * relationships work.
+     *
      * @return the BO
      */
     public KcPersonExtendedAttributes getExtendedAttributes() {
         return this.extendedAttributes;
     }
-    
+
     /**
-     * Gets the phone number for a specific type out of the KIM object.  This
+     * Gets the phone number for a specific type out of the KIM object. This
      * phone number will not contain country code or extension b/c phone numbers
-     * in KC do not have them.  Will return an empty string if unable to find a
+     * in KC do not have them. Will return an empty string if unable to find a
      * number for a type.
+     *
      * @param type the type
      * @return the phone number (ex: 123-4567)
      */
     private String getPhoneNumber(final String type) {
         return selectSingleValue(this.getEntityType().getPhoneNumbers(), new Selector<EntityPhoneContract, String>() {
-            public String notFoundValue() { return ""; }
-            public String select(EntityPhoneContract a) { return a.getPhoneNumber(); }
-            public boolean shouldSelect(EntityPhoneContract a) { return type.equals(a.getPhoneType().getCode()) && a.getPhoneNumber() != null; }
+            public String notFoundValue() {
+                return "";
+            }
+
+            public String select(EntityPhoneContract a) {
+                return a.getPhoneNumber();
+            }
+
+            public boolean shouldSelect(EntityPhoneContract a) {
+                return type.equals(a.getPhoneType().getCode()) && a.getPhoneNumber() != null;
+            }
         });
     }
-    
+
     /**
-     * Gets the phone number for a specific type and matching the default indicator
-     * out of the KIM object.  This phone number will not contain country code
-     * or extension b/c phone numbers in KC do not have them.  Will return an empty string
-     * if unable to find a number for a type/default ind.
+     * Gets the phone number for a specific type and matching the default
+     * indicator out of the KIM object. This phone number will not contain
+     * country code or extension b/c phone numbers in KC do not have them. Will
+     * return an empty string if unable to find a number for a type/default ind.
+     *
      * @param type the type
      * @param whether the number must be default
      * @return the phone number (ex: 123-4567)
      */
     private String getPhoneNumber(final String type, final boolean isDefault) {
         return selectSingleValue(this.getEntityType().getPhoneNumbers(), new Selector<EntityPhoneContract, String>() {
-            public String notFoundValue() { return ""; }
-            public String select(EntityPhoneContract a) { return a.getPhoneNumber(); }
-            public boolean shouldSelect(EntityPhoneContract a) { return type.equals(a.getPhoneType().getCode()) && isDefault == a.isDefaultValue() && a.getPhoneNumber() != null; }
+            public String notFoundValue() {
+                return "";
+            }
+
+            public String select(EntityPhoneContract a) {
+                return a.getPhoneNumber();
+            }
+
+            public boolean shouldSelect(EntityPhoneContract a) {
+                return type.equals(a.getPhoneType().getCode()) && isDefault == a.isDefaultValue() && a.getPhoneNumber() != null;
+            }
         });
     }
-    
+
     /**
      * Checks if the KIM entity has an affiliation based on a type code.
+     *
      * @param affilTypeCode the affiliation type code
      * @return true if the entity has an affiliation
      */
     private boolean hasAffiliation(final String affilTypeCode) {
         return selectSingleValue(this.entity.getAffiliations(), new Selector<EntityAffiliationContract, Boolean>() {
-            public Boolean notFoundValue() { return Boolean.FALSE; }
-            public Boolean select(EntityAffiliationContract a) { return Boolean.TRUE; }
-            public boolean shouldSelect(EntityAffiliationContract a) { return affilTypeCode.equals(a.getAffiliationType().getCode()); }
+            public Boolean notFoundValue() {
+                return Boolean.FALSE;
+            }
+
+            public Boolean select(EntityAffiliationContract a) {
+                return Boolean.TRUE;
+            }
+
+            public boolean shouldSelect(EntityAffiliationContract a) {
+                return affilTypeCode.equals(a.getAffiliationType().getCode());
+            }
         });
     }
-    
+
     /**
-     * Gets the campus code matching the default indicator out of the KIM object.
+     * Gets the campus code matching the default indicator out of the KIM
+     * object.
+     *
      * @param isDefault whether the campus code must be default
      * @return the campus code
      */
     private String getCampusCode(final boolean isDefault) {
         return selectSingleValue(this.entity.getAffiliations(), new Selector<EntityAffiliationContract, String>() {
-            public String notFoundValue() { return ""; }
-            public String select(EntityAffiliationContract a) { return a.getCampusCode(); }
-            public boolean shouldSelect(EntityAffiliationContract a) { return isDefault == a.isDefaultValue(); }
+            public String notFoundValue() {
+                return "";
+            }
+
+            public String select(EntityAffiliationContract a) {
+                return a.getCampusCode();
+            }
+
+            public boolean shouldSelect(EntityAffiliationContract a) {
+                return isDefault == a.isDefaultValue();
+            }
         });
     }
-    
+
     /**
      * Formats a date in the format KC expects.
+     *
      * @param dte the date to format
      * @return the formatted date
      * @see #standardDateFormat for the format
@@ -1071,50 +1223,64 @@ public class KcPerson implements Contactable, BusinessObject {
         assert dte != null : "the date is null";
         return this.getKCDateFormat().format(dte);
     }
-    
+
     /**
      * Gets an external id based on a type.
+     *
      * @param type the type
      * @return the id
      */
     private String getExternalId(String type) {
         final EntityExternalIdentifierContract extId = this.entity.getEntityExternalIdentifier(type);
-        return extId != null ? extId.getExternalId() : ""; 
+        return extId != null ? extId.getExternalId() : "";
     }
-    
-    /** 
-     * Gets the default & active address.  will never return null
+
+    /**
+     * Gets the default & active address. will never return null
+     *
      * @return address
      */
     private EntityAddressContract getDefaultActiveAddress() {
         return selectSingleValue(this.getEntityType().getAddresses(), new Selector<EntityAddressContract, EntityAddressContract>() {
-            public EntityAddressContract notFoundValue() { return EntityAddress.Builder.create(); }
-            public EntityAddressContract select(EntityAddressContract a) { return a; }
-            public boolean shouldSelect(EntityAddressContract a) { return a.isActive() && a.isDefaultValue(); }
+            public EntityAddressContract notFoundValue() {
+                return EntityAddress.Builder.create();
+            }
+
+            public EntityAddressContract select(EntityAddressContract a) {
+                return a;
+            }
+
+            public boolean shouldSelect(EntityAddressContract a) {
+                return a.isActive() && a.isDefaultValue();
+            }
         });
     }
-    
+
     /**
-     * Gets the entity type that represents a person in KC.  KC only supports a single entity type. will not return null.
+     * Gets the entity type that represents a person in KC. KC only supports a
+     * single entity type. will not return null.
+     *
      * @return the entity type object
      */
-    private EntityTypeContactInfoContract getEntityType() {     
+    private EntityTypeContactInfoContract getEntityType() {
         final EntityTypeContactInfoContract ent = this.entity.getEntityTypeContactInfoByTypeCode("PERSON");
-        
-        return ent != null ? ent : EntityTypeContactInfo.Builder.create("","");
+
+        return ent != null ? ent : EntityTypeContactInfo.Builder.create("", "");
     }
-    
+
     /**
      * Calculates the age based on a date of birth and the current system date.
+     *
      * @param dob the date of birth
      * @return the age in days
      */
     private Integer calcAge(Date dob) {
         return Integer.getInteger(DurationFormatUtils.formatPeriod(dob.getTime(), new Date().getTime(), "y"));
     }
-    
+
     /**
      * Converts a 2 digit country code to the three digit code KC uses.
+     *
      * @param digit2 the 2 digit code
      * @return the 3 digit code
      */
@@ -1122,31 +1288,45 @@ public class KcPerson implements Contactable, BusinessObject {
         final Country country = this.getCountryService().getCountry(digit2);
         return country != null && country.getAlternateCode() != null ? country.getAlternateCode() : "";
     }
-    
+
     /**
-     * DateFormats are not thread safe.  Creating a new instance for use each time.
+     * DateFormats are not thread safe. Creating a new instance for use each
+     * time.
+     *
      * @return a date format
      */
     private DateFormat getKCDateFormat() {
         return new SimpleDateFormat("MM/dd/yyyy");
     }
-    
+
     /**
-     * Gets the principal which matches the passed in principal id.  This method will never return null.
-     * an empty Principal object will be returned in the case where a principal cannot be found.
+     * Gets the principal which matches the passed in principal id. This method
+     * will never return null. an empty Principal object will be returned in the
+     * case where a principal cannot be found.
+     *
      * @return the Kim Principal.
      */
     private PrincipalContract getPrincipal() {
         return selectSingleValue(this.entity.getPrincipals(), new Selector<PrincipalContract, PrincipalContract>() {
-            public PrincipalContract notFoundValue() { return null; } 
-            public PrincipalContract select(PrincipalContract a) { return a; }
-            public boolean shouldSelect(PrincipalContract a) { return personId.equals(a.getPrincipalId()); }
+            public PrincipalContract notFoundValue() {
+                return null;
+            }
+
+            public PrincipalContract select(PrincipalContract a) {
+                return a;
+            }
+
+            public boolean shouldSelect(PrincipalContract a) {
+                return personId.equals(a.getPrincipalId());
+            }
         });
     }
-    
-    /** {@inheritDoc} */       
+
+    /**
+     * {@inheritDoc}
+     */
     @Override()
-    public String toString(){
+    public String toString() {
         StringBuffer retVal = new StringBuffer(50);
         retVal.append("getAddressLine1:'").append(this.getAddressLine1()).append("'\n");
         retVal.append("getAddressLine2:'").append(this.getAddressLine2()).append("'\n");
@@ -1169,12 +1349,13 @@ public class KcPerson implements Contactable, BusinessObject {
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.boService = boService;
     }
-    
+
     /**
-     * This method exists to cut down on all the branching, looping, etc. that has to be done for kim
-     * in order to handle nulls and other conditions. Essentially all the logic in this method would have
-     * had to be duplicated in every getter accessing a collection from kim.
-     * 
+     * This method exists to cut down on all the branching, looping, etc. that
+     * has to be done for kim in order to handle nulls and other conditions.
+     * Essentially all the logic in this method would have had to be duplicated
+     * in every getter accessing a collection from kim.
+     *
      * @param <A> the input type
      * @param <B> the output type
      * @param values the collection to select from
@@ -1183,21 +1364,21 @@ public class KcPerson implements Contactable, BusinessObject {
      */
     private static <A, B> B selectSingleValue(Collection<? extends A> values, Selector<A, ? extends B> selector) {
         assert selector != null : "selector is null";
-        
+
         if (values == null) {
             return selector.notFoundValue();
         }
-        
+
         for (A a : values) {
             if (a == null) {
                 continue;
             }
-            
+
             if (selector.shouldSelect(a)) {
                 return selector.select(a);
             }
         }
-        
+
         return selector.notFoundValue();
     }
 
@@ -1207,16 +1388,25 @@ public class KcPerson implements Contactable, BusinessObject {
     public ParameterService getParameterService() {
         return parameterService;
     }
-    
+
     /**
      * Used when selecting a value.
      */
     private static interface Selector<A, B> {
-        /** should the passed in value be selected from. */
+
+        /**
+         * should the passed in value be selected from.
+         */
         boolean shouldSelect(A a);
-        /** select from A deriving B. */ 
+
+        /**
+         * select from A deriving B.
+         */
         B select(A a);
-        /** value to use when no values are selected. */
+
+        /**
+         * value to use when no values are selected.
+         */
         B notFoundValue();
     }
 }

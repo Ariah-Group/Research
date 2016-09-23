@@ -139,5 +139,29 @@ update krcr_parm_t set PARM_DESC_TXT='Defines whether the debug transform is ena
 --RES-719
 insert into KRCR_CMPNT_T(NMSPC_CD,CMPNT_CD,OBJ_ID,VER_NBR,NM,ACTV_IND) values('KC-IDM','All',sys_guid(),1,'All','Y');
 
+
+--RES-720
+INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
+VALUES  ('KC-IDM','All','ARIAH_PERSON_AFFILIATION_TYPE_FACULTY', sys_guid(),0,'CONFG','FCLTY','Parameter used to specify a persons affiliation type code representing faculty.','A','KUALI');
+
+INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
+VALUES  ('KC-IDM','All','ARIAH_PERSON_AFFILIATION_TYPE_GRAD_STUDENT', sys_guid(),0,'CONFG','GRD_STDNT_STAFF','Parameter used to specify a persons affiliation type code representing graduate student staff.','A','KUALI');
+
+INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
+VALUES  ('KC-IDM','All','ARIAH_PERSON_AFFILIATION_TYPE_RESEARCH', sys_guid(),0,'CONFG','RSRCH_STAFF','Parameter used to specify a persons affiliation type code representing research staff.','A','KUALI');
+
+INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
+VALUES  ('KC-IDM','All','ARIAH_PERSON_AFFILIATION_TYPE_SERVICE', sys_guid(),0,'CONFG','SRVC_STAFF','Parameter used to specify a persons affiliation type code representing service staff.','A','KUALI');
+
+INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
+VALUES  ('KC-IDM','All','ARIAH_PERSON_AFFILIATION_TYPE_SUPPORT', sys_guid(),0,'CONFG','SUPPRT_STAFF','Parameter used to specify a persons affiliation type code representing support staff.','A','KUALI');
+
+INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
+VALUES  ('KC-IDM','All','ARIAH_PERSON_AFFILIATION_TYPE_OTHERACADEMIC', sys_guid(),0,'CONFG','OTH_ACADMC_GRP','Parameter used to specify a persons affiliation type code representing other academic staff.','A','KUALI');
+
+INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
+VALUES  ('KC-IDM','All','ARIAH_PERSON_AFFILIATION_TYPE_MEDICAL', sys_guid(),0,'CONFG','MED_STAFF','Parameter used to specify a persons affiliation type code represnting medical staff.','A','KUALI');
+
+
 commit;
 exit
