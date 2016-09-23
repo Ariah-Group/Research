@@ -1677,3 +1677,7 @@ VALUES  ('KC-IDM','All','ARIAH_PERSON_AFFILIATION_TYPE_OTHERACADEMIC', sys_guid(
 
 INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
 VALUES  ('KC-IDM','All','ARIAH_PERSON_AFFILIATION_TYPE_MEDICAL', sys_guid(),0,'CONFG','MED_STAFF','Parameter used to specify a persons affiliation type code represnting medical staff.','A','KUALI');
+
+
+ -- RES-721
+INSERT INTO KRIM_ENT_NM_TYP_T(ENT_NM_TYP_CD,OBJ_ID,VER_NBR,NM,ACTV_IND,DISPLAY_SORT_CD,LAST_UPDT_DT) values('PRIOR',sys_guid(),1,'Prior','Y','D',sysdate);
