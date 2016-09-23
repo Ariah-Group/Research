@@ -137,11 +137,7 @@ update krcr_parm_t set PARM_DESC_TXT='Defines whether the debug transform is ena
 
 
 --RES-719
-update krcr_parm_t set NMSPC_CD='KR-IDM' where PARM_NM='ARIAH_PERSON_PHONE_TYPE_OFFICE';
-update krcr_parm_t set NMSPC_CD='KR-IDM' where PARM_NM='ARIAH_PERSON_PHONE_TYPE_FAX';
-update krcr_parm_t set NMSPC_CD='KR-IDM' where PARM_NM='ARIAH_PERSON_PHONE_TYPE_PAGER';
-update krcr_parm_t set NMSPC_CD='KR-IDM' where PARM_NM='ARIAH_PERSON_PHONE_TYPE_MOBILE';
-
+insert into KRCR_CMPNT_T(NMSPC_CD,CMPNT_CD,OBJ_ID,VER_NBR,NM,ACTV_IND) values('KC-IDM','All',sys_guid(),1,'All','Y');
 
 commit;
 exit
