@@ -1384,6 +1384,19 @@
         </pkgName>
         <sortIndex>220</sortIndex>
     </Form>  
+    <Form namespace="http://apply.grants.gov/forms/PHS398_ResearchTrainingProgramPlan_3_0-V3.0">
+        <formName>PHS398_ResearchTrainingProgramPlan_3_0</formName>
+        <mainClass>
+            org.kuali.kra.s2s.generator.impl.PHS398ResTrainProgPlanV3_0Generator
+        </mainClass>
+        <stylesheet>
+            org/kuali/kra/s2s/stylesheet/PHS398_ResearchTrainProPlan-V3.0.xsl
+        </stylesheet>
+        <pkgName>
+            gov.grants.apply.forms.phs398ResearchTrainingProgramPlan30V30
+        </pkgName>
+        <sortIndex>221</sortIndex>
+    </Form>      
     <Form
         namespace="http://apply.grants.gov/forms/RR_KeyPersonExpanded_2_0-V2.0">
         <formName>RR_KeyPersonExpanded_2_0</formName>

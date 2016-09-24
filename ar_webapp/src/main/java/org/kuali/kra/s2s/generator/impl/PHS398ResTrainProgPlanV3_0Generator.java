@@ -68,6 +68,8 @@ public class PHS398ResTrainProgPlanV3_0Generator extends S2SBaseFormGenerator {
     private static final int PHS_RES_TRAINING_PLAN_DATA_TABLES_124 = 124;
     private static final int PHS_RES_TRAINING_PLAN_SUPPORT_LETTERS_125 = 125;
     private static final int PHS_RES_TRAINING_PLAN_APPENDIX_126 = 126;
+    private static final int PHS_RES_TRAINING_PLAN_DATA_SAFETY_MONITORING_CODE = 129;
+    private static final int PHS_RES_TRAINING_PLAN_METH_ENHANCREPRO_CODE = 145;
 
     private PHS398ResearchTrainingProgramPlan30 getPHS398ResearchTrainingProgramPlan(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
         DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
@@ -185,7 +187,7 @@ public class PHS398ResTrainProgPlanV3_0Generator extends S2SBaseFormGenerator {
                         }
                         attachedFileDataTypes.add(attachedFileDataType);
                         break;
-                    case (S2SConstants.NarrativeType.PHS_RES_TRAINING_PLAN_METHODS_FOR_ENHANCING_REPRODUCIBILITY_CODE):
+                    case (PHS_RES_TRAINING_PLAN_METH_ENHANCREPRO_CODE):
                         attachedFileDataType = getAttachedFileType(narrative);
                         MethodsForEnhancingReproducibility methodsForEnhancingReproducibility = researchTrainingProgramPlanAttachments.addNewMethodsForEnhancingReproducibility();
                         if (attachedFileDataType == null) {
@@ -193,7 +195,7 @@ public class PHS398ResTrainProgPlanV3_0Generator extends S2SBaseFormGenerator {
                         }
                         methodsForEnhancingReproducibility.setAttFile(attachedFileDataType);
                         break;
-                    case (S2SConstants.NarrativeType.PHS_RES_TRAINING_PLAN_DATA_SAFETY_MONITORING_CODE):
+                    case (PHS_RES_TRAINING_PLAN_DATA_SAFETY_MONITORING_CODE):
                         attachedFileDataType = getAttachedFileType(narrative);
                         DataSafetyMonitoringPlan dataSafetyMonitoringPlan = researchTrainingProgramPlanAttachments.addNewDataSafetyMonitoringPlan();
                         if (attachedFileDataType == null) {
@@ -228,6 +230,7 @@ public class PHS398ResTrainProgPlanV3_0Generator extends S2SBaseFormGenerator {
         return KraServiceLocator.getService(ParameterService.class);
     }
 
+    @Override
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) throws S2SException {
         PHS398ResearchTrainingProgramPlan30 phs398ResearchTrainingProgramPlan = getPHS398ResearchTrainingProgramPlan(proposalDevelopmentDocument);
         PHS398ResearchTrainingProgramPlan30Document phs398ResearchTrainingProgramPlanDocument = PHS398ResearchTrainingProgramPlan30Document.Factory.newInstance();
