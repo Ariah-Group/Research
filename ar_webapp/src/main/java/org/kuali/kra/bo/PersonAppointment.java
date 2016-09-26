@@ -22,8 +22,9 @@ import org.kuali.kra.budget.personnel.JobCode;
 import java.sql.Date;
 
 /**
- * Business Object representation of a PersonDegree. A <code>{@link Person}</code> may have many degrees. This represents the relationship
- * of a <code>{@link Person}</code> to a degree as well as the degree itself.
+ * Business Object representation of a PersonAppointment. A <code>{@link Person}</code> may have
+ * many appointments. This represents the relationship of a <code>{@link Person}</code> to an 
+ * appointment as well as the appointment itself.
  * 
  * @see org.kuali.kra.bo.Person
  */
