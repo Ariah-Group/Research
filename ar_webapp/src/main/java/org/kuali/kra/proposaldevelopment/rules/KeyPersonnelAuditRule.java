@@ -80,6 +80,8 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
             if (!hasInvestigator && isInvestigator(person)) {
                 hasInvestigator = true;
             }
+            
+            personCount++;
         }
         //retval &= validateYesNoQuestions((ProposalDevelopmentDocument) document);
         
@@ -94,7 +96,7 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         boolean retval = true;
         if (person.getEraCommonsUserName() == null) {
             getAuditErrors().add(new AuditError(
-                    "document.developmentProposalList[0].proposalPersons[" + personCount + "].eraCommonUserName", 
+                    "document.developmentProposalList[0].proposalPersons[" + personCount + "].eraCommonsUserName", 
                         ERROR_ERA_COMMON_USER_NAME, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR, new String[]{person.getFullName()}));
             retval = false;
         }
