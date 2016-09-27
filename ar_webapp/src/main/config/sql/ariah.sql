@@ -1745,3 +1745,8 @@ INSERT INTO KRIM_ENT_NM_TYP_T(ENT_NM_TYP_CD,OBJ_ID,VER_NBR,NM,ACTV_IND,DISPLAY_S
  -- RES-722
 INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
 VALUES  ('KC-IDM','All','ARIAH_PERSON_NAME_TYPE_PRIOR', sys_guid(),0,'CONFG','PRIOR','Parameter used to specify a persons name type code represnting a prior/maiden name.','A','KUALI');
+
+-- Biosketch work
+alter table PERSON_BIOSKETCH add ( DEFAULT_FLAG CHAR(1) default 'N'); 
+alter table PERSON_BIOSKETCH add ( SPONSOR_CODE VARCHAR2(12)); 
+

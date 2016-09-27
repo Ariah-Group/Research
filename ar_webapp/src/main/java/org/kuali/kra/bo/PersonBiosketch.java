@@ -28,6 +28,10 @@ public class PersonBiosketch extends KraPersistableBusinessObjectBase implements
     private String description;
     private String fileName;
     private String contentType;
+    private String sponsorCode;
+    private Sponsor sponsor;
+    private boolean defaultFlag;
+
     private byte[] attachmentContent;
     private FormFile attachmentFile;
     
@@ -85,6 +89,52 @@ public class PersonBiosketch extends KraPersistableBusinessObjectBase implements
     
     public void setAttachmentFile(FormFile attachmentFile) {
         this.attachmentFile = attachmentFile;
+    }
+
+    /**
+     * @return the sponsorCode
+     */
+    public String getSponsorCode() {
+        return sponsorCode;
+    }
+
+    /**
+     * @param sponsorCode the sponsorCode to set
+     */
+    public void setSponsorCode(String sponsorCode) {
+        this.sponsorCode = sponsorCode;
+    }
+
+    /**
+     * Sponsor reference referred by {@link #getSponsorCode()}
+     *
+     * @param sponsor 
+     */
+    public void setSponsor(Sponsor sponsor) {
+        this.sponsor = sponsor;
+    }
+
+    /**
+     * Sponsor reference referred by {@link #getSponsorCode()}
+     *
+     * @return Sponsor 
+     */
+    public Sponsor getSponsor() {
+        return sponsor;
+    }
+    
+    /**
+     * @return the defaultFlag
+     */
+    public boolean isDefaultFlag() {
+        return defaultFlag;
+    }
+
+    /**
+     * @param defaultFlag the defaultFlag to set
+     */
+    public void setDefaultFlag(boolean defaultFlag) {
+        this.defaultFlag = defaultFlag;
     }
 
 }

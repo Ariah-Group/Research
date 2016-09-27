@@ -14,9 +14,29 @@
                 <ref bean="PersonBiosketch-personBiosketchId" />
                 <ref bean="PersonBiosketch-description" />
                 <ref bean="PersonBiosketch-attachmentFile" />
+                <ref bean="PersonBiosketch-sponsorCode" />
+                <ref bean="PersonBiosketch-sponsor.sponsorName"/>
+                <ref bean="PersonBiosketch-defaultFlag" />
                 <ref bean="PersonBiosketch-versionNumber" />
             </list>
         </property>
+        <property name="relationships">
+            <list>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="sponsor"/>
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean p:sourceName="sponsorCode" p:targetName="sponsorCode" parent="PrimitiveAttributeDefinition"/>
+                        </list>
+                    </property>
+                    <property name="supportAttributes">
+                        <list>
+                            <bean p:identifier="true" p:sourceName="sponsor.sponsorName" p:targetName="sponsorName" parent="SupportAttributeDefinition"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>        
     </bean>
 
     <!-- Attribute Definitions -->
@@ -81,4 +101,42 @@
     <bean id="PersonBiosketch-versionNumber" parent="PersonBiosketch-versionNumber-parentBean" />
     <bean id="PersonBiosketch-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
    
+    <bean id="PersonBiosketch-defaultFlag" parent="PersonBiosketch-defaultFlag-parentBean"/>
+    <bean abstract="true" id="PersonBiosketch-defaultFlag-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="defaultFlag"/>
+        <property name="label" value="Default"/>
+        <property name="shortLabel" value="Default"/>
+        <property name="summary" value="Default"/>
+        <property name="description" value="Is this Biosketch the default?"/>
+    </bean>
+        
+    <bean id="PersonBiosketch-sponsorCode" parent="PersonBiosketch-sponsorCode-parentBean"/>
+
+    <bean abstract="true" id="PersonBiosketch-sponsorCode-parentBean" parent="AttributeDefinition">
+        <property name="name" value="sponsorCode"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Sponsor Code"/>
+        <property name="shortLabel" value="Sponsor Code"/>
+        <property name="maxLength" value="12"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean p:size="10" parent="TextControlDefinition"/>
+        </property>
+        <property name="summary" value="Sponsor Code"/>
+        <property name="description" value="Sponsor Code"/>
+    </bean>    
+    
+    <bean id="PersonBiosketch-sponsor.sponsorName" parent="PersonBiosketch-sponsor.sponsorName-parentBean"/>
+
+    <bean abstract="true" id="PersonBiosketch-sponsor.sponsorName-parentBean" parent="Sponsor-sponsorName">
+        <property name="name" value="sponsor.sponsorName"/>
+        <property name="label" value="Sponsor"/>
+        <property name="shortLabel" value="Sponsor"/>
+    </bean>
+    
+    
+    
+    
 </beans>

@@ -837,6 +837,10 @@ END;
 -- RES-718
 alter table EPS_PROPOSAL MODIFY EXECUTIVE_SUMMARY varchar2(2400);
 
+-- Biosketch work
+alter table PERSON_BIOSKETCH add ( DEFAULT_FLAG CHAR(1) default 'N'); 
+alter table PERSON_BIOSKETCH add ( SPONSOR_CODE VARCHAR2(12)); 
+
 
 commit;
 exit
