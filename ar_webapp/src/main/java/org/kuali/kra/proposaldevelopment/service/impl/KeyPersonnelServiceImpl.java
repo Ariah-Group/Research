@@ -220,21 +220,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
                     final String defaultPersonAttachmentDocType = getDefaultPersonAttachmentDocType();
 
-                    String proposalSponsorCode = document.getDevelopmentProposal().getSponsorCode();
-
-                    // it should NEVER be null if this code is running, but ensure it is never null for comparison below in the FOR loop
-                    if (proposalSponsorCode == null) {
-                        proposalSponsorCode = "";
-                    }
-
-                    boolean selectedBio = false;
-
                     for (PersonBiosketch attachment : origPerson.getExtendedAttributes().getAttachments()) {
-
-                        if (proposalSponsorCode.equals(attachment.getSponsorCode()) && attachment.isDefaultFlag()) {
-                            // then sponsors matched and the biosketch is for this sponsor is marked default
-                            selectedBio = true;
-
                             ProposalPersonBiography bio = new ProposalPersonBiography();
                             bio.setProposalPersonNumber(person.getProposalPersonNumber());
                             bio.setProposalNumber(person.getProposalNumber());
@@ -255,85 +241,11 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                             } else {
                                 bio.getPersonnelAttachmentList().set(0, personnelAttachment);
                             }
-                            document.getDevelopmentProposal().addProposalPersonBiography(bio);
 
-                            break;
-                        }
-                    }
-
-                    if (!selectedBio) {
-                        // bio wasn't selected yet, as SPONSOR and DEFAULT flag not matched,
-                        // so NOW just try to match the SPONSOR only
-                        for (PersonBiosketch attachment : origPerson.getExtendedAttributes().getAttachments()) {
-
-                            if (proposalSponsorCode.equals(attachment.getSponsorCode())) {
-                                // then sponsors matched for this biosketch
-                                selectedBio = true;
-
-                                ProposalPersonBiography bio = new ProposalPersonBiography();
-                                bio.setProposalPersonNumber(person.getProposalPersonNumber());
-                                bio.setProposalNumber(person.getProposalNumber());
-                                bio.setDocumentTypeCode(defaultPersonAttachmentDocType);
-                                bio.setDescription(attachment.getDescription());
-                                bio.setFileName(attachment.getFileName());
-                                bio.setContentType(attachment.getContentType());
-
-                                ProposalPersonBiographyAttachment personnelAttachment = new ProposalPersonBiographyAttachment();
-                                personnelAttachment.setFileName(attachment.getFileName());
-                                personnelAttachment.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
-                                personnelAttachment.setProposalPersonNumber(person.getProposalPersonNumber());
-                                personnelAttachment.setBiographyData(attachment.getAttachmentContent());
-                                personnelAttachment.setContentType(attachment.getContentType());
-
-                                if (bio.getPersonnelAttachmentList().isEmpty()) {
-                                    bio.getPersonnelAttachmentList().add(personnelAttachment);
-                                } else {
-                                    bio.getPersonnelAttachmentList().set(0, personnelAttachment);
-                                }
                                 document.getDevelopmentProposal().addProposalPersonBiography(bio);
-
-                                break;
                             }
                         }
                     }
-
-                    if (!selectedBio) {
-                        // bio wasn't selected yet, as SPONSOR flag not matched,
-                        // so NOW just try to match any biosketch marked Default where the sponsor does NOT match
-                        for (PersonBiosketch attachment : origPerson.getExtendedAttributes().getAttachments()) {
-
-                            if (attachment.isDefaultFlag() && !proposalSponsorCode.equals(attachment.getSponsorCode())) {
-                                // then default flag set and no match for sponsor
-                                selectedBio = true;
-
-                                ProposalPersonBiography bio = new ProposalPersonBiography();
-                                bio.setProposalPersonNumber(person.getProposalPersonNumber());
-                                bio.setProposalNumber(person.getProposalNumber());
-                                bio.setDocumentTypeCode(defaultPersonAttachmentDocType);
-                                bio.setDescription(attachment.getDescription());
-                                bio.setFileName(attachment.getFileName());
-                                bio.setContentType(attachment.getContentType());
-
-                                ProposalPersonBiographyAttachment personnelAttachment = new ProposalPersonBiographyAttachment();
-                                personnelAttachment.setFileName(attachment.getFileName());
-                                personnelAttachment.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
-                                personnelAttachment.setProposalPersonNumber(person.getProposalPersonNumber());
-                                personnelAttachment.setBiographyData(attachment.getAttachmentContent());
-                                personnelAttachment.setContentType(attachment.getContentType());
-
-                                if (bio.getPersonnelAttachmentList().isEmpty()) {
-                                    bio.getPersonnelAttachmentList().add(personnelAttachment);
-                                } else {
-                                    bio.getPersonnelAttachmentList().set(0, personnelAttachment);
-                                }
-                                document.getDevelopmentProposal().addProposalPersonBiography(bio);
-
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
         } catch (IllegalArgumentException e) {
             //catching the possibility that person.getPerson can not
             //find a EntityContract for this person id.
