@@ -49,7 +49,10 @@ import java.util.*;
 
 import static java.util.Collections.sort;
 import static org.apache.commons.lang.StringUtils.*;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.ariahgroup.research.bo.AttachmentDataSource;
+import org.kuali.kra.bo.CoeusSubModule;
 import static org.kuali.kra.infrastructure.Constants.*;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.BufferedLogger.info;
@@ -65,6 +68,8 @@ import static org.kuali.rice.krad.util.KRADConstants.METHOD_TO_CALL_ATTRIBUTE;
  * @version $Revision: 1.63 $
  */
 public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAction {
+
+    private static final Log LOG = LogFactory.getLog(ProposalDevelopmentKeyPersonnelAction.class);
 
     private static final String MISSING_PARAM_MSG = "Couldn't find parameter '%s'";
     private static final String ROLE_CHANGED_MSG = "roleChanged for person %s = %s";
@@ -101,14 +106,46 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
 
     public ActionForward moveDown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         List<ProposalPerson> keyPersonnel = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons();
-        swapAdjacentPersonnel(keyPersonnel, getLineToDelete(request), MoveOperationEnum.MOVING_PERSON_DOWN);
+
+        try {
+            int index1 = this.getSelectedLine(request);
+            int index2 = index1 + MoveOperationEnum.MOVING_PERSON_DOWN.getOffset();
+
+            ProposalPersonQuestionnaireHelper helper1 = ((ProposalDevelopmentForm) form).getProposalPersonQuestionnaireHelpers().get(index1);
+            ProposalPersonQuestionnaireHelper helper2 = ((ProposalDevelopmentForm) form).getProposalPersonQuestionnaireHelpers().get(index2);
+
+            swapAdjacentPersonnel(keyPersonnel, getSelectedLine(request),
+                    helper1.getAnswerHeaders(), helper2.getAnswerHeaders(),
+                    MoveOperationEnum.MOVING_PERSON_DOWN);
+
+            ((ProposalDevelopmentForm) form).getProposalPersonQuestionnaireHelpers().set(index1, helper2);
+            ((ProposalDevelopmentForm) form).getProposalPersonQuestionnaireHelpers().set(index2, helper1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return mapping.findForward(MAPPING_BASIC);
     }
 
     public ActionForward moveUp(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         List<ProposalPerson> keyPersonnel = ((ProposalDevelopmentForm) form).getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons();
-        swapAdjacentPersonnel(keyPersonnel, getLineToDelete(request), MoveOperationEnum.MOVING_PERSON_UP);
+
+        try {
+            int index1 = this.getSelectedLine(request);
+            int index2 = index1 + MoveOperationEnum.MOVING_PERSON_UP.getOffset();
+
+            ProposalPersonQuestionnaireHelper helper1 = ((ProposalDevelopmentForm) form).getProposalPersonQuestionnaireHelpers().get(index1);
+            ProposalPersonQuestionnaireHelper helper2 = ((ProposalDevelopmentForm) form).getProposalPersonQuestionnaireHelpers().get(index2);
+
+            swapAdjacentPersonnel(keyPersonnel, getSelectedLine(request),
+                    helper1.getAnswerHeaders(), helper2.getAnswerHeaders(),
+                    MoveOperationEnum.MOVING_PERSON_UP);
+
+            ((ProposalDevelopmentForm) form).getProposalPersonQuestionnaireHelpers().set(index1, helper2);
+            ((ProposalDevelopmentForm) form).getProposalPersonQuestionnaireHelpers().set(index2, helper1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return mapping.findForward(MAPPING_BASIC);
     }
@@ -853,12 +890,31 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
         return getService(BusinessObjectService.class);
     }
 
-    private void swapAdjacentPersonnel(List<ProposalPerson> keyPersonnel, int index1, MoveOperationEnum op) {
+    private void swapAdjacentPersonnel(List<ProposalPerson> keyPersonnel, int index1,
+            List<AnswerHeader> ahMovingList, List<AnswerHeader> ahNotMovingList, MoveOperationEnum op) {
+
         ProposalPerson movingPerson = keyPersonnel.get(index1);
 
         if ((op == MoveOperationEnum.MOVING_PERSON_DOWN && movingPerson.isMoveDownAllowed()) || (op == MoveOperationEnum.MOVING_PERSON_UP && movingPerson.isMoveUpAllowed())) {
+
             int index2 = index1 + op.getOffset();
-            keyPersonnel.set(index1, keyPersonnel.get(index2));
+
+            ProposalPerson notMovingPerson = keyPersonnel.get(index2);
+
+            // even though the ORDER of personnel is changing, we need to ensure the Person Questionnaire moves as well
+            if (ahMovingList != null && ahNotMovingList != null) {
+
+                AnswerHeader ahMoving = ahMovingList.get(0);
+                AnswerHeader ahNotMoving = ahNotMovingList.get(0);
+
+                String moduleItemKeyMoving = ahMoving.getModuleItemKey();
+                String moduleItemKeyNotMoving = ahNotMoving.getModuleItemKey();
+
+                ahMoving.setModuleItemKey(moduleItemKeyNotMoving);
+                ahNotMoving.setModuleItemKey(moduleItemKeyMoving);
+            }
+
+            keyPersonnel.set(index1, notMovingPerson);
             keyPersonnel.set(index2, movingPerson);
         }
     }
