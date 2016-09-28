@@ -15,24 +15,14 @@
  */
 package org.kuali.kra.service;
 
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType.Enum;
-import org.kuali.kra.bo.CitizenshipType;
 import org.kuali.kra.infrastructure.CitizenshipTypes;
 
 /**
- * 
- * This class converts and CitizenshipType object to to a gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType.Enum object.
+ *
+ *
  */
 public interface CitizenshipTypeService {
-    
-    /**
-     * 
-     * This method converts and CitizenshipType object to to a gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType.Enum object.
-     * @param citizenshipType
-     * @return
-     * @throws IllegalArgumentException If an invalid CitizenshipType is passed in.
-     */
-    public Enum getEnumValueOfCitizenshipType(CitizenshipType citizenshipType) throws IllegalArgumentException;
+
     public CitizenshipTypes getCitizenshipDataFromExternalSource();
 
 }

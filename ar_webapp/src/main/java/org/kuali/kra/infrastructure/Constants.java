@@ -1148,4 +1148,9 @@ public interface Constants {
     public static final String BUDGET_PRINT_CUMULATIVE_REPORT = "Budget Cumulative Report";
     public static final String BUDGET_PRINT_INDUSTRIAL_REPORT = "Industrial Budget Report";
 
+    // Citizenship Type code Parameters
+    public static final String NON_US_CITIZEN_WITH_TEMPORARY_VISA_TYPE_CODE = "NON_US_CITIZEN_WITH_TEMPORARY_VISA_TYPE_CODE";
+    public static final String PERMANENT_RESIDENT_OF_US_TYPE_CODE = "PERMANENT_RESIDENT_OF_US_TYPE_CODE";
+    public static final String US_CITIZEN_OR_NONCITIZEN_NATIONAL_TYPE_CODE = "US_CITIZEN_OR_NONCITIZEN_NATIONAL_TYPE_CODE";
+    public static final String PERMANENT_RESIDENT_OF_US_PENDING = "PERMANENT_RESIDENT_OF_US_PENDING";
 }

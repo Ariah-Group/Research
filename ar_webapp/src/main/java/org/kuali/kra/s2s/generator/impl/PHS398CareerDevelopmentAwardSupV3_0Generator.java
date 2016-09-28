@@ -41,6 +41,7 @@ import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup30V30.PHS398CareerD
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup30V30.PHS398CareerDevelopmentAwardSup30Document.PHS398CareerDevelopmentAwardSup30.CareerDevelopmentAwardAttachments.SelectAgentResearch;
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup30V30.PHS398CareerDevelopmentAwardSup30Document.PHS398CareerDevelopmentAwardSup30.CareerDevelopmentAwardAttachments.StatementsOfSupport;
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup30V30.PHS398CareerDevelopmentAwardSup30Document.PHS398CareerDevelopmentAwardSup30.CareerDevelopmentAwardAttachments.VertebrateAnimals;
+import gov.grants.apply.forms.phsFellowshipSupplemental31V31.NonUSCitizenDataType;
 
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
@@ -85,23 +86,22 @@ public class PHS398CareerDevelopmentAwardSupV3_0Generator extends PHS398CareerDe
         return phs398CareerDevelopmentAwardSup30Document;
     }
 
-    // citizenship logic  TODO Check this logic
     private void getCitizenship(PHS398CareerDevelopmentAwardSup30 form) {
         for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
             if (proposalPerson.isInvestigator()) {
 
                 CitizenshipTypes citizenShip = s2sUtilService.getCitizenship(proposalPerson);
 
-                if (citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S.toString())) {
+                if (citizenShip.name().equals(CitizenshipTypes.PERMANENT_RESIDENT_OF_US.toString())) {
                     form.setCitizenshipIndicator(YesNoDataType.N_NO);
                     form.setIsNonUSCitizenship(NonUSCitizenshipDataType.PERMANENT_U_S_RESIDENT_VISA);
-                } else if (citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.PERMANENT_RESIDENT_OF_U_S_PENDING.toString())) {
+                } else if (citizenShip.name().equals(CitizenshipTypes.PERMANENT_RESIDENT_OF_US_PENDING.toString())) {
                     form.setCitizenshipIndicator(YesNoDataType.N_NO);
                     form.setIsNonUSCitizenship(NonUSCitizenshipDataType.TEMPORARY_U_S_VISA);
                     form.setPermanentResidentByAwardIndicator(YesNoDataType.Y_YES);
-                } else if (citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.U_S_CITIZEN_OR_NONCITIZEN_NATIONAL.toString())) {
-                    form.setCitizenshipIndicator(YesNoDataType.Y_YES);
-                } else if (citizenShip.getCitizenShip().trim().equals(CitizenshipDataType.NON_U_S_CITIZEN_WITH_TEMPORARY_VISA.toString())) {
+                } else if (citizenShip.name().equals(CitizenshipTypes.US_CITIZEN_OR_NONCITIZEN_NATIONAL.toString())) {
+                     form.setCitizenshipIndicator(YesNoDataType.Y_YES);
+                } else if (citizenShip.name().equals(CitizenshipTypes.NON_US_CITIZEN_WITH_TEMPORARY_VISA.toString())) {
                     form.setCitizenshipIndicator(YesNoDataType.N_NO);
                     form.setIsNonUSCitizenship(NonUSCitizenshipDataType.TEMPORARY_U_S_VISA);
                     form.setPermanentResidentByAwardIndicator(YesNoDataType.N_NO);

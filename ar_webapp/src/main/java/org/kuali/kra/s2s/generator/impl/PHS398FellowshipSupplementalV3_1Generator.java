@@ -915,21 +915,27 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
         for (ProposalPerson proposalPerson : pdDoc.getDevelopmentProposal().getProposalPersons()) {
             if (proposalPerson.isInvestigator()) {
 
-                CitizenshipTypes citizenShip = s2sUtilService.getCitizenship(proposalPerson);
+                try {
+                    CitizenshipTypes citizenShip = s2sUtilService.getCitizenship(proposalPerson);
 
-                if (citizenShip.name().equals(CitizenshipTypes.PERMANENT_RESIDENT_OF_US.toString())) {
-                    additionalInformation.setUSCitizen(YesNoDataType.N_NO);
-                    additionalInformation.setNonUSCitizen(NonUSCitizenDataType.WITH_A_PERMANENT_U_S_RESIDENT_VISA);
-                } else if (citizenShip.name().equals(CitizenshipTypes.PERMANENT_RESIDENT_OF_US_PENDING.toString())) {
-                    additionalInformation.setUSCitizen(YesNoDataType.N_NO);
-                    additionalInformation.setNonUSCitizen(NonUSCitizenDataType.WITH_A_TEMPORARY_U_S_VISA);
-                    additionalInformation.setPermanentResidentByAwardIndicator(YesNoDataType.Y_YES);
-                } else if (citizenShip.name().equals(CitizenshipTypes.US_CITIZEN_OR_NONCITIZEN_NATIONAL.toString())) {
-                    additionalInformation.setUSCitizen(YesNoDataType.Y_YES);
-                } else if (citizenShip.name().equals(CitizenshipTypes.NON_US_CITIZEN_WITH_TEMPORARY_VISA.toString())) {
-                    additionalInformation.setUSCitizen(YesNoDataType.N_NO);
-                    additionalInformation.setNonUSCitizen(NonUSCitizenDataType.WITH_A_TEMPORARY_U_S_VISA);
-                    additionalInformation.setPermanentResidentByAwardIndicator(YesNoDataType.N_NO);
+                    if (citizenShip.name().equals(CitizenshipTypes.PERMANENT_RESIDENT_OF_US.toString())) {
+                        additionalInformation.setUSCitizen(YesNoDataType.N_NO);
+                        additionalInformation.setNonUSCitizen(NonUSCitizenDataType.WITH_A_PERMANENT_U_S_RESIDENT_VISA);
+                    } else if (citizenShip.name().equals(CitizenshipTypes.PERMANENT_RESIDENT_OF_US_PENDING.toString())) {
+                        additionalInformation.setUSCitizen(YesNoDataType.N_NO);
+                        additionalInformation.setNonUSCitizen(NonUSCitizenDataType.WITH_A_TEMPORARY_U_S_VISA);
+                        additionalInformation.setPermanentResidentByAwardIndicator(YesNoDataType.Y_YES);
+                    } else if (citizenShip.name().equals(CitizenshipTypes.US_CITIZEN_OR_NONCITIZEN_NATIONAL.toString())) {
+                        additionalInformation.setUSCitizen(YesNoDataType.Y_YES);
+                    } else if (citizenShip.name().equals(CitizenshipTypes.NON_US_CITIZEN_WITH_TEMPORARY_VISA.toString())) {
+                        additionalInformation.setUSCitizen(YesNoDataType.N_NO);
+                        additionalInformation.setNonUSCitizen(NonUSCitizenDataType.WITH_A_TEMPORARY_U_S_VISA);
+                        additionalInformation.setPermanentResidentByAwardIndicator(YesNoDataType.N_NO);
+                    }
+                } catch (Exception e) {
+                    // UnsupportedOperationException OR IllegalArgumentException is possible here
+                    LOG.error("Invalid citizenship type on proposalPerson = " + proposalPerson.getPersonId()
+                            + " for devproposal " + proposalPerson.getProposalNumber());
                 }
 
             }

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup11V11.CitizenshipDataType;
-
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,7 +63,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTermServiceBase implements PropDevJavaFunctionKrmsTermService {
 
-    private static final int INT_PERMANENT_RESIDENT_OF_U_S_PENDING = 4;
     private DateTimeService dateTimeService;
     private static final Log LOG = LogFactory.getLog(PropDevJavaFunctionKrmsTermServiceImpl.class);
 
@@ -979,26 +976,31 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
     public String investigatorCitizenshipTypeRule(DevelopmentProposal developmentProposal, String citizenshipTypeToCheck) {
         String RETURN_VALUE = FALSE;
         ProposalPerson principalInvestigator = developmentProposal.getPrincipalInvestigator();
+        
         char citizenType = citizenshipTypeToCheck != null ? citizenshipTypeToCheck.charAt(0) : '0';
         Integer citizenshipTypeCode = principalInvestigator.getProposalPersonExtendedAttributes().getCitizenshipTypeCode();
         switch (citizenType) {
             case 'A':
-                if (citizenshipTypeCode.equals(CitizenshipDataType.INT_NON_U_S_CITIZEN_WITH_TEMPORARY_VISA)) {
+                if (citizenshipTypeCode.equals(getParameterService().getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, "A",
+                    Constants.NON_US_CITIZEN_WITH_TEMPORARY_VISA_TYPE_CODE))) {
                     RETURN_VALUE = TRUE;
                 }
                 break;
             case 'C':
-                if (citizenshipTypeCode.equals(CitizenshipDataType.INT_U_S_CITIZEN_OR_NONCITIZEN_NATIONAL)) {
+                if (citizenshipTypeCode.equals(getParameterService().getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, "A",
+                    Constants.US_CITIZEN_OR_NONCITIZEN_NATIONAL_TYPE_CODE))) {
                     RETURN_VALUE = TRUE;
                 }
                 break;
             case 'N':
-                if (citizenshipTypeCode.equals(CitizenshipDataType.INT_PERMANENT_RESIDENT_OF_U_S)) {
+                if (citizenshipTypeCode.equals(getParameterService().getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, "A",
+                    Constants.PERMANENT_RESIDENT_OF_US_TYPE_CODE))) {
                     RETURN_VALUE = TRUE;
                 }
                 break;
             case 'P':
-                if (citizenshipTypeCode.equals(INT_PERMANENT_RESIDENT_OF_U_S_PENDING)) {
+                if (citizenshipTypeCode.equals(getParameterService().getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, "A",
+                    Constants.PERMANENT_RESIDENT_OF_US_PENDING))) {
                     RETURN_VALUE = TRUE;
                 }
                 break;
