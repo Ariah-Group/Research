@@ -1337,7 +1337,7 @@
         namespace="http://apply.grants.gov/forms/PHS398_CareerDevelopmentAwardSup_3_0-V3.0">
         <formName>PHS398_CareerDevelopmentAwardSup_3_0-V3.0</formName>
         <mainClass>
-            org.kuali.kra.s2s.generator.impl.PHS398CareerDevelopmentAwardSupV1_3Generator
+            org.kuali.kra.s2s.generator.impl.PHS398CareerDevelopmentAwardSupV3_0Generator
         </mainClass>
         <stylesheet>
             org/kuali/kra/s2s/stylesheet/PHS398_CareerDevelopmentAwardSup-V3.0.xsl

@@ -18,7 +18,6 @@ package org.kuali.kra.s2s.generator.impl;
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup30V30.NonUSCitizenshipDataType;
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup20V20.CitizenshipDataType;
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup30V30.NonUSCitizenshipDataType.Enum;
-//import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup12V12.CitizenshipDataType.Enum;
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup30V30.PHS398CareerDevelopmentAwardSup30Document;
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup30V30.PHS398CareerDevelopmentAwardSup30Document.PHS398CareerDevelopmentAwardSup30;
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup30V30.PHS398CareerDevelopmentAwardSup30Document.PHS398CareerDevelopmentAwardSup30.CareerDevelopmentAwardAttachments;
@@ -61,10 +60,9 @@ import java.util.List;
 
 /**
  * Class for generating the XML object for grants.gov
- * PHS398CareerDevelopmentAwardSup V1.1 Form is generated using XMLBean classes
- * and is based on PHS398ResearchPlanV1_2 schema.
+ * PHS398CareerDevelopmentAwardSup V3.0 Form is generated using XMLBean classes
+ * and is based on PHS398ResearchPlanV3_0 schema.
  *
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class PHS398CareerDevelopmentAwardSupV3_0Generator extends PHS398CareerDevelopmentAwardSupBaseGenerator {
 

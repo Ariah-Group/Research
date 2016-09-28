@@ -99,7 +99,6 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
  * PHS_Fellowship_Supplemental_3_1V3.1 Form is generated using XMLBean classes
  * and is based on PHS_Fellowship_Supplemental_3_1V3.1 schema
  *
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipSupplementalBaseGenerator {
 
@@ -148,14 +147,12 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
     private static final int SPONSOR_COSPONSOR = 134;
 
     /**
-     * This method is used to get PHSFellowshipSupplemental12 XMLObject and set
+     * This method is used to get PHSFellowshipSupplemental31 XMLObject and set
      * the data to it from DevelopmentProposal data.
      */
     private PHSFellowshipSupplemental31Document getPHSFellowshipSupplemental31() {
-        PHSFellowshipSupplemental31Document phsFellowshipSupplementalDocument = PHSFellowshipSupplemental31Document.Factory
-                .newInstance();
-        PHSFellowshipSupplemental31 phsFellowshipSupplemental = phsFellowshipSupplementalDocument
-                .addNewPHSFellowshipSupplemental31();
+        PHSFellowshipSupplemental31Document phsFellowshipSupplementalDocument = PHSFellowshipSupplemental31Document.Factory.newInstance();
+        PHSFellowshipSupplemental31 phsFellowshipSupplemental = phsFellowshipSupplementalDocument.addNewPHSFellowshipSupplemental31();
         phsFellowshipSupplemental.setFormVersion(S2SConstants.FORMVERSION_3_1);
 
         phsFellowshipSupplemental.setAppendix(getAppendix());
