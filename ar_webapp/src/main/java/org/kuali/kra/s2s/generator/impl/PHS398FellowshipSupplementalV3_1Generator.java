@@ -107,41 +107,41 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
     private static final String FORM_NAME = "PHS_Fellowship_Supplemental_3_1V3.1";
     private static final String NAME_SPACE = "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_3_1-V3.1";
 
-    private static final int HUMAN_USE_INDEFINITE = 1;
-    private static final int HUMAN_USE = 10001;
-    private static final int VERTEBRATE_USE = 10000022;
-    private static final int VERT_INDEFINITE = 4;
-    private static final int VERT_EUTHANIZED = 10000001;
-    private static final int VERT_EUTHANIZED_AVMA = 10000002;
-    private static final int VERT_EUTHANIZED_METHOD = 10000003;
-    private static final int CLINICAL = 2;
-    private static final int PHASE3CLINICAL = 3;
-    private static final int STEMCELLS = 5;
-    private static final int KIRST_START_KNOWN = 43;
-    private static final int KIRST_END_KNOWN = 49;
-    private static final int KIRST_START_DT = 44;
-    private static final int KIRST_END_DT = 45;
-    private static final int KIRST_GRANT_KNOWN = 46;
-    private static final int KIRST_GRANT_NUM = 27;
-    private static final int PRE_OR_POST = 32;
-    private static final int IND_OR_INST = 33;
-    private static final int STEMCELLLINES = 7;
-    private static final int CELLLINEIND = 6;
-    private static final int DEGREE_TYPE_SOUGHT = 99;
-    private static final int DEG_EXP_COMP_DATE = 35;
-    private static final int NRSA_SUPPORT = 24;
-    private static final int FIELD_TRAINING = 10000023;
-    private static final int SUBMITTED_DIFF_INST = 28;
-    private static final int SENIOR_FELL = 36;
-    private static final int OTHER_SUPP_SOURCE = 37;
-    private static final int SUPP_FUNDING_AMT = 38;
-    private static final int SUPP_MONTHS = 51;
-    private static final int SUPP_SOURCE = 41;
-    private static final int SUPP_TYPE = 40;
-    private static final int BASE_SALARY = 47;
-    private static final int ACAD_PERIOD = 48;
-    private static final int SALARY_MONTHS = 50;
-    private static final int FORMER_INSTITUTION = 29;
+    private static final int QID_HUMAN_USE_INDEFINITE = 1;
+    private static final int QID_HUMAN_USE = 10001;
+    private static final int QID_VERTEBRATE_USE = 10002;
+    private static final int QID_VERT_INDEFINITE = 4;
+    private static final int QID_VERT_EUTHANIZED = 102004;
+    private static final int QID_VERT_EUTHANIZED_AVMA = 102003;
+    private static final int QID_VERT_EUTHANIZED_METHOD = 102002;
+    private static final int QID_CLINICAL = 2;
+    private static final int QID_PHASE3CLINICAL = 3;
+    private static final int QID_STEMCELLS = 5;
+    private static final int QID_KIRST_START_KNOWN = 43;
+    private static final int QID_KIRST_END_KNOWN = 49;
+    private static final int QID_KIRST_START_DT = 44;
+    private static final int QID_KIRST_END_DT = 45;
+    private static final int QID_KIRST_GRANT_KNOWN = 46;
+    private static final int QID_KIRST_GRANT_NUM = 27;
+    private static final int QID_PRE_OR_POST = 32;
+    private static final int QID_IND_OR_INST = 33;
+    private static final int QID_STEMCELLLINES = 7;
+    private static final int QID_CELLLINEIND = 6;
+    private static final int QID_DEGREE_TYPE_SOUGHT = 99;
+    private static final int QID_DEG_EXP_COMP_DATE = 35;
+    private static final int QID_NRSA_SUPPORT = 24;
+    private static final int QID_FIELD_TRAINING = 22;
+    private static final int QID_SUBMITTED_DIFF_INST = 28;
+    private static final int QID_SENIOR_FELL = 36;
+    private static final int QID_OTHER_SUPP_SOURCE = 37;
+    private static final int QID_SUPP_FUNDING_AMT = 38;
+    private static final int QID_SUPP_MONTHS = 51;
+    private static final int QID_SUPP_SOURCE = 41;
+    private static final int QID_SUPP_TYPE = 40;
+    private static final int QID_BASE_SALARY = 47;
+    private static final int QID_ACAD_PERIOD = 48;
+    private static final int QID_SALARY_MONTHS = 50;
+    private static final int QID_FORMER_INSTITUTION = 29;
 
     private static final int APPENDIX = 96;
     private static final int SPONSOR_COSPONSOR = 134;
@@ -217,59 +217,59 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
                 if (answer != null) {
 
                     switch (questionId) {
-                        case HUMAN_USE:
+                        case QID_HUMAN_USE:
                             otherResearchTrainingPlan.setHumanSubjectsInvolved(getYesNoEnum(answer));
                             break;
 
-                        case HUMAN_USE_INDEFINITE:
+                        case QID_HUMAN_USE_INDEFINITE:
                             otherResearchTrainingPlan.setHumanSubjectsIndefinite(getYesNoEnum(answer));
                             break;
 
-                        case VERTEBRATE_USE:
+                        case QID_VERTEBRATE_USE:
                             otherResearchTrainingPlan.setVertebrateAnimalsUsed(getYesNoEnum(answer));
                             break;
 
-                        case VERT_INDEFINITE:
+                        case QID_VERT_INDEFINITE:
                             // will the inclusion of vertebrate animals use be indefinite
                             otherResearchTrainingPlan.setVertebrateAnimalsIndefinite(getYesNoEnum(answer));
                             break;
 
-                        case VERT_EUTHANIZED:
+                        case QID_VERT_EUTHANIZED:
                             // gonna kill `em?
                             otherResearchTrainingPlan.setAreAnimalsEuthanized(getYesNoEnum(answer));
                             break;
 
-                        case VERT_EUTHANIZED_AVMA:
+                        case QID_VERT_EUTHANIZED_AVMA:
                             // AVMA approved killing?
                             otherResearchTrainingPlan.setAVMAConsistentIndicator(getYesNoEnum(answer));
                             break;
 
-                        case VERT_EUTHANIZED_METHOD:
+                        case QID_VERT_EUTHANIZED_METHOD:
                             // How are you gonna kill `em?
                             otherResearchTrainingPlan.setEuthanasiaMethodDescription(answer);
                             break;
 
-                        case CLINICAL:
+                        case QID_CLINICAL:
                             // clinical trial
                             otherResearchTrainingPlan.setClinicalTrial(getYesNoEnum(answer));
                             break;
 
-                        case PHASE3CLINICAL:
+                        case QID_PHASE3CLINICAL:
                             // phase 3 clinical trial
                             otherResearchTrainingPlan.setPhase3ClinicalTrial(getYesNoEnum(answer));
                             break;
 
-                        case STEMCELLS:
+                        case QID_STEMCELLS:
                             // stem cells used
                             stemCellstype.setIsHumanStemCellsInvolved(getYesNoEnum(answer));
                             break;
 
-                        case CELLLINEIND:
+                        case QID_CELLLINEIND:
                             // stem cell line indicator
                             stemCellstype.setStemCellsIndicator(getYesNoEnum(answer));
                             break;
 
-                        case STEMCELLLINES:
+                        case QID_STEMCELLLINES:
                             List<Answer> answerList = getAnswers(questionnaireQuestion, answerHeader);
                             for (Answer questionnaireAnswerBO : answerList) {
                                 String questionnaireSubAnswer = questionnaireAnswerBO.getAnswer();
@@ -279,52 +279,52 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
                             }
                             break;
 
-                        case DEGREE_TYPE_SOUGHT:
+                        case QID_DEGREE_TYPE_SOUGHT:
                             graduateDegreeSought.setDegreeType(DegreeTypeDataType.Enum.forString(answer));
                             break;
 
-                        case DEG_EXP_COMP_DATE:
+                        case QID_DEG_EXP_COMP_DATE:
                             graduateDegreeSought.setDegreeDate(answer.substring(6, 10) + STRING_SEPRATOR + answer.substring(0, 2));
                             break;
 
-                        case FIELD_TRAINING:
+                        case QID_FIELD_TRAINING:
                             if (!answer.toUpperCase().equals("SUB CATEGORY NOT FOUND")) {
                                 additionalInfoType.setFieldOfTraining(FieldOfTrainingDataType.Enum.forString(answer));
                             }
                             break;
 
-                        case NRSA_SUPPORT:
+                        case QID_NRSA_SUPPORT:
                             additionalInfoType.setCurrentPriorNRSASupportIndicator(getYesNoEnum(answer));
                             break;
 
-                        case KIRST_START_KNOWN:
-                        case KIRST_END_KNOWN:
-                        case KIRST_START_DT:
-                        case KIRST_END_DT:
-                        case KIRST_GRANT_KNOWN:
-                        case KIRST_GRANT_NUM:
-                        case PRE_OR_POST:
-                        case IND_OR_INST:
-                            if (questionId == KIRST_START_KNOWN) {
+                        case QID_KIRST_START_KNOWN:
+                        case QID_KIRST_END_KNOWN:
+                        case QID_KIRST_START_DT:
+                        case QID_KIRST_END_DT:
+                        case QID_KIRST_GRANT_KNOWN:
+                        case QID_KIRST_GRANT_NUM:
+                        case QID_PRE_OR_POST:
+                        case QID_IND_OR_INST:
+                            if (questionId == QID_KIRST_START_KNOWN) {
                                 if (answer.equals("N")) {
                                     answer = S2SConstants.VALUE_UNKNOWN;
-                                    questionId = KIRST_START_DT;
+                                    questionId = QID_KIRST_START_DT;
                                 } else {
                                     break;
                                 }
                             }
-                            if (questionId == KIRST_END_KNOWN) {
+                            if (questionId == QID_KIRST_END_KNOWN) {
                                 if (answer.equals("N")) {
                                     answer = S2SConstants.VALUE_UNKNOWN;
-                                    questionId = KIRST_END_DT;
+                                    questionId = QID_KIRST_END_DT;
                                 } else {
                                     break;
                                 }
                             }
-                            if (questionId == KIRST_GRANT_KNOWN) {
+                            if (questionId == QID_KIRST_GRANT_KNOWN) {
                                 if (answer.equals("N")) {
                                     answer = S2SConstants.VALUE_UNKNOWN;
-                                    questionId = KIRST_GRANT_NUM;
+                                    questionId = QID_KIRST_GRANT_NUM;
                                 } else {
                                     break;
                                 }
@@ -337,48 +337,48 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
                             cvKirsch.add(cbKirschstein);
                             break;
 
-                        case SUBMITTED_DIFF_INST:
+                        case QID_SUBMITTED_DIFF_INST:
                             additionalInfoType.setChangeOfInstitution(getYesNoEnum(answer));
                             break;
 
-                        case FORMER_INSTITUTION:
+                        case QID_FORMER_INSTITUTION:
                             additionalInfoType.setFormerInstitution(answer);
                             break;
 
-                        case SENIOR_FELL:
-                            hmBudgetQuestions.put(SENIOR_FELL, answer);
+                        case QID_SENIOR_FELL:
+                            hmBudgetQuestions.put(QID_SENIOR_FELL, answer);
                             break;
 
-                        case OTHER_SUPP_SOURCE:
-                            hmBudgetQuestions.put(OTHER_SUPP_SOURCE, answer);
+                        case QID_OTHER_SUPP_SOURCE:
+                            hmBudgetQuestions.put(QID_OTHER_SUPP_SOURCE, answer);
                             break;
 
-                        case SUPP_SOURCE:
-                            hmBudgetQuestions.put(SUPP_SOURCE, answer);
+                        case QID_SUPP_SOURCE:
+                            hmBudgetQuestions.put(QID_SUPP_SOURCE, answer);
                             break;
 
-                        case SUPP_FUNDING_AMT:
-                            hmBudgetQuestions.put(SUPP_FUNDING_AMT, answer);
+                        case QID_SUPP_FUNDING_AMT:
+                            hmBudgetQuestions.put(QID_SUPP_FUNDING_AMT, answer);
                             break;
 
-                        case SUPP_MONTHS:
-                            hmBudgetQuestions.put(SUPP_MONTHS, answer);
+                        case QID_SUPP_MONTHS:
+                            hmBudgetQuestions.put(QID_SUPP_MONTHS, answer);
                             break;
 
-                        case SUPP_TYPE:
-                            hmBudgetQuestions.put(SUPP_TYPE, answer);
+                        case QID_SUPP_TYPE:
+                            hmBudgetQuestions.put(QID_SUPP_TYPE, answer);
                             break;
 
-                        case SALARY_MONTHS:
-                            hmBudgetQuestions.put(SALARY_MONTHS, answer);
+                        case QID_SALARY_MONTHS:
+                            hmBudgetQuestions.put(QID_SALARY_MONTHS, answer);
                             break;
 
-                        case ACAD_PERIOD:
-                            hmBudgetQuestions.put(ACAD_PERIOD, answer);
+                        case QID_ACAD_PERIOD:
+                            hmBudgetQuestions.put(QID_ACAD_PERIOD, answer);
                             break;
 
-                        case BASE_SALARY:
-                            hmBudgetQuestions.put(BASE_SALARY, answer);
+                        case QID_BASE_SALARY:
+                            hmBudgetQuestions.put(QID_BASE_SALARY, answer);
                             break;
 
                         default:
@@ -441,19 +441,19 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
                 for (int i = 0; i < cvKirsch.size(); i++) {
                     kbBean = (KirschsteinBean) cvKirsch.get(i);
                     switch (kbBean.getQuestionId()) {
-                        case PRE_OR_POST:
+                        case QID_PRE_OR_POST:
                             cvLevel.add(kbBean);
                             break;
-                        case IND_OR_INST:
+                        case QID_IND_OR_INST:
                             cvType.add(kbBean);
                             break;
-                        case KIRST_START_DT:
+                        case QID_KIRST_START_DT:
                             cvStart.add(kbBean);
                             break;
-                        case KIRST_END_DT:
+                        case QID_KIRST_END_DT:
                             cvEnd.add(kbBean);
                             break;
-                        case KIRST_GRANT_NUM:
+                        case QID_KIRST_GRANT_NUM:
                             cvGrant.add(kbBean);
                             break;
                     }
@@ -476,7 +476,7 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
                         nrsaSupportType.setStartDate(s2sUtilService.convertDateStringToCalendar(kbBean3.getAnswer()));
                     }
                     if (!kbBean4.getAnswer().equals(S2SConstants.VALUE_UNKNOWN)) {
-                        nrsaSupportType.setEndDate(s2sUtilService.convertDateStringToCalendar(kbBean4.getAnswer().toString()));
+                        nrsaSupportType.setEndDate(s2sUtilService.convertDateStringToCalendar(kbBean4.getAnswer()));
                     }
                     nrsaSupportType.setGrantNumber(kbBean5.getAnswer());
                     currentPriorNRSASupportList.add(nrsaSupportType);
@@ -496,8 +496,9 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
         return answer.equals("Y") ? YesNoDataType.Y_YES : YesNoDataType.N_NO;
     }
 
-    /*
-     * This method is used to get Budget XMLObject and set the data to it from ProposalYnq based on questionId and answers.
+    /**
+     * This method is used to get Budget XMLObject and set the data to it from
+     * ProposalYnq based on questionId and answers.
      */
     private Budget getBudget(Map<Integer, String> budgetMap) {
         Budget budget = Budget.Factory.newInstance();
@@ -509,9 +510,10 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
         return budget;
     }
 
-    /*
-     * This method is used to get TuitionRequestedYears data to Budget XMLObject from List of BudgetLineItem based on CostElement
-     * value of TUITION_COST_ELEMENTS
+    /**
+     * This method is used to get TuitionRequestedYears data to Budget XMLObject
+     * from List of BudgetLineItem based on CostElement value of
+     * TUITION_COST_ELEMENTS
      */
     private void setTuitionRequestedYears(Budget budget) {
         @SuppressWarnings("rawtypes")
@@ -557,24 +559,25 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
         }
     }
 
-    /*
-     * This method is used to set data to SupplementationFromOtherSources XMLObject from budgetMap data for Budget
+    /**
+     * This method is used to set data to SupplementationFromOtherSources
+     * XMLObject from budgetMap data for Budget
      */
     private void getSupplementationFromOtherSources(Budget budget, Map<Integer, String> hmBudgetQuestions) {
 
         if (!hmBudgetQuestions.isEmpty()) {
-            if (hmBudgetQuestions.get(OTHER_SUPP_SOURCE) != null) {
-                if (hmBudgetQuestions.get(OTHER_SUPP_SOURCE).toString().toUpperCase().equals("Y")) {
-                    SupplementationFromOtherSources supplementationFromOtherSources = budget
-                            .addNewSupplementationFromOtherSources();
-                    if (hmBudgetQuestions.get(SUPP_SOURCE) != null) {
-                        supplementationFromOtherSources.setSource(hmBudgetQuestions.get(SUPP_SOURCE).toString());
-                        supplementationFromOtherSources.setAmount(new BigDecimal(hmBudgetQuestions.get(SUPP_FUNDING_AMT).toString()));
+            if (hmBudgetQuestions.get(QID_OTHER_SUPP_SOURCE) != null) {
+                if (hmBudgetQuestions.get(QID_OTHER_SUPP_SOURCE).toUpperCase().equals("Y")) {
+                    SupplementationFromOtherSources supplementationFromOtherSources = budget.addNewSupplementationFromOtherSources();
+                    if (hmBudgetQuestions.get(QID_SUPP_SOURCE) != null) {
+                        supplementationFromOtherSources.setSource(hmBudgetQuestions.get(QID_SUPP_SOURCE));
+                        supplementationFromOtherSources.setAmount(new BigDecimal(hmBudgetQuestions.get(QID_SUPP_FUNDING_AMT)));
                         try {
-                            supplementationFromOtherSources.setNumberOfMonths(new BigDecimal(hmBudgetQuestions.get(SUPP_MONTHS).toString()));
+                            supplementationFromOtherSources.setNumberOfMonths(new BigDecimal(hmBudgetQuestions.get(QID_SUPP_MONTHS)));
                         } catch (Exception ex) {
+                            ex.printStackTrace();
                         }
-                        supplementationFromOtherSources.setType(hmBudgetQuestions.get(SUPP_TYPE).toString());
+                        supplementationFromOtherSources.setType(hmBudgetQuestions.get(QID_SUPP_TYPE));
 
                     }
                 }
@@ -612,8 +615,9 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
         }
     }
 
-    /*
-     * This method is used to get final version of BudgetDocument from s2SBudgetCalculatorService using pdDoc
+    /**
+     * This method is used to get final version of BudgetDocument from
+     * s2SBudgetCalculatorService using pdDoc
      */
     @SuppressWarnings("rawtypes")
     private BudgetDocument getBudgetDocument() {
@@ -626,20 +630,21 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
         return budgetDoc;
     }
 
-    /*
-     * This method is used to set data to InstitutionalBaseSalary XMLObject from budgetMap data for Budget
+    /**
+     * This method is used to set data to InstitutionalBaseSalary XMLObject from
+     * budgetMap data for Budget
      */
     private void getInstitutionalBaseSalary(Budget budget, Map<Integer, String> budgetMap) {
         InstitutionalBaseSalary institutionalBaseSalary = InstitutionalBaseSalary.Factory.newInstance();
-        if (budgetMap.get(SENIOR_FELL) != null && budgetMap.get(SENIOR_FELL).toString().equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
-            if (budgetMap.get(BASE_SALARY) != null) {
-                institutionalBaseSalary.setAmount(new BigDecimal(budgetMap.get(BASE_SALARY).toString()));
+        if (budgetMap.get(QID_SENIOR_FELL) != null && budgetMap.get(QID_SENIOR_FELL).equals(S2SConstants.PROPOSAL_YNQ_ANSWER_Y)) {
+            if (budgetMap.get(QID_BASE_SALARY) != null) {
+                institutionalBaseSalary.setAmount(new BigDecimal(budgetMap.get(QID_BASE_SALARY)));
             }
-            if (budgetMap.get(ACAD_PERIOD) != null) {
-                institutionalBaseSalary.setAcademicPeriod(AcademicPeriod.Enum.forString(budgetMap.get(ACAD_PERIOD).toString()));
+            if (budgetMap.get(QID_ACAD_PERIOD) != null) {
+                institutionalBaseSalary.setAcademicPeriod(AcademicPeriod.Enum.forString(budgetMap.get(QID_ACAD_PERIOD)));
             }
-            if (budgetMap.get(SALARY_MONTHS) != null) {
-                institutionalBaseSalary.setNumberOfMonths(new BigDecimal(budgetMap.get(SALARY_MONTHS).toString()));
+            if (budgetMap.get(QID_SALARY_MONTHS) != null) {
+                institutionalBaseSalary.setNumberOfMonths(new BigDecimal(budgetMap.get(QID_SALARY_MONTHS)));
             }
             budget.setInstitutionalBaseSalary(institutionalBaseSalary);
         }
@@ -651,7 +656,8 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
      *
      * @param researchTrainingPlan
      */
-    private void setNarrativeDataForResearchTrainingPlan(PHSFellowshipSupplemental31 phsFellowshipSupplemental, ResearchTrainingPlan researchTrainingPlan, OtherResearchTrainingPlan otherResearchTrainingPlan) {
+    private void setNarrativeDataForResearchTrainingPlan(PHSFellowshipSupplemental31 phsFellowshipSupplemental,
+            ResearchTrainingPlan researchTrainingPlan, OtherResearchTrainingPlan otherResearchTrainingPlan) {
 
         AttachedFileDataType attachedFileDataType = null;
         researchTrainingPlan.addNewSpecificAims();
@@ -1146,6 +1152,5 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
         public void setParentQuestionNumber(Integer parentQuestionNumber) {
             this.parentQuestionNumber = parentQuestionNumber;
         }
-
     }
 }
