@@ -38,6 +38,7 @@
         <ref bean="KcPersonExtendedAttributes-directoryDepartment"/>
         <ref bean="KcPersonExtendedAttributes-primaryTitle"/>
         <ref bean="KcPersonExtendedAttributes-directoryTitle"/>
+        <ref bean="KcPersonExtendedAttributes-militaryRank"/>
         <ref bean="KcPersonExtendedAttributes-vacationAccrualFlag"/>
         <ref bean="KcPersonExtendedAttributes-onSabbaticalFlag"/>
         <ref bean="KcPersonExtendedAttributes-idProvided"/>
@@ -338,6 +339,21 @@
     <property name="description" value="Directory Title"/>
   </bean>
   
+  <bean id="KcPersonExtendedAttributes-militaryRank" parent="KcPersonExtendedAttributes-militaryRank-parentBean"/>
+
+  <bean abstract="true" id="KcPersonExtendedAttributes-militaryRank-parentBean" parent="AttributeDefinition">
+    <property name="name" value="militaryRank"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Military Rank"/>
+    <property name="shortLabel" value="Military Rank"/>
+    <property name="maxLength" value="100"/>
+    <property name="control">
+      <bean p:size="40" parent="TextControlDefinition"/>
+    </property>
+    <property name="summary" value="Military Rank"/>
+    <property name="description" value="Military Rank"/>
+  </bean>
+    
   <bean id="KcPersonExtendedAttributes-vacationAccrualFlag" parent="KcPersonExtendedAttributes-vacationAccrualFlag-parentBean"/>
 
   <bean abstract="true" id="KcPersonExtendedAttributes-vacationAccrualFlag-parentBean" parent="AttributeReferenceDummy-genericBoolean">
@@ -508,6 +524,7 @@
               <bean p:attributeName="directoryDepartment" parent="FieldDefinition"/>
               <bean p:attributeName="primaryTitle" parent="FieldDefinition"/>
               <bean p:attributeName="directoryTitle" parent="FieldDefinition"/>
+              <bean p:attributeName="militaryRank" parent="FieldDefinition"/>
               <bean p:attributeName="vacationAccrualFlag" parent="FieldDefinition"/>
               <bean p:attributeName="onSabbaticalFlag" parent="FieldDefinition"/>
               <bean p:attributeName="idProvided" parent="FieldDefinition"/>

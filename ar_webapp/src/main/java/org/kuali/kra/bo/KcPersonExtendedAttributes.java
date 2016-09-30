@@ -71,6 +71,8 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     private String primaryTitle;
 
     private String directoryTitle;
+    
+    private String militaryRank;
 
     private Boolean vacationAccrualFlag;
 
@@ -625,6 +627,20 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
         deleteAwareList.add((Collection) getPersonDegrees());
         deleteAwareList.add((Collection) getPersonAppointments());
         return deleteAwareList;
+    }
+
+    /**
+     * @return the militaryRank
+     */
+    public String getMilitaryRank() {
+        return militaryRank;
+    }
+
+    /**
+     * @param militaryRank the militaryRank to set
+     */
+    public void setMilitaryRank(String militaryRank) {
+        this.militaryRank = militaryRank;
     }
     
 }

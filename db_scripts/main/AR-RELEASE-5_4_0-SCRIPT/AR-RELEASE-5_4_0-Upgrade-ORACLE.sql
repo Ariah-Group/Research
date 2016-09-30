@@ -1401,6 +1401,9 @@ alter table EPS_PROPOSAL MODIFY EXECUTIVE_SUMMARY varchar2(2400);
 alter table PERSON_BIOSKETCH add ( DEFAULT_FLAG CHAR(1) default 'N'); 
 alter table PERSON_BIOSKETCH add ( SPONSOR_CODE VARCHAR2(12)); 
 
+--RES-734
+alter table PERSON_EXT_T add MILITARY_RANK VARCHAR2(100);
+
 
 commit;
 exit
