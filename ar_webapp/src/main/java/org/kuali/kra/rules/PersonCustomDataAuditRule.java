@@ -29,37 +29,42 @@ import org.kuali.rice.krad.util.KRADConstants;
 import java.util.Map;
 
 public class PersonCustomDataAuditRule extends PersonCustomDataRuleBase implements DocumentAuditRule {
-    
+
     private static final String CUSTOM_DATA_ERROR_PREFIX = KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "businessObject.personCustomDataList";
-    
+
     @Override
     public boolean processRunAuditBusinessRules(Document document) {
         boolean rulePassed = true;
-        
+
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
         KcPersonExtendedAttributes kcPersonExtendedAttributes = (KcPersonExtendedAttributes) maintenanceDocument.getNewMaintainableObject().getDataObject();
         Map<String, CustomAttributeDocument> customAttributeDocuments = getCustomAttributeDocuments();
-        
-        int i = 0;
-        for (PersonCustomData personCustomData : kcPersonExtendedAttributes.getPersonCustomDataList()) {
-            CustomAttributeDocument customAttributeDocument = customAttributeDocuments.get(String.valueOf(personCustomData.getCustomAttributeId()));
-            String errorKey = CUSTOM_DATA_ERROR_PREFIX + Constants.LEFT_SQUARE_BRACKET + i++ + Constants.RIGHT_SQUARE_BRACKET + ".value";
-            rulePassed &= validateRequired(personCustomData, customAttributeDocument, errorKey);
+
+        if (!customAttributeDocuments.isEmpty()) {
+            int i = 0;
+            for (PersonCustomData personCustomData : kcPersonExtendedAttributes.getPersonCustomDataList()) {
+                CustomAttributeDocument customAttributeDocument = customAttributeDocuments.get(String.valueOf(personCustomData.getCustomAttributeId()));
+
+                if (customAttributeDocument != null) {
+                    String errorKey = CUSTOM_DATA_ERROR_PREFIX + Constants.LEFT_SQUARE_BRACKET + i++ + Constants.RIGHT_SQUARE_BRACKET + ".value";
+                    rulePassed &= validateRequired(personCustomData, customAttributeDocument, errorKey);
+                }
+            }
         }
 
         return rulePassed;
     }
-    
+
     private boolean validateRequired(PersonCustomData personCustomData, CustomAttributeDocument customAttributeDocument, String errorKey) {
         boolean rulePassed = true;
-        
+
         if (customAttributeDocument.isRequired()) {
             if (StringUtils.isBlank(personCustomData.getValue())) {
                 reportError(errorKey, RiceKeyConstants.ERROR_REQUIRED, personCustomData.getCustomAttribute().getLabel());
                 rulePassed = false;
             }
         }
-        
+
         return rulePassed;
     }
 
