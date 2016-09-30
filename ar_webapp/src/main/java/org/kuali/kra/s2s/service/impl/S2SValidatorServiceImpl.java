@@ -84,9 +84,15 @@ public class S2SValidatorServiceImpl implements S2SValidatorService {
             Iterator<XmlValidationError> iter = validationErrors.iterator();
             while (iter.hasNext()) {
                 XmlError error = iter.next();
-                LOG.info("Validation error:" + error);
+                LOG.info("Validation error: " + error);
+                LOG.info("getMessage = " + error.getMessage());
+                LOG.info("getObjectLocation = " + error.getObjectLocation());
+                
                 Node node = error.getCursorLocation().getDomNode();
-                errors.add(getXPath(node));
+                String xpathInfo = getXPath(node);
+                errors.add(xpathInfo);
+                LOG.info("xpathInfo = " + xpathInfo);
+                LOG.info("--------------------------------------------------------------------------------");
             }
             LOG.debug("Error XPaths:" + errors);
         }

@@ -96,15 +96,15 @@ import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
 /**
  *
  * Class for generating the XML object for grants.gov
- * PHS_Fellowship_Supplemental_3_1V3.1 Form is generated using XMLBean classes
- * and is based on PHS_Fellowship_Supplemental_3_1V3.1 schema
+ * PHS_Fellowship_Supplemental_3_1 Form is generated using XMLBean classes
+ * and is based on PHS_Fellowship_Supplemental_3_1 schema
  *
  */
 public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipSupplementalBaseGenerator {
 
     private static final Log LOG = LogFactory.getLog(PHS398FellowshipSupplementalV3_1Generator.class);
 
-    private static final String FORM_NAME = "PHS_Fellowship_Supplemental_3_1V3.1";
+    private static final String FORM_NAME = "PHS_Fellowship_Supplemental_3_1";
     private static final String NAME_SPACE = "http://apply.grants.gov/forms/PHS_Fellowship_Supplemental_3_1-V3.1";
 
     private static final int QID_HUMAN_USE_INDEFINITE = 1;
@@ -180,6 +180,9 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
     }
 
     private void setQuestionnaireData(PHSFellowshipSupplemental31 phsFellowshipSupplemental) {
+
+        LOG.info("PHS398Fellowship: setQuestionnaireData 1");
+
         Map<Integer, String> hmBudgetQuestions = new HashMap<Integer, String>();
         List<AnswerHeader> answers = findQuestionnaireWithAnswers(pdDoc.getDevelopmentProposal());
         ResearchTrainingPlan researchTrainingPlan = phsFellowshipSupplemental.addNewResearchTrainingPlan();
@@ -193,9 +196,12 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
 
         GraduateDegreeSought graduateDegreeSought = GraduateDegreeSought.Factory.newInstance();
 
+        LOG.info("PHS398Fellowship: setQuestionnaireData 2");
         StemCells stemCellstype = StemCells.Factory.newInstance();
 
         QueryList<KirschsteinBean> cvKirsch = new QueryList<KirschsteinBean>();
+        
+        LOG.info("PHS398Fellowship: setQuestionnaireData 3");
         for (AnswerHeader answerHeader : answers) {
             Questionnaire questionnaire = answerHeader.getQuestionnaire();
             List<QuestionnaireQuestion> questionnaireQuestions = questionnaire.getQuestionnaireQuestions();
@@ -212,7 +218,7 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
                 Integer parentQuestionNumber = questionnaireQuestion.getParentQuestionNumber();
                 Integer questionId = question.getQuestionIdAsInteger();
 
-                LOG.debug("PHS398Fellowship: questionId " + questionId + " answer: " + answer);
+                LOG.error("PHS398Fellowship: questionId " + questionId + " answer: " + answer);
 
                 if (answer != null) {
 
@@ -261,11 +267,13 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
 
                         case QID_STEMCELLS:
                             // stem cells used
+                            LOG.info("PHS398Fellowship: QID_STEMCELLS");
                             stemCellstype.setIsHumanStemCellsInvolved(getYesNoEnum(answer));
                             break;
 
                         case QID_CELLLINEIND:
                             // stem cell line indicator
+                            LOG.info("PHS398Fellowship: QID_CELLLINEIND");
                             stemCellstype.setStemCellsIndicator(getYesNoEnum(answer));
                             break;
 
@@ -289,6 +297,10 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
 
                         case QID_FIELD_TRAINING:
                             if (!answer.toUpperCase().equals("SUB CATEGORY NOT FOUND")) {
+                                
+                                LOG.error("QID_FIELD_TRAINING answer 1: " + answer);
+                                LOG.error("QID_FIELD_TRAINING answer 2: " + FieldOfTrainingDataType.Enum.forString(answer));
+                                
                                 additionalInfoType.setFieldOfTraining(FieldOfTrainingDataType.Enum.forString(answer));
                             }
                             break;
@@ -660,15 +672,30 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
             ResearchTrainingPlan researchTrainingPlan, OtherResearchTrainingPlan otherResearchTrainingPlan) {
 
         AttachedFileDataType attachedFileDataType = null;
+
+        // generate empty required elements
         researchTrainingPlan.addNewSpecificAims();
         researchTrainingPlan.addNewResearchStrategy();
+        researchTrainingPlan.addNewRespectiveContribution();
+        researchTrainingPlan.addNewSponsorandInstitution();
+        researchTrainingPlan.addNewTrainingInResponsibleConductOfResearch();
+
         Sponsors sponsors = phsFellowshipSupplemental.addNewSponsors();
+
         Introduction introduction = phsFellowshipSupplemental.addNewIntroduction();
+
         FellowshipApplicant fellowshipApplicant = phsFellowshipSupplemental.addNewFellowshipApplicant();
+        fellowshipApplicant.addNewBackgroundandGoals();
+
         InstitutionalEnvironment institutionalEnvironment = phsFellowshipSupplemental.addNewInstitutionalEnvironment();
+
+        LOG.error("setNarrativeDataForResearchTrainingPlan running on narratives....");
 
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null) {
+
+                LOG.error("setNarrativeDataForResearchTrainingPlan : processing narrative type code = " + narrative.getNarrativeTypeCode());
+
                 switch (Integer.parseInt(narrative.getNarrativeTypeCode())) {
                     case BACKGROUND_AND_GOALS_FOR_TRAINING:
                         attachedFileDataType = getAttachedFileType(narrative);
