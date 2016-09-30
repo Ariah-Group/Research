@@ -98,6 +98,7 @@ public class ProposalPersonExtendedAttributes extends KcPersonExtendedAttributes
         this.setDirectoryDepartment(personExtendedAttributes.getDirectoryDepartment());
         this.setPrimaryTitle(personExtendedAttributes.getPrimaryTitle());
         this.setDirectoryTitle(personExtendedAttributes.getDirectoryTitle());
+        this.setMilitaryRank(personExtendedAttributes.getMilitaryRank());
         this.setVacationAccrualFlag(personExtendedAttributes.getVacationAccrualFlag());
         this.setOnSabbaticalFlag(personExtendedAttributes.getOnSabbaticalFlag());
         this.setIdProvided(personExtendedAttributes.getIdProvided());

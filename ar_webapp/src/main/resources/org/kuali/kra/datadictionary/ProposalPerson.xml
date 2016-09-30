@@ -52,6 +52,7 @@
         <ref bean="ProposalPerson-salutation" />
         <ref bean="ProposalPerson-primaryTitle" />
         <ref bean="ProposalPerson-directoryTitle" />
+        <ref bean="ProposalPerson-militaryRank" />
         <ref bean="ProposalPerson-homeUnit" />
         <ref bean="ProposalPerson-facultyFlag" />
         <ref bean="ProposalPerson-otherSignificantContributorFlag" />
@@ -292,6 +293,12 @@
 
   <bean id="ProposalPerson-directoryTitle-parentBean" abstract="true" parent="KcPersonExtendedAttributes-directoryTitle">
   </bean>
+  
+  <bean id="ProposalPerson-militaryRank" parent="ProposalPerson-militaryRank-parentBean" />
+
+  <bean id="ProposalPerson-militaryRank-parentBean" abstract="true" parent="KcPersonExtendedAttributes-militaryRank">
+  </bean>
+  
   <bean id="ProposalPerson-homeUnit" parent="ProposalPerson-homeUnit-parentBean" />
 
   <bean id="ProposalPerson-homeUnit-parentBean" abstract="true" parent="KcPerson-organizationIdentifier-parentBean">

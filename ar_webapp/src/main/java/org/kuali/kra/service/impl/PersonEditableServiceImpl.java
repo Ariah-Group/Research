@@ -106,6 +106,7 @@ public class PersonEditableServiceImpl implements PersonEditableService {
         protocolPerson.setCountryOfCitizenship(person.getCountryOfCitizenship());
         protocolPerson.setPrimaryTitle(person.getPrimaryTitle());
         protocolPerson.setDirectoryTitle(person.getDirectoryTitle());
+        protocolPerson.setMilitaryRank(person.getMilitaryRank());
         protocolPerson.setHomeUnit(person.getOrganizationIdentifier());
         protocolPerson.setFacultyFlag(person.getFacultyFlag());
         protocolPerson.setGraduateStudentStaffFlag(person.getGraduateStudentStaffFlag());

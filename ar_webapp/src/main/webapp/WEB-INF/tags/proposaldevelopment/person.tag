@@ -48,7 +48,7 @@
 	<table cellpadding=0 cellspacing=0 summary="">
           	<tr>
 				<td>
-	<c:set var="personDetailsTabErrorKey" value="${proposalPerson}.projectRole*,${proposalPerson}.percentageEffort,${proposalPerson}.pagerNumber*,${proposalPerson}.userName,${proposalPerson}.emailAddress,${proposalPerson}.officePhone,${proposalPerson}.officePhone,${proposalPerson}.eraCommonsUserName,${proposalPerson}.primaryTitle,${proposalPerson}.directoryTitle,${proposalPerson}.faxNumber,${proposalPerson}.mobilePhoneNumber,${proposalPerson}.officeLocation,${proposalPerson}.addressLine1,${proposalPerson}.addressLine2,${proposalPerson}.addressLine3,${proposalPerson}.city,${proposalPerson}.county,${proposalPerson}.state,${proposalPerson}.postalCode,${proposalPerson}.countryCode,${proposalPerson}.facultyFlag" />				
+	<c:set var="personDetailsTabErrorKey" value="${proposalPerson}.projectRole*,${proposalPerson}.percentageEffort,${proposalPerson}.pagerNumber*,${proposalPerson}.userName,${proposalPerson}.emailAddress,${proposalPerson}.officePhone,${proposalPerson}.officePhone,${proposalPerson}.eraCommonsUserName,${proposalPerson}.primaryTitle,${proposalPerson}.directoryTitle,${proposalPerson}.militaryRank,${proposalPerson}.faxNumber,${proposalPerson}.mobilePhoneNumber,${proposalPerson}.officeLocation,${proposalPerson}.addressLine1,${proposalPerson}.addressLine2,${proposalPerson}.addressLine3,${proposalPerson}.city,${proposalPerson}.county,${proposalPerson}.state,${proposalPerson}.postalCode,${proposalPerson}.countryCode,${proposalPerson}.facultyFlag" />				
 	<kul:innerTab tabTitle="Person Details" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="${personDetailsTabErrorKey}" auditCluster="keyPersonnelAuditErrors" tabAuditKey="document.developmentProposalList[0].proposalPersons[${personIndex}]*">
 			<div class="innerTab-container" align="left">
               <table class=tab cellpadding=0 cellspacing="0" summary=""> 
@@ -120,7 +120,6 @@
                   </tr>
                   <tr>
                     <th align="left" width="15%"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.primaryTitle}"  /> </div></th>
-
                     <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.primaryTitle" 
                                                          attributeEntry="${proposalPersonAttributes.primaryTitle}" 
                                                                readOnly="${!personEditableFields['primaryTitle'] }" />
@@ -131,9 +130,17 @@
                                                                readOnly="${!personEditableFields['directoryTitle'] }" />
                     </td>
                   </tr>
+                   <tr>
+                    <th align="left" width="15%"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.militaryRank}"  /> </div></th>
+                    <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.militaryRank" 
+                                                         attributeEntry="${proposalPersonAttributes.militaryRank}" 
+                                                               readOnly="${!personEditableFields['militaryRank'] }" />
+                    </td>
+                    <th align="left" nowrap="nowrap">&nbsp;</th>
+                    <td align="left">&nbsp;</td>
+                  </tr>                  
                   <tr>
                     <th align="left" width="15%"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.homeUnit}"  /></div></th>
-
                     <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.homeUnit" 
                                                          attributeEntry="${proposalPersonAttributes.homeUnit}" 
                                                                readOnly="${!personEditableFields['homeUnit'] }" />
@@ -145,7 +152,6 @@
                   </tr>
                   <tr>
                     <th align="left" width="15%"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.eraCommonsUserName}"  /> </div></th>
-
                     <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.eraCommonsUserName" 
                                                                      attributeEntry="${proposalPersonAttributes.eraCommonsUserName}" 
                                                                            readOnly="${!personEditableFields['eraCommonsUserName'] }"/>
@@ -158,7 +164,6 @@
                   </tr>
                   <tr>
                     <th align="left" nowrap="nowrap" width="15%"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.pagerNumber}"  /></div></th>
-
                     <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.pagerNumber" 
                                                                      attributeEntry="${proposalPersonAttributes.pagerNumber}" 
                                                                            readOnly="${!personEditableFields['pagerNumber'] }" />
@@ -171,7 +176,6 @@
                   </tr>
                   <tr>
                     <th align="left"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.officeLocation}"  /></div></th>
-
                     <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.officeLocation" 
                                                          attributeEntry="${proposalPersonAttributes.officeLocation}" 
                                                                readOnly="${!personEditableFields['officeLocation'] }" />
@@ -184,7 +188,6 @@
                   </tr>
                   <tr>
                     <th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.addressLine1}"  /></div></th>
-
                     <td><kul:htmlControlAttribute property="${proposalPerson}.addressLine1" 
                                             attributeEntry="${proposalPersonAttributes.addressLine1}" 
                                                   readOnly="${!personEditableFields['addressLine1'] }" />
@@ -288,7 +291,6 @@
                                                 readOnly="${!personEditableFields['educationLevel'] }" />
                     </span></td>
                     <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.yearGraduated}"  /></div></th>
-
                     <td align="left"><label>
                        <kul:htmlControlAttribute property="${proposalPerson}.yearGraduated" 
                                           attributeEntry="${proposalPersonAttributes.yearGraduated}" 
@@ -303,7 +305,6 @@
                                                 readOnly="${!personEditableFields['major'] }" />
                     </span></td>
                     <th align="left" nowrap="nowrap"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.degree}"  /></div></th>
-
                     <td align="left"><label>
                        <kul:htmlControlAttribute property="${proposalPerson}.degree" 
                                           attributeEntry="${proposalPersonAttributes.degree}" 
@@ -317,16 +318,13 @@
                                           attributeEntry="${proposalPersonAttributes.school}" 
                                                 readOnly="${!personEditableFields['school'] }" />
                     </span></td>
-
                   </tr>                                    
-   </tr>           
-    
+   </tr>              
       </tr>
        </tbody>
 </table></div>
 </kul:innerTab>
 </td></tr>
-
 <c:choose>
 	<c:when test="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].proposalPersonExtendedAttributes != null}">
 		<c:set var="personEA" value="document.developmentProposalList[0].proposalPersons[${personIndex}].proposalPersonExtendedAttributes" />
@@ -520,7 +518,7 @@
 									<th nowrap="nowrap"><div align="right">
 										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.directoryTitle}"  />
 									</div></th>
-									<td align-"left">
+									<td align="left">
 										<kul:htmlControlAttribute property="${personEA}.directoryTitle" 
                                           attributeEntry="${proposalPersonExtendedAttributes.directoryTitle}" 
                                                 readOnly="${readOnly }" />
@@ -533,6 +531,18 @@
                                           attributeEntry="${proposalPersonExtendedAttributes.vacationAccrualFlag}" 
                                                 readOnly="${readOnly }" />
 									</td>
+								</tr>
+                                                                <tr>
+									<th nowrap="nowrap"><div align="right">
+										<kul:htmlAttributeLabel attributeEntry="${proposalPersonExtendedAttributes.militaryRank}"  />
+									</div></th>
+									<td align="left">
+										<kul:htmlControlAttribute property="${personEA}.militaryRank" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.militaryRank}" 
+                                                readOnly="${readOnly }" />
+									</td>
+									<th nowrap="nowrap">&nbsp;</th>
+									<td align="left">&nbsp;</td>
 								</tr>
 								<tr>
 									<th nowrap="nowrap"><div align="right">

@@ -42,6 +42,7 @@
         <ref bean="ProposalPersonExtendedAttributes-directoryDepartment"/>
         <ref bean="ProposalPersonExtendedAttributes-primaryTitle"/>
         <ref bean="ProposalPersonExtendedAttributes-directoryTitle"/>
+        <ref bean="ProposalPersonExtendedAttributes-militaryRank"/>
         <ref bean="ProposalPersonExtendedAttributes-vacationAccrualFlag"/>
         <ref bean="ProposalPersonExtendedAttributes-onSabbaticalFlag"/>
         <ref bean="ProposalPersonExtendedAttributes-county"/>
@@ -178,6 +179,10 @@
   <bean id="ProposalPersonExtendedAttributes-directoryTitle" parent="ProposalPersonExtendedAttributes-directoryTitle-parentBean" />
   <bean id="ProposalPersonExtendedAttributes-directoryTitle-parentBean" abstract="true" parent="KcPersonExtendedAttributes-directoryTitle">
   </bean>
+  
+  <bean id="ProposalPersonExtendedAttributes-militaryRank" parent="ProposalPersonExtendedAttributes-militaryRank-parentBean" />
+  <bean id="ProposalPersonExtendedAttributes-militaryRank-parentBean" abstract="true" parent="KcPersonExtendedAttributes-militaryRank">
+  </bean>  
   
   <bean id="ProposalPersonExtendedAttributes-vacationAccrualFlag" parent="ProposalPersonExtendedAttributes-vacationAccrualFlag-parentBean" />
   <bean id="ProposalPersonExtendedAttributes-vacationAccrualFlag-parentBean" abstract="true" parent="KcPersonExtendedAttributes-vacationAccrualFlag">

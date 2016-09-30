@@ -94,6 +94,8 @@ public interface PersonEditableInterface {
     void setPrimaryTitle(String primaryTitle);
 
     void setDirectoryTitle(String directoryTitle);
+    
+    void setMilitaryRank(String militaryRank);
 
     void setHomeUnit(String homeUnit);
 

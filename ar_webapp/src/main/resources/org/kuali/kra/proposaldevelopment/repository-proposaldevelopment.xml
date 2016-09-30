@@ -425,6 +425,7 @@
         <field-descriptor name="countryOfCitizenship" column="COUNTRY_OF_CITIZENSHIP" jdbc-type="VARCHAR" />
         <field-descriptor name="primaryTitle" column="PRIMARY_TITLE" jdbc-type="VARCHAR" />
         <field-descriptor name="directoryTitle" column="DIRECTORY_TITLE" jdbc-type="VARCHAR" />
+        <field-descriptor name="militaryRank" column="MILITARY_RANK" jdbc-type="VARCHAR" />
         <field-descriptor name="homeUnit" column="HOME_UNIT" jdbc-type="VARCHAR" />
         <field-descriptor name="facultyFlag" column="IS_FACULTY" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="otherSignificantContributorFlag" column="IS_OSC" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
@@ -530,6 +531,7 @@
         <field-descriptor name="directoryDepartment" column="DIRECTORY_DEPARTMENT" jdbc-type="VARCHAR" />
         <field-descriptor name="primaryTitle" column="PRIMARY_TITLE" jdbc-type="VARCHAR" />
         <field-descriptor name="directoryTitle" column="DIRECTORY_TITLE" jdbc-type="VARCHAR" />
+        <field-descriptor name="militaryRank" column="MILITARY_RANK" jdbc-type="VARCHAR" />
         <field-descriptor name="vacationAccrualFlag" column="VACATION_ACCURAL" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="onSabbaticalFlag" column="IS_ON_SABBATICAL" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="idProvided" column="ID_PROVIDED" jdbc-type="VARCHAR" />

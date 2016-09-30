@@ -186,6 +186,8 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     private String primaryTitle;
 
     private String directoryTitle;
+    
+    private String militaryRank;
 
     private String homeUnit;
 
@@ -2177,5 +2179,19 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
     @Override
     public String getRoleCode() {
         return this.getRole().getRoleCode();
+    }
+
+    /**
+     * @return the militaryRank
+     */
+    public String getMilitaryRank() {
+        return militaryRank;
+    }
+
+    /**
+     * @param militaryRank the militaryRank to set
+     */
+    public void setMilitaryRank(String militaryRank) {
+        this.militaryRank = militaryRank;
     }
 }

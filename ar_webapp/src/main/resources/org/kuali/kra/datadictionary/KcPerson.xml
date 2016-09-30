@@ -53,6 +53,7 @@
         <ref bean="KcPerson-countryOfCitizenship" />
         <ref bean="KcPerson-extendedAttributes.primaryTitle" />
         <ref bean="KcPerson-extendedAttributes.directoryTitle" />
+        <ref bean="KcPerson-extendedAttributes.militaryRank" />
         <ref bean="KcPerson-organizationIdentifier" />
         <ref bean="KcPerson-unit.unitName" />
         <ref bean="KcPerson-unit.unitNumber" />
@@ -577,6 +578,13 @@
   <bean id="KcPerson-extendedAttributes.directoryTitle-parentBean" abstract="true" parent="KcPersonExtendedAttributes-directoryTitle">
     <property name="name" value="extendedAttributes.directoryTitle" />
   </bean>
+  
+  <bean id="KcPerson-extendedAttributes.militaryRank" parent="KcPerson-extendedAttributes.militaryRank-parentBean" />
+
+  <bean id="KcPerson-extendedAttributes.militaryRank-parentBean" abstract="true" parent="KcPersonExtendedAttributes-militaryRank">
+    <property name="name" value="extendedAttributes.militaryRank" />
+  </bean>
+    
   <bean id="KcPerson-organizationIdentifier" parent="KcPerson-organizationIdentifier-parentBean" />
 
   <bean id="KcPerson-organizationIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
@@ -937,6 +945,8 @@
                     p:attributeName="extendedAttributes.primaryTitle" />
               <bean parent="FieldDefinition"
                     p:attributeName="extendedAttributes.directoryTitle" />
+              <bean parent="FieldDefinition"
+                    p:attributeName="extendedAttributes.militaryRank" />
               <bean parent="FieldDefinition"
                     p:attributeName="unit.unitName" />
               <bean parent="FieldDefinition"

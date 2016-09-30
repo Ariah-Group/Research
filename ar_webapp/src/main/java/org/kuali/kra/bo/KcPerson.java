@@ -721,6 +721,15 @@ public class KcPerson implements Contactable, BusinessObject {
     }
 
     /**
+     * Gets the value of militaryRank.
+     *
+     * @return the value of militaryRank
+     */
+    public String getMilitaryRank() {
+        return this.extendedAttributes.getMilitaryRank();
+    }    
+    
+    /**
      * Gets the value of faculty.
      *
      * @return the value of faculty
