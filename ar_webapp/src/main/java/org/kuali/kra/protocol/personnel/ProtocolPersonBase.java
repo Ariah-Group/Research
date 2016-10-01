@@ -156,6 +156,8 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
     private String primaryTitle;
 
     private String directoryTitle;
+    
+    private String militaryRank;
 
     private String homeUnit;
 
@@ -1157,6 +1159,20 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
 
     public boolean isAffiliationTypeCodeChanged() {
         return affiliationTypeCodeChanged;
+    }
+
+    /**
+     * @return the militaryRank
+     */
+    public String getMilitaryRank() {
+        return militaryRank;
+    }
+
+    /**
+     * @param militaryRank the militaryRank to set
+     */
+    public void setMilitaryRank(String militaryRank) {
+        this.militaryRank = militaryRank;
     }
 
 }
