@@ -130,7 +130,7 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
     private static final int QID_DEGREE_TYPE_SOUGHT = 99;
     private static final int QID_DEG_EXP_COMP_DATE = 35;
     private static final int QID_NRSA_SUPPORT = 24;
-    private static final int QID_FIELD_TRAINING = 22;
+    private static final int QID_FIELD_TRAINING = 102005;
     private static final int QID_SUBMITTED_DIFF_INST = 28;
     private static final int QID_SENIOR_FELL = 36;
     private static final int QID_OTHER_SUPP_SOURCE = 37;
