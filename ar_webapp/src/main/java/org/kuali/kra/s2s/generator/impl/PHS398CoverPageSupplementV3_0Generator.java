@@ -32,7 +32,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.util.S2SConstants;
 
 import java.math.BigDecimal;
@@ -41,13 +40,12 @@ import java.util.List;
 
 /**
  * Class for generating the XML object for grants.gov
- * PHS398CoverPageSupplementV1_3. Form is generated using XMLBean classes and is
+ * PHS398CoverPageSupplementV3_0. Form is generated using XMLBean classes and is
  * based on PHS398CoverPageSupplement schema.
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class PHS398CoverPageSupplementV3_0Generator extends
-        PHS398CoverPageSupplementBaseGenerator {
+public class PHS398CoverPageSupplementV3_0Generator extends PHS398CoverPageSupplementBaseGenerator {
 
     List<AnswerHeader> answerHeaders;
 
@@ -412,8 +410,7 @@ public class PHS398CoverPageSupplementV3_0Generator extends
      * @see
      * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
      */
-    public XmlObject getFormObject(
-            ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         this.pdDoc = proposalDevelopmentDocument;
         return getCoverPageSupplement();
     }
@@ -429,11 +426,11 @@ public class PHS398CoverPageSupplementV3_0Generator extends
      * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
      */
     public XmlObject getFormObject(XmlObject xmlObject) {
+        
         PHS398CoverPageSupplement30 coverPageSupplement = (PHS398CoverPageSupplement30) xmlObject;
-        PHS398CoverPageSupplement30Document coverPageSupplementDocument = PHS398CoverPageSupplement30Document.Factory
-                .newInstance();
-        coverPageSupplementDocument
-                .setPHS398CoverPageSupplement30(coverPageSupplement);
+        PHS398CoverPageSupplement30Document coverPageSupplementDocument = PHS398CoverPageSupplement30Document.Factory.newInstance();
+        coverPageSupplementDocument.setPHS398CoverPageSupplement30(coverPageSupplement);
+        
         return coverPageSupplementDocument;
     }
 }

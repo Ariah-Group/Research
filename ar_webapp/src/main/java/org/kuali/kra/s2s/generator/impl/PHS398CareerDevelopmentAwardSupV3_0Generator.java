@@ -16,8 +16,6 @@
 package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup30V30.NonUSCitizenshipDataType;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup20V20.CitizenshipDataType;
-import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup30V30.NonUSCitizenshipDataType.Enum;
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup30V30.PHS398CareerDevelopmentAwardSup30Document;
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup30V30.PHS398CareerDevelopmentAwardSup30Document.PHS398CareerDevelopmentAwardSup30;
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup30V30.PHS398CareerDevelopmentAwardSup30Document.PHS398CareerDevelopmentAwardSup30.CareerDevelopmentAwardAttachments;
@@ -41,7 +39,6 @@ import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup30V30.PHS398CareerD
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup30V30.PHS398CareerDevelopmentAwardSup30Document.PHS398CareerDevelopmentAwardSup30.CareerDevelopmentAwardAttachments.SelectAgentResearch;
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup30V30.PHS398CareerDevelopmentAwardSup30Document.PHS398CareerDevelopmentAwardSup30.CareerDevelopmentAwardAttachments.StatementsOfSupport;
 import gov.grants.apply.forms.phs398CareerDevelopmentAwardSup30V30.PHS398CareerDevelopmentAwardSup30Document.PHS398CareerDevelopmentAwardSup30.CareerDevelopmentAwardAttachments.VertebrateAnimals;
-import gov.grants.apply.forms.phsFellowshipSupplemental31V31.NonUSCitizenDataType;
 
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
@@ -132,12 +129,11 @@ public class PHS398CareerDevelopmentAwardSupV3_0Generator extends PHS398CareerDe
      * This method fetches all attachments related to Career development award.
      */
     private CareerDevelopmentAwardAttachments getCareerDevelopmentAwardAttachments() {
-        CareerDevelopmentAwardAttachments careerDevelopmentAwardAttachments = CareerDevelopmentAwardAttachments.Factory
-                .newInstance();
-        AttachmentGroupMin0Max100DataType attachmentGroupMin0Max100DataType = AttachmentGroupMin0Max100DataType.Factory
-                .newInstance();
+        CareerDevelopmentAwardAttachments careerDevelopmentAwardAttachments = CareerDevelopmentAwardAttachments.Factory.newInstance();
+        AttachmentGroupMin0Max100DataType attachmentGroupMin0Max100DataType = AttachmentGroupMin0Max100DataType.Factory.newInstance();
         List<AttachedFileDataType> attachedFileList = new ArrayList<AttachedFileDataType>();
         AttachedFileDataType attachedFileDataType = null;
+        
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
 
             int narrativeTypeCode = Integer.parseInt(narrative.getNarrativeTypeCode());
