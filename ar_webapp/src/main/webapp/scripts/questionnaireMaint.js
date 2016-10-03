@@ -384,12 +384,8 @@ function addrequirement(curidx) {
 
 function addRuleRequirement(curidx) {
 	var idx = curidx;
-	var response = jQuery("#addRuleRequirement"+curidx).parents('tr:eq(1)').children(
-			'td:eq(0)').children('select:eq(0)').attr(
-			"value");
-	var value = jQuery("#addRuleRequirement"+curidx).parents('tr:eq(0)').children(
-			'td:eq(0)').children('input:eq(0)').attr(
-			"value");
+	//var response = jQuery("#addRuleRequirement"+curidx).parents('tr:eq(1)').children('td:eq(0)').children('select:eq(0)').attr("value");
+	var value = jQuery("#addRuleRequirement"+curidx).parents('tr:eq(0)').children('td:eq(0)').children('input:eq(0)').val();
 	if (value == '') {
         alert("Please enter a value");
         return false;
@@ -400,16 +396,14 @@ function addRuleRequirement(curidx) {
 		 * opArray[operator]; }
 		 */
 		var newResponse = getRuleEvaluationDeleteRow(value, idx);
-		newResponse.appendTo(jQuery("#addRuleRequirement"+curidx).parents('div:eq(0)')
-				.children('table:eq(0)').children('tbody'));
-		var idx = jQuery("#addRuleRequirement"+curidx).parents('li:eq(0)').attr("id")
-				.substring(8);
+		newResponse.appendTo(jQuery("#addRuleRequirement"+curidx).parents('div:eq(0)').children('table:eq(0)').children('tbody'));
+		var idx = jQuery("#addRuleRequirement"+curidx).parents('li:eq(0)').attr("id").substring(8);
 		var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").val().split("#f#");
 	    var tmpstr = splitq[0] +"#f#" +splitq[1] 
         +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
         splitq[7] +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +value ;
-	    jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
-		jQuery("#addRuleRequirement"+curidx).parents('tr:eq(0)').remove();
+	jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+	jQuery("#addRuleRequirement"+curidx).parents('tr:eq(0)').remove();
 	}
 	// }
 	return false;
