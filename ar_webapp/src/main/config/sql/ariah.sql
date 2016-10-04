@@ -2390,6 +2390,7 @@ alter table PERSON_EXT_T add MILITARY_RANK VARCHAR2(100);
 alter table EPS_PROP_PERSON add MILITARY_RANK VARCHAR2(100);
 alter table EPS_PROP_PERSON_EXT add MILITARY_RANK VARCHAR2(100);
 
+--RES-739
 update proposal_type set help_desc='New project work that has never been previously submitted.' where PROPOSAL_TYPE_CODE='1'; -- New
 update proposal_type set help_desc='Subsequent submission of previously denied proposal.' where PROPOSAL_TYPE_CODE='2'; -- Resubmission
 update proposal_type set help_desc='Competitively reviewed proposal requesting additional funds extending the scope of work beyond the current project period.' where PROPOSAL_TYPE_CODE='3'; -- Renewal
