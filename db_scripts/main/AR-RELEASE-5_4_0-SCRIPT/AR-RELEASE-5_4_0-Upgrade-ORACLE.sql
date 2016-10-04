@@ -1488,6 +1488,13 @@ alter table PERSON_EXT_T add MILITARY_RANK VARCHAR2(100);
 alter table EPS_PROP_PERSON add MILITARY_RANK VARCHAR2(100);
 alter table EPS_PROP_PERSON_EXT add MILITARY_RANK VARCHAR2(100);
 
+-- RES-
+update proposal_type set help_desc='New project work that has never been previously submitted.' where PROPOSAL_TYPE_CODE='1'; -- New
+update proposal_type set help_desc='Subsequent submission of previously denied proposal.' where PROPOSAL_TYPE_CODE='2'; -- Resubmission
+update proposal_type set help_desc='Competitively reviewed proposal requesting additional funds extending the scope of work beyond the current project period.' where PROPOSAL_TYPE_CODE='3'; -- Renewal
+update proposal_type set help_desc='Project approved for multiple-year funding, where funds are typically committed only one year at a time based on progress and availability of funds.' where PROPOSAL_TYPE_CODE='4'; -- continuation
+update proposal_type set help_desc='Modified and resubmitted request for funding for a previously unfunded project.' where PROPOSAL_TYPE_CODE='5'; -- Revision
+update proposal_type set help_desc='Work authorization under a basic contract (umbrella).' where PROPOSAL_TYPE_CODE='6'; -- Task Order
 
 commit;
 exit

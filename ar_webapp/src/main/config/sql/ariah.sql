@@ -1759,8 +1759,8 @@ INSERT INTO ARG_VALUE_LOOKUP(ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION
 INSERT INTO ARG_VALUE_LOOKUP(ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values(100177,'PHS_FellowSupp_FieldOfTraining','980 Social Work','980 Social Work',sysdate,'admin',1,SYS_GUID());
 INSERT INTO ARG_VALUE_LOOKUP(ARG_VALUE_LOOKUP_ID,ARGUMENT_NAME,VALUE,DESCRIPTION,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values(100178,'PHS_FellowSupp_FieldOfTraining','989 Other','989 Other',sysdate,'admin',1,SYS_GUID());
 
-
-
+ -- PHS Cover Page Supplement v3.0
+update KRMS_TERM_PARM_T set VAL='PHS398_CoverPageSupplement_3_0,PHS398_CoverPageSupplement_1_4,PHS398_CoverPageSupplement_2_0-V2.0' where TERM_PARM_ID='KC2006';
 
 
 
@@ -2389,3 +2389,10 @@ alter table PERSON_EXT_T add MILITARY_RANK VARCHAR2(100);
 --RES-735
 alter table EPS_PROP_PERSON add MILITARY_RANK VARCHAR2(100);
 alter table EPS_PROP_PERSON_EXT add MILITARY_RANK VARCHAR2(100);
+
+update proposal_type set help_desc='New project work that has never been previously submitted.' where PROPOSAL_TYPE_CODE='1'; -- New
+update proposal_type set help_desc='Subsequent submission of previously denied proposal.' where PROPOSAL_TYPE_CODE='2'; -- Resubmission
+update proposal_type set help_desc='Competitively reviewed proposal requesting additional funds extending the scope of work beyond the current project period.' where PROPOSAL_TYPE_CODE='3'; -- Renewal
+update proposal_type set help_desc='Project approved for multiple-year funding, where funds are typically committed only one year at a time based on progress and availability of funds.' where PROPOSAL_TYPE_CODE='4'; -- continuation
+update proposal_type set help_desc='Modified and resubmitted request for funding for a previously unfunded project.' where PROPOSAL_TYPE_CODE='5'; -- Revision
+update proposal_type set help_desc='Work authorization under a basic contract (umbrella).' where PROPOSAL_TYPE_CODE='6'; -- Task Order
