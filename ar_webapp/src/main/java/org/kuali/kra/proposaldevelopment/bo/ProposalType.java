@@ -31,6 +31,8 @@ public class ProposalType extends KraPersistableBusinessObjectBase {
     private boolean active;
 
     private int sortOrder;
+    
+    private String helpText;
 
     public String getDescription() {
         return description;
@@ -68,5 +70,19 @@ public class ProposalType extends KraPersistableBusinessObjectBase {
      */
     public void setSortOrder(int sortOrder) {
         this.sortOrder = sortOrder;
+    }
+
+    /**
+     * @return the helpText
+     */
+    public String getHelpText() {
+        return helpText;
+    }
+
+    /**
+     * @param helpText the helpText to set
+     */
+    public void setHelpText(String helpText) {
+        this.helpText = helpText;
     }
 }

@@ -31,6 +31,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="proposalTypeCode" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="helpText" p:required="false"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="sortOrder" p:required="false"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
