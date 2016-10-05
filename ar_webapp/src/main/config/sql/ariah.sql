@@ -2397,3 +2397,9 @@ update proposal_type set help_desc='Competitively reviewed proposal requesting a
 update proposal_type set help_desc='Project approved for multiple-year funding, where funds are typically committed only one year at a time based on progress and availability of funds.' where PROPOSAL_TYPE_CODE='4'; -- continuation
 update proposal_type set help_desc='Modified and resubmitted request for funding for a previously unfunded project.' where PROPOSAL_TYPE_CODE='5'; -- Revision
 update proposal_type set help_desc='Work authorization under a basic contract (umbrella).' where PROPOSAL_TYPE_CODE='6'; -- Task Order
+
+--RES-741
+alter table KRLC_CMP_T	modify CAMPUS_CD VARCHAR2(6);
+alter table KRIM_ENTITY_AFLTN_T	modify CAMPUS_CD VARCHAR2(6);
+alter table KRIM_ENTITY_CACHE_T	modify CAMPUS_CD VARCHAR2(6);
+alter table KRIM_PND_AFLTN_MT	modify CAMPUS_CD VARCHAR2(6);
