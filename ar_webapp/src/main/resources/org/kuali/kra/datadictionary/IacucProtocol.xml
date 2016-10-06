@@ -202,7 +202,7 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Lead Unit" />
 		<property name="shortLabel" value="Lead Unit" />
-		<property name="maxLength" value="8" />
+		<property name="maxLength" value="12" />
 		<property name="validationPattern" >
 			<bean parent="AnyCharacterValidationPattern" />
 		</property>
@@ -724,7 +724,7 @@
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Funding Source" />
 		<property name="shortLabel" value="Funding Source" />
-		<property name="maxLength" value="8" />
+		<property name="maxLength" value="12" />
 		<property name="validationPattern" >
 			<bean parent="AnyCharacterValidationPattern" />
 		</property>

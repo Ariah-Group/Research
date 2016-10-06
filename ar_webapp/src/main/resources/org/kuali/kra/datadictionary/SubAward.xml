@@ -401,7 +401,7 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Requisitioner Unit" />
         <property name="shortLabel" value="Requisitioner Unit" />
-        <property name="maxLength" value="80" />
+        <property name="maxLength" value="12" />
         <property name="validationPattern" >
             <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
         </property>
