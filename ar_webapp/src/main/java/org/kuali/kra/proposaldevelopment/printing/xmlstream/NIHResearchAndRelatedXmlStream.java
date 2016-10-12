@@ -154,7 +154,7 @@ public class NIHResearchAndRelatedXmlStream extends
                 .newInstance();
         researchAndRelatedProjectDocument
                 .setResearchAndRelatedProject(getResearchAndRelatedProject(
-                                developmentProposal, budget));
+                        developmentProposal, budget));
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
         xmlObjectList.put(REPORT_NAME, researchAndRelatedProjectDocument);
         return xmlObjectList;
@@ -702,11 +702,11 @@ public class NIHResearchAndRelatedXmlStream extends
                             getDateTimeService().convertToDate(orgBean.getIndirectCostRateAgreement())));
                 }
                 indirectCost.setNoDHHSAgreement(noAgreement);
-            } else {
-                // agreement is with DHHS
-                // check agreement date . If there is no date, assume that negotiations are in process,
-                // and take the agency with whom negotiations are being conducted from the rolodex entry of the
-                // cognizant auditor
+            } else // agreement is with DHHS
+            // check agreement date . If there is no date, assume that negotiations are in process,
+            // and take the agency with whom negotiations are being conducted from the rolodex entry of the
+            // cognizant auditor
+            {
                 if (orgBean.getIndirectCostRateAgreement() != null) {
                     indirectCost.setDHHSAgreementDate(getDateTimeService().getCalendar(
                             getDateTimeService().convertToDate(orgBean.getIndirectCostRateAgreement())));
@@ -929,13 +929,19 @@ public class NIHResearchAndRelatedXmlStream extends
             BudgetModular budgetModular = budgetPeriod.getBudgetModular();
             consortiumDirectCost = budgetModular.getConsortiumFna();
         } else {
-            boolean isNih = sponsorService.isSponsorNihOsc(developmentProposal) || sponsorService.isSponsorNihMultiplePi(developmentProposal);
-            String mappingName = isNih ? Constants.BUDGET_CATEGORY_MAPPING_NAME_NIH: Constants.BUDGET_CATEGORY_MAPPING_NAME_NSF;
+
+            boolean isSponsorOscEligible = false;
+            if (developmentProposal.getSponsor() != null) {
+                isSponsorOscEligible = developmentProposal.getSponsor().isOtherSignContrib();
+            }
+
+            boolean isNih = isSponsorOscEligible || sponsorService.isSponsorNihMultiplePi(developmentProposal);
+            String mappingName = isNih ? Constants.BUDGET_CATEGORY_MAPPING_NAME_NIH : Constants.BUDGET_CATEGORY_MAPPING_NAME_NSF;
 
             String fnaGt25KParamValue = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_F_AND_A_GT_25K_PARAM);
             String fnaLt25KParamValue = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_F_AND_A_LT_25K_PARAM);
             String fnaBroadParamValue = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BROAD_F_AND_A_PARAM);
-            
+
             Map<String, String> categoryMap = new HashMap<String, String>();
             categoryMap.put(KEY_TARGET_CATEGORY_CODE, TARGET_CATEGORY_CODE_SUBCONTRACT);
             categoryMap.put(KEY_MAPPING_NAME, mappingName);
@@ -1033,8 +1039,14 @@ public class NIHResearchAndRelatedXmlStream extends
     private void setNSFOtherPersonnels(DevelopmentProposal developmentProposal, BudgetPeriod budgetPeriod,
             gov.nih.era.projectmgmt.sbir.cgap.nihspecificNamespace.BudgetSummaryType.BudgetPeriod budgetPeriodType) {
         NSFOtherPersonnelType otherPersonnelType = budgetPeriodType.addNewNSFOtherPersonnel();
-        boolean isNih = sponsorService.isSponsorNihOsc(developmentProposal) || sponsorService.isSponsorNihMultiplePi(developmentProposal);
-        String mappingName = isNih ? Constants.BUDGET_CATEGORY_MAPPING_NAME_NIH: Constants.BUDGET_CATEGORY_MAPPING_NAME_NSF;
+
+        boolean isSponsorOscEligible = false;
+        if (developmentProposal.getSponsor() != null) {
+            isSponsorOscEligible = developmentProposal.getSponsor().isOtherSignContrib();
+        }
+
+        boolean isNih = isSponsorOscEligible || sponsorService.isSponsorNihMultiplePi(developmentProposal);
+        String mappingName = isNih ? Constants.BUDGET_CATEGORY_MAPPING_NAME_NIH : Constants.BUDGET_CATEGORY_MAPPING_NAME_NSF;
 
         OtherPersonInfo otherPersonInfo = getOtherPersonInfo(developmentProposal, budgetPeriod, mappingName, TARGET_CATEGORY_CODE_PERSONNEL_SECRE);
         otherPersonnelType.setClericalCount(BigInteger.valueOf(otherPersonInfo.getCount()));
@@ -1065,11 +1077,11 @@ public class NIHResearchAndRelatedXmlStream extends
 
     private BigDecimal getOtherLAFunds(DevelopmentProposal developmentProposal, BudgetPeriod budgetPeriod) {
         BudgetDecimal laAmount = BudgetDecimal.ZERO;
-        
+
         Map<String, String> bcmMapValues = loadBudgetCategoryCodeMapping(developmentProposal);
 
         String budCatCodePersonnelOther = bcmMapValues.get(TARGET_CATEGORY_CODE_PERSONNEL_OTHER);
-        
+
         List<BudgetLineItem> budgetLineItems = budgetPeriod.getBudgetLineItems();
         for (BudgetLineItem budgetLineItem : budgetLineItems) {
             if (budgetLineItem.getBudgetCategoryCode().equals(budCatCodePersonnelOther)) {
@@ -1251,11 +1263,11 @@ public class NIHResearchAndRelatedXmlStream extends
         developmentProposal.refreshNonUpdateableReferences();
         researchCoverPage
                 .setSubmissionCategory(getSubmissionCategoryForResearchCoverPage(
-                                developmentProposal.getActivityType().getDescription(),
-                                developmentProposal.getProposalStateTypeCode()));
+                        developmentProposal.getActivityType().getDescription(),
+                        developmentProposal.getProposalStateTypeCode()));
         researchCoverPage
                 .setApplicationCategory(getApplicationCategoryForResearchCoverPage(developmentProposal
-                                .getProposalType().getDescription()));
+                        .getProposalType().getDescription()));
         setApplicantSubmissionQualifiersForResearchCoverPage(developmentProposal, researchCoverPage.addNewApplicantSubmissionQualifiers());
         setFederalAgencyReceiptQualifiersForResearchCoverPage(developmentProposal, researchCoverPage.addNewFederalAgencyReceiptQualifiers());
         setStateReceiptQualifiersForResearchCoverPage(developmentProposal, researchCoverPage.addNewStateReceiptQualifiers());
@@ -1268,7 +1280,7 @@ public class NIHResearchAndRelatedXmlStream extends
                 .setBudgetTotals(getBudgetTotalsForResearchCoverPage(budget));
         researchCoverPage
                 .setProjectTitle(developmentProposal.getTitle() == null ? DEFAULT_VALUE_UNKNOWN
-                                : developmentProposal.getTitle());
+                        : developmentProposal.getTitle());
         researchCoverPage
                 .setOtherAgencyQuestions(getOtherAgencyQuestionsForResearchCoverPage(developmentProposal));
         researchCoverPage
@@ -1322,7 +1334,7 @@ public class NIHResearchAndRelatedXmlStream extends
         PostalAddressType postalAddressType = projectSiteType.addNewPostalAddress();
         postalAddressType
                 .setCity((rolodexBean.getCity() == null || rolodexBean.getCity().trim().equals("")) ? "Unknown"
-                                : rolodexBean.getCity());
+                        : rolodexBean.getCity());
         postalAddressType.setPostalCode((rolodexBean.getPostalCode() == null || rolodexBean.getPostalCode()
                 .trim().equals("")) ? "Unknown" : rolodexBean.getPostalCode());
         postalAddressType.setCountry((rolodexBean.getCountryCode() == null || rolodexBean.getCountryCode()

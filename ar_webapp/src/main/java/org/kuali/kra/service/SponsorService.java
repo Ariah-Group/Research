@@ -99,13 +99,6 @@ public interface SponsorService {
     public boolean isSponsorNihMultiplePi(Sponsorable sponsorable);
     
     /**
-     * This method returns true if a Sponsorable's sponsor is of the "NIH Other Significant Contributor" type.
-     * @param sponsorable
-     * @return
-     */
-    public boolean isSponsorNihOsc(Sponsorable sponsorable);
-
-    /**
      * 
      * This method is to put the sponsorcodes for the hierarchy in session. so it can be checked to be excluded for search.
      * @param sponsorCodes

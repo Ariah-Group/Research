@@ -318,7 +318,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
 //                }
 //            }
 
-            //if(isPrincipalInvestigator){
+        //if(isPrincipalInvestigator){
         //}
         /*if(proposalDevelopmentForm.getProposalDevelopmentDocument().getSponsorCode()!=null){
          proposalDevelopmentForm.setAdditionalDocInfo1(new ConcreteKeyValue("datadictionary.Sponsor.attributes.sponsorCode.label",proposalDevelopmentForm.getProposalDevelopmentDocument().getSponsorCode()));
@@ -406,8 +406,14 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             proposal.setSponsorNihMultiplePi(true);
             proposal.setSponsorNihOsc(true);
         } else {
+
+            boolean isSponsorOscEligible = false;
+            if (proposal.getSponsor() != null) {
+                isSponsorOscEligible = proposal.getSponsor().isOtherSignContrib();
+            }
+
             proposal.setSponsorNihMultiplePi(sponsorService.isSponsorNihMultiplePi(proposal));
-            proposal.setSponsorNihOsc(sponsorService.isSponsorNihOsc(proposal));
+            proposal.setSponsorNihOsc(isSponsorOscEligible);
         }
     }
 
@@ -962,10 +968,10 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                 }
                 File grantsGovXmlDirectoryFile = new File(loggingDirectory + saveXmlFolderName + ".zip");
                 byte[] bytes = new byte[(int) grantsGovXmlDirectoryFile.length()];
-                
+
                 FileInputStream fileInputStream = null;
                 ByteArrayOutputStream baos = null;
-                
+
                 try {
                     fileInputStream = new FileInputStream(grantsGovXmlDirectoryFile);
                     fileInputStream.read(bytes);
@@ -1290,14 +1296,12 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                 if (forward != null) {
                     return new Response(question, forward);
                 }
-            } else {
-                if (KRADUtils.containsSensitiveDataPatternMatch(disapprovalNoteText)) {
-                    return new Response(question, performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response,
-                            this.questionId, getKualiConfigurationService().getPropertyValueAsString(this.questionTextKey),
-                            this.questionType, this.questionCallerMapping, "", reason,
-                            RiceKeyConstants.ERROR_DOCUMENT_FIELD_CONTAINS_POSSIBLE_SENSITIVE_DATA,
-                            KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME, "reason"));
-                }
+            } else if (KRADUtils.containsSensitiveDataPatternMatch(disapprovalNoteText)) {
+                return new Response(question, performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response,
+                        this.questionId, getKualiConfigurationService().getPropertyValueAsString(this.questionTextKey),
+                        this.questionType, this.questionCallerMapping, "", reason,
+                        RiceKeyConstants.ERROR_DOCUMENT_FIELD_CONTAINS_POSSIBLE_SENSITIVE_DATA,
+                        KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME, "reason"));
             }
 
             int disapprovalNoteTextLength = disapprovalNoteText.length();

@@ -502,11 +502,6 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         return isSponsorInHierarchy(sponsorable, Constants.SPONSOR_HIERARCHY_NIH_MULT_PI);
     }
     
-    @Override
-    public boolean isSponsorNihOsc(Sponsorable sponsorable) {
-        return isSponsorInHierarchy(sponsorable, Constants.SPONSOR_HIERARCHY_NIH_OSC);
-    }
-
     /**
      * This method tests whether a document's sponsor is in a given sponsor hierarchy.
      * @param sponsorable

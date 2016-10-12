@@ -24,13 +24,9 @@
                 <value>../dwr/interface/StateService.js</value>
             </list>
         </property>
-    
-    
     </bean>
 
     <!-- Maintenance Section Definitions -->
-
-
     <bean id="SponsorMaintenanceDocument-EditSponsor" parent="SponsorMaintenanceDocument-EditSponsor-parentBean"/>
 
     <bean id="SponsorMaintenanceDocument-EditSponsor-parentBean" abstract="true" parent="MaintainableSectionDefinition">
@@ -54,6 +50,7 @@
                 <bean parent="MaintainableFieldDefinition" p:name="state"/>
                 <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
                 <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="otherSignContrib" p:defaultValue="false"/>
             </list>
         </property>
     </bean>

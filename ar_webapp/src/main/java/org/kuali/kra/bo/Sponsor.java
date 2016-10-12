@@ -59,6 +59,8 @@ public class Sponsor extends KraPersistableBusinessObjectBase {
     
     private boolean active;
     
+    private boolean otherSignContrib;
+    
 
     public Sponsor() {
         super();
@@ -232,6 +234,20 @@ public class Sponsor extends KraPersistableBusinessObjectBase {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    /**
+     * @return the otherSignContrib
+     */
+    public boolean isOtherSignContrib() {
+        return otherSignContrib;
+    }
+
+    /**
+     * @param otherSignContrib the otherSignContrib to set
+     */
+    public void setOtherSignContrib(boolean otherSignContrib) {
+        this.otherSignContrib = otherSignContrib;
     }
     
 }

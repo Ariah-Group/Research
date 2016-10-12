@@ -259,8 +259,14 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
      * @return
      */
     private BudgetCategoryMap getBudgetCategoryMap(DevelopmentProposal developmentProposal, BudgetLineItem budgetLineItem) {
-        boolean isNih = getSponsorService().isSponsorNihOsc(developmentProposal)
-                || getSponsorService().isSponsorNihMultiplePi(developmentProposal);
+        
+        boolean isSponsorOscEligible = false;
+        if(developmentProposal.getSponsor()!=null) {
+            isSponsorOscEligible = developmentProposal.getSponsor().isOtherSignContrib();                    
+        }
+        
+        boolean isNih = isSponsorOscEligible || getSponsorService().isSponsorNihMultiplePi(developmentProposal);
+        
         String mappingName = isNih ? Constants.BUDGET_CATEGORY_MAPPING_NAME_NIH : Constants.BUDGET_CATEGORY_MAPPING_NAME_NSF;
         BudgetCategoryMap budgetCategoryMap = null;
         Map<String, String> categoryMap = new HashMap<String, String>();
@@ -1519,7 +1525,12 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
 
         Map<String, String> categoryMap = new HashMap<String, String>();
 
-        boolean isNih = getSponsorService().isSponsorNihOsc(developmentProposal) || getSponsorService().isSponsorNihMultiplePi(developmentProposal);
+        boolean isSponsorOscEligible = false;
+        if(developmentProposal.getSponsor()!=null) {
+            isSponsorOscEligible = developmentProposal.getSponsor().isOtherSignContrib();                    
+        }        
+        
+        boolean isNih = isSponsorOscEligible || getSponsorService().isSponsorNihMultiplePi(developmentProposal);
 
         if (isNih) {
             categoryMap.put(KEY_MAPPING_NAME, Constants.BUDGET_CATEGORY_MAPPING_NAME_NIH);
