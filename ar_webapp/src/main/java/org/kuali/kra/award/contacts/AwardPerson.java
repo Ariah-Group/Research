@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class implements an Award Person 
+ * This class implements an Award Person
  */
 public class AwardPerson extends AwardContact implements PersonRolodex, Comparable<AwardPerson>, AbstractProjectPerson {
 
@@ -56,7 +56,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
 
     @AwardSyncableProperty
     private String keyPersonRole;
-    
+
     @AwardSyncableProperty
     private boolean optInUnitStatus;
 
@@ -67,7 +67,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
 
     @AwardSyncableProperty
     private boolean multiplePi;
-    
+
     private transient boolean roleChanged;
 
     public AwardPerson() {
@@ -94,8 +94,9 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     }
 
     /**
-     * 
-     * This method associates a unit to the 
+     *
+     * This method associates a unit to the
+     *
      * @param unit
      * @param isLeadUnit
      */
@@ -105,7 +106,8 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     }
 
     /**
-     * Gets the academicYearEffort attribute. 
+     * Gets the academicYearEffort attribute.
+     *
      * @return Returns the academicYearEffort.
      */
     public KualiDecimal getAcademicYearEffort() {
@@ -113,7 +115,8 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     }
 
     /**
-     * Gets the calendarYearEffort attribute. 
+     * Gets the calendarYearEffort attribute.
+     *
      * @return Returns the calendarYearEffort.
      */
     public KualiDecimal getCalendarYearEffort() {
@@ -136,7 +139,8 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     }
 
     /**
-     * Gets the summerEffort attribute. 
+     * Gets the summerEffort attribute.
+     *
      * @return Returns the summerEffort.
      */
     public KualiDecimal getSummerEffort() {
@@ -144,7 +148,8 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     }
 
     /**
-     * Gets the totalEffort attribute. 
+     * Gets the totalEffort attribute.
+     *
      * @return Returns the totalEffort.
      */
     public KualiDecimal getTotalEffort() {
@@ -161,9 +166,9 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
 
     /**
      * Get the award unit if it exists from this person
-     * 
+     *
      * @param unitNumber String
-     * @return AwardPersonUnit 
+     * @return AwardPersonUnit
      */
     public AwardPersonUnit getUnit(String unitNumber) {
         for (AwardPersonUnit awardPersonUnit : this.getUnits()) {
@@ -175,7 +180,8 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     }
 
     /**
-     * Gets the units attribute. 
+     * Gets the units attribute.
+     *
      * @return Returns the units.
      */
     public List<AwardPersonUnit> getUnits() {
@@ -184,6 +190,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
 
     /**
      * This method determines if person is CO-I
+     *
      * @return
      */
     public boolean isCoInvestigator() {
@@ -191,7 +198,8 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     }
 
     /**
-     * Gets the faculty attribute. 
+     * Gets the faculty attribute.
+     *
      * @return Returns the faculty.
      */
     public boolean isFaculty() {
@@ -200,6 +208,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
 
     /**
      * This method determines if person is KeyPerson
+     *
      * @return
      */
     public boolean isKeyPerson() {
@@ -215,6 +224,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
 
     /**
      * Sets the academicYearEffort attribute value.
+     *
      * @param academicYearEffort The academicYearEffort to set.
      */
     public void setAcademicYearEffort(KualiDecimal academicYearEffort) {
@@ -223,6 +233,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
 
     /**
      * Sets the calendarYearEffort attribute value.
+     *
      * @param calendarYearEffort The calendarYearEffort to set.
      */
     public void setCalendarYearEffort(KualiDecimal calendarYearEffort) {
@@ -231,6 +242,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
 
     /**
      * Sets the creditSplits attribute value.
+     *
      * @param creditSplits The creditSplits to set.
      */
     public void setCreditSplits(List<AwardPersonCreditSplit> creditSplits) {
@@ -239,6 +251,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
 
     /**
      * Sets the faculty attribute value.
+     *
      * @param faculty The faculty to set.
      */
     public void setFaculty(boolean faculty) {
@@ -247,6 +260,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
 
     /**
      * Sets the summerEffort attribute value.
+     *
      * @param summerEffort The summerEffort to set.
      */
     public void setSummerEffort(KualiDecimal summerEffort) {
@@ -255,6 +269,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
 
     /**
      * Sets the totalEffort attribute value.
+     *
      * @param totalEffort The totalEffort to set.
      */
     public void setTotalEffort(KualiDecimal totalEffort) {
@@ -263,6 +278,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
 
     /**
      * Sets the units attribute value.
+     *
      * @param units The units to set.
      */
     public void setUnits(List<AwardPersonUnit> units) {
@@ -283,7 +299,8 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     }
 
     /**
-     * @see org.kuali.kra.award.contacts.AwardContact#getContactRoleTypeIdentifier()
+     * @see
+     * org.kuali.kra.award.contacts.AwardContact#getContactRoleTypeIdentifier()
      */
     @Override
     protected String getContactRoleTypeIdentifier() {
@@ -313,7 +330,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     }
 
     /**
-     * 
+     *
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(AwardPerson o) {
@@ -348,7 +365,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     public void setOptInUnitStatus(boolean optInUnitStatus) {
         this.optInUnitStatus = optInUnitStatus;
     }
-    
+
     public String getLastName() {
         String lastName = null;
         if (getPerson() != null) {
@@ -358,7 +375,7 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         }
         return lastName;
     }
-    
+
     public String getFirstName() {
         String firstName = null;
         if (getPerson() != null) {
@@ -368,11 +385,11 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         }
         return firstName;
     }
-    
+
     public boolean getIsRolodexPerson() {
         return this.getRolodex() != null;
     }
-    
+
     @Override
     public void setContactRoleCode(String roleCode) {
         if (!StringUtils.equals(roleCode, this.roleCode)) {
@@ -383,15 +400,13 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         }
         super.setContactRoleCode(roleCode);
     }
-    
+
     public void updateBasedOnRoleChange() {
         if (ProposalPersonRole.KEY_PERSON.equals(roleCode)) {
             this.setOptInUnitStatus(true);
-        } else {
-            if (this.getPerson() != null && this.getPerson().getUnit() != null && this.getUnits().isEmpty()) {
-                this.add(new AwardPersonUnit(this, this.getPerson().getUnit(), true));
-            }                
-        }        
+        } else if (this.getPerson() != null && this.getPerson().getUnit() != null && this.getUnits().isEmpty()) {
+            this.add(new AwardPersonUnit(this, this.getPerson().getUnit(), true));
+        }
     }
 
     public boolean isRoleChanged() {
@@ -401,5 +416,5 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
     public void setRoleChanged(boolean roleChanged) {
         this.roleChanged = roleChanged;
     }
-    
+
 }

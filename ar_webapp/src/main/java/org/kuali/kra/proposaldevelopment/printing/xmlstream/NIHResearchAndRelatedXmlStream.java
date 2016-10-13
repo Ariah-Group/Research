@@ -931,11 +931,14 @@ public class NIHResearchAndRelatedXmlStream extends
         } else {
 
             boolean isSponsorOscEligible = false;
+            boolean isSponsorMultiPi = false;
+
             if (developmentProposal.getSponsor() != null) {
                 isSponsorOscEligible = developmentProposal.getSponsor().isOtherSignContrib();
+                isSponsorMultiPi = developmentProposal.getSponsor().isMultiplePi();
             }
 
-            boolean isNih = isSponsorOscEligible || sponsorService.isSponsorNihMultiplePi(developmentProposal);
+            boolean isNih = isSponsorOscEligible || isSponsorMultiPi;
             String mappingName = isNih ? Constants.BUDGET_CATEGORY_MAPPING_NAME_NIH : Constants.BUDGET_CATEGORY_MAPPING_NAME_NSF;
 
             String fnaGt25KParamValue = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_F_AND_A_GT_25K_PARAM);
@@ -1041,11 +1044,14 @@ public class NIHResearchAndRelatedXmlStream extends
         NSFOtherPersonnelType otherPersonnelType = budgetPeriodType.addNewNSFOtherPersonnel();
 
         boolean isSponsorOscEligible = false;
+        boolean isSponsorMultiPi = false;
+
         if (developmentProposal.getSponsor() != null) {
             isSponsorOscEligible = developmentProposal.getSponsor().isOtherSignContrib();
+            isSponsorMultiPi = developmentProposal.getSponsor().isMultiplePi();
         }
 
-        boolean isNih = isSponsorOscEligible || sponsorService.isSponsorNihMultiplePi(developmentProposal);
+        boolean isNih = isSponsorOscEligible || isSponsorMultiPi;
         String mappingName = isNih ? Constants.BUDGET_CATEGORY_MAPPING_NAME_NIH : Constants.BUDGET_CATEGORY_MAPPING_NAME_NSF;
 
         OtherPersonInfo otherPersonInfo = getOtherPersonInfo(developmentProposal, budgetPeriod, mappingName, TARGET_CATEGORY_CODE_PERSONNEL_SECRE);

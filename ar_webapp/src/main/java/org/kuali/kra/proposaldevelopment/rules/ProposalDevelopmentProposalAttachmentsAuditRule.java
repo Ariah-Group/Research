@@ -111,8 +111,13 @@ public class ProposalDevelopmentProposalAttachmentsAuditRule extends ResearchDoc
 
     public boolean checkNihRelatedAttachments(DevelopmentProposal developmentProposal) {
         boolean valid = true;
-        if (getSponsorService().isSponsorNihMultiplePi(developmentProposal)
-                && developmentProposal.getS2sOpportunity() != null) {
+
+        boolean isSponsorMultiPi = false;
+        if (developmentProposal.getSponsor() != null) {
+            isSponsorMultiPi = developmentProposal.getSponsor().isMultiplePi();
+        }
+
+        if (isSponsorMultiPi && developmentProposal.getS2sOpportunity() != null) {
             boolean attachment = false;
             boolean hasPI = false;
 

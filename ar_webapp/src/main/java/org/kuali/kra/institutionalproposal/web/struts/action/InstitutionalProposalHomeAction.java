@@ -336,7 +336,13 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
             getProposalLogService().promoteProposalLog(proposalLog.getProposalNumber());
             this.getNegotationService().promoteProposalLogNegotiation(proposalLog.getProposalNumber(), ip.getProposalNumber());
         }
-        ip.setSponsorNihMultiplePi(getSponsorService().isSponsorNihMultiplePi(ip));
+        
+        boolean isSponsorMultiPi = false;
+        if (ip.getSponsor() != null) {
+            isSponsorMultiPi = ip.getSponsor().isMultiplePi();
+        }
+        
+        ip.setSponsorNihMultiplePi(isSponsorMultiPi);
         return forward;
     }   
     

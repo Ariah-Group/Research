@@ -496,12 +496,7 @@ public class SponsorServiceImpl implements SponsorService, Constants {
         GlobalVariables.getUserSession().removeObject(sessionKey);
     }
 
-
-    @Override
-    public boolean isSponsorNihMultiplePi(Sponsorable sponsorable) {
-        return isSponsorInHierarchy(sponsorable, Constants.SPONSOR_HIERARCHY_NIH_MULT_PI);
-    }
-    
+  
     /**
      * This method tests whether a document's sponsor is in a given sponsor hierarchy.
      * @param sponsorable

@@ -50,6 +50,7 @@
                 <bean parent="MaintainableFieldDefinition" p:name="state"/>
                 <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
                 <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="multiplePi" p:defaultValue="false"/>
                 <bean parent="MaintainableFieldDefinition" p:name="otherSignContrib" p:defaultValue="false"/>
             </list>
         </property>

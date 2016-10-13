@@ -72,11 +72,13 @@ public class ProposalDevelopmentGrantsGovAuditRule implements DocumentAuditRule 
         }
 
         boolean isSponsorOscEligible = false;
+        boolean isSponsorMultiPiEligible = false;
         if (proposalDevelopmentDocument.getDevelopmentProposal().getSponsor() != null) {
             isSponsorOscEligible = proposalDevelopmentDocument.getDevelopmentProposal().getSponsor().isOtherSignContrib();
+            isSponsorMultiPiEligible= proposalDevelopmentDocument.getDevelopmentProposal().getSponsor().isMultiplePi();
         }
 
-        if ((isSponsorOscEligible || getSponsorService().isSponsorNihMultiplePi(proposalDevelopmentDocument.getDevelopmentProposal()))
+        if ((isSponsorOscEligible || isSponsorMultiPiEligible)
                 && proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity() != null
                 && proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getCompetetionId() != null
                 && proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getCompetetionId().equals("ADOBE-FORMS-A")) {

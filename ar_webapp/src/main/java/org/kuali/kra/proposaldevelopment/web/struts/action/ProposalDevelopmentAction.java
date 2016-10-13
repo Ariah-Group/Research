@@ -397,7 +397,12 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         DevelopmentProposal proposal = document.getDevelopmentProposal();
         // Update the NIH related properties since this information is not persisted with the document
         // (isSponsorNih sets the nih property as a side effect)
-        if (sponsorService.isSponsorNihMultiplePi(proposal)) {
+        boolean isSponsorMultiPi = false;
+        if (proposal.getSponsor() != null) {
+            isSponsorMultiPi = proposal.getSponsor().isMultiplePi();
+        }
+
+        if (isSponsorMultiPi) {
             proposal.setNihDescription(getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(true));
         }
         boolean multiPIFlag = getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class,
@@ -412,7 +417,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                 isSponsorOscEligible = proposal.getSponsor().isOtherSignContrib();
             }
 
-            proposal.setSponsorNihMultiplePi(sponsorService.isSponsorNihMultiplePi(proposal));
+            proposal.setSponsorNihMultiplePi(isSponsorMultiPi);
             proposal.setSponsorNihOsc(isSponsorOscEligible);
         }
     }

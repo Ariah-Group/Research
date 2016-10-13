@@ -42,6 +42,7 @@
                 <ref bean="Sponsor-countryCode" />
                 <ref bean="Sponsor-versionNumber" />
                 <ref bean="Sponsor-active" />
+                <ref bean="Sponsor-multiplePi" />
                 <ref bean="Sponsor-otherSignContrib" />
             </list>
         </property>
@@ -382,8 +383,18 @@
         <property name="label" value="Other Significant Contributor" />
         <property name="required" value="true" />
         <property name="shortLabel" value="Other Significant Contributor" />
-        <property name="summary" value="Allow personnel using this sponsor to mark them as Other Significant Contributors." />
-        <property name="description" value="Allow personnel using this sponsor to mark them as Other Significant Contributors." />
+        <property name="summary" value="Allow proposals using this sponsor to mark Key Personnel them as Other Significant Contributors." />
+        <property name="description" value="Allow proposals using this sponsor to mark Key Personnel as Other Significant Contributors." />
+    </bean>
+
+    <bean id="Sponsor-multiplePi" parent="Sponsor-multiplePi-parentBean"/>
+    <bean id="Sponsor-multiplePi-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean"> 
+        <property name="name" value="multiplePi" />
+        <property name="label" value="Multiple PI" />
+        <property name="required" value="true" />
+        <property name="shortLabel" value="Multiple PI" />
+        <property name="summary" value="Allow proposals using this sponsor to mark Co-investigators as Multiple PI." />
+        <property name="description" value="Allow proposals using this sponsor to mark Co-investigators as Multiple PI." />
     </bean>
 
     <!-- Business Object Inquiry Definition -->
@@ -413,6 +424,7 @@
                             <bean parent="FieldDefinition" p:attributeName="sponsorName" />
                             <bean parent="FieldDefinition" p:attributeName="sponsorType.description" />
                             <bean parent="FieldDefinition" p:attributeName="state" />
+                            <bean parent="FieldDefinition" p:attributeName="multiplePi" />
                             <bean parent="FieldDefinition" p:attributeName="otherSignContrib" />
                         </list>
                     </property>
@@ -460,6 +472,7 @@
                 <bean parent="FieldDefinition" p:attributeName="ownedByUnit" />
                 <bean parent="FieldDefinition" p:attributeName="rolodexId" />
                 <bean parent="FieldDefinition" p:attributeName="otherSignContrib" />
+                <bean parent="FieldDefinition" p:attributeName="multiplePi" />
             </list>
         </property>
         <property name="resultFields" >

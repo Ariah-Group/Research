@@ -364,11 +364,27 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     }
 
     protected boolean isSponsorNIH(ProposalDevelopmentDocument document) {
-        SponsorService sponsorService = KraServiceLocator
-                .getService(SponsorService.class);
-        return sponsorService.isSponsorNihMultiplePi(document.getDevelopmentProposal());
+
+        boolean isNih = false;
+
+        if (document.getDevelopmentProposal().getSponsor() != null) {
+            isNih = document.getDevelopmentProposal().getSponsor().isMultiplePi();
+        }
+
+        return isNih;
     }
 
+    protected boolean isSponsorMultiPi(DevelopmentProposal devprop) {
+
+        boolean isMultiPi = false;
+
+        if (devprop.getSponsor() != null) {
+            isMultiPi = devprop.getSponsor().isMultiplePi();
+        }
+
+        return isMultiPi;
+    }
+    
     protected Narrative saveNarrative(byte[] attachment, String narrativeTypeCode, String fileName, String comment) {
         Narrative narrative = null;
         narrative = new Narrative();
@@ -489,15 +505,19 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     public void setNamespace(String namespace) {
         this.namespace = namespace;
     }
-    
+
     private String getNamespaceTag() {
-    	int idx = namespace.lastIndexOf('/');
-    	if (idx < 0 || idx >= namespace.length()-1) return ("-" + namespace);
-    	return ("-" + namespace.substring(idx+1));
-}
-    
+        int idx = namespace.lastIndexOf('/');
+        if (idx < 0 || idx >= namespace.length() - 1) {
+            return ("-" + namespace);
+        }
+        return ("-" + namespace.substring(idx + 1));
+    }
+
     /**
-     *  Gets the answer from questionnaires given the answer header list and question id 
+     * Gets the answer from questionnaires given the answer header list and
+     * question id
+     *
      * @param answerHeaders
      * @param questionId
      * @return
@@ -515,17 +535,19 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
                 }
             }
         }
-        return answer;        
+        return answer;
     }
-    
+
     /**
-     *  Gets all the answers for questions that may have more than 1 max answer from questionnaires given the answer header list and question id 
+     * Gets all the answers for questions that may have more than 1 max answer
+     * from questionnaires given the answer header list and question id
+     *
      * @param answerHeaders
      * @param questionId
      * @return
      */
     public List<String> getAnswers(List<AnswerHeader> answerHeaders, String questionId) {
-    	List<String> answers = new ArrayList<String>();
+        List<String> answers = new ArrayList<String>();
         if (answerHeaders != null && !answerHeaders.isEmpty()) {
             for (AnswerHeader answerHeader : answerHeaders) {
                 List<Answer> answerDetails = answerHeader.getAnswers();
@@ -536,6 +558,6 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
                 }
             }
         }
-        return answers;        
+        return answers;
     }
 }

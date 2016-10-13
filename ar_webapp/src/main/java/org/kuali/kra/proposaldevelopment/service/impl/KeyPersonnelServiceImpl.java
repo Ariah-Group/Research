@@ -41,10 +41,6 @@ import static org.kuali.kra.logging.FormattedLogger.info;
 /**
  * A Service implementation for persisted modifications of Key Personnel related
  * business objects
- *
- * @see org.kuali.kra.proposaldevelopment.bo.ProposalPerson
- * @author $Author: gmcgrego $
- * @version $Revision: 1.34 $
  */
 public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
@@ -221,31 +217,31 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
                     final String defaultPersonAttachmentDocType = getDefaultPersonAttachmentDocType();
 
                     for (PersonBiosketch attachment : origPerson.getExtendedAttributes().getAttachments()) {
-                            ProposalPersonBiography bio = new ProposalPersonBiography();
-                            bio.setProposalPersonNumber(person.getProposalPersonNumber());
-                            bio.setProposalNumber(person.getProposalNumber());
-                            bio.setDocumentTypeCode(defaultPersonAttachmentDocType);
-                            bio.setDescription(attachment.getDescription());
-                            bio.setFileName(attachment.getFileName());
-                            bio.setContentType(attachment.getContentType());
+                        ProposalPersonBiography bio = new ProposalPersonBiography();
+                        bio.setProposalPersonNumber(person.getProposalPersonNumber());
+                        bio.setProposalNumber(person.getProposalNumber());
+                        bio.setDocumentTypeCode(defaultPersonAttachmentDocType);
+                        bio.setDescription(attachment.getDescription());
+                        bio.setFileName(attachment.getFileName());
+                        bio.setContentType(attachment.getContentType());
 
-                            ProposalPersonBiographyAttachment personnelAttachment = new ProposalPersonBiographyAttachment();
-                            personnelAttachment.setFileName(attachment.getFileName());
-                            personnelAttachment.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
-                            personnelAttachment.setProposalPersonNumber(person.getProposalPersonNumber());
-                            personnelAttachment.setBiographyData(attachment.getAttachmentContent());
-                            personnelAttachment.setContentType(attachment.getContentType());
+                        ProposalPersonBiographyAttachment personnelAttachment = new ProposalPersonBiographyAttachment();
+                        personnelAttachment.setFileName(attachment.getFileName());
+                        personnelAttachment.setProposalNumber(document.getDevelopmentProposal().getProposalNumber());
+                        personnelAttachment.setProposalPersonNumber(person.getProposalPersonNumber());
+                        personnelAttachment.setBiographyData(attachment.getAttachmentContent());
+                        personnelAttachment.setContentType(attachment.getContentType());
 
-                            if (bio.getPersonnelAttachmentList().isEmpty()) {
-                                bio.getPersonnelAttachmentList().add(personnelAttachment);
-                            } else {
-                                bio.getPersonnelAttachmentList().set(0, personnelAttachment);
-                            }
-
-                                document.getDevelopmentProposal().addProposalPersonBiography(bio);
-                            }
+                        if (bio.getPersonnelAttachmentList().isEmpty()) {
+                            bio.getPersonnelAttachmentList().add(personnelAttachment);
+                        } else {
+                            bio.getPersonnelAttachmentList().set(0, personnelAttachment);
                         }
+
+                        document.getDevelopmentProposal().addProposalPersonBiography(bio);
                     }
+                }
+            }
         } catch (IllegalArgumentException e) {
             //catching the possibility that person.getPerson can not
             //find a EntityContract for this person id.
@@ -625,14 +621,10 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
         String parameterName = "personrole.pi";
         final Sponsor sponsor = document.getDevelopmentProposal().getSponsor();
 
-        if (sponsor != null && sponsor.getAcronym() != null && isSponsorNihMultiplePi(document)) {
+        if (sponsor != null && sponsor.getAcronym() != null && sponsor.isMultiplePi()) {
             parameterName = "personrole.nih.pi";
         }
         return getRoleDescriptionParameterValue(parameterName);
-    }
-
-    public boolean isSponsorNihMultiplePi(ProposalDevelopmentDocument document) {
-        return getSponsorService().isSponsorNihMultiplePi(document.getDevelopmentProposal());
     }
 
     /**
@@ -674,7 +666,7 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 
     @Override
     public String getPersonnelRoleDesc(PersonRolodex person) {
-        if (getSponsorService().isSponsorNihMultiplePi(person.getParent())) {
+        if (person.getParent().isSponsorNihMultiplePi()) {
             String parmName = createRoleDescriptionParameterName(person.getContactRole(), NIH_PARM_KEY);
             if (StringUtils.equals(person.getContactRole().getRoleCode(), ContactRole.COI_CODE)
                     && person.isMultiplePi()) {

@@ -261,11 +261,14 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
     private BudgetCategoryMap getBudgetCategoryMap(DevelopmentProposal developmentProposal, BudgetLineItem budgetLineItem) {
         
         boolean isSponsorOscEligible = false;
-        if(developmentProposal.getSponsor()!=null) {
-            isSponsorOscEligible = developmentProposal.getSponsor().isOtherSignContrib();                    
-        }
+        boolean isSponsorMultiPi = false;
         
-        boolean isNih = isSponsorOscEligible || getSponsorService().isSponsorNihMultiplePi(developmentProposal);
+        if(developmentProposal.getSponsor()!=null) {
+            isSponsorOscEligible = developmentProposal.getSponsor().isOtherSignContrib();
+            isSponsorMultiPi = developmentProposal.getSponsor().isMultiplePi();
+        }      
+        
+        boolean isNih = isSponsorOscEligible || isSponsorMultiPi;
         
         String mappingName = isNih ? Constants.BUDGET_CATEGORY_MAPPING_NAME_NIH : Constants.BUDGET_CATEGORY_MAPPING_NAME_NSF;
         BudgetCategoryMap budgetCategoryMap = null;
@@ -1526,13 +1529,14 @@ public abstract class AbstractResearchAndRelatedStream extends ProposalBaseStrea
         Map<String, String> categoryMap = new HashMap<String, String>();
 
         boolean isSponsorOscEligible = false;
+        boolean isSponsorMultiPi = false;
+        
         if(developmentProposal.getSponsor()!=null) {
-            isSponsorOscEligible = developmentProposal.getSponsor().isOtherSignContrib();                    
+            isSponsorOscEligible = developmentProposal.getSponsor().isOtherSignContrib();
+            isSponsorMultiPi = developmentProposal.getSponsor().isMultiplePi();
         }        
         
-        boolean isNih = isSponsorOscEligible || getSponsorService().isSponsorNihMultiplePi(developmentProposal);
-
-        if (isNih) {
+        if (isSponsorOscEligible || isSponsorMultiPi) {
             categoryMap.put(KEY_MAPPING_NAME, Constants.BUDGET_CATEGORY_MAPPING_NAME_NIH);
         } else {
             categoryMap.put(KEY_MAPPING_NAME, Constants.BUDGET_CATEGORY_MAPPING_NAME_NSF);

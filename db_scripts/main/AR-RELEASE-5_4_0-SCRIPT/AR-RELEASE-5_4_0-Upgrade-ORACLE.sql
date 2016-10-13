@@ -1559,7 +1559,10 @@ alter table SPONSOR add OTHER_SIGN_CONTRIB_IND VARCHAR2(1) DEFAULT 'N';
 update SPONSOR set OTHER_SIGN_CONTRIB_IND='Y' where SPONSOR_CODE IN(select SPONSOR_CODE from SPONSOR_HIERARCHY where HIERARCHY_NAME='NIH Other Significant Contributor' );
 delete from SPONSOR_HIERARCHY where HIERARCHY_NAME='NIH Other Significant Contributor';
 
-
+--RES-746
+alter table SPONSOR add MULTIPLE_PI_IND VARCHAR2(1) DEFAULT 'N';
+update SPONSOR set MULTIPLE_PI_IND='Y' where SPONSOR_CODE IN(select SPONSOR_CODE from SPONSOR_HIERARCHY where HIERARCHY_NAME='NIH Multiple PI' );
+delete from SPONSOR_HIERARCHY where HIERARCHY_NAME='NIH Multiple PI';
 
 commit;
 exit

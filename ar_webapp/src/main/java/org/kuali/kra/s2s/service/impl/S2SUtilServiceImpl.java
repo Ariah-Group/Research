@@ -384,7 +384,14 @@ public class S2SUtilServiceImpl implements S2SUtilService {
                 }
             }
         }
-        if (federalId != null && sponsorService.isSponsorNihMultiplePi(proposal)) {
+
+        boolean isMultiPi = false;
+
+        if (proposal.getSponsor() != null) {
+            isMultiPi = proposal.getSponsor().isMultiplePi();
+        }
+
+        if (federalId != null && isMultiPi) {
             return fromatFederalId(federalId);
         }
         return federalId;
@@ -1209,31 +1216,31 @@ public class S2SUtilServiceImpl implements S2SUtilService {
      */
     @Override
     public CitizenshipTypes getCitizenship(ProposalPerson proposalPerson) {
-        
+
         String citizenSource = "1";
         String piCitizenShipValue = getParameterValue(PI_CUSTOM_DATA);
-        
+
         if (piCitizenShipValue != null) {
             citizenSource = piCitizenShipValue;
         }
-        
+
         if (citizenSource.equals("0")) {
             CitizenshipTypes citizenShipType = citizenshipTypeService.getCitizenshipDataFromExternalSource();
             return citizenShipType;
         } else {
-            
+
             CitizenshipType citizenShip;
             String allowOverride = parameterService.getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, "A",
                     "ALLOW_PROPOSAL_PERSON_TO_OVERRIDE_KC_PERSON_EXTENDED_ATTRIBUTES");
-            
+
             if ("Y".equals(allowOverride) && proposalPerson.getProposalPersonExtendedAttributes() != null) {
                 citizenShip = proposalPerson.getProposalPersonExtendedAttributes().getCitizenshipType();
             } else {
                 citizenShip = proposalPerson.getPerson().getExtendedAttributes().getCitizenshipType();
             }
-            
+
             String citizenShipCode = String.valueOf(citizenShip.getCitizenshipTypeCode());
-            
+
             if (citizenShipCode.equals(parameterService.getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE, "A",
                     Constants.NON_US_CITIZEN_WITH_TEMPORARY_VISA_TYPE_CODE))) {
                 return CitizenshipTypes.NON_US_CITIZEN_WITH_TEMPORARY_VISA;

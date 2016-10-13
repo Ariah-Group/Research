@@ -61,6 +61,8 @@ public class Sponsor extends KraPersistableBusinessObjectBase {
     
     private boolean otherSignContrib;
     
+    private boolean multiplePi;
+    
 
     public Sponsor() {
         super();
@@ -248,6 +250,20 @@ public class Sponsor extends KraPersistableBusinessObjectBase {
      */
     public void setOtherSignContrib(boolean otherSignContrib) {
         this.otherSignContrib = otherSignContrib;
+    }
+
+    /**
+     * @return the multiplePi
+     */
+    public boolean isMultiplePi() {
+        return multiplePi;
+    }
+
+    /**
+     * @param multiplePi the multiplePi to set
+     */
+    public void setMultiplePi(boolean multiplePi) {
+        this.multiplePi = multiplePi;
     }
     
 }

@@ -63,12 +63,12 @@ class NihSponsorHandlingTestHelper {
     private void verifyNihMultiplePiSponsorFound(SponsorHierarchy sponsorHierarchy) {
         save(sponsorHierarchy);
         sponsorable.setSponsorCode(sponsorHierarchy.getSponsorCode());
-        Assert.assertTrue(spService.isSponsorNihMultiplePi(sponsorable));
+        Assert.assertTrue(sponsorable.isSponsorNihMultiplePi());
     }
 
     private void verifyNonNihMultiplePiSponsorFound(SponsorHierarchy sponsorHierarchy) {
         save(sponsorHierarchy);
         sponsorable.setSponsorCode(sponsorHierarchy.getSponsorCode());
-        Assert.assertFalse(spService.isSponsorNihMultiplePi(sponsorable));
+        Assert.assertFalse(sponsorable.isSponsorNihMultiplePi());
     }
 }

@@ -1297,7 +1297,13 @@ public class AwardAction extends BudgetParentActionBase {
     protected void loadDocument(KualiDocumentFormBase kualiForm) throws WorkflowException {
         super.loadDocument(kualiForm);
         Award award = ((AwardForm) kualiForm).getAwardDocument().getAward();
-        award.setSponsorNihMultiplePi(getSponsorService().isSponsorNihMultiplePi(award));
+
+        boolean isSponsorMultiPi = false;
+        if (award.getSponsor() != null) {
+            isSponsorMultiPi = award.getSponsor().isMultiplePi();
+        }
+
+        award.setSponsorNihMultiplePi(isSponsorMultiPi);
     }
 
     /**
@@ -1372,7 +1378,7 @@ public class AwardAction extends BudgetParentActionBase {
             GlobalVariables.getMessageMap().clearErrorMessages();
             GlobalVariables.getMessageMap().putError(
                     StringUtils.isBlank(syncScopes) ? "document.award.awardTemplate"
-                            : String.format("document.award.awardTemplate.%s", StringUtils.substring(syncScopes, 1)),
+                    : String.format("document.award.awardTemplate.%s", StringUtils.substring(syncScopes, 1)),
                     KeyConstants.ERROR_NO_SPONSOR_TEMPLATE_FOUND, new String[]{});
             awardForm.setOldTemplateCode(null);
             awardForm.setTemplateLookup(false);
@@ -1417,12 +1423,10 @@ public class AwardAction extends BudgetParentActionBase {
         for (AwardTemplateSyncScope scope : scopes) {
             if (skipCheck) {
                 requiresQuestionMap.put(scope, defaultValue);
+            } else if (awardTemplateSyncService.syncWillAlterData(awardDocument, scope)) {
+                requiresQuestionMap.put(scope, true);
             } else {
-                if (awardTemplateSyncService.syncWillAlterData(awardDocument, scope)) {
-                    requiresQuestionMap.put(scope, true);
-                } else {
-                    requiresQuestionMap.put(scope, false);
-                }
+                requiresQuestionMap.put(scope, false);
             }
         }
         return requiresQuestionMap;
