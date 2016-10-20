@@ -280,20 +280,15 @@ public class PHS398CoverPageSupplementV3_0Generator extends PHS398CoverPageSuppl
     private IncomeBudgetPeriod[] getIncomeBudgetPeriod() {
 
         List<IncomeBudgetPeriod> incomeBudgetPeriodList = new ArrayList<IncomeBudgetPeriod>();
-
         IncomeBudgetPeriod incomeBudgetPeriod = IncomeBudgetPeriod.Factory.newInstance();
 
-        String budget_period_answer = null;
-        String budget_amount_answer = null;
-        String budget_source_answer = null;
+        String answerBudgetPeriod = getAnswer(BUDGET_PERIOD);
+        String answerBudgetAmount = getAnswer(BUDGET_ANTICIPATED_AMOUNT);
+        String answerBudgetSource = getAnswer(BUDGET_SOURCES);
 
-        budget_period_answer = getAnswer(BUDGET_PERIOD);
-        budget_amount_answer = getAnswer(BUDGET_ANTICIPATED_AMOUNT);
-        budget_source_answer = getAnswer(BUDGET_SOURCES);
-
-        incomeBudgetPeriod.setBudgetPeriod(Integer.parseInt(budget_period_answer));
-        incomeBudgetPeriod.setAnticipatedAmount(new BigDecimal(budget_amount_answer));
-        incomeBudgetPeriod.setSource(budget_source_answer);
+        incomeBudgetPeriod.setBudgetPeriod(Integer.parseInt(answerBudgetPeriod));
+        incomeBudgetPeriod.setAnticipatedAmount(new BigDecimal(answerBudgetAmount));
+        incomeBudgetPeriod.setSource(answerBudgetSource);
 
         incomeBudgetPeriodList.add(incomeBudgetPeriod);
         return incomeBudgetPeriodList.toArray(new IncomeBudgetPeriod[0]);
@@ -348,7 +343,7 @@ public class PHS398CoverPageSupplementV3_0Generator extends PHS398CoverPageSuppl
         return stemCells;
     }
 
-    /*
+    /**
      * This method will get the Answer for sub question
      */
     private String getAnswer(String questionId) {
@@ -360,7 +355,7 @@ public class PHS398CoverPageSupplementV3_0Generator extends PHS398CoverPageSuppl
                 for (Answer answers : answerDetails) {
                     if (questionId.equals(answers.getQuestion().getQuestionId())) {
                         // TODO temporary fix to duplicate answers for different rule_id.  We will need to come back and fix it correctly later.
-                        if (answers.getAnswer() != null) {  
+                        if (answers.getAnswer() != null) {
                             answer = answers.getAnswer();
                         }
                     }
@@ -370,7 +365,7 @@ public class PHS398CoverPageSupplementV3_0Generator extends PHS398CoverPageSuppl
         return answer;
     }
 
-    /*
+    /**
      * This method will get the childAnswer for sub question
      */
     private String getAnswers(String questionId) {
@@ -410,6 +405,7 @@ public class PHS398CoverPageSupplementV3_0Generator extends PHS398CoverPageSuppl
      * @see
      * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(ProposalDevelopmentDocument)
      */
+    @Override
     public XmlObject getFormObject(ProposalDevelopmentDocument proposalDevelopmentDocument) {
         this.pdDoc = proposalDevelopmentDocument;
         return getCoverPageSupplement();
@@ -426,11 +422,11 @@ public class PHS398CoverPageSupplementV3_0Generator extends PHS398CoverPageSuppl
      * org.kuali.kra.s2s.generator.S2SFormGenerator#getFormObject(XmlObject)
      */
     public XmlObject getFormObject(XmlObject xmlObject) {
-        
+
         PHS398CoverPageSupplement30 coverPageSupplement = (PHS398CoverPageSupplement30) xmlObject;
         PHS398CoverPageSupplement30Document coverPageSupplementDocument = PHS398CoverPageSupplement30Document.Factory.newInstance();
         coverPageSupplementDocument.setPHS398CoverPageSupplement30(coverPageSupplement);
-        
+
         return coverPageSupplementDocument;
     }
 }

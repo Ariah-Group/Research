@@ -40,11 +40,10 @@ public abstract class PHS398CoverPageSupplementBaseGenerator extends
     public static final String IS_NEW_INVESTIGATOR = "13";
     public static final String NOT_ANSWERED = "No";
 
-    public static final String VERTEBRATE_ANIMALS_EUTHANIZED = "10000001";
-    public static final String CONSISTENT_WITH_AVMA = "10000002";
-    public static final String DESCRIBE_EUTHANIZATION_METHOD = "10000003";
+    public static final String VERTEBRATE_ANIMALS_EUTHANIZED = "102004";
+    public static final String CONSISTENT_WITH_AVMA = "102003";
+    public static final String DESCRIBE_EUTHANIZATION_METHOD = "102002";
 
-    // The following constants are for question_ref_id.  We are starting seq id to 10,000,000 so that they do not conflict with any client added question ids. 
     public static final String PROGRAM_INCOME_ANTICIPATED = "10000000";
     public static final String BUDGET_PERIOD = "10000004";
     public static final String BUDGET_ANTICIPATED_AMOUNT = "10000005";

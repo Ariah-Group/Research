@@ -47,7 +47,6 @@ import gov.grants.apply.forms.phs398ResearchTrainingProgramPlan30V30.PHS398Resea
 import gov.grants.apply.forms.phs398ResearchTrainingProgramPlan30V30.PHS398ResearchTrainingProgramPlan30Document.PHS398ResearchTrainingProgramPlan30.ResearchTrainingProgramPlanAttachments.VertebrateAnimals;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
-import org.kuali.kra.s2s.validator.S2SErrorHandler;
 
 /**
  *
