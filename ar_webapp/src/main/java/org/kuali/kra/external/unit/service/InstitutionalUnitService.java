@@ -26,7 +26,7 @@ import java.util.List;
 
 /**
  * This is the external service that is published to the service bus for
- * accessing Institutional Unit information stored in the Kuali Coeus system.
+ * accessing Institutional Unit information stored in the system.
  * 
  * @author Kuali Coeus Development Team
  */

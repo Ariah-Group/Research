@@ -26,7 +26,7 @@ import java.util.List;
 
 /**
  * This is the external service that is published to the service bus for
- * accessing effort reporting information stored in the Kuali Coeus system.
+ * accessing effort reporting information stored in the system.
  * 
  * @author Kuali Coeus Development Team
  */

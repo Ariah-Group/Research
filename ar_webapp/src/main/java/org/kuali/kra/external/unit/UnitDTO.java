@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Data Transfer Object for Institutional Units stored in the Kuali Coeus system.
+ * Data Transfer Object for Institutional Units stored in the system.
  *
  * @author Kuali Coeus Development Team
  */
