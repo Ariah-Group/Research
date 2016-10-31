@@ -23,10 +23,12 @@ import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 
 /**
  * Question specific lookupable helper service methods.
@@ -34,6 +36,7 @@ import java.util.Map;
 public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private static final long serialVersionUID = 7936563894902841571L;
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(QuestionLookupableHelperServiceImpl.class);
 
     private static final String MAINTENANCE = "maintenance";
     private static final String NEW_MAINTENANCE = "../maintenanceQ";
@@ -41,22 +44,21 @@ public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperSe
     private static final String SEQUENCE_STATUS_CURRENT = "C";
     private static final String DOCHANDLER_LINK = "%s/DocHandler.do?command=displayDocSearchView&docId=%s";
 
-    
     private transient QuestionAuthorizationService questionAuthorizationService;
-    
 
     /**
-     * Don't show the option to select active/inactive questions since Question is being versioned 
-     * and we only want active questions in questionnaires.
-     * 
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
+     * Don't show the option to select active/inactive questions since Question
+     * is being versioned and we only want active questions in questionnaires.
+     *
+     * @see
+     * org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getRows()
      */
     @Override
     public List<Row> getRows() {
         // TODO: Use a dedicated parameter to determine if only active questions are to be displayed.  
         if ((getParameters().containsKey("multipleValues") && StringUtils.equals(((String[]) this.getParameters().get("multipleValues"))[0], "Yes"))
                 || (getParameters().containsKey("multipleValues") && StringUtils.equals(((String[]) this.getParameters().get("multipleValues"))[0], "true"))
-                || (getParameters().containsKey("conversionFields") &&  !StringUtils.isEmpty(((String[]) this.getParameters().get("conversionFields"))[0]))) {
+                || (getParameters().containsKey("conversionFields") && !StringUtils.isEmpty(((String[]) this.getParameters().get("conversionFields"))[0]))) {
             List<Row> retRows = new ArrayList<Row>();
             for (Row row : super.getRows()) {
                 if (!"status".equals(row.getFields().get(0).getPropertyName())) {
@@ -70,25 +72,30 @@ public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperSe
     }
 
     /**
-     * Since Question is being versioned, the lookup should only return active versions of the question
-     * (the one with the highest sequenceNumber).
-     * 
-     * @see org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
+     * Since Question is being versioned, the lookup should only return active
+     * versions of the question (the one with the highest sequenceNumber).
+     *
+     * @see
+     * org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl#getSearchResults(java.util.Map)
      */
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         fieldValues.put("sequenceStatus", SEQUENCE_STATUS_CURRENT);
         // TODO: Use a dedicated parameter to determine if only active questions are to be displayed.  
         if ((getParameters().containsKey("multipleValues") && StringUtils.equals(((String[]) this.getParameters().get("multipleValues"))[0], "Yes"))
-                || (getParameters().containsKey("conversionFields") &&  !StringUtils.isEmpty(((String[]) this.getParameters().get("conversionFields"))[0]))) {
+                || (getParameters().containsKey("conversionFields") && !StringUtils.isEmpty(((String[]) this.getParameters().get("conversionFields"))[0]))) {
             fieldValues.put("status", "A");
-        }        
+        }
         return super.getSearchResults(fieldValues);
     }
-    
+
     /**
-     * Only display edit, copy and view links for the Questions if proper permission is given.
-     * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject, java.util.List)
+     * Only display edit, copy and view links for the Questions if proper
+     * permission is given.
+     *
+     * @see
+     * org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getCustomActionUrls(org.kuali.rice.krad.bo.BusinessObject,
+     * java.util.List)
      */
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
@@ -103,11 +110,11 @@ public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperSe
             AnchorHtmlData copyHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
             copyHtmlData.setHref(copyHtmlData.getHref().replace(MAINTENANCE, NEW_MAINTENANCE));
             htmlDataList.add(copyHtmlData);
-            
+
             AnchorHtmlData deleteHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_DELETE_METHOD_TO_CALL, pkNames);
             deleteHtmlData.setHref(deleteHtmlData.getHref().replace(MAINTENANCE, NEW_MAINTENANCE));
             htmlDataList.add(deleteHtmlData);
-        } 
+        }
         // if user can view question, then if doc number exists, use doc service to view, otherwise open for editing in read-only mode
         if (hasViewPermission) {
             AnchorHtmlData viewHtmlData = new AnchorHtmlData();
@@ -128,5 +135,28 @@ public class QuestionLookupableHelperServiceImpl extends KualiLookupableHelperSe
         this.questionAuthorizationService = questionAuthorizationService;
     }
 
+    public HtmlData getReturnUrl(BusinessObject businessObject, LookupForm lookupForm, List returnKeys, BusinessObjectRestrictions businessObjectRestrictions) {
+        //boolean showReturnLink = lookupForm.getBackLocation().contains("proposalDevelopmentGrantsGov");
+        //if (showReturnLink) {
+        LOG.error("getReturnUrl running...");
 
+        Question quest = (Question) businessObject;
+
+        LOG.error("getLookupClassDescription = " + quest.getLookupClassDescription());
+        LOG.error("getLookupReturnDescription = " + quest.getLookupReturnDescription());
+        LOG.error("getQuestion = " + quest.getQuestion());
+
+        HtmlData htmlData = super.getReturnUrl(businessObject, lookupForm, returnKeys, businessObjectRestrictions);
+        
+        LOG.error("htmlData.getAppendDisplayText() = " + htmlData.getAppendDisplayText());
+        LOG.error("htmlData.getDisplayText() = " + htmlData.getDisplayText());
+        LOG.error("htmlData.getMethodToCall() = " + htmlData.getMethodToCall());
+        LOG.error("htmlData.getName() = " + htmlData.getName());
+        LOG.error("htmlData.getPrependDisplayText() = " + htmlData.getPrependDisplayText());
+        LOG.error("htmlData.getTitle() = " + htmlData.getTitle());
+        
+        htmlData.setTitle("Question Ref ID " + quest.getQuestionRefId() + " , Question ID " + quest.getQuestionId());
+        
+        return htmlData;
+    }
 }
