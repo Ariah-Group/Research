@@ -60,7 +60,8 @@ public class ProposalDevelopmentProposalRequiredFieldsAuditRule implements Docum
         final String sponsorCodeNih = paramServ.getParameterValueAsString(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT,
                 Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.ARIAH_PROPDEV_SPONSOR_CODE_NIH);        
         
-        if (StringUtils.equalsIgnoreCase(proposal.getSponsorCode(),sponsorCodeNih) && proposalDevelopmentDocument.getDevelopmentProposal().getTitle().length() > 81){
+        if (StringUtils.equalsIgnoreCase(proposal.getSponsorCode(),sponsorCodeNih) &&
+                proposalDevelopmentDocument.getDevelopmentProposal().getTitle().length() > 200){
             valid = false;
             auditErrors.add(new AuditError(Constants.PROJECT_TITLE_KEY, KeyConstants.ERROR_NIH_SPONSOR_PROJECT_TITLE_LENGTH, Constants.PROPOSAL_PAGE + "." + Constants.REQUIRED_FIELDS_PANEL_ANCHOR));
         }
