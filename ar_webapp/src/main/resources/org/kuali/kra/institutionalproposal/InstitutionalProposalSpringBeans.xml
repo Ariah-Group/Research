@@ -300,7 +300,10 @@
             <list>
                 <bean class="org.ariahgroup.research.institutionalproposal.auth.InstProposalQuestionnaireAuthorizer" parent="parentInstProposalAuthorizer">
                 	<property name="taskName" value="modifyInstProposalQuestionnaire"/>
-                </bean>                
+                </bean>          
+                <bean class="org.ariahgroup.research.institutionalproposal.auth.ViewInstitutionalProposalAuthorizer" parent="parentInstProposalAuthorizer">
+                	<property name="taskName" value="viewInstProposal"/>
+                </bean>                        
             </list>
          </property>
      </bean>
