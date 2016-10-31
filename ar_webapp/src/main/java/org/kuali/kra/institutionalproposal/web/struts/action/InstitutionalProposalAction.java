@@ -132,10 +132,8 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
                 if (!documentActions.contains(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW)) {
                     documentActions.add(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW);
                 }
-            } else {
-                if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW)) {
-                    documentActions.remove(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW);
-                }
+            } else if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW)) {
+                documentActions.remove(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW);
             }
 
             if (editMode.containsKey(AuthorizationConstants.EditMode.VIEW_ONLY)
@@ -373,7 +371,13 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
     protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.loadDocument(kualiDocumentFormBase);
         InstitutionalProposal proposal = ((InstitutionalProposalForm) kualiDocumentFormBase).getInstitutionalProposalDocument().getInstitutionalProposal();
-        proposal.setSponsorNihMultiplePi(getSponsorService().isSponsorNihMultiplePi(proposal));
+
+        boolean isSponsorMultiPi = false;
+        if (proposal.getSponsor() != null) {
+            isSponsorMultiPi = proposal.getSponsor().isMultiplePi();
+        }
+
+        proposal.setSponsorNihMultiplePi(isSponsorMultiPi);
         //work around to make sure project person reference to inst prop is to the same instance as the document has
         //without this the references were different causing issues when the sponsor was changed.
         if (!proposal.getProjectPersons().isEmpty()) {
