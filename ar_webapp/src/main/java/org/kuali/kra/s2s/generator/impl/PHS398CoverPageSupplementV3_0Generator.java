@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.opensource.org/licenses/ecl1.php
+ * http://www.opensource.org/licenses/ecl2.php
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,15 +17,18 @@ package org.kuali.kra.s2s.generator.impl;
 
 import gov.grants.apply.forms.phs398CoverPageSupplement30V30.PHS398CoverPageSupplement30Document;
 import gov.grants.apply.forms.phs398CoverPageSupplement30V30.PHS398CoverPageSupplement30Document.PHS398CoverPageSupplement30;
-import gov.grants.apply.system.globalLibraryV20.HumanNameDataType;
 import gov.grants.apply.forms.phs398CoverPageSupplement30V30.PHS398CoverPageSupplement30Document.PHS398CoverPageSupplement30.ClinicalTrial;
-
 import gov.grants.apply.forms.phs398CoverPageSupplement30V30.PHS398CoverPageSupplement30Document.PHS398CoverPageSupplement30.StemCells;
-import gov.grants.apply.forms.phs398CoverPageSupplement30V30.PHS398CoverPageSupplement30Document.PHS398CoverPageSupplement30.IncomeBudgetPeriod;
 import gov.grants.apply.forms.phs398CoverPageSupplement30V30.PHS398CoverPageSupplement30Document.PHS398CoverPageSupplement30.VertebrateAnimals;
-
+import gov.grants.apply.system.globalLibraryV20.HumanNameDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum;
+
+import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -33,40 +36,58 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.s2s.util.S2SConstants;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 
 /**
- * Class for generating the XML object for grants.gov
+ * Class for generating the XML object for grants gov
  * PHS398CoverPageSupplementV3_0. Form is generated using XMLBean classes and is
  * based on PHS398CoverPageSupplement schema.
- *
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class PHS398CoverPageSupplementV3_0Generator extends PHS398CoverPageSupplementBaseGenerator {
 
+    private static final Log LOG = LogFactory.getLog(PHS398CoverPageSupplementV3_0Generator.class);
     List<AnswerHeader> answerHeaders;
+    protected S2SBudgetCalculatorService s2sBudgetCalculatorService;
+    protected static final int PROJECT_INCOME_DESCRIPTION_MAX_LENGTH = 150;
 
     /**
      *
      * This method gives information of Cover Page Supplement such as PDPI
-     * details,Clinical Trail information,Contact person information.
+     * details,Clinical Trial information,Contact person information.
      *
      * @return coverPageSupplementDocument {@link XmlObject} of type
      * PHS398CoverPageSupplement30Document.
      */
     private PHS398CoverPageSupplement30Document getCoverPageSupplement() {
+
         PHS398CoverPageSupplement30Document coverPageSupplementDocument = PHS398CoverPageSupplement30Document.Factory.newInstance();
         PHS398CoverPageSupplement30 coverPageSupplement = PHS398CoverPageSupplement30.Factory.newInstance();
-        answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
         coverPageSupplement.setFormVersion(S2SConstants.FORMVERSION_3_0);
 
+        answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
+
         coverPageSupplement.setClinicalTrial(getClinicalTrial());
-        coverPageSupplement.setProgramIncome(getProgramIncome());
-        if (coverPageSupplement.getProgramIncome().equals(YesNoDataType.Y_YES)) {
-            coverPageSupplement.setIncomeBudgetPeriodArray(getIncomeBudgetPeriod());
+
+        s2sBudgetCalculatorService = KraServiceLocator.getService(S2SBudgetCalculatorService.class);
+
+        BudgetDocument budgetDoc = null;
+        try {
+            budgetDoc = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+
+        if (budgetDoc != null && budgetDoc.getBudget() != null) {
+            int numPeriods = budgetDoc.getBudget().getBudgetPeriods().size();
+            setIncomeBudgetPeriods(coverPageSupplement, budgetDoc.getBudget()
+                    .getBudgetProjectIncomes(), numPeriods);
+        } else {
+            coverPageSupplement.setProgramIncome(YesNoDataType.N_NO);
         }
 
         coverPageSupplement.setVertebrateAnimals(getVertebrateAnimals());
@@ -172,18 +193,84 @@ public class PHS398CoverPageSupplementV3_0Generator extends PHS398CoverPageSuppl
         }
     }
 
+    /*
+     * This method will set values to income budget periods
+     */
+    private static void setIncomeBudgetPeriods(PHS398CoverPageSupplement30 coverPageSupplement,
+            List<BudgetProjectIncome> projectIncomes, int numPeriods) {
+        if (projectIncomes.isEmpty()) {
+            coverPageSupplement.setProgramIncome(YesNoDataType.N_NO);
+        } else {
+            coverPageSupplement.setProgramIncome(YesNoDataType.Y_YES);
+        }
+        coverPageSupplement.setIncomeBudgetPeriodArray(getIncomeBudgetPeriod(projectIncomes));
+    }
+
+    /*
+     * Method to sum up IncomeBudgetPeriod of different period Number
+     */
+    private static PHS398CoverPageSupplement30Document.PHS398CoverPageSupplement30.IncomeBudgetPeriod[] getIncomeBudgetPeriod(
+            final List<BudgetProjectIncome> projectIncomes) {
+        //TreeMap Used to maintain the order of the Budget periods.
+        Map<Integer, PHS398CoverPageSupplement30Document.PHS398CoverPageSupplement30.IncomeBudgetPeriod> incomeBudgetPeriodMap = new TreeMap<Integer, PHS398CoverPageSupplement30Document.PHS398CoverPageSupplement30.IncomeBudgetPeriod>();
+        BigDecimal anticipatedAmount;
+        for (BudgetProjectIncome projectIncome : projectIncomes) {
+
+            Integer budgetPeriodNumber = projectIncome.getBudgetPeriodNumber();
+            PHS398CoverPageSupplement30Document.PHS398CoverPageSupplement30.IncomeBudgetPeriod incomeBudgPeriod = incomeBudgetPeriodMap
+                    .get(budgetPeriodNumber);
+            if (incomeBudgPeriod == null) {
+                incomeBudgPeriod = PHS398CoverPageSupplement30Document.PHS398CoverPageSupplement30.IncomeBudgetPeriod.Factory.newInstance();
+                incomeBudgPeriod.setBudgetPeriod(budgetPeriodNumber.intValue());
+                anticipatedAmount = BigDecimal.ZERO;
+            } else {
+                anticipatedAmount = incomeBudgPeriod.getAnticipatedAmount();
+            }
+            anticipatedAmount = anticipatedAmount.add(projectIncome
+                    .getProjectIncome().bigDecimalValue());
+            incomeBudgPeriod.setAnticipatedAmount(anticipatedAmount);
+            String description = getProjectIncomeDescription(projectIncome);
+            if (description != null) {
+                if (incomeBudgPeriod.getSource() != null) {
+                    incomeBudgPeriod.setSource(incomeBudgPeriod.getSource()
+                            + ";" + description);
+                } else {
+                    incomeBudgPeriod.setSource(description);
+                }
+            }
+            incomeBudgetPeriodMap.put(budgetPeriodNumber, incomeBudgPeriod);
+        }
+        Collection<PHS398CoverPageSupplement30Document.PHS398CoverPageSupplement30.IncomeBudgetPeriod> incomeBudgetPeriodCollection = incomeBudgetPeriodMap
+                .values();
+        return incomeBudgetPeriodCollection.toArray(new PHS398CoverPageSupplement30Document.PHS398CoverPageSupplement30.IncomeBudgetPeriod[0]);
+    }
+
+    protected static String getProjectIncomeDescription(BudgetProjectIncome projectIncome) {
+        String description = null;
+        if (projectIncome.getDescription() != null) {
+            if (projectIncome.getDescription().length() > PROJECT_INCOME_DESCRIPTION_MAX_LENGTH) {
+                description = projectIncome.getDescription().substring(0,
+                        PROJECT_INCOME_DESCRIPTION_MAX_LENGTH);
+            } else {
+                description = projectIncome.getDescription();
+            }
+        }
+        return description;
+    }
+
     /**
      * Get the Vertebrate Animal info
      *
      * @return
      */
     private VertebrateAnimals getVertebrateAnimals() {
+
         VertebrateAnimals vertebrateAnimals = VertebrateAnimals.Factory.newInstance();
 
-        String answer = null;
+        String answer = getAnswer(VERTEBRATE_ANIMALS_EUTHANIZED);
         String subAnswer = null;
 
-        answer = getAnswer(VERTEBRATE_ANIMALS_EUTHANIZED);
+        LOG.error("PHS398CoverPageSupp_v3.0 : questionId " + VERTEBRATE_ANIMALS_EUTHANIZED + " answer: " + answer);
 
         if (answer != null) {
             if (!answer.equals(NOT_ANSWERED)) {
@@ -221,7 +308,7 @@ public class PHS398CoverPageSupplementV3_0Generator extends PHS398CoverPageSuppl
      *
      * This method is used to get Clinical Trial information
      *
-     * @return ClinicalTrial object containing Clinical Trail Details.
+     * @return ClinicalTrial object containing Clinical Trial Details.
      */
     private ClinicalTrial getClinicalTrial() {
 
@@ -239,7 +326,6 @@ public class PHS398CoverPageSupplementV3_0Generator extends PHS398CoverPageSuppl
             }
         }
 
-        // make phase III clinical trial not a nested question, since the form is ambiguous   
         subAnswer = getAnswer(PHASE_III_CLINICAL_TRIAL);
         if (subAnswer != null && !subAnswer.equals(NOT_ANSWERED)) {
             if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(subAnswer)) {
@@ -250,48 +336,6 @@ public class PHS398CoverPageSupplementV3_0Generator extends PHS398CoverPageSuppl
         }
 
         return clinicalTrial;
-    }
-
-    /**
-     *
-     * This method is used to get Program Income information
-     *
-     * @return
-     */
-    private gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum getProgramIncome() {
-
-        gov.grants.apply.system.globalLibraryV20.YesNoDataType.Enum enumAnswer = YesNoDataType.N_NO; // Default ...FIXME
-
-        // Change this get the Program Income question, and if yes, get the BudgetPeriod filled in also
-        String answer = null;
-        answer = getAnswer(PROGRAM_INCOME_ANTICIPATED);
-        if (answer != null) {
-            if (!answer.equals(NOT_ANSWERED)) {
-                if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
-                    enumAnswer = YesNoDataType.Y_YES;
-                } else {
-                    enumAnswer = YesNoDataType.N_NO;
-                }
-            }
-        }
-        return enumAnswer;
-    }
-
-    private IncomeBudgetPeriod[] getIncomeBudgetPeriod() {
-
-        List<IncomeBudgetPeriod> incomeBudgetPeriodList = new ArrayList<IncomeBudgetPeriod>();
-        IncomeBudgetPeriod incomeBudgetPeriod = IncomeBudgetPeriod.Factory.newInstance();
-
-        String answerBudgetPeriod = getAnswer(BUDGET_PERIOD);
-        String answerBudgetAmount = getAnswer(BUDGET_ANTICIPATED_AMOUNT);
-        String answerBudgetSource = getAnswer(BUDGET_SOURCES);
-
-        incomeBudgetPeriod.setBudgetPeriod(Integer.parseInt(answerBudgetPeriod));
-        incomeBudgetPeriod.setAnticipatedAmount(new BigDecimal(answerBudgetAmount));
-        incomeBudgetPeriod.setSource(answerBudgetSource);
-
-        incomeBudgetPeriodList.add(incomeBudgetPeriod);
-        return incomeBudgetPeriodList.toArray(new IncomeBudgetPeriod[0]);
     }
 
     /**

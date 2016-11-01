@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.opensource.org/licenses/ecl1.php
+ * https://opensource.org/licenses/ecl2.php
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -49,9 +49,8 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 
 /**
+ * Generator class for Grantsgov Form: PHS 398 Research Training Program Plan.
  *
- * This class is the xml generator for PHS398ResTrainProgPlanV3_0 form ref
- * namespace://apply.grants.gov/forms/PHS398_ResearchTrainingProgramPlan-V3.0
  */
 public class PHS398ResTrainProgPlanV3_0Generator extends S2SBaseFormGenerator {
 
@@ -237,5 +236,4 @@ public class PHS398ResTrainProgPlanV3_0Generator extends S2SBaseFormGenerator {
         phs398ResearchTrainingProgramPlanDocument.setPHS398ResearchTrainingProgramPlan30(phs398ResearchTrainingProgramPlan);
         return phs398ResearchTrainingProgramPlanDocument;
     }
-
 }

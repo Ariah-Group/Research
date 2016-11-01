@@ -50,7 +50,7 @@ public class PHS398CoverPageSupplementV1_0Generator extends
     /**
      *
      * This method gives information of Cover Page Supplement such as PDPI
-     * details,Clinical Trail information,Contact person information.
+     * details,Clinical Trial information,Contact person information.
      *
      * @return coverPageSupplementDocument {@link XmlObject} of type
      * PHS398CoverPageSupplementDocument.
@@ -128,7 +128,7 @@ public class PHS398CoverPageSupplementV1_0Generator extends
      *
      * This method is used to get Clinical Trial information
      *
-     * @return ClinicalTrial object containing Clinical Trail Details.
+     * @return ClinicalTrial object containing Clinical Trial Details.
      */
     private ClinicalTrial getClinicalTrial() {
 

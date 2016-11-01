@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- * http://www.opensource.org/licenses/ecl1.php
+ * http://www.opensource.org/licenses/ecl2.php
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,7 +27,6 @@ import java.util.List;
  * This abstract class has methods that are common to all the versions of
  * PHS398CoverPageSupplement form.
  *
- * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public abstract class PHS398CoverPageSupplementBaseGenerator extends
         S2SBaseFormGenerator {
@@ -49,20 +48,20 @@ public abstract class PHS398CoverPageSupplementBaseGenerator extends
     public static final String BUDGET_ANTICIPATED_AMOUNT = "10000005";
     public static final String BUDGET_SOURCES = "10000006";
 
-    public static final String IS_RENEWAL = "10000007";
-    public static final String INVENTIONS = "10000008";
-    public static final String PATENTS_REPORTED = "10000009";
-
-    public static final String CHANGE_PDPI = "10000010";
-    public static final String PDPI_PREFIX = "10000011";
-    public static final String PDPI_FIRST_NAME = "10000012";
-    public static final String PDPI_MID_NAME = "10000013";
-    public static final String PDPI_LAST_NAME = "10000014";
-    public static final String PDPI_SUFFIX = "10000015";
-
-    // Question ID for prefix suffix and middle name are 10000016, 10000017, 10000018.  No java code needed.
-    public static final String CHANGE_GRANTEE = "10000019";
-    public static final String NAME_FORMER_INST = "10000020";
+    public static final String CHANGE_PDPI = "103002";
+    public static final String PDPI_PREFIX = "103003";
+    public static final String PDPI_FIRST_NAME = "103004";
+    public static final String PDPI_MID_NAME = "103005";
+    public static final String PDPI_LAST_NAME = "103006";
+    public static final String PDPI_SUFFIX = "103007";
+    
+    public static final String IS_RENEWAL = "103008";
+    public static final String INVENTIONS = "103009";
+    public static final String PATENTS_REPORTED = "103010";    
+    
+    // QIDs for question on 'change of grantee institution'
+    public static final String CHANGE_GRANTEE = "103000";
+    public static final String NAME_FORMER_INST = "103001";
 
     protected S2SUtilService s2sUtilService;
     protected static final int MAX_NUMBER_OF_DEGREES = 3;

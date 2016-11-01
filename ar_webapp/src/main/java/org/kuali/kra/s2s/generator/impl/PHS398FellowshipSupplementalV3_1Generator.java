@@ -181,8 +181,6 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
 
     private void setQuestionnaireData(PHSFellowshipSupplemental31 phsFellowshipSupplemental) {
 
-        LOG.info("PHS398Fellowship: setQuestionnaireData 1");
-
         Map<Integer, String> hmBudgetQuestions = new HashMap<Integer, String>();
         List<AnswerHeader> answers = findQuestionnaireWithAnswers(pdDoc.getDevelopmentProposal());
         ResearchTrainingPlan researchTrainingPlan = phsFellowshipSupplemental.addNewResearchTrainingPlan();
@@ -196,12 +194,10 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
 
         GraduateDegreeSought graduateDegreeSought = GraduateDegreeSought.Factory.newInstance();
 
-        LOG.info("PHS398Fellowship: setQuestionnaireData 2");
         StemCells stemCellstype = StemCells.Factory.newInstance();
 
         QueryList<KirschsteinBean> cvKirsch = new QueryList<KirschsteinBean>();
         
-        LOG.info("PHS398Fellowship: setQuestionnaireData 3");
         for (AnswerHeader answerHeader : answers) {
             Questionnaire questionnaire = answerHeader.getQuestionnaire();
             List<QuestionnaireQuestion> questionnaireQuestions = questionnaire.getQuestionnaireQuestions();
@@ -217,8 +213,6 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
                 Integer questionNumber = questionnaireQuestion.getQuestionNumber();
                 Integer parentQuestionNumber = questionnaireQuestion.getParentQuestionNumber();
                 Integer questionId = question.getQuestionIdAsInteger();
-
-                LOG.error("PHS398Fellowship: questionId " + questionId + " answer: " + answer);
 
                 if (answer != null) {
 
@@ -267,13 +261,11 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
 
                         case QID_STEMCELLS:
                             // stem cells used
-                            LOG.info("PHS398Fellowship: QID_STEMCELLS");
                             stemCellstype.setIsHumanStemCellsInvolved(getYesNoEnum(answer));
                             break;
 
                         case QID_CELLLINEIND:
                             // stem cell line indicator
-                            LOG.info("PHS398Fellowship: QID_CELLLINEIND");
                             stemCellstype.setStemCellsIndicator(getYesNoEnum(answer));
                             break;
 
@@ -297,9 +289,6 @@ public class PHS398FellowshipSupplementalV3_1Generator extends PHS398FellowshipS
 
                         case QID_FIELD_TRAINING:
                             if (!answer.toUpperCase().equals("SUB CATEGORY NOT FOUND")) {
-                                
-                                LOG.error("QID_FIELD_TRAINING answer 1: " + answer);
-                                LOG.error("QID_FIELD_TRAINING answer 2: " + FieldOfTrainingDataType.Enum.forString(answer));
                                 
                                 additionalInfoType.setFieldOfTraining(FieldOfTrainingDataType.Enum.forString(answer));
                             }
