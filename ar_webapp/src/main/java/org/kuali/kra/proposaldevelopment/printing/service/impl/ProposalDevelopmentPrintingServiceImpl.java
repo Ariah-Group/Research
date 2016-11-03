@@ -95,7 +95,7 @@ public class ProposalDevelopmentPrintingServiceImpl implements
 
         StringBuilder reportFullName = new StringBuilder(proposalNumber)
                 .append("_").append(reportName.replace(' ', '_')).append(
-                        Constants.PDF_FILE_EXTENSION);
+                Constants.PDF_FILE_EXTENSION);
         return reportFullName.toString();
     }
 
@@ -122,9 +122,12 @@ public class ProposalDevelopmentPrintingServiceImpl implements
         if (sponsorFormTemplates.isEmpty()) {
             Collection<SponsorFormTemplateList> clsponsorFormTemplates = getSponsorTemplatesList(sponsorCode);
             sponsorFormTemplates.addAll(clsponsorFormTemplates);
-            if (!s2SUtilService.getParameterValue(Constants.LOCAL_PRINT_FORM_SPONSOR_CODE).equals(sponsorCode)) {
+            String localSponsorCode = s2SUtilService.getParameterValue(Constants.LOCAL_PRINT_FORM_SPONSOR_CODE);
+            if (localSponsorCode != null && !localSponsorCode.equals(sponsorCode)) {
                 String genericSponsorCode = s2SUtilService.getParameterValue(Constants.GENERIC_SPONSOR_CODE);
-                clsponsorFormTemplates = getSponsorTemplatesList(genericSponsorCode);
+                if (genericSponsorCode != null && !genericSponsorCode.isEmpty()) {
+                    clsponsorFormTemplates = getSponsorTemplatesList(genericSponsorCode);
+                }
             }
             sponsorFormTemplates.addAll(clsponsorFormTemplates);
         } else {
