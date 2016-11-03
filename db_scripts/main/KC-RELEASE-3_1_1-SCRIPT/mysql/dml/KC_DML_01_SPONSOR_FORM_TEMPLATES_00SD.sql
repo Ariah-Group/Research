@@ -12037,7 +12037,7 @@ VALUES ((SELECT (MAX(ID)) FROM SEQ_SPONSOR_FORM_TEMPLATES),(SELECT SPONSOR_FORM_
 </fo:block>
 <fo:block/>
 <fo:inline font-size="8pt">
-<xsl:text>SCIENTIFIC/KEY PERSONNEL. See instructions. Use continuation pages as needed to providce the required information in the format shown below. Start with Program Director/Principal Investigator(s). List all other key personnel in alphabetical order, last name first.</xsl:text>
+<xsl:text>SCIENTIFIC/KEY PERSONNEL. See instructions. Use continuation pages as needed to provide the required information in the format shown below. Start with Program Director/Principal Investigator(s). List all other key personnel in alphabetical order, last name first.</xsl:text>
 </fo:inline>
 <fo:inline-container>
 <fo:block>
