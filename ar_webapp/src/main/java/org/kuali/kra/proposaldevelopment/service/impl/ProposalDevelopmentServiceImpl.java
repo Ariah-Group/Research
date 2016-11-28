@@ -20,7 +20,6 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncServiceImpl;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
@@ -66,7 +65,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 // TODO : extends PersistenceServiceStructureImplBase is a hack to temporarily resolve get class descriptor.
 public class ProposalDevelopmentServiceImpl implements ProposalDevelopmentService {
 
-    protected final Log LOG = LogFactory.getLog(AwardSyncServiceImpl.class);
+    protected final Log LOG = LogFactory.getLog(ProposalDevelopmentServiceImpl.class);
     private BusinessObjectService businessObjectService;
     private UnitAuthorizationService unitAuthService;
     private KraPersistenceStructureService kraPersistenceStructureService;
