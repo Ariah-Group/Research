@@ -2,11 +2,6 @@ set define off
 set sqlblanklines on
 spool KR-RELEASE-5_4_0-Upgrade-ORACLE-Install.log
 
-
-
--- RES-559
-Insert into KRCR_CMPNT_T (NMSPC_CD,CMPNT_CD,OBJ_ID,VER_NBR,NM,ACTV_IND) values ('KC-IDM','All',SYS_GUID(),1,'All','Y');
-
 -- RES-600
 update KRCR_PARM_T set VAL='Summary' where PARM_NM='proposaldevelopment.approver.view.title' AND VAL='Proposal Summary';
 
@@ -136,7 +131,7 @@ update krcr_parm_t set PARM_DESC_TXT='Defines whether the debug transform is ena
       VALUES  ('KC-PD','Document','ARIAH_PROPDEV_ABSTRACT_TYPECODE_AREASAFFECTED', sys_guid(),0,'CONFG','16','The Abstract Type Code representing the abstract type named Areas Affected.','A','KUALI');
 
 
---RES-719
+--RES-719, -- RES-559
 insert into KRCR_CMPNT_T(NMSPC_CD,CMPNT_CD,OBJ_ID,VER_NBR,NM,ACTV_IND) values('KC-IDM','All',sys_guid(),1,'All','Y');
 
 
