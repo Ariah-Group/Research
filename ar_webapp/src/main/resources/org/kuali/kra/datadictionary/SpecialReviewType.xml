@@ -42,6 +42,8 @@
             <list>
                 <ref bean="SpecialReviewType-specialReviewTypeCode" />
                 <ref bean="SpecialReviewType-description" />
+                <ref bean="SpecialReviewType-unitAdministratorTypeCode" />
+                <ref bean="SpecialReviewType-unitAdministratorType.description" />
                 <ref bean="SpecialReviewType-sortId" />
                 <ref bean="SpecialReviewType-versionNumber" />
             </list>
@@ -77,6 +79,31 @@
     <bean id="SpecialReviewType-versionNumber" parent="SpecialReviewType-versionNumber-parentBean" />
     <bean id="SpecialReviewType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber" />
 
+    <bean id="SpecialReviewType-unitAdministratorTypeCode" parent="SpecialReviewType-unitAdministratorTypeCode-parentBean" />
+    <bean id="SpecialReviewType-unitAdministratorTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="unitAdministratorTypeCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Unit Administrator Type for Review" />
+        <property name="shortLabel" value="Unit Administrator Type for Review" />
+        <property name="maxLength" value="3" />
+        <property name="required" value="false" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                  p:size="5" />
+        </property>
+        <property name="summary" value="Unit Administrator Type to route for review in a Dev Proposal." />
+        <property name="description" value="Unit Administrator Type to route for review in a Dev Proposal." />
+    </bean>
+    
+    <bean id="SpecialReviewType-unitAdministratorType.description" parent="SpecialReviewType-unitAdministratorType.description-parentBean" />
+    <bean id="SpecialReviewType-unitAdministratorType.description-parentBean" abstract="true" parent="UnitAdministratorType-description">
+        <property name="name" value="unitAdministratorType.description" />
+    </bean>
+    
+        
     <!-- Business Object Inquiry Definition -->
     
     <bean id="SpecialReviewType-inquiryDefinition" parent="SpecialReviewType-inquiryDefinition-parentBean" />
@@ -89,11 +116,9 @@
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields" >
                         <list>
-                            <bean parent="FieldDefinition" 
-                                  p:attributeName="specialReviewTypeCode" 
-                                  p:forceInquiry="true" />
-                            <bean parent="FieldDefinition" 
-                                  p:attributeName="description" />
+                            <bean parent="FieldDefinition" p:attributeName="specialReviewTypeCode" p:forceInquiry="true" />
+                            <bean parent="FieldDefinition" p:attributeName="description" />
+                            <bean parent="FieldDefinition" p:attributeName="unitAdministratorType.description" p:forceInquiry="true" />
                         </list>
                     </property>
                 </bean>
@@ -112,19 +137,15 @@
         </property>
         <property name="lookupFields" >
             <list>
-                <bean parent="FieldDefinition" 
-                      p:attributeName="specialReviewTypeCode" />
-                <bean parent="FieldDefinition" 
-                      p:attributeName="description" />
+                <bean parent="FieldDefinition" p:attributeName="specialReviewTypeCode" />
+                <bean parent="FieldDefinition" p:attributeName="description" />
             </list>
         </property>
         <property name="resultFields" >
             <list>
-                <bean parent="FieldDefinition" 
-                      p:attributeName="specialReviewTypeCode" 
-                      p:forceInquiry="true" />
-                <bean parent="FieldDefinition" 
-                      p:attributeName="description" />
+                <bean parent="FieldDefinition" p:attributeName="specialReviewTypeCode" p:forceInquiry="true" />
+                <bean parent="FieldDefinition" p:attributeName="description" />
+                <bean parent="FieldDefinition" p:attributeName="unitAdministratorType.description" p:forceInquiry="true" />
             </list>
         </property>
     </bean>

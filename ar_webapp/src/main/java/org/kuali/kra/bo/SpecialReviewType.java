@@ -32,6 +32,10 @@ public class SpecialReviewType extends KraSortablePersistableBusinessObjectBase 
     private String specialReviewTypeCode;
 
     private String description;
+    
+    private String unitAdministratorTypeCode;
+    
+    private UnitAdministratorType unitAdministratorType;
 
     public String getSpecialReviewTypeCode() {
         return specialReviewTypeCode;
@@ -48,4 +52,20 @@ public class SpecialReviewType extends KraSortablePersistableBusinessObjectBase 
     public void setDescription(String description) {
         this.description = description;
     }
+    
+    public String getUnitAdministratorTypeCode() {
+        return unitAdministratorTypeCode;
+    }
+
+    public void setUnitAdministratorTypeCode(String unitAdministratorTypeCode) {
+        this.unitAdministratorTypeCode = unitAdministratorTypeCode;
+    }
+
+    public UnitAdministratorType getUnitAdministratorType() {
+        return unitAdministratorType;
+    }
+
+    public void setUnitAdministratorType(UnitAdministratorType unitAdministratorType) {
+        this.unitAdministratorType = unitAdministratorType;
+    }    
 }

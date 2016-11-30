@@ -57,7 +57,20 @@
                         <branch name = "False">
                             <!-- The document is a hierarchy parent, or a document that is not part of a hierarchy so it is routed normally. -->
                             <requests name="OSPInitial" nextNode="ProposalPrincipalInvestigator"/>
-                            <requests name="ProposalPrincipalInvestigator" nextNode="ProposalUnitChairsRouting"/>
+                            <requests name="ProposalPrincipalInvestigator" nextNode="hasSpecialReviews"/>
+                            
+                            <split name = "hasSpecialReviews" nextNode="ProposalUnitChairsRouting">
+                                <branch name = "True">
+                                    <requests name="ExportControlReviewRouting" nextNode="BiosafetyReviewRouting"/>
+                                    <requests name="BiosafetyReviewRouting" nextNode="JoinSpecialReviews"/>
+                                    <!-- add multiple special review nodes here if desired -->
+                                </branch>
+                                <branch name = "false">
+                                    <requests name="NoOp" nextNode="JoinSpecialReviews" />
+                                </branch>
+                                <join name="JoinSpecialReviews" />
+                            </split>
+                           
                             <requests name="ProposalUnitChairsRouting" nextNode="ProposalUnitDeansRouting"/>
                             <requests name="ProposalUnitDeansRouting" nextNode="ProposalFinanceRouting"/>
                             <requests name="ProposalFinanceRouting" nextNode="ProposalPresidentRouting"/>
@@ -70,7 +83,7 @@
                             <requests name = "WaitForHierarchyDisposition" nextNode="Join"/>				
                         </branch>
                     </split>
-                    <join name="Join"/>
+                    <join name="Join" />
                 </routePath>
             </routePaths>
 
@@ -83,6 +96,9 @@
                 <split name="isHierarchyChild">
                     <type>org.kuali.kra.kew.SimpleBooleanSplitNode</type>
                 </split>
+                <split name="hasSpecialReviews">
+                    <type>org.kuali.kra.kew.SimpleBooleanSplitNode</type>
+                </split>                
                 <role name="OSPInitial">
                     <qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
                     <activationType>S</activationType>
@@ -95,6 +111,20 @@
                     <finalApproval>false</finalApproval>
                     <forceAction>false</forceAction>
                 </requests>
+                <requests name="ExportControlReviewRouting">
+                    <qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+                    <ruleTemplate>ExportControlReviewTemplate</ruleTemplate>
+                    <activationType>P</activationType>
+                    <finalApproval>false</finalApproval>
+                    <forceAction>false</forceAction>
+                </requests>   
+                <requests name="BiosafetyReviewRouting">
+                    <qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+                    <ruleTemplate>BiosafetyReviewTemplate</ruleTemplate>
+                    <activationType>P</activationType>
+                    <finalApproval>false</finalApproval>
+                    <forceAction>false</forceAction>
+                </requests>                              
                 <requests name="ProposalUnitChairsRouting">
                     <qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
                     <ruleTemplate>ProposalUnitChairsTemplate</ruleTemplate>
@@ -145,7 +175,11 @@
                     <ignorePrevious>true</ignorePrevious>
                     <finalApproval>false</finalApproval>
                 </requests>
-                <join name="Join"/>	                               
+                <join name="Join"/>	
+                <join name="JoinSpecialReviews"/>
+                <simple name="NoOp">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>                              
             </routeNodes>
         </documentType>
     </documentTypes>
@@ -422,6 +456,26 @@
         </ruleAttribute>
 
         <ruleAttribute>
+            <name>ExportControlReviewRoleAttribute</name>
+            <className>
+                org.ariahgroup.research.workflow.ExportControlReviewRoleAttribute
+            </className>
+            <label>ExportControlReviewRoleAttribute</label>
+            <description>ExportControlReviewRoleAttribute</description>
+            <type>RuleAttribute</type>
+        </ruleAttribute>
+        
+        <ruleAttribute>
+            <name>BiosafetyReviewRoleAttribute</name>
+            <className>
+                org.ariahgroup.research.workflow.BiosafetyReviewRoleAttribute
+            </className>
+            <label>BiosafetyReviewRoleAttribute</label>
+            <description>BiosafetyReviewRoleAttribute</description>
+            <type>RuleAttribute</type>
+        </ruleAttribute>
+                
+        <ruleAttribute>
             <name>ProposalUnitChairsRoleAttribute</name>
             <className>
                 org.ariahgroup.research.workflow.ProposalUnitChairsRoleAttribute
@@ -471,6 +525,26 @@
             <attributes>
                 <attribute>
                     <name>ProposalPrincipalInvestigatorRoleAttribute</name>
+                    <required>false</required>
+                </attribute>
+            </attributes>
+        </ruleTemplate>
+        <ruleTemplate allowOverwrite="true">
+            <name>ExportControlReviewTemplate</name>
+            <description>Proposal ExportControlReview Approval Routing Rule</description>
+            <attributes>
+                <attribute>
+                    <name>ExportControlReviewRoleAttribute</name>
+                    <required>false</required>
+                </attribute>
+            </attributes>
+        </ruleTemplate>
+        <ruleTemplate allowOverwrite="true">
+            <name>BiosafetyReviewTemplate</name>
+            <description>Proposal Biosafety Review Approval Routing Rule</description>
+            <attributes>
+                <attribute>
+                    <name>BiosafetyReviewRoleAttribute</name>
                     <required>false</required>
                 </attribute>
             </attributes>
@@ -552,7 +626,37 @@
                     <priority>1</priority>
                 </responsibility>
             </responsibilities>
-        </rule>        
+        </rule> 
+        <rule>
+            <name>ExportControlReviewRule</name>
+            <documentType>ProposalDevelopmentDocument</documentType>
+            <ruleTemplate>ExportControlReviewTemplate</ruleTemplate>
+            <description>ExportControlReview Routing Rule</description>
+            <responsibilities>
+                <responsibility>
+                    <roleName attributeClassName="org.ariahgroup.research.workflow.ExportControlReviewRoleAttribute">Export Control Review</roleName>
+                    <!-- approvePolicy  'F' if only one member of the role should approve or 'A' if all members of the role to approve  -->
+                    <approvePolicy>A</approvePolicy>
+                    <actionRequested>A</actionRequested>
+                    <priority>1</priority>
+                </responsibility>
+            </responsibilities>
+        </rule>    
+        <rule>
+            <name>BiosafetyReviewRule</name>
+            <documentType>ProposalDevelopmentDocument</documentType>
+            <ruleTemplate>BiosafetyReviewTemplate</ruleTemplate>
+            <description>BiosafetyReview Routing Rule</description>
+            <responsibilities>
+                <responsibility>
+                    <roleName attributeClassName="org.ariahgroup.research.workflow.BiosafetyReviewRoleAttribute">Biosafety Review</roleName>
+                    <!-- approvePolicy  'F' if only one member of the role should approve or 'A' if all members of the role to approve  -->
+                    <approvePolicy>A</approvePolicy>
+                    <actionRequested>A</actionRequested>
+                    <priority>1</priority>
+                </responsibility>
+            </responsibilities>
+        </rule>                    
         <rule>
             <name>ProposalUnitChairsRule</name>
             <documentType>ProposalDevelopmentDocument</documentType>

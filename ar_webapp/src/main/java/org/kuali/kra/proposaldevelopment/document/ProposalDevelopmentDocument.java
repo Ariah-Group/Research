@@ -76,6 +76,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     private static final String RETURN_TO_PROPOSAL_METHOD_TO_CALL = "methodToCall.returnToProposal";
 
     private static final String HIERARCHY_CHILD_SPLITNODE_QUESTION = "isHierarchyChild";
+    private static final String SPLITNODE_QUESTION_SPECREVIEWS = "hasSpecialReviews";
 
     private static final long serialVersionUID = 2958631745964610527L;
     private List<DevelopmentProposal> developmentProposalList;
@@ -507,6 +508,12 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         LOG.debug("Processing answerSplitNodeQuestion:" + routeNodeName);
         if (StringUtils.equals(HIERARCHY_CHILD_SPLITNODE_QUESTION, routeNodeName)) {
             return getDevelopmentProposal().isChild();
+        } else if (StringUtils.equals(SPLITNODE_QUESTION_SPECREVIEWS, routeNodeName)) {
+
+            if (getDevelopmentProposal().getPropSpecialReviews() != null && !getDevelopmentProposal().getPropSpecialReviews().isEmpty()) {
+                // then there are special reviews
+                return true;
+            }
         }
         //defer to the super class. ResearchDocumentBase will throw the UnsupportedOperationException
         //if no super class answers the question.
