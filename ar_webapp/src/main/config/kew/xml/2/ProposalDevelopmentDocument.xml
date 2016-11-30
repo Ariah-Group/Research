@@ -664,7 +664,7 @@
             <description>Unit Chair Routing Rule</description>
             <responsibilities>
                 <responsibility>
-                    <roleName attributeClassName="org.ariahgroup.research.workflow.ProposalUnitChairsRoleAttribute">ProposalUnitChairsRoleAttribute</roleName>
+                    <roleName attributeClassName="org.ariahgroup.research.workflow.ProposalUnitChairsRoleAttribute">Chair Review</roleName>
                     <approvePolicy>F</approvePolicy>
                     <actionRequested>A</actionRequested>
                     <priority>1</priority>
@@ -678,7 +678,7 @@
             <description>Unit Dean Routing Rule</description>
             <responsibilities>
                 <responsibility>
-                    <roleName attributeClassName="org.ariahgroup.research.workflow.ProposalUnitDeansRoleAttribute">ProposalUnitDeansRoleAttribute</roleName>
+                    <roleName attributeClassName="org.ariahgroup.research.workflow.ProposalUnitDeansRoleAttribute">Dean Review</roleName>
                     <approvePolicy>F</approvePolicy>
                     <actionRequested>A</actionRequested>
                     <priority>1</priority>
@@ -692,7 +692,7 @@
             <description>Finance Routing Rule</description>
             <responsibilities>
                 <responsibility>
-                    <roleName attributeClassName="org.ariahgroup.research.workflow.ProposalFinanceRoleAttribute">ProposalFinanceRoleAttribute</roleName>
+                    <roleName attributeClassName="org.ariahgroup.research.workflow.ProposalFinanceRoleAttribute">Finance Review</roleName>
                     <approvePolicy>F</approvePolicy>
                     <actionRequested>A</actionRequested>
                     <priority>1</priority>
@@ -706,7 +706,7 @@
             <description>President Routing Rule</description>
             <responsibilities>
                 <responsibility>
-                    <roleName attributeClassName="org.ariahgroup.research.workflow.ProposalPresidentRoleAttribute">ProposalPresidentRoleAttribute</roleName>
+                    <roleName attributeClassName="org.ariahgroup.research.workflow.ProposalPresidentRoleAttribute">President Review</roleName>
                     <approvePolicy>F</approvePolicy>
                     <actionRequested>A</actionRequested>
                     <priority>1</priority>
