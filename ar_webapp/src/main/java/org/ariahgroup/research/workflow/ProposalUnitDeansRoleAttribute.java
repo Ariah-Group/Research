@@ -42,7 +42,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.w3c.dom.NodeList;
 
 /**
- * 
+ *
  * @author The Ariah Group, Inc.
  */
 public class ProposalUnitDeansRoleAttribute extends GenericRoleAttribute {
@@ -141,7 +141,12 @@ public class ProposalUnitDeansRoleAttribute extends GenericRoleAttribute {
 
                         if (StringUtils.isNotBlank(unitAdministrator.getPersonId())
                                 && StringUtils.equals(unitAdministrator.getUnitAdministratorTypeCode(), UnitAdministratorType.DEAN_VP_TYPE_CODE)) {
-                            members.add(new PrincipalId(unitAdministrator.getPersonId()));
+                            PrincipalId prinId = new PrincipalId(unitAdministrator.getPersonId());
+                            // make sure a duplicate isn't added in the event multiple units are used
+                            // that end up having the same parent unit and thus the same parent unit admin
+                            if (!members.contains(prinId)) {
+                                members.add(prinId);
+                            }
                             keepGoing = false;
                         }
                     }

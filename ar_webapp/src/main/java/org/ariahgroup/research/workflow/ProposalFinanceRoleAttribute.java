@@ -268,7 +268,14 @@ public class ProposalFinanceRoleAttribute extends GenericRoleAttribute {
                         KcPerson person = kcPersonService.getKcPersonByPersonId(principalIdToAdd);
                         // ensure each person assigned is real and is active
                         if (person != null && person.getActive()) {
-                            members.add(new PrincipalId(principalIdToAdd));
+
+                            PrincipalId prinId = new PrincipalId(principalIdToAdd);
+                            // make sure a duplicate isn't added in the event multiple units are used
+                            // that end up having the same parent unit and thus the same parent unit admin
+                            if (!members.contains(prinId)) {
+                                members.add(prinId);
+                            }
+
                         }
                     }
                 }
@@ -311,7 +318,12 @@ public class ProposalFinanceRoleAttribute extends GenericRoleAttribute {
                         KcPerson person = kcPersonService.getKcPersonByPersonId(personId);
                         // ensure each person assigned the role is still active
                         if (person != null && person.getActive()) {
-                            members.add(new PrincipalId(personId));
+                            PrincipalId prinId = new PrincipalId(personId);
+                            // make sure a duplicate isn't added in the event multiple units are used
+                            // that end up having the same parent unit and thus the same parent unit admin
+                            if (!members.contains(prinId)) {
+                                members.add(prinId);
+                            }
                         }
                     }
                 }
@@ -379,7 +391,13 @@ public class ProposalFinanceRoleAttribute extends GenericRoleAttribute {
                             for (UnitAdministrator unitAdministrator : unitAdministrators) {
                                 if (StringUtils.isNotBlank(unitAdministrator.getPersonId())
                                         && StringUtils.equals(unitAdministrator.getUnitAdministratorTypeCode(), paramUnitAdminTypeCode)) {
-                                    members.add(new PrincipalId(unitAdministrator.getPersonId()));
+                                    
+                                    PrincipalId prinId = new PrincipalId(unitAdministrator.getPersonId());
+                                    // make sure a duplicate isn't added in the event multiple units are used
+                                    // that end up having the same parent unit and thus the same parent unit admin
+                                    if (!members.contains(prinId)) {
+                                        members.add(prinId);
+                                    }
                                     keepGoing = false;
                                 }
                             }

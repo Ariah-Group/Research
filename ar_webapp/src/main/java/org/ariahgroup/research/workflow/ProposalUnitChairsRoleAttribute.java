@@ -42,7 +42,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.w3c.dom.NodeList;
 
 /**
- * 
+ *
  * @author The Ariah Group, Inc.
  */
 public class ProposalUnitChairsRoleAttribute extends GenericRoleAttribute {
@@ -58,9 +58,8 @@ public class ProposalUnitChairsRoleAttribute extends GenericRoleAttribute {
 
     @Override
     public List<RoleName> getRoleNames() {
-        
-        RoleName role = RoleName.Builder.create("org.ariahgroup.research.workflow.ProposalUnitChairPIRoleAttribute", 
-        
+
+        RoleName role = RoleName.Builder.create("org.ariahgroup.research.workflow.ProposalUnitChairPIRoleAttribute",
                 RoleConstants.UNIT_ADMIN_WORKFLOW_ROLE_NAME, RoleConstants.UNIT_ADMIN_WORKFLOW_ROLE_NAME).build();
         return Collections.singletonList(role);
     }
@@ -77,17 +76,17 @@ public class ProposalUnitChairsRoleAttribute extends GenericRoleAttribute {
 
     @Override
     protected List<Id> resolveRecipients(RouteContext routeContext, QualifiedRoleName qualifiedRoleName) {
-        
+
         List<Id> members = new ArrayList<Id>();
         DocumentContent dc = routeContext.getDocumentContent();
         NodeList nodes = dc.getDocument().getElementsByTagName("proposalNumber");
         String developmentProposalNumber = nodes.item(0).getTextContent();
-        
+
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         DevelopmentProposal proposalDevelopmentDocument = businessObjectService.findBySinglePrimaryKey(DevelopmentProposal.class, developmentProposalNumber);
 
         List<Unit> addedUnits = new ArrayList<Unit>();
-        
+
         // Add the Lead Unit of the Proposal
         addedUnits.add(proposalDevelopmentDocument.getUnit());
 
@@ -143,7 +142,12 @@ public class ProposalUnitChairsRoleAttribute extends GenericRoleAttribute {
                     for (UnitAdministrator unitAdministrator : unitAdministrators) {
                         if (StringUtils.isNotBlank(unitAdministrator.getPersonId())
                                 && StringUtils.equals(unitAdministrator.getUnitAdministratorTypeCode(), UnitAdministratorType.UNIT_HEAD_TYPE_CODE)) {
-                            members.add(new PrincipalId(unitAdministrator.getPersonId()));
+                            PrincipalId prinId = new PrincipalId(unitAdministrator.getPersonId());
+                            // make sure a duplicate isn't added in the event multiple units are used
+                            // that end up having the same parent unit and thus the same parent unit admin
+                            if (!members.contains(prinId)) {
+                                members.add(prinId);
+                            }
                             keepGoing = false;
                         }
                     }

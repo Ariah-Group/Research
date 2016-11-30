@@ -44,7 +44,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.w3c.dom.NodeList;
 
 /**
- * 
+ *
  * @author The Ariah Group, Inc.
  */
 public class ProposalPresidentRoleAttribute extends GenericRoleAttribute {
@@ -99,7 +99,7 @@ public class ProposalPresidentRoleAttribute extends GenericRoleAttribute {
         DevelopmentProposal proposalDevelopmentDocument = businessObjectService.findBySinglePrimaryKey(DevelopmentProposal.class, developmentProposalNumber);
 
         List<Unit> addedUnits = new ArrayList<Unit>();
-        
+
         // add the Lead Unit of the proposal
         addedUnits.add(proposalDevelopmentDocument.getUnit());
 
@@ -155,7 +155,12 @@ public class ProposalPresidentRoleAttribute extends GenericRoleAttribute {
                     for (UnitAdministrator unitAdministrator : unitAdministrators) {
                         if (StringUtils.isNotBlank(unitAdministrator.getPersonId())
                                 && StringUtils.equals(unitAdministrator.getUnitAdministratorTypeCode(), paramUnitAdminTypeCode)) {
-                            members.add(new PrincipalId(unitAdministrator.getPersonId()));
+                            PrincipalId prinId = new PrincipalId(unitAdministrator.getPersonId());
+                            // make sure a duplicate isn't added in the event multiple units are used
+                            // that end up having the same parent unit and thus the same parent unit admin
+                            if (!members.contains(prinId)) {
+                                members.add(prinId);
+                            }
                             keepGoing = false;
                         }
                     }
