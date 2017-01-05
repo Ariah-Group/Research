@@ -158,7 +158,7 @@ public class ProposalSite extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * This method tests whether the ProposalSite contains a ongressional district with a given congressionalDistrict value.
+     * This method tests whether the ProposalSite contains a congressional district with a given congressionalDistrict value.
      * @param congressionalDistrictIdentifier
      * @return
      */
