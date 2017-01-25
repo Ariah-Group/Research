@@ -46,6 +46,9 @@
 <c:if test="${displayKeywordPanel}">
 <kra-pd:proposalDevelopmentKeywords />
 </c:if>
+<c:if test="${!KualiForm.hidePropRelatedProposalsPanel}">
+	<kra-pd:proposalDevRelatedProposals />
+</c:if>
 <kul:panelFooter />
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" viewOnly="${readOnly}"/>
 <SCRIPT type="text/javascript">

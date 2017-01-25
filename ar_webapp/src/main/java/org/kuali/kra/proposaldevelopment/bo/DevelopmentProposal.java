@@ -50,6 +50,7 @@ import org.springframework.util.AutoPopulatingList;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.*;
+import org.ariahgroup.research.proposaldevelopment.bo.PropRelatedProposal;
 import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
 import org.kuali.kra.service.KcPersonService;
@@ -125,7 +126,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private String agencyDivisionName;
 
     private String agencyProgramName;
-    
+
     private String programAnnouncementTitle;
 
     private String mailBy;
@@ -186,6 +187,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private List<ProposalPerson> investigators;
 
     private Collection<InvestigatorCreditType> investigatorCreditTypes;
+
+    private List<PropRelatedProposal> relatedProposals;
 
     private Unit ownedByUnit;
     transient private NarrativeService narrativeService;
@@ -444,6 +447,7 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         proposalPersons = new ArrayList<ProposalPerson>();
         nextProposalPersonNumber = Integer.valueOf(1);
         narratives = new ArrayList<Narrative>();
+        relatedProposals = new ArrayList<PropRelatedProposal>();
         proposalAbstracts = new ArrayList<ProposalAbstract>();
         instituteAttachments = new ArrayList<Narrative>();
         propPersonBios = new ArrayList<ProposalPersonBiography>();
@@ -2118,11 +2122,9 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         for (ProposalPerson person : getProposalPersons()) {
             if (!filtered.contains(person)) {
                 filtered.add(person);
-            } else {
-                if (person.isInvestigator()) {
-                    filtered.remove(person);
-                    filtered.add(person);
-                }
+            } else if (person.isInvestigator()) {
+                filtered.remove(person);
+                filtered.add(person);
             }
         }
         return filtered;
@@ -2314,10 +2316,10 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     public Map<String, List<BudgetChangedData>> getBudgetChangeHistory() {
         return budgetChangeHistory;
     }
+
     /*
      This method will update the budget change data history
      */
-
     public void updateBudgetChangeHistory() {
         budgetChangeHistory = new TreeMap<String, List<BudgetChangedData>>();
         // Arranging Budget Change History  
@@ -2703,4 +2705,35 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     public void setAgencyProgramName(String agencyProgramName) {
         this.agencyProgramName = agencyProgramName;
     }
+
+    /**
+     * @return the relatedProposals
+     */
+    public List<PropRelatedProposal> getRelatedProposals() {
+        return relatedProposals;
+    }
+
+    /**
+     * @param relatedProposals the relatedProposals to set
+     */
+    public void setRelatedProposals(List<PropRelatedProposal> relatedProposals) {
+        this.relatedProposals = relatedProposals;
+    }
+
+    public void addRelatedProposals(PropRelatedProposal relatedProposal) {
+        getRelatedProposals().add(relatedProposal);
+    }
+    
+    /**
+     * Gets index i from the relatedProposals list.
+     *
+     * @param index
+     * @return PropRelatedProposal at index i
+     */
+    public PropRelatedProposal getRelatedProposal(int index) {
+        while (getRelatedProposals().size() <= index) {
+            getRelatedProposals().add(new PropRelatedProposal());
+        }
+        return getRelatedProposals().get(index);
+    }    
 }

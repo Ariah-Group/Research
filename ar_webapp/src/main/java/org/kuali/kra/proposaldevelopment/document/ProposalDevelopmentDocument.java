@@ -620,6 +620,10 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     public boolean isDefaultDocumentDescription() {
         return getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, Constants.HIDE_AND_DEFAULT_PROP_DEV_DOC_DESC_PARAM);
     }
+    
+    public boolean isHideRelatedProposalsPanel() {
+        return getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, Constants.ARIAH_PROPDEV_HIDE_RELATED_PROPS_PANEL);
+    }    
 
     @Override
     public String getDocumentTitle() {

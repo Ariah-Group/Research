@@ -2647,3 +2647,27 @@ Insert into S2S_ERROR_MESSAGES (ERROR_MESSAGE_ID,MESSAGE_KEY,MESSAGE_DESC,FIXLIN
 Insert into S2S_ERROR_MESSAGES (ERROR_MESSAGE_ID,MESSAGE_KEY,MESSAGE_DESC,FIXLINK,UPDATED_DATE,UPDATED_USER,OBJ_ID,VER_NBR,FORM_DESC,ACTIVE) values (SEQ_S2S_ERROR_MESSAGES.nextval,'/GrantApplication/Forms/RR_SF424_2_0/AORInfo/Address/ZipPostalCode','The AOR (person set as AOR Unit Administrator) must have a Postal Code specified in their person profile.','grantsGov',sysdate,'admin',sys_guid(),0,'RR_SF424_2_0','Y');
 Insert into S2S_ERROR_MESSAGES (ERROR_MESSAGE_ID,MESSAGE_KEY,MESSAGE_DESC,FIXLINK,UPDATED_DATE,UPDATED_USER,OBJ_ID,VER_NBR,FORM_DESC,ACTIVE) values (SEQ_S2S_ERROR_MESSAGES.nextval,'/GrantApplication/Forms/RR_SF424_2_0/ApplicantInfo/OrganizationInfo/DivisionName','The name of the lead unit or parent units is either blank or exceeds the maximum character length.','proposal',sysdate,'admin',sys_guid(),0,'RR_SF424_2_0','Y');
 Insert into S2S_ERROR_MESSAGES (ERROR_MESSAGE_ID,MESSAGE_KEY,MESSAGE_DESC,FIXLINK,UPDATED_DATE,UPDATED_USER,OBJ_ID,VER_NBR,FORM_DESC,ACTIVE) values (SEQ_S2S_ERROR_MESSAGES.nextval,'/GrantApplication/Forms/RR_SF424_2_0/PDPIContactInfo/DivisionName','The name of the personnel members unit or parent units is either blank or exceeds the maximum character length.','proposal',sysdate,'admin',sys_guid(),0,'RR_SF424_2_0','Y');
+
+
+
+  CREATE TABLE "EPS_PROP_RELATED_PROP" 
+   (	
+	"PROPOSAL_NUMBER_1" VARCHAR2(12 BYTE), 
+        "PROPOSAL_NUMBER_2" VARCHAR2(12 BYTE), 
+	"UPDATE_TIMESTAMP" DATE NOT NULL ENABLE, 
+	"UPDATE_USER" VARCHAR2(60 BYTE) NOT NULL ENABLE, 
+	"VER_NBR" NUMBER(8,0) DEFAULT 1 NOT NULL ENABLE, 
+	"OBJ_ID" VARCHAR2(36 BYTE) NOT NULL ENABLE, 
+	CONSTRAINT "EPS_PROP_RELATED_P1" PRIMARY KEY ("PROPOSAL_NUMBER_1", "PROPOSAL_NUMBER_2"), 
+	CONSTRAINT "FK_EPS_PROP_REL_PROP_1" FOREIGN KEY ("PROPOSAL_NUMBER_1") 
+           REFERENCES "EPS_PROPOSAL" ("PROPOSAL_NUMBER") ENABLE,
+        CONSTRAINT "FK_EPS_PROP_REL_PROP_2" FOREIGN KEY ("PROPOSAL_NUMBER_2") 
+           REFERENCES "EPS_PROPOSAL" ("PROPOSAL_NUMBER") ENABLE
+   );
+
+/
+
+-- Parameter to hide or show the "Related Proposals" panel in a DevProposal
+INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
+VALUES  ('KC-PD','Document','ARIAH_PROPDEV_HIDE_RELATED_PROPS_PANEL', sys_guid(),0,'CONFG','true','If true then the Related Proposals panel is hidden in a DevProposal record. If false it is displayed.','A','KUALI');
+

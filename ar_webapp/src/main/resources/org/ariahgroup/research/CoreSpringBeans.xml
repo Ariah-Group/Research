@@ -1098,4 +1098,11 @@
         <property name="keywordsDao" ref="keywordsDao" />
     </bean>
     
+    
+    <!-- Related Proposals -->
+    <bean id="relatedProposalsDao" parent="platformAwareDao" class="org.ariahgroup.research.proposaldevelopment.dao.impl.RelatedProposalsDaoOjb" />
+    
+    <bean id="relatedProposalsService" class="org.ariahgroup.research.proposaldevelopment.service.impl.RelatedProposalsServiceImpl">
+        <property name="relatedProposalsDao" ref="relatedProposalsDao" />
+    </bean>    
 </beans>

@@ -47,6 +47,8 @@ import java.util.List;
 import java.util.ListIterator;
 
 import static java.util.Collections.sort;
+import org.ariahgroup.research.proposaldevelopment.bo.PropRelatedProposal;
+import org.ariahgroup.research.proposaldevelopment.service.RelatedProposalsService;
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
@@ -56,6 +58,8 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
     private static final String CONFIRM_DELETE_PROPOSAL_SITE_KEY = "confirmDeleteProposalSite";
     private static final String CONFIRM_DELETE_CONG_DISTRICT_KEY = "confirmDeleteCongDistrict";
     private static final String CONFIRM_CLEAR_DELIVERY_INFO_ADDRESS_KEY = "confirmClearDeliveryInfoAddress";
+
+    private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentProposalAction.class);
 
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -149,6 +153,25 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         }
 
         updateNIHDescriptions(proposalDevelopmentDocument);
+
+        LOG.error("execute running...");
+
+        String proposalNumber = proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber();
+
+        LOG.error("execute: proposalNumber = " + proposalNumber);
+
+        // custom query to load Related Propoals
+        RelatedProposalsService relatedPropService = KraServiceLocator.getService(RelatedProposalsService.class);
+
+        List<PropRelatedProposal> relatedProps = relatedPropService.getRelatedProposals(proposalNumber);
+
+        if (relatedProps == null || relatedProps.isEmpty()) {
+            LOG.error("execute: relatedProps is null or empty");
+        } else {
+            LOG.error("execute: relatedProps NOT empty : size= " + relatedProps.size());
+        }
+
+       // proposalDevelopmentDocument.getDevelopmentProposal().setRelatedProposals(relatedProps);
 
         return actionForward;
     }
@@ -811,6 +834,8 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         DevelopmentProposal developmentProposal = proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal();
 
+        LOG.error("refresh running...");
+
         // XXX does this code do anything that isn't already done in ProposalDevelopmentServiceImpl?
         // if performing org. not set, default to applicant org
         String performingOrganizationId = developmentProposal.getPerformingOrganization().getOrganizationId();
@@ -846,7 +871,27 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
                             developmentProposal.addPropScienceKeyword(propScienceKeyword);
                         }
                     }
+                } else if (lookupResultsBOClass.isAssignableFrom(LookupableDevelopmentProposal.class)) {
+
+                    LOG.error("refresh: isAssignableFrom LookupableDevelopmentProposal");
+
+                    for (Iterator<PersistableBusinessObject> iter = rawValues.iterator(); iter.hasNext();) {
+                        LookupableDevelopmentProposal lookupProposal = (LookupableDevelopmentProposal) iter.next();
+
+                        LOG.error("refresh : iter : lookupProposal.getProposalNumber() = " + lookupProposal.getProposalNumber());
+                        LOG.error("refresh : iter : developmentProposal.getProposalNumber() = " + developmentProposal.getProposalNumber());
+
+                        PropRelatedProposal newRelatedProp = new PropRelatedProposal(developmentProposal.getProposalNumber(), lookupProposal.getProposalNumber());
+                        newRelatedProp.setProposalTitle(lookupProposal.getTitle());
+
+                        // ignore / drop duplicates
+                        if (!isDuplicateRelatedProposal(newRelatedProp.getProposalNumber1(), newRelatedProp.getProposalNumber2(), developmentProposal.getRelatedProposals())) {
+                            LOG.error("refresh: NOT isDuplicateRelatedProposal ");
+                            developmentProposal.addRelatedProposals(newRelatedProp);
+                        }
+                    }
                 }
+
             }
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -928,4 +973,54 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    private boolean isDuplicateRelatedProposal(String propNum1, String propNum2, List<PropRelatedProposal> props) {
+
+        LOG.error("isDuplicateRelatedProposal running...");
+
+        for (Iterator<PropRelatedProposal> iter = props.iterator(); iter.hasNext();) {
+            PropRelatedProposal prop = (PropRelatedProposal) iter.next();
+            String propNum1Existing = prop.getProposalNumber1();
+            String propNum2Existing = prop.getProposalNumber2();
+            if ((propNum1.equalsIgnoreCase(propNum1Existing) && propNum2.equalsIgnoreCase(propNum2Existing))
+                    || (propNum1.equalsIgnoreCase(propNum2Existing) && propNum2.equalsIgnoreCase(propNum1Existing))) {
+                // duplicate related proposal
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ActionForward selectAllRelatedProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        LOG.error("selectAllRelatedProposal running...");
+
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        List<PropRelatedProposal> props = proposalDevelopmentDocument.getDevelopmentProposal().getRelatedProposals();
+        for (Iterator<PropRelatedProposal> iter = props.iterator(); iter.hasNext();) {
+            PropRelatedProposal prop = iter.next();
+            prop.setSelectProposal(true);
+        }
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public ActionForward deleteSelectedRelatedProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        LOG.error("deleteSelectedRelatedProposal running...");
+
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        List<PropRelatedProposal> props = proposalDevelopmentDocument.getDevelopmentProposal().getRelatedProposals();
+        for (ListIterator<PropRelatedProposal> iter = props.listIterator(); iter.hasNext();) {
+            PropRelatedProposal prop = iter.next();
+            if (prop.getSelectProposal()) {
+                iter.remove();
+            }
+        }
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 }

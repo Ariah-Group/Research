@@ -38,6 +38,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.ariahgroup.research.datadictionary.AttributeDefinition;
+import org.ariahgroup.research.proposaldevelopment.bo.PropRelatedProposal;
+import org.ariahgroup.research.proposaldevelopment.service.RelatedProposalsService;
 import org.ariahgroup.research.service.DevProposalChangeDataService;
 import org.ariahgroup.research.service.UnitService;
 import org.kuali.kra.authorization.ApplicationTask;
@@ -111,7 +113,6 @@ import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
@@ -258,6 +259,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private transient String defaultAbstractType;
     private List<String> lockAdminTypes;
 
+    private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentForm.class);
+
     public ProposalDevelopmentForm() {
         super();
         initialize();
@@ -371,6 +374,10 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         ProposalDevelopmentDocument proposalDevelopmentDocument = getProposalDevelopmentDocument();
 
         proposalDevelopmentDocument.getDevelopmentProposal().refreshReferenceObject("sponsor");
+
+        LOG.error("populate : proposalNumber    = " + proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber());
+        LOG.error("populate : title             = " + proposalDevelopmentDocument.getDevelopmentProposal().getTitle());
+        LOG.error("populate : getDocumentNumber = " + proposalDevelopmentDocument.getDocumentNumber());
 
         // Temporary hack for KRACOEUS-489
         if (getActionFormUtilMap() instanceof ActionFormUtilMap) {
@@ -556,6 +563,21 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         for (int i = 0; i < keywords.size(); i++) {
             PropScienceKeyword propScienceKeyword = keywords.get(i);
             propScienceKeyword.setSelectKeyword(false);
+        }
+
+        LOG.error("reset running...");
+
+        List<PropRelatedProposal> relatedProposals = proposalDevelopmentDocument.getDevelopmentProposal().getRelatedProposals();
+
+        if (relatedProposals == null || relatedProposals.isEmpty()) {
+            LOG.error("reset: relatedProposals is null or empty");
+        } else {
+            LOG.error("reset: relatedProposals NOT empty, size= " + relatedProposals.size());
+        }
+
+        for (int i = 0; i < relatedProposals.size(); i++) {
+            PropRelatedProposal prop = relatedProposals.get(i);
+            prop.setSelectProposal(false);
         }
 
         // Clear the edit roles so that they can then be set by struts
@@ -951,7 +973,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
         Collection<Role> roles = getKimProposalRoles();
 
-        QueryByCriteria.Builder queryBuilder = QueryByCriteria.Builder.create();
+        org.kuali.rice.core.api.criteria.QueryByCriteria.Builder queryBuilder = org.kuali.rice.core.api.criteria.QueryByCriteria.Builder.create();
         List<Predicate> predicates = new ArrayList<Predicate>();
         PermissionQueryResults permissionResults = null;
 
@@ -965,7 +987,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
                             role.getName(), role.getDescription(), permissionResults.getResults()));
                 }
                 predicates.clear();
-                queryBuilder = QueryByCriteria.Builder.create();
+                queryBuilder = org.kuali.rice.core.api.criteria.QueryByCriteria.Builder.create();
                 permissionResults = null;
             }
         }
@@ -2711,8 +2733,12 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     public void setProposalChangeDataService(DevProposalChangeDataService proposalChangeDataService) {
         this.proposalChangeDataService = proposalChangeDataService;
     }
-    
+
     public String getBudgetCategoryTypeCodePersonnel() {
         return this.getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PERSONNEL);
-    }    
+    }
+
+    public boolean isHidePropRelatedProposalsPanel() {
+        return getProposalDevelopmentDocument().isHideRelatedProposalsPanel();
+    }
 }

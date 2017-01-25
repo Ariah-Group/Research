@@ -237,6 +237,15 @@
             <orderby name="changeNumber" sort="DESC" />
             <inverse-foreignkey field-ref="proposalNumber" />
         </collection-descriptor> 
+        <collection-descriptor name="relatedProposals" proxy="true" element-class-ref="org.ariahgroup.research.proposaldevelopment.bo.PropRelatedProposal" 
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="proposalNumber1"/>
+            <inverse-foreignkey field-ref="proposalNumber2"/>
+            <query-customizer class="org.ariahgroup.research.proposaldevelopment.dao.RelatedProposalsQueryCustomizer">
+                <attribute attribute-name="proposalNumber1" attribute-value="proposalNumber" />
+                <attribute attribute-name="proposalNumber2" attribute-value="proposalNumber" />
+            </query-customizer>
+        </collection-descriptor>        
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.proposaldevelopment.bo.ProposalOverview" table="EPS_PROPOSAL">
@@ -847,4 +856,22 @@
             <foreignkey field-ref="columnName"/>
         </reference-descriptor>
     </class-descriptor>
+    
+    
+    <class-descriptor class="org.ariahgroup.research.proposaldevelopment.bo.PropRelatedProposal" table="EPS_PROP_RELATED_PROP">
+        <field-descriptor name="proposalNumber1" column="PROPOSAL_NUMBER_1" jdbc-type="VARCHAR" primarykey="true"/>
+        <field-descriptor name="proposalNumber2" column="PROPOSAL_NUMBER_2" jdbc-type="VARCHAR" primarykey="true"/>
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <reference-descriptor name="proposal1" class-ref="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="proposalNumber1"/> 
+        </reference-descriptor>
+        <reference-descriptor name="proposal2" class-ref="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="proposalNumber2"/> 
+        </reference-descriptor>                
+    </class-descriptor>    
+       
+    
 </descriptor-repository>
