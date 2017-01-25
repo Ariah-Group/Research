@@ -109,12 +109,12 @@ public class UnitServiceImpl implements UnitService {
      */
     @Override
     public List<Unit> getSubUnits(String unitNumber) {
-        
+
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("parentUnitNumber", unitNumber);
-        
+
         List<Unit> units = (List<Unit>) businessObjectService.findMatching(Unit.class, fieldValues);
-        
+
         return units;
     }
 
@@ -143,7 +143,7 @@ public class UnitServiceImpl implements UnitService {
         List<Unit> units = null;
         Unit thisUnit = this.getUnit(unitNumber);
         if (thisUnit != null) {
-            units = (ArrayList<Unit>)(getUnitParentsAndSelf(thisUnit));
+            units = (ArrayList<Unit>) (getUnitParentsAndSelf(thisUnit));
         } else {
             units = new ArrayList<Unit>();
         }
@@ -214,20 +214,29 @@ public class UnitServiceImpl implements UnitService {
     public Unit getTopUnit() {
         Unit topUnit = null;
 
-        Map<String, String> queryMap = new HashMap<String, String>();
-        // Field below is intentionally left as NULL
-        queryMap.put(PARENT_UNIT_NUMBER, null);
-        List<Unit> possibleTopUnits = (List<Unit>) getBusinessObjectService().findMatching(Unit.class, queryMap);
-
-        if (possibleTopUnits != null) {
-            if (possibleTopUnits.isEmpty()) {
-                LOG.error("*** ERROR *** : Lookup of top-most unit returned MULTIPLE results.");
-                LOG.error("                This is bad as it means there are multiple top units and the unit hierarchy functionality may be broken.");
-            } else {
-                 // retrieve what should be the FIRST and ONLY top unit
-                topUnit = possibleTopUnits.get(0);
+        List<Unit> allUnits = (List<Unit>) getUnits();
+        if (CollectionUtils.isNotEmpty(allUnits)) {
+            for (Unit unit : allUnits) {
+                if (StringUtils.isEmpty(unit.getParentUnitNumber())) {
+                    topUnit = unit;
+                    break;
+                }
             }
         }
+//        Map<String, String> queryMap = new HashMap<String, String>();
+//        // Field below is intentionally left as NULL
+//        queryMap.put(PARENT_UNIT_NUMBER, null);
+//        List<Unit> possibleTopUnits = (List<Unit>) getBusinessObjectService().findMatching(Unit.class, queryMap);
+//
+//        if (possibleTopUnits != null) {
+//            if (possibleTopUnits.isEmpty()) {
+//                LOG.error("*** ERROR *** : Lookup of top-most unit returned MULTIPLE results.");
+//                LOG.error("                This is bad as it means there are multiple top units and the unit hierarchy functionality may be broken.");
+//            } else {
+//                 // retrieve what should be the FIRST and ONLY top unit
+//                topUnit = possibleTopUnits.get(0);
+//            }
+//        }
 
         return topUnit;
     }
