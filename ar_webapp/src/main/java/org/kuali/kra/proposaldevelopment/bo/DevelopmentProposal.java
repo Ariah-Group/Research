@@ -110,6 +110,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private String programAnnouncementNumber;
 
     private String primeSponsorCode;
+    
+    private String sponsorIndirectRate;
 
     private String sponsorProposalNumber;
 
@@ -2736,4 +2738,18 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         }
         return getRelatedProposals().get(index);
     }    
+
+    /**
+     * @return the sponsorIndirectRate
+     */
+    public String getSponsorIndirectRate() {
+        return sponsorIndirectRate;
+    }
+
+    /**
+     * @param sponsorIndirectRate the sponsorIndirectRate to set
+     */
+    public void setSponsorIndirectRate(String sponsorIndirectRate) {
+        this.sponsorIndirectRate = sponsorIndirectRate;
+    }
 }

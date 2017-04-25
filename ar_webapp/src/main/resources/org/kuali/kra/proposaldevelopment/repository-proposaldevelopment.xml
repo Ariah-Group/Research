@@ -73,6 +73,7 @@
         <field-descriptor name="cfdaNumber" column="CFDA_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="programAnnouncementNumber" column="PROGRAM_ANNOUNCEMENT_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="primeSponsorCode" column="PRIME_SPONSOR_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="sponsorIndirectRate" column="SPONSOR_INDIRECT_RATE" jdbc-type="VARCHAR" />
         <field-descriptor name="sponsorProposalNumber" column="SPONSOR_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="nsfCode" column="NSF_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="subcontracts" column="SUBCONTRACT_FLAG" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" jdbc-type="VARCHAR" />

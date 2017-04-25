@@ -18,7 +18,7 @@
             /><c:set var="textAreaFieldName" value="document.developmentProposalList[0].programAnnouncementTitle" 
             /><c:set var="action" value="proposalDevelopmentProposal" />
 <kul:tab tabTitle="Sponsor & Program Information" defaultOpen="false" 
-         tabErrorKey="document.developmentProposalList[0].primeSponsorCode,document.developmentProposalList[0].deadlineDate,document.developmentProposalList[0].deadlineTime,document.developmentProposalList[0].noticeOfOpportunityCode,document.developmentProposalList[0].deadlineType,document.developmentProposalList[0].cfdaNumber,document.developmentProposalList[0].programAnnouncementNumber,document.developmentProposalList[0].primeSponsorCode,document.developmentProposalList[0].sponsorProposalNumber,document.developmentProposalList[0].nsfCode,document.developmentProposalList[0].subcontracts,document.developmentProposalList[0].agencyDivisionCode,document.developmentProposalList[0].agencyDivisionName,document.developmentProposalList[0].agencyProgramCode,document.developmentProposalList[0].agencyProgramName,document.developmentProposalList[0].programAnnouncementTitle,document.developmentProposalList[0].primeSponsorCode" 
+         tabErrorKey="document.developmentProposalList[0].primeSponsorCode,document.developmentProposalList[0].sponsorIndirectRate,document.developmentProposalList[0].deadlineDate,document.developmentProposalList[0].deadlineTime,document.developmentProposalList[0].noticeOfOpportunityCode,document.developmentProposalList[0].deadlineType,document.developmentProposalList[0].cfdaNumber,document.developmentProposalList[0].programAnnouncementNumber,document.developmentProposalList[0].primeSponsorCode,document.developmentProposalList[0].sponsorProposalNumber,document.developmentProposalList[0].nsfCode,document.developmentProposalList[0].subcontracts,document.developmentProposalList[0].agencyDivisionCode,document.developmentProposalList[0].agencyDivisionName,document.developmentProposalList[0].agencyProgramCode,document.developmentProposalList[0].agencyProgramName,document.developmentProposalList[0].programAnnouncementTitle,document.developmentProposalList[0].primeSponsorCode" 
          auditCluster="sponsorProgramInformationAuditErrors,sponsorProgramInformationAuditWarnings" 
          tabAuditKey="document.developmentProposalList[0].deadlineDate,document.developmentProposalList[0].programAnnouncementNumber,document.developmentProposalList[0].cfdaNumber,document.developmentProposalList[0].programAnnouncementTitle,document.developmentProposalList[0].sponsorProposalNumber,document.developmentProposalList[0].primeSponsorCode" 
          useRiceAuditMode="true">
@@ -58,11 +58,19 @@
                     ${KualiForm.document.developmentProposalList[0].sponsor.sponsorName}&nbsp;
                 </div>
             </td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.sponsorIndirectRate}" /></div></th>
+            <td>
+                <kul:htmlControlAttribute property="document.developmentProposalList[0].sponsorIndirectRate" attributeEntry="${proposalDevelopmentAttributes.sponsorIndirectRate}" />
+            </td>
             <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.cfdaNumber}" /></div></th>
             <td>
                 <kul:htmlControlAttribute property="document.developmentProposalList[0].cfdaNumber" attributeEntry="${proposalDevelopmentAttributes.cfdaNumber}" />
             </td>
-            </tr>
+            </tr>            
             <tr>
                 <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.primeSponsorCode}" /></div></th>
             <td align="left" valign="middle">

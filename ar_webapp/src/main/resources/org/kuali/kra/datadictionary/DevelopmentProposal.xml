@@ -43,6 +43,7 @@
 				<ref bean="DevelopmentProposal-deadlineTime" />
 				<ref bean="DevelopmentProposal-deadlineType" />
 				<ref bean="DevelopmentProposal-primeSponsorCode" />
+                                <ref bean="DevelopmentProposal-sponsorIndirectRate" />
 				<ref bean="DevelopmentProposal-nsfCode" />
 				<ref bean="DevelopmentProposal-agencyDivisionCode" />
                                 <ref bean="DevelopmentProposal-agencyDivisionName" />
@@ -605,6 +606,26 @@
 		<property name="description"
 			value="The sponsor that provides the original source of project funding." />
 	</bean>
+
+	<bean id="DevelopmentProposal-sponsorIndirectRate" parent="DevelopmentProposal-sponsorIndirectRate-parentBean" />
+	<bean id="DevelopmentProposal-sponsorIndirectRate-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="sponsorIndirectRate" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Sponsor Indirect Rate" />
+		<property name="shortLabel" value="Sponsor Indirect Rate" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="20" />
+		</property>
+		<property name="summary" value="Sponsor Indirect Rate for the sponsor on this Proposal." />
+		<property name="description" value="Sponsor Indirect Rate for the sponsor on this Proposal." />
+	</bean>
+
 
 	<bean id="DevelopmentProposal-nsfCode" parent="DevelopmentProposal-nsfCode-parentBean" />
 	<bean id="DevelopmentProposal-nsfCode-parentBean" abstract="true"
