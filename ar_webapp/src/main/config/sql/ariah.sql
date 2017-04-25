@@ -2671,3 +2671,15 @@ Insert into S2S_ERROR_MESSAGES (ERROR_MESSAGE_ID,MESSAGE_KEY,MESSAGE_DESC,FIXLIN
 INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
 VALUES  ('KC-PD','Document','ARIAH_PROPDEV_HIDE_RELATED_PROPS_PANEL', sys_guid(),0,'CONFG','true','If true then the Related Proposals panel is hidden in a DevProposal record. If false it is displayed.','A','KUALI');
 
+
+
+-- RES-757
+ALTER TABLE EPS_PROPOSAL ADD SPONSOR_INDIRECT_RATE VARCHAR2(10);
+
+
+INSERT INTO krcr_parm_t (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID) 
+VALUES  ('KC-PD','Document','ARIAH_PROPDEV_WORKFLOW_STEP_BRANCH_BUDGET_TDC_AMOUNT', sys_guid(),0,'CONFG','25000','Amount representing minimal Budget Total Direct Cost that should exist to trigger a conditional branch on the workflow. If budget TDC less than this amount the branch will return false. If greater than or equals to, the branch will return true.','A','KUALI');
+
+
+
+

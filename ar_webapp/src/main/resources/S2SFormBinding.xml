@@ -25,7 +25,18 @@
         </stylesheet>
         <pkgName>gov.grants.apply.forms.attachmentsV11</pkgName>
         <sortIndex>240</sortIndex>
-    </Form>
+    </Form> 
+    <Form namespace="http://apply.grants.gov/forms/AttachmentForm_1_2-V1.2">
+        <formName>AttachmentForm_1_2</formName>
+        <mainClass>
+            org.kuali.kra.s2s.generator.impl.AttachmentsV1_2Generator
+        </mainClass>
+        <stylesheet>
+            org/kuali/kra/s2s/stylesheet/Attachments-V1.2.fo.xsl
+        </stylesheet>
+        <pkgName>gov.grants.apply.forms.attachmentsV12</pkgName>
+        <sortIndex>240</sortIndex>
+    </Form>      
     <Form namespace="http://apply.grants.gov/forms/Budget-V1.1">
         <formName>Budget-V1.1</formName>
         <mainClass>
@@ -1121,7 +1132,18 @@
             org/kuali/kra/s2s/stylesheet/NSF_CoverPage-V1.6.xsl
         </stylesheet>
         <pkgName>gov.grants.apply.forms.nsfCoverPage16V16</pkgName>
-    </Form>    
+    </Form> 
+    <Form
+        namespace="http://apply.grants.gov/forms/NSF_CoverPage_1_7-V1.7">
+        <formName>NSF_CoverPage_1_7</formName>
+        <mainClass>
+            org.kuali.kra.s2s.generator.impl.NSFCoverPageV1_7Generator
+        </mainClass>
+        <stylesheet>
+            org/kuali/kra/s2s/stylesheet/NSF_CoverPage-V1.7
+        </stylesheet>
+        <pkgName>gov.grants.apply.forms.nsfCoverPage17V17</pkgName>
+    </Form>        
     <!-- New S2S Forms - gg-Forms4 -->
     <Form namespace="http://apply.grants.gov/forms/PerformanceSite_1_3-V1.3">
         <formName>PerformanceSite_1_3</formName>
