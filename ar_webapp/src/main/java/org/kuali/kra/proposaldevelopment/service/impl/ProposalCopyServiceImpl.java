@@ -183,7 +183,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         LOG.info("STARTING PROPOSAL COPY");
         // check any business rules
         boolean rulePassed = getKualiRuleService().applyRules(new CopyProposalEvent(doc, criteria));
-        LOG.info("PROPOSAL COPY - rules passed : rulePassed = " + rulePassed);
+//        LOG.info("PROPOSAL COPY - rules passed : rulePassed = " + rulePassed);
         if (rulePassed) {
 
             ProposalDevelopmentDocument newDoc = createNewProposal(doc, criteria);
