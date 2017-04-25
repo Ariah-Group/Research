@@ -51,3 +51,5 @@ apache_v2_sample_header.txt
 *.log
 /ar_s2s_gen/s2s_forms/target/
 /ar_webapp/src/main/config/xsd/target/
+ar_webapp/src/main/config/kew/xml_legacy/65tyyrthtrfhfthy.xml
+ar_webapp/src/main/config/kew/xml_legacy/dsfdsfdsd.xml
