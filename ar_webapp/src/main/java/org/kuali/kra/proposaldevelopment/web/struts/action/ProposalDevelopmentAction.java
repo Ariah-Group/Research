@@ -276,7 +276,8 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                 proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().setS2sOpportunity(s2sOpportunity);
             } else {
                 GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID, s2sOpportunity.getOpportunityId(), mandatoryForms.toString());
-                proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().setS2sOpportunity(new S2sOpportunity());
+                //proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().setS2sOpportunity(new S2sOpportunity());
+                proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().setS2sOpportunity(s2sOpportunity);
             }
         }
     }
