@@ -34,7 +34,7 @@
 			<xsd:import namespace="http://apply.grants.gov/system/GrantsCommonElements-V1.0" schemaLocation="file:/Dev/grants_schemas/Source/schema/bizobj/GrantsCommonElements-V1.0.xsd"  /> 
 			-->	
 			
-			<xsd:import namespace="http://apply.grants.gov/system/GrantsCommonElements-V1.0" schemaLocation="http://trainingapply.grants.gov/apply/system/schemas/GrantsCommonElements-V1.0.xsd" />
+			<xsd:import namespace="http://apply.grants.gov/system/GrantsCommonElements-V1.0" schemaLocation="https://trainingapply.grants.gov/apply/system/schemas/GrantsCommonElements-V1.0.xsd" />
  			
 
 			<xsd:element name="GetOpportunitiesRequest">
