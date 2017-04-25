@@ -44,7 +44,8 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
                 <field-descriptor name="active" column="ACTIVE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>        
-                <field-descriptor name="sortOrder" column="SORT_ORDER" jdbc-type="INTEGER" locking="false" />        
+                <field-descriptor name="sortOrder" column="SORT_ORDER" jdbc-type="INTEGER" locking="false" />  
+                <field-descriptor name="helpText" column="HELP_DESC" jdbc-type="VARCHAR" />      
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.proposaldevelopment.bo.BudgetStatus" table="BUDGET_STATUS">
