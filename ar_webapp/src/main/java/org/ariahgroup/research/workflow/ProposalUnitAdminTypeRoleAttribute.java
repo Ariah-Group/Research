@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 The Ariah Group, Inc.
+ * Copyright 2017 The Ariah Group, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,27 +12,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+
  */
 package org.ariahgroup.research.workflow;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.UnitService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.identity.Id;
 import org.kuali.rice.kew.api.identity.PrincipalId;
 import org.kuali.rice.kew.api.rule.RoleName;
@@ -40,28 +27,51 @@ import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.routeheader.DocumentContent;
 import org.kuali.rice.kew.rule.GenericRoleAttribute;
 import org.kuali.rice.kew.rule.QualifiedRoleName;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.w3c.dom.NodeList;
 
-/**
- *
- * @author The Ariah Group, Inc.
- */
-public class ProposalPresidentRoleAttribute extends GenericRoleAttribute {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import org.kuali.kra.bo.Unit;
+import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
-    private static final long serialVersionUID = -4407634595023746251L;
-    private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalPresidentRoleAttribute.class);
+public class ProposalUnitAdminTypeRoleAttribute extends GenericRoleAttribute {
+
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 2837085891084714072L;
+    private String unitAdminTypeCode;
+    private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalUnitAdminTypeRoleAttribute.class);
 
     @Override
     public List<String> getQualifiedRoleNames(String roleName, DocumentContent documentContent) {
+
+        // set default rolename
+        String roleNameToAdd = RoleConstants.UNIT_ADMIN_WORKFLOW_ROLE_NAME;
+        
+        if (roleName.contains(":")) {
+            unitAdminTypeCode = roleName.split(":")[0];
+            roleNameToAdd = roleName.split(":")[1];
+        } else {
+            unitAdminTypeCode = roleName;
+        }
+
         List<String> qualifiedRoleNames = new ArrayList<String>();
-        qualifiedRoleNames.add(roleName);
+        qualifiedRoleNames.add(roleNameToAdd);
+
         return qualifiedRoleNames;
     }
 
     @Override
     public List<RoleName> getRoleNames() {
-        RoleName role = RoleName.Builder.create("org.ariahgroup.research.workflow.ProposalPresidentRoleAttribute",
+        RoleName role = RoleName.Builder.create("org.ariahgroup.research.workflow.ProposalUnitAdminTypeRoleAttribute",
                 RoleConstants.UNIT_ADMIN_WORKFLOW_ROLE_NAME, RoleConstants.UNIT_ADMIN_WORKFLOW_ROLE_NAME).build();
         return Collections.singletonList(role);
     }
@@ -72,7 +82,7 @@ public class ProposalPresidentRoleAttribute extends GenericRoleAttribute {
         return null;
     }
 
-    protected UnitService getUnitService() {
+    private UnitService getUnitService() {
         return KraServiceLocator.getService(UnitService.class);
     }
 
@@ -80,28 +90,16 @@ public class ProposalPresidentRoleAttribute extends GenericRoleAttribute {
     protected List<Id> resolveRecipients(RouteContext routeContext, QualifiedRoleName qualifiedRoleName) {
         List<Id> members = new ArrayList<Id>();
 
-        ParameterService parameterService = KraServiceLocator.getService(ParameterService.class);
-
-        boolean isParamEnabled = parameterService.getParameterValueAsBoolean(ProposalDevelopmentDocument.class, Constants.ARIAH_PROPDEV_WORKFLOW_STEP_PRESIDENT_ENABLED, true);
-        final String paramUnitAdminTypeCode = parameterService.getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.ARIAH_PROPDEV_WORKFLOW_STEP_PRESIDENT_UNITADMINTYPECODE, null);
-
-        if (!isParamEnabled) {
-            return members;
-        }
-
-        if (paramUnitAdminTypeCode == null) {
-            return members;
-        }
-
         DocumentContent dc = routeContext.getDocumentContent();
         NodeList nodes = dc.getDocument().getElementsByTagName("proposalNumber");
         String developmentProposalNumber = nodes.item(0).getTextContent();
+
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
         DevelopmentProposal proposalDevelopmentDocument = businessObjectService.findBySinglePrimaryKey(DevelopmentProposal.class, developmentProposalNumber);
 
         List<Unit> addedUnits = new ArrayList<Unit>();
 
-        // add the Lead Unit of the proposal
+        // Add the Lead Unit of the Proposal
         addedUnits.add(proposalDevelopmentDocument.getUnit());
 
         for (ProposalPerson proposalPerson : proposalDevelopmentDocument.getProposalPersons()) {
@@ -151,11 +149,11 @@ public class ProposalPresidentRoleAttribute extends GenericRoleAttribute {
                     continue;
 
                 } else {
-
                     // for each unit admin see if it is a valid type
                     for (UnitAdministrator unitAdministrator : unitAdministrators) {
+
                         if (StringUtils.isNotBlank(unitAdministrator.getPersonId())
-                                && StringUtils.equals(unitAdministrator.getUnitAdministratorTypeCode(), paramUnitAdminTypeCode)) {
+                                && StringUtils.equals(unitAdministrator.getUnitAdministratorTypeCode(), unitAdminTypeCode)) {
                             PrincipalId prinId = new PrincipalId(unitAdministrator.getPersonId());
                             // make sure a duplicate isn't added in the event multiple units are used
                             // that end up having the same parent unit and thus the same parent unit admin
@@ -168,8 +166,10 @@ public class ProposalPresidentRoleAttribute extends GenericRoleAttribute {
 
                     if (keepGoing) {
                         // then UNIT ADMIN were found, but not of the correct type
+
                         tempUnitNum = tempUnit.getParentUnitNumber();
                         tempUnit = tempUnit.getParentUnit();
+
                         continue;
                     }
                 }
@@ -178,4 +178,5 @@ public class ProposalPresidentRoleAttribute extends GenericRoleAttribute {
 
         return members;
     }
+
 }

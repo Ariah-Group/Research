@@ -53,9 +53,11 @@
             <routePaths>
                 <routePath>
                     <start name="Initiated" nextNode="isHierarchyChild"/>
+                    
                     <split name = "isHierarchyChild">
                         <branch name = "False">
                             <!-- The document is a hierarchy parent, or a document that is not part of a hierarchy so it is routed normally. -->
+                          <!--  <requests name="ProposalCabinetRouting" nextNode="OSPInitial"/>-->
                             <requests name="OSPInitial" nextNode="ProposalPrincipalInvestigator"/>
                             <requests name="ProposalPrincipalInvestigator" nextNode="hasSpecialReviews"/>
                             
@@ -152,8 +154,16 @@
                     <activationType>P</activationType>
                     <finalApproval>false</finalApproval>
                     <forceAction>false</forceAction>
-                </requests>           
-              
+                </requests>     
+                <!--      
+                <requests name="ProposalCabinetRouting">
+                    <qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
+                    <ruleTemplate>ProposalCabinetTemplate</ruleTemplate>
+                    <activationType>P</activationType>
+                    <finalApproval>false</finalApproval>
+                    <forceAction>false</forceAction>
+                </requests>    
+              -->
                 <!--
                 <role name="OSPOfficeRoutingFinal">
                     <qualifierResolverClass>org.kuali.rice.kew.role.NullQualifierResolver</qualifierResolverClass>
@@ -513,7 +523,19 @@
             <label>ProposalPresidentRoleAttribute</label>
             <description>ProposalPresidentRoleAttribute</description>
             <type>RuleAttribute</type>
-        </ruleAttribute>                        
+        </ruleAttribute>     
+        
+        <!--
+        <ruleAttribute>
+            <name>ProposalCabinetRoleAttribute</name>
+            <className>
+                org.ariahgroup.research.workflow.ProposalUnitAdminByTypeRoleAttribute
+            </className>
+            <label>ProposalCabinetRoleAttribute</label>
+            <description>ProposalCabinetRoleAttribute</description>
+            <type>RuleAttribute</type>
+        </ruleAttribute>                                               
+-->
 
     </ruleAttributes>
 
@@ -588,7 +610,22 @@
                     <required>false</required>
                 </attribute>
             </attributes>
-        </ruleTemplate>                
+        </ruleTemplate>   
+        
+        <!--
+        <ruleTemplate allowOverwrite="true">
+            <name>ProposalCabinetTemplate</name>
+            <description>Proposal Cabinet Approval Routing Rule</description>
+            <attributes>
+                <attribute>
+                    <name>ProposalCabinetRoleAttribute</name>
+                    <required>false</required>
+                </attribute>
+            </attributes>
+        </ruleTemplate>                       
+        -->
+        
+        
         <ruleTemplate allowOverwrite="true">
             <name>HierarchyParentDispositionApproval</name>
             <description>Approval rule from the hierarchy parent to hierarchy children.</description>
@@ -712,7 +749,23 @@
                     <priority>1</priority>
                 </responsibility>
             </responsibilities>
-        </rule>                
+        </rule>  
+<!--           
+        <rule>
+            <name>ProposalCabinetRule</name>
+            <documentType>ProposalDevelopmentDocument</documentType>
+            <ruleTemplate>ProposalCabinetTemplate</ruleTemplate>
+            <description>Cabinet Routing Rule</description>
+            <responsibilities>
+                <responsibility>
+                    <roleName attributeClassName="org.ariahgroup.research.workflow.ProposalUnitAdminByTypeRoleAttribute">100</roleName>
+                    <approvePolicy>F</approvePolicy>
+                    <actionRequested>A</actionRequested>
+                    <priority>1</priority>
+                </responsibility>
+            </responsibilities>  
+        </rule>         
+    -->                                         
     </rules>
 
 </data>

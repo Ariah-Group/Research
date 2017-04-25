@@ -63,6 +63,8 @@ import org.kuali.rice.krms.api.engine.Facts;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.rice.krad.service.DocumentService;
 
 @NAMESPACE(namespace = Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT)
 @COMPONENT(component = ParameterConstants.DOCUMENT_COMPONENT)
@@ -77,6 +79,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
 
     private static final String HIERARCHY_CHILD_SPLITNODE_QUESTION = "isHierarchyChild";
     private static final String SPLITNODE_QUESTION_SPECREVIEWS = "hasSpecialReviews";
+    private static final String SPLITNODE_QUESTION_BUDGET_TDC = "hasBudgetTotalDirectCostThreshold";
 
     private static final long serialVersionUID = 2958631745964610527L;
     private List<DevelopmentProposal> developmentProposalList;
@@ -513,7 +516,66 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
             if (getDevelopmentProposal().getPropSpecialReviews() != null && !getDevelopmentProposal().getPropSpecialReviews().isEmpty()) {
                 // then there are special reviews
                 return true;
+            } else {
+                return false;
             }
+        } else if (StringUtils.equals(SPLITNODE_QUESTION_BUDGET_TDC, routeNodeName)) {
+
+            boolean valueToReturn = false;
+
+            // Insert logic here
+            final String paramBudgetTDCAmount = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
+                    Constants.ARIAH_PROPDEV_WORKFLOW_STEP_BRANCH_BUDGET_TDC_AMOUNT, null);
+
+            int tdcMinAmount = 0;
+
+            try {
+                tdcMinAmount = Integer.parseInt(paramBudgetTDCAmount);
+            } catch (Exception e) {
+                // ignored
+            }
+
+            List<BudgetDocumentVersion> budDocVersions = getDevelopmentProposal().getProposalDocument().getBudgetDocumentVersions();
+            String budgetDocumentNumberToRetrieve = null;
+
+            if (budDocVersions != null) {
+
+                // find the FINAL budget version number
+                int numBudgetVersion = budDocVersions.size();
+                for (int i = 0; i < numBudgetVersion; i++) {
+                    BudgetDocumentVersion budVer = budDocVersions.get(i);
+
+                    if (budVer.getBudgetVersionOverview().isFinalVersionFlag()) {
+                        budgetDocumentNumberToRetrieve = budVer.getBudgetVersionOverview().getDocumentNumber();
+                    }
+                }
+
+                // if a budget doc number for a FINAL budget was found, then process, else do nothing
+                if (budgetDocumentNumberToRetrieve != null) {
+                    try {
+                        // retrieve the actual BudgetDocument
+                        DocumentService docService = KraServiceLocator.getService(DocumentService.class);
+                        BudgetDocument budgetDoc = (BudgetDocument) docService.getByDocumentHeaderId(budgetDocumentNumberToRetrieve);
+
+                        // retrieve the actual Budget
+                        Budget actualBudget = budgetDoc.getBudget();
+
+                        // retrieve Total Cost
+                        BudgetDecimal totalCost = actualBudget.getTotalCost();
+
+                        if (totalCost.intValue() >= tdcMinAmount) {
+                            // then the budget's Total  cost amount is GREATER than or
+                            // EQUAL to the value specified in the parameter so we've 
+                            // TRIGGERED the condition to be true
+                            valueToReturn = true;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            return valueToReturn;
         }
         //defer to the super class. ResearchDocumentBase will throw the UnsupportedOperationException
         //if no super class answers the question.
@@ -620,10 +682,10 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     public boolean isDefaultDocumentDescription() {
         return getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, Constants.HIDE_AND_DEFAULT_PROP_DEV_DOC_DESC_PARAM);
     }
-    
+
     public boolean isHideRelatedProposalsPanel() {
         return getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, Constants.ARIAH_PROPDEV_HIDE_RELATED_PROPS_PANEL);
-    }    
+    }
 
     @Override
     public String getDocumentTitle() {
