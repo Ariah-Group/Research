@@ -45,9 +45,9 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonComparator;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import static org.kuali.kra.s2s.generator.impl.RRSF424BaseGenerator.DEPARTMENT_NAME_MAX_LENGTH;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.util.AuditError;
@@ -66,12 +66,12 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
     Rolodex rolodex;
     private static final int MAX_KEY_PERSON_COUNT = 100;
     private static Integer HEIRARCHY_LEVEL;
+
     /*
      * This method gives details of Principal Investigator,KeyPersons and the
      * corresponding attachments for RRKeyPersons
      * 
      */
-
     private RRKeyPersonExpanded20Document getRRKeyPersonExpanded() {
         RRKeyPersonExpanded20Document rrKeyPersonExpandedDocument = RRKeyPersonExpanded20Document.Factory.newInstance();
         RRKeyPersonExpanded20 rrKeyPersonExpanded = RRKeyPersonExpanded20.Factory.newInstance();
@@ -85,7 +85,7 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
      * RRkeyPersonExpandedAttributes object
      */
     private void setRRKeyPersonExpandedAttributes(RRKeyPersonExpanded20 rrKeyPersonExpanded) {
-        
+
         rrKeyPersonExpanded.setFormVersion(S2SConstants.FORMVERSION_2_0);
         rrKeyPersonExpanded.setPDPI(getPersonProfilePI());
         PersonProfileDataType[] keyPersonArray = getpersonProfileKeyPerson();
@@ -112,7 +112,7 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
      * This method is used to add profile type attachment to rrKeyPersonExpanded
      */
     private void setProfileTypeAttachment(RRKeyPersonExpanded20 rrKeyPersonExpanded, Narrative narrative) {
-        
+
         AttachedFileDataType attachedFileDataType = getAttachedFileType(narrative);
         if (attachedFileDataType != null) {
             AdditionalProfilesAttached additionalProfilesAttached = AdditionalProfilesAttached.Factory.newInstance();
@@ -126,11 +126,11 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
      * rrKeyPersonExpanded
      */
     private void setCurrentPendingTypeAttachment(RRKeyPersonExpanded20 rrKeyPersonExpanded, ProposalPerson extraPerson) {
-        
+
         AttachedFileDataType supportAttachment = getPernonnelAttachments(pdDoc,
                 extraPerson.getPersonId(), extraPerson.getRolodexId(),
                 CURRENT_PENDING_TYPE);
-        
+
         if (supportAttachment != null) {
             SupportsAttached supportsAttached = SupportsAttached.Factory.newInstance();
             supportsAttached.setSupportAttached(supportAttachment);
@@ -143,12 +143,12 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
      * rrKeyPersonExpanded
      */
     private void setBioSketchAttchment(RRKeyPersonExpanded20 rrKeyPersonExpanded, ProposalPerson extraPerson) {
-        
+
         BioSketchsAttached personBioSketch = BioSketchsAttached.Factory.newInstance();
         AttachedFileDataType bioSketchAttachment = getPernonnelAttachments(
                 pdDoc, extraPerson.getPersonId(), extraPerson.getRolodexId(),
                 BIOSKETCH_TYPE);
-        
+
         personBioSketch.setBioSketchAttached(bioSketchAttachment);
         rrKeyPersonExpanded.setBioSketchsAttached(personBioSketch);
     }
@@ -175,7 +175,7 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
      */
     private void setPersonalProfileDetailsToProfile(
             PersonProfileDataType profileDataType, Profile profile, ProposalPerson PI) {
-        
+
         assignRolodexId(PI);
 
         HumanNameDataType hndt = globLibV20Generator.getHumanNameDataType(PI);
@@ -187,21 +187,21 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
         LOG.error("setPersonalProfileDetailsToProfile running...");
         LOG.error("kcPersons.getPrefix() : " + kcPersons.getPrefix());
         LOG.error("kcPersons.getSuffix() : " + kcPersons.getSuffix());
-        
-        if(kcPersons.getPrefix() != null && !kcPersons.getPrefix().isEmpty()) {
+
+        if (kcPersons.getPrefix() != null && !kcPersons.getPrefix().isEmpty()) {
             hndt.setPrefixName(kcPersons.getPrefix());
         }
-        
-        if(kcPersons.getSuffix() != null && !kcPersons.getSuffix().isEmpty()) {
+
+        if (kcPersons.getSuffix() != null && !kcPersons.getSuffix().isEmpty()) {
             hndt.setSuffixName(kcPersons.getSuffix());
-        }        
-        
+        }
+
         profile.setName(hndt);
 
         setDirectoryTitleToProfile(profile, PI);
         profile.setAddress(globLibV20Generator.getAddressDataType(PI));
         profile.setPhone(PI.getOfficePhone());
-        
+
         if (PI.getFaxNumber() != null) {
             profile.setFax(PI.getFaxNumber());
         }
@@ -231,22 +231,30 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
         String divisionName = PI.getDivision();
 
         if (divisionName != null) {
+
+            if (divisionName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
+                divisionName = divisionName.substring(0, DEPARTMENT_NAME_MAX_LENGTH - 1);
+            }
+
             profile.setDivisionName(divisionName);
         } else {
             if (kcPersons.getOrganizationIdentifier() != null) {
                 divisionName = getPIDivision(kcPersons.getOrganizationIdentifier());
             }
             if (divisionName != null) {
+
+                if (divisionName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
+                    divisionName = divisionName.substring(0, DEPARTMENT_NAME_MAX_LENGTH - 1);
+                }
+
                 profile.setDivisionName(divisionName);
             }
         }
         if (PI.getEraCommonsUserName() != null) {
             profile.setCredential(PI.getEraCommonsUserName());
-        } else {
-            if (isSponsorMultiPi(pdDoc.getDevelopmentProposal())) {
-                getAuditErrors().add(new AuditError(Constants.NO_FIELD, S2SConstants.ERROR_ERA_COMMON_USER_NAME + PI.getFullName(),
-                        Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));
-            }
+        } else if (isSponsorMultiPi(pdDoc.getDevelopmentProposal())) {
+            getAuditErrors().add(new AuditError(Constants.NO_FIELD, S2SConstants.ERROR_ERA_COMMON_USER_NAME + PI.getFullName(),
+                    Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));
         }
         profile.setProjectRole(ProjectRoleDataType.PD_PI);
         setAttachments(profile, PI);
@@ -302,9 +310,14 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
      * This method is used to add department name to profile
      */
     private void setDepartmentNameToProfile(Profile profile, ProposalPerson PI) {
+
+        LOG.error("PI.getHomeUnit() = " + PI.getHomeUnit());
+        LOG.error("PI.getPersonId() = " + PI.getPersonId());
+
         if (PI.getHomeUnit() != null) {
             KcPersonService kcPersonService = KraServiceLocator.getService(KcPersonService.class);
             KcPerson kcPersons = kcPersonService.getKcPersonByPersonId(PI.getPersonId());
+
             String departmentName = kcPersons.getUnit().getUnitName();
             profile.setDepartmentName(departmentName);
         } else {
@@ -451,15 +464,15 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
         LOG.error("setPersonalProfileDetailsToProfile 2 running...");
         LOG.error("kcPersons.getPrefix() : " + kcPersonRecord.getPrefix());
         LOG.error("kcPersons.getSuffix() : " + kcPersonRecord.getSuffix());
-        
-        if(kcPersonRecord.getPrefix() != null && !kcPersonRecord.getPrefix().isEmpty()) {
+
+        if (kcPersonRecord.getPrefix() != null && !kcPersonRecord.getPrefix().isEmpty()) {
             hndt.setPrefixName(kcPersonRecord.getPrefix());
         }
-        
-        if(kcPersonRecord.getSuffix() != null && !kcPersonRecord.getSuffix().isEmpty()) {
+
+        if (kcPersonRecord.getSuffix() != null && !kcPersonRecord.getSuffix().isEmpty()) {
             hndt.setSuffixName(kcPersonRecord.getSuffix());
-        }            
-        
+        }
+
         profileKeyPerson.setName(hndt);
 
         setDirectoryTitleToProfile(profileKeyPerson, keyPerson);
@@ -493,16 +506,17 @@ public class RRKeyPersonExpandedV2_0Generator extends RRKeyPersonExpandedBaseGen
         setDepartmentNameToProfile(profileKeyPerson, keyPerson);
         String divisionName = keyPerson.getDivision();
         if (divisionName != null) {
+            if (divisionName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
+                divisionName = divisionName.substring(0, DEPARTMENT_NAME_MAX_LENGTH - 1);
+            }
             profileKeyPerson.setDivisionName(divisionName);
         }
         if (keyPerson.getEraCommonsUserName() != null) {
             profileKeyPerson.setCredential(keyPerson.getEraCommonsUserName());
-        } else {
-            if (isSponsorMultiPi(pdDoc.getDevelopmentProposal())) {
-                if (keyPerson.isMultiplePi()) {
-                    getAuditErrors().add(new AuditError(Constants.NO_FIELD, S2SConstants.ERROR_ERA_COMMON_USER_NAME + keyPerson.getFullName(),
-                            Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));
-                }
+        } else if (isSponsorMultiPi(pdDoc.getDevelopmentProposal())) {
+            if (keyPerson.isMultiplePi()) {
+                getAuditErrors().add(new AuditError(Constants.NO_FIELD, S2SConstants.ERROR_ERA_COMMON_USER_NAME + keyPerson.getFullName(),
+                        Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));
             }
         }
         if (keyPerson.getProposalPersonRoleId().equals(CO_INVESTIGATOR)) {

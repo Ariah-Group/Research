@@ -44,7 +44,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -65,7 +64,6 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -74,7 +72,6 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.s2s.S2SException;
@@ -105,29 +102,29 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
      * @return rrSF424Document {@link XmlObject} of type RRSF424Document.
      */
     private RRSF42420Document getRRSF424() {
-        
+
         RRSF42420Document rrSF424Document = RRSF42420Document.Factory.newInstance();
         RRSF42420 rrsf42420 = RRSF42420.Factory.newInstance();
         rrsf42420.setFormVersion(S2SConstants.FORMVERSION_2_0);
         rrsf42420.setSubmittedDate(s2sUtilService.getCurrentCalendar());
-        
+
         if (getSubmissionTypeCode() != null) {
             rrsf42420.setSubmissionTypeCode(SubmissionTypeDataType.Enum.forInt(Integer.parseInt(getSubmissionTypeCode())));
         }
-        
+
         rrsf42420.setStateID(getRolodexState());
         rrsf42420.setApplicantInfo(getApplicationInfo());
         rrsf42420.setEmployerID(getEmployerId());
         rrsf42420.setApplicantType(getApplicantType());
-        
+
         if (getAgencyRoutingNumber() != null) {
             rrsf42420.setAgencyRoutingNumber(getAgencyRoutingNumber());
         }
-        
+
         if (getGGTrackingID() != null) {
             rrsf42420.setGGTrackingID(getGGTrackingID());
         }
-        
+
         rrsf42420.setApplicationType(getApplicationType());
         rrsf42420.setApplicantID(pdDoc.getDevelopmentProposal().getProposalNumber());
         rrsf42420.setFederalAgencyName(getFederalAgencyName());
@@ -282,7 +279,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
     }
 
     private OrganizationDataType getOrganizationDataType() {
-        
+
         OrganizationDataType orgType = OrganizationDataType.Factory.newInstance();
         Rolodex rolodex = pdDoc.getDevelopmentProposal().getApplicantOrganization().getOrganization().getRolodex();
         orgType.setAddress(globLibV20Generator.getAddressDataType(rolodex));
@@ -293,7 +290,9 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
             orgType.setDUNSID(organization.getDunsNumber());
         }
         Unit leadUnit = pdDoc.getDevelopmentProposal().getOwnedByUnit();
+
         if (leadUnit != null) {
+
             String departmentName = leadUnit.getUnitName();
             if (departmentName != null && departmentName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
                 departmentName = departmentName.substring(0, DEPARTMENT_NAME_MAX_LENGTH - 1);
@@ -302,6 +301,9 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 
             // divisionName
             String divisionName = getPIDivision(leadUnit.getUnitNumber());//s2sUtilService.getDivisionName(pdDoc);
+            if (divisionName != null && divisionName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
+                divisionName = divisionName.substring(0, DEPARTMENT_NAME_MAX_LENGTH - 1);
+            }
             if (divisionName != null) {
                 orgType.setDivisionName(divisionName);
             }
@@ -450,7 +452,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
         String answer = null;
         if (answerHeaders != null && !answerHeaders.isEmpty()) {
             for (AnswerHeader answerHeader : answerHeaders) {
-               // List<QuestionnaireQuestion> questionnaireQuestions = answerHeader.getQuestionnaire().getQuestionnaireQuestions();
+                // List<QuestionnaireQuestion> questionnaireQuestions = answerHeader.getQuestionnaire().getQuestionnaireQuestions();
                 List<Answer> answerDetails = answerHeader.getAnswers();
                 for (Answer answers : answerDetails) {
                     if (answers.getAnswer() != null && questionId.equals(answers.getQuestion().getQuestionId())) {
@@ -494,11 +496,11 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
      * @return ProposedProjectPeriod project start date and end date.
      */
     private RRSF42420.ProposedProjectPeriod getProjectPeriod() {
-        
+
         RRSF42420.ProposedProjectPeriod proposedProjectPeriod = RRSF42420.ProposedProjectPeriod.Factory.newInstance();
         proposedProjectPeriod.setProposedStartDate(s2sUtilService.convertDateToCalendar(pdDoc.getDevelopmentProposal().getRequestedStartDateInitial()));
         proposedProjectPeriod.setProposedEndDate(s2sUtilService.convertDateToCalendar(pdDoc.getDevelopmentProposal().getRequestedEndDateInitial()));
-        
+
         return proposedProjectPeriod;
     }
 
@@ -512,13 +514,13 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
     private RRSF42420.CongressionalDistrict getCongDistrict() {
         ProposalSite applicantOrganization = pdDoc.getDevelopmentProposal().getApplicantOrganization();
         RRSF42420.CongressionalDistrict congressionalDistrict = RRSF42420.CongressionalDistrict.Factory.newInstance();
-        
+
         if (applicantOrganization != null) {
             congressionalDistrict.setApplicantCongressionalDistrict(applicantOrganization.getFirstCongressionalDistrictName());
         } else {
             congressionalDistrict.setApplicantCongressionalDistrict("");
         }
-        
+
         return congressionalDistrict;
     }
 
@@ -558,6 +560,11 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
     private void setDivisionName(OrganizationContactPersonDataType PDPI, ProposalPerson PI) {
         String divisionName = PI.getDivision();
         if (divisionName != null) {
+
+            if (divisionName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
+                divisionName = divisionName.substring(0, DEPARTMENT_NAME_MAX_LENGTH - 1);
+            }
+
             PDPI.setDivisionName(divisionName);
         } else {
             String personId = PI.getPersonId();
@@ -567,6 +574,11 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
                 divisionName = getPIDivision(kcPersons.getOrganizationIdentifier());
             }
             if (divisionName != null) {
+
+                if (divisionName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
+                    divisionName = divisionName.substring(0, DEPARTMENT_NAME_MAX_LENGTH - 1);
+                }
+
                 PDPI.setDivisionName(divisionName);
             }
         }
@@ -596,7 +608,14 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
 
     private void setDepartmentName(OrganizationContactPersonDataType PDPI, ProposalPerson PI) {
         if (PI.getHomeUnit() != null) {
-            PDPI.setDepartmentName(getDepartmentName(PI.getPerson()));
+
+            String deptName = getDepartmentName(PI.getPerson());
+            if (deptName != null && deptName.length() > DEPARTMENT_NAME_MAX_LENGTH) {
+                deptName = deptName.substring(0, DEPARTMENT_NAME_MAX_LENGTH - 1);
+            }
+
+            PDPI.setDepartmentName(deptName);
+
         } else {
             DevelopmentProposal developmentProposal = pdDoc.getDevelopmentProposal();
             PDPI.setDepartmentName(developmentProposal.getOwnedByUnit().getUnitName());
@@ -625,7 +644,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
      * @return aorInfoType(AORInfoType) Authorized representative information.
      */
     private AORInfoType getAORInfoType() {
-        
+
         ProposalSite applicantOrganization = pdDoc.getDevelopmentProposal().getApplicantOrganization();
         AORInfoType aorInfoType = AORInfoType.Factory.newInstance();
         if (departmentalPerson != null) {
@@ -643,7 +662,7 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
     }
 
     private void setTitle(AORInfoType aorInfoType) {
-        
+
         if (departmentalPerson.getPrimaryTitle() != null) {
             if (departmentalPerson.getPrimaryTitle().length() > PRIMARY_TITLE_MAX_LENGTH) {
                 aorInfoType.setTitle(departmentalPerson.getPrimaryTitle().substring(0, PRIMARY_TITLE_MAX_LENGTH));
@@ -656,9 +675,13 @@ public class RRSF424_2_0_V2Generator extends RRSF424BaseGenerator {
     }
 
     private void setAddress(AORInfoType aorInfoType) {
-        
+
         AddressDataType address = AddressDataType.Factory.newInstance();
 
+        LOG.error("setAddress on person = " + departmentalPerson.getPersonId());
+        LOG.error("                name = " + departmentalPerson.getFullName());
+        LOG.error("         countrycode = " + departmentalPerson.getCountryCode());
+        
         if (departmentalPerson.getAddress1() != null) {
             if (departmentalPerson.getAddress1().length() > 55) {
                 address.setStreet1(departmentalPerson.getAddress1().substring(
