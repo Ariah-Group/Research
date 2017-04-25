@@ -565,20 +565,20 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             propScienceKeyword.setSelectKeyword(false);
         }
 
-        LOG.error("reset running...");
-
-        List<PropRelatedProposal> relatedProposals = proposalDevelopmentDocument.getDevelopmentProposal().getRelatedProposals();
-
-        if (relatedProposals == null || relatedProposals.isEmpty()) {
-            LOG.error("reset: relatedProposals is null or empty");
-        } else {
-            LOG.error("reset: relatedProposals NOT empty, size= " + relatedProposals.size());
-        }
-
-        for (int i = 0; i < relatedProposals.size(); i++) {
-            PropRelatedProposal prop = relatedProposals.get(i);
-            prop.setSelectProposal(false);
-        }
+//        LOG.error("reset running...");
+//
+//        List<PropRelatedProposal> relatedProposals = proposalDevelopmentDocument.getDevelopmentProposal().getRelatedProposals();
+//
+//        if (relatedProposals == null || relatedProposals.isEmpty()) {
+//            LOG.error("reset: relatedProposals is null or empty");
+//        } else {
+//            LOG.error("reset: relatedProposals NOT empty, size= " + relatedProposals.size());
+//        }
+//
+//        for (int i = 0; i < relatedProposals.size(); i++) {
+//            PropRelatedProposal prop = relatedProposals.get(i);
+//            prop.setSelectProposal(false);
+//        }
 
         // Clear the edit roles so that they can then be set by struts
         // when the form is submitted.

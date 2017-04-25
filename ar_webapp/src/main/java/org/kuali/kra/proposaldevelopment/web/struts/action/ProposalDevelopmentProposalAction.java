@@ -154,22 +154,22 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
 
         updateNIHDescriptions(proposalDevelopmentDocument);
 
-        LOG.error("execute running...");
+        //LOG.error("execute running...");
 
         String proposalNumber = proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber();
 
-        LOG.error("execute: proposalNumber = " + proposalNumber);
+       // LOG.error("execute: proposalNumber = " + proposalNumber);
 
         // custom query to load Related Propoals
-        RelatedProposalsService relatedPropService = KraServiceLocator.getService(RelatedProposalsService.class);
-
-        List<PropRelatedProposal> relatedProps = relatedPropService.getRelatedProposals(proposalNumber);
-
-        if (relatedProps == null || relatedProps.isEmpty()) {
-            LOG.error("execute: relatedProps is null or empty");
-        } else {
-            LOG.error("execute: relatedProps NOT empty : size= " + relatedProps.size());
-        }
+//        RelatedProposalsService relatedPropService = KraServiceLocator.getService(RelatedProposalsService.class);
+//
+//        List<PropRelatedProposal> relatedProps = relatedPropService.getRelatedProposals(proposalNumber);
+//
+//        if (relatedProps == null || relatedProps.isEmpty()) {
+//            LOG.error("execute: relatedProps is null or empty");
+//        } else {
+//            LOG.error("execute: relatedProps NOT empty : size= " + relatedProps.size());
+//        }
 
        // proposalDevelopmentDocument.getDevelopmentProposal().setRelatedProposals(relatedProps);
 
@@ -871,26 +871,27 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
                             developmentProposal.addPropScienceKeyword(propScienceKeyword);
                         }
                     }
-                } else if (lookupResultsBOClass.isAssignableFrom(LookupableDevelopmentProposal.class)) {
-
-                    LOG.error("refresh: isAssignableFrom LookupableDevelopmentProposal");
-
-                    for (Iterator<PersistableBusinessObject> iter = rawValues.iterator(); iter.hasNext();) {
-                        LookupableDevelopmentProposal lookupProposal = (LookupableDevelopmentProposal) iter.next();
-
-                        LOG.error("refresh : iter : lookupProposal.getProposalNumber() = " + lookupProposal.getProposalNumber());
-                        LOG.error("refresh : iter : developmentProposal.getProposalNumber() = " + developmentProposal.getProposalNumber());
-
-                        PropRelatedProposal newRelatedProp = new PropRelatedProposal(developmentProposal.getProposalNumber(), lookupProposal.getProposalNumber());
-                        newRelatedProp.setProposalTitle(lookupProposal.getTitle());
-
-                        // ignore / drop duplicates
-                        if (!isDuplicateRelatedProposal(newRelatedProp.getProposalNumber1(), newRelatedProp.getProposalNumber2(), developmentProposal.getRelatedProposals())) {
-                            LOG.error("refresh: NOT isDuplicateRelatedProposal ");
-                            developmentProposal.addRelatedProposals(newRelatedProp);
-                        }
-                    }
-                }
+                } 
+//                else if (lookupResultsBOClass.isAssignableFrom(LookupableDevelopmentProposal.class)) {
+//
+//                    LOG.error("refresh: isAssignableFrom LookupableDevelopmentProposal");
+//
+//                    for (Iterator<PersistableBusinessObject> iter = rawValues.iterator(); iter.hasNext();) {
+//                        LookupableDevelopmentProposal lookupProposal = (LookupableDevelopmentProposal) iter.next();
+//
+//                        LOG.error("refresh : iter : lookupProposal.getProposalNumber() = " + lookupProposal.getProposalNumber());
+//                        LOG.error("refresh : iter : developmentProposal.getProposalNumber() = " + developmentProposal.getProposalNumber());
+//
+//                        PropRelatedProposal newRelatedProp = new PropRelatedProposal(developmentProposal.getProposalNumber(), lookupProposal.getProposalNumber());
+//                        newRelatedProp.setProposalTitle(lookupProposal.getTitle());
+//
+//                        // ignore / drop duplicates
+//                        if (!isDuplicateRelatedProposal(newRelatedProp.getProposalNumber1(), newRelatedProp.getProposalNumber2(), developmentProposal.getRelatedProposals())) {
+//                            LOG.error("refresh: NOT isDuplicateRelatedProposal ");
+//                            developmentProposal.addRelatedProposals(newRelatedProp);
+//                        }
+//                    }
+//                }
 
             }
         }
@@ -973,54 +974,54 @@ public class ProposalDevelopmentProposalAction extends ProposalDevelopmentAction
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    private boolean isDuplicateRelatedProposal(String propNum1, String propNum2, List<PropRelatedProposal> props) {
+//    private boolean isDuplicateRelatedProposal(String propNum1, String propNum2, List<PropRelatedProposal> props) {
+//
+//        LOG.error("isDuplicateRelatedProposal running...");
+//
+//        for (Iterator<PropRelatedProposal> iter = props.iterator(); iter.hasNext();) {
+//            PropRelatedProposal prop = (PropRelatedProposal) iter.next();
+//            String propNum1Existing = prop.getProposalNumber1();
+//            String propNum2Existing = prop.getProposalNumber2();
+//            if ((propNum1.equalsIgnoreCase(propNum1Existing) && propNum2.equalsIgnoreCase(propNum2Existing))
+//                    || (propNum1.equalsIgnoreCase(propNum2Existing) && propNum2.equalsIgnoreCase(propNum1Existing))) {
+//                // duplicate related proposal
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
-        LOG.error("isDuplicateRelatedProposal running...");
+//    public ActionForward selectAllRelatedProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+//            HttpServletResponse response) throws Exception {
+//
+//        LOG.error("selectAllRelatedProposal running...");
+//
+//        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+//        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+//        List<PropRelatedProposal> props = proposalDevelopmentDocument.getDevelopmentProposal().getRelatedProposals();
+//        for (Iterator<PropRelatedProposal> iter = props.iterator(); iter.hasNext();) {
+//            PropRelatedProposal prop = iter.next();
+//            prop.setSelectProposal(true);
+//        }
+//
+//        return mapping.findForward(Constants.MAPPING_BASIC);
+//    }
 
-        for (Iterator<PropRelatedProposal> iter = props.iterator(); iter.hasNext();) {
-            PropRelatedProposal prop = (PropRelatedProposal) iter.next();
-            String propNum1Existing = prop.getProposalNumber1();
-            String propNum2Existing = prop.getProposalNumber2();
-            if ((propNum1.equalsIgnoreCase(propNum1Existing) && propNum2.equalsIgnoreCase(propNum2Existing))
-                    || (propNum1.equalsIgnoreCase(propNum2Existing) && propNum2.equalsIgnoreCase(propNum1Existing))) {
-                // duplicate related proposal
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public ActionForward selectAllRelatedProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-
-        LOG.error("selectAllRelatedProposal running...");
-
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        List<PropRelatedProposal> props = proposalDevelopmentDocument.getDevelopmentProposal().getRelatedProposals();
-        for (Iterator<PropRelatedProposal> iter = props.iterator(); iter.hasNext();) {
-            PropRelatedProposal prop = iter.next();
-            prop.setSelectProposal(true);
-        }
-
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-
-    public ActionForward deleteSelectedRelatedProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-
-        LOG.error("deleteSelectedRelatedProposal running...");
-
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        List<PropRelatedProposal> props = proposalDevelopmentDocument.getDevelopmentProposal().getRelatedProposals();
-        for (ListIterator<PropRelatedProposal> iter = props.listIterator(); iter.hasNext();) {
-            PropRelatedProposal prop = iter.next();
-            if (prop.getSelectProposal()) {
-                iter.remove();
-            }
-        }
-
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
+//    public ActionForward deleteSelectedRelatedProposal(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+//            HttpServletResponse response) throws Exception {
+//
+//        LOG.error("deleteSelectedRelatedProposal running...");
+//
+//        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+//        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+//        List<PropRelatedProposal> props = proposalDevelopmentDocument.getDevelopmentProposal().getRelatedProposals();
+//        for (ListIterator<PropRelatedProposal> iter = props.listIterator(); iter.hasNext();) {
+//            PropRelatedProposal prop = iter.next();
+//            if (prop.getSelectProposal()) {
+//                iter.remove();
+//            }
+//        }
+//
+//        return mapping.findForward(Constants.MAPPING_BASIC);
+//    }
 }
