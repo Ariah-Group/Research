@@ -73,6 +73,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
     private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_ANSWER = "answer";
     private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_REVIEW_DATE = "reviewDate";
     private static final String PROPOSAL_QUESTIONS_KEY_PROPERTY_EXPLANATION = "explanation";
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentDocumentRule.class);
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -273,7 +274,9 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
                 }
             }
 
-            if (proposalForm.isDisplayProposalCoordinator() && proposalForm.isProposalCoordinatorRequired()) {
+            // check first to ensure ProposalNumber is NOT null, as it can be during a Proposal Copy Operation for some odd reason due to DeepCopy issue
+            if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber()!=null &&
+                    proposalForm.isDisplayProposalCoordinator() && proposalForm.isProposalCoordinatorRequired()) {
                 if (proposalDevelopmentDocument.getDevelopmentProposal().getProposalCoordinatorPrincipalName() == null) {
                     valid = false;
                     errorMap.putError("proposalCoordinatorPrincipalName", KeyConstants.ERROR_MISSING,
