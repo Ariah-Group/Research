@@ -29,6 +29,8 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.bo.DepartmentalPerson;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SUtilService;
+import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.location.api.country.Country;
 import org.kuali.rice.location.api.state.State;
 
@@ -50,7 +52,14 @@ public class GlobalLibraryV2_0Generator {
      */
     public CountryCodeDataType.Enum getCountryCodeDataType(String countryCode) {
         CountryCodeDataType.Enum countryCodeDataType = null;
+        
+        if(countryCode == null || countryCode.isEmpty()) {
+            countryCode = CoreFrameworkServiceLocator.getParameterService().getParameterValueAsString(KRADConstants.KNS_NAMESPACE,
+                KRADConstants.DetailTypes.ALL_DETAIL_TYPE, KRADConstants.SystemGroupParameterNames.DEFAULT_COUNTRY);
+        }
+        
         Country country = s2sUtilService.getCountryFromCode(countryCode);
+        
         if (country != null) {
             StringBuilder countryDetail = new StringBuilder();
             countryDetail.append(country.getAlternateCode());
@@ -58,6 +67,9 @@ public class GlobalLibraryV2_0Generator {
             countryDetail.append(country.getName().toUpperCase());
             countryCodeDataType = CountryCodeDataType.Enum
                     .forString(countryDetail.toString());
+        } else {
+            // build default to prevent crash
+            countryCodeDataType = CountryCodeDataType.Enum.forString("Not Specified");
         }
         return countryCodeDataType;
     }

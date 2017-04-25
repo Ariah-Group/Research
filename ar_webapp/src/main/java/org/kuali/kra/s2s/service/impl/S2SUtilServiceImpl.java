@@ -739,10 +739,26 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         if (countryCode == null) {
             return null;
         }
-        Country country = getCountryService().getCountryByAlternateCode(countryCode);
+
+        LOG.error("getCountryFromCode : countryCode = " + countryCode);
+
+        Country country = null;
+
+        try {
+            country = getCountryService().getCountryByAlternateCode(countryCode);
+        } catch (Exception e) {
+            LOG.error("getCountryFromCode : countryCode was blank : Rice error = " + e.getMessage());
+        }
+        country = getCountryService().getCountryByAlternateCode(countryCode);
+
         if (country == null) {
             country = getCountryService().getCountry(countryCode);
         }
+
+        if (country == null) {
+            LOG.error("getCountryFromCode : returning NULL country");
+        }
+
         return country;
     }
 
