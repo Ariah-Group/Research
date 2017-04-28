@@ -1967,28 +1967,4 @@ public class AwardAction extends BudgetParentActionBase {
         awardForm.getQuestionnaireHelper().setQuestionnaireActiveStatuses();
         return mapping.findForward("awardQuestionnaire");
     }
-
-    /**
-     *
-     * This method gets called upon clicking the Create button next to the
-     * Account Number field in the Awards tab.
-     *
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     */
-    public ActionForward createAccountNumberCustom(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-
-        AwardForm awardForm = (AwardForm) form;
-
-        AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
-
-        String newAccountNum = "123456789";
-
-        awardDocument.getAward().setAccountNumber(newAccountNum);
-
-        return mapping.findForward(Constants.MAPPING_AWARD_HOME_PAGE);
-    }
 }
