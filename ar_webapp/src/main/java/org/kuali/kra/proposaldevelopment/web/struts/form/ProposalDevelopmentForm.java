@@ -579,7 +579,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 //            PropRelatedProposal prop = relatedProposals.get(i);
 //            prop.setSelectProposal(false);
 //        }
-
         // Clear the edit roles so that they can then be set by struts
         // when the form is submitted.
         ProposalUserEditRoles editRoles = this.getProposalUserEditRoles();
@@ -2335,8 +2334,11 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         String activityTypeCode = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.ARIAH_PROPDEV_DEFAULT_ACTIVITY_TYPE_CODE);
         proposalDevelopmentDocument.getDevelopmentProposal().setActivityTypeCode(activityTypeCode);
 
-        String sponsorCode = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.ARIAH_PROPDEV_DEFAULT_SPONSOR_CODE);
-        proposalDevelopmentDocument.getDevelopmentProposal().setSponsorCode(sponsorCode);
+        if (proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode() == null
+                || proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode().isEmpty()) {
+            String sponsorCode = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.ARIAH_PROPDEV_DEFAULT_SPONSOR_CODE);
+            proposalDevelopmentDocument.getDevelopmentProposal().setSponsorCode(sponsorCode);
+        }
 
         String defaultProjectTitle = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.ARIAH_PROPDEV_DEFAULT_PROPOSAL_TITLE);
         proposalDevelopmentDocument.getDevelopmentProposal().setTitle(defaultProjectTitle);
