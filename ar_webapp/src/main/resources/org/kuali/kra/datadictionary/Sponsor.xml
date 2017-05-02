@@ -26,6 +26,7 @@
             <list>
                 <ref bean="Sponsor-sponsorCode" />
                 <ref bean="Sponsor-acronym" />
+                <ref bean="Sponsor-grantsGovId" />
                 <ref bean="Sponsor-auditReportSentForFy" />
                 <ref bean="Sponsor-cageNumber" />
                 <ref bean="Sponsor-dodacNumber" />
@@ -355,6 +356,29 @@
         <property name="label" value="Sponsor Type" />
         <property name="shortLabel" value="Sponsor Type" />
     </bean>
+    
+    
+    <bean id="Sponsor-grantsGovId" parent="Sponsor-grantsGovId-parentBean" />
+
+    <bean id="Sponsor-grantsGovId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="grantsGovId" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Grants.gov ID" />
+        <property name="shortLabel" value="Grants.gov ID" />
+        <property name="maxLength" value="255" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                  p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                  p:size="20" />
+        </property>
+        <property name="summary" value="Identifier for sponsor used by Grants.gov" />
+        <property name="description" value="Identifier for sponsor used by Grants.gov" />
+    </bean>    
+    
+    
     <bean id="Sponsor-state" parent="Sponsor-state-parentBean" />
 
     <bean id="Sponsor-state-parentBean" abstract="true" parent="KraAttributeReferenceDummy-state">
@@ -424,6 +448,7 @@
                             <bean parent="FieldDefinition" p:attributeName="sponsorName" />
                             <bean parent="FieldDefinition" p:attributeName="sponsorType.description" />
                             <bean parent="FieldDefinition" p:attributeName="state" />
+                            <bean parent="FieldDefinition" p:attributeName="grantsGovId" />
                             <bean parent="FieldDefinition" p:attributeName="multiplePi" />
                             <bean parent="FieldDefinition" p:attributeName="otherSignContrib" />
                         </list>
@@ -472,6 +497,7 @@
                 <bean parent="FieldDefinition" p:attributeName="ownedByUnit" />
                 <bean parent="FieldDefinition" p:attributeName="rolodexId" />
                 <bean parent="FieldDefinition" p:attributeName="otherSignContrib" />
+                <bean parent="FieldDefinition" p:attributeName="grantsGovId" />
                 <bean parent="FieldDefinition" p:attributeName="multiplePi" />
             </list>
         </property>
@@ -482,8 +508,7 @@
                 <bean parent="FieldDefinition" p:attributeName="acronym" />
                 <bean parent="FieldDefinition" p:attributeName="sponsorType.description" />
                 <bean parent="FieldDefinition" p:attributeName="dunAndBradstreetNumber" />
-                <bean parent="FieldDefinition" p:attributeName="dodacNumber" />
-                <bean parent="FieldDefinition" p:attributeName="cageNumber" />
+                <bean parent="FieldDefinition" p:attributeName="grantsGovId" />
                 <bean parent="FieldDefinition" p:attributeName="state" />
                 <bean parent="FieldDefinition" p:attributeName="countryCode" />
             </list>

@@ -2683,3 +2683,10 @@ VALUES  ('KC-PD','Document','ARIAH_PROPDEV_WORKFLOW_STEP_BRANCH_BUDGET_TDC_AMOUN
 
 
 
+-- v5.4.2
+ALTER TABLE SPONSOR ADD GRANTSGOV_ID VARCHAR2(255);
+
+update sponsor set grantsgov_id='NSF' where sponsor_code='000500';
+update sponsor set grantsgov_id='HHS-NIH11' where sponsor_code='000340';
+update sponsor set grantsgov_id='USDOJ' where sponsor_code='000850';
+update sponsor set grantsgov_id='USDA' where sponsor_code='000600';

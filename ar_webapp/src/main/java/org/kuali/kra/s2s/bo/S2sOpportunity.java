@@ -68,6 +68,10 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
     private String providerCode;
     
     private S2sProvider s2sProvider;
+    
+    private String opportunityUrl;
+    
+    private String sponsorId;
 
     public String getProposalNumber() {
         return proposalNumber;
@@ -254,6 +258,34 @@ public class S2sOpportunity extends KraPersistableBusinessObjectBase {
 
     public void setMultiProject(boolean isMultiProject) {
         this.isMultiProject = isMultiProject;
+    }
+
+    /**
+     * @return the sponsorId
+     */
+    public String getSponsorId() {
+        return sponsorId;
+    }
+
+    /**
+     * @param sponsorId the sponsorId to set
+     */
+    public void setSponsorId(String sponsorId) {
+        this.sponsorId = sponsorId;
+    }
+
+    /**
+     * @return the opportunityUrl
+     */
+    public String getOpportunityUrl() {
+        return opportunityUrl;
+    }
+
+    /**
+     * @param opportunityUrl the opportunityUrl to set
+     */
+    public void setOpportunityUrl(String opportunityUrl) {
+        this.opportunityUrl = opportunityUrl;
     }
     
 }

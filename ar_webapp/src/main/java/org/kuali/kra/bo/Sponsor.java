@@ -24,6 +24,8 @@ public class Sponsor extends KraPersistableBusinessObjectBase {
     private String sponsorCode;
 
     private String acronym;
+    
+    private String grantsGovId;
 
     private String auditReportSentForFy;
 
@@ -264,6 +266,20 @@ public class Sponsor extends KraPersistableBusinessObjectBase {
      */
     public void setMultiplePi(boolean multiplePi) {
         this.multiplePi = multiplePi;
+    }
+
+    /**
+     * @return the grantsGovId
+     */
+    public String getGrantsGovId() {
+        return grantsGovId;
+    }
+
+    /**
+     * @param grantsGovId the grantsGovId to set
+     */
+    public void setGrantsGovId(String grantsGovId) {
+        this.grantsGovId = grantsGovId;
     }
     
 }
