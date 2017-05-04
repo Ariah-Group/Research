@@ -21,31 +21,20 @@
 <%--NOTE: DO NOT FORMAT THIS FILE, DISPLAY:COLUMN WILL NOT WORK CORRECTLY IF IT CONTAINS LINE BREAKS --%>
 <c:set var="headerMenu" value="" />
 <c:set var="boClassName" value="${KualiForm.lookupable.businessObjectClass.name}"/>
-
-<!-- KCIU Customization Starts 
-Suppresses the Create New button on the top right corner-->
 <c:if test="${KualiForm.suppressActions!=true and KualiForm.supplementalActionsEnabled!=true}">
-    <c:if test="${not fn:contains(boClassName,'org.kuali.kra.bo.Rolodex')}">
     <c:set var="headerMenu" value="${KualiForm.lookupable.createNewUrl}   ${KualiForm.lookupable.htmlMenuBar}" />
-    </c:if>
 </c:if>
-<!-- KCIU Customization Ends -->
-
 <c:set var="numberOfColumns" value="${KualiForm.numColumns}" />
 <c:set var="headerColspan" value="${numberOfColumns * 2}" />
-
-
 <kul:page lookup="true" showDocumentInfo="false"
 	headerMenuBar="${headerMenu}"
 	headerTitle="Lookup" docTitle="" transactionalDocument="false"
 	htmlFormAction="lookup" >
-
-	<SCRIPT type="text/javascript">
+<SCRIPT type="text/javascript">
       var kualiForm = document.forms['KualiForm'];
       var kualiElements = kualiForm.elements;
-    </SCRIPT>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/dwr/interface/DocumentTypeService.js"></script>
-	
+</SCRIPT>
+<script type="text/javascript" src="${pageContext.request.contextPath}/dwr/interface/DocumentTypeService.js"></script>
 	<c:if test="${KualiForm.headerBarEnabled}">
             <br>
 	<div class="headerarea-small" id="headerarea-small">
@@ -61,11 +50,9 @@ Suppresses the Create New button on the top right corner-->
 		</c:choose></h1>
 	</div>
 	</c:if>
-	
 	<c:if test="${KualiForm.renderSearchButtons}">
 	  <kul:enterKey methodToCall="search" />
 	</c:if>  
-
 	<html-el:hidden name="KualiForm" property="backLocation" />
 	<html-el:hidden name="KualiForm" property="formKey" />
 	<html-el:hidden name="KualiForm" property="lookupableImplServiceName" />
@@ -82,8 +69,6 @@ Suppresses the Create New button on the top right corner-->
 	<html-el:hidden name="KualiForm" property="showMaintenanceLinks" />
 	<html-el:hidden name="KualiForm" property="headerBarEnabled" />
     <html-el:hidden name="KualiForm" property="fieldNameToFocusOnAfterSubmit"/>
-
-
 	<c:if test="${KualiForm.headerBarEnabled}">
 	<c:forEach items="${KualiForm.extraButtons}" varStatus="status">
 		<html-el:hidden name="KualiForm" property="extraButtons[${status.index}].extraButtonSource" />
@@ -101,20 +86,14 @@ Suppresses the Create New button on the top right corner-->
                                 <select id='${extraField.propertyName}' name='${extraField.propertyName}' onchange="${extraField.script}" style="">
                                     <kul:fieldSelectValues field="${extraField}"/>
                                 </select>
-
-						&nbsp;
-
-							<kul:fieldShowIcons isReadOnly="${true}" field="${extraField}" addHighlighting="${true}" />
-
-				</c:if>
+				&nbsp;
+			<kul:fieldShowIcons isReadOnly="${true}" field="${extraField}" addHighlighting="${true}" />
+			</c:if>
 			</c:if>
 		</div>
 	</c:if>
-	
 	<div class="right">
-		<div class="excol">
-		* required field
-		</div>
+		<div class="excol">* required field</div>
 	</div>
     <div class="msg-excol">
       <div class="left-errmsg">
@@ -124,12 +103,10 @@ Suppresses the Create New button on the top right corner-->
     </div>
     <br/>
     </c:if>
-
 	<table width="100%">
 	  <c:if test="${KualiForm.lookupCriteriaEnabled}">
 		<tr>
-			<td width="1%"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="20"
-				height="20"></td>
+			<td width="1%"><img src="${ConfigProperties.kr.externalizable.images.url}pixel_clear.gif" alt="" width="20" height="20"></td>
 			<td>
 			<div id="lookup" align="center">
 			<table align="center" cellpadding="0" cellspacing="0" class="datatable-100">
@@ -138,12 +115,9 @@ Suppresses the Create New button on the top right corner-->
 				<c:set var="ActionName" value="Lookup.do" scope="request" />
 				<c:set var="IsLookupDisplay" value="true" scope="request" />
 				<c:set var="cellWidth" value="50%" scope="request" />
-
                 <kul:rowDisplay rows="${FieldRows}" skipTheOldNewBar="true" numberOfColumns="${numberOfColumns}" />
-
 				<tr align="center">
 					<td height="30" colspan="${headerColspan}"  class="infoline">
-					
 					<c:if test="${KualiForm.renderSearchButtons}">
 					  <html:image
 						property="methodToCall.search" value="search"
@@ -312,7 +286,6 @@ Suppresses the Create New button on the top right corner-->
   	               <tr>
   	                 <c:forTokens var="colNum" items="${columnNums}" delims="," varStatus="loopStatus">
   	                   <c:set var="isTotalColumn" value="false"/>
-  	                   
   	                   <c:forTokens var="totalNum" items="${totalColumnNums}" delims="," >
   	                     <c:if test="${totalNum eq colNum}">
   	                       <c:set var="isTotalColumn" value="true"/>
